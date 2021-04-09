@@ -72,7 +72,9 @@ class ExampleTest extends HttpTestCase
             "nonce" => $nonce,
             "appId" => $this->appId
         ];
-        return $this->client->json("/", $params)->assertOk();
+        $response = $this->client->json("/", $params)->assertOk();
+        echo $response->getContent().PHP_EOL;
+        return $response;
     }
 
     public function testLogin()
