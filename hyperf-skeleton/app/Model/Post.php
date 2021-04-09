@@ -34,6 +34,9 @@ class Post extends Model
      * @var string
      */
     protected $table = 'post';
+
+    protected $primaryKey = 'post_id';
+
     /**
      * The attributes that are mass assignable.
      *

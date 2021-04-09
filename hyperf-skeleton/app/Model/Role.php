@@ -18,6 +18,9 @@ class Role extends Model
      * @var string
      */
     protected $table = 'role';
+
+    protected $primaryKey = 'role_id';
+
     /**
      * The attributes that are mass assignable.
      *

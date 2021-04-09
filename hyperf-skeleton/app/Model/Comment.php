@@ -30,6 +30,9 @@ class Comment extends Model
      * @var string
      */
     protected $table = 'comment';
+
+    protected $primaryKey = 'comment_id';
+
     /**
      * The attributes that are mass assignable.
      *

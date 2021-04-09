@@ -20,6 +20,9 @@ class VoteItem extends Model
      * @var string
      */
     protected $table = 'vote_item';
+
+    protected $primaryKey = 'vote_item_id';
+
     /**
      * The attributes that are mass assignable.
      *

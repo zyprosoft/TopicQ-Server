@@ -19,6 +19,9 @@ class Vote extends Model
      * @var string
      */
     protected $table = 'vote';
+
+    protected $primaryKey = 'vote_id';
+
     /**
      * The attributes that are mass assignable.
      *

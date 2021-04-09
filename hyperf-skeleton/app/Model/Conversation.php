@@ -21,6 +21,9 @@ class Conversation extends Model
      * @var string
      */
     protected $table = 'conversation';
+
+    protected $primaryKey = 'conversation_id';
+
     /**
      * The attributes that are mass assignable.
      *
