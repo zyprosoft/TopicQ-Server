@@ -83,14 +83,5 @@ class ExampleTest extends HttpTestCase
     public function testCreateShop()
     {
         $token = $this->testLogin();
-        $this->safeRequest('common.shop.create',[
-            'name' => 'TestShop',
-            'introduce' => 'test create shop',
-            'image' => 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fcdn0.hbimg.cn%2Fstore%2Fwm%2Fpiccommon%2F1220%2F12207%2FD525DAE38D909BE8D896CD9D16.jpg&refer=http%3A%2F%2Fcdn0.hbimg.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1617368705&t=ae267807105496d7a0e9c5059e836923',
-            'address' => 'test shop address',
-            'basePrice' => 10,
-            'openTime' => 8,
-            'closeTime' => 21,
-        ], $token);
     }
 }

@@ -23,4 +23,14 @@ class ErrorCode extends AbstractConstants
      * @Message("Server Error！")
      */
     const SERVER_ERROR = 500;
+
+    /**
+     * @Message("刷新Token所使用的Token非法")
+     */
+    const USER_REFRESH_TOKEN_INVALIDATE = 30017;
+
+    /**
+     * @Message("用户密码错误")
+     */
+    const USER_ERROR_PASSWORD_WRONG = 20000;
 }
