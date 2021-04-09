@@ -25,6 +25,10 @@ class ExampleTest extends HttpTestCase
      */
     protected $client;
 
+    private string $appId = "devjianghu";
+
+    private string $appSecret = "jianghunow";
+
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
@@ -33,8 +37,8 @@ class ExampleTest extends HttpTestCase
 
     private function sign($param, $interfaceName, $timestamp, $nonce)
     {
-        $testAppId = "devjianghu";
-        $testAppSecret = "jianghunow";
+        $testAppId = $this->appId;
+        $testAppSecret = $this->appSecret;
 
         $param["interfaceName"] = $interfaceName;
         ksort($param);
@@ -66,7 +70,7 @@ class ExampleTest extends HttpTestCase
             "timestamp" => $timestamp,
             "signature" => $sign,
             "nonce" => $nonce,
-            "appId" => "test"
+            "appId" => $this->appId
         ];
         return $this->client->json("/", $params)->assertOk();
     }
