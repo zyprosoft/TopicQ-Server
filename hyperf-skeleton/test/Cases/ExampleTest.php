@@ -90,8 +90,8 @@ class ExampleTest extends HttpTestCase
     {
         $token = $this->testLogin();
         $params = [
-            'title'=> '测试发布的第一个帖子',
-            'content' => '测试发布帖子的内容，小牛牛',
+            'title'=> '发布的第一个帖子',
+            'content' => '发布帖子的内容，小牛牛',
             'link' => 'http://www.baidu.com',
             'imageList' => [
                 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2F01.minipic.eastday.com%2F20170313%2F20170313143139_614b883e9c49c0d0f146f41da9a3967c_3.jpeg&refer=http%3A%2F%2F01.minipic.eastday.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1619929919&t=8eb3b61502f7902aade8eec64defc3cc'
