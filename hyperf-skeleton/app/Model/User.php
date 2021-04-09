@@ -73,7 +73,7 @@ class User extends Model implements Authenticatable
     }
     public static function retrieveById($key) : ?Authenticatable
     {
-        return User::find(key);
+        return User::find($key);
     }
     public function isAdmin()
     {
