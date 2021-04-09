@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ZYProSoft/Hyperf-Skeleton.
  *
@@ -14,17 +15,30 @@ namespace App\Model;
 use Hyperf\Database\Model\Events\Creating;
 use Qbhy\HyperfAuth\Authenticatable;
 use App\Constants\Constants;
-
 /**
- * @property int $user_id 自增ID
- * @property int $role_id 角色ID
- * @property string $username 账号
- * @property string $nickname 昵称
- * @property string $password 密码
- * @property string $mobile 手机号
- * @property string $avatar 头像
- * @property int $approved 注册是否审核通过
- * @property string $reason 驳回原因
+ * @property int $user_id 
+ * @property string $username 
+ * @property string $password 
+ * @property int $role_id 
+ * @property string $mobile 
+ * @property string $nickname 
+ * @property string $address 
+ * @property string $avatar 
+ * @property string $wx_openid 
+ * @property string $wx_token 
+ * @property int $status 
+ * @property string $block_reason 
+ * @property string $last_login 
+ * @property string $location 
+ * @property int $sex 
+ * @property int $login_type 
+ * @property int $wx_gender 
+ * @property string $wx_province 
+ * @property string $wx_city 
+ * @property string $wx_country 
+ * @property string $wx_token_expire 
+ * @property string $token 
+ * @property string $token_expire 
  * @property string $deleted_at 
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
@@ -48,20 +62,16 @@ class User extends Model implements Authenticatable
      *
      * @var array
      */
-    protected $casts = ['user_id' => 'integer', 'role_id' => 'integer', 'approved' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
-
+    protected $casts = ['user_id' => 'integer', 'role_id' => 'integer', 'status' => 'integer', 'sex' => 'integer', 'login_type' => 'integer', 'wx_gender' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
     protected $hidden = ['password'];
-
     public function getId()
     {
         return $this->user_id;
     }
-
     public static function retrieveById($key) : ?Authenticatable
     {
         return User::find(key);
     }
-
     public function isAdmin()
     {
         return $this->role_id == Constants::USER_ROLE_ADMIN;
