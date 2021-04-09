@@ -33,8 +33,8 @@ class ExampleTest extends HttpTestCase
 
     private function sign($param, $interfaceName, $timestamp, $nonce)
     {
-        $testAppId = "weshop";
-        $testAppSecret = "zyprosoft";
+        $testAppId = "devjianghu";
+        $testAppSecret = "jianghunow";
 
         $param["interfaceName"] = $interfaceName;
         ksort($param);
