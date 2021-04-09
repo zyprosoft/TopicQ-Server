@@ -99,9 +99,9 @@ class ExampleTest extends HttpTestCase
             'vote' => [
                 'subject' => '牛牛是不是小帅哥',
                 'items' => [
-                    '牛牛有点小帅',
-                    '牛牛还是很可爱的',
-                    '牛牛巨帅'
+                    ['content'=>'牛牛有点小帅'],
+                    ['content'=>'牛牛很可爱'],
+                    ['content'=>'牛牛卡哇伊']
                 ],
             ],
         ];

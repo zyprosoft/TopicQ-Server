@@ -29,15 +29,9 @@ class PostController extends AbstractController
             'imageList' => 'array|min:1|max:4',
             'link' => 'string|min:1|max:500|sensitive',
             'vote' => 'array|min:1',
+            'vote.subject' => 'string|required|min:1|max:32|sensitive',
+            'vote.items.*.content' => 'string|required|min:1|max:32|sensitive'
         ]);
-        $vote = $request->param('vote');
-        if (isset($vote)) {
-            $this->validateParams([
-                'subject' => 'string|required|min:1|max:32|sensitive',
-                'items' => 'array|required|min:1|max:10',
-                'items.*.content' => 'string|required|min:1|max:32|sensitive'
-            ],$vote);
-        }
         $params = $request->getParams();
         $result = $this->service->create($params);
         return $this->success($result);

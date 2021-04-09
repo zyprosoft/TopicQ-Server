@@ -30,7 +30,7 @@ class PostService extends BaseService
             }
             $post->content = $content;
             if (isset($imageList)) {
-                $post->image_list = json_encode($imageList);
+                $post->image_list = implode(';',$imageList);
             }
             if (isset($link)) {
                 $post->link = $link;
