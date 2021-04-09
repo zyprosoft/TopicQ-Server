@@ -73,7 +73,7 @@ class ExampleTest extends HttpTestCase
 
     public function testLogin()
     {
-        $result = $this->safeRequest('common.user.normalLogin',[
+        $result = $this->safeRequest('admin.user.login',[
             'username' => 'admin',
             'password' => 'admin123'
         ]);
