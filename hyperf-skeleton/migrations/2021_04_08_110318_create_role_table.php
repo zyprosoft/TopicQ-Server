@@ -12,8 +12,14 @@ class CreateRoleTable extends Migration
     public function up(): void
     {
         Schema::create('role', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->integerIncrements('role_id');
+            $table->string("name",20)
+                ->comment("角色名");
             $table->timestamps();
+            $table->softDeletes();
+            $table->engine = "InnoDB";
+            $table->charset = "utf8mb4";
+            $table->collation = "utf8mb4_unicode_ci";
         });
     }
 

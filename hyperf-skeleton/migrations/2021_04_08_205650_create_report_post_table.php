@@ -13,7 +13,14 @@ class CreateReportPostTable extends Migration
     {
         Schema::create('report_post', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('owner_id')->comment('谁举报的');
+            $table->text('content')->comment('举报内容');
+            
+            $table->softDeletes();
             $table->timestamps();
+            $table->engine = "InnoDB";
+            $table->charset = "utf8mb4";
+            $table->collation = "utf8mb4_unicode_ci";
         });
     }
 

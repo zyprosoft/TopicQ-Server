@@ -12,8 +12,15 @@ class CreateVoteTable extends Migration
     public function up(): void
     {
         Schema::create('vote', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('vote_id');
+            $table->integer('total_user')->default(0)->comment('总参与人数');
+            $table->string('title',64)->comment('投票主题');
+
+            $table->softDeletes();
             $table->timestamps();
+            $table->engine = "InnoDB";
+            $table->charset = "utf8mb4";
+            $table->collation = "utf8mb4_unicode_ci";
         });
     }
 
