@@ -107,4 +107,12 @@ class ExampleTest extends HttpTestCase
         ];
         $this->safeRequest('common.post.create',$params,$token);
     }
+
+    public function testPostDetail()
+    {
+        $params = [
+            'postId'=>1,
+        ];
+        $this->safeRequest('common.post.detail',$params);
+    }
 }

@@ -59,4 +59,13 @@ class PostService extends BaseService
 
         return $this->success($post);
     }
+
+    public function detail(int $postId)
+    {
+        $post = Post::query()->where('post_id', $postId)
+                             ->with(['author','vote'])
+                             ->firstOrFail();
+        $post->vote->items();
+        return $post;
+    }
 }

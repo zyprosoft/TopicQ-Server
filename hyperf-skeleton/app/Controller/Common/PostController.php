@@ -36,4 +36,14 @@ class PostController extends AbstractController
         $result = $this->service->create($params);
         return $this->success($result);
     }
+
+    public function detail()
+    {
+        $this->validate([
+            'postId' => 'integer|required|exists:post,post_id',
+        ]);
+        $postId = $this->request->param('postId');
+        $result = $this->service->detail($postId);
+        return $this->success($result);
+    }
 }

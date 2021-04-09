@@ -34,4 +34,9 @@ class Vote extends Model
      * @var array
      */
     protected $casts = ['vote_id' => 'integer', 'total_user' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+
+    public function items()
+    {
+        return $this->hasMany('vote_item','vote_id','vote_id');
+    }
 }

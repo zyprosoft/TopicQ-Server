@@ -49,4 +49,15 @@ class Post extends Model
      * @var array
      */
     protected $casts = ['post_id' => 'integer', 'owner_id' => 'integer', 'vote_id' => 'integer', 'read_count' => 'integer', 'favorite_count' => 'integer', 'forward_count' => 'integer', 'comment_count' => 'integer', 'audit_status' => 'integer', 'is_hot' => 'integer', 'sort_index' => 'integer', 'is_recommend' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+
+
+    public function author()
+    {
+        return $this->hasOne('user','user_id','owner_id');
+    }
+
+    public function vote()
+    {
+        return $this->hasOne('vote','vote_id','vote_id');
+    }
 }
