@@ -10,6 +10,7 @@ use App\Model\Vote;
 use App\Model\VoteItem;
 use Hyperf\DbConnection\Db;
 use ZYProSoft\Exception\HyperfCommonException;
+use ZYProSoft\Log\Log;
 
 class PostService extends BaseService
 {
@@ -65,7 +66,9 @@ class PostService extends BaseService
         $post = Post::query()->where('post_id', $postId)
                              ->with(['author','vote'])
                              ->firstOrFail();
-        $post->vote->items();
+        $items = $post->vote->items;
+        Log::info("投票选项列表:".json_encode($items));
+
         return $post;
     }
 }
