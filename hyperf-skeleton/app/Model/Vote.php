@@ -37,6 +37,6 @@ class Vote extends Model
 
     public function items()
     {
-        return $this->hasMany('vote_item','vote_id','vote_id');
+        return $this->hasMany(VoteItem::class,'vote_id','vote_id');
     }
 }

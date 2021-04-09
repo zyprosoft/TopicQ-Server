@@ -53,11 +53,11 @@ class Post extends Model
 
     public function author()
     {
-        return $this->hasOne('user','user_id','owner_id');
+        return $this->hasOne(User::class,'user_id','owner_id');
     }
 
     public function vote()
     {
-        return $this->hasOne('vote','vote_id','vote_id');
+        return $this->hasOne(Vote::class,'vote_id','vote_id');
     }
 }
