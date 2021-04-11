@@ -7,7 +7,7 @@ namespace App\Service;
 use App\Constants\Constants;
 use App\Constants\ErrorCode;
 use App\Model\Comment;
-use Hyperf\Database\Query\Builder;
+use Hyperf\Database\Model\Builder;
 use ZYProSoft\Exception\HyperfCommonException;
 
 class CommentService extends BaseService

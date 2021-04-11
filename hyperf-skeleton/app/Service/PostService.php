@@ -10,7 +10,7 @@ use App\Model\Post;
 use App\Model\UserVote;
 use App\Model\Vote;
 use App\Model\VoteItem;
-use Hyperf\Database\Query\Builder;
+use Hyperf\Database\Model\Builder;
 use Hyperf\DbConnection\Db;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Log\Log;
