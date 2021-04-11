@@ -115,4 +115,87 @@ class ExampleTest extends HttpTestCase
         ];
         $this->safeRequest('common.post.detail',$params);
     }
+
+    public function testCreateComment()
+    {
+        $token = $this->testLogin();
+        $params = [
+            'postId' => 1,
+            'content' => '我评论的第一条内容',
+            'link' => 'http://www.baidu.com',
+            'imageList' => [
+                'https://gimg2.baidu.com/image_search/src=http%3A%2F%2F01.minipic.eastday.com%2F20170313%2F20170313143139_614b883e9c49c0d0f146f41da9a3967c_3.jpeg&refer=http%3A%2F%2F01.minipic.eastday.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1619929919&t=8eb3b61502f7902aade8eec64defc3cc'
+            ],
+        ];
+        $this->safeRequest('common.comment.create',$params,$token);
+    }
+
+    public function testReply()
+    {
+        $token = $this->testLogin();
+        $params = [
+            'commentId' => 1,
+            'content' => '我回复的第一条内容',
+            'link' => 'http://www.baidu.com',
+            'imageList' => [
+                'https://gimg2.baidu.com/image_search/src=http%3A%2F%2F01.minipic.eastday.com%2F20170313%2F20170313143139_614b883e9c49c0d0f146f41da9a3967c_3.jpeg&refer=http%3A%2F%2F01.minipic.eastday.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1619929919&t=8eb3b61502f7902aade8eec64defc3cc'
+            ],
+        ];
+        $this->safeRequest('common.comment.reply',$params,$token);
+    }
+
+    public function testPostList()
+    {
+        $params = [
+            'pageIndex' => 0,
+            'pageSize' => 10,
+            'type' => 1,
+        ];
+        $this->safeRequest('common.post.list',$params);
+
+        $params = [
+            'pageIndex' => 0,
+            'pageSize' => 10,
+            'type' => 2,
+        ];
+        $this->safeRequest('common.post.list',$params);
+
+        $params = [
+            'pageIndex' => 0,
+            'pageSize' => 10,
+            'type' => 3,
+        ];
+        $this->safeRequest('common.post.list',$params);
+    }
+
+    public function testUserPostList()
+    {
+        $token = $this->testLogin();
+        $params = [
+            'pageIndex' => 0,
+            'pageSize' => 10,
+        ];
+        $this->safeRequest('common.post.listByUser', $params, $token);
+    }
+
+    public function testCommentList()
+    {
+        $params = [
+            'postId' => 1,
+            'pageIndex' => 0,
+            'pageSize' => 10,
+            'type' => 1,
+        ];
+        $this->safeRequest('common.comment.list',$params);
+    }
+
+    public function testUserCommentList()
+    {
+        $token = $this->testLogin();
+        $params = [
+            'pageIndex' => 0,
+            'pageSize' => 10,
+        ];
+        $this->safeRequest('common.comment.listByUser', $params, $token);
+    }
 }

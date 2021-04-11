@@ -37,5 +37,15 @@ class ErrorCode extends AbstractConstants
     /**
      * @Message("非法操作!")
      */
-    const NOT_OWN_BY_CURRENT_USER = 20001;
+    const NOT_OWN_BY_CURRENT_USER = 30001;
+
+    /**
+     * @Message("不要重复操作!")
+     */
+    const DO_NOT_REPEAT_ACTION = 30002;
+
+    /**
+     * @Message("帖子不存在!")
+     */
+    const POST_NOT_EXIST = 30003;
 }

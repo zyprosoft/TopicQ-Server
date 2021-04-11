@@ -49,6 +49,16 @@ class Comment extends Model
 
     public function parentComment()
     {
-        $this->hasOne(Comment::class,'comment_id','parent_comment_id');
+        return $this->hasOne(Comment::class,'comment_id','parent_comment_id');
+    }
+
+    public function post()
+    {
+        return $this->hasOne(Post::class,'post_id','post_id');
+    }
+
+    public function author()
+    {
+        return $this->hasOne(User::class,'user_id','owner_id');
     }
 }

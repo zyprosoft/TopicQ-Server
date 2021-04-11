@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Constants\Constants;
 use App\Constants\ErrorCode;
 use App\Model\Post;
+use App\Model\UserVote;
 use App\Model\Vote;
 use App\Model\VoteItem;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -19,7 +20,7 @@ class PostService extends BaseService
     public function create(array $params)
     {
         $post = null;
-        Db::transaction(function () use ($params,&$post) {
+        Db::transaction(function () use ($params, &$post) {
             $title = $params['title'];
             $content = $params['content'];
             $link = data_get($params,'link');
@@ -31,11 +32,11 @@ class PostService extends BaseService
             if (mb_strlen($content) < 32) {
                 $post->summary = $content;
             }else{
-                $post->summary = mb_substr($content,0,32);
+                $post->summary = mb_substr($content, 0, 32);
             }
             $post->content = $content;
             if (isset($imageList)) {
-                $post->image_list = implode(';',$imageList);
+                $post->image_list = implode(';', $imageList);
             }
             if (isset($link)) {
                 $post->link = $link;
@@ -91,23 +92,49 @@ class PostService extends BaseService
         if (isset($params['title'])) {
             $post->title = $params['title'];
         }
-
+        if (isset($params['imageList'])) {
+            $post->image_list = implode(';', $params['imageList']);
+        }
+        if (isset($params['link'])) {
+            $post->link = $params['link'];
+        }
+        if (isset($params['content'])) {
+            $post->content = $params['content'];
+        }
+        $post->saveOrFail();
+        return $this->success();
     }
 
     public function detail(int $postId)
     {
         $post = Post::query()->where('post_id', $postId)
                              ->with(['author','vote'])
-                             ->firstOrFail();
+                             ->first();
+        if (!$post instanceof Post) {
+            throw new HyperfCommonException(ErrorCode::POST_NOT_EXIST);
+        }
         $items = $post->vote->items;
+        $post->image_list = explode(';',$post->image_list);
         Log::info("投票选项列表:".json_encode($items));
 
         return $post;
     }
 
-    public function vote(int $voteItemId)
+    public function vote(int $voteItemId, int $postId)
     {
-        VoteItem::find($voteItemId)->increment('user_count');
+        $userVote = UserVote::query()->where('post_id', $postId)
+                                    ->where('user_id', $this->userId())
+                                    ->first();
+        if ($userVote instanceof UserVote) {
+            throw new HyperfCommonException(ErrorCode::DO_NOT_REPEAT_ACTION);
+        }
+        Db::transaction(function () use ($voteItemId, $postId){
+            VoteItem::find($voteItemId)->increment('user_count');
+            $userVote = new UserVote();
+            $userVote->user_id = $this->userId();
+            $userVote->post_id = $postId;
+            $userVote->saveOrFail();
+        });
         return $this->success();
     }
 
@@ -165,7 +192,7 @@ class PostService extends BaseService
             return $post;
         });
         $total = Post::count();
-        return ['total'=>$total,'list'=>$list];
+        return ['total'=>$total, 'list'=>$list];
     }
 
     public function getUserPostList(int $pageIndex, int $pageSize)
@@ -198,8 +225,13 @@ class PostService extends BaseService
             ->orderBy('is_recommend','DESC')
             ->latest()
             ->get();
+        $list->map(function (Post $post) {
+            $post->vote->items;
+            $post->image_list = explode(';',$post->image_list);
+            return $post;
+        });
         $total = Post::query()->where('owner_id', $this->userId())
                               ->count();
-        return ['total'=>$total,'list'=>$list];
+        return ['total'=>$total, 'list'=>$list];
     }
 }

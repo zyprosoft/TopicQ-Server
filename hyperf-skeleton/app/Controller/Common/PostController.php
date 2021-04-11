@@ -46,4 +46,30 @@ class PostController extends AbstractController
         $result = $this->service->detail($postId);
         return $this->success($result);
     }
+
+    public function list()
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30',
+            'type' => 'integer|required|in:1,2,3',
+        ]);
+        $pageIndex = $this->request->param('pageIndex');
+        $pageSize = $this->request->param('pageSize');
+        $type = $this->request->param('type');
+        $result = $this->service->getList($type, $pageIndex, $pageSize);
+        return $this->success($result);
+    }
+
+    public function listByUser(AuthedRequest $request)
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30',
+        ]);
+        $pageIndex = $request->param('pageIndex');
+        $pageSize = $request->param('pageSize');
+        $result = $this->service->getUserPostList($pageIndex, $pageSize);
+        return $this->success($result);
+    }
 }
