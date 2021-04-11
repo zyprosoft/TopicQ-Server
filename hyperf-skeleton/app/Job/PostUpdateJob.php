@@ -30,10 +30,13 @@ class PostUpdateJob extends Job
         $key = $this->jobPrefix.$this->postId;
         Cache::delete($key);
 
+        Log::info("开始执行刷新帖子($this->postId)的异步任务");
+
         Db::transaction(function (){
 
             $post = Post::query()->where('post_id', $this->postId)->lockForUpdate()->first();
             if (!$post instanceof Post) {
+                Log::error('未找到帖子:'.$this->postId);
                 return;
             }
 
