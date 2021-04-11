@@ -45,4 +45,10 @@ class Comment extends Model
      * @var array
      */
     protected $casts = ['comment_id' => 'integer', 'post_id' => 'integer', 'parent_comment_id' => 'integer', 'parent_comment_owner_id' => 'integer', 'parent_comment_owner_is_read' => 'integer', 'owner_id' => 'integer', 'praise_count' => 'integer', 'reply_count' => 'integer', 'audit_status' => 'integer', 'is_hot' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+
+
+    public function parentComment()
+    {
+        $this->hasOne(Comment::class,'comment_id','parent_comment_id');
+    }
 }

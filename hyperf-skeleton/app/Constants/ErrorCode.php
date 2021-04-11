@@ -33,4 +33,9 @@ class ErrorCode extends AbstractConstants
      * @Message("用户密码错误")
      */
     const USER_ERROR_PASSWORD_WRONG = 20000;
+
+    /**
+     * @Message("非法操作!")
+     */
+    const NOT_OWN_BY_CURRENT_USER = 20001;
 }
