@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Constants\Constants;
 use App\Constants\ErrorCode;
+use App\Job\PostIncreaseReadJob;
 use App\Model\Post;
 use App\Model\UserVote;
 use App\Model\Vote;
@@ -116,6 +117,9 @@ class PostService extends BaseService
         $items = $post->vote->items;
         $post->image_list = explode(';',$post->image_list);
         Log::info("投票选项列表:".json_encode($items));
+
+        //增加阅读数
+        $this->push(new PostIncreaseReadJob($postId));
 
         return $post;
     }
@@ -233,5 +237,12 @@ class PostService extends BaseService
         $total = Post::query()->where('owner_id', $this->userId())
                               ->count();
         return ['total'=>$total, 'list'=>$list];
+    }
+
+    public function increaseRead(int $postId)
+    {
+        Post::query()->where('post_id', $postId)
+                     ->increment('read_count');
+        return $this->success();
     }
 }

@@ -6,12 +6,21 @@ namespace App\Service;
 
 use App\Constants\Constants;
 use App\Constants\ErrorCode;
+use App\Job\PostUpdateJob;
 use App\Model\Comment;
 use Hyperf\Database\Model\Builder;
 use ZYProSoft\Exception\HyperfCommonException;
+use App\Job\PostUpdateQueue;
 
+use Hyperf\Di\Annotation\Inject;
 class CommentService extends BaseService
 {
+    /**
+     * @Inject
+     * @var PostUpdateQueue
+     */
+    private PostUpdateQueue $queueService;
+
     public function create(int $postId, string $content, array $imageList = null, string $link = null)
     {
         $comment = new Comment();
@@ -25,6 +34,10 @@ class CommentService extends BaseService
             $comment->image_list = implode(';', $imageList);
         }
         $comment->saveOrFail();
+
+        //更新帖子统计信息
+        $this->queueService->update($postId);
+
         return $comment;
     }
 
@@ -51,7 +64,12 @@ class CommentService extends BaseService
     public function delete(int $commentId)
     {
         $comment = $this->checkOwnOrFail($commentId);
+        $postId = $comment->post_id;
         $comment->delete();
+
+        //更新帖子统计信息
+        $this->queueService->update($postId);
+
         return $this->success();
     }
 
@@ -98,6 +116,10 @@ class CommentService extends BaseService
         $comment->owner_id = $this->userId();
         $comment->post_id = $parentComment->post_id;
         $comment->saveOrFail();
+
+        //更新帖子统计信息
+        $this->queueService->update($comment->post_id);
+
         return $this->success($comment);
     }
 
