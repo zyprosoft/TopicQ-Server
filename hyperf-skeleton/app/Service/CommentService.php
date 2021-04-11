@@ -6,7 +6,6 @@ namespace App\Service;
 
 use App\Constants\Constants;
 use App\Constants\ErrorCode;
-use App\Job\PostUpdateJob;
 use App\Model\Comment;
 use Hyperf\Database\Model\Builder;
 use ZYProSoft\Exception\HyperfCommonException;
