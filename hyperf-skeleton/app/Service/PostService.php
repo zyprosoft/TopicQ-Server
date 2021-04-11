@@ -10,7 +10,7 @@ use App\Model\Post;
 use App\Model\UserVote;
 use App\Model\Vote;
 use App\Model\VoteItem;
-use Doctrine\DBAL\Query\QueryBuilder;
+use Hyperf\Database\Query\Builder;
 use Hyperf\DbConnection\Db;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Log\Log;
@@ -166,7 +166,7 @@ class PostService extends BaseService
             'is_hot',
             'sort_index',
         ])
-            ->where(function (QueryBuilder $query) use ($sortType) {
+            ->where(function (Builder $query) use ($sortType) {
             switch ($sortType) {
                 case Constants::POST_SORT_TYPE_LATEST:
                     $query->orderBy('created_at','DESC');

@@ -7,7 +7,7 @@ namespace App\Service;
 use App\Constants\Constants;
 use App\Constants\ErrorCode;
 use App\Model\Comment;
-use Doctrine\DBAL\Query\QueryBuilder;
+use Hyperf\Database\Query\Builder;
 use ZYProSoft\Exception\HyperfCommonException;
 
 class CommentService extends BaseService
@@ -58,7 +58,7 @@ class CommentService extends BaseService
     public function getList(int $postId, int $pageIndex, int $pageSize, int $sortType)
     {
         $list = Comment::query()->where('post_id', $postId)
-                                ->where(function (QueryBuilder $query) use ($sortType) {
+                                ->where(function (Builder $query) use ($sortType) {
                                     switch ($sortType) {
                                         case Constants::COMMENT_SORT_TYPE_LATEST:
                                             $query->orderBy('created_at','DESC');
