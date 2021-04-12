@@ -12,14 +12,14 @@ use ZYProSoft\Log\Log;
 
 class PostUpdateJob extends Job
 {
-    private string $jobPrefix;
+    private string $cacheKey;
 
     public int $postId;
 
-    public function __construct(int $postId, string $jobPrefix)
+    public function __construct(int $postId, string $cacheKey)
     {
         $this->postId = $postId;
-        $this->jobPrefix = $jobPrefix;
+        $this->cacheKey = $cacheKey;
     }
 
     /**
@@ -28,8 +28,7 @@ class PostUpdateJob extends Job
     public function handle()
     {
         //删除队列标记位
-        $key = $this->jobPrefix.$this->postId;
-        Cache::delete($key);
+        Cache::delete($this->cacheKey);
 
         Log::info("开始执行刷新帖子($this->postId)的异步任务");
 

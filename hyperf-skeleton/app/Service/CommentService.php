@@ -8,6 +8,7 @@ use App\Constants\Constants;
 use App\Constants\ErrorCode;
 use App\Job\PostUpdateJob;
 use App\Model\Comment;
+use App\Model\Post;
 use App\Model\ReportComment;
 use Hyperf\Database\Model\Builder;
 use ZYProSoft\Exception\HyperfCommonException;
@@ -37,8 +38,10 @@ class CommentService extends BaseService
         $comment->saveOrFail();
 
         //更新帖子统计信息
-        $this->push(new PostUpdateJob($postId));
         $this->queueService->updatePost($postId);
+
+        $post = Post::findOrFail($postId);
+        $this->queueService->updateUser($post->owner_id);
 
         return $comment;
     }
