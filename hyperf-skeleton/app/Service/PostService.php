@@ -39,7 +39,8 @@ class PostService extends BaseService
         'is_recommend',
         'created_at',
         'updated_at',
-        'join_user_count'
+        'join_user_count',
+        'avatar_list'
     ];
 
     public function create(array $params)
