@@ -37,6 +37,43 @@ class PostController extends AbstractController
         return $this->success($result);
     }
 
+    public function update(AuthedRequest $request)
+    {
+        $this->validate([
+            'postId' => 'integer|required|exists:post,post_id',
+            'title' => 'string|min:1|max:32|sensitive',
+            'content' => 'string|min:10|max:5000|sensitive',
+            'imageList' => 'array|min:1|max:4',
+            'link' => 'string|min:1|max:500|sensitive',
+        ]);
+        $params = $request->getParams();
+        $postId = $request->param('postId');
+        $result = $this->service->update($postId, $params);
+        return $this->success($result);
+    }
+
+    public function vote(AuthedRequest $request)
+    {
+        $this->validate([
+            'postId' => 'integer|required|exists:post,post_id',
+            'voteItemId' => 'integer|required|exists:vote_item,vote_item_id'
+        ]);
+        $postId = $request->param('postId');
+        $voteItemId = $request->param('voteItemId');
+        $result = $this->service->vote($voteItemId, $postId);
+        return $this->success($result);
+    }
+
+    public function voteDetail()
+    {
+        $this->validate([
+            'voteId' => 'integer|required|exists:vote,vote_id',
+        ]);
+        $voteId = $this->request->param('voteId');
+        $result = $this->service->voteDetail($voteId);
+        return $this->success($result);
+    }
+
     public function detail()
     {
         $this->validate([
