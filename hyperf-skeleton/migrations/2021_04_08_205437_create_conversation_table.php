@@ -19,6 +19,7 @@ class CreateConversationTable extends Migration
             $table->dateTime('last_message_time')->comment('最后一条消息时间');
             $table->integer('unread_count')->default(0)->comment('未读消息数');
 
+            $table->unique(['owner_id', 'to_user_id']);
             $table->softDeletes();
             $table->timestamps();
             $table->engine = "InnoDB";

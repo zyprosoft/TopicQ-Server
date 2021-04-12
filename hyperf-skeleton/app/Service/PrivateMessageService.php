@@ -12,7 +12,7 @@ class PrivateMessageService extends BaseService
 {
     public function create(int $toUserId, string $content, string $image = null)
     {
-        Db::transaction(function () use ($toUserId, $content, $image){
+        Db::transaction(function () use ($toUserId, $content, $image) {
             $message = new PrivateMessage();
             $message->receive_id = $toUserId;
             $message->from_id = $this->userId();
@@ -30,10 +30,18 @@ class PrivateMessageService extends BaseService
                 $conversation = new Conversation();
                 $conversation->owner_id = $this->userId();
                 $conversation->to_user_id = $toUserId;
+                $conversation->unread_count = 1;
                 $conversation->saveOrFail();
+            }else{
+                $conversation->increment('unread_count');
             }
         });
 
         return $this->success();
+    }
+
+    public function getList(int $conversationId, int $pageIndex, int $pageSize)
+    {
+
     }
 }

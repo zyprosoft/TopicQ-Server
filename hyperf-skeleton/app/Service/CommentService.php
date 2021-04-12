@@ -189,7 +189,7 @@ class CommentService extends BaseService
     public function markRead(array $commentIds)
     {
         $list = [];
-        collect($commentIds)->map(function (int $commentId){
+        collect($commentIds)->map(function (int $commentId) use (&$list) {
             $list[] = [
                 'user_id' => $this->userId(),
                 'comment_id' => $commentId
