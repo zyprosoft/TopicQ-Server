@@ -22,6 +22,7 @@ namespace App\Model;
  * @property string $last_comment_time 最新一条评论的时间
  * @property int $sort_index 排序置顶用
  * @property int $is_recommend 是否推荐帖
+ * @property string $avatar_list 最近三个用户头像
  * @property string $deleted_at 
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
