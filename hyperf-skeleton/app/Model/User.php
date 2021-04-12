@@ -17,28 +17,28 @@ use Qbhy\HyperfAuth\Authenticatable;
 use App\Constants\Constants;
 /**
  * @property int $user_id 
- * @property string $username 
- * @property string $password 
- * @property int $role_id 
- * @property string $mobile 
- * @property string $nickname 
- * @property string $address 
- * @property string $avatar 
- * @property string $wx_openid 
- * @property string $wx_token 
- * @property int $status 
- * @property string $block_reason 
- * @property string $last_login 
- * @property string $location 
- * @property int $sex 
- * @property int $login_type 
- * @property int $wx_gender 
- * @property string $wx_province 
- * @property string $wx_city 
- * @property string $wx_country 
- * @property string $wx_token_expire 
- * @property string $token 
- * @property string $token_expire 
+ * @property string $username 用户名
+ * @property string $password 密码
+ * @property int $role_id 用户角色
+ * @property string $mobile 手机
+ * @property string $nickname 昵称
+ * @property string $address 收货地址
+ * @property string $avatar 头像
+ * @property string $wx_openid 微信openid
+ * @property string $wx_token 微信登陆token
+ * @property int $status 设置用户的一些处理状态,0:正常
+ * @property string $block_reason 拉黑原因
+ * @property string $last_login 上次登陆时间
+ * @property string $location 位置
+ * @property int $sex 0:男1:女
+ * @property int $login_type 登陆类型;0:小程序1:web管理端
+ * @property int $wx_gender 微信性别1:男
+ * @property string $wx_province 微信省份
+ * @property string $wx_city 微信城市
+ * @property string $wx_country 微信国家
+ * @property string $wx_token_expire 微信token失效绝对时间
+ * @property string $token 登陆的Token
+ * @property string $token_expire 登陆Token的过期时间
  * @property string $deleted_at 
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
@@ -51,9 +51,7 @@ class User extends Model implements Authenticatable
      * @var string
      */
     protected $table = 'user';
-
     protected $primaryKey = 'user_id';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -66,7 +64,7 @@ class User extends Model implements Authenticatable
      * @var array
      */
     protected $casts = ['user_id' => 'integer', 'role_id' => 'integer', 'status' => 'integer', 'sex' => 'integer', 'login_type' => 'integer', 'wx_gender' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
-    protected $hidden = ['password','wx_token','wx_openid','token','wx_token_expire','token_expire'];
+    protected $hidden = ['password', 'wx_token', 'wx_openid', 'token', 'wx_token_expire', 'token_expire'];
     public function getId()
     {
         return $this->user_id;
