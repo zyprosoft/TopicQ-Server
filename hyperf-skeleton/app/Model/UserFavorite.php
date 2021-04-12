@@ -31,6 +31,10 @@ class UserFavorite extends Model
      */
     protected $casts = ['id' => 'integer', 'user_id' => 'integer', 'post_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
 
+    protected $with = [
+        'post'
+    ];
+
     public function post()
     {
         return $this->hasOne(Post::class,'post_id','post_id');

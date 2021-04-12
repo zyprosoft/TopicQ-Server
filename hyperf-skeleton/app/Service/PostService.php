@@ -213,6 +213,7 @@ class PostService extends BaseService
                                          ->get()
                                           ->keyBy('post_id');
         $list->map(function (Post $post) use ($userReadList) {
+            $post->avatar_list = explode(';',$post->avatar_list);
             $post->image_list = explode(';',$post->image_list);
             $post->is_read = isset($userReadList[$post->post_id]);
             return $post;
@@ -233,6 +234,7 @@ class PostService extends BaseService
             ->latest()
             ->get();
         $list->map(function (Post $post) {
+            $post->avatar_list = explode(';',$post->avatar_list);
             $post->image_list = explode(';',$post->image_list);
             return $post;
         });
@@ -293,11 +295,14 @@ class PostService extends BaseService
         $list = UserFavorite::query()->where('user_id', $this->userId())
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
-            ->orderBy('sort_index','DESC')
-            ->orderBy('is_hot','DESC')
-            ->orderBy('is_recommend','DESC')
             ->latest()
-            ->get();
+            ->get()
+            ->pluck('post');
+        $list->map(function (Post $post) {
+            $post->avatar_list = explode(';',$post->avatar_list);
+            $post->image_list = explode(';',$post->image_list);
+            return $post;
+        });
         $total = UserFavorite::query()->where('user_id', $this->userId())
                                       ->count();
         return ['total'=>$total, 'list'=>$list];
