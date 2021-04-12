@@ -5,8 +5,9 @@ namespace App\Model;
 
 /**
  * @property int $id 
- * @property int $owner_id 
- * @property string $content 
+ * @property int $post_id 举报的帖子ID
+ * @property int $owner_id 谁举报的
+ * @property string $content 举报内容
  * @property string $deleted_at 
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
@@ -30,5 +31,5 @@ class ReportPost extends Model
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'owner_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected $casts = ['id' => 'integer', 'post_id' => 'integer', 'owner_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
 }
