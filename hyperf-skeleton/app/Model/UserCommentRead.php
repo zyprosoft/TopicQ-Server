@@ -18,7 +18,7 @@ class UserCommentRead extends Model
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = ['user_id','comment_id'];
     /**
      * The attributes that should be cast to native types.
      *

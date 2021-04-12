@@ -30,7 +30,6 @@ class CreatePostTable extends Migration
             $table->dateTime('last_comment_time')->nullable()->comment('最新一条评论的时间');
             $table->integer('sort_index')->default(0)->comment('排序置顶用');
             $table->tinyInteger('is_recommend')->default(0)->comment('是否推荐帖');
-            $table->integer('unread_comment_count')->default(0)->comment('帖子作者未看评论数量');
 
             $table->index('owner_id');
             $table->index('audit_status');

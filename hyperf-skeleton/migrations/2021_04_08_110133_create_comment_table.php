@@ -16,7 +16,6 @@ class CreateCommentTable extends Migration
             $table->bigInteger('post_id')->default(0)->comment('帖子ID');
             $table->bigInteger('parent_comment_id')->nullable()->comment('回复的评论');
             $table->bigInteger('parent_comment_owner_id')->nullable()->comment('原评论的作者ID');
-            $table->tinyInteger('parent_comment_owner_is_read')->default(0)->comment('原评论作者是否已经看过此条评论0:未读1:已读');
             $table->bigInteger('owner_id')->comment('作者ID');
             $table->string('content',500)->comment('回复内容');
             $table->string('link',500)->nullable()->comment('回复的超链接');
@@ -26,13 +25,10 @@ class CreateCommentTable extends Migration
             $table->tinyInteger('audit_status')->default(0)->comment('0审核中1:审核通过-1:审核不通过');
             $table->string('audit_note')->nullable()->comment('审核备注');
             $table->tinyInteger('is_hot')->default(0)->comment('是否热评，0否1是');
-            $table->tinyInteger('post_owner_is_read')->default(0)->comment('帖主是否已经查看此评论');
-            $table->bigInteger('post_owner_id')->comment('帖子作者ID');
 
             $table->index('post_id');
             $table->index('owner_id');
             $table->index('parent_comment_owner_id');
-            $table->index('parent_comment_owner_is_read');
             $table->index('audit_status');
             $table->softDeletes();
             $table->timestamps();
