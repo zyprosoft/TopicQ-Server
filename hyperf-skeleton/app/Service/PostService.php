@@ -115,9 +115,7 @@ class PostService extends BaseService
         if (!$post instanceof Post) {
             throw new HyperfCommonException(ErrorCode::POST_NOT_EXIST);
         }
-        $items = $post->vote->items;
         $post->image_list = explode(';',$post->image_list);
-        Log::info("投票选项列表:".json_encode($items));
 
         //增加阅读数
         $this->push(new PostIncreaseReadJob($postId));
@@ -146,7 +144,6 @@ class PostService extends BaseService
     public function voteDetail(int $voteId)
     {
         return Vote::query()->where('vote_id', $voteId)
-                             ->with(['items'])
                              ->firstOrFail();
     }
 
