@@ -32,7 +32,9 @@ class PostUpdateJob extends Job
 
         Log::info("开始执行刷新帖子($this->postId)的异步任务");
 
-        $post = Post::query()->where('post_id', $this->postId)->first();
+        $post = Post::query()->where('post_id', $this->postId)
+                            ->with(['vote'])
+                            ->first();
         if (!$post instanceof Post) {
             Log::error('未找到帖子:'.$this->postId);
             return;
@@ -42,6 +44,14 @@ class PostUpdateJob extends Job
         $commentCount = Comment::query()->where('post_id', $this->postId)
             ->count();
         $post->comment_count = $commentCount;
+
+        //统计参与人数
+        $userCount = Comment::query()->selectRaw('distinct owner_id')
+                                     ->count();
+        $post->join_user_count = $userCount;
+        if (isset($post->vote_id)) {
+            $post->join_user_count = $post->vote->total_user + $userCount;
+        }
 
         //统计收藏数
         $favoriteCount = UserFavorite::query()->where('post_id', $this->postId)
