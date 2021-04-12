@@ -8,7 +8,6 @@ namespace App\Model;
  * @property int $post_id 帖子ID
  * @property int $parent_comment_id 回复的评论
  * @property int $parent_comment_owner_id 原评论的作者ID
- * @property int $parent_comment_owner_is_read 原评论作者是否已经看过此条评论0:未读1:已读
  * @property int $owner_id 作者ID
  * @property string $content 回复内容
  * @property string $link 回复的超链接
@@ -18,8 +17,6 @@ namespace App\Model;
  * @property int $audit_status 0审核中1:审核通过-1:审核不通过
  * @property string $audit_note 审核备注
  * @property int $is_hot 是否热评，0否1是
- * @property int $post_owner_is_read 帖主是否已经查看此评论
- * @property int $post_owner_id 帖子作者ID
  * @property string $deleted_at 
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
@@ -47,7 +44,7 @@ class Comment extends Model
      *
      * @var array
      */
-    protected $casts = ['comment_id' => 'integer', 'post_id' => 'integer', 'parent_comment_id' => 'integer', 'parent_comment_owner_id' => 'integer', 'parent_comment_owner_is_read' => 'integer', 'owner_id' => 'integer', 'praise_count' => 'integer', 'reply_count' => 'integer', 'audit_status' => 'integer', 'is_hot' => 'integer', 'post_owner_is_read' => 'integer', 'post_owner_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected $casts = ['comment_id' => 'integer', 'post_id' => 'integer', 'parent_comment_id' => 'integer', 'parent_comment_owner_id' => 'integer', 'owner_id' => 'integer', 'praise_count' => 'integer', 'reply_count' => 'integer', 'audit_status' => 'integer', 'is_hot' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
     protected $with = ['author'];
     public function parent_comment()
     {

@@ -22,7 +22,6 @@ namespace App\Model;
  * @property string $last_comment_time 最新一条评论的时间
  * @property int $sort_index 排序置顶用
  * @property int $is_recommend 是否推荐帖
- * @property int $unread_comment_count 帖子作者未看评论数量
  * @property string $deleted_at 
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
@@ -50,7 +49,7 @@ class Post extends Model
      *
      * @var array
      */
-    protected $casts = ['post_id' => 'integer', 'owner_id' => 'integer', 'vote_id' => 'integer', 'read_count' => 'integer', 'favorite_count' => 'integer', 'forward_count' => 'integer', 'comment_count' => 'integer', 'audit_status' => 'integer', 'is_hot' => 'integer', 'sort_index' => 'integer', 'is_recommend' => 'integer', 'unread_comment_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'join_user_count' => 'integer'];
+    protected $casts = ['post_id' => 'integer', 'owner_id' => 'integer', 'vote_id' => 'integer', 'read_count' => 'integer', 'favorite_count' => 'integer', 'forward_count' => 'integer', 'comment_count' => 'integer', 'audit_status' => 'integer', 'is_hot' => 'integer', 'sort_index' => 'integer', 'is_recommend' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'join_user_count' => 'integer'];
     protected $with = ['author'];
     public function author()
     {
