@@ -28,7 +28,7 @@ use App\Constants\Constants;
  * @property string $wx_token 微信登陆token
  * @property int $status 设置用户的一些处理状态,0:正常
  * @property string $block_reason 拉黑原因
- * @property string $last_login 上次登陆时间
+ * @property \Carbon\Carbon $last_login 上次登陆时间
  * @property string $location 位置
  * @property int $sex 0:男1:女
  * @property int $login_type 登陆类型;0:小程序1:web管理端
@@ -36,9 +36,9 @@ use App\Constants\Constants;
  * @property string $wx_province 微信省份
  * @property string $wx_city 微信城市
  * @property string $wx_country 微信国家
- * @property string $wx_token_expire 微信token失效绝对时间
+ * @property \Carbon\Carbon $wx_token_expire 微信token失效绝对时间
  * @property string $token 登陆的Token
- * @property string $token_expire 登陆Token的过期时间
+ * @property \Carbon\Carbon $token_expire 登陆Token的过期时间
  * @property int $unread_comment_count 未读评论数量
  * @property string $deleted_at 
  * @property \Carbon\Carbon $created_at 
@@ -67,7 +67,9 @@ class User extends Model implements Authenticatable
      *
      * @var array
      */
-    protected $casts = ['user_id' => 'integer', 'role_id' => 'integer', 'status' => 'integer', 'sex' => 'integer', 'login_type' => 'integer', 'wx_gender' => 'integer', 'unread_comment_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected $casts = ['user_id' => 'integer', 'role_id' => 'integer', 'status' => 'integer', 'sex' => 'integer', 'login_type' => 'integer', 'wx_gender' => 'integer', 'unread_comment_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime',
+        'last_login' => 'datetime','token_expire' => 'datetime', 'wx_token_expire'=>'datetime'
+    ];
     protected $hidden = ['password', 'wx_token', 'wx_openid', 'token', 'wx_token_expire', 'token_expire'];
     public function getId()
     {
