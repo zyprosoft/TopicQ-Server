@@ -127,7 +127,7 @@ class CommentService extends BaseService
     public function getUserCommentList(int $pageIndex, int $pageSize)
     {
         $list = Comment::query()->where('owner_id', $this->userId())
-                                ->with(['post', 'author'])
+                                ->with(['post'])
                                 ->offset($pageIndex * $pageSize)
                                 ->limit($pageSize)
                                 ->get();
