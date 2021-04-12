@@ -10,16 +10,38 @@ use App\Job\PostIncreaseReadJob;
 use App\Model\Post;
 use App\Model\ReportPost;
 use App\Model\UserFavorite;
+use App\Model\UserRead;
 use App\Model\UserVote;
 use App\Model\Vote;
 use App\Model\VoteItem;
 use Hyperf\Database\Model\Builder;
 use Hyperf\DbConnection\Db;
 use ZYProSoft\Exception\HyperfCommonException;
+use ZYProSoft\Facade\Auth;
 use ZYProSoft\Log\Log;
 
 class PostService extends BaseService
 {
+    private array $listRows = [
+        'title',
+        'summary',
+        'owner_id',
+        'image_list',
+        'link',
+        'vote_id',
+        'read_count',
+        'forward_count',
+        'comment_count',
+        'audit_status',
+        'is_hot',
+        'last_comment_time',
+        'sort_index',
+        'is_recommend',
+        'created_at',
+        'updated_at',
+        'join_user_count'
+    ];
+
     public function create(array $params)
     {
         $post = null;
@@ -118,6 +140,18 @@ class PostService extends BaseService
             throw new HyperfCommonException(ErrorCode::POST_NOT_EXIST);
         }
         $post->image_list = explode(';',$post->image_list);
+        if (Auth::isLogin()) {
+            $userVote = UserVote::query()->where('user_id', $this->userId())
+                                         ->where('post_id',$postId)
+                                         ->first();
+            if ($userVote instanceof UserVote) {
+                $post->is_voted = 1;
+            }else{
+                $post->is_voted = 0;
+            }
+        }else{
+            $post->is_voted = 0;
+        }
 
         //增加阅读数
         $this->push(new PostIncreaseReadJob($postId));
@@ -151,7 +185,8 @@ class PostService extends BaseService
 
     public function getList(int $sortType, int $pageIndex, int $pageSize)
     {
-        $list = Post::query()->where(function (Builder $query) use ($sortType) {
+        $list = Post::query()->select($this->listRows)
+            ->where(function (Builder $query) use ($sortType) {
             switch ($sortType) {
                 case Constants::POST_SORT_TYPE_LATEST:
                     $query->orderBy('created_at','DESC');
@@ -170,8 +205,15 @@ class PostService extends BaseService
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->get();
-        $list->map(function (Post $post) {
+        //增加是否阅读的状态
+        $postIds = $list->pluck('post_id');
+        $userReadList = UserRead::query()->whereIn('post_id', $postIds)
+                                         ->where('user_id', $this->userId())
+                                         ->get()
+                                          ->keyBy('post_id');
+        $list->map(function (Post $post) use ($userReadList) {
             $post->image_list = explode(';',$post->image_list);
+            $post->is_read = isset($userReadList[$post->post_id]);
             return $post;
         });
         $total = Post::count();
@@ -180,7 +222,8 @@ class PostService extends BaseService
 
     public function getUserPostList(int $pageIndex, int $pageSize)
     {
-        $list = Post::query()->where('owner_id', $this->userId())
+        $list = Post::query()->select($this->listRows)
+            ->where('owner_id', $this->userId())
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->orderBy('sort_index','DESC')
@@ -201,6 +244,21 @@ class PostService extends BaseService
     {
         Post::query()->where('post_id', $postId)
                      ->increment('read_count');
+        return $this->success();
+    }
+
+    public function markRead(int $postId)
+    {
+        $userRead = UserRead::query()->where('user_id', $this->userId())
+                                     ->where('post_id', $postId)
+                                     ->first();
+        if ($userRead instanceof UserRead) {
+            throw new HyperfCommonException(ErrorCode::DO_NOT_REPEAT_ACTION);
+        }
+        $userRead = new UserRead();
+        $userRead->user_id = $this->userId();
+        $userRead->post_id = $postId;
+        $userRead->saveOrFail();
         return $this->success();
     }
 

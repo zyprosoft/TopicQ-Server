@@ -27,7 +27,7 @@ class PostController extends AbstractController
             'title' => 'string|required|min:1|max:32|sensitive',
             'content' => 'string|required|min:10|max:5000|sensitive',
             'imageList' => 'array|min:1|max:4',
-            'link' => 'string|min:1|max:500|sensitive',
+            'link' => 'string|min:1|max:500',
             'vote' => 'array|min:1',
             'vote.subject' => 'string|required_with:vote|min:1|max:32|sensitive',
             'vote.items.*.content' => 'string|required_with:vote|min:1|max:32|sensitive'
@@ -141,6 +141,16 @@ class PostController extends AbstractController
         $postId = $request->param('postId');
         $content = $request->param('content');
         $result = $this->service->reportPost($postId, $content);
+        return $this->success($result);
+    }
+
+    public function markRead(AuthedRequest $request)
+    {
+        $this->validate([
+            'postId' => 'integer|required|exists:post,post_id',
+        ]);
+        $postId = $request->param('postId');
+        $result = $this->service->markRead($postId);
         return $this->success($result);
     }
 }
