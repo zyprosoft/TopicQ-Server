@@ -61,8 +61,6 @@ class PostService extends BaseService
                 $post->vote_id = $vote->vote_id;
             }
             $post->saveOrFail();
-            //查询完整的post的信息
-            $post = Post::find($post->post_id);
         });
 
         if (!isset($post)) {
