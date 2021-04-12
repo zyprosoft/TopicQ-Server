@@ -101,12 +101,25 @@ class CommentService extends BaseService
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->get();
+        //第一页返回热门评论
+        $hotList = null;
+        if($pageIndex == 0) {
+            $hotList = Comment::query()->where('post_id', $postId)
+                                       ->where('is_hot', Constants::STATUS_DONE)
+                                       ->with(['parent_comment'])
+                                       ->get();
+        }
+        
         $total = Comment::query()->where('post_id', $postId)
             ->count();
-        return [
+        $result = [
             'total' => $total,
             'list' => $list
         ];
+        if (isset($hotList)) {
+            $result['hot_list'] = $hotList;
+        }
+        return $result;
     }
 
     public function reply(int $commentId, string $content, array $imageList = null, string $link = null)
