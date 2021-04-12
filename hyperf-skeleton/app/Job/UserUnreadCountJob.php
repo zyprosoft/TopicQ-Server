@@ -31,13 +31,13 @@ class UserUnreadCountJob extends Job
         $user = User::findOrFail($this->userId);
 
         //统计回复未看的数量
-        $total = Comment::query()->where('parent_comment_owner_id', $this->userId)
-                                 ->where('parent_comment_owner_is_read', Constants::STATUS_WAIT)
+        $total = Comment::query()->select(['comment.comment_id','owner_id'])
+                                 ->leftJoin('user_comment_read','comment_id','=','comment_id')
+                                 ->where('owner_id', $this->userId)
+                                 ->orWhere('post_owner_id', $this->userId)
+                                 ->whereNull('owner_id')
                                  ->count();
-        $user->unread_reply_count = $total;
-
-        //统计评论未看数量
-
+        $user->unread_comment_count = $total;
 
         $user->saveOrFail();
     }

@@ -6,11 +6,12 @@ namespace App\Service;
 
 use App\Constants\Constants;
 use App\Constants\ErrorCode;
-use App\Job\PostUpdateJob;
 use App\Model\Comment;
 use App\Model\Post;
 use App\Model\ReportComment;
+use App\Model\UserCommentRead;
 use Hyperf\Database\Model\Builder;
+use Hyperf\DbConnection\Db;
 use ZYProSoft\Exception\HyperfCommonException;
 use App\Job\UniqueJobQueue;
 
@@ -187,16 +188,14 @@ class CommentService extends BaseService
 
     public function markRead(array $commentIds)
     {
-        Comment::query()->whereIn('comment_id', $commentIds)
-            ->where('parent_comment_owner_id', $this->userId())
-            ->update([
-                'parent_comment_owner_is_read' => Constants::STATUS_DONE,
-            ]);
-        Comment::query()->whereIn('comment_id', $commentIds)
-            ->where('post_owner_id', $this->userId())
-            ->update([
-                'post_owner_is_read' => Constants::STATUS_DONE,
-            ]);
+        $list = [];
+        collect($commentIds)->map(function (int $commentId){
+            $list[] = [
+                'user_id' => $this->userId(),
+                'comment_id' => $commentId
+            ];
+        });
+        Db::table('user_comment_read')->insertOrIgnore($list);
         return $this->success();
     }
 }
