@@ -15,6 +15,7 @@ use ZYProSoft\Exception\HyperfCommonException;
 use App\Job\UniqueJobQueue;
 
 use Hyperf\Di\Annotation\Inject;
+
 class CommentService extends BaseService
 {
     /**
@@ -31,7 +32,7 @@ class CommentService extends BaseService
         $comment->content = $content;
         $comment->owner_id = $this->userId();
         $comment->post_id = $postId;
-        
+        $comment->post_owner_id = $post->owner_id;
         if (isset($link)) {
             $comment->link = $link;
         }
@@ -51,12 +52,12 @@ class CommentService extends BaseService
     public function checkOwn(int $commentId)
     {
         $comment = Comment::query()->where('owner_id', $this->userId())
-                                   ->where('comment_id', $commentId)
-                                   ->first();
+            ->where('comment_id', $commentId)
+            ->first();
         if ($comment instanceof Comment) {
             return $comment;
         }
-        return  false;
+        return false;
     }
 
     public function checkOwnOrFail(int $commentId)
@@ -83,25 +84,25 @@ class CommentService extends BaseService
     public function getList(int $postId, int $pageIndex, int $pageSize, int $sortType)
     {
         $list = Comment::query()->where('post_id', $postId)
-                                ->where(function (Builder $query) use ($sortType) {
-                                    switch ($sortType) {
-                                        case Constants::COMMENT_SORT_TYPE_LATEST:
-                                            $query->orderBy('created_at','DESC');
-                                            break;
-                                        case Constants::COMMENT_SORT_TYPE_REPLY_COUNT:
-                                            $query->orderBy('reply_count','DESC');
-                                            break;
-                                        case Constants::COMMENT_SORT_TYPE_PRAISE_COUNT:
-                                            $query->orderBy('praise_count','DESC');
-                                            break;
-                                    }
-                                })
-                                ->with(['parent_comment'])
-                                ->offset($pageIndex * $pageSize)
-                                ->limit($pageSize)
-                                ->get();
+            ->where(function (Builder $query) use ($sortType) {
+                switch ($sortType) {
+                    case Constants::COMMENT_SORT_TYPE_LATEST:
+                        $query->orderBy('created_at', 'DESC');
+                        break;
+                    case Constants::COMMENT_SORT_TYPE_REPLY_COUNT:
+                        $query->orderBy('reply_count', 'DESC');
+                        break;
+                    case Constants::COMMENT_SORT_TYPE_PRAISE_COUNT:
+                        $query->orderBy('praise_count', 'DESC');
+                        break;
+                }
+            })
+            ->with(['parent_comment'])
+            ->offset($pageIndex * $pageSize)
+            ->limit($pageSize)
+            ->get();
         $total = Comment::query()->where('post_id', $postId)
-                                 ->count();
+            ->count();
         return [
             'total' => $total,
             'list' => $list
@@ -123,6 +124,7 @@ class CommentService extends BaseService
         }
         $comment->owner_id = $this->userId();
         $comment->post_id = $parentComment->post_id;
+        $comment->post_owner_id = $parentComment->post_owner_id;
         $comment->saveOrFail();
 
         //更新帖子统计信息
@@ -134,13 +136,13 @@ class CommentService extends BaseService
     public function getUserCommentList(int $pageIndex, int $pageSize)
     {
         $list = Comment::query()->where('owner_id', $this->userId())
-                                ->with(['post','parent_comment'])
-                                ->offset($pageIndex * $pageSize)
-                                ->limit($pageSize)
-                                ->get();
+            ->with(['post', 'parent_comment'])
+            ->offset($pageIndex * $pageSize)
+            ->limit($pageSize)
+            ->get();
         $total = Comment::query()->where('owner_id', $this->userId())
-                                 ->count();
-        return ['list'=>$list, 'total'=>$total];
+            ->count();
+        return ['list' => $list, 'total' => $total];
     }
 
     public function praise(int $commentId)
@@ -152,23 +154,25 @@ class CommentService extends BaseService
     public function commentReplyList(int $commentId, int $pageIndex, int $pageSize)
     {
         $list = Comment::query()->where('parent_comment_id', $commentId)
-                                ->latest()
-                                ->offset($pageIndex * $pageSize)
-                                ->limit($pageSize);
+            ->with(['post'])
+            ->latest()
+            ->offset($pageIndex * $pageSize)
+            ->limit($pageSize);
         $total = Comment::query()->where('parent_comment_id', $commentId)->count();
-        return ['total'=>$total, 'list'=>$list];
+        return ['total' => $total, 'list' => $list];
     }
 
     public function userReplyList(int $pageIndex, int $pageSize)
     {
         $list = Comment::query()->where('parent_comment_owner_id', $this->userId())
-            ->orWhere('post_owner_id')
+            ->orWhere('post_owner_id', $this->userId())
+            ->with(['post'])
             ->latest()
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize);
         $total = Comment::query()->where('parent_comment_owner_id', $this->userId())->count();
         $idList = $list->pluck('comment_id');
-        return ['total'=>$total, 'list'=>$list, 'id_list'=>$idList];
+        return ['total' => $total, 'list' => $list, 'id_list' => $idList];
     }
 
     public function reportComment(int $commentId, string $content)
@@ -184,6 +188,15 @@ class CommentService extends BaseService
     public function markRead(array $commentIds)
     {
         Comment::query()->whereIn('comment_id', $commentIds)
-                        ->update(['parent_comment_owner_is_read'=>Constants::STATUS_DONE]);
+            ->where('parent_comment_owner_id', $this->userId())
+            ->update([
+                'parent_comment_owner_is_read' => Constants::STATUS_DONE,
+            ]);
+        Comment::query()->whereIn('comment_id', $commentIds)
+            ->where('post_owner_id', $this->userId())
+            ->update([
+                'post_owner_is_read' => Constants::STATUS_DONE,
+            ]);
+        return $this->success();
     }
 }

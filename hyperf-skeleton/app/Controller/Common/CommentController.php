@@ -128,4 +128,14 @@ class CommentController extends AbstractController
         $result = $this->service->reportComment($commentId, $content);
         return $this->success($result);
     }
+
+    public function markRead(AuthedRequest $request)
+    {
+        $this->validate([
+            'commentIds' => 'array|required|min:1',
+        ]);
+        $commentIds = $request->param('commentIds');
+        $result = $this->service->markRead($commentIds);
+        return $this->success($result);
+    }
 }

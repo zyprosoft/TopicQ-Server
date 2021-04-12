@@ -13,7 +13,14 @@ class CreateUserCommentReadTable extends Migration
     {
         Schema::create('user_comment_read', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('user_id')->comment('用户ID');
+            $table->bigInteger('comment_id')->comment('评论ID');
+
+            $table->unique(['user_id','comment_id']);
             $table->timestamps();
+            $table->engine = "InnoDB";
+            $table->charset = "utf8mb4";
+            $table->collation = "utf8mb4_unicode_ci";
         });
     }
 
