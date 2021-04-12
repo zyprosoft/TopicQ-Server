@@ -149,26 +149,7 @@ class PostService extends BaseService
 
     public function getList(int $sortType, int $pageIndex, int $pageSize)
     {
-        $list = Post::query()->select([
-            'title',
-            'link',
-            'summary',
-            'owner_id',
-            'image_list',
-            'created_at',
-            'updated_at',
-            'audit_status',
-            'read_count',
-            'comment_count',
-            'last_comment_time',
-            'favorite_count',
-            'forward_count',
-            'is_recommend',
-            'is_hot',
-            'sort_index',
-            'join_user_count'
-        ])
-            ->where(function (Builder $query) use ($sortType) {
+        $list = Post::query()->where(function (Builder $query) use ($sortType) {
             switch ($sortType) {
                 case Constants::POST_SORT_TYPE_LATEST:
                     $query->orderBy('created_at','DESC');
@@ -197,26 +178,7 @@ class PostService extends BaseService
 
     public function getUserPostList(int $pageIndex, int $pageSize)
     {
-        $list = Post::query()->select([
-            'title',
-            'link',
-            'summary',
-            'owner_id',
-            'image_list',
-            'created_at',
-            'updated_at',
-            'audit_status',
-            'read_count',
-            'comment_count',
-            'last_comment_time',
-            'favorite_count',
-            'forward_count',
-            'is_recommend',
-            'is_hot',
-            'sort_index',
-            'join_user_count'
-        ])
-            ->where('owner_id', $this->userId())
+        $list = Post::query()->where('owner_id', $this->userId())
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->orderBy('sort_index','DESC')
