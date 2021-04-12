@@ -11,8 +11,10 @@ class AlterUserAddBackground extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('user', function (Blueprint $table) {
             //
+            $table->string('background',500)->nullable()->comment('个人主页背景');
+            
         });
     }
 
@@ -21,8 +23,9 @@ class AlterUserAddBackground extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('user', function (Blueprint $table) {
             //
+            $table->removeColumn('background');
         });
     }
 }

@@ -159,6 +159,11 @@ class UserService extends BaseService
         if (isset($userInfo['avatar'])) {
             $user->avatar = $userInfo['avatar'];
         }
-
+        if (isset($userInfo['area'])) {
+            $user->area = $userInfo['area'];
+        }
+        if (isset($userInfo['country'])) {
+            $user->country = $userInfo['country'];
+        }
     }
 }
