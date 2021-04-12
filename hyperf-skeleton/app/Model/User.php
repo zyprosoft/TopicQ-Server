@@ -42,6 +42,8 @@ use App\Constants\Constants;
  * @property string $deleted_at 
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
+ * @property string $area 县、区
+ * @property string $country 乡镇
  */
 class User extends Model implements Authenticatable
 {
