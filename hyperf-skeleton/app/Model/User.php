@@ -44,6 +44,7 @@ use App\Constants\Constants;
  * @property \Carbon\Carbon $updated_at 
  * @property string $area 县、区
  * @property string $country 乡镇
+ * @property string $background 个人主页背景
  */
 class User extends Model implements Authenticatable
 {
