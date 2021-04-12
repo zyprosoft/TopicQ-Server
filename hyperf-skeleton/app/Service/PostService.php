@@ -168,6 +168,7 @@ class PostService extends BaseService
             'is_recommend',
             'is_hot',
             'sort_index',
+            'join_user_count'
         ])
             ->where(function (Builder $query) use ($sortType) {
             switch ($sortType) {
@@ -211,14 +212,14 @@ class PostService extends BaseService
             'read_count',
             'comment_count',
             'last_comment_time',
-            'vote_id',
             'favorite_count',
             'forward_count',
             'is_recommend',
             'is_hot',
             'sort_index',
+            'join_user_count'
         ])
-            ->with(['author','vote'])
+            ->with(['author'])
             ->where('owner_id', $this->userId())
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
@@ -228,7 +229,6 @@ class PostService extends BaseService
             ->latest()
             ->get();
         $list->map(function (Post $post) {
-            $post->vote->items;
             $post->image_list = explode(';',$post->image_list);
             return $post;
         });
