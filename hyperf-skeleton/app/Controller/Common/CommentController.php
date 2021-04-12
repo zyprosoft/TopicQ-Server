@@ -80,4 +80,52 @@ class CommentController extends AbstractController
         $result = $this->service->getUserCommentList($pageIndex, $pageSize);
         return $this->success($result);
     }
+
+    public function praise(AuthedRequest $request)
+    {
+        $this->validate([
+            'commentId' => 'integer|required|min:1|exists:post,post_id',
+        ]);
+        $commentId = $request->param('commentId');
+        $result = $this->service->praise($commentId);
+        return $this->success($result);
+    }
+
+    public function commentReplyList()
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30',
+            'commentId' => 'integer|required|min:1|exists:post,post_id',
+        ]);
+        $pageIndex = $this->request->param('pageIndex');
+        $pageSize = $this->request->param('pageSize');
+        $commentId = $this->request->param('commentId');
+        $result = $this->service->commentReplyList($commentId, $pageIndex, $pageSize);
+        return $this->success($result);
+    }
+
+    public function userReplyList(AuthedRequest $request)
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30',
+        ]);
+        $pageIndex = $request->param('pageIndex');
+        $pageSize = $request->param('pageSize');
+        $result = $this->service->userReplyList($pageIndex, $pageSize);
+        return $this->success($result);
+    }
+
+    public function report(AuthedRequest $request)
+    {
+        $this->validate([
+            'commentId' => 'integer|required|exists:comment,comment_id',
+            'content' => 'string|required|min:1|max:500'
+        ]);
+        $commentId = $request->param('commentId');
+        $content = $request->param('content');
+        $result = $this->service->reportComment($commentId, $content);
+        return $this->success($result);
+    }
 }

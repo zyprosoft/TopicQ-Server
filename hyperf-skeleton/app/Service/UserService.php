@@ -171,4 +171,17 @@ class UserService extends BaseService
         $user->saveOrFail();
         return $this->success();
     }
+
+    public
+    function decryptPhoneNumber(string $iv, string $encryptData)
+    {
+        $user = User::findOrFail($this->userId());
+        $miniProgramConfig = config('weixin.miniProgram');
+        $app = Factory::miniProgram($miniProgramConfig);
+        $result = $app->encryptor->decryptData($user->wx_token, $iv, $encryptData);
+        $phoneNumber = $result['purePhoneNumber'];
+        $user->mobile = $phoneNumber;
+        $user->saveOrFail();
+        return $result;
+    }
 }

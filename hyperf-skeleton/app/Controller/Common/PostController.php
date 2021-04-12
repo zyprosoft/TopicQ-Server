@@ -72,4 +72,38 @@ class PostController extends AbstractController
         $result = $this->service->getUserPostList($pageIndex, $pageSize);
         return $this->success($result);
     }
+
+    public function favoriteList(AuthedRequest $request)
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30',
+        ]);
+        $pageIndex = $request->param('pageIndex');
+        $pageSize = $request->param('pageSize');
+        $result = $this->service->getUserFavoriteList($pageIndex, $pageSize);
+        return $this->success($result);
+    }
+
+    public function favorite(AuthedRequest $request)
+    {
+        $this->validate([
+            'postId' => 'integer|required|exists:post,post_id',
+        ]);
+        $postId = $request->param('postId');
+        $result = $this->service->favorite($postId);
+        return $this->success($result);
+    }
+
+    public function report(AuthedRequest $request)
+    {
+        $this->validate([
+            'postId' => 'integer|required|exists:post,post_id',
+            'content' => 'string|required|min:1|max:500'
+        ]);
+        $postId = $request->param('postId');
+        $content = $request->param('content');
+        $result = $this->service->reportPost($postId, $content);
+        return $this->success($result);
+    }
 }

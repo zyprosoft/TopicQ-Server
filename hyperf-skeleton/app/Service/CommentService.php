@@ -8,6 +8,7 @@ use App\Constants\Constants;
 use App\Constants\ErrorCode;
 use App\Job\PostUpdateJob;
 use App\Model\Comment;
+use App\Model\ReportComment;
 use Hyperf\Database\Model\Builder;
 use ZYProSoft\Exception\HyperfCommonException;
 use App\Job\PostUpdateQueue;
@@ -161,5 +162,15 @@ class CommentService extends BaseService
             ->limit($pageSize);
         $total = Comment::query()->where('parent_comment_owner_id', $this->userId())->count();
         return ['total'=>$total, 'list'=>$list];
+    }
+
+    public function reportComment(int $commentId, string $content)
+    {
+        $report = new ReportComment();
+        $report->comment_id = $commentId;
+        $report->content = $content;
+        $report->owner_id = $this->userId();
+        $report->saveOrFail();
+        return $this->success();
     }
 }

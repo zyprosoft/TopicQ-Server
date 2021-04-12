@@ -8,6 +8,7 @@ use App\Constants\Constants;
 use App\Constants\ErrorCode;
 use App\Job\PostIncreaseReadJob;
 use App\Model\Post;
+use App\Model\ReportPost;
 use App\Model\UserFavorite;
 use App\Model\UserVote;
 use App\Model\Vote;
@@ -216,5 +217,30 @@ class PostService extends BaseService
         $userFavorite->user_id = $this->userId();
         $userFavorite->saveOrFail();
         return $this->success();
+    }
+
+    public function reportPost(int $postId, string $content)
+    {
+        $report = new ReportPost();
+        $report->post_id = $postId;
+        $report->content = $content;
+        $report->owner_id = $this->userId();
+        $report->saveOrFail();
+        return $this->success();
+    }
+
+    public function getUserFavoriteList(int $pageIndex, int $pageSize)
+    {
+        $list = UserFavorite::query()->where('user_id', $this->userId())
+            ->offset($pageIndex * $pageSize)
+            ->limit($pageSize)
+            ->orderBy('sort_index','DESC')
+            ->orderBy('is_hot','DESC')
+            ->orderBy('is_recommend','DESC')
+            ->latest()
+            ->get();
+        $total = UserFavorite::query()->where('user_id', $this->userId())
+                                      ->count();
+        return ['total'=>$total, 'list'=>$list];
     }
 }
