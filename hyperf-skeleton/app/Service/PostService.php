@@ -23,6 +23,7 @@ use ZYProSoft\Log\Log;
 class PostService extends BaseService
 {
     private array $listRows = [
+        'post_id',
         'title',
         'summary',
         'owner_id',
