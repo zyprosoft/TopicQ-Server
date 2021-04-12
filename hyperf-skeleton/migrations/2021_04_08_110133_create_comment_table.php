@@ -25,7 +25,9 @@ class CreateCommentTable extends Migration
             $table->tinyInteger('audit_status')->default(0)->comment('0审核中1:审核通过-1:审核不通过');
             $table->string('audit_note')->nullable()->comment('审核备注');
             $table->tinyInteger('is_hot')->default(0)->comment('是否热评，0否1是');
+            $table->bigInteger('post_owner_id')->comment('帖子作者ID');
 
+            $table->index('post_owner_id');
             $table->index('post_id');
             $table->index('owner_id');
             $table->index('parent_comment_owner_id');
