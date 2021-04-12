@@ -20,6 +20,5 @@ class PostUpdateQueue extends BaseService
         }
         $this->push(new PostUpdateJob($postId));
         Cache::set($key, $postId);
-        Log::info("($postId)添加添加异步更新任务完成!");
     }
 }

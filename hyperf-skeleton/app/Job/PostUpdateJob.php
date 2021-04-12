@@ -32,34 +32,31 @@ class PostUpdateJob extends Job
 
         Log::info("开始执行刷新帖子($this->postId)的异步任务");
 
-        Db::transaction(function (){
+        $post = Post::query()->where('post_id', $this->postId)->first();
+        if (!$post instanceof Post) {
+            Log::error('未找到帖子:'.$this->postId);
+            return;
+        }
 
-            $post = Post::query()->where('post_id', $this->postId)->lockForUpdate()->first();
-            if (!$post instanceof Post) {
-                Log::error('未找到帖子:'.$this->postId);
-                return;
-            }
+        //统计评论数
+        $commentCount = Comment::query()->where('post_id', $this->postId)
+            ->count();
+        $post->comment_count = $commentCount;
 
-            //统计评论数
-            $commentCount = Comment::query()->where('post_id', $this->postId)
-                ->count();
-            $post->comment_count = $commentCount;
+        //统计收藏数
+        $favoriteCount = UserFavorite::query()->where('post_id', $this->postId)
+            ->count();
+        $post->favorite_count = $favoriteCount;
 
-            //统计收藏数
-            $favoriteCount = UserFavorite::query()->where('post_id', $this->postId)
-                                                  ->count();
-            $post->favorite_count = $favoriteCount;
+        //最后一条回复
+        $comment = Comment::query()->where('post_id', $this->postId)
+            ->latest()
+            ->first();
+        if ($comment instanceof Comment) {
+            $post->last_comment_time = $comment->created_at;
+        }
 
-            //最后一条回复
-            $comment = Comment::query()->where('post_id', $this->postId)
-                ->latest()
-                ->first();
-            if ($comment instanceof Comment) {
-                $post->last_comment_time = $comment->created_at;
-            }
-
-            $post->saveOrFail();
-        });
+        $post->saveOrFail();
 
         Log::info("帖子($this->postId) 异步刷新信息完成!");
     }
