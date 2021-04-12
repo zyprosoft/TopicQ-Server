@@ -90,6 +90,7 @@ class CommentService extends BaseService
                                             break;
                                     }
                                 })
+                                ->with(['parent_comment'])
                                 ->offset($pageIndex * $pageSize)
                                 ->limit($pageSize)
                                 ->get();
@@ -127,7 +128,7 @@ class CommentService extends BaseService
     public function getUserCommentList(int $pageIndex, int $pageSize)
     {
         $list = Comment::query()->where('owner_id', $this->userId())
-                                ->with(['post'])
+                                ->with(['post','parent_comment'])
                                 ->offset($pageIndex * $pageSize)
                                 ->limit($pageSize)
                                 ->get();
