@@ -213,8 +213,12 @@ class PostService extends BaseService
                                          ->get()
                                           ->keyBy('post_id');
         $list->map(function (Post $post) use ($userReadList) {
-            $post->avatar_list = explode(';',$post->avatar_list);
-            $post->image_list = explode(';',$post->image_list);
+            if (!empty($post->avatar_list)) {
+                $post->avatar_list = explode(';',$post->avatar_list);
+            }
+            if (!empty($post->image_list)) {
+                $post->image_list = explode(';',$post->image_list);
+            }
             $post->is_read = isset($userReadList[$post->post_id]);
             return $post;
         });
@@ -234,8 +238,12 @@ class PostService extends BaseService
             ->latest()
             ->get();
         $list->map(function (Post $post) {
-            $post->avatar_list = explode(';',$post->avatar_list);
-            $post->image_list = explode(';',$post->image_list);
+            if (!empty($post->avatar_list)) {
+                $post->avatar_list = explode(';',$post->avatar_list);
+            }
+            if (!empty($post->image_list)) {
+                $post->image_list = explode(';',$post->image_list);
+            }
             return $post;
         });
         $total = Post::query()->where('owner_id', $this->userId())
@@ -299,8 +307,12 @@ class PostService extends BaseService
             ->get()
             ->pluck('post');
         $list->map(function (Post $post) {
-            $post->avatar_list = explode(';',$post->avatar_list);
-            $post->image_list = explode(';',$post->image_list);
+            if (!empty($post->avatar_list)) {
+                $post->avatar_list = explode(';',$post->avatar_list);
+            }
+            if (!empty($post->image_list)) {
+                $post->image_list = explode(';',$post->image_list);
+            }
             return $post;
         });
         $total = UserFavorite::query()->where('user_id', $this->userId())
