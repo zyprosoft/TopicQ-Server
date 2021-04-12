@@ -66,7 +66,7 @@ class User extends Model implements Authenticatable
      * @var array
      */
     protected $casts = ['user_id' => 'integer', 'role_id' => 'integer', 'status' => 'integer', 'sex' => 'integer', 'login_type' => 'integer', 'wx_gender' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
-    protected $hidden = ['password','wx_token','wx_openid','token'];
+    protected $hidden = ['password','wx_token','wx_openid','token','wx_token_expire','token_expire'];
     public function getId()
     {
         return $this->user_id;
