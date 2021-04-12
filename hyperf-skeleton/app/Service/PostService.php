@@ -29,6 +29,7 @@ class PostService extends BaseService
             $vote = data_get($params,'vote');
 
             $post = new Post();
+            $post->owner_id = $this->userId();
             $post->title = $title;
             if (mb_strlen($content) < 32) {
                 $post->summary = $content;
