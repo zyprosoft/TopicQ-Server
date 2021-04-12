@@ -61,11 +61,17 @@ class PostUpdateJob extends Job
         $post->favorite_count = $favoriteCount;
 
         //最后一条回复
-        $comment = Comment::query()->where('post_id', $this->postId)
+        $commentList = Comment::query()->where('post_id', $this->postId)
             ->latest()
-            ->first();
-        if ($comment instanceof Comment) {
+            ->limit(3)
+            ->get();
+        if (!empty($commentList)) {
+            $comment = $commentList->first();
             $post->last_comment_time = $comment->created_at;
+
+            //最后三个用户头像
+            $avatarList = $commentList->pluck('author.avatar');
+            $post->avatar_list = implode(';',$avatarList->toArray());
         }
 
         $post->saveOrFail();
