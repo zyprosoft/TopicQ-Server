@@ -13,6 +13,7 @@ class CreateReportCommentTable extends Migration
     {
         Schema::create('report_comment', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('comment_id')->comment('举报的评论ID');
             $table->bigInteger('owner_id')->comment('谁举报的');
             $table->text('content')->comment('举报内容');
 

@@ -165,5 +165,10 @@ class UserService extends BaseService
         if (isset($userInfo['country'])) {
             $user->country = $userInfo['country'];
         }
+        if (isset($userInfo['background'])) {
+            $user->background = $userInfo['background'];
+        }
+        $user->saveOrFail();
+        return $this->success();
     }
 }

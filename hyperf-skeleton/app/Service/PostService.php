@@ -8,6 +8,7 @@ use App\Constants\Constants;
 use App\Constants\ErrorCode;
 use App\Job\PostIncreaseReadJob;
 use App\Model\Post;
+use App\Model\UserFavorite;
 use App\Model\UserVote;
 use App\Model\Vote;
 use App\Model\VoteItem;
@@ -199,6 +200,21 @@ class PostService extends BaseService
     {
         Post::query()->where('post_id', $postId)
                      ->increment('read_count');
+        return $this->success();
+    }
+
+    public function favorite(int $postId)
+    {
+        $userFavorite = UserFavorite::query()->where('user_id', $this->userId())
+                                             ->where('post_id', $postId)
+                                             ->first();
+        if ($userFavorite instanceof UserFavorite) {
+            throw new HyperfCommonException(ErrorCode::DO_NOT_REPEAT_ACTION);
+        }
+        $userFavorite = new UserFavorite();
+        $userFavorite->post_id = $postId;
+        $userFavorite->user_id = $this->userId();
+        $userFavorite->saveOrFail();
         return $this->success();
     }
 }

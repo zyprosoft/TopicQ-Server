@@ -136,4 +136,30 @@ class CommentService extends BaseService
                                  ->count();
         return ['list'=>$list, 'total'=>$total];
     }
+
+    public function praise(int $commentId)
+    {
+        Comment::findOrFail($commentId)->increment('praise_count');
+        return $this->success();
+    }
+
+    public function commentReplyList(int $commentId, int $pageIndex, int $pageSize)
+    {
+        $list = Comment::query()->where('parent_comment_id', $commentId)
+                                ->latest()
+                                ->offset($pageIndex * $pageSize)
+                                ->limit($pageSize);
+        $total = Comment::query()->where('parent_comment_id', $commentId)->count();
+        return ['total'=>$total, 'list'=>$list];
+    }
+
+    public function userReplyList(int $pageIndex, int $pageSize)
+    {
+        $list = Comment::query()->where('parent_comment_owner_id', $this->userId())
+            ->latest()
+            ->offset($pageIndex * $pageSize)
+            ->limit($pageSize);
+        $total = Comment::query()->where('parent_comment_owner_id', $this->userId())->count();
+        return ['total'=>$total, 'list'=>$list];
+    }
 }
