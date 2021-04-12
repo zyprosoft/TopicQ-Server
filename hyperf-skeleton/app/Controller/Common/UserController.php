@@ -58,7 +58,7 @@ class UserController extends AbstractController
 
     public function updateWxUserInfo(AuthedRequest $request)
     {
-        $params = $this->validate([
+        $this->validate([
             'nickName' => 'string|min:1',
             'avatarUrl' => 'string|min:1',
             'country' => 'string|min:1',
@@ -66,6 +66,7 @@ class UserController extends AbstractController
             'city' => 'string|min:1',
             'gender' => 'int|min:0',
         ]);
+        $params = $request->getParams();
         $result = $this->userService->updateWxUserInfo($params);
         return $this->success($result);
     }

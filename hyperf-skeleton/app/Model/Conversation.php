@@ -35,4 +35,19 @@ class Conversation extends Model
      * @var array
      */
     protected $casts = ['conversation_id' => 'integer', 'owner_id' => 'integer', 'to_user_id' => 'integer', 'unread_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+
+    protected $with = [
+        'owner',
+        'receiver'
+    ];
+
+    public function owner()
+    {
+        return $this->hasOne(User::class,'user_id','owner_id');
+    }
+
+    public function receiver()
+    {
+        return $this->hasOne(User::class,'user_id','to_user_id');
+    }
 }

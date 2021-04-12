@@ -9,7 +9,6 @@ use App\Constants\ErrorCode;
 use App\Model\Comment;
 use App\Model\Post;
 use App\Model\ReportComment;
-use App\Model\UserCommentRead;
 use Hyperf\Database\Model\Builder;
 use Hyperf\DbConnection\Db;
 use ZYProSoft\Exception\HyperfCommonException;

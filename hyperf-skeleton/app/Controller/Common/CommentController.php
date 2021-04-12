@@ -24,7 +24,7 @@ class CommentController extends AbstractController
     public function create(AuthedRequest $request)
     {
         $this->validate([
-            'content' => 'string|required|min:1|max:500',
+            'content' => 'string|required|min:1|max:500|sensitive',
             'postId' => 'integer|required|min:1|exists:post,post_id',
             'imageList' => 'array|min:1|max:4',
             'link' => 'string|min:1|max:500'
@@ -84,7 +84,7 @@ class CommentController extends AbstractController
     public function praise(AuthedRequest $request)
     {
         $this->validate([
-            'commentId' => 'integer|required|min:1|exists:post,post_id',
+            'commentId' => 'integer|required|min:1|exists:comment,comment_id',
         ]);
         $commentId = $request->param('commentId');
         $result = $this->service->praise($commentId);
@@ -96,7 +96,7 @@ class CommentController extends AbstractController
         $this->validate([
             'pageIndex' => 'integer|required|min:0',
             'pageSize' => 'integer|required|min:10|max:30',
-            'commentId' => 'integer|required|min:1|exists:post,post_id',
+            'commentId' => 'integer|required|min:1|exists:comment,comment_id',
         ]);
         $pageIndex = $this->request->param('pageIndex');
         $pageSize = $this->request->param('pageSize');
