@@ -110,7 +110,7 @@ class PostService extends BaseService
     public function detail(int $postId)
     {
         $post = Post::query()->where('post_id', $postId)
-                             ->with(['author','vote'])
+                             ->with(['vote'])
                              ->first();
         if (!$post instanceof Post) {
             throw new HyperfCommonException(ErrorCode::POST_NOT_EXIST);
@@ -181,7 +181,6 @@ class PostService extends BaseService
                     break;
             }
         })
-            ->with(['author'])
             ->orderBy('sort_index','DESC')
             ->orderBy('is_hot','DESC')
             ->orderBy('is_recommend','DESC')
@@ -217,7 +216,6 @@ class PostService extends BaseService
             'sort_index',
             'join_user_count'
         ])
-            ->with(['author'])
             ->where('owner_id', $this->userId())
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
