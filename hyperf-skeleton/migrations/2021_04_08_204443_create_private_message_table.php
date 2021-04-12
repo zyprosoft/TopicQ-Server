@@ -17,6 +17,7 @@ class CreatePrivateMessageTable extends Migration
             $table->bigInteger('receive_id')->comment('接受者');
             $table->string('content',500)->nullable()->comment('消息内容');
             $table->string('image',500)->nullable()->comment('图片内容');
+            $table->tinyInteger('read_status')->default(0)->comment('0:未读1:已读');
 
             $table->index(['from_id','receive_id']);
             $table->softDeletes();

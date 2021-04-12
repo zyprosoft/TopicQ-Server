@@ -17,6 +17,7 @@ class CreateConversationTable extends Migration
             $table->bigInteger('to_user_id')->comment('会话对话人');
             $table->string('last_message',500)->comment('最后一条消息会话内容');
             $table->dateTime('last_message_time')->comment('最后一条消息时间');
+            $table->integer('unread_count')->default(0)->comment('未读消息数');
 
             $table->softDeletes();
             $table->timestamps();

@@ -51,4 +51,8 @@ class Constants
      * 帖子列表排序方式，最后回复
      */
     const POST_SORT_TYPE_LATEST_REPLY = 3;
+
+    const STATUS_WAIT = 0;
+
+    const STATUS_DONE = 1;
 }

@@ -12,13 +12,14 @@ use ZYProSoft\Log\Log;
 
 class PostUpdateJob extends Job
 {
-    private string $jobPrefix = 'as:up:';
+    private string $jobPrefix;
 
     public int $postId;
 
-    public function __construct(int $postId)
+    public function __construct(int $postId, string $jobPrefix)
     {
         $this->postId = $postId;
+        $this->jobPrefix = $jobPrefix;
     }
 
     /**

@@ -11,16 +11,16 @@ use App\Model\Comment;
 use App\Model\ReportComment;
 use Hyperf\Database\Model\Builder;
 use ZYProSoft\Exception\HyperfCommonException;
-use App\Job\PostUpdateQueue;
+use App\Job\UniqueJobQueue;
 
 use Hyperf\Di\Annotation\Inject;
 class CommentService extends BaseService
 {
     /**
      * @Inject
-     * @var PostUpdateQueue
+     * @var UniqueJobQueue
      */
-    private PostUpdateQueue $queueService;
+    private UniqueJobQueue $queueService;
 
     public function create(int $postId, string $content, array $imageList = null, string $link = null)
     {
@@ -38,7 +38,7 @@ class CommentService extends BaseService
 
         //更新帖子统计信息
         $this->push(new PostUpdateJob($postId));
-        $this->queueService->update($postId);
+        $this->queueService->updatePost($postId);
 
         return $comment;
     }
@@ -70,7 +70,7 @@ class CommentService extends BaseService
         $comment->delete();
 
         //更新帖子统计信息
-        $this->queueService->update($postId);
+        $this->queueService->updatePost($postId);
 
         return $this->success();
     }
@@ -121,7 +121,7 @@ class CommentService extends BaseService
         $comment->saveOrFail();
 
         //更新帖子统计信息
-        $this->queueService->update($comment->post_id);
+        $this->queueService->updatePost($comment->post_id);
 
         return $this->success($comment);
     }
@@ -161,7 +161,8 @@ class CommentService extends BaseService
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize);
         $total = Comment::query()->where('parent_comment_owner_id', $this->userId())->count();
-        return ['total'=>$total, 'list'=>$list];
+        $idList = $list->pluck('comment_id');
+        return ['total'=>$total, 'list'=>$list, 'id_list'=>$idList];
     }
 
     public function reportComment(int $commentId, string $content)
@@ -172,5 +173,11 @@ class CommentService extends BaseService
         $report->owner_id = $this->userId();
         $report->saveOrFail();
         return $this->success();
+    }
+
+    public function markRead(array $commentIds)
+    {
+        Comment::query()->whereIn('comment_id', $commentIds)
+                        ->update(['parent_comment_owner_is_read'=>Constants::STATUS_DONE]);
     }
 }

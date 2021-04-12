@@ -35,6 +35,7 @@ class CreateUserTable extends Migration
             $table->timestamp('wx_token_expire', 0)->nullable()->comment('微信token失效绝对时间');
             $table->string('token', 500)->nullable()->comment('登陆的Token');
             $table->timestamp('token_expire', 0)->nullable()->comment('登陆Token的过期时间');
+            $table->integer('unread_reply_count')->default(0)->comment('未读回复数量');
 
             $table->index('status');
             $table->unique('wx_openid');
