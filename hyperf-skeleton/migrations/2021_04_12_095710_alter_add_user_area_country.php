@@ -11,8 +11,10 @@ class AlterAddUserAreaCountry extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('user', function (Blueprint $table) {
             //
+            $table->string('area',64)->nullable()->comment('县、区');
+            $table->string('country',64)->nullable()->comment('乡镇');
         });
     }
 
@@ -21,8 +23,10 @@ class AlterAddUserAreaCountry extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('user', function (Blueprint $table) {
             //
+            $table->removeColumn('area');
+            $table->removeColumn('country');
         });
     }
 }

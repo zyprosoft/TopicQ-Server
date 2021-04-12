@@ -149,4 +149,16 @@ class UserService extends BaseService
     {
         return User::findOrFail($this->userId());
     }
+
+    public function updateUserInfo(array $userInfo)
+    {
+        $user = User::findOrFail($this->userId());
+        if (isset($userInfo['nickname'])) {
+            $user->nickname = $userInfo['nickname'];
+        }
+        if (isset($userInfo['avatar'])) {
+            $user->avatar = $userInfo['avatar'];
+        }
+
+    }
 }
