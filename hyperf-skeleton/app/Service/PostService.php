@@ -163,7 +163,6 @@ class PostService extends BaseService
             'read_count',
             'comment_count',
             'last_comment_time',
-            'vote_id',
             'favorite_count',
             'forward_count',
             'is_recommend',
@@ -183,7 +182,7 @@ class PostService extends BaseService
                     break;
             }
         })
-            ->with(['author','vote'])
+            ->with(['author'])
             ->orderBy('sort_index','DESC')
             ->orderBy('is_hot','DESC')
             ->orderBy('is_recommend','DESC')
@@ -191,7 +190,6 @@ class PostService extends BaseService
             ->limit($pageSize)
             ->get();
         $list->map(function (Post $post) {
-            $post->vote->items;
             $post->image_list = explode(';',$post->image_list);
             return $post;
         });
