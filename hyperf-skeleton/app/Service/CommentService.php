@@ -25,10 +25,13 @@ class CommentService extends BaseService
 
     public function create(int $postId, string $content, array $imageList = null, string $link = null)
     {
+        $post = Post::findOrFail($postId);
+
         $comment = new Comment();
         $comment->content = $content;
         $comment->owner_id = $this->userId();
         $comment->post_id = $postId;
+        
         if (isset($link)) {
             $comment->link = $link;
         }
@@ -40,7 +43,6 @@ class CommentService extends BaseService
         //更新帖子统计信息
         $this->queueService->updatePost($postId);
 
-        $post = Post::findOrFail($postId);
         $this->queueService->updateUser($post->owner_id);
 
         return $comment;
@@ -160,6 +162,7 @@ class CommentService extends BaseService
     public function userReplyList(int $pageIndex, int $pageSize)
     {
         $list = Comment::query()->where('parent_comment_owner_id', $this->userId())
+            ->orWhere('post_owner_id')
             ->latest()
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize);
