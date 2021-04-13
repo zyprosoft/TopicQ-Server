@@ -34,6 +34,12 @@ class UserController extends AbstractController
         return $this->success($result);
     }
 
+    public function getUserInfo(AuthedRequest $request)
+    {
+        $result = $this->userService->getUserInfo();
+        return $this->success($result);
+    }
+
     public function refreshToken()
     {
         $result = $this->userService->refreshToken($this->request->getToken());
