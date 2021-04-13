@@ -9,6 +9,8 @@ use App\Constants\ErrorCode;
 use App\Model\Comment;
 use App\Model\Post;
 use App\Model\ReportComment;
+use App\Model\User;
+use App\Model\UserCommentPraise;
 use Hyperf\Database\Model\Builder;
 use Hyperf\DbConnection\Db;
 use ZYProSoft\Exception\HyperfCommonException;
@@ -160,7 +162,21 @@ class CommentService extends BaseService
 
     public function praise(int $commentId)
     {
-        Comment::findOrFail($commentId)->increment('praise_count');
+        Db::transaction(function () use ($commentId){
+            $praise = UserCommentPraise::query()->where('user_id', $this->userId())
+                ->where('comment_id',$commentId)
+                ->first();
+            if ($praise instanceof UserCommentPraise) {
+                $praise->delete();
+                Comment::findOrFail($commentId)->decrement('praise_count');
+                return  $this->success();
+            }
+            $praise = new UserCommentPraise();
+            $praise->user_id = $this->userId();
+            $praise->comment_id = $commentId;
+            $praise->saveOrFail();
+            Comment::findOrFail($commentId)->increment('praise_count');
+        });
         return $this->success();
     }
 
