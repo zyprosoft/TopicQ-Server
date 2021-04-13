@@ -320,4 +320,10 @@ class PostService extends BaseService
                                       ->count();
         return ['total'=>$total, 'list'=>$list];
     }
+
+    public function increaseForward(int $postId)
+    {
+        Post::findOrFail($postId)->increment('forward_count');
+        return $this->success();
+    }
 }

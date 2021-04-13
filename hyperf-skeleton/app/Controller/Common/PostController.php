@@ -2,6 +2,7 @@
 
 
 namespace App\Controller\Common;
+use Qiniu\Auth;
 use ZYProSoft\Controller\AbstractController;
 use ZYProSoft\Http\AuthedRequest;
 use App\Service\PostService;
@@ -151,6 +152,16 @@ class PostController extends AbstractController
         ]);
         $postId = $request->param('postId');
         $result = $this->service->markRead($postId);
+        return $this->success($result);
+    }
+
+    public function increaseForward()
+    {
+        $this->validate([
+            'postId' => 'integer|required|exists:post,post_id',
+        ]);
+        $postId = $this->request->param('postId');
+        $result = $this->service->increaseForward($postId);
         return $this->success($result);
     }
 }
