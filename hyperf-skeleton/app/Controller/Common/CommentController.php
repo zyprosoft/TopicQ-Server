@@ -41,7 +41,7 @@ class CommentController extends AbstractController
     {
         $this->validate([
             'content' => 'string|required|min:1|max:500|sensitive',
-            'commentId' => 'integer|required|min:1|exists:post,post_id',
+            'commentId' => 'integer|required|min:1|exists:comment,comment_id',
             'imageList' => 'array|min:1|max:4',
             'link' => 'string|min:1|max:500'
         ]);
