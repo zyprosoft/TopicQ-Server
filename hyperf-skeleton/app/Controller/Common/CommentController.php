@@ -43,7 +43,7 @@ class CommentController extends AbstractController
             'commentId' => 'integer|required|min:1|exists:comment,comment_id',
         ]);
         $commentId = $this->request->param('commentId');
-        $result = $this->service->delete($commentId);
+        $result = $this->service->detail($commentId);
         return $this->success($result);
     }
 
