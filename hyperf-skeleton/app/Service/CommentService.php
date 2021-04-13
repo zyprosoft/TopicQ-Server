@@ -164,14 +164,16 @@ class CommentService extends BaseService
         return $this->success($comment);
     }
 
-    protected function changeImageList(Collection &$list)
+    protected function changeImageList(Collection &$list, bool $needChangeParentComment = true)
     {
-        $list->map(function (Comment $comment) {
+        $list->map(function (Comment $comment) use ($needChangeParentComment) {
             if (isset($comment->image_list) && is_string($comment->image_list)) {
                 $comment->image_list = explode(';', $comment->image_list);
             }
-            if(isset($comment->parent_comment) && isset($comment->parent_comment->image_list) && is_string($comment->parent_comment->image_list)) {
-                $comment->parent_comment->image_list = explode(';', $comment->parent_comment->image_list);
+            if($needChangeParentComment) {
+                if (isset($comment->parent_comment) && isset($comment->parent_comment->image_list) && is_string($comment->parent_comment->image_list)) {
+                    $comment->parent_comment->image_list = explode(';', $comment->parent_comment->image_list);
+                }
             }
             return $comment;
         });
@@ -246,7 +248,7 @@ class CommentService extends BaseService
             ->limit($pageSize)
             ->get();
         //转换图片数组格式
-        $this->changeImageList($list);
+        $this->changeImageList($list,false);
         //是否点赞
         $this->addPraiseStatus($list);
         $total = Comment::query()->where('parent_comment_id', $commentId)->count();
