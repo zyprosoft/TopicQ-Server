@@ -165,7 +165,7 @@ class CommentService extends BaseService
                 ->get()
                 ->keyBy('comment_id');
             $list->map(function (Comment  $comment) use ($praiseList) {
-                $comment->is_praise = isset($praiseList[$comment->comment_id]);
+                $comment->is_praise = isset($praiseList[$comment->comment_id])?1:0;
                 return $comment;
             });
         }else{
