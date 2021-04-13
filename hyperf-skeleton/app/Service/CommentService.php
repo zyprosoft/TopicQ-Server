@@ -100,6 +100,9 @@ class CommentService extends BaseService
             ->limit($pageSize)
             ->get();
 
+        //转换图片数组格式
+        $this->changeImageList($list);
+        
         //是否点赞
         $this->addPraiseStatus($list);
 
@@ -158,6 +161,16 @@ class CommentService extends BaseService
         return $this->success($comment);
     }
 
+    protected function changeImageList(Collection &$list)
+    {
+        $list->map(function (Comment $comment) {
+            if (isset($comment->image_list)) {
+                $comment->image_list = explode(';', $comment->image_list);
+            }
+            return $comment;
+        });
+    }
+
     protected function addPraiseStatus(Collection &$list)
     {
         //是否点赞
@@ -186,6 +199,9 @@ class CommentService extends BaseService
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->get();
+
+        //转换图片数组格式
+        $this->changeImageList($list);
 
         //是否点赞
         $this->addPraiseStatus($list);
@@ -223,6 +239,8 @@ class CommentService extends BaseService
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->get();
+        //转换图片数组格式
+        $this->changeImageList($list);
         //是否点赞
         $this->addPraiseStatus($list);
         $total = Comment::query()->where('parent_comment_id', $commentId)->count();
@@ -238,6 +256,8 @@ class CommentService extends BaseService
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->get();
+        //转换图片数组格式
+        $this->changeImageList($list);
         //是否点赞
         $this->addPraiseStatus($list);
         $total = Comment::query()->where('parent_comment_owner_id', $this->userId())->count();
