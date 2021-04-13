@@ -87,20 +87,14 @@ class CommentService extends BaseService
 
     public function getList(int $postId, int $pageIndex, int $pageSize, int $sortType)
     {
+        $map = [
+            Constants::COMMENT_SORT_TYPE_LATEST => 'created_at',
+            Constants::COMMENT_SORT_TYPE_REPLY_COUNT => 'reply_count',
+            Constants::COMMENT_SORT_TYPE_PRAISE_COUNT => 'praise_count'
+        ];
+        $order = $map[$sortType];
         $list = Comment::query()->where('post_id', $postId)
-            ->where(function (Builder $query) use ($sortType) {
-                switch ($sortType) {
-                    case Constants::COMMENT_SORT_TYPE_LATEST:
-                        $query->orderBy('created_at', 'DESC');
-                        break;
-                    case Constants::COMMENT_SORT_TYPE_REPLY_COUNT:
-                        $query->orderBy('reply_count', 'DESC');
-                        break;
-                    case Constants::COMMENT_SORT_TYPE_PRAISE_COUNT:
-                        $query->orderBy('praise_count', 'DESC');
-                        break;
-                }
-            })
+            ->orderByDesc($order)
             ->with(['parent_comment'])
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
