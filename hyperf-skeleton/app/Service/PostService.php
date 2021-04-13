@@ -187,23 +187,17 @@ class PostService extends BaseService
 
     public function getList(int $sortType, int $pageIndex, int $pageSize)
     {
+        $map = [
+            Constants::POST_SORT_TYPE_LATEST => 'created_at',
+            Constants::POST_SORT_TYPE_LATEST_REPLY => 'last_comment_time',
+            Constants::POST_SORT_TYPE_REPLY_COUNT => 'praise_count'
+        ];
+        $order = $map[$sortType];
         $list = Post::query()->select($this->listRows)
-            ->where(function (Builder $query) use ($sortType) {
-            switch ($sortType) {
-                case Constants::POST_SORT_TYPE_LATEST:
-                    $query->orderBy('created_at','DESC');
-                    break;
-                case Constants::POST_SORT_TYPE_LATEST_REPLY:
-                    $query->orderBy('last_comment_time','DESC');
-                    break;
-                case Constants::POST_SORT_TYPE_REPLY_COUNT:
-                    $query->orderBy('comment_count','DESC');
-                    break;
-            }
-        })
-            ->orderBy('sort_index','DESC')
-            ->orderBy('is_hot','DESC')
-            ->orderBy('is_recommend','DESC')
+            ->orderByDesc($order)
+            ->orderByDesc('sort_index')
+            ->orderByDesc('is_hot')
+            ->orderByDesc('is_recommend')
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->get();
@@ -212,7 +206,7 @@ class PostService extends BaseService
         $userReadList = UserRead::query()->whereIn('post_id', $postIds)
                                          ->where('user_id', $this->userId())
                                          ->get()
-                                          ->keyBy('post_id');
+                                         ->keyBy('post_id');
         $list->map(function (Post $post) use ($userReadList) {
             if (!empty($post->avatar_list)) {
                 $post->avatar_list = explode(';',$post->avatar_list);
@@ -233,9 +227,9 @@ class PostService extends BaseService
             ->where('owner_id', $this->userId())
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
-            ->orderBy('sort_index','DESC')
-            ->orderBy('is_hot','DESC')
-            ->orderBy('is_recommend','DESC')
+            ->orderByDesc('sort_index')
+            ->orderByDesc('is_hot')
+            ->orderByDesc('is_recommend')
             ->latest()
             ->get();
         $list->map(function (Post $post) {
