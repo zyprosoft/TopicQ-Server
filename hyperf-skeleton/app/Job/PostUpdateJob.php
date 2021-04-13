@@ -64,7 +64,7 @@ class PostUpdateJob extends Job
         $comment = Comment::query()->where('post_id', $this->postId)
             ->latest()
             ->first();
-        if (!$comment instanceof Comment) {
+        if ($comment instanceof Comment) {
             $post->last_comment_time = $comment->created_at;
         }
 
