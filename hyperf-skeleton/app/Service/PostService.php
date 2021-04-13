@@ -220,7 +220,7 @@ class PostService extends BaseService
             if (!empty($post->image_list)) {
                 $post->image_list = explode(';',$post->image_list);
             }
-            $post->is_read = isset($userReadList[$post->post_id]);
+            $post->is_read = isset($userReadList[$post->post_id])?1:0;
             return $post;
         });
         $total = Post::count();
