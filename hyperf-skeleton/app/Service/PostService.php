@@ -190,7 +190,7 @@ class PostService extends BaseService
         $map = [
             Constants::POST_SORT_TYPE_LATEST => 'created_at',
             Constants::POST_SORT_TYPE_LATEST_REPLY => 'last_comment_time',
-            Constants::POST_SORT_TYPE_REPLY_COUNT => 'praise_count'
+            Constants::POST_SORT_TYPE_REPLY_COUNT => 'comment_count'
         ];
         $order = $map[$sortType];
         $list = Post::query()->select($this->listRows)
