@@ -168,10 +168,10 @@ class CommentService extends BaseService
     protected function changeImageList(Collection &$list)
     {
         $list->map(function (Comment $comment) {
-            if (isset($comment->image_list)) {
+            if (isset($comment->image_list) && is_string($comment->image_list)) {
                 $comment->image_list = explode(';', $comment->image_list);
             }
-            if(isset($comment->parent_comment) && isset($comment->parent_comment->image_list)) {
+            if(isset($comment->parent_comment) && isset($comment->parent_comment->image_list) && is_string($comment->parent_comment->image_list)) {
                 $comment->parent_comment->image_list = explode(';', $comment->parent_comment->image_list);
             }
             return $comment;
