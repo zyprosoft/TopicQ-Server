@@ -203,10 +203,14 @@ class PostService extends BaseService
             ->get();
         //增加是否阅读的状态
         $postIds = $list->pluck('post_id');
-        $userReadList = UserRead::query()->whereIn('post_id', $postIds)
-                                         ->where('user_id', $this->userId())
-                                         ->get()
-                                         ->keyBy('post_id');
+        $userReadList = [];
+        if (Auth::isGuest() == false) {
+            $userReadList = UserRead::query()->whereIn('post_id', $postIds)
+                ->where('user_id', $this->userId())
+                ->get()
+                ->keyBy('post_id');
+        }
+
         $list->map(function (Post $post) use ($userReadList) {
             if (!empty($post->avatar_list)) {
                 $post->avatar_list = explode(';',$post->avatar_list);
