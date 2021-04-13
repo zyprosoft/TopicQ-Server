@@ -12,11 +12,13 @@ use App\Model\ReportComment;
 use App\Model\User;
 use App\Model\UserCommentPraise;
 use Hyperf\Database\Model\Builder;
+use Hyperf\Database\Model\Collection;
 use Hyperf\DbConnection\Db;
 use ZYProSoft\Exception\HyperfCommonException;
 use App\Job\UniqueJobQueue;
 
 use Hyperf\Di\Annotation\Inject;
+use ZYProSoft\Facade\Auth;
 
 class CommentService extends BaseService
 {
@@ -103,6 +105,10 @@ class CommentService extends BaseService
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->get();
+
+        //是否点赞
+        $this->addPraiseStatus($list);
+
         //第一页返回热门评论
         $hotList = null;
         if($pageIndex == 0) {
@@ -110,6 +116,7 @@ class CommentService extends BaseService
                                        ->where('is_hot', Constants::STATUS_DONE)
                                        ->with(['parent_comment'])
                                        ->get();
+            $this->addPraiseStatus($hotList);
         }
         
         $total = Comment::query()->where('post_id', $postId)
@@ -148,6 +155,27 @@ class CommentService extends BaseService
         return $this->success($comment);
     }
 
+    protected function addPraiseStatus(Collection &$list)
+    {
+        //是否点赞
+        if(Auth::isLogin()) {
+            $commentIds = $list->pluck('comment_id');
+            $praiseList = UserCommentPraise::query()->where('user_id', $this->userId())
+                ->whereIn('comment_id', $commentIds)
+                ->get()
+                ->keyBy('comment_id');
+            $list->map(function (Comment  $comment) use ($praiseList) {
+                $comment->is_praise = isset($praiseList[$comment->comment_id]);
+                return $comment;
+            });
+        }else{
+            $list->map(function (Comment  $comment) {
+                $comment->is_praise = 0;
+                return $comment;
+            });
+        }
+    }
+
     public function getUserCommentList(int $pageIndex, int $pageSize)
     {
         $list = Comment::query()->where('owner_id', $this->userId())
@@ -155,6 +183,10 @@ class CommentService extends BaseService
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->get();
+
+        //是否点赞
+        $this->addPraiseStatus($list);
+
         $total = Comment::query()->where('owner_id', $this->userId())
             ->count();
         return ['list' => $list, 'total' => $total];
@@ -186,7 +218,10 @@ class CommentService extends BaseService
             ->with(['post'])
             ->latest()
             ->offset($pageIndex * $pageSize)
-            ->limit($pageSize);
+            ->limit($pageSize)
+            ->get();
+        //是否点赞
+        $this->addPraiseStatus($list);
         $total = Comment::query()->where('parent_comment_id', $commentId)->count();
         return ['total' => $total, 'list' => $list];
     }
@@ -198,7 +233,10 @@ class CommentService extends BaseService
             ->with(['post'])
             ->latest()
             ->offset($pageIndex * $pageSize)
-            ->limit($pageSize);
+            ->limit($pageSize)
+            ->get();
+        //是否点赞
+        $this->addPraiseStatus($list);
         $total = Comment::query()->where('parent_comment_owner_id', $this->userId())->count();
         $idList = $list->pluck('comment_id');
         return ['total' => $total, 'list' => $list, 'id_list' => $idList];
