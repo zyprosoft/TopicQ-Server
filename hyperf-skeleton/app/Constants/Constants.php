@@ -40,12 +40,12 @@ class Constants
     /**
      * 帖子列表排序方式，最近发表
      */
-    const POST_SORT_TYPE_LATEST = 1;
+    const POST_SORT_TYPE_LATEST = 2;
 
     /**
      * 帖子列表排序方式，最多回复
      */
-    const POST_SORT_TYPE_REPLY_COUNT = 2;
+    const POST_SORT_TYPE_REPLY_COUNT = 1;
 
     /**
      * 帖子列表排序方式，最后回复
