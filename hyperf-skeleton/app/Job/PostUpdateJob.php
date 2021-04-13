@@ -61,14 +61,19 @@ class PostUpdateJob extends Job
         $post->favorite_count = $favoriteCount;
 
         //最后一条回复
-        $commentList = Comment::query()->where('post_id', $this->postId)
+        $comment = Comment::query()->where('post_id', $this->postId)
             ->latest()
-            ->limit(3)
-            ->get();
-        if (!empty($commentList)) {
-            $comment = $commentList->first();
+            ->first();
+        if (!$comment instanceof Comment) {
             $post->last_comment_time = $comment->created_at;
+        }
 
+        //最后三条不同作者的评论
+        $commentList = Comment::query()->where('post_id', $this->postId)
+                                       ->groupBy(['owner_id'])
+                                       ->limit(3)
+                                       ->get();
+        if (!empty($commentList)) {
             //最后三个用户头像
             $avatarList = $commentList->pluck('author.avatar');
             $post->avatar_list = implode(';',$avatarList->toArray());
