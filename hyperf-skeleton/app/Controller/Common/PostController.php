@@ -57,11 +57,13 @@ class PostController extends AbstractController
     {
         $this->validate([
             'postId' => 'integer|required|exists:post,post_id',
+            'voteId' => 'integer|required|exists:vote,vote_id',
             'voteItemId' => 'integer|required|exists:vote_item,vote_item_id'
         ]);
         $postId = $request->param('postId');
         $voteItemId = $request->param('voteItemId');
-        $result = $this->service->vote($voteItemId, $postId);
+        $voteId = $request->param('voteId');
+        $result = $this->service->vote($voteItemId, $postId, $voteId);
         return $this->success($result);
     }
 

@@ -189,7 +189,7 @@ class PostService extends BaseService
         return $post;
     }
 
-    public function vote(int $voteItemId, int $postId)
+    public function vote(int $voteItemId, int $postId, int $voteId)
     {
         $userVote = UserVote::query()->where('post_id', $postId)
                                     ->where('user_id', $this->userId())
@@ -197,12 +197,14 @@ class PostService extends BaseService
         if ($userVote instanceof UserVote) {
             throw new HyperfCommonException(ErrorCode::DO_NOT_REPEAT_ACTION);
         }
-        Db::transaction(function () use ($voteItemId, $postId){
+        Db::transaction(function () use ($voteItemId, $postId, $voteId){
             VoteItem::find($voteItemId)->increment('user_count');
             $userVote = new UserVote();
             $userVote->user_id = $this->userId();
             $userVote->post_id = $postId;
             $userVote->saveOrFail();
+            $vote = Vote::findOrFail($voteId);
+            $vote->increment('total_user');
         });
         return $this->success();
     }
