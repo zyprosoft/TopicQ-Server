@@ -158,7 +158,7 @@ class CommentService extends BaseService
     protected function addPraiseStatus(Collection &$list)
     {
         //是否点赞
-        if(Auth::isLogin()) {
+        if(Auth::isGuest() == false) {
             $commentIds = $list->pluck('comment_id');
             $praiseList = UserCommentPraise::query()->where('user_id', $this->userId())
                 ->whereIn('comment_id', $commentIds)
