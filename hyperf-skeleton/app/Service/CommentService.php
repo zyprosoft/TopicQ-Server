@@ -153,6 +153,7 @@ class CommentService extends BaseService
         $comment = Comment::query()->where('comment_id', $comment->comment_id)
                                    ->with(['parent_comment'])
                                    ->firstOrFail();
+        $comment->is_praise = 0;
 
         //更新帖子统计信息
         $this->queueService->updatePost($comment->post_id);
