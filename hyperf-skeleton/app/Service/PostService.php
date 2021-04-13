@@ -142,7 +142,8 @@ class PostService extends BaseService
             throw new HyperfCommonException(ErrorCode::POST_NOT_EXIST);
         }
         $post->image_list = explode(';',$post->image_list);
-        if (Auth::isLogin()) {
+        if (Auth::isGuest() == false) {
+            //阅读状态
             $userVote = UserVote::query()->where('user_id', $this->userId())
                                          ->where('post_id',$postId)
                                          ->first();
@@ -151,7 +152,17 @@ class PostService extends BaseService
             }else{
                 $post->is_voted = 0;
             }
+            //阅读状态
+            $userRead = UserRead::query()->where('user_id', $this->userId())
+                ->where('post_id',$postId)
+                ->first();
+            if ($userRead instanceof UserRead) {
+                $post->is_read = 1;
+            }else{
+                $post->is_read = 0;
+            }
         }else{
+            $post->is_read = 0;
             $post->is_voted = 0;
         }
 
