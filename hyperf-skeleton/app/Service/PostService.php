@@ -143,7 +143,7 @@ class PostService extends BaseService
         }
         $post->image_list = explode(';',$post->image_list);
         if (Auth::isGuest() == false) {
-            //阅读状态
+            //投票状态
             $userVote = UserVote::query()->where('user_id', $this->userId())
                                          ->where('post_id',$postId)
                                          ->first();
@@ -161,9 +161,19 @@ class PostService extends BaseService
             }else{
                 $post->is_read = 0;
             }
+            //收藏状态
+            $userFavorite = UserFavorite::query()->where('user_id', $this->userId())
+                ->where('post_id',$postId)
+                ->first();
+            if ($userFavorite instanceof UserFavorite) {
+                $post->is_favorite = 1;
+            }else{
+                $post->is_favorite = 0;
+            }
         }else{
             $post->is_read = 0;
             $post->is_voted = 0;
+            $post->is_favorite = 0;
         }
 
         //增加阅读数
@@ -289,7 +299,9 @@ class PostService extends BaseService
                                              ->where('post_id', $postId)
                                              ->first();
         if ($userFavorite instanceof UserFavorite) {
-            throw new HyperfCommonException(ErrorCode::DO_NOT_REPEAT_ACTION);
+            //取消收藏
+            $userFavorite->delete();
+            return $this->success();
         }
         $userFavorite = new UserFavorite();
         $userFavorite->post_id = $postId;
