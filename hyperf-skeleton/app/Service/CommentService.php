@@ -257,7 +257,8 @@ class CommentService extends BaseService
     {
         if (Auth::isGuest() == false) {
             $praise = UserCommentPraise::query()->where('user_id', $this->userId())
-                                                ->where('comment_id', $commentId);
+                                                ->where('comment_id', $commentId)
+                                                ->first();
             return  $praise instanceof UserCommentPraise;
         }
         return false;
