@@ -149,6 +149,11 @@ class CommentService extends BaseService
         $comment->post_owner_id = $parentComment->post_owner_id;
         $comment->saveOrFail();
 
+        //读取数据库完整的帖子信息
+        $comment = Comment::query()->where('comment_id', $comment->comment_id)
+                                   ->with(['parent_comment'])
+                                   ->firstOrFail();
+
         //更新帖子统计信息
         $this->queueService->updatePost($comment->post_id);
 
