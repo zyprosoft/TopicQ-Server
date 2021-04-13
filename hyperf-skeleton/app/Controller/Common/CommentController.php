@@ -37,6 +37,16 @@ class CommentController extends AbstractController
         return $this->success($result);
     }
 
+    public function detail()
+    {
+        $this->validate([
+            'commentId' => 'integer|required|min:1|exists:comment,comment_id',
+        ]);
+        $commentId = $this->request->param('commentId');
+        $result = $this->service->delete($commentId);
+        return $this->success($result);
+    }
+
     public function reply(AuthedRequest $request)
     {
         $this->validate([

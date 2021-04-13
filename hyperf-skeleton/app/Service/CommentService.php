@@ -147,12 +147,13 @@ class CommentService extends BaseService
         //读取数据库完整的帖子信息
         $comment = Comment::query()->where('comment_id', $comment->comment_id)
                                    ->with(['parent_comment'])
-                                   ->firstOrFail();
+                                   ->first();
+        if (!$comment instanceof Comment) {
+            throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST);
+        }
         $comment->is_praise = 0;
         //图片转数组
-        if(isset($comment->parent_comment->image_list)) {
-            $comment->parent_comment->image_list = explode(';', $comment->parent_comment->image_list);
-        }
+        $this->changeImageListByComment($comment);
 
         //更新帖子统计信息
         $this->queueService->updatePost($comment->post_id);
@@ -250,6 +251,43 @@ class CommentService extends BaseService
         $this->addPraiseStatus($list);
         $total = Comment::query()->where('parent_comment_id', $commentId)->count();
         return ['total' => $total, 'list' => $list];
+    }
+
+    protected function isPraised(int $commentId)
+    {
+        if (Auth::isGuest() == false) {
+            $praise = UserCommentPraise::query()->where('user_id', $this->userId())
+                                                ->where('comment_id', $commentId);
+            return  $praise instanceof UserCommentPraise;
+        }
+        return false;
+    }
+
+    protected function changeImageListByComment(Comment &$comment)
+    {
+        if (isset($comment->image_list) && is_string($comment->image_list)) {
+            $comment->image_list = explode(';', $comment->image_list);
+        }
+        if (isset($comment->parent_comment) &&
+            isset($comment->parent_comment->image_list) &&
+            is_string($comment->parent_comment->image_list)) {
+            $comment->parent_comment->image_list = explode(';', $comment->parent_comment->image_list);
+        }
+    }
+
+    public function detail(int $commentId)
+    {
+        $comment = Comment::query()->where('comment_id', $commentId)
+                                   ->with(['parent_comment'])
+                                   ->first();
+        if (!$comment instanceof Comment) {
+            throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_DID_EXIST);
+        }
+        //是否已经点赞
+        $comment->is_praise = $this->isPraised($commentId)?1:0;
+        //改变图片
+        $this->changeImageListByComment($comment);
+        return $comment;
     }
 
     public function userReplyList(int $pageIndex, int $pageSize)
