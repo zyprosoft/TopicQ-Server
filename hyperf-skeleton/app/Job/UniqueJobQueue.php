@@ -13,6 +13,8 @@ class UniqueJobQueue extends BaseService
 
     private string $userJobPrefix = 'as:up:us:';
 
+    private string $commentJobPrefix = 'as:up:co';
+
     public function updatePost(int $postId)
     {
         $key = $this->postJobPrefix.$postId;
@@ -34,5 +36,11 @@ class UniqueJobQueue extends BaseService
     {
         $key = $this->userJobPrefix.$userId;
         $this->uniquePush($key, new UserUnreadCountJob($key, $userId));
+    }
+
+    public function updateComment(int $commentId)
+    {
+        $key = $this->commentJobPrefix.$commentId;
+        $this->uniquePush($key, new CommentUpdateJob($key, $commentId));
     }
 }

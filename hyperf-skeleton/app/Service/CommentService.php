@@ -151,6 +151,9 @@ class CommentService extends BaseService
 
         //更新帖子统计信息
         $this->queueService->updatePost($comment->post_id);
+        
+        //更新评论信息
+        $this->queueService->updateComment($parentComment->comment_id);
 
         return $this->success($comment);
     }
