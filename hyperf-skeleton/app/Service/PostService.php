@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Constants\Constants;
 use App\Constants\ErrorCode;
 use App\Job\PostIncreaseReadJob;
+use App\Job\UniqueJobQueue;
 use App\Model\Post;
 use App\Model\ReportPost;
 use App\Model\UserFavorite;
@@ -14,14 +15,20 @@ use App\Model\UserRead;
 use App\Model\UserVote;
 use App\Model\Vote;
 use App\Model\VoteItem;
-use Hyperf\Database\Model\Builder;
 use Hyperf\DbConnection\Db;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Facade\Auth;
 use ZYProSoft\Log\Log;
+use Hyperf\Di\Annotation\Inject;
 
 class PostService extends BaseService
 {
+    /**
+     * @Inject
+     * @var UniqueJobQueue
+     */
+    private UniqueJobQueue $queueService;
+
     private array $listRows = [
         'post_id',
         'title',
@@ -307,6 +314,10 @@ class PostService extends BaseService
         $userFavorite->post_id = $postId;
         $userFavorite->user_id = $this->userId();
         $userFavorite->saveOrFail();
+
+        //刷新帖子信息
+        $this->queueService->updatePost($postId);
+        
         return $this->success();
     }
 
