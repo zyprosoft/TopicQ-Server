@@ -151,6 +151,10 @@ class CommentService extends BaseService
                                    ->with(['parent_comment'])
                                    ->firstOrFail();
         $comment->is_praise = 0;
+        //图片转数组
+        if(isset($comment->parent_comment->image_list)) {
+            $comment->parent_comment->image_list = explode(';', $comment->parent_comment->image_list);
+        }
 
         //更新帖子统计信息
         $this->queueService->updatePost($comment->post_id);
@@ -166,6 +170,9 @@ class CommentService extends BaseService
         $list->map(function (Comment $comment) {
             if (isset($comment->image_list)) {
                 $comment->image_list = explode(';', $comment->image_list);
+            }
+            if(isset($comment->parent_comment) && isset($comment->parent_comment->image_list)) {
+                $comment->parent_comment->image_list = explode(';', $comment->parent_comment->image_list);
             }
             return $comment;
         });
