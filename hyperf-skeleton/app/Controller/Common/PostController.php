@@ -113,6 +113,20 @@ class PostController extends AbstractController
         return $this->success($result);
     }
 
+    public function otherUserPostList()
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30',
+            'userId' => 'integer|required|exists:user,user_id',
+        ]);
+        $pageIndex = $this->request->param('pageIndex');
+        $pageSize = $this->request->param('pageSize');
+        $userId = $this->request->param('userId');
+        $result = $this->service->getUserPostList($pageIndex, $pageSize, $userId);
+        return $this->success($result);
+    }
+
     public function favoriteList(AuthedRequest $request)
     {
         $this->validate([
@@ -122,6 +136,20 @@ class PostController extends AbstractController
         $pageIndex = $request->param('pageIndex');
         $pageSize = $request->param('pageSize');
         $result = $this->service->getUserFavoriteList($pageIndex, $pageSize);
+        return $this->success($result);
+    }
+
+    public function otherUserFavoriteList()
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30',
+            'userId' => 'integer|required|exists:user,user_id',
+        ]);
+        $pageIndex = $this->request->param('pageIndex');
+        $pageSize = $this->request->param('pageSize');
+        $userId = $this->request->param('userId');
+        $result = $this->service->getUserFavoriteList($pageIndex, $pageSize, $userId);
         return $this->success($result);
     }
 

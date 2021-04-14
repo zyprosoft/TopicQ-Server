@@ -252,10 +252,13 @@ class PostService extends BaseService
         return ['total'=>$total, 'list'=>$list];
     }
 
-    public function getUserPostList(int $pageIndex, int $pageSize)
+    public function getUserPostList(int $pageIndex, int $pageSize, int $userId = null)
     {
+        if(!isset($userId)) {
+            $userId = $this->userId();
+        }
         $list = Post::query()->select($this->listRows)
-            ->where('owner_id', $this->userId())
+            ->where('owner_id', $userId)
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->orderByDesc('sort_index')
@@ -272,7 +275,7 @@ class PostService extends BaseService
             }
             return $post;
         });
-        $total = Post::query()->where('owner_id', $this->userId())
+        $total = Post::query()->where('owner_id', $userId)
                               ->count();
         return ['total'=>$total, 'list'=>$list];
     }
@@ -330,9 +333,12 @@ class PostService extends BaseService
         return $this->success();
     }
 
-    public function getUserFavoriteList(int $pageIndex, int $pageSize)
+    public function getUserFavoriteList(int $pageIndex, int $pageSize, int $userId = null)
     {
-        $list = UserFavorite::query()->where('user_id', $this->userId())
+        if (!isset($userId)) {
+            $userId = $this->userId();
+        }
+        $list = UserFavorite::query()->where('user_id', $userId)
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->latest()
@@ -347,7 +353,7 @@ class PostService extends BaseService
             }
             return $post;
         });
-        $total = UserFavorite::query()->where('user_id', $this->userId())
+        $total = UserFavorite::query()->where('user_id', $userId)
                                       ->count();
         return ['total'=>$total, 'list'=>$list];
     }

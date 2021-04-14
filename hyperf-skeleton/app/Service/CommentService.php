@@ -200,9 +200,12 @@ class CommentService extends BaseService
         }
     }
 
-    public function getUserCommentList(int $pageIndex, int $pageSize)
+    public function getUserCommentList(int $pageIndex, int $pageSize, int $userId = null)
     {
-        $list = Comment::query()->where('owner_id', $this->userId())
+        if (!isset($userId)) {
+            $userId = $this->userId();
+        }
+        $list = Comment::query()->where('owner_id', $userId)
             ->with(['post', 'parent_comment'])
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
@@ -215,7 +218,7 @@ class CommentService extends BaseService
         //是否点赞
         $this->addPraiseStatus($list);
 
-        $total = Comment::query()->where('owner_id', $this->userId())
+        $total = Comment::query()->where('owner_id', $userId)
             ->count();
         return ['list' => $list, 'total' => $total];
     }
