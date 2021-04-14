@@ -183,9 +183,6 @@ class PostService extends BaseService
             $post->is_favorite = 0;
         }
 
-        //增加阅读数
-        $this->push(new PostIncreaseReadJob($postId));
-
         return $post;
     }
 

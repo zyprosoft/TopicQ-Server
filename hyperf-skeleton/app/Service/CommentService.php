@@ -206,6 +206,7 @@ class CommentService extends BaseService
             ->with(['post', 'parent_comment'])
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
+            ->latest()
             ->get();
 
         //转换图片数组格式
