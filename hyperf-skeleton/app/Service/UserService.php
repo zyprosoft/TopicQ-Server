@@ -145,8 +145,11 @@ class UserService extends BaseService
     }
 
     public
-    function getUserInfo()
+    function getUserInfo(int $userId = null)
     {
+        if (isset($userId)) {
+            return User::findOrFail($userId);
+        }
         return User::findOrFail($this->userId());
     }
 

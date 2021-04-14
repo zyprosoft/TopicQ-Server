@@ -40,6 +40,16 @@ class UserController extends AbstractController
         return $this->success($result);
     }
 
+    public function getOtherUserInfo()
+    {
+        $this->validate([
+            'userId' => 'integer|required|exists:user,user_id',
+        ]);
+        $userId = $this->request->param('userId');
+        $result = $this->userService->getUserInfo($userId);
+        return $this->success($result);
+    }
+
     public function refreshToken()
     {
         $result = $this->userService->refreshToken($this->request->getToken());
