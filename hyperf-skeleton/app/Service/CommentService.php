@@ -83,11 +83,12 @@ class CommentService extends BaseService
         return $this->success();
     }
 
-    public function getList(int $postId, int $pageIndex, int $pageSize, int $sortType, int $postOwnerId = null)
+    public function getList(int $postId, int $pageIndex, int $pageSize, int $sortType)
     {
         if($sortType == Constants::COMMENT_SORT_TYPE_ONLY_POST_OWNER) {
+            $post = Post::findOrFail($postId);
             $list = Comment::query()->where('post_id', $postId)
-                ->where('owner_id', $postOwnerId)
+                ->where('owner_id', $post->owner_id)
                 ->with(['parent_comment'])
                 ->offset($pageIndex * $pageSize)
                 ->limit($pageSize)
