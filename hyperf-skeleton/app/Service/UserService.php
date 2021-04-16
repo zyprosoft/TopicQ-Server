@@ -187,8 +187,10 @@ class UserService extends BaseService
         $phoneNumber = $result['purePhoneNumber'];
         $user->mobile = $phoneNumber;
         if($user->first_edit_done == Constants::STATUS_WAIT) {
-            $user->nickname = '新用户'.Carbon::now()->timestamp;
             $registerUserInfo = env('register_user_info');
+            $nicknameList = $registerUserInfo['nickname_list'];
+            $randNicknameIndex = rand(0,count($nicknameList)-1);
+            $user->nickname = $nicknameList[$randNicknameIndex].rand(0,9);
             $avatarList = $registerUserInfo['avatar_list'];
             $backgroundList = $registerUserInfo['background_list'];
             $randAvatarIndex = rand(0,count($avatarList)-1);
