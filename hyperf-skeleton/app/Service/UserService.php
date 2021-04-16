@@ -140,6 +140,7 @@ class UserService extends BaseService
         $user->wx_country = $userInfo['country'];
         $user->wx_province = $userInfo['province'];
         $user->last_login = Carbon::now();
+        $user->first_edit_done = Constants::STATUS_DONE;
         $user->saveOrFail();
         return $this->success($user);
     }
@@ -171,6 +172,7 @@ class UserService extends BaseService
         if (isset($userInfo['background'])) {
             $user->background = $userInfo['background'];
         }
+        $user->first_edit_done = Constants::STATUS_DONE;
         $user->saveOrFail();
         return $this->success();
     }
@@ -184,6 +186,16 @@ class UserService extends BaseService
         $result = $app->encryptor->decryptData($user->wx_token, $iv, $encryptData);
         $phoneNumber = $result['purePhoneNumber'];
         $user->mobile = $phoneNumber;
+        if($user->first_edit_done == Constants::STATUS_WAIT) {
+            $user->nickname = '新用户'.Carbon::now()->timestamp;
+            $registerUserInfo = env('register_user_info');
+            $avatarList = $registerUserInfo['avatar_list'];
+            $backgroundList = $registerUserInfo['background_list'];
+            $randAvatarIndex = rand(0,count($avatarList)-1);
+            $user->avatar = $avatarList[$randAvatarIndex];
+            $randBackIndex = rand(0,count($backgroundList)-1);
+            $user->background = $backgroundList[$randBackIndex];
+        }
         $user->saveOrFail();
         return $user;
     }
