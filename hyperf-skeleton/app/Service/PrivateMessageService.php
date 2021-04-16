@@ -5,15 +5,18 @@ namespace App\Service;
 
 
 use App\Constants\Constants;
+use App\Constants\ErrorCode;
 use App\Model\Conversation;
 use App\Model\PrivateMessage;
 use Hyperf\DbConnection\Db;
+use ZYProSoft\Exception\HyperfCommonException;
 
 class PrivateMessageService extends BaseService
 {
     public function create(int $toUserId, string $content = null, string $image = null)
     {
-        Db::transaction(function () use ($toUserId, $content, $image) {
+        $message = null;
+        Db::transaction(function () use ($toUserId, $content, $image, &$message) {
 
             $message = new PrivateMessage();
             $message->receive_id = $toUserId;
@@ -63,7 +66,14 @@ class PrivateMessageService extends BaseService
 
         });
 
-        return $this->success();
+        if (!$message instanceof PrivateMessage) {
+            throw new HyperfCommonException(ErrorCode::SERVER_ERROR);
+        }
+
+        //获取完整数据
+        $message = PrivateMessage::findOrFail($message->message_id);
+
+        return $this->success($message);
     }
 
     public function getConversationList(int $pageIndex, int $pageSize)
