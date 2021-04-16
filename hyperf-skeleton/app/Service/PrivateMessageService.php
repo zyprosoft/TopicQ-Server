@@ -88,8 +88,12 @@ class PrivateMessageService extends BaseService
 
     public function getList(int $toUserId, int $pageIndex, int $pageSize)
     {
-        $list = PrivateMessage::query()->where('from_id', $this->userId())
-                                      ->where('receive_id', $toUserId)
+        $userIds = [
+            $this->userId(),
+            $toUserId,
+        ];
+        $list = PrivateMessage::query()->whereIn('from_id', $userIds)
+                                      ->whereIn('receive_id', $userIds)
                                       ->latest()
                                       ->offset($pageIndex * $pageSize)
                                       ->limit($pageSize)
