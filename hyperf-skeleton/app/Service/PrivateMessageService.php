@@ -8,6 +8,7 @@ use App\Constants\Constants;
 use App\Constants\ErrorCode;
 use App\Model\Conversation;
 use App\Model\PrivateMessage;
+use Carbon\Carbon;
 use Hyperf\DbConnection\Db;
 use ZYProSoft\Exception\HyperfCommonException;
 
@@ -39,8 +40,10 @@ class PrivateMessageService extends BaseService
                 $conversation->to_user_id = $toUserId;
                 if (isset($image)) {
                     $conversation->last_message = '[图片]';
+                    $conversation->last_message_time = Carbon::now()->toDateTimeString();
                 }else{
                     $conversation->last_message = $message->content;
+                    $conversation->last_message_time = Carbon::now()->toDateTimeString();
                 }
                 $conversation->saveOrFail();
             }
@@ -55,15 +58,16 @@ class PrivateMessageService extends BaseService
                 $toUserConversation->to_user_id = $this->userId();
                 if (isset($image)) {
                     $toUserConversation->last_message = '[图片]';
+                    $toUserConversation->last_message_time = Carbon::now()->toDateTimeString();
                 }else{
                     $toUserConversation->last_message = $message->content;
+                    $toUserConversation->last_message_time = Carbon::now()->toDateTimeString();
                 }
                 $toUserConversation->unread_count = 1;
                 $toUserConversation->saveOrFail();
             }else{
                 $toUserConversation->increment('unread_count');
             }
-
         });
 
         if (!$message instanceof PrivateMessage) {
