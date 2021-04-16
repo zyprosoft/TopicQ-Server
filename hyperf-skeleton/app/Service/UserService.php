@@ -187,7 +187,7 @@ class UserService extends BaseService
         $phoneNumber = $result['purePhoneNumber'];
         $user->mobile = $phoneNumber;
         if($user->first_edit_done == Constants::STATUS_WAIT) {
-            $registerUserInfo = env('register_user_info');
+            $registerUserInfo = config('register_user_info');
             $nicknameList = $registerUserInfo['nickname_list'];
             $randNicknameIndex = rand(0,count($nicknameList)-1);
             $user->nickname = $nicknameList[$randNicknameIndex].rand(0,9);

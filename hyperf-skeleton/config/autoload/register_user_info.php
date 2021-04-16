@@ -4,8 +4,7 @@ return [
         'https://static.weshop.lulinggushi.com/1615030380059'
     ],
     'background_list'=>[
-        'https://static.weshop.lulinggushi.com/1618554060632',
-        ''
+        'https://static.weshop.lulinggushi.com/1618554060632'
     ],
     'nickname_list'=>[
         '森旅迷了鹿',
