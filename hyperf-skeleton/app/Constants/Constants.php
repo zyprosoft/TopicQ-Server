@@ -38,6 +38,11 @@ class Constants
     const COMMENT_SORT_TYPE_PRAISE_COUNT = 3;
 
     /**
+     * 只看博主
+     */
+    const COMMENT_SORT_TYPE_ONLY_POST_OWNER = 4;
+
+    /**
      * 帖子列表排序方式，最近发表
      */
     const POST_SORT_TYPE_LATEST = 2;

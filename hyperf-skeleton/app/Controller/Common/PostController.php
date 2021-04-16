@@ -25,7 +25,7 @@ class PostController extends AbstractController
     public function create(AuthedRequest $request)
     {
         $this->validate([
-            'title' => 'string|required|min:1|max:32|sensitive',
+            'title' => 'string|required|min:1|max:40|sensitive',
             'content' => 'string|required|min:10|max:5000|sensitive',
             'imageList' => 'array|min:1|max:4',
             'link' => 'string|min:1|max:500',

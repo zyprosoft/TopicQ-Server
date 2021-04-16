@@ -85,18 +85,27 @@ class CommentService extends BaseService
 
     public function getList(int $postId, int $pageIndex, int $pageSize, int $sortType)
     {
-        $map = [
-            Constants::COMMENT_SORT_TYPE_LATEST => 'created_at',
-            Constants::COMMENT_SORT_TYPE_REPLY_COUNT => 'reply_count',
-            Constants::COMMENT_SORT_TYPE_PRAISE_COUNT => 'praise_count'
-        ];
-        $order = $map[$sortType];
-        $list = Comment::query()->where('post_id', $postId)
-            ->orderByDesc($order)
-            ->with(['parent_comment'])
-            ->offset($pageIndex * $pageSize)
-            ->limit($pageSize)
-            ->get();
+        if($sortType == Constants::COMMENT_SORT_TYPE_ONLY_POST_OWNER) {
+            $list = Comment::query()->where('post_id', $postId)
+                ->where('owner_id','=','post_owner_id')
+                ->with(['parent_comment'])
+                ->offset($pageIndex * $pageSize)
+                ->limit($pageSize)
+                ->get();
+        }else{
+            $map = [
+                Constants::COMMENT_SORT_TYPE_LATEST => 'created_at',
+                Constants::COMMENT_SORT_TYPE_REPLY_COUNT => 'reply_count',
+                Constants::COMMENT_SORT_TYPE_PRAISE_COUNT => 'praise_count',
+            ];
+            $order = $map[$sortType];
+            $list = Comment::query()->where('post_id', $postId)
+                ->orderByDesc($order)
+                ->with(['parent_comment'])
+                ->offset($pageIndex * $pageSize)
+                ->limit($pageSize)
+                ->get();
+        }
 
         //转换图片数组格式
         $this->changeImageList($list);
