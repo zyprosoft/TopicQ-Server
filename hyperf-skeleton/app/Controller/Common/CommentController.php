@@ -69,7 +69,7 @@ class CommentController extends AbstractController
             'postId' => 'integer|required|min:1|exists:post,post_id',
             'pageIndex' => 'integer|required|min:0',
             'pageSize' => 'integer|required|min:10|max:30',
-            'type' => 'integer|required|in:1,2,3',
+            'type' => 'integer|required|in:1,2,3,4',
         ]);
         $pageIndex = $this->request->param('pageIndex');
         $pageSize = $this->request->param('pageSize');
