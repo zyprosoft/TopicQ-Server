@@ -101,7 +101,7 @@ class PrivateMessageService extends BaseService
         $total = PrivateMessage::query()->where('from_id', $this->userId())
             ->where('receive_id', $toUserId)
             ->count();
-        $idList = $list->pluck('message_id');
+        $idList = $list->where('read_status',Constants::STATUS_WAIT)->pluck('message_id');
         return ['total'=>$total, 'list'=>$list, 'id_list'=>$idList];
     }
 
