@@ -38,15 +38,15 @@ class PrivateMessageService extends BaseService
                 $conversation = new Conversation();
                 $conversation->owner_id = $this->userId();
                 $conversation->to_user_id = $toUserId;
-                if (isset($image)) {
-                    $conversation->last_message = '[图片]';
-                    $conversation->last_message_time = Carbon::now()->toDateTimeString();
-                }else{
-                    $conversation->last_message = $message->content;
-                    $conversation->last_message_time = Carbon::now()->toDateTimeString();
-                }
-                $conversation->saveOrFail();
             }
+            if (isset($image)) {
+                $conversation->last_message = '[图片]';
+                $conversation->last_message_time = Carbon::now()->toDateTimeString();
+            }else{
+                $conversation->last_message = $message->content;
+                $conversation->last_message_time = Carbon::now()->toDateTimeString();
+            }
+            $conversation->saveOrFail();
 
             //接收者会话创建
             $toUserConversation = Conversation::query()->where('owner_id', $toUserId)
@@ -56,18 +56,18 @@ class PrivateMessageService extends BaseService
                 $toUserConversation = new Conversation();
                 $toUserConversation->owner_id = $toUserId;
                 $toUserConversation->to_user_id = $this->userId();
-                if (isset($image)) {
-                    $toUserConversation->last_message = '[图片]';
-                    $toUserConversation->last_message_time = Carbon::now()->toDateTimeString();
-                }else{
-                    $toUserConversation->last_message = $message->content;
-                    $toUserConversation->last_message_time = Carbon::now()->toDateTimeString();
-                }
                 $toUserConversation->unread_count = 1;
-                $toUserConversation->saveOrFail();
             }else{
-                $toUserConversation->increment('unread_count');
+                $toUserConversation->unread_count +=1;
             }
+            if (isset($image)) {
+                $toUserConversation->last_message = '[图片]';
+                $toUserConversation->last_message_time = Carbon::now()->toDateTimeString();
+            }else{
+                $toUserConversation->last_message = $message->content;
+                $toUserConversation->last_message_time = Carbon::now()->toDateTimeString();
+            }
+            $toUserConversation->saveOrFail();
         });
 
         if (!$message instanceof PrivateMessage) {
