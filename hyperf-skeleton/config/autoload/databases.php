@@ -39,7 +39,7 @@ return [
         'commands' => [
             'gen:model' => [
                 'path' => 'app/Model',
-                'force_casts' => true,
+                'force_casts' => false,
                 'inheritance' => 'Model',
                 'with_comments' => true,
                 'uses' => '',
