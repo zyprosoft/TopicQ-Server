@@ -185,6 +185,6 @@ class UserService extends BaseService
         $phoneNumber = $result['purePhoneNumber'];
         $user->mobile = $phoneNumber;
         $user->saveOrFail();
-        return $result;
+        return $user;
     }
 }

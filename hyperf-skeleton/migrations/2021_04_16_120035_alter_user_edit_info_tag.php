@@ -11,8 +11,9 @@ class AlterUserEditInfoTag extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('user', function (Blueprint $table) {
             //
+            $table->tinyInteger('first_edit_done')->default(0)->comment('第一次编辑资料是否完成0:未完成1:已完成');
         });
     }
 
@@ -21,8 +22,9 @@ class AlterUserEditInfoTag extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('user', function (Blueprint $table) {
             //
+            $table->removeColumn('first_edit_done');
         });
     }
 }
