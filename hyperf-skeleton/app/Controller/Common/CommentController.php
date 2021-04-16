@@ -70,12 +70,14 @@ class CommentController extends AbstractController
             'pageIndex' => 'integer|required|min:0',
             'pageSize' => 'integer|required|min:10|max:30',
             'type' => 'integer|required|in:1,2,3,4',
+            'postOwnerId' => 'integer|exists:user,user_id|required_if:type,4'
         ]);
         $pageIndex = $this->request->param('pageIndex');
         $pageSize = $this->request->param('pageSize');
         $type = $this->request->param('type');
         $postId = $this->request->param('postId');
-        $result = $this->service->getList($postId, $pageIndex, $pageSize, $type);
+        $postOwnerId = $this->request->param('postOwnerId');
+        $result = $this->service->getList($postId, $pageIndex, $pageSize, $type, $postOwnerId);
         return $this->success($result);
     }
 
