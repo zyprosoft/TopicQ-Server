@@ -116,13 +116,13 @@ class PrivateMessageService extends BaseService
             PrivateMessage::query()->whereIn('message_id', $idList)
                 ->where('receive_id', $this->userId())
                 ->where('from_id', $fromUserId)
-                ->where('is_read',Constants::STATUS_WAIT)
-                ->update(['is_read'=>Constants::STATUS_DONE]);
+                ->where('read_status',Constants::STATUS_WAIT)
+                ->update(['read_status'=>Constants::STATUS_DONE]);
 
             //更新会话未读数
             $unreadCount = PrivateMessage::query()->where('receive_id', $this->userId())
                 ->where('from_id', $fromUserId)
-                ->where('is_read',Constants::STATUS_WAIT)
+                ->where('read_status',Constants::STATUS_WAIT)
                 ->count();
 
             Conversation::query()->where('owner_id', $this->userId())
