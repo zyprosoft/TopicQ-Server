@@ -31,11 +31,11 @@ class UserUnreadCountJob extends Job
         $user = User::findOrFail($this->userId);
 
         //统计回复未看的数量
-        $total = Comment::query()->select(['comment.comment_id','owner_id'])
+        $total = Comment::query()->select(['comment.comment_id','owner_id','user_id'])
                                  ->leftJoin('user_comment_read','comment_id','=','comment_id')
                                  ->where('owner_id', $this->userId)
                                  ->orWhere('post_owner_id', $this->userId)
-                                 ->whereNull('owner_id')
+                                 ->whereNull('user_id')
                                  ->count();
         $user->unread_comment_count = $total;
 

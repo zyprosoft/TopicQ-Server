@@ -98,4 +98,10 @@ class UserController extends AbstractController
         $result = $this->userService->decryptPhoneNumber($iv,$encryptData);
         return $this->success($result);
     }
+
+    public function unreadCountInfo(AuthedRequest $request)
+    {
+        $result = $this->userService->unreadCountInfo();
+        return $this->success($result);
+    }
 }

@@ -6,6 +6,8 @@ namespace App\Service;
 
 use App\Constants\Constants;
 use App\Constants\ErrorCode;
+use App\Model\Comment;
+use App\Model\PrivateMessage;
 use App\Model\TokenHistory;
 use App\Model\User;
 use Carbon\Carbon;
@@ -200,5 +202,24 @@ class UserService extends BaseService
         }
         $user->saveOrFail();
         return $user;
+    }
+
+    public function unreadCountInfo()
+    {
+        //统计回复未看的数量
+        $unreadReply = Comment::query()->select(['comment.comment_id','owner_id','user_id'])
+            ->leftJoin('user_comment_read','comment_id','=','comment_id')
+            ->where('owner_id', $this->userId())
+            ->orWhere('post_owner_id', $this->userId())
+            ->whereNull('user_id')
+            ->count();
+        //统计私信未看的数量
+        $unreadMessage = PrivateMessage::query()->where('receive_id', $this->userId())
+                                                ->where('read_status',Constants::STATUS_WAIT)
+                                                ->count();
+        return [
+            'reply_count' => $unreadReply,
+            'message_count' => $unreadMessage
+        ];
     }
 }
