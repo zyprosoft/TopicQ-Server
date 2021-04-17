@@ -10,6 +10,7 @@ use App\Model\Comment;
 use App\Model\Post;
 use App\Model\ReportComment;
 use App\Model\UserCommentPraise;
+use App\Model\UserCommentRead;
 use Hyperf\Database\Model\Collection;
 use Hyperf\DbConnection\Db;
 use ZYProSoft\Exception\HyperfCommonException;
@@ -321,8 +322,19 @@ class CommentService extends BaseService
         //是否点赞
         $this->addPraiseStatus($list);
         $total = Comment::query()->where('parent_comment_owner_id', $this->userId())->count();
+        //找出未读的Id列表
         $idList = $list->pluck('comment_id');
-        return ['total' => $total, 'list' => $list, 'id_list' => $idList];
+        $readStatusList = UserCommentRead::query()->whereIn('comment_id', $idList)
+                                                  ->where('user_id', $this->userId())
+                                                  ->get()
+                                                  ->keyBy('comment_id');
+        $unreadIds = [];
+        $idList->map(function (int $commentId) use (&$unreadIds, $readStatusList){
+           if (!isset($readStatusList[$commentId])) {
+               $unreadIds[] = $commentId;
+           }
+        });
+        return ['total' => $total, 'list' => $list, 'id_list' => $unreadIds];
     }
 
     public function reportComment(int $commentId, string $content)
