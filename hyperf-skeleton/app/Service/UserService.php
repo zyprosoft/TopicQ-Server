@@ -211,7 +211,7 @@ class UserService extends BaseService
             ->leftJoin('user_comment_read','comment.comment_id','=','user_comment_read.comment_id')
             ->where('parent_comment_owner_id', $this->userId())
             ->orWhere('post_owner_id', $this->userId())
-            ->whereNull('user_id')
+            ->whereNull('user_comment_read.comment_id')
             ->count();
         //统计私信未看的数量
         $unreadMessage = PrivateMessage::query()->where('receive_id', $this->userId())
