@@ -209,6 +209,7 @@ class UserService extends BaseService
         //统计回复未看的数量
         $unreadReply = Comment::query()->select(['comment.comment_id','owner_id','user_id'])
             ->leftJoin('user_comment_read','comment.comment_id','=','user_comment_read.comment_id')
+            ->where('user_comment_read.user_id', $this->userId())
             ->where('parent_comment_owner_id', $this->userId())
             ->orWhere('post_owner_id', $this->userId())
             ->whereNull('user_comment_read.comment_id')
