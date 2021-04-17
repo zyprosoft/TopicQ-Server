@@ -321,19 +321,24 @@ class CommentService extends BaseService
         $this->changeImageList($list);
         //是否点赞
         $this->addPraiseStatus($list);
-        $total = Comment::query()->where('parent_comment_owner_id', $this->userId())->count();
+        $total = Comment::query()->where('parent_comment_owner_id', $this->userId())
+            ->orWhere('post_owner_id', $this->userId())
+            ->count();
         //找出未读的Id列表
         $idList = $list->pluck('comment_id');
-        $readStatusList = UserCommentRead::query()->whereIn('comment_id', $idList)
-                                                  ->where('user_id', $this->userId())
-                                                  ->get()
-                                                  ->keyBy('comment_id');
         $unreadIds = [];
-        $idList->map(function (int $commentId) use (&$unreadIds, $readStatusList){
-           if (!isset($readStatusList[$commentId])) {
-               $unreadIds[] = $commentId;
-           }
-        });
+        if(!empty($idList)) {
+            $readStatusList = UserCommentRead::query()->whereIn('comment_id', $idList)
+                ->where('user_id', $this->userId())
+                ->get()
+                ->keyBy('comment_id');
+            $idList->map(function (int $commentId) use (&$unreadIds, $readStatusList){
+                if (!isset($readStatusList[$commentId])) {
+                    $unreadIds[] = $commentId;
+                }
+            });
+        }
+
         return ['total' => $total, 'list' => $list, 'id_list' => $unreadIds];
     }
 
