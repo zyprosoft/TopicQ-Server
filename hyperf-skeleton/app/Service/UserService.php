@@ -10,8 +10,11 @@ use App\Model\Comment;
 use App\Model\PrivateMessage;
 use App\Model\TokenHistory;
 use App\Model\User;
+use App\Model\UserCommentRead;
 use Carbon\Carbon;
 use EasyWeChat\Factory;
+use Hyperf\Database\Query\JoinClause;
+use Hyperf\DbConnection\Db;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Facade\Auth;
 use ZYProSoft\Log\Log;
@@ -207,26 +210,17 @@ class UserService extends BaseService
     public function unreadCountInfo()
     {
         //统计回复未看的数量
-        $unreadReply = Comment::query()->select(['comment.comment_id','owner_id','user_id'])
-            ->leftJoin('user_comment_read','comment.comment_id','=','user_comment_read.comment_id')
-            ->where('user_id', $this->userId())
-            ->where('parent_comment_owner_id', $this->userId())
-            ->whereNull('user_comment_read.comment_id')
-            ->count();
-        //统计作为帖主未读评论数量
-        $unreadComment = Comment::query()->select(['comment.comment_id','owner_id','user_id'])
-            ->leftJoin('user_comment_read','comment.comment_id','=','user_comment_read.comment_id')
-            ->where('user_id', $this->userId())
-            ->where('post_owner_id', $this->userId())
-            ->whereNull('user_comment_read.comment_id')
-            ->count();
+        $unreadReply = Db::table('comment')->join('user_read_comment',function (JoinClause $join){
+            $join->on('comment.post_owner_id','=','user_read_comment.user_id')
+                ->orOn('comment.parent_comment_owner_id','=','user_read_comment.user_id');
+        })->whereNull('user_read_comment.comment_id')->count();
 
         //统计私信未看的数量
         $unreadMessage = PrivateMessage::query()->where('receive_id', $this->userId())
                                                 ->where('read_status',Constants::STATUS_WAIT)
                                                 ->count();
         return [
-            'reply_count' => $unreadReply+$unreadComment,
+            'reply_count' => $unreadReply,
             'message_count' => $unreadMessage
         ];
     }
