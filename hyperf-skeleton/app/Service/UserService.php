@@ -213,7 +213,10 @@ class UserService extends BaseService
         $unreadReply = Db::table('comment')->leftJoin('user_comment_read',function (JoinClause $join){
             $join->on('comment.post_owner_id','=','user_comment_read.user_id')
                 ->orOn('comment.parent_comment_owner_id','=','user_comment_read.user_id');
-        })->whereNull('user_comment_read.comment_id')->count();
+        })->where('comment.post_owner_id', $this->userId())
+            ->orWhere('comment.parent_comment_owner_id', $this->userId())
+            ->whereNull('user_comment_read.comment_id')
+            ->count();
 
         //统计私信未看的数量
         $unreadMessage = PrivateMessage::query()->where('receive_id', $this->userId())
