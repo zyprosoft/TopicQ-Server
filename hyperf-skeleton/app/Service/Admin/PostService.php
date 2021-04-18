@@ -35,7 +35,7 @@ class PostService extends BaseService
         $list = ReportPost::query()->where('audit_status',Constants::STATUS_WAIT)
             ->where(function (Builder $query) use ($lastReportId) {
                 if(isset($lastReportId)) {
-                    $query->where('id','>',$lastReportId);
+                    $query->where('id','<',$lastReportId);
                 }
             })->offset($pageIndex * $pageSize)
             ->limit($pageSize)
