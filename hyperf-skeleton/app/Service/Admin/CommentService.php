@@ -22,7 +22,8 @@ class CommentService extends BaseService
             }
         })->offset($pageIndex * $pageSize)
             ->limit($pageSize)
-            ->latest();
+            ->latest()
+            ->get();
         $total = ReportComment::query()->where('audit_status',Constants::STATUS_WAIT)->count();
         return ['list'=>$list, 'total'=>$total];
     }

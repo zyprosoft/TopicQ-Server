@@ -24,7 +24,8 @@ class PostService extends BaseService
                              })
                              ->latest()
                              ->offset($pageIndex * $pageSize)
-                             ->limit($pageSize);
+                             ->limit($pageSize)
+                             ->get();
         $total = Post::query()->where('audit_status',Constants::STATUS_WAIT)->count();
 
         return ['total'=>$total, 'list'=>$list];
@@ -39,7 +40,8 @@ class PostService extends BaseService
                 }
             })->offset($pageIndex * $pageSize)
             ->limit($pageSize)
-            ->latest();
+            ->latest()
+            ->get();
         $total = ReportPost::query()->where('audit_status',Constants::STATUS_WAIT)->count();
         return ['list'=>$list, 'total'=>$total];
     }
