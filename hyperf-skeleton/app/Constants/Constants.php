@@ -57,6 +57,8 @@ class Constants
      */
     const POST_SORT_TYPE_LATEST_REPLY = 3;
 
+    const STATUS_INVALIDATE = -1;
+
     const STATUS_WAIT = 0;
 
     const STATUS_DONE = 1;
