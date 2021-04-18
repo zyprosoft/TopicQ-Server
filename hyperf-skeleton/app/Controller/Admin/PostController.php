@@ -49,6 +49,36 @@ class PostController extends AbstractController
         return $this->success($result);
     }
 
+    public function getPostReportList(AppAdminRequest $request)
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30',
+            'reportId' => 'integer|exists:report_post,id'
+        ]);
+        $pageIndex = $request->param('pageIndex');
+        $pageSize = $request->param('pageSize');
+        $reportId = $request->param('reportId');
+        $result = $this->service->getPostReportList($pageIndex, $pageSize, $reportId);
+        return $this->success($result);
+    }
+
+    public function auditReport(AppAdminRequest $request)
+    {
+        $this->validate([
+            'reportId' => 'integer|required|exists:report_post,id',
+            'postId' => 'integer|required|exists:post,post_id',
+            'status' => 'integer|required|in:-1,1',
+            'note' => 'string|min:1|max:64'
+        ]);
+        $postId = $request->param('postId');
+        $status = $request->param('status');
+        $note = $request->param('note');
+        $reportId = $request->param('reportId');
+        $result = $this->service->auditReport($reportId, $postId, $status, $note);
+        return $this->success($result);
+    }
+
     public function recommend(AppAdminRequest $request)
     {
         $this->validate([
