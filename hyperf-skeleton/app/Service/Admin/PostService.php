@@ -106,18 +106,18 @@ class PostService extends BaseService
         return $this->success();
     }
 
-    public function recommend(int $postId)
+    public function recommend(int $postId, int $status)
     {
-        $this->postUpdate($postId,'is_recommend',1);
+        $this->postUpdate($postId,'is_recommend',$status);
     }
 
-    public function sortUp(int $postId)
+    public function sortUp(int $postId, int $status)
     {
-        $this->postUpdate($postId,'sort_index',1);
+        $this->postUpdate($postId,'sort_index',$status);
     }
 
-    public function hot(int $postId)
+    public function hot(int $postId, int $status)
     {
-        $this->postUpdate($postId,'is_hot',1);
+        $this->postUpdate($postId,'is_hot',$status);
     }
 }

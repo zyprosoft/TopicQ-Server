@@ -83,9 +83,11 @@ class PostController extends AbstractController
     {
         $this->validate([
             'postId' => 'integer|required|exists:post,post_id',
+            'status' => 'integer|required|in:0,1'
         ]);
         $postId = $request->param('postId');
-        $result = $this->service->recommend($postId);
+        $status = $request->param('status');
+        $result = $this->service->recommend($postId, $status);
         return $this->success($result);
     }
 
@@ -93,9 +95,11 @@ class PostController extends AbstractController
     {
         $this->validate([
             'postId' => 'integer|required|exists:post,post_id',
+            'status' => 'integer|required|in:0,1'
         ]);
         $postId = $request->param('postId');
-        $result = $this->service->hot($postId);
+        $status = $request->param('status');
+        $result = $this->service->hot($postId, $status);
         return $this->success($result);
     }
 
@@ -103,9 +107,11 @@ class PostController extends AbstractController
     {
         $this->validate([
             'postId' => 'integer|required|exists:post,post_id',
+            'status' => 'integer|required|in:0,1'
         ]);
         $postId = $request->param('postId');
-        $result = $this->service->sortUp($postId);
+        $status = $request->param('status');
+        $result = $this->service->sortUp($postId, $status);
         return $this->success($result);
     }
 }
