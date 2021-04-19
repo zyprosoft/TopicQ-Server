@@ -34,4 +34,19 @@ class ReportComment extends Model
      * @var array
      */
     protected $casts = ['id' => 'integer', 'comment_id' => 'integer', 'owner_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'audit_status' => 'integer'];
+
+    protected $with = [
+        'author',
+        'comment'
+    ];
+
+    public function author()
+    {
+        return $this->hasOne(User::class,'user_id','owner_id');
+    }
+
+    public function comment()
+    {
+        return $this->hasOne(Comment::class,'comment_id','comment_id');
+    }
 }

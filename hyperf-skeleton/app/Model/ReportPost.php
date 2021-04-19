@@ -34,4 +34,19 @@ class ReportPost extends Model
      * @var array
      */
     protected $casts = ['id' => 'integer', 'post_id' => 'integer', 'owner_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'audit_status' => 'integer'];
+
+    protected $with = [
+        'author',
+        'post'
+    ];
+
+    public function author()
+    {
+        return $this->hasOne(User::class,'user_id','owner_id');
+    }
+
+    public function post()
+    {
+        return $this->hasOne(Post::class,'post_id','post_id');
+    }
 }
