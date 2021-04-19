@@ -3,12 +3,12 @@
 
 namespace App\Service\Admin;
 use App\Constants\Constants;
+use App\Job\AddNotificationJob;
 use App\Model\Post;
 use App\Model\ReportPost;
 use App\Service\BaseService;
 use Hyperf\Database\Model\Builder;
 use Hyperf\DbConnection\Db;
-use SebastianBergmann\CodeCoverage\Report\Xml\Report;
 use ZYProSoft\Constants\ErrorCode;
 use ZYProSoft\Exception\HyperfCommonException;
 
@@ -54,7 +54,7 @@ class PostService extends BaseService
         return $this->success();
     }
 
-    protected function innerAuditPost(int $postId, int $status, string $note = null)
+    protected function innerAuditPost(int $postId, int $status, string $note = null, bool $isReport = false)
     {
         $post = Post::query()->where('post_id', $postId)
             ->lockForUpdate()
@@ -70,6 +70,33 @@ class PostService extends BaseService
             $post->audit_note = $note;
         }
         $post->saveOrFail();
+
+        //被举报，但是被管理员认定没有违规，无需发送任何通知
+        if($isReport && $status == Constants::STATUS_DONE) {
+            return $this->success();
+        }
+
+        if($isReport && $status == Constants::STATUS_INVALIDATE) {
+            $title = '帖子被举报处理结果';
+            $content = "您的帖子《{$post->title}》被举报，经管理员审核情况属实，现已将帖子拉黑，请规范您的社区行为，若多次被举报并属实将进入社区永久黑名单。";
+            $levelLabel = '警告';
+            $level = Constants::MESSAGE_LEVEL_BLOCK;
+        }else{
+            if($status == Constants::STATUS_DONE) {
+                $level = Constants::MESSAGE_LEVEL_NORMAL;
+                $levelLabel = '通知';
+            }else{
+                $levelLabel = '警告';
+                $level = Constants::MESSAGE_LEVEL_BLOCK;
+            }
+            $title = '帖子审核结果';
+            $statusLabel = $status==Constants::STATUS_DONE?'通过':'拒绝';
+            $content = "您的帖子《{$post->title}》已被管理员审核".$statusLabel;
+        }
+        $notification = new AddNotificationJob($post->owner_id,$title,$content,false,$level);
+        $notification->levelLabel = $levelLabel;
+        $this->push($notification);
+
         return $this->success();
     }
 
@@ -82,7 +109,7 @@ class PostService extends BaseService
                 $report->audit_note = $note;
             }
             $report->saveOrFail();
-            $this->innerAuditPost($postId, $status, $note);
+            $this->innerAuditPost($postId, $status, $note, true);
         });
         return $this->success();
     }
@@ -99,8 +126,25 @@ class PostService extends BaseService
             if ($post->audit_status != Constants::STATUS_WAIT) {
                 return $this->success();
             }
-            $post->$column = $value;
+            $post[$column] = $value;
             $post->saveOrFail();
+
+            //增加一条异步通知
+            $map = [
+                'is_recommend_0' => '取消推荐',
+                'is_recommend_1' => '设为推荐',
+                'is_hot_1' => '设为热帖',
+                'is_hot_0' => '取消热帖',
+                'sort_index_0' => '取消置顶',
+                'sort_index_1' => '设置置顶'
+            ];
+            $key = $column.'_'.$value;
+            $title = '帖子被'.$map[$key];
+            $content = "您的帖子《{$post->title}》已被管理员".$map[$key];
+            $notification = new AddNotificationJob($post->owner_id,$title,$content,false,Constants::MESSAGE_LEVEL_WARN);
+            $notification->levelLabel = "通知";
+            $this->push($notification);
+
             return $this->success();
         });
         return $this->success();

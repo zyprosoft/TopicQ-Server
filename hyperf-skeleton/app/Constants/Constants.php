@@ -62,4 +62,9 @@ class Constants
     const STATUS_WAIT = 0;
 
     const STATUS_DONE = 1;
+
+    const MESSAGE_LEVEL_NORMAL = 0;
+    const MESSAGE_LEVEL_WARN = 1;
+    const MESSAGE_LEVEL_ERROR = 2;
+    const MESSAGE_LEVEL_BLOCK = 3;
 }

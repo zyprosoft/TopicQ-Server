@@ -11,8 +11,9 @@ class AlterNotificationAddKeyInfoTable extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('notification', function (Blueprint $table) {
             //
+            $table->text('key_info')->nullable()->comment('存储一些json格式的附加信息');
         });
     }
 
@@ -21,8 +22,9 @@ class AlterNotificationAddKeyInfoTable extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('notification', function (Blueprint $table) {
             //
+            $table->removeColumn('key_info');
         });
     }
 }
