@@ -46,7 +46,8 @@ class CommentController extends AbstractController
         $commentId = $request->param('commentId');
         $status = $request->param('status');
         $note = $request->param('note');
-        $result = $this->service->audit($commentId, $status, $note);
+        $reportId = $request->param('reportId');
+        $result = $this->service->audit($reportId, $commentId, $status, $note);
         return $this->success($result);
     }
 }
