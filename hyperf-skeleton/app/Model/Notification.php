@@ -15,6 +15,7 @@ namespace App\Model;
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
  * @property string $deleted_at 
+ * @property string $key_info 存储一些json格式的附加信息
  */
 class Notification extends Model
 {
