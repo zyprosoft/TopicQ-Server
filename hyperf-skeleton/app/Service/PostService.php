@@ -223,14 +223,28 @@ class PostService extends BaseService
             Constants::POST_SORT_TYPE_REPLY_COUNT => 'comment_count'
         ];
         $order = $map[$sortType];
-        $list = Post::query()->select($this->listRows)
-            ->orderByDesc($order)
-            ->orderByDesc('sort_index')
-            ->orderByDesc('is_hot')
-            ->orderByDesc('is_recommend')
-            ->offset($pageIndex * $pageSize)
-            ->limit($pageSize)
-            ->get();
+        switch ($sortType) {
+            case Constants::POST_SORT_TYPE_LATEST:
+            case Constants::POST_SORT_TYPE_LATEST_REPLY:
+                $list = Post::query()->select($this->listRows)
+                    ->orderByDesc($order)
+                    ->orderByDesc('sort_index')
+                    ->offset($pageIndex * $pageSize)
+                    ->limit($pageSize)
+                    ->get();
+                break;
+            case Constants::POST_SORT_TYPE_REPLY_COUNT:
+                $list = Post::query()->select($this->listRows)
+                    ->orderByDesc($order)
+                    ->orderByDesc('sort_index')
+                    ->orderByDesc('is_hot')
+                    ->orderByDesc('is_recommend')
+                    ->offset($pageIndex * $pageSize)
+                    ->limit($pageSize)
+                    ->get();
+                break;
+        }
+
         //增加是否阅读的状态
         $postIds = $list->pluck('post_id');
         $userReadList = [];
