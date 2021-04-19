@@ -137,9 +137,6 @@ class PostService extends BaseService
             if (!$post instanceof Post) {
                 throw new HyperfCommonException(ErrorCode::RECORD_NOT_EXIST);
             }
-            if ($post->audit_status != Constants::STATUS_WAIT) {
-                return $this->success();
-            }
             data_set($post,$column,$value);
             $post->saveOrFail();
 
