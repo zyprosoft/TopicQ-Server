@@ -19,7 +19,7 @@ class CreateNotificationTable extends Migration
             $table->tinyInteger('is_top')->default(0)->comment('是否置顶0:否1:是');
             $table->tinyInteger('is_read')->default(0)->comment('是否已读0:否1:是');
             $table->tinyInteger('level')->default(0)->comment('级别0:普通1:提醒2:错误:3:严重4:拉黑');
-            $table->string('level_label',2)->after('level')->nullable()->comment('自定义通知标签名');
+            $table->string('level_label',2)->nullable()->comment('自定义通知标签名');
 
             $table->index('user_id');
             $table->timestamps();
