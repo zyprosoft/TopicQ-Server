@@ -22,6 +22,8 @@ class AddNotificationJob extends Job
 
     public string $levelLabel;
 
+    public string $keyInfo;
+
     public function __construct(int $userId, string $title, string $content, $isTop = false, int $level = Constants::MESSAGE_LEVEL_NORMAL, string $levelLabel = '')
     {
         $this->userId = $userId;

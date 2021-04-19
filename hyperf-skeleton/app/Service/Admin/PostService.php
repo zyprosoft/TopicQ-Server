@@ -81,6 +81,7 @@ class PostService extends BaseService
             $content = "您的帖子《{$post->title}》被举报，经管理员审核情况属实，现已将帖子拉黑，请规范您的社区行为，若多次被举报并属实将进入社区永久黑名单。";
             $levelLabel = '警告';
             $level = Constants::MESSAGE_LEVEL_BLOCK;
+
         }else{
             if($status == Constants::STATUS_DONE) {
                 $level = Constants::MESSAGE_LEVEL_NORMAL;
@@ -95,6 +96,7 @@ class PostService extends BaseService
         }
         $notification = new AddNotificationJob($post->owner_id,$title,$content,false,$level);
         $notification->levelLabel = $levelLabel;
+        $notification->keyInfo = json_encode(['post_id'=>$postId]);
         $this->push($notification);
 
         return $this->success();
@@ -110,6 +112,18 @@ class PostService extends BaseService
             }
             $report->saveOrFail();
             $this->innerAuditPost($postId, $status, $note, true);
+
+            if ($status == Constants::STATUS_INVALIDATE) {
+                $post = Post::find($postId);
+                //给举报者发一条信息
+                $title = "评论举报成功";
+                $content = "您举报的帖子《{$post->title}》经管理员审核查阅，已被认定违反社区参与规范，现已将该帖子删除屏蔽，感谢您对社区内容净化的大力支持~";
+                $notification = new AddNotificationJob($report->owner_id,$title,$content,false,Constants::MESSAGE_LEVEL_NORMAL);
+                $notification->levelLabel = "通知";
+                $notification->keyInfo = json_encode(['post_id'=>$postId]);
+                $this->push($notification);
+            }
+
         });
         return $this->success();
     }
@@ -143,6 +157,7 @@ class PostService extends BaseService
             $content = "您的帖子《{$post->title}》已被管理员".$map[$key];
             $notification = new AddNotificationJob($post->owner_id,$title,$content,false,Constants::MESSAGE_LEVEL_WARN);
             $notification->levelLabel = "通知";
+            $notification->keyInfo = json_encode(['post_id'=>$postId]);
             $this->push($notification);
 
             return $this->success();

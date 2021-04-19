@@ -9,7 +9,7 @@ use App\Model\Notification;
 
 class NotificationService extends BaseService
 {
-    public function create(int $userId, string $title, string $content, bool $isTop = false, int $level = Constants::MESSAGE_LEVEL_NORMAL, string $levelLabel = null)
+    public function create(int $userId, string $title, string $content, bool $isTop = false, int $level = Constants::MESSAGE_LEVEL_NORMAL, string $levelLabel = null, string $keyInfo=null)
     {
         $message = new Notification();
         $message->user_id = $userId;
@@ -19,6 +19,9 @@ class NotificationService extends BaseService
         $message->level = $level;
         if (!empty($levelLabel)) {
             $message->level_label = $levelLabel;
+        }
+        if (!empty($keyInfo)) {
+            $message->key_info = $keyInfo;
         }
 
         $message->saveOrFail();
