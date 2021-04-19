@@ -28,7 +28,7 @@ class CommentService extends BaseService
         return ['list'=>$list, 'total'=>$total];
     }
 
-    public function audit(int $reportId, int $commentId, int $status, string $note = '审核默认备注')
+    public function audit(int $reportId, int $commentId, int $status, string $note = null)
     {
         Db::transaction(function () use ($reportId, $commentId, $status, $note){
            $comment = Comment::query()->where('comment_id', $commentId)
