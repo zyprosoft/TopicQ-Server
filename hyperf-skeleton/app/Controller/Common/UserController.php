@@ -61,7 +61,7 @@ class UserController extends AbstractController
         $this->validate(
             [
                 'avatar' => 'string|min:1|max:500',
-                'nickname' => 'string|min:1|max:20',
+                'nickname' => 'string|min:1|max:20|sensitive',
                 'background' => 'string|min:1|max:500',
                 'area' => 'string|min:1|max:64',
                 'country' => 'string|min:1|max:64'
