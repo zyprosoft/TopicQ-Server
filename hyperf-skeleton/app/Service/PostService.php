@@ -15,6 +15,7 @@ use App\Model\UserRead;
 use App\Model\UserVote;
 use App\Model\Vote;
 use App\Model\VoteItem;
+use Hyperf\Database\Model\Builder;
 use Hyperf\DbConnection\Db;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Facade\Auth;
@@ -277,6 +278,11 @@ class PostService extends BaseService
             $userId = $this->userId();
         }
         $list = Post::query()->select($this->listRows)
+            ->where(function (Builder $query) use ($userId) {
+                if(isset($userId)) {
+                    $query->where('audit_status',Constants::STATUS_DONE);
+                }
+            })
             ->where('owner_id', $userId)
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
@@ -358,6 +364,11 @@ class PostService extends BaseService
             $userId = $this->userId();
         }
         $list = UserFavorite::query()->where('user_id', $userId)
+            ->where(function (Builder $query) use ($userId) {
+                if(isset($userId)) {
+                    $query->where('audit_status',Constants::STATUS_DONE);
+                }
+            })
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->latest()
