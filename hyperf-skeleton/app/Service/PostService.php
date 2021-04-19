@@ -242,6 +242,7 @@ class PostService extends BaseService
                     ->orderByDesc($order)
                     ->orderByDesc('is_recommend')
                     ->orderByDesc('is_hot')
+                    ->latest()
                     ->offset($pageIndex * $pageSize)
                     ->limit($pageSize)
                     ->get();
