@@ -40,7 +40,7 @@ class AddNotificationJob extends Job
     public function handle()
     {
         $service = ApplicationContext::getContainer()->get(NotificationService::class);
-        $service->create($this->userId, $this->title, $this->content, $this->isTop, $this->level, $this->levelLabel);
+        $service->create($this->userId, $this->title, $this->content, $this->isTop, $this->level, $this->levelLabel, $this->keyInfo);
         Log::info("用户($this->userId) 增加消息($this->content)通知异步执行完成!");
     }
 }
