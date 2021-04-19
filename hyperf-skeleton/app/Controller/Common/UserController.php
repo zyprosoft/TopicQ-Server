@@ -7,7 +7,6 @@ use Hyperf\HttpServer\Annotation\AutoController;
 use Hyperf\Di\Annotation\Inject;
 use App\Service\UserService;
 use ZYProSoft\Http\AuthedRequest;
-use App\Service\NotificationService;
 
 /**
  * @AutoController (prefix="/common/user")
@@ -21,12 +20,6 @@ class UserController extends AbstractController
      * @var UserService
      */
     private UserService $userService;
-
-    /**
-     * @Inject
-     * @var NotificationService
-     */
-    private NotificationService $notificationService;
 
     /**
      * 小程序微信登陆
@@ -109,18 +102,6 @@ class UserController extends AbstractController
     public function unreadCountInfo(AuthedRequest $request)
     {
         $result = $this->userService->unreadCountInfo();
-        return $this->success($result);
-    }
-
-    public function notificationList(AuthedRequest $request)
-    {
-        $this->validate([
-            'pageIndex' => 'integer|required|min:0',
-            'pageSize' => 'integer|required|min:10|max:30',
-        ]);
-        $pageIndex = $request->param('pageIndex');
-        $pageSize = $request->param('pageSize');
-        $result = $this->notificationService->list($pageIndex, $pageSize);
         return $this->success($result);
     }
 }
