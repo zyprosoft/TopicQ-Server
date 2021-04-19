@@ -140,7 +140,7 @@ class PostService extends BaseService
             if ($post->audit_status != Constants::STATUS_WAIT) {
                 return $this->success();
             }
-            $post[$column] = $value;
+            data_set($post,$column,$value);
             $post->saveOrFail();
 
             //增加一条异步通知
