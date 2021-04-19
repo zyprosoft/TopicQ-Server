@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Constants\Constants;
 use App\Constants\ErrorCode;
 use App\Model\Comment;
+use App\Model\Notification;
 use App\Model\PrivateMessage;
 use App\Model\TokenHistory;
 use App\Model\User;
@@ -217,9 +218,16 @@ class UserService extends BaseService
         $unreadMessage = PrivateMessage::query()->where('receive_id', $this->userId())
                                                 ->where('read_status',Constants::STATUS_WAIT)
                                                 ->count();
+
+        //统计未读提醒数量
+        $notificationCount = Notification::query()->where('user_id', $this->userId())
+                                                  ->where('is_read',Constants::STATUS_WAIT)
+                                                  ->count();
+
         return [
             'reply_count' => count($unreadList),
-            'message_count' => $unreadMessage
+            'message_count' => $unreadMessage,
+            'notification_count' => $notificationCount
         ];
     }
 }
