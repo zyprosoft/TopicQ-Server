@@ -168,9 +168,10 @@ class UserService extends BaseService
         $userUpdate = null;
         $needAddAudit = false;
         $imageList = [];
+        $needImageAudit = false;
 
         //创建用户资料更新的ID
-        Db::transaction(function() use ($userInfo, &$userUpdate, &$needAddAudit, &$imageList) {
+        Db::transaction(function() use ($userInfo, &$userUpdate, &$needAddAudit, &$imageList, &$needImageAudit) {
             $user = User::findOrFail($this->userId());
             $userUpdate = new UserUpdate();
             $userUpdate->user_id = $this->userId();
@@ -196,14 +197,26 @@ class UserService extends BaseService
 
             //检查图片是否审核通过
             if(!empty($imageList)) {
-                $needAddAudit = $this->auditImageOrFail($imageList);
+                $needImageAudit = $this->auditImageOrFail($imageList);
             }
 
-            $user->user_update_id = $userUpdate->update_id;
-            $user->saveOrFail();
+            //只有更新了对应的信息才需要这个更新资料的ID
+            if(isset($userUpdate->nickname) || $needImageAudit) {
+                $user->user_update_id = $userUpdate->update_id;
+                $needAddAudit = true;
+            }else{
+                Log::info("本次无需设置信息更新ID给用户($user->user_id)");
+            }
 
+            $user->saveOrFail();
         });
 
+        //不需要审核，直接返回成功
+        if(!$needAddAudit) {
+            return $this->success();
+        }
+
+        //需要审核，查看资料更新ID是否存在
         if (!isset($userUpdate)) {
             throw new HyperfCommonException(ErrorCode::SERVER_ERROR);
         }
@@ -211,14 +224,12 @@ class UserService extends BaseService
         //不能在事务里面触发异步任务，否则还没拿到新记录的ID，导致事情都是没法完成的
 
         //加入待审核图片列表
-        if($needAddAudit && !empty($imageList)) {
+        if($needImageAudit && !empty($imageList)) {
             $this->addAuditImage($imageList,$userUpdate->update_id, Constants::IMAGE_AUDIT_OWNER_USER);
         }
 
         //加入用户资料异步审核任务,是否需要审核取决于更新的内容是不是包含图片和昵称
-        if(isset($userUpdate->nickname) || isset($userUpdate->avatar) || isset($userUpdate->background)) {
-            $this->push(new UserUpdateMachineAuditJob($userUpdate->update_id));
-        }
+        $this->push(new UserUpdateMachineAuditJob($userUpdate->update_id));
 
         return $this->success();
     }
