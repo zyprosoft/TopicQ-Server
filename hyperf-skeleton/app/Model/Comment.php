@@ -21,6 +21,8 @@ namespace App\Model;
  * @property string $deleted_at 
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
+ * @property int $machine_audit 机器审核结果:0待审核-1不通过1通过2建议人工复核
+ * @property int $manager_audit 管理员审核结果:0待审核-1不通过1通过
  * @property-read \App\Model\User $author 
  * @property-read \App\Model\Comment $parent_comment 
  * @property-read \App\Model\Post $post 
@@ -45,7 +47,7 @@ class Comment extends Model
      *
      * @var array
      */
-    protected $casts = ['comment_id' => 'integer', 'post_id' => 'integer', 'parent_comment_id' => 'integer', 'parent_comment_owner_id' => 'integer', 'owner_id' => 'integer', 'praise_count' => 'integer', 'reply_count' => 'integer', 'audit_status' => 'integer', 'is_hot' => 'integer', 'post_owner_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected $casts = ['comment_id' => 'integer', 'post_id' => 'integer', 'parent_comment_id' => 'integer', 'parent_comment_owner_id' => 'integer', 'owner_id' => 'integer', 'praise_count' => 'integer', 'reply_count' => 'integer', 'audit_status' => 'integer', 'is_hot' => 'integer', 'post_owner_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'machine_audit' => 'integer', 'manager_audit' => 'integer'];
     protected $with = ['author'];
     public function parent_comment()
     {

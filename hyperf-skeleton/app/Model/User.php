@@ -47,6 +47,7 @@ use App\Constants\Constants;
  * @property string $country 乡镇
  * @property string $background 个人主页背景
  * @property int $first_edit_done 第一次编辑资料是否完成0:未完成1:已完成
+ * @property int $user_update_id 用户更新资料的ID,临时资料ID,审核完成后置空
  */
 class User extends Model implements Authenticatable
 {
@@ -68,7 +69,7 @@ class User extends Model implements Authenticatable
      *
      * @var array
      */
-    protected $casts = ['user_id' => 'integer', 'role_id' => 'integer', 'status' => 'integer', 'sex' => 'integer', 'login_type' => 'integer', 'wx_gender' => 'integer', 'unread_comment_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'first_edit_done' => 'integer', 'wx_token_expire' => 'datetime', 'last_login' => 'datetime', 'token_expire' => 'datetime'];
+    protected $casts = ['user_id' => 'integer', 'role_id' => 'integer', 'status' => 'integer', 'sex' => 'integer', 'login_type' => 'integer', 'wx_gender' => 'integer', 'unread_comment_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'first_edit_done' => 'integer', 'wx_token_expire' => 'datetime', 'last_login' => 'datetime', 'token_expire' => 'datetime', 'user_update_id' => 'integer'];
     protected $hidden = ['password', 'wx_token', 'wx_openid', 'token', 'wx_token_expire', 'token_expire'];
     public function getId()
     {
