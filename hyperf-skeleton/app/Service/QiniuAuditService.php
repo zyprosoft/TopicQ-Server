@@ -434,6 +434,7 @@ class QiniuAuditService extends BaseService
         if(data_get($result,'errcode') == self::WX_SECURITY_CHECK_FAIL) {
             $post->title_audit = Constants::STATUS_INVALIDATE;
             $post->machine_audit = Constants::STATUS_INVALIDATE;
+            $post->audit_status = Constants::STATUS_INVALIDATE;
             $post->saveOrFail();
             //发送一条审核不通过的通知
             $this->addPostAuditFailNotification($postId,$post->title,$post->owner_id,'标题包含敏感信息');
@@ -446,6 +447,7 @@ class QiniuAuditService extends BaseService
         if(data_get($result,'errcode') == self::WX_SECURITY_CHECK_FAIL) {
             $post->content_audit = Constants::STATUS_INVALIDATE;
             $post->machine_audit = Constants::STATUS_INVALIDATE;
+            $post->audit_status = Constants::STATUS_INVALIDATE;
             $post->saveOrFail();
             //发送一条审核不通过的通知
             $this->addPostAuditFailNotification($postId,$post->title,$post->owner_id,'主题内容包含敏感信息');
