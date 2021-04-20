@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Constants\Constants;
 use App\Constants\ErrorCode;
+use App\Job\CommentMachineAuditJob;
 use App\Model\Comment;
 use App\Model\Post;
 use App\Model\ReportComment;
@@ -58,6 +59,9 @@ class CommentService extends BaseService
         $this->queueService->updatePost($postId);
 
         $this->queueService->updateUser($post->owner_id);
+
+        //加入评论异步审核任务
+        $this->push(new CommentMachineAuditJob($comment->comment_id));
 
         return $comment;
     }
@@ -192,6 +196,9 @@ class CommentService extends BaseService
         
         //更新评论信息
         $this->queueService->updateComment($parentComment->comment_id);
+
+        //加入评论异步审核任务
+        $this->push(new CommentMachineAuditJob($comment->comment_id));
 
         return $this->success($comment);
     }

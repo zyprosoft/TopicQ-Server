@@ -2,7 +2,9 @@
 
 
 namespace App\Job;
+use App\Service\QiniuAuditService;
 use Hyperf\AsyncQueue\Job;
+use Hyperf\Utils\ApplicationContext;
 
 class PostMachineAuditJob extends Job
 {
@@ -18,6 +20,7 @@ class PostMachineAuditJob extends Job
      */
     public function handle()
     {
-        //文本审核
+        $service = ApplicationContext::getContainer()->get(QiniuAuditService::class);
+        $service->auditPost($this->postId);
     }
 }

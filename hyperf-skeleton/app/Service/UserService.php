@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Constants\Constants;
 use App\Constants\ErrorCode;
+use App\Job\UserUpdateMachineAuditJob;
 use App\Model\Comment;
 use App\Model\Notification;
 use App\Model\PrivateMessage;
@@ -200,6 +201,10 @@ class UserService extends BaseService
 
             $user->user_update_id = $userUpdate->update_id;
             $user->saveOrFail();
+
+            //加入用户资料异步审核任务
+            $this->push(new UserUpdateMachineAuditJob($userUpdate->update_id));
+
         });
 
         return $this->success();

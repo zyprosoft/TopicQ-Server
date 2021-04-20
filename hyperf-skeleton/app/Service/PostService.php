@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Constants\Constants;
 use App\Constants\ErrorCode;
 use App\Job\PostIncreaseReadJob;
+use App\Job\PostMachineAuditJob;
 use App\Job\UniqueJobQueue;
 use App\Model\Post;
 use App\Model\ReportPost;
@@ -107,6 +108,9 @@ class PostService extends BaseService
         if (!isset($post)) {
             throw new HyperfCommonException(ErrorCode::SERVER_ERROR,'发布帖子失败');
         }
+
+        //加入帖子异步审核任务
+        $this->push(new PostMachineAuditJob($post->post_id));
 
         return $this->success($post);
     }

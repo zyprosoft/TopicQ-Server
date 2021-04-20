@@ -83,4 +83,13 @@ class User extends Model implements Authenticatable
     {
         return $this->role_id == Constants::USER_ROLE_ADMIN;
     }
+
+    /**
+     * 用户提交更新资料的临时信息
+     * @return \Hyperf\Database\Model\Relations\HasOne
+     */
+    public function update_info()
+    {
+        return $this->hasOne(UserUpdate::class,'update_id','use_update_id');
+    }
 }
