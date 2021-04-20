@@ -251,7 +251,7 @@ class QiniuAuditService extends BaseService
         if(!$result) {
             return;
         }
-        
+
         //用户资料已经完全通过审核
         Db::transaction(function () use (&$userUpdate, $updateId) {
             $user = User::query()->where('user_id', $userUpdate->user_id)
