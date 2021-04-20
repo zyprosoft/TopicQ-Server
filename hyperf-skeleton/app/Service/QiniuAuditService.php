@@ -247,8 +247,11 @@ class QiniuAuditService extends BaseService
         }
 
         //用户资料可以逐个图片更新,不需要整体都通过
-        $this->checkImageAllAuditFinish($updateId, Constants::IMAGE_AUDIT_OWNER_USER);
-
+        $result = $this->checkImageAllAuditFinish($updateId, Constants::IMAGE_AUDIT_OWNER_USER);
+        if(!$result) {
+            return;
+        }
+        
         //用户资料已经完全通过审核
         Db::transaction(function () use (&$userUpdate, $updateId) {
             $user = User::query()->where('user_id', $userUpdate->user_id)

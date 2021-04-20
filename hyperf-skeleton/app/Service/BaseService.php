@@ -45,6 +45,7 @@ class BaseService extends AbstractService
                     if(!$result) {
                         Log::error("图片ID($imageID)绑定实体($ownerId)($ownerType)信息失败");
                     }
+                    Log::info("图片ID($imageID)绑定实体($ownerId)($ownerType)信息成功");
                 });
             }else{
                 $auditStatusList = $auditList->keyBy('image_id');
@@ -61,6 +62,8 @@ class BaseService extends AbstractService
                     $result = $audit->save();
                     if(!$result) {
                         Log::error("图片ID($imageID)绑定实体($ownerId)($ownerType)信息失败");
+                    }else{
+                        Log::info("图片ID($imageID)绑定实体($ownerId)($ownerType)信息成功");
                     }
                 });
             }
