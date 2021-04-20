@@ -37,6 +37,7 @@ class UserService extends BaseService
 
         //用户是不是已经存在
         $user = User::query()->where('wx_openid', $openid)
+            ->with(['update_info'])
             ->first();
         if (!$user instanceof User) {
             $user = new User();
