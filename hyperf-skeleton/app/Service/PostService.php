@@ -288,12 +288,13 @@ class PostService extends BaseService
 
     public function getUserPostList(int $pageIndex, int $pageSize, int $userId = null)
     {
+        $isOther = isset($userId);
         if(!isset($userId)) {
             $userId = $this->userId();
         }
         $list = Post::query()->select($this->listRows)
-            ->where(function (Builder $query) use ($userId) {
-                if(isset($userId)) {
+            ->where(function (Builder $query) use ($isOther) {
+                if($isOther) {
                     $query->where('audit_status',Constants::STATUS_DONE);
                 }
             })
@@ -377,12 +378,10 @@ class PostService extends BaseService
         if (!isset($userId)) {
             $userId = $this->userId();
         }
-        $list = UserFavorite::query()->where('user_id', $userId)
-            ->where(function (Builder $query) use ($userId) {
-                if(isset($userId)) {
-                    $query->where('audit_status',Constants::STATUS_DONE);
-                }
-            })
+        $list = UserFavorite::query()
+            ->join('post','user_favorite.post_id','=','post.post_id')
+            ->where('user_id', $userId)
+            ->where('post.audit_status',Constants::STATUS_DONE)
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->latest()
