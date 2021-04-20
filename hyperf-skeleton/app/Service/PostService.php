@@ -139,12 +139,19 @@ class PostService extends BaseService
 
     public function update(int $postId, array $params)
     {
+        $post = null;
+        $needAddImageAudit = false;
         $post = $this->checkOwnOrFail($postId);
         if (isset($params['title'])) {
             $post->title = $params['title'];
         }
         if (isset($params['imageList'])) {
             $post->image_list = implode(';', $params['imageList']);
+            if (!empty($imageList)) {
+                $post->image_list = implode(';', $imageList);
+                //检测上传图片
+                $needAddImageAudit = $this->auditImageOrFail($imageList);
+            }
         }
         if (isset($params['link'])) {
             $post->link = $params['link'];
@@ -152,8 +159,21 @@ class PostService extends BaseService
         if (isset($params['content'])) {
             $post->content = $params['content'];
         }
+        $post->audit_status = 0;//恢复待审核
         $post->saveOrFail();
-        return $this->success();
+
+        //插入图片待审核信息
+        if (!empty($imageList) && $needAddImageAudit) {
+            $this->addAuditImage($imageList, $post->post_id, Constants::IMAGE_AUDIT_OWNER_POST);
+        }
+
+        //加入帖子异步审核任务
+        if ((isset($params['title'])) || isset($params['content']) || $needAddImageAudit)
+        {
+            $this->push(new PostMachineAuditJob($post->post_id));
+        }
+
+        return $this->success($post);
     }
 
     public function detail(int $postId)
