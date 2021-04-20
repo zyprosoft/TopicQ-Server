@@ -63,6 +63,14 @@ class Constants
 
     const STATUS_DONE = 1;
 
+    const STATUS_REVIEW = 2;
+
+    const IMAGE_AUDIT_OWNER_POST = 0;
+
+    const IMAGE_AUDIT_OWNER_COMMENT = 1;
+
+    const IMAGE_AUDIT_OWNER_USER = 2;
+
     const MESSAGE_LEVEL_NORMAL = 0;
     const MESSAGE_LEVEL_WARN = 1;
     const MESSAGE_LEVEL_ERROR = 2;
