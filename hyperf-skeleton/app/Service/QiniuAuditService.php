@@ -444,7 +444,7 @@ class QiniuAuditService extends BaseService
         //标题审核通过
         $post->title_audit = Constants::STATUS_DONE;
 
-            //内容审核
+        //内容审核
         $result = $app->content_security->checkText($post->content);
         //包含敏感信息
         if(data_get($result,'errcode') == self::WX_SECURITY_CHECK_FAIL) {
@@ -507,6 +507,8 @@ class QiniuAuditService extends BaseService
         }
         if(!isset($userUpdate->nickname)) {
             Log::info("用户资料更新($updateId)未更新昵称!");
+            //检查一下是不是已经处于完成审核状态
+            $this->checkUserUpdateAuditFinish($updateId);
             return;
         }
         //检查昵称是否通过审核
