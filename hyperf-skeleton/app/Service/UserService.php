@@ -198,6 +198,15 @@ class UserService extends BaseService
             //检查图片是否审核通过
             if(!empty($imageList)) {
                 $needImageAudit = $this->auditImageOrFail($imageList);
+            }else{
+                Log::info("图片无需再审核，直接更新到用户信息上");
+                //图片都是审核通过的，那么直接更新到对应用户信息就行
+                if (isset($userInfo['avatar'])) {
+                    $user->avatar = $userInfo['avatar'];
+                }
+                if (isset($userInfo['background'])) {
+                    $user->background = $userInfo['background'];
+                }
             }
 
             //只有更新了对应的信息才需要这个更新资料的ID
