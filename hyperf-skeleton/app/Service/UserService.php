@@ -165,15 +165,18 @@ class UserService extends BaseService
 
     public function updateUserInfo(array $userInfo)
     {
+        $userUpdate = null;
+        $needAddAudit = false;
+        $imageList = [];
+
         //创建用户资料更新的ID
-        Db::transaction(function() use ($userInfo) {
+        Db::transaction(function() use ($userInfo, &$userUpdate, &$needAddAudit, &$imageList) {
             $user = User::findOrFail($this->userId());
             $userUpdate = new UserUpdate();
             $userUpdate->user_id = $this->userId();
             if (isset($userInfo['nickname'])) {
                 $userUpdate->nickname = $userInfo['nickname'];
             }
-            $imageList = [];
             if (isset($userInfo['avatar'])) {
                 $userUpdate->avatar = $userInfo['avatar'];
                 $imageList[] = $userUpdate->avatar;
@@ -194,19 +197,26 @@ class UserService extends BaseService
             //检查图片是否审核通过
             if(!empty($imageList)) {
                 $needAddAudit = $this->auditImageOrFail($imageList);
-                //加入待审核图片列表
-                if($needAddAudit) {
-                    $this->addAuditImage($imageList,$userUpdate->update_id, Constants::IMAGE_AUDIT_OWNER_USER);
-                }
             }
 
             $user->user_update_id = $userUpdate->update_id;
             $user->saveOrFail();
 
-            //加入用户资料异步审核任务
-            $this->push(new UserUpdateMachineAuditJob($userUpdate->update_id));
-
         });
+
+        if (!isset($userUpdate)) {
+            throw new HyperfCommonException(ErrorCode::SERVER_ERROR);
+        }
+
+        //不能在事务里面触发异步任务，否则还没拿到新记录的ID，导致事情都是没法完成的
+
+        //加入待审核图片列表
+        if($needAddAudit && !empty($imageList)) {
+            $this->addAuditImage($imageList,$userUpdate->update_id, Constants::IMAGE_AUDIT_OWNER_USER);
+        }
+
+        //加入用户资料异步审核任务
+        $this->push(new UserUpdateMachineAuditJob($userUpdate->update_id));
 
         return $this->success();
     }
