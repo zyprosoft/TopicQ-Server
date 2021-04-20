@@ -223,6 +223,7 @@ class UserService extends BaseService
 
         //不需要审核，直接返回成功
         if(!$needAddAudit) {
+            Log::info("本次无需异步审核，直接返回!");
             return $this->success();
         }
 
