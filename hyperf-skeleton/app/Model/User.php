@@ -90,6 +90,6 @@ class User extends Model implements Authenticatable
      */
     public function update_info()
     {
-        return $this->hasOne(UserUpdate::class,'update_id','use_update_id');
+        return $this->hasOne(UserUpdate::class,'update_id','user_update_id');
     }
 }
