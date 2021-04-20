@@ -441,7 +441,10 @@ class QiniuAuditService extends BaseService
             return;
         }
 
-        //内容审核
+        //标题审核通过
+        $post->title_audit = Constants::STATUS_DONE;
+
+            //内容审核
         $result = $app->content_security->checkText($post->content);
         //包含敏感信息
         if(data_get($result,'errcode') == self::WX_SECURITY_CHECK_FAIL) {
@@ -453,6 +456,10 @@ class QiniuAuditService extends BaseService
             $this->addPostAuditFailNotification($postId,$post->title,$post->owner_id,'主题内容包含敏感信息');
             return;
         }
+
+        //内容审核通过
+        $post->content_audit = Constants::STATUS_DONE;
+        $post->saveOrFail();
 
         //审核都通过，检查一下帖子是不是全部审核完成
         $this->checkPostAuditFinish($postId);
@@ -470,6 +477,7 @@ class QiniuAuditService extends BaseService
         $result = $app->content_security->checkText($comment->content);
         if(data_get($result,'errcode') == self::WX_SECURITY_CHECK_FAIL) {
             $comment->machine_audit = Constants::STATUS_INVALIDATE;
+            $comment->content_audit = Constants::STATUS_INVALIDATE;
             $comment->audit_status = Constants::STATUS_INVALIDATE;
             $comment->saveOrFail();
             //发送一条审核不通过通知
@@ -483,6 +491,9 @@ class QiniuAuditService extends BaseService
             $this->push($notification);
             return;
         }
+        $comment->content_audit = Constants::STATUS_DONE;
+        $comment->saveOrFail();
+
         //审核通过，尝试确认帖子是不是完全审核完成
         $this->checkCommentAuditFinish($commentId);
     }
@@ -522,6 +533,8 @@ class QiniuAuditService extends BaseService
         $user = User::find($userUpdate->user_id);
         $user->nickname = $userUpdate->nickname;
         $user->saveOrFail();
+        $userUpdate->nickname_audit = Constants::STATUS_DONE;
+        $userUpdate->saveOrFail();
         Log::info("用户({$user->user_id})昵称更新成功,无需通知!");
     }
 }
