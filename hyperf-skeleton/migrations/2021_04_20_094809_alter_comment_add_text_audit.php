@@ -25,7 +25,7 @@ class AlterCommentAddTextAudit extends Migration
     {
         Schema::table('comment', function (Blueprint $table) {
             //
-            $table->removeColumn('text_audit');
+            $table->removeColumn('content_audit');
 
         });
     }

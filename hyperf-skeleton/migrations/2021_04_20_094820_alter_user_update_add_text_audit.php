@@ -24,7 +24,7 @@ class AlterUserUpdateAddTextAudit extends Migration
     {
         Schema::table('user_update', function (Blueprint $table) {
             //
-            $table->removeColumn('text_audit');
+            $table->removeColumn('nickname_audit');
         });
     }
 }

@@ -24,7 +24,7 @@ class AlterPostAddTextAudit extends Migration
     {
         Schema::table('post', function (Blueprint $table) {
             //
-            $table->removeColumn('text_audit');
+            $table->removeColumn('content_audit');
         });
     }
 }
