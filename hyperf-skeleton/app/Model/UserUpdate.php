@@ -13,6 +13,7 @@ namespace App\Model;
  * @property int $manager_audit 管理员审核结果:0待审核-1不通过1通过
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
+ * @property int $text_audit 0待审核1审核通过-1审核不通过
  */
 class UserUpdate extends Model
 {
@@ -33,5 +34,5 @@ class UserUpdate extends Model
      *
      * @var array
      */
-    protected $casts = ['update_id' => 'integer', 'user_id' => 'integer', 'machine_audit' => 'integer', 'manager_audit' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected $casts = ['update_id' => 'integer', 'user_id' => 'integer', 'machine_audit' => 'integer', 'manager_audit' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'text_audit' => 'integer'];
 }

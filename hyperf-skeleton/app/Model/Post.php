@@ -29,6 +29,7 @@ namespace App\Model;
  * @property int $join_user_count 参与用户数
  * @property int $machine_audit 机器审核结果:0待审核-1不通过1通过2建议人工复核
  * @property int $manager_audit 管理员审核结果:0待审核-1不通过1通过
+ * @property int $text_audit 0待审核1审核通过-1审核不通过
  * @property-read \App\Model\User $author 
  * @property-read \App\Model\Vote $vote 
  */
@@ -52,7 +53,7 @@ class Post extends Model
      *
      * @var array
      */
-    protected $casts = ['post_id' => 'integer', 'owner_id' => 'integer', 'vote_id' => 'integer', 'read_count' => 'integer', 'favorite_count' => 'integer', 'forward_count' => 'integer', 'comment_count' => 'integer', 'audit_status' => 'integer', 'is_hot' => 'integer', 'sort_index' => 'integer', 'is_recommend' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'join_user_count' => 'integer', 'machine_audit' => 'integer', 'manager_audit' => 'integer'];
+    protected $casts = ['post_id' => 'integer', 'owner_id' => 'integer', 'vote_id' => 'integer', 'read_count' => 'integer', 'favorite_count' => 'integer', 'forward_count' => 'integer', 'comment_count' => 'integer', 'audit_status' => 'integer', 'is_hot' => 'integer', 'sort_index' => 'integer', 'is_recommend' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'join_user_count' => 'integer', 'machine_audit' => 'integer', 'manager_audit' => 'integer', 'text_audit' => 'integer'];
     protected $with = ['author'];
     public function author()
     {
