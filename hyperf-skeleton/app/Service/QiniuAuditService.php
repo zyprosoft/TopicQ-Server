@@ -72,23 +72,30 @@ class QiniuAuditService extends BaseService
         Log::info("图片($imageID)审核结果:" . $suggestionNote);
 
         //创建一条图片审核结果
-        $imageAudit = ImageAudit::query()->where('image_id', $imageID)->first();
-        if (!$imageAudit instanceof ImageAudit) {
-            $imageAudit = new ImageAudit();
-            $imageAudit->image_id = $imageID;
-        }
-        //如果审核失败,发送一条提醒
-        $updateStatus = Constants::STATUS_DONE;
-        if(!$isAuditPass) {
-            $updateStatus = Constants::STATUS_INVALIDATE;
-        }else{
-            if($isReview) {
-                $updateStatus = Constants::STATUS_REVIEW;
+        $updateStatus = null;
+        Db::transaction(function () use ($isAuditPass,$isReview,$imageID,$suggestionNote,&$updateStatus){
+            $imageAudit = ImageAudit::query()->where('image_id', $imageID)->lockForUpdate()->first();
+            if (!$imageAudit instanceof ImageAudit) {
+                $imageAudit = new ImageAudit();
+                $imageAudit->image_id = $imageID;
             }
+            //如果审核失败,发送一条提醒
+            $updateStatus = Constants::STATUS_DONE;
+            if(!$isAuditPass) {
+                $updateStatus = Constants::STATUS_INVALIDATE;
+            }else{
+                if($isReview) {
+                    $updateStatus = Constants::STATUS_REVIEW;
+                }
+            }
+            $imageAudit->audit_status = $updateStatus;
+            $imageAudit->audit_note = $suggestionNote;
+            $imageAudit->saveOrFail();
+        });
+        if(!isset($updateStatus)) {
+            Log::error("图片($imageID)审核结果保存失败");
+            return;
         }
-        $imageAudit->audit_status = $updateStatus;
-        $imageAudit->audit_note = $suggestionNote;
-        $imageAudit->saveOrFail();
         Log::info("保存图片($imageID)审核结果($updateStatus)成功!");
         //如果有所有者，更新所有者审核信息
         if(isset($imageAudit->owner_id) && isset($imageAudit->owner_type)) {
