@@ -193,7 +193,7 @@ class QiniuAuditService extends BaseService
     protected function checkImageAllAuditFinish(int $ownerId, int $type)
     {
         $auditList = ImageAudit::query()->where('owner_id', $ownerId)
-            ->where('type', $type)
+            ->where('owner_type', $type)
             ->get();
         $map = [
             Constants::IMAGE_AUDIT_OWNER_POST => '帖子',
@@ -206,13 +206,13 @@ class QiniuAuditService extends BaseService
             return true;
         }
         //有图片，检查图片审核状态
-        $isAllValidate = null;
+        $isAllValidate = true;
         $auditList->map(function (ImageAudit $audit) use (&$isAllValidate) {
             if($audit->audit_status != Constants::STATUS_DONE) {
                 $isAllValidate = false;
             }
         });
-        if (!isset($isAllValidate)) {
+        if (!$isAllValidate) {
             Log::error("$name($ownerId)仍然有图片未通过审核，不可主动转为审核通过状态");
             return false;
         }
