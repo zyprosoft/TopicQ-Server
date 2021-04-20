@@ -209,7 +209,7 @@ class QiniuAuditService extends BaseService
         ];
         $name = $map[$type];
         if($auditList->isEmpty()) {
-            Log::info("$name($ownerId)没有包含图片");
+            Log::info("$name($ownerId)没有包含图片审核信息");
             return true;
         }
         //有图片，检查图片审核状态

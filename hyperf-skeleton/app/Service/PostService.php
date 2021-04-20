@@ -56,7 +56,8 @@ class PostService extends BaseService
     public function create(array $params)
     {
         $post = null;
-        Db::transaction(function () use ($params, &$post) {
+        $needAddImageAudit = false;
+        Db::transaction(function () use ($params, &$post, &$needAddImageAudit) {
             $title = $params['title'];
             $content = $params['content'];
             $link = data_get($params, 'link');
@@ -99,14 +100,15 @@ class PostService extends BaseService
                 $post->vote_id = $vote->vote_id;
             }
             $post->saveOrFail();
-            //插入图片待审核信息
-            if (!empty($imageList) && $needAddImageAudit) {
-                $this->addAuditImage($imageList, $post->post_id, Constants::IMAGE_AUDIT_OWNER_POST);
-            }
         });
 
         if (!isset($post)) {
             throw new HyperfCommonException(ErrorCode::SERVER_ERROR, '发布帖子失败');
+        }
+
+        //插入图片待审核信息
+        if (!empty($imageList) && $needAddImageAudit) {
+            $this->addAuditImage($imageList, $post->post_id, Constants::IMAGE_AUDIT_OWNER_POST);
         }
 
         //加入帖子异步审核任务

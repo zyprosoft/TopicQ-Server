@@ -16,6 +16,7 @@ use App\Constants\Constants;
 use App\Constants\ErrorCode;
 use App\Job\AddImageAuditJob;
 use App\Model\ImageAudit;
+use Hyperf\DbConnection\Db;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Log\Log;
 use ZYProSoft\Service\AbstractService;
@@ -24,8 +25,17 @@ class BaseService extends AbstractService
 {
     public function addAuditImage(array $imageList, int $ownerId, int $ownerType)
     {
-        $addImageAuditJob = new AddImageAuditJob($imageList,$ownerId,$ownerType,$this->userId());
-        $this->push($addImageAuditJob);
+        Db::transaction(function () use ($imageList,$ownerId,$ownerType) {
+            collect($imageList)->map(function (string $imageUrl) use ($ownerId,$ownerType) {
+                $imageID = collect(explode('/', $imageUrl))->last();
+                $audit = new ImageAudit();
+                $audit->image_id = $imageID;
+                $audit->owner_id = $ownerId;
+                $audit->owner_type = $ownerType;
+                $audit->user_id = $this->userId();
+                $audit->save();
+            });
+        });
     }
 
     protected function imageIdsFromUrlList(array $imageList)
