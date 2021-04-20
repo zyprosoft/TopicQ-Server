@@ -61,6 +61,28 @@ class QiniuAuditService extends BaseService
         }
     }
 
+    protected function checkPostAuditFinish(int $postId)
+    {
+        $post = Post::findOrFail($postId);
+
+        //检查帖子的所有图片是否都审核通过
+        $auditList = ImageAudit::query()->where('owner_id', $post->post_id)
+            ->where('type', Constants::IMAGE_AUDIT_OWNER_POST)
+            ->get();
+        $isAllValidate = null;
+        $auditList->map(function (ImageAudit $audit) use (&$isAllValidate) {
+            if($audit->audit_status != Constants::STATUS_DONE) {
+                $isAllValidate = false;
+            }
+        });
+        if (!isset($isAllValidate)) {
+            Log::error("帖子($postId)仍然有图片未通过审核，不可主动转为审核通过状态");
+        }
+
+        //检查内容审核结果
+
+    }
+
     /**
      * 根据具体场景处理图片审核结果
      * @param int $status
@@ -80,12 +102,8 @@ class QiniuAuditService extends BaseService
                     }
                     $post->saveOrFail();
 
-                    //检查帖子的所有图片是否都审核通过
-                    $auditList = ImageAudit::query()->where('owner_id', $post->post_id)
-                        ->where('type', Constants::IMAGE_AUDIT_OWNER_POST)
-                        ->get();
-                    $isAllValidate = true;
-                    
+
+
 
                     //帖子审核不通过的提醒
                     if($status == Constants::STATUS_INVALIDATE) {
