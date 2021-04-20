@@ -159,7 +159,7 @@ class UserService extends BaseService
         if (isset($userId)) {
             return User::findOrFail($userId);
         }
-        return User::findOrFail($this->userId());
+        return User::query()->where('user_id',$this->userId())->with(['update_info'])->firstOrFail();
     }
 
     public function updateUserInfo(array $userInfo)
