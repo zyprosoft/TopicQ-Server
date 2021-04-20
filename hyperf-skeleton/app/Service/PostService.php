@@ -57,6 +57,7 @@ class PostService extends BaseService
     {
         $post = null;
         $needAddImageAudit = false;
+        $needImageManagerAudit = false;
         Db::transaction(function () use ($params, &$post, &$needAddImageAudit) {
             $title = $params['title'];
             $content = $params['content'];
@@ -78,7 +79,7 @@ class PostService extends BaseService
                 if (!empty($imageList)) {
                     $post->image_list = implode(';', $imageList);
                     //检测上传图片
-                    $needAddImageAudit = $this->auditImageOrFail($imageList);
+                    $needAddImageAudit = $this->auditImageOrFail($imageList,$needImageManagerAudit);
                 }
             }
             if (isset($link)) {
@@ -99,6 +100,10 @@ class PostService extends BaseService
                 });
                 $post->vote_id = $vote->vote_id;
             }
+            //审核结果
+            if($needImageManagerAudit) {
+                $post->machine_audit = Constants::STATUS_REVIEW;
+            }
             $post->saveOrFail();
         });
 
@@ -106,13 +111,15 @@ class PostService extends BaseService
             throw new HyperfCommonException(ErrorCode::SERVER_ERROR, '发布帖子失败');
         }
 
-        //插入图片待审核信息
-        if (!empty($imageList) && $needAddImageAudit) {
-            $this->addAuditImage($imageList, $post->post_id, Constants::IMAGE_AUDIT_OWNER_POST);
+        //需要人工审核
+        if($needImageManagerAudit == false) {
+            //插入图片待审核信息
+            if (!empty($imageList) && $needAddImageAudit) {
+                $this->addAuditImage($imageList, $post->post_id, Constants::IMAGE_AUDIT_OWNER_POST);
+            }
+            //加入帖子异步审核任务
+            $this->push(new PostMachineAuditJob($post->post_id));
         }
-
-        //加入帖子异步审核任务
-        $this->push(new PostMachineAuditJob($post->post_id));
 
         return $this->success($post);
     }

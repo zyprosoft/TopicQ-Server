@@ -81,7 +81,7 @@ class BaseService extends AbstractService
         return $imageIds;
     }
 
-    public function auditImageOrFail(array $imageList)
+    public function auditImageOrFail(array $imageList,bool &$needManagerReview = false)
     {
         $imageIds = $this->imageIdsFromUrlList($imageList);
 
@@ -98,11 +98,17 @@ class BaseService extends AbstractService
             return true;
         }
 
-        $imageAuditList->map(function (ImageAudit $audit) {
-            $isInvalidate = $audit->audit_status == Constants::STATUS_INVALIDATE || $audit->audit_status == Constants::STATUS_REVIEW;
+        $imageAuditList->map(function (ImageAudit $audit) use (&$needManagerReview) {
+            $isInvalidate = $audit->audit_status == Constants::STATUS_INVALIDATE;
             if ($isInvalidate) {
                 Log::error("($audit->image_id)上传的图片未通过审核");
                 throw new HyperfCommonException(ErrorCode::IMAGE_AUDIT_INVALIDATE);
+            }
+            //需要转人工审核确认
+            if ($audit->audit_status == Constants::STATUS_REVIEW) {
+                Log::info('图片需要人工确认审核');
+                $needManagerReview = true;
+                return false;
             }
             Log::info("{$audit->image_id}图片审核结果为通过!");
         });
