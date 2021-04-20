@@ -59,22 +59,22 @@ class PostService extends BaseService
         Db::transaction(function () use ($params, &$post) {
             $title = $params['title'];
             $content = $params['content'];
-            $link = data_get($params,'link');
-            $imageList = data_get($params,'imageList');
-            $vote = data_get($params,'vote');
+            $link = data_get($params, 'link');
+            $imageList = data_get($params, 'imageList');
+            $vote = data_get($params, 'vote');
 
             $post = new Post();
             $post->owner_id = $this->userId();
             $post->title = $title;
             if (mb_strlen($content) < 32) {
                 $post->summary = $content;
-            }else{
+            } else {
                 $post->summary = mb_substr($content, 0, 32);
             }
             $post->content = $content;
             $needAddImageAudit = false;
             if (isset($imageList)) {
-                if(!empty($imageList)) {
+                if (!empty($imageList)) {
                     $post->image_list = implode(';', $imageList);
                     //检测上传图片
                     $needAddImageAudit = $this->auditImageOrFail($imageList);
@@ -90,7 +90,7 @@ class PostService extends BaseService
                 $vote = new Vote();
                 $vote->title = $subject;
                 $vote->saveOrFail();
-                $items->map(function (array $item) use ($vote){
+                $items->map(function (array $item) use ($vote) {
                     $voteItem = new VoteItem();
                     $voteItem->content = $item['content'];
                     $voteItem->vote_id = $vote->vote_id;
@@ -101,12 +101,12 @@ class PostService extends BaseService
             $post->saveOrFail();
             //插入图片待审核信息
             if (!empty($imageList) && $needAddImageAudit) {
-                $this->addAuditImage($imageList,$post->post_id,Constants::IMAGE_AUDIT_OWNER_POST);
+                $this->addAuditImage($imageList, $post->post_id, Constants::IMAGE_AUDIT_OWNER_POST);
             }
         });
 
         if (!isset($post)) {
-            throw new HyperfCommonException(ErrorCode::SERVER_ERROR,'发布帖子失败');
+            throw new HyperfCommonException(ErrorCode::SERVER_ERROR, '发布帖子失败');
         }
 
         //加入帖子异步审核任务
@@ -118,12 +118,12 @@ class PostService extends BaseService
     public function checkOwn(int $postId)
     {
         $post = Post::query()->where('post_id', $postId)
-                             ->where('owner_id', $this->userId())
-                             ->first();
+            ->where('owner_id', $this->userId())
+            ->first();
         if ($post instanceof Post) {
             return $post;
         }
-        return  false;
+        return false;
     }
 
     public function checkOwnOrFail(int $postId)
@@ -157,41 +157,41 @@ class PostService extends BaseService
     public function detail(int $postId)
     {
         $post = Post::query()->where('post_id', $postId)
-                             ->with(['vote'])
-                             ->first();
+            ->with(['vote'])
+            ->first();
         if (!$post instanceof Post) {
             throw new HyperfCommonException(ErrorCode::POST_NOT_EXIST);
         }
-        $post->image_list = explode(';',$post->image_list);
+        $post->image_list = explode(';', $post->image_list);
         if (Auth::isGuest() == false) {
             //投票状态
             $userVote = UserVote::query()->where('user_id', $this->userId())
-                                         ->where('post_id',$postId)
-                                         ->first();
+                ->where('post_id', $postId)
+                ->first();
             if ($userVote instanceof UserVote) {
                 $post->is_voted = 1;
-            }else{
+            } else {
                 $post->is_voted = 0;
             }
             //阅读状态
             $userRead = UserRead::query()->where('user_id', $this->userId())
-                ->where('post_id',$postId)
+                ->where('post_id', $postId)
                 ->first();
             if ($userRead instanceof UserRead) {
                 $post->is_read = 1;
-            }else{
+            } else {
                 $post->is_read = 0;
             }
             //收藏状态
             $userFavorite = UserFavorite::query()->where('user_id', $this->userId())
-                ->where('post_id',$postId)
+                ->where('post_id', $postId)
                 ->first();
             if ($userFavorite instanceof UserFavorite) {
                 $post->is_favorite = 1;
-            }else{
+            } else {
                 $post->is_favorite = 0;
             }
-        }else{
+        } else {
             $post->is_read = 0;
             $post->is_voted = 0;
             $post->is_favorite = 0;
@@ -206,12 +206,12 @@ class PostService extends BaseService
     public function vote(int $voteItemId, int $postId, int $voteId)
     {
         $userVote = UserVote::query()->where('post_id', $postId)
-                                    ->where('user_id', $this->userId())
-                                    ->first();
+            ->where('user_id', $this->userId())
+            ->first();
         if ($userVote instanceof UserVote) {
             throw new HyperfCommonException(ErrorCode::DO_NOT_REPEAT_ACTION);
         }
-        Db::transaction(function () use ($voteItemId, $postId, $voteId){
+        Db::transaction(function () use ($voteItemId, $postId, $voteId) {
             VoteItem::find($voteItemId)->increment('user_count');
             $userVote = new UserVote();
             $userVote->user_id = $this->userId();
@@ -226,7 +226,7 @@ class PostService extends BaseService
     public function voteDetail(int $voteId)
     {
         return Vote::query()->where('vote_id', $voteId)
-                             ->firstOrFail();
+            ->firstOrFail();
     }
 
     public function getList(int $sortType, int $pageIndex, int $pageSize)
@@ -241,7 +241,7 @@ class PostService extends BaseService
             case Constants::POST_SORT_TYPE_LATEST:
             case Constants::POST_SORT_TYPE_LATEST_REPLY:
                 $list = Post::query()->select($this->listRows)
-                    ->where('audit_status',Constants::STATUS_DONE)
+                    ->where('audit_status', Constants::STATUS_DONE)
                     ->orderByDesc('sort_index')
                     ->orderByDesc($order)
                     ->offset($pageIndex * $pageSize)
@@ -250,7 +250,7 @@ class PostService extends BaseService
                 break;
             case Constants::POST_SORT_TYPE_REPLY_COUNT:
                 $list = Post::query()->select($this->listRows)
-                    ->where('audit_status',Constants::STATUS_DONE)
+                    ->where('audit_status', Constants::STATUS_DONE)
                     ->orderByDesc('sort_index')
                     ->orderByDesc($order)
                     ->orderByDesc('is_recommend')
@@ -274,28 +274,28 @@ class PostService extends BaseService
 
         $list->map(function (Post $post) use ($userReadList) {
             if (!empty($post->avatar_list)) {
-                $post->avatar_list = explode(';',$post->avatar_list);
+                $post->avatar_list = explode(';', $post->avatar_list);
             }
             if (!empty($post->image_list)) {
-                $post->image_list = explode(';',$post->image_list);
+                $post->image_list = explode(';', $post->image_list);
             }
-            $post->is_read = isset($userReadList[$post->post_id])?1:0;
+            $post->is_read = isset($userReadList[$post->post_id]) ? 1 : 0;
             return $post;
         });
-        $total = Post::query()->where('audit_status',Constants::STATUS_DONE)->count();
-        return ['total'=>$total, 'list'=>$list];
+        $total = Post::query()->where('audit_status', Constants::STATUS_DONE)->count();
+        return ['total' => $total, 'list' => $list];
     }
 
     public function getUserPostList(int $pageIndex, int $pageSize, int $userId = null)
     {
         $isOther = isset($userId);
-        if(!isset($userId)) {
+        if (!isset($userId)) {
             $userId = $this->userId();
         }
         $list = Post::query()->select($this->listRows)
             ->where(function (Builder $query) use ($isOther) {
-                if($isOther) {
-                    $query->where('audit_status',Constants::STATUS_DONE);
+                if ($isOther) {
+                    $query->where('audit_status', Constants::STATUS_DONE);
                 }
             })
             ->where('owner_id', $userId)
@@ -308,30 +308,30 @@ class PostService extends BaseService
             ->get();
         $list->map(function (Post $post) {
             if (!empty($post->avatar_list)) {
-                $post->avatar_list = explode(';',$post->avatar_list);
+                $post->avatar_list = explode(';', $post->avatar_list);
             }
             if (!empty($post->image_list)) {
-                $post->image_list = explode(';',$post->image_list);
+                $post->image_list = explode(';', $post->image_list);
             }
             return $post;
         });
         $total = Post::query()->where('owner_id', $userId)
-                              ->count();
-        return ['total'=>$total, 'list'=>$list];
+            ->count();
+        return ['total' => $total, 'list' => $list];
     }
 
     public function increaseRead(int $postId)
     {
         Post::query()->where('post_id', $postId)
-                     ->increment('read_count');
+            ->increment('read_count');
         return $this->success();
     }
 
     public function markRead(int $postId)
     {
         $userRead = UserRead::query()->where('user_id', $this->userId())
-                                     ->where('post_id', $postId)
-                                     ->first();
+            ->where('post_id', $postId)
+            ->first();
         if ($userRead instanceof UserRead) {
             throw new HyperfCommonException(ErrorCode::DO_NOT_REPEAT_ACTION);
         }
@@ -345,8 +345,8 @@ class PostService extends BaseService
     public function favorite(int $postId)
     {
         $userFavorite = UserFavorite::query()->where('user_id', $this->userId())
-                                             ->where('post_id', $postId)
-                                             ->first();
+            ->where('post_id', $postId)
+            ->first();
         if ($userFavorite instanceof UserFavorite) {
             //取消收藏
             $userFavorite->delete();
@@ -359,7 +359,7 @@ class PostService extends BaseService
 
         //刷新帖子信息
         $this->queueService->updatePost($postId);
-        
+
         return $this->success();
     }
 
@@ -379,26 +379,28 @@ class PostService extends BaseService
             $userId = $this->userId();
         }
         $list = UserFavorite::query()
-            ->join('post','user_favorite.post_id','=','post.post_id')
+            ->join('post', 'user_favorite.post_id', '=', 'post.post_id')
             ->where('user_id', $userId)
-            ->where('post.audit_status',Constants::STATUS_DONE)
+            ->where('post.audit_status', Constants::STATUS_DONE)
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
-            ->latest()
+            ->orderByDesc('user_favorite.created_at')
             ->get()
             ->pluck('post');
         $list->map(function (Post $post) {
             if (!empty($post->avatar_list)) {
-                $post->avatar_list = explode(';',$post->avatar_list);
+                $post->avatar_list = explode(';', $post->avatar_list);
             }
             if (!empty($post->image_list)) {
-                $post->image_list = explode(';',$post->image_list);
+                $post->image_list = explode(';', $post->image_list);
             }
             return $post;
         });
         $total = UserFavorite::query()->where('user_id', $userId)
-                                      ->count();
-        return ['total'=>$total, 'list'=>$list];
+            ->join('post', 'user_favorite.post_id', '=', 'post.post_id')
+            ->where('post.audit_status', Constants::STATUS_DONE)
+            ->count();
+        return ['total' => $total, 'list' => $list];
     }
 
     public function increaseForward(int $postId)
