@@ -237,7 +237,7 @@ class UserService extends BaseService
 
         //不需要异步，否则导致审核任务异步无法获取结果，加入待审核图片列表
         if($needImageAudit && !empty($imageList)) {
-            $this->addAuditImage($imageList,$userUpdate->user_id,Constants::IMAGE_AUDIT_OWNER_USER);
+            $this->addAuditImage($imageList,$userUpdate->update_id,Constants::IMAGE_AUDIT_OWNER_USER);
         }
 
         //加入用户资料异步审核任务,是否需要审核取决于更新的内容是不是包含图片和昵称
