@@ -81,7 +81,6 @@ class PostService extends BaseService
             $content = "您的帖子《{$post->title}》被举报，经管理员审核情况属实，现已将帖子拉黑，请规范您的社区行为，若多次被举报并属实将进入社区永久黑名单。";
             $levelLabel = '警告';
             $level = Constants::MESSAGE_LEVEL_BLOCK;
-
         }else{
             if($status == Constants::STATUS_DONE) {
                 $level = Constants::MESSAGE_LEVEL_NORMAL;

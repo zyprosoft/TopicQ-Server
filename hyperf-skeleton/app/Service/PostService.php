@@ -71,8 +71,13 @@ class PostService extends BaseService
                 $post->summary = mb_substr($content, 0, 32);
             }
             $post->content = $content;
+            $needAddImageAudit = false;
             if (isset($imageList)) {
-                $post->image_list = implode(';', $imageList);
+                if(!empty($imageList)) {
+                    $post->image_list = implode(';', $imageList);
+                    //检测上传图片
+                    $needAddImageAudit = $this->auditImageOrFail($imageList);
+                }
             }
             if (isset($link)) {
                 $post->link = $link;
@@ -93,6 +98,10 @@ class PostService extends BaseService
                 $post->vote_id = $vote->vote_id;
             }
             $post->saveOrFail();
+            //插入图片待审核信息
+            if (!empty($imageList) && $needAddImageAudit) {
+                $this->addAuditImage($imageList,$post->post_id,Constants::IMAGE_AUDIT_OWNER_POST);
+            }
         });
 
         if (!isset($post)) {

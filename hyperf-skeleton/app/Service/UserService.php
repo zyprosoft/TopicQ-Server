@@ -12,6 +12,7 @@ use App\Model\PrivateMessage;
 use App\Model\TokenHistory;
 use App\Model\User;
 use App\Model\UserCommentRead;
+use App\Model\UserUpdate;
 use Carbon\Carbon;
 use EasyWeChat\Factory;
 use Hyperf\Database\Query\JoinClause;
@@ -162,24 +163,45 @@ class UserService extends BaseService
 
     public function updateUserInfo(array $userInfo)
     {
-        $user = User::findOrFail($this->userId());
-        if (isset($userInfo['nickname'])) {
-            $user->nickname = $userInfo['nickname'];
-        }
-        if (isset($userInfo['avatar'])) {
-            $user->avatar = $userInfo['avatar'];
-        }
-        if (isset($userInfo['area'])) {
-            $user->area = $userInfo['area'];
-        }
-        if (isset($userInfo['country'])) {
-            $user->country = $userInfo['country'];
-        }
-        if (isset($userInfo['background'])) {
-            $user->background = $userInfo['background'];
-        }
-        $user->first_edit_done = Constants::STATUS_DONE;
-        $user->saveOrFail();
+        //创建用户资料更新的ID
+        Db::transaction(function() use ($userInfo) {
+            $user = User::findOrFail($this->userId());
+            $userUpdate = new UserUpdate();
+            $userUpdate->user_id = $this->userId();
+            if (isset($userInfo['nickname'])) {
+                $userUpdate->nickname = $userInfo['nickname'];
+            }
+            $imageList = [];
+            if (isset($userInfo['avatar'])) {
+                $userUpdate->avatar = $userInfo['avatar'];
+                $imageList[] = $userUpdate->avatar;
+            }
+            if (isset($userInfo['area'])) {
+                $user->area = $userInfo['area'];
+            }
+            if (isset($userInfo['country'])) {
+                $user->country = $userInfo['country'];
+            }
+            if (isset($userInfo['background'])) {
+                $userUpdate->background = $userInfo['background'];
+                $imageList[] = $userUpdate->background;
+            }
+            $user->first_edit_done = Constants::STATUS_DONE;
+            $userUpdate->saveOrFail();
+
+            //检查图片是否审核通过
+            if(!empty($imageList)) {
+                $needAddAudit = $this->auditImageOrFail($imageList);
+                //加入待审核图片列表
+                if($needAddAudit) {
+                    $this->addAuditImage($imageList,$userUpdate->update_id, Constants::IMAGE_AUDIT_OWNER_USER);
+                }
+            }
+
+            $user->user_update_id = $userUpdate->update_id;
+            $user->saveOrFail();
+        });
+
         return $this->success();
     }
 

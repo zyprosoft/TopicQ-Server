@@ -12,9 +12,58 @@ declare (strict_types=1);
 
 
 namespace App\Service;
+use App\Constants\Constants;
+use App\Constants\ErrorCode;
+use App\Job\AddImageAuditJob;
+use App\Model\ImageAudit;
+use ZYProSoft\Exception\HyperfCommonException;
+use ZYProSoft\Log\Log;
 use ZYProSoft\Service\AbstractService;
 
 class BaseService extends AbstractService
 {
+    public function addAuditImage(array $imageList, int $ownerId, int $ownerType)
+    {
+        $addImageAuditJob = new AddImageAuditJob($imageList,$ownerId,$ownerType,$this->userId());
+        $this->push($addImageAuditJob);
+    }
 
+    protected function imageIdsFromUrlList(array $imageList)
+    {
+        $imageIds = [];
+        collect($imageList)->map(function (string $imageUrl)  use (&$imageIds) {
+            $imageID = collect(explode('/', $imageUrl))->last();
+            $imageIds[] = $imageID;
+        });
+        return $imageIds;
+    }
+
+    public function auditImageOrFail(array $imageList)
+    {
+        $imageIds = $this->imageIdsFromUrlList($imageList);
+
+        if (empty($imageIds)) {
+            return false;
+        }
+
+        $imageIdsLabel = implode(';',$imageIds);
+        Log::info("获取图片ID:{$imageIdsLabel}进行校验审核结果");
+        $imageAuditList = ImageAudit::query()->whereIn('image_id', $imageIds)
+            ->get();
+        if ($imageAuditList->isEmpty()) {
+            Log::info("{$imageIdsLabel}不存在图片审核结果!");
+            return true;
+        }
+
+        $imageAuditList->map(function (ImageAudit $audit) {
+            $isInvalidate = $audit->audit_status == Constants::STATUS_INVALIDATE || $audit->audit_status == Constants::STATUS_REVIEW;
+            if ($isInvalidate) {
+                Log::error("($audit->image_id)上传的图片未通过审核");
+                throw new HyperfCommonException(ErrorCode::IMAGE_AUDIT_INVALIDATE);
+            }
+            Log::info("{$audit->image_id}图片审核结果为通过!");
+        });
+
+        return false;
+    }
 }

@@ -24,6 +24,9 @@ class UserUpdate extends Model
      * @var string
      */
     protected $table = 'user_update';
+
+    protected $primaryKey = 'update_id';
+
     /**
      * The attributes that are mass assignable.
      *

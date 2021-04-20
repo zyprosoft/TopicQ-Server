@@ -39,10 +39,20 @@ class CommentService extends BaseService
         if (isset($link)) {
             $comment->link = $link;
         }
+        $needAddAudit = false;
         if (isset($imageList)) {
-            $comment->image_list = implode(';', $imageList);
+            if(!empty($imageList)) {
+                $comment->image_list = implode(';', $imageList);
+                //审核图片
+                $needAddAudit = $this->auditImageOrFail($imageList);
+            }
         }
         $comment->saveOrFail();
+
+        //增加待审核图片信息
+        if($needAddAudit) {
+            $this->addAuditImage($imageList,$comment->comment_id,Constants::IMAGE_AUDIT_OWNER_COMMENT);
+        }
 
         //更新帖子统计信息
         $this->queueService->updatePost($postId);
@@ -144,8 +154,14 @@ class CommentService extends BaseService
         $comment->parent_comment_id = $commentId;
         $comment->parent_comment_owner_id = $parentComment->owner_id;
         $comment->content = $content;
+
+        $needAddAudit = false;
         if (isset($imageList)) {
-            $comment->image_list = implode(';', $imageList);
+            if(!empty($imageList)) {
+                $comment->image_list = implode(';', $imageList);
+                //审核图片
+                $needAddAudit = $this->auditImageOrFail($imageList);
+            }
         }
         if (isset($link)) {
             $comment->link = $link;
@@ -154,6 +170,11 @@ class CommentService extends BaseService
         $comment->post_id = $parentComment->post_id;
         $comment->post_owner_id = $parentComment->post_owner_id;
         $comment->saveOrFail();
+
+        //增加待审核图片信息
+        if($needAddAudit) {
+            $this->addAuditImage($imageList,$comment->comment_id,Constants::IMAGE_AUDIT_OWNER_COMMENT);
+        }
 
         //读取数据库完整的帖子信息
         $comment = Comment::query()->where('comment_id', $comment->comment_id)

@@ -48,4 +48,9 @@ class ErrorCode extends AbstractConstants
      * @Message("帖子不存在!")
      */
     const POST_NOT_EXIST = 30003;
+
+    /**
+     * @Message("警告，请不要上传敏感图片!")
+     */
+    const IMAGE_AUDIT_INVALIDATE = 30004;
 }
