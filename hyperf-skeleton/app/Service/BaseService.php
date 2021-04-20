@@ -36,6 +36,7 @@ class BaseService extends AbstractService
                 $audit->save();
             });
         });
+        Log::info("($ownerId)待审核图片添加完成!");
     }
 
     protected function imageIdsFromUrlList(array $imageList)
