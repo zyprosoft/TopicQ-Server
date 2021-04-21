@@ -204,12 +204,8 @@ class CommentService extends BaseService
         //更新评论信息
         $this->queueService->updateComment($parentComment->comment_id);
 
-        //加入评论异步审核任务
-        if($comment->machine_audit !== Constants::STATUS_REVIEW) {
-            $this->push(new CommentMachineAuditJob($comment->comment_id));
-        }else{
-            Log::info("评论($comment->comment_id)需要人工审核!");
-        }
+        //加入评论异步审核任务,评论也没有人工审核机制
+        $this->push(new CommentMachineAuditJob($comment->comment_id));
 
         return $this->success($comment);
     }

@@ -80,7 +80,7 @@ class PostService extends BaseService
                 if (!empty($imageList)) {
                     $post->image_list = implode(';', $imageList);
                     //检测上传图片
-                    $imageAuditCheck = $this->auditImageOrFail($imageList);
+                    $imageAuditCheck = $this->auditImageOrFail($imageList,true);
                 }
             }
             if (isset($link)) {

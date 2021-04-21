@@ -81,7 +81,7 @@ class BaseService extends AbstractService
         return $imageIds;
     }
 
-    public function auditImageOrFail(array $imageList)
+    public function auditImageOrFail(array $imageList, bool $hasReview = false)
     {
         if (empty($imageList)) {
             return [
@@ -103,8 +103,8 @@ class BaseService extends AbstractService
         Log::info("获取图片ID:{$imageIdsLabel}进行校验审核结果");
         $imageAuditList = ImageAudit::query()->whereIn('image_id', $imageIds)
             ->get();
-        if ($imageAuditList->isEmpty()) {
-            Log::info("{$imageIdsLabel}不存在图片审核结果!");
+        if ($imageAuditList->count() != count($imageIds)) {
+            Log::info("{$imageIdsLabel}图片审核结果和上传图片的个数不一致，需要进入异步审核阶段!");
             return [
                 'need_audit' => true,
                 'need_review' => false
@@ -115,14 +115,18 @@ class BaseService extends AbstractService
             'need_audit' => false,
             'need_review' => false
         ];
-        $imageAuditList->map(function (ImageAudit $audit) use (&$imageAuditCheck) {
-            $isInvalidate = $audit->audit_status == Constants::STATUS_INVALIDATE;
+        $imageAuditList->map(function (ImageAudit $audit) use (&$imageAuditCheck,$hasReview) {
+            if($hasReview == false) {
+                $isInvalidate = $audit->audit_status == Constants::STATUS_INVALIDATE || $audit->audit_status == Constants::STATUS_REVIEW;
+            }else{
+                $isInvalidate = $audit->audit_status == Constants::STATUS_INVALIDATE;
+            }
             if ($isInvalidate) {
                 Log::error("($audit->image_id)上传的图片未通过审核");
                 throw new HyperfCommonException(ErrorCode::IMAGE_AUDIT_INVALIDATE);
             }
             //需要转人工审核确认
-            if ($audit->audit_status == Constants::STATUS_REVIEW) {
+            if ($audit->audit_status == Constants::STATUS_REVIEW && $hasReview) {
                 Log::info('图片需要人工确认审核');
                 $imageAuditCheck = [
                     'need_audit' => false,

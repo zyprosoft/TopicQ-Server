@@ -246,12 +246,8 @@ class UserService extends BaseService
             $this->addAuditImage($imageList,$userUpdate->update_id,Constants::IMAGE_AUDIT_OWNER_USER);
         }
 
-        //加入用户资料异步审核任务,是否需要审核取决于更新的内容是不是包含图片和昵称
-        if($userUpdate->machine_audit !== Constants::STATUS_REVIEW) {
-            $this->push(new UserUpdateMachineAuditJob($userUpdate->update_id));
-        }else{
-            Log::info("用户资料($userUpdate->update_id)需要转人工审核");
-        }
+        //加入用户资料异步审核任务,是否需要审核取决于更新的内容是不是包含图片和昵称,用户资料没有人工审核检测
+        $this->push(new UserUpdateMachineAuditJob($userUpdate->update_id));
 
         return $this->success();
     }
