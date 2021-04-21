@@ -161,8 +161,11 @@ class PostService extends BaseService
     public function update(int $postId, array $params)
     {
         $post = null;
-        $needAddImageAudit = false;
         $post = $this->checkOwnOrFail($postId);
+        $imageAuditCheck = [
+            'need_audit' => false,
+            'need_review' => false
+        ];
         if (isset($params['title'])) {
             $post->title = $params['title'];
         }
@@ -171,7 +174,7 @@ class PostService extends BaseService
             if (!empty($imageList)) {
                 $post->image_list = implode(';', $imageList);
                 //检测上传图片
-                $needAddImageAudit = $this->auditImageOrFail($imageList);
+                $imageAuditCheck = $this->auditImageOrFail($imageList);
             }
         }
         if (isset($params['link'])) {
@@ -181,17 +184,26 @@ class PostService extends BaseService
             $post->content = $params['content'];
         }
         $post->audit_status = 0;//恢复待审核
+        //审核结果
+        Log::info("图片审核结果:".json_encode($imageAuditCheck));
+        if($imageAuditCheck['need_review']) {
+            $post->machine_audit = Constants::STATUS_REVIEW;
+        }
         $post->saveOrFail();
 
-        //插入图片待审核信息
-        if (!empty($imageList) && $needAddImageAudit) {
-            $this->addAuditImage($imageList, $post->post_id, Constants::IMAGE_AUDIT_OWNER_POST);
+        //需要人工审核
+        if($imageAuditCheck['need_audit'] == true) {
+            //插入图片待审核信息
+            if (!empty($imageList) && $imageAuditCheck['need_audit']) {
+                $this->addAuditImage($imageList, $post->post_id, Constants::IMAGE_AUDIT_OWNER_POST);
+            }
         }
-
-        //加入帖子异步审核任务
-        if ((isset($params['title'])) || isset($params['content']) || $needAddImageAudit)
-        {
+        //机器审核结果是需要人工继续审核就不需要自动审核任务了
+        if($post->machine_audit !== Constants::STATUS_REVIEW) {
+            Log::info("增加帖子($post->post_id)自动审核任务");
             $this->push(new PostMachineAuditJob($post->post_id));
+        }else{
+            Log::info("帖子($post->post_id)需要转人工审核");
         }
 
         return $this->success($post);
