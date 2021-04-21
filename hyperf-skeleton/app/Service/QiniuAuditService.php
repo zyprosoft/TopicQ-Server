@@ -152,7 +152,7 @@ class QiniuAuditService extends BaseService
         //帖子完全通过机器审核，发送审核完成的通知
         $level = Constants::MESSAGE_LEVEL_NORMAL;
         $levelLabel = '通知';
-        $title = '帖子审核结果';
+        $title = '帖子审核通过';
         $content = "您的帖子《{$post->title}》已被管理员审核通过";
 
         $notification = new AddNotificationJob($post->owner_id,$title,$content,false,$level);
