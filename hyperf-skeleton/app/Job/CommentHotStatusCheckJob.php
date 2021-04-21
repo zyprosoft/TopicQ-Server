@@ -60,7 +60,7 @@ class CommentHotStatusCheckJob extends Job
             });
             //如果都没有超过10个点赞的，那么取前两名点赞数量的评论作为热评
             $chooseCount = $topStarList->count() >= 2? 2:$topStarList->count();
-            if (empty($hotCommentIds)) {
+            if ($hotCommentIds->isEmpty()) {
                 $hotCommentIds->combine($topStarList->slice(0,$chooseCount)->pluck('comment_id'));
             }
         }
@@ -73,7 +73,7 @@ class CommentHotStatusCheckJob extends Job
             });
             //如果都没有超过5个回复的，那么取前两名回复数量的评论作为热评
             $chooseCount = $topReplyList->count() >= 2? 2:$topReplyList->count();
-            if (empty($hotCommentIds)) {
+            if ($hotCommentIds->isEmpty()) {
                 $hotCommentIds->combine($topReplyList->slice(0,$chooseCount)->pluck('comment_id'));
             }
         }
