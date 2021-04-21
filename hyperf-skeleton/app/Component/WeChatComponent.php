@@ -34,7 +34,7 @@ class WeChatComponent extends BaseComponent
         $path = '/wxa/msg_sec_check?access_token='.$this->accessToken;
         $response = $this->client->post($path,[
             'headers' => ['Content-Type:application/json'],
-            'data' => json_encode($params,JSON_UNESCAPED_UNICODE)
+            'body' => json_encode($params,JSON_UNESCAPED_UNICODE)
         ]);
         Log::info("微信文本审核结果:".json_encode($response));
     }
