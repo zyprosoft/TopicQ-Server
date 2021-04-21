@@ -421,7 +421,7 @@ class QiniuAuditService extends BaseService
     {
         $levelLabel = '警告';
         $level = Constants::MESSAGE_LEVEL_BLOCK;
-        $title = '帖子审核结果';
+        $title = '帖子审核不通过';
         $content = "您的帖子《{$postTitle}》{$reason}，已被管理员审核拒绝";
         $notification = new AddNotificationJob($userId,$title,$content,false,$level);
         $notification->levelLabel = $levelLabel;
@@ -494,7 +494,7 @@ class QiniuAuditService extends BaseService
             //发送一条审核不通过通知
             $levelLabel = '警告';
             $level = Constants::MESSAGE_LEVEL_BLOCK;
-            $title = '评论审核结果';
+            $title = '评论审核不通过';
             $content = "您的评论《{$comment->content}》内容包含敏感信息，已被管理员审核拒绝";
             $notification = new AddNotificationJob($comment->owner_id,$title,$content,false,$level);
             $notification->levelLabel = $levelLabel;
@@ -535,12 +535,13 @@ class QiniuAuditService extends BaseService
             //发送一条通知
             $levelLabel = '警告';
             $level = Constants::MESSAGE_LEVEL_BLOCK;
-            $title = '资料修改审核结果';
+            $title = '资料修改审核不通过';
             $content = "您的用户资料更新:昵称《{$userUpdate->nickname}》 包含敏感信息，已被管理员审核拒绝";
             $notification = new AddNotificationJob($userUpdate->user_id,$title,$content,false,$level);
             $notification->levelLabel = $levelLabel;
             $notification->keyInfo = json_encode(['update_id'=>$updateId]);
             $this->push($notification);
+            return;
         }
         //昵称通过就修改昵称
         $user = User::find($userUpdate->user_id);
