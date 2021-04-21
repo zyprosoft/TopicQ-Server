@@ -441,6 +441,7 @@ class QiniuAuditService extends BaseService
 
         //标题审核
         $result = $app->content_security->checkText($post->title);
+        Log::info("微信帖子标题审核结果:".json_encode($result));
         //包含敏感信息
         if(data_get($result,'errcode') == self::WX_SECURITY_CHECK_FAIL) {
             $post->title_audit = Constants::STATUS_INVALIDATE;
@@ -457,6 +458,7 @@ class QiniuAuditService extends BaseService
 
         //内容审核
         $result = $app->content_security->checkText($post->content);
+        Log::info("微信帖子内容审核结果:".json_encode($result));
         //包含敏感信息
         if(data_get($result,'errcode') == self::WX_SECURITY_CHECK_FAIL) {
             $post->content_audit = Constants::STATUS_INVALIDATE;
@@ -486,6 +488,7 @@ class QiniuAuditService extends BaseService
         $miniProgramConfig = config('weixin.miniProgram');
         $app = Factory::miniProgram($miniProgramConfig);
         $result = $app->content_security->checkText($comment->content);
+        Log::info("微信评论审核结果:".json_encode($result));
         if(data_get($result,'errcode') == self::WX_SECURITY_CHECK_FAIL) {
             $comment->machine_audit = Constants::STATUS_INVALIDATE;
             $comment->content_audit = Constants::STATUS_INVALIDATE;
