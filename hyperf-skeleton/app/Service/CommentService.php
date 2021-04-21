@@ -19,6 +19,7 @@ use App\Job\UniqueJobQueue;
 
 use Hyperf\Di\Annotation\Inject;
 use ZYProSoft\Facade\Auth;
+use ZYProSoft\Log\Log;
 
 class CommentService extends BaseService
 {
@@ -159,12 +160,15 @@ class CommentService extends BaseService
         $comment->parent_comment_owner_id = $parentComment->owner_id;
         $comment->content = $content;
 
-        $needAddAudit = false;
+        $imageAuditCheck = [
+            'need_audit' => false,
+            'need_review' => false
+        ];
         if (isset($imageList)) {
             if(!empty($imageList)) {
                 $comment->image_list = implode(';', $imageList);
                 //审核图片
-                $needAddAudit = $this->auditImageOrFail($imageList);
+                $imageAuditCheck = $this->auditImageOrFail($imageList);
             }
         }
         if (isset($link)) {
@@ -173,10 +177,13 @@ class CommentService extends BaseService
         $comment->owner_id = $this->userId();
         $comment->post_id = $parentComment->post_id;
         $comment->post_owner_id = $parentComment->post_owner_id;
+        if($imageAuditCheck['need_review']) {
+            $comment->machine_audit = Constants::STATUS_REVIEW;
+        }
         $comment->saveOrFail();
 
         //增加待审核图片信息
-        if($needAddAudit) {
+        if($imageAuditCheck['need_review'] == false && $imageAuditCheck['need_audit'] == true) {
             $this->addAuditImage($imageList,$comment->comment_id,Constants::IMAGE_AUDIT_OWNER_COMMENT);
         }
 
@@ -198,7 +205,11 @@ class CommentService extends BaseService
         $this->queueService->updateComment($parentComment->comment_id);
 
         //加入评论异步审核任务
-        $this->push(new CommentMachineAuditJob($comment->comment_id));
+        if($comment->machine_audit !== Constants::STATUS_REVIEW) {
+            $this->push(new CommentMachineAuditJob($comment->comment_id));
+        }else{
+            Log::info("评论($comment->comment_id)需要人工审核!");
+        }
 
         return $this->success($comment);
     }

@@ -169,10 +169,13 @@ class UserService extends BaseService
         $userUpdate = null;
         $needAddAudit = false;
         $imageList = [];
-        $needImageAudit = false;
+        $imageAuditCheck = [
+            'need_audit' => false,
+            'need_review' => false
+        ];
 
         //创建用户资料更新的ID
-        Db::transaction(function() use ($userInfo, &$userUpdate, &$needAddAudit, &$imageList, &$needImageAudit) {
+        Db::transaction(function() use ($userInfo, &$userUpdate, &$needAddAudit, &$imageList, &$imageAuditCheck) {
             $user = User::findOrFail($this->userId());
             $userUpdate = new UserUpdate();
             $userUpdate->user_id = $this->userId();
@@ -194,12 +197,11 @@ class UserService extends BaseService
                 $imageList[] = $userUpdate->background;
             }
             $user->first_edit_done = Constants::STATUS_DONE;
-            $userUpdate->saveOrFail();
 
             //检查图片是否审核通过
             if(!empty($imageList)) {
-                $needImageAudit = $this->auditImageOrFail($imageList);
-                if(!$needImageAudit) {
+                $imageAuditCheck = $this->auditImageOrFail($imageList);
+                if($imageAuditCheck['need_review'] == false && $imageAuditCheck['need_audit'] == false) {
                     Log::info("图片无需再审核，直接更新到用户信息上");
                     //图片都是审核通过的，那么直接更新到对应用户信息就行
                     if (isset($userInfo['avatar'])) {
@@ -210,9 +212,13 @@ class UserService extends BaseService
                     }
                 }
             }
+            if($imageAuditCheck['need_review']) {
+                $userUpdate->machine_audit = Constants::STATUS_REVIEW;
+            }
+            $userUpdate->saveOrFail();
 
             //只有更新了对应的信息才需要这个更新资料的ID
-            if(isset($userUpdate->nickname) || $needImageAudit) {
+            if(isset($userUpdate->nickname) || $imageAuditCheck['need_audit']) {
                 $user->user_update_id = $userUpdate->update_id;
                 $needAddAudit = true;
             }else{
@@ -236,12 +242,16 @@ class UserService extends BaseService
         //不能在事务里面触发异步任务，否则还没拿到新记录的ID，导致事情都是没法完成的
 
         //不需要异步，否则导致审核任务异步无法获取结果，加入待审核图片列表
-        if($needImageAudit && !empty($imageList)) {
+        if($imageAuditCheck['need_audit'] && !empty($imageList)) {
             $this->addAuditImage($imageList,$userUpdate->update_id,Constants::IMAGE_AUDIT_OWNER_USER);
         }
 
         //加入用户资料异步审核任务,是否需要审核取决于更新的内容是不是包含图片和昵称
-        $this->push(new UserUpdateMachineAuditJob($userUpdate->update_id));
+        if($userUpdate->machine_audit !== Constants::STATUS_REVIEW) {
+            $this->push(new UserUpdateMachineAuditJob($userUpdate->update_id));
+        }else{
+            Log::info("用户资料($userUpdate->update_id)需要转人工审核");
+        }
 
         return $this->success();
     }

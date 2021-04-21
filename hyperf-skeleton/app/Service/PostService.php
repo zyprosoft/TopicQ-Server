@@ -56,9 +56,11 @@ class PostService extends BaseService
     public function create(array $params)
     {
         $post = null;
-        $needAddImageAudit = false;
-        $needImageManagerAudit = false;
-        Db::transaction(function () use ($params, &$post, &$needAddImageAudit) {
+        $imageAuditCheck = [
+            'need_audit' => false,
+            'need_review' => false
+        ];
+        Db::transaction(function () use ($params, &$post, &$imageAuditCheck) {
             $title = $params['title'];
             $content = $params['content'];
             $link = data_get($params, 'link');
@@ -74,12 +76,11 @@ class PostService extends BaseService
                 $post->summary = mb_substr($content, 0, 32);
             }
             $post->content = $content;
-            $needAddImageAudit = false;
             if (isset($imageList)) {
                 if (!empty($imageList)) {
                     $post->image_list = implode(';', $imageList);
                     //检测上传图片
-                    $needAddImageAudit = $this->auditImageOrFail($imageList);
+                    $imageAuditCheck = $this->auditImageOrFail($imageList);
                 }
             }
             if (isset($link)) {
@@ -101,9 +102,9 @@ class PostService extends BaseService
                 $post->vote_id = $vote->vote_id;
             }
             //审核结果
-//            if($needImageManagerAudit) {
-//                $post->machine_audit = Constants::STATUS_REVIEW;
-//            }
+            if($imageAuditCheck['need_review']) {
+                $post->machine_audit = Constants::STATUS_REVIEW;
+            }
             $post->saveOrFail();
         });
 
@@ -112,13 +113,18 @@ class PostService extends BaseService
         }
 
         //需要人工审核
-        if($needImageManagerAudit == false) {
+        if($imageAuditCheck['need_audit'] == true) {
             //插入图片待审核信息
-            if (!empty($imageList) && $needAddImageAudit) {
+            if (!empty($imageList) && $imageAuditCheck['need_audit']) {
                 $this->addAuditImage($imageList, $post->post_id, Constants::IMAGE_AUDIT_OWNER_POST);
             }
-            //加入帖子异步审核任务
+        }
+        //机器审核结果是需要人工继续审核就不需要自动审核任务了
+        if($post->machine_audit !== Constants::STATUS_REVIEW) {
+            Log::info("增加帖子($post->post_id)自动审核任务");
             $this->push(new PostMachineAuditJob($post->post_id));
+        }else{
+            Log::info("帖子($post->post_id)需要转人工审核");
         }
 
         return $this->success($post);
