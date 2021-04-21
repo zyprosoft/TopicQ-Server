@@ -6,6 +6,7 @@ use EasyWeChat\Factory;
 use Psr\Container\ContainerInterface;
 use ZYProSoft\Component\BaseComponent;
 use EasyWeChat\MiniProgram\Application;
+use ZYProSoft\Log\Log;
 
 class WeChatComponent extends BaseComponent
 {
@@ -35,5 +36,6 @@ class WeChatComponent extends BaseComponent
             'headers' => ['Content-Type:application/json'],
             'json' => $params
         ]);
+        Log::info("微信文本审核结果:".json_encode($response));
     }
 }
