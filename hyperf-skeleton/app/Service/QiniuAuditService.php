@@ -14,6 +14,7 @@ use App\Model\User;
 use App\Model\UserUpdate;
 use EasyWeChat\Factory;
 use Hyperf\DbConnection\Db;
+use Hyperf\Utils\Str;
 use ZYProSoft\Log\Log;
 
 class QiniuAuditService extends BaseService
@@ -528,7 +529,14 @@ class QiniuAuditService extends BaseService
         //检查昵称是否通过审核
         $miniProgramConfig = config('weixin.miniProgram');
         $app = Factory::miniProgram($miniProgramConfig);
-        $result = $app->content_security->checkText($userUpdate->nickname);
+        $isUtf8 = mb_detect_encoding($userUpdate->nickname,'UTF-8') == 'UTF-8';
+        $nickname = $userUpdate->nickname;
+        if(!$isUtf8) {
+            Log::info("昵称不是utf8编码!");
+            $nickname = utf8_encode($nickname);
+            Log::info("utf8编码后的昵称:$nickname");
+        }
+        $result = $app->content_security->checkText($nickname);
         Log::info("{$userUpdate->nickname}微信昵称审核结果:".json_encode($result));
         if(data_get($result,'errcode') == self::WX_SECURITY_CHECK_FAIL) {
             $userUpdate->machine_audit = Constants::STATUS_INVALIDATE;
