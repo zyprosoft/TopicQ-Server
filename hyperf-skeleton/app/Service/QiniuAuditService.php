@@ -239,7 +239,7 @@ class QiniuAuditService extends BaseService
         if(isset($userUpdate->nickname) && $userUpdate->nickname_audit == Constants::STATUS_DONE){
             $nicknameAuditStatus = true;
         }else{
-            if (!isset($nicknameAuditStatus)) {
+            if (!isset($userUpdate->nickname)) {
                 $nicknameAuditStatus = true;
             }else{
                 $nicknameAuditStatus = false;
