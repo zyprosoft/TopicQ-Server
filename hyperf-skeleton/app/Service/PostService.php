@@ -131,6 +131,13 @@ class PostService extends BaseService
         return $this->success($post);
     }
 
+    public function delete(int $postId)
+    {
+        $this->checkOwnOrFail($postId);
+        Post::findOrFail($postId)->delete();
+        return $this->success();
+    }
+
     public function checkOwn(int $postId)
     {
         $post = Post::query()->where('post_id', $postId)

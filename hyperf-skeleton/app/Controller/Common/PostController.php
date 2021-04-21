@@ -38,6 +38,16 @@ class PostController extends AbstractController
         return $this->success($result);
     }
 
+    public function delete(AuthedRequest $request)
+    {
+        $this->validate([
+            'postId' => 'integer|required|exists:post,post_id',
+        ]);
+        $postId = $request->param('postId');
+        $result = $this->service->delete($postId);
+        return $this->success($result);
+    }
+
     public function update(AuthedRequest $request)
     {
         $this->validate([
