@@ -171,6 +171,7 @@ class UserService extends BaseService
         if (isset($user->update_info)) {
             $minutePass = Carbon::now()->diffInRealMinutes($user->update_info->created_at);
             if($minutePass > 2) {
+                Log::info("用户($user->user_id)更新资料($user->user_update_id)存在时间已经超过2分钟，现在主动清理掉!");
                 $user->user_update_id = null;
                 $user->save();//不影响本次结果返回
             }
