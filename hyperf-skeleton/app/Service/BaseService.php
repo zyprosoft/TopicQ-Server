@@ -111,7 +111,11 @@ class BaseService extends AbstractService
             ];
         }
 
-        $imageAuditList->map(function (ImageAudit $audit) use (&$needManagerReview) {
+        $imageAuditCheck = [
+            'need_audit' => false,
+            'need_review' => false
+        ];
+        $imageAuditList->map(function (ImageAudit $audit) use (&$imageAuditCheck) {
             $isInvalidate = $audit->audit_status == Constants::STATUS_INVALIDATE;
             if ($isInvalidate) {
                 Log::error("($audit->image_id)上传的图片未通过审核");
@@ -120,7 +124,7 @@ class BaseService extends AbstractService
             //需要转人工审核确认
             if ($audit->audit_status == Constants::STATUS_REVIEW) {
                 Log::info('图片需要人工确认审核');
-                return [
+                $imageAuditCheck = [
                     'need_audit' => false,
                     'need_review' => true
                 ];
@@ -128,9 +132,6 @@ class BaseService extends AbstractService
             Log::info("{$audit->image_id}图片审核结果为通过!");
         });
 
-        return [
-            'need_audit' => true,
-            'need_review' => false
-        ];
+        return $imageAuditCheck;
     }
 }
