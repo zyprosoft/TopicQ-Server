@@ -5,6 +5,7 @@ namespace App\Job;
 use App\Service\QiniuAuditService;
 use Hyperf\AsyncQueue\Job;
 use Hyperf\Utils\ApplicationContext;
+use ZYProSoft\Log\Log;
 
 class PostMachineAuditJob extends Job
 {
@@ -22,5 +23,6 @@ class PostMachineAuditJob extends Job
     {
         $service = ApplicationContext::getContainer()->get(QiniuAuditService::class);
         $service->auditPost($this->postId);
+        Log::info("($this->postId)异步审核帖子文本信息执行完成!");
     }
 }

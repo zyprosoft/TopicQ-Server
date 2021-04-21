@@ -6,6 +6,7 @@ namespace App\Job;
 
 use App\Service\QiniuAuditService;
 use Hyperf\Utils\ApplicationContext;
+use ZYProSoft\Log\Log;
 
 class CommentMachineAuditJob extends \Hyperf\AsyncQueue\Job
 {
@@ -23,5 +24,6 @@ class CommentMachineAuditJob extends \Hyperf\AsyncQueue\Job
     {
         $service = ApplicationContext::getContainer()->get(QiniuAuditService::class);
         $service->auditComment($this->commentId);
+        Log::info("($this->commentId)异步审核评论文本信息执行完成!");
     }
 }
