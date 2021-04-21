@@ -217,7 +217,9 @@ class PostService extends BaseService
         if (!$post instanceof Post) {
             throw new HyperfCommonException(ErrorCode::POST_NOT_EXIST);
         }
-        $post->image_list = explode(';', $post->image_list);
+        if(!empty($post->image_list)) {
+            $post->image_list = explode(';', $post->image_list);
+        }
         if (Auth::isGuest() == false) {
             //投票状态
             $userVote = UserVote::query()->where('user_id', $this->userId())
