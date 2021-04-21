@@ -28,7 +28,6 @@ class WeChatComponent extends BaseComponent
     public function checkText(string $text)
     {
         $params = [
-            'access_token' => $this->accessToken,
             'content' => $text
         ];
         $path = '/wxa/msg_sec_check?access_token='.$this->accessToken;
