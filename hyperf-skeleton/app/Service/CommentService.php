@@ -64,6 +64,9 @@ class CommentService extends BaseService
         //加入评论异步审核任务
         $this->push(new CommentMachineAuditJob($comment->comment_id));
 
+        //更新热门评论列表
+        $this->queueService->updateCommentHot($postId);
+
         return $comment;
     }
 
@@ -206,6 +209,9 @@ class CommentService extends BaseService
 
         //加入评论异步审核任务,评论也没有人工审核机制
         $this->push(new CommentMachineAuditJob($comment->comment_id));
+
+        //更新热门评论列表
+        $this->queueService->updateCommentHot($comment->post_id);
 
         return $this->success($comment);
     }

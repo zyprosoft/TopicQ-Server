@@ -9,11 +9,13 @@ use ZYProSoft\Log\Log;
 
 class UniqueJobQueue extends BaseService
 {
+    private string $commentHotJobPrefix = 'as:up:coh:';
+
     private string $postJobPrefix = 'as:up:po:';
 
     private string $userJobPrefix = 'as:up:us:';
 
-    private string $commentJobPrefix = 'as:up:co';
+    private string $commentJobPrefix = 'as:up:co:';
 
     public function updatePost(int $postId)
     {
@@ -42,5 +44,11 @@ class UniqueJobQueue extends BaseService
     {
         $key = $this->commentJobPrefix.$commentId;
         $this->uniquePush($key, new CommentUpdateJob($key, $commentId));
+    }
+
+    public function updateCommentHot(int $postId)
+    {
+        $key = $this->commentHotJobPrefix.$postId;
+        $this->uniquePush($key, new CommentHotStatusCheckJob($key, $postId));
     }
 }
