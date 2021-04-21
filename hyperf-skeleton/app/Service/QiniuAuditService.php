@@ -235,7 +235,10 @@ class QiniuAuditService extends BaseService
         }
 
         //资料审核完全通过的成立条件，头像置空，背景置空，昵称审核通过
-        if(!isset($userUpdate->avatar) && !isset($userUpdate->background) && $userUpdate->nickname_audit == Constants::STATUS_DONE)
+        $isAllSuccess = !isset($userUpdate->avatar) && !isset($userUpdate->background) && $userUpdate->nickname_audit == Constants::STATUS_DONE;
+        $isReject = $userUpdate->machine_audit == Constants::STATUS_REVIEW || $userUpdate->machine_audit == Constants::STATUS_INVALIDATE;
+        //完全通过或者机器审核不通过，都可以清除临时资料
+        if($isAllSuccess || $isReject)
         {
             //用户资料已经完全通过审核
             Db::transaction(function () use (&$userUpdate, $updateId) {
@@ -538,5 +541,7 @@ class QiniuAuditService extends BaseService
         $userUpdate->nickname_audit = Constants::STATUS_DONE;
         $userUpdate->saveOrFail();
         Log::info("用户({$user->user_id})昵称更新成功,无需通知!");
+        //检查一下是不是已经处于完成审核状态
+        $this->checkUserUpdateAuditFinish($updateId);
     }
 }
