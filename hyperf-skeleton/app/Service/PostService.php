@@ -102,6 +102,7 @@ class PostService extends BaseService
                 $post->vote_id = $vote->vote_id;
             }
             //审核结果
+            Log::info("图片审核结果:".json_encode($imageAuditCheck));
             if($imageAuditCheck['need_review']) {
                 $post->machine_audit = Constants::STATUS_REVIEW;
             }
