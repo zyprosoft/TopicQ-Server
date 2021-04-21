@@ -4,7 +4,6 @@
 namespace App\Service;
 
 
-use App\Component\WeChatComponent;
 use App\Constants\Constants;
 use App\Job\AddNotificationJob;
 use App\Job\ImageAuditUpdateJob;
@@ -532,8 +531,6 @@ class QiniuAuditService extends BaseService
         $app = Factory::miniProgram($miniProgramConfig);
         $result = $app->content_security->checkText($userUpdate->nickname);
         Log::info("{$userUpdate->nickname}微信昵称审核结果:".json_encode($result));
-        $wechatComponent = make(WeChatComponent::class);
-        $wechatComponent->checkText($userUpdate->nickname);
         if(data_get($result,'errcode') == self::WX_SECURITY_CHECK_FAIL) {
             $userUpdate->machine_audit = Constants::STATUS_INVALIDATE;
             $user = User::find($userUpdate->user_id);
