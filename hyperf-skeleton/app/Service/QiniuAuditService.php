@@ -73,7 +73,8 @@ class QiniuAuditService extends BaseService
 
         //创建一条图片审核结果
         $updateStatus = null;
-        Db::transaction(function () use ($isAuditPass,$isReview,$imageID,$suggestionNote,&$updateStatus){
+        $imageAudit = null;
+        Db::transaction(function () use (&$imageAudit,$isAuditPass,$isReview,$imageID,$suggestionNote,&$updateStatus){
             $imageAudit = ImageAudit::query()->where('image_id', $imageID)->lockForUpdate()->first();
             if (!$imageAudit instanceof ImageAudit) {
                 $imageAudit = new ImageAudit();
@@ -92,7 +93,7 @@ class QiniuAuditService extends BaseService
             $imageAudit->audit_note = $suggestionNote;
             $imageAudit->saveOrFail();
         });
-        if(!isset($updateStatus)) {
+        if(!isset($updateStatus) || !isset($imageAudit)) {
             Log::error("图片($imageID)审核结果保存失败");
             return;
         }
