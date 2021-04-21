@@ -313,7 +313,7 @@ class QiniuAuditService extends BaseService
                 {
                     $comment = Comment::findOrFail($ownerId);
                     $comment->machine_audit = $status;
-                    if($status == Constants::STATUS_INVALIDATE || Constants::STATUS_REVIEW) {
+                    if($status == Constants::STATUS_INVALIDATE || $status == Constants::STATUS_REVIEW) {
                         $comment->audit_status = $status;
                     }
                     $comment->saveOrFail();
@@ -341,7 +341,7 @@ class QiniuAuditService extends BaseService
                 {
                     $userUpdate = UserUpdate::findOrFail($ownerId);
                     //如果是审核不通过，那么直接清除用户资料对应的ID,使前台继续展示旧资料,用户资料也是，没有人工审核，只要疑似也认为不通过
-                    if($status == Constants::STATUS_INVALIDATE || Constants::STATUS_REVIEW) {
+                    if($status == Constants::STATUS_INVALIDATE || $status == Constants::STATUS_REVIEW) {
                         //审核不通过，清除更新资料ID，恢复到原来的资料显示
                         $userUpdate->machine_audit = $status;
                         $userUpdate->saveOrFail();
