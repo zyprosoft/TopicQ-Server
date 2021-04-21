@@ -50,38 +50,38 @@ class CommentHotStatusCheckJob extends Job
         if ($topStarList->isEmpty() && $topReplyList->isEmpty()) {
             return;
         }
-        $hotCommentIds = [];
+        $hotCommentIds = collect();
         if (! $topStarList->isEmpty()) {
             //有没有超过6个点赞的
             $topStarList->map(function (Comment $comment) use (&$hotCommentIds) {
                 if ($comment->praise_count >= $this->starBaseCount) {
-                    $hotCommentIds[] = $comment->comment_id;
+                    $hotCommentIds->push($comment->comment_id);
                 }
             });
             //如果都没有超过10个点赞的，那么取前两名点赞数量的评论作为热评
             $chooseCount = $topStarList->count() >= 2? 2:$topStarList->count();
             if (empty($hotCommentIds)) {
-                $hotCommentIds = $hotCommentIds + $topStarList->slice(0,$chooseCount)->pluck('comment_id');
+                $hotCommentIds->combine($topStarList->slice(0,$chooseCount)->pluck('comment_id'));
             }
         }
         if (! $topReplyList->isEmpty()) {
             //有没有超过5个回复的
             $topReplyList->map(function (Comment $comment) use (&$hotCommentIds) {
                 if ($comment->reply_count >= $this->replyBaseCount) {
-                    $hotCommentIds[] = $comment->comment_id;
+                    $hotCommentIds->push($comment->comment_id);
                 }
             });
             //如果都没有超过5个回复的，那么取前两名回复数量的评论作为热评
             $chooseCount = $topReplyList->count() >= 2? 2:$topReplyList->count();
             if (empty($hotCommentIds)) {
-                $hotCommentIds = $hotCommentIds + $topReplyList->slice(0,$chooseCount)->pluck('comment_id');
+                $hotCommentIds->combine($topReplyList->slice(0,$chooseCount)->pluck('comment_id'));
             }
         }
         //设置热评
-        if (!empty($hotCommentIds)) {
-            Comment::query()->whereIn('comment_id',$hotCommentIds)
+        if (!$hotCommentIds->isEmpty()) {
+            Comment::query()->whereIn('comment_id',$hotCommentIds->toArray())
                 ->update(['is_hot'=>1]);
-            $hotCommentIdsLabel = implode(',',$hotCommentIds);
+            $hotCommentIdsLabel = $hotCommentIds->toJson();
             Log::info("已经将($hotCommentIdsLabel)设置成热门评论");
             return;
         }
