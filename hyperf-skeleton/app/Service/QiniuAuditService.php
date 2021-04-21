@@ -240,7 +240,7 @@ class QiniuAuditService extends BaseService
         //完全通过或者机器审核不通过，都可以清除临时资料
         if($isAllSuccess || $isReject)
         {
-            //用户资料已经完全通过审核
+            //用户资料已经完全通过审核或者已经被拒绝
             Db::transaction(function () use (&$userUpdate, $updateId) {
                 $user = User::query()->where('user_id', $userUpdate->user_id)
                     ->lockForUpdate()
