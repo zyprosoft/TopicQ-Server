@@ -529,7 +529,7 @@ class QiniuAuditService extends BaseService
         $miniProgramConfig = config('weixin.miniProgram');
         $app = Factory::miniProgram($miniProgramConfig);
         $result = $app->content_security->checkText($userUpdate->nickname);
-        Log::info("微信昵称审核结果:".json_encode($result));
+        Log::info("{$userUpdate->nickname}微信昵称审核结果:".json_encode($result));
         if(data_get($result,'errcode') == self::WX_SECURITY_CHECK_FAIL) {
             $userUpdate->machine_audit = Constants::STATUS_INVALIDATE;
             $user = User::find($userUpdate->user_id);
