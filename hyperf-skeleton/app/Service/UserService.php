@@ -161,7 +161,21 @@ class UserService extends BaseService
         if (isset($userId)) {
             return User::findOrFail($userId);
         }
-        return User::query()->where('user_id',$this->userId())->with(['update_info'])->firstOrFail();
+        $user = User::query()->where('user_id',$this->userId())
+            ->with(['update_info'])
+            ->first();
+        if (!$user instanceof User) {
+            throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST);
+        }
+        //获取个人资料的时候，检测一下更新资料ID创建是否超过时间，如果超过2分钟仍然没有完成设置为空，主动设置一下
+        if (isset($user->update_info)) {
+            $minutePass = Carbon::now()->diffInRealMinutes($user->update_info->created_at);
+            if($minutePass > 2) {
+                $user->user_update_id = null;
+                $user->save();//不影响本次结果返回
+            }
+        }
+        return $user;
     }
 
     public function updateUserInfo(array $userInfo)
@@ -222,6 +236,7 @@ class UserService extends BaseService
                 $user->user_update_id = $userUpdate->update_id;
                 $needAddAudit = true;
             }else{
+                $user->user_update_id = null;//设置为空
                 Log::info("本次无需设置信息更新ID给用户($user->user_id)");
             }
 
