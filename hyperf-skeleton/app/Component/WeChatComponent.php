@@ -32,6 +32,7 @@ class WeChatComponent extends BaseComponent
         ];
         $path = '/wxa/msg_sec_check?access_token='.$this->accessToken;
         $response = $this->post($path,[
+            'headers' => 'Content-Type:application/json',
             'json' => $params
         ]);
     }
