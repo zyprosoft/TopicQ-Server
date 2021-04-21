@@ -236,7 +236,16 @@ class QiniuAuditService extends BaseService
         }
 
         //资料审核完全通过的成立条件，头像置空，背景置空，昵称审核通过
-        $isAllSuccess = !isset($userUpdate->avatar) && !isset($userUpdate->background) && $userUpdate->nickname_audit == Constants::STATUS_DONE;
+        if(isset($userUpdate->nickname) && $userUpdate->nickname_audit == Constants::STATUS_DONE){
+            $nicknameAuditStatus = true;
+        }else{
+            if (!isset($nicknameAuditStatus)) {
+                $nicknameAuditStatus = true;
+            }else{
+                $nicknameAuditStatus = false;
+            }
+        }
+        $isAllSuccess = !isset($userUpdate->avatar) && !isset($userUpdate->background) && $nicknameAuditStatus;
         $isReject = $userUpdate->machine_audit == Constants::STATUS_REVIEW || $userUpdate->machine_audit == Constants::STATUS_INVALIDATE;
         //完全通过或者机器审核不通过，都可以清除临时资料
         if($isAllSuccess || $isReject)
