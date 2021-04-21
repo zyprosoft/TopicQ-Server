@@ -257,8 +257,6 @@ class QiniuAuditService extends BaseService
                 $result = $user->save();
                 $resultLabel = $result?'成功':'失败';
                 Log::info("用户($user->user_id)资料($updateId)审核通过,更新结果:".$resultLabel);
-                $userUpdate->machine_audit = Constants::STATUS_DONE;
-                $userUpdate->saveOrFail();
                 Log::info("用户资料($updateId)审核状态更新成功");
             });
         }
