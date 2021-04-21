@@ -4,6 +4,7 @@
 namespace App\Service;
 
 
+use App\Component\WeChatComponent;
 use App\Constants\Constants;
 use App\Job\AddNotificationJob;
 use App\Job\ImageAuditUpdateJob;
@@ -529,15 +530,10 @@ class QiniuAuditService extends BaseService
         //检查昵称是否通过审核
         $miniProgramConfig = config('weixin.miniProgram');
         $app = Factory::miniProgram($miniProgramConfig);
-        $isUtf8 = mb_detect_encoding($userUpdate->nickname,'UTF-8') == 'UTF-8';
-        $nickname = $userUpdate->nickname;
-        if(!$isUtf8) {
-            Log::info("昵称不是utf8编码!");
-            $nickname = utf8_encode($nickname);
-            Log::info("utf8编码后的昵称:$nickname");
-        }
-        $result = $app->content_security->checkText($nickname);
+        $result = $app->content_security->checkText($userUpdate->nickname);
         Log::info("{$userUpdate->nickname}微信昵称审核结果:".json_encode($result));
+        $wechatComponent = make(WeChatComponent::class);
+        $wechatComponent->checkText($userUpdate->nickname);
         if(data_get($result,'errcode') == self::WX_SECURITY_CHECK_FAIL) {
             $userUpdate->machine_audit = Constants::STATUS_INVALIDATE;
             $user = User::find($userUpdate->user_id);
