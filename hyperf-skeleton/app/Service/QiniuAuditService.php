@@ -234,45 +234,31 @@ class QiniuAuditService extends BaseService
             return;
         }
 
-        //是不是人工审核通过了
-        if($userUpdate->manager_audit == Constants::STATUS_DONE) {
-            Log::info("用户资料($updateId)人工审核已通过");
-            return;
+        //资料审核完全通过的成立条件，头像置空，背景置空，昵称审核通过
+        if(!isset($userUpdate->avatar) && !isset($userUpdate->background) && $userUpdate->nickname_audit == Constants::STATUS_DONE)
+        {
+            //用户资料已经完全通过审核
+            Db::transaction(function () use (&$userUpdate, $updateId) {
+                $user = User::query()->where('user_id', $userUpdate->user_id)
+                    ->lockForUpdate()
+                    ->first();
+                if(!$user instanceof User) {
+                    Log::info("用户($userUpdate->user_id)不存在!");
+                }
+                //用户最新的资料ID是不是这个
+                if($user->user_update_id != $updateId) {
+                    Log::info("用户资料($updateId)已经审核通过，但是用户最新的待更新资料($user->user_update_id)已经变化，无需继续操作!");
+                    return;
+                }
+                $user->user_update_id = null;//设置为空，使用最新信息
+                $result = $user->save();
+                $resultLabel = $result?'成功':'失败';
+                Log::info("用户($user->user_id)资料($updateId)审核通过,更新结果:".$resultLabel);
+                $userUpdate->machine_audit = Constants::STATUS_DONE;
+                $userUpdate->saveOrFail();
+                Log::info("用户资料($updateId)审核状态更新成功");
+            });
         }
-
-        //是不是机器审核已通过
-        if($userUpdate->machine_audit == Constants::STATUS_DONE) {
-            Log::info("用户资料($updateId)机器审核已通过");
-            return;
-        }
-
-        //用户资料可以逐个图片更新,不需要整体都通过
-        $result = $this->checkImageAllAuditFinish($updateId, Constants::IMAGE_AUDIT_OWNER_USER);
-        if(!$result) {
-            return;
-        }
-
-        //用户资料已经完全通过审核
-        Db::transaction(function () use (&$userUpdate, $updateId) {
-            $user = User::query()->where('user_id', $userUpdate->user_id)
-                                 ->lockForUpdate()
-                                 ->first();
-            if(!$user instanceof User) {
-                Log::info("用户($userUpdate->user_id)不存在!");
-            }
-            //用户最新的资料ID是不是这个
-            if($user->user_update_id != $updateId) {
-                Log::info("用户资料($updateId)已经审核通过，但是用户最新的待更新资料($user->user_update_id)已经变化，无需继续操作!");
-                return;
-            }
-            $user->user_update_id = null;//设置为空，使用最新信息
-            $result = $user->save();
-            $resultLabel = $result?'成功':'失败';
-            Log::info("用户($user->user_id)资料($updateId)审核通过,更新结果:".$resultLabel);
-            $userUpdate->machine_audit = Constants::STATUS_DONE;
-            $userUpdate->saveOrFail();
-            Log::info("用户资料($updateId)审核状态更新成功");
-        });
     }
 
     /**
@@ -296,7 +282,7 @@ class QiniuAuditService extends BaseService
                         $post->saveOrFail();
                         $levelLabel = '警告';
                         $level = Constants::MESSAGE_LEVEL_BLOCK;
-                        $title = '帖子审核结果';
+                        $title = '帖子审核不通过';
                         $statusLabel = $status==Constants::STATUS_DONE?'通过':'拒绝';
                         $content = "您的帖子《{$post->title}》上传图片包含敏感内容，已被管理员审核".$statusLabel;
                         $notification = new AddNotificationJob($post->owner_id,$title,$content,false,$level);
@@ -316,15 +302,15 @@ class QiniuAuditService extends BaseService
                 {
                     $comment = Comment::findOrFail($ownerId);
                     $comment->machine_audit = $status;
-                    if($status == Constants::STATUS_INVALIDATE) {
+                    if($status == Constants::STATUS_INVALIDATE || Constants::STATUS_REVIEW) {
                         $comment->audit_status = $status;
                     }
                     $comment->saveOrFail();
-                    //评论审核不通过的提醒
-                    if($status == Constants::STATUS_INVALIDATE) {
+                    //评论审核不通过的提醒,评论不做人工审核，只要疑似敏感都拒绝
+                    if($status == Constants::STATUS_INVALIDATE || $status == Constants::STATUS_REVIEW) {
                         $levelLabel = '警告';
                         $level = Constants::MESSAGE_LEVEL_BLOCK;
-                        $title = '评论审核结果';
+                        $title = '评论审核不通过';
                         $statusLabel = $status==Constants::STATUS_DONE?'通过':'拒绝';
                         $content = "您的评论《{$comment->content}》上传图片包含敏感内容，已被管理员审核".$statusLabel;
                         $notification = new AddNotificationJob($comment->owner_id,$title,$content,false,$level);
@@ -343,8 +329,8 @@ class QiniuAuditService extends BaseService
             case Constants::IMAGE_AUDIT_OWNER_USER:
                 {
                     $userUpdate = UserUpdate::findOrFail($ownerId);
-                    //如果是审核不通过，那么直接清除用户资料对应的ID,使前台继续展示旧资料
-                    if($status == Constants::STATUS_INVALIDATE) {
+                    //如果是审核不通过，那么直接清除用户资料对应的ID,使前台继续展示旧资料,用户资料也是，没有人工审核，只要疑似也认为不通过
+                    if($status == Constants::STATUS_INVALIDATE || Constants::STATUS_REVIEW) {
                         //审核不通过，清除更新资料ID，恢复到原来的资料显示
                         $userUpdate->machine_audit = $status;
                         $userUpdate->saveOrFail();
@@ -369,7 +355,7 @@ class QiniuAuditService extends BaseService
                                 //背景审核不通过
                                 $levelLabel = '警告';
                                 $level = Constants::MESSAGE_LEVEL_BLOCK;
-                                $title = '头像上传审核结果';
+                                $title = '背景上传审核不通过';
                                 $content = "您的新背景涉嫌敏感信息，已被管理员审核拒绝";
                                 $notification = new AddNotificationJob($userUpdate->user_id,$title,$content,false,$level);
                                 $notification->levelLabel = $levelLabel;
@@ -389,6 +375,8 @@ class QiniuAuditService extends BaseService
                                 if($user->user_update_id == $userUpdate->update_id) {
                                     $user->avatar = $userUpdate->avatar;
                                     $user->saveOrFail();
+                                    $userUpdate->avatar = null;
+                                    $userUpdate->saveOrFail();
                                     Log::info("用户资料($ownerId)单独更新头像成功!");
                                 }
                             }
@@ -401,6 +389,8 @@ class QiniuAuditService extends BaseService
                                 if($user->user_update_id == $userUpdate->update_id) {
                                     $user->background = $userUpdate->background;
                                     $user->saveOrFail();
+                                    $userUpdate->background = null;
+                                    $userUpdate->saveOrFail();
                                     Log::info("用户资料($ownerId)单独更新背景成功!");
                                 }
                             }
