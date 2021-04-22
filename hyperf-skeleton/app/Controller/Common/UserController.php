@@ -2,6 +2,7 @@
 
 
 namespace App\Controller\Common;
+use Qiniu\Auth;
 use ZYProSoft\Controller\AbstractController;
 use Hyperf\HttpServer\Annotation\AutoController;
 use Hyperf\Di\Annotation\Inject;
@@ -102,6 +103,16 @@ class UserController extends AbstractController
     public function unreadCountInfo(AuthedRequest $request)
     {
         $result = $this->userService->unreadCountInfo();
+        return $this->success($result);
+    }
+
+    public function advice(AuthedRequest $request)
+    {
+        $this->validate([
+            'content' => 'string|min:1|required',
+        ]);
+        $content = $request->param('content');
+        $result = $this->userService->advice($content);
         return $this->success($result);
     }
 }

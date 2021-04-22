@@ -31,4 +31,13 @@ class Advice extends Model
      * @var array
      */
     protected $casts = ['id' => 'int', 'owner_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+
+    protected $with = [
+        'author'
+    ];
+
+    public function author()
+    {
+        return $this->hasOne(User::class,'user_id','owner_id');
+    }
 }

@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Constants\Constants;
 use App\Constants\ErrorCode;
 use App\Job\UserUpdateMachineAuditJob;
+use App\Model\Advice;
 use App\Model\Comment;
 use App\Model\ImageAudit;
 use App\Model\Notification;
@@ -314,5 +315,14 @@ class UserService extends BaseService
             'message_count' => $unreadMessage,
             'notification_count' => $notificationCount
         ];
+    }
+
+    public function advice(string $content)
+    {
+        $advice = new Advice();
+        $advice->content = $content;
+        $advice->owner_id = $this->userId();
+        $advice->saveOrFail();
+        return $this->success();
     }
 }

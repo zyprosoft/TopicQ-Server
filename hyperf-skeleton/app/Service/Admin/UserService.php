@@ -5,8 +5,10 @@ namespace App\Service\Admin;
 
 
 use App\Constants\ErrorCode;
+use App\Model\Advice;
 use App\Model\User;
 use Carbon\Carbon;
+use Hyperf\Database\Model\Builder;
 use ZYProSoft\Constants\ErrorCode as ZYErrorCode;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Facade\Auth;
@@ -39,5 +41,21 @@ class UserService extends \App\Service\BaseService
         }
 
         return ['token'=>$user->token,'token_expire'=>$user->token_expire->timestamp,'wx_token_expire'=>$wxExpireTime];
+    }
+
+    public function getAdviceList(int $pageIndex, int $pageSize, int $lastId = null)
+    {
+        $list = Advice::query()->where(function (Builder $query) use ($lastId){
+            if(isset($lastId)) {
+                $query->where('id','<',$lastId);
+            }
+        })->offset($pageIndex * $pageSize)
+            ->limit($pageSize)
+            ->latest()
+            ->get();
+
+        $total = Advice::count();
+
+        return ['total'=>$total,'list'=>$list];
     }
 }
