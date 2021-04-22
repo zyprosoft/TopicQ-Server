@@ -50,7 +50,7 @@ class PostController extends AbstractController
         return $this->success($result);
     }
 
-    public function manageBlock(AppManagerRequest $request)
+    public function managerBlock(AppManagerRequest $request)
     {
         $this->validate([
             'postId' => 'integer|required|exists:post,post_id',
