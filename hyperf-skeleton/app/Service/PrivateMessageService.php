@@ -84,6 +84,7 @@ class PrivateMessageService extends BaseService
     {
         $list = Conversation::query()->where('owner_id', $this->userId())
                                      ->offset($pageIndex * $pageSize)
+                                     ->orderByDesc('last_message_time')
                                      ->limit($pageSize)
                                      ->get();
         $total = Conversation::query()->where('owner_id', $this->userId())->count();
