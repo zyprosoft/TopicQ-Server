@@ -4,7 +4,9 @@
 namespace App\Job;
 use App\Constants\Constants;
 use App\Model\Comment;
+use Hyperf\AsyncQueue\Driver\DriverFactory;
 use Hyperf\AsyncQueue\Job;
+use Hyperf\Utils\ApplicationContext;
 use ZYProSoft\Facade\Cache;
 use ZYProSoft\Log\Log;
 
@@ -102,7 +104,9 @@ class CommentHotStatusCheckJob extends Job
                     $notification = new AddNotificationJob($comment->owner_id,$title,$content,false,$level);
                     $notification->levelLabel = $label;
                     $notification->keyInfo = json_encode(['post_id'=>$comment->post_id]);
-                    $this->push($notification);
+                    $driverFactory = ApplicationContext::getContainer()->get(DriverFactory::class);
+                    $driver = $driverFactory->get('default');
+                    $driver->push($notification);
                 }
             });
             return;
