@@ -2,6 +2,7 @@
 
 
 namespace App\Controller\Admin;
+use App\Constants\Constants;
 use App\Http\AppAdminRequest;
 use App\Http\AppManagerRequest;
 use ZYProSoft\Controller\AbstractController;
@@ -54,12 +55,10 @@ class PostController extends AbstractController
     {
         $this->validate([
             'postId' => 'integer|required|exists:post,post_id',
-            'status' => 'integer|required|in:-1,1',
-            'note' => 'string|min:1|max:64'
         ]);
         $postId = $request->param('postId');
-        $status = $request->param('status');
-        $note = $request->param('note');
+        $status = Constants::STATUS_INVALIDATE;
+        $note = "管理员主动打回";
         $result = $this->service->audit($postId, $status, $note);
         return $this->success($result);
     }
