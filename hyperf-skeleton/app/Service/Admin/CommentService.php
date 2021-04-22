@@ -89,7 +89,7 @@ class CommentService extends BaseService
         }
         //增加一条审核成功处理通知
         $title = "评论被管理员审核不通过";
-        $content = "您发表的评论内容《{$comment->content}》经管理员审核查阅，已被认定违反社区参与规范，现已将该评论删除屏蔽，请严格按照社区规范参与发表自己的评论，若多次被举报违规属实，将永久纳入社区黑名单。";
+        $content = "您发表的评论内容《{$comment->content}》经管理员审核查阅，已被认定违反社区参与规范，现已将该评论删除屏蔽，请严格按照社区规范参与发表自己的评论，若多次被管理员击飞评论，将永久纳入社区黑名单。";
         $notification = new AddNotificationJob($comment->owner_id,$title,$content,false,Constants::MESSAGE_LEVEL_BLOCK);
         $notification->levelLabel = "警告";
         $notification->keyInfo = json_encode(['comment_id'=>$commentId]);
