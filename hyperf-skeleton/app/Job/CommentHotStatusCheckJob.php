@@ -62,7 +62,7 @@ class CommentHotStatusCheckJob extends Job
         if (!$topStarList->isEmpty()) {
             //有没有超过6个点赞的
             $topStarList->map(function (Comment $comment) use (&$hotCommentIds) {
-                if ($comment->praise_count >= $this->starBaseCount) {
+                if ($comment->praise_count >= $this->starBaseCount && $comment->is_hot == 0) {
                     $hotCommentIds->push($comment->comment_id);
                 }
             });
@@ -76,7 +76,7 @@ class CommentHotStatusCheckJob extends Job
         if (!$topReplyList->isEmpty()) {
             //有没有超过5个回复的
             $topReplyList->map(function (Comment $comment) use (&$hotCommentIds) {
-                if ($comment->reply_count >= $this->replyBaseCount) {
+                if ($comment->reply_count >= $this->replyBaseCount && $comment->is_hot == 0) {
                     $hotCommentIds->push($comment->comment_id);
                 }
             });
