@@ -45,7 +45,7 @@ class NotificationService extends BaseService
         $list = Notification::query()->where('user_id', $this->userId())
             ->orderByDesc('is_top')
             ->orderBy('is_read')
-            ->orderByDesc('created_at')
+            ->orderByDesc('last_message_time')
             ->offset( $pageIndex * $pageSize)
             ->limit($pageSize)
             ->get();
