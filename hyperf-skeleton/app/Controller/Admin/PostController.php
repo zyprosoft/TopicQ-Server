@@ -3,6 +3,7 @@
 
 namespace App\Controller\Admin;
 use App\Http\AppAdminRequest;
+use App\Http\AppManagerRequest;
 use ZYProSoft\Controller\AbstractController;
 use Hyperf\HttpServer\Annotation\AutoController;
 use Hyperf\Di\Annotation\Inject;
@@ -36,6 +37,20 @@ class PostController extends AbstractController
     }
 
     public function audit(AppAdminRequest $request)
+    {
+        $this->validate([
+            'postId' => 'integer|required|exists:post,post_id',
+            'status' => 'integer|required|in:-1,1',
+            'note' => 'string|min:1|max:64'
+        ]);
+        $postId = $request->param('postId');
+        $status = $request->param('status');
+        $note = $request->param('note');
+        $result = $this->service->audit($postId, $status, $note);
+        return $this->success($result);
+    }
+
+    public function manageBlock(AppManagerRequest $request)
     {
         $this->validate([
             'postId' => 'integer|required|exists:post,post_id',

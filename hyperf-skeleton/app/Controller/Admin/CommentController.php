@@ -3,6 +3,7 @@
 
 namespace App\Controller\Admin;
 use App\Http\AppAdminRequest;
+use App\Http\AppManagerRequest;
 use ZYProSoft\Controller\AbstractController;
 use Hyperf\HttpServer\Annotation\AutoController;
 use Hyperf\Di\Annotation\Inject;
@@ -36,6 +37,22 @@ class CommentController extends AbstractController
     }
 
     public function audit(AppAdminRequest $request)
+    {
+        $this->validate([
+            'reportId' => 'integer|required|exists:report_comment,id',
+            'commentId' => 'integer|required|exists:comment,comment_id',
+            'status' => 'integer|required|in:-1,1',
+            'note' => 'string|min:1|max:64'
+        ]);
+        $commentId = $request->param('commentId');
+        $status = $request->param('status');
+        $note = $request->param('note');
+        $reportId = $request->param('reportId');
+        $result = $this->service->audit($reportId, $commentId, $status, $note);
+        return $this->success($result);
+    }
+
+    public function managerBlock(AppManagerRequest $request)
     {
         $this->validate([
             'reportId' => 'integer|required|exists:report_comment,id',
