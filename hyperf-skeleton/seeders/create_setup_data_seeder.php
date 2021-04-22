@@ -28,5 +28,14 @@ class CreateSetupDataSeeder extends Seeder
             'nickname' => '测试账号',
             'wx_openid' => 'guest',
         ]);
+        Db::table('role')->insertOrIgnore([
+            'name' => '管理员'
+        ]);
+        Db::table('role')->insertOrIgnore([
+            'name' => '审核员'
+        ]);
+        Db::table('role')->insertOrIgnore([
+            'name' => '巡查员'
+        ]);
     }
 }

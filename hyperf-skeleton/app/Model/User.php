@@ -71,6 +71,10 @@ class User extends Model implements Authenticatable
      */
     protected $casts = ['user_id' => 'integer', 'role_id' => 'integer', 'status' => 'integer', 'sex' => 'integer', 'login_type' => 'integer', 'wx_gender' => 'integer', 'unread_comment_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'first_edit_done' => 'integer', 'wx_token_expire' => 'datetime', 'last_login' => 'datetime', 'token_expire' => 'datetime', 'user_update_id' => 'integer'];
     protected $hidden = ['password', 'wx_token', 'wx_openid', 'token', 'wx_token_expire', 'token_expire'];
+    protected $with = [
+        'role'
+    ];
+
     public function getId()
     {
         return $this->user_id;
@@ -82,6 +86,14 @@ class User extends Model implements Authenticatable
     public function isAdmin()
     {
         return $this->role_id == Constants::USER_ROLE_ADMIN;
+    }
+
+    public function role()
+    {
+        if($this->role_id == 0) {
+            return null;
+        }
+        return $this->hasOne(Role::class,'role_id','role_id');
     }
 
     /**
