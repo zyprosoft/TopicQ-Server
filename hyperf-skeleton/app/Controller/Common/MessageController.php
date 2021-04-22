@@ -72,4 +72,14 @@ class MessageController extends AbstractController
         $result = $this->service->markRead($messageIds, $fromUserId);
         return $this->success($result);
     }
+
+    public function refreshUnreadMessage(AuthedRequest $request)
+    {
+        $this->validate([
+            'fromUserId' => 'integer|required|exists:user,user_id'
+        ]);
+        $fromUserId = $request->param('fromUserId');
+        $result = $this->service->refreshUnreadCountWithFromUser($fromUserId);
+        return $this->success($result);
+    }
 }

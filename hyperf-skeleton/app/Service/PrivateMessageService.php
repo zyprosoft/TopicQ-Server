@@ -134,4 +134,23 @@ class PrivateMessageService extends BaseService
 
         return $this->success();
     }
+
+    public function refreshUnreadCountWithFromUser(int $fromUserId)
+    {
+        Db::transaction(function () use ($fromUserId) {
+
+            //更新会话未读数
+            $unreadCount = PrivateMessage::query()->where('receive_id', $this->userId())
+                ->where('from_id', $fromUserId)
+                ->where('read_status',Constants::STATUS_WAIT)
+                ->count();
+
+            Conversation::query()->where('owner_id', $this->userId())
+                ->where('to_user_id', $fromUserId)
+                ->update(['unread_count'=>$unreadCount]);
+
+        });
+
+        return $this->success();
+    }
 }
