@@ -311,9 +311,11 @@ class CommentService extends BaseService
                 Comment::findOrFail($commentId)->decrement('praise_count');
                 return  $this->success();
             }
+            $comment = Comment::findOrFail($commentId);
             $praise = new UserCommentPraise();
             $praise->user_id = $this->userId();
             $praise->comment_id = $commentId;
+            $praise->comment_owner_id = $comment->owner_id;
             $praise->saveOrFail();
             Comment::findOrFail($commentId)->increment('praise_count');
         });
@@ -429,5 +431,17 @@ class CommentService extends BaseService
         });
         Db::table('user_comment_read')->insertOrIgnore($list);
         return $this->success();
+    }
+
+    public function praiseList(int $pageIndex, int $pageSize)
+    {
+        $list = UserCommentPraise::query()->where('comment_owner_id', $this->userId())
+                                          ->with(['comment','author'])
+                                          ->offset($pageIndex * $pageSize)
+                                          ->limit($pageSize)
+                                          ->latest()
+                                          ->get();
+        $total = UserCommentPraise::query()->where('comment_owner_id', $this->userId())->count();
+        return ['total'=>$total,'list'=>$list];
     }
 }

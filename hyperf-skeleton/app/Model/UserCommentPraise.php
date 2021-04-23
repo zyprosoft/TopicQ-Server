@@ -31,4 +31,14 @@ class UserCommentPraise extends Model
      * @var array
      */
     protected $casts = ['id' => 'integer', 'user_id' => 'integer', 'comment_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'comment_owner_id' => 'integer'];
+
+    public function author()
+    {
+        return $this->hasOne(User::class,'user_id','user_id');
+    }
+
+    public function comment()
+    {
+        return $this->hasOne(Comment::class,'comment_id','comment_id');
+    }
 }

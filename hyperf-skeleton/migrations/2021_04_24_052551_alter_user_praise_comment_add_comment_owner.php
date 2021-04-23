@@ -13,8 +13,7 @@ class AlterUserPraiseCommentAddCommentOwner extends Migration
     {
         Schema::table('user_comment_praise', function (Blueprint $table) {
             //
-            $table->bigInteger('comment_owner_id')->comment('评论归属作者');
-            $table->index('comment_owner_id');
+            $table->tinyInteger('owner_read_status')->default(0)->comment('评论归属者阅读状态');
         });
     }
 
@@ -25,7 +24,7 @@ class AlterUserPraiseCommentAddCommentOwner extends Migration
     {
         Schema::table('user_comment_praise', function (Blueprint $table) {
             //
-            $table->removeColumn('comment_owner_id');
+            $table->removeColumn('owner_read_status');
         });
     }
 }
