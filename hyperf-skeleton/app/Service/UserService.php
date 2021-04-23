@@ -14,6 +14,7 @@ use App\Model\Notification;
 use App\Model\PrivateMessage;
 use App\Model\TokenHistory;
 use App\Model\User;
+use App\Model\UserCommentPraise;
 use App\Model\UserCommentRead;
 use App\Model\UserUpdate;
 use Carbon\Carbon;
@@ -318,10 +319,16 @@ class UserService extends BaseService
                                                   ->where('is_read',Constants::STATUS_WAIT)
                                                   ->count();
 
+        //统计未读点赞数量
+        $praiseCount = UserCommentPraise::query()->where('comment_owner_id', $userId)
+                                                 ->where('owner_read_status', Constants::STATUS_WAIT)
+                                                 ->count();
+
         return [
             'reply_count' => count($unreadList),
             'message_count' => $unreadMessage,
-            'notification_count' => $notificationCount
+            'notification_count' => $notificationCount,
+            'praise_count' => $praiseCount
         ];
     }
 
