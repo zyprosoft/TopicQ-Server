@@ -450,6 +450,9 @@ class CommentService extends BaseService
         $list->map(function (UserCommentPraise $praise) use ($commentList) {
              $comment = $commentList->get($praise->comment_id);
              if(isset($comment)) {
+                 if (isset($praise->comment->image_list) && is_string($comment->image_list)) {
+                     $praise->comment->image_list = explode(';', $comment->image_list);
+                 }
                  if(isset($comment->post)) {
                      $praise->post = [
                          'post_id' => $comment->post_id,
