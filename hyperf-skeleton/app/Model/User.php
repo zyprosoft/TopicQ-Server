@@ -48,6 +48,9 @@ use App\Constants\Constants;
  * @property string $background 个人主页背景
  * @property int $first_edit_done 第一次编辑资料是否完成0:未完成1:已完成
  * @property int $user_update_id 用户更新资料的ID,临时资料ID,审核完成后置空
+ * @property int $avatar_user_id 化身ID
+ * @property-read \App\Model\Role $role 
+ * @property-read \App\Model\UserUpdate $update_info 
  */
 class User extends Model implements Authenticatable
 {
@@ -69,13 +72,9 @@ class User extends Model implements Authenticatable
      *
      * @var array
      */
-    protected $casts = ['user_id' => 'integer', 'role_id' => 'integer', 'status' => 'integer', 'sex' => 'integer', 'login_type' => 'integer', 'wx_gender' => 'integer', 'unread_comment_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'first_edit_done' => 'integer', 'wx_token_expire' => 'datetime', 'last_login' => 'datetime', 'token_expire' => 'datetime', 'user_update_id' => 'integer'];
+    protected $casts = ['user_id' => 'integer', 'role_id' => 'integer', 'status' => 'integer', 'sex' => 'integer', 'login_type' => 'integer', 'wx_gender' => 'integer', 'unread_comment_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'first_edit_done' => 'integer', 'wx_token_expire' => 'datetime', 'last_login' => 'datetime', 'token_expire' => 'datetime', 'user_update_id' => 'integer', 'avatar_user_id' => 'integer'];
     protected $hidden = ['password', 'wx_token', 'wx_openid', 'token', 'wx_token_expire', 'token_expire'];
-
-    protected $with = [
-        'role'
-    ];
-
+    protected $with = ['role'];
     public function getId()
     {
         return $this->user_id;
@@ -88,18 +87,16 @@ class User extends Model implements Authenticatable
     {
         return $this->role_id == Constants::USER_ROLE_ADMIN;
     }
-
     public function role()
     {
-        return $this->hasOne(Role::class,'role_id','role_id');
+        return $this->hasOne(Role::class, 'role_id', 'role_id');
     }
-
     /**
      * 用户提交更新资料的临时信息
      * @return \Hyperf\Database\Model\Relations\HasOne
      */
     public function update_info()
     {
-        return $this->hasOne(UserUpdate::class,'update_id','user_update_id');
+        return $this->hasOne(UserUpdate::class, 'update_id', 'user_update_id');
     }
 }
