@@ -25,6 +25,7 @@ namespace App\Model;
  * @property int $manager_audit 管理员审核结果:0待审核-1不通过1通过
  * @property int $text_audit 0待审核1审核通过-1审核不通过
  * @property int $content_audit 0待审核1审核通过-1审核不通过
+ * @property string $image_ids 图片列表获取出来图片ID
  * @property-read \App\Model\User $author 
  * @property-read \App\Model\Comment $parent_comment 
  * @property-read \App\Model\Post $post 

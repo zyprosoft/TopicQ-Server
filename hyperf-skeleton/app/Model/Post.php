@@ -32,6 +32,7 @@ namespace App\Model;
  * @property int $text_audit 0待审核1审核通过-1审核不通过
  * @property int $content_audit 0待审核1审核通过-1审核不通过
  * @property int $title_audit 0待审核1审核通过-1审核不通过
+ * @property string $image_ids 图片列表获取出来图片ID
  * @property-read \App\Model\User $author 
  * @property-read \App\Model\Vote $vote 
  */

@@ -15,6 +15,7 @@ namespace App\Model;
  * @property \Carbon\Carbon $updated_at 
  * @property int $text_audit 0待审核1审核通过-1审核不通过
  * @property int $nickname_audit 0待审核1审核通过-1审核不通过
+ * @property string $image_ids 图片列表获取出来图片ID
  */
 class UserUpdate extends Model
 {
@@ -24,9 +25,7 @@ class UserUpdate extends Model
      * @var string
      */
     protected $table = 'user_update';
-
     protected $primaryKey = 'update_id';
-
     /**
      * The attributes that are mass assignable.
      *
