@@ -75,7 +75,7 @@ class UserService extends \App\Service\BaseService
         $user->country = data_get($params, 'country', $user->country);
         $joinTime = data_get($params,'joinTime');
         if (isset($joinTime)) {
-            $user->created_at = Carbon::createFromTimeString($joinTime);
+            $user->created_at = $joinTime;
         }
         $user->saveOrFail();
     }
