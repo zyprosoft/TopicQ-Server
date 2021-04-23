@@ -98,7 +98,7 @@ class UserService extends \App\Service\BaseService
             $user->area = data_get($params,'area');
             $user->country = data_get($params,'country');
             $user->token = Str::random(64);
-            $user->wx_token_expire = Str::random(64);
+            $user->wx_token = Str::random(64);
             $user->wx_openid = Str::random(64);
             $user->saveOrFail();
 
