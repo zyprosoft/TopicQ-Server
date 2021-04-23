@@ -4,11 +4,14 @@
 namespace App\Service\Admin;
 
 
+use App\Constants\Constants;
 use App\Constants\ErrorCode;
 use App\Model\Advice;
+use App\Model\ManagerAvatarUser;
 use App\Model\User;
 use Carbon\Carbon;
 use Hyperf\Database\Model\Builder;
+use Hyperf\DbConnection\Db;
 use ZYProSoft\Constants\ErrorCode as ZYErrorCode;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Facade\Auth;
@@ -59,13 +62,92 @@ class UserService extends \App\Service\BaseService
         return ['total'=>$total,'list'=>$list];
     }
 
-    public function createManagerAvatar(string $nickname, string $avatar, string $background)
+    public function updateAvatarUserInfo(int $avatarUserId, array $params)
     {
-        $user = new User();
-        $user->nickname = $nickname;
-        $user->avatar = $avatar;
-        $user->background = $background;
+        if(!isset($nickname) && !isset($avatar) && !isset($background)) {
+            throw new HyperfCommonException(ErrorCode::SERVER_ERROR);
+        }
+        $user = User::find($avatarUserId);
+        if(!$user instanceof User) {
+            throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST);
+        }
+        $user->nickname = data_get($params, 'nickname', $user->nickname);
+        $user->avatar = data_get($params, 'avatar', $user->avatar);
+        $user->background = data_get($params, 'background', $user->background);
+        $user->area = data_get($params, 'area', $user->area);
+        $user->country = data_get($params, 'country', $user->country);
+        if (isset($joinTime)) {
+            $user->created_at = Carbon::createFromTimeString($joinTime);
+        }
         $user->saveOrFail();
-        return $this->success($user);
+    }
+
+    public function createManagerAvatar(array $params, int $isBindNow = 0)
+    {
+        Db::transaction(function () use ($params, $isBindNow) {
+
+            $manager = User::query()->where('user_id', $this->userId())
+                ->first();
+            if (!$manager instanceof User) {
+                throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST);
+            }
+
+            $user = new User();
+            $user->nickname = data_get($params,'nickname');
+            $user->avatar = data_get($params,'avatar');
+            $user->background = data_get($params,'background');
+            $user->area = data_get($params,'area');
+            $user->country = data_get($params,'country');
+            $user->saveOrFail();
+
+            $managerAvatarUser = new ManagerAvatarUser();
+            $managerAvatarUser->avatar_user_id = $user->user_id;
+            $managerAvatarUser->owner_id = $manager->user_id;
+            $managerAvatarUser->saveOrFail();
+
+            if($isBindNow == 1) {
+                $manager->avatar_user_id = $user->user_id;
+                $manager->saveOrFail();
+            }
+
+        });
+
+        return $this->success();
+    }
+
+    public function chooseAvatarUser(int $avatarUserId)
+    {
+        $manager = User::query()->where('user_id', $this->userId())
+            ->first();
+        if (!$manager instanceof User) {
+            throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST);
+        }
+        $manager->avatar_user_id = $avatarUserId;
+        $manager->saveOrFail();
+        return $this->success();
+    }
+
+    public function unbindAvatarUser()
+    {
+        $manager = User::query()->where('user_id', $this->userId())
+            ->first();
+        if (!$manager instanceof User) {
+            throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST);
+        }
+        $manager->avatar_user_id = 0;
+        $manager->saveOrFail();
+        return $this->success();
+    }
+
+    public function getAvatarUserList(int $pageIndex, int $pageSize)
+    {
+        $list = ManagerAvatarUser::query()->where('owner_id',$this->userId())
+                                          ->offset($pageIndex * $pageSize)
+                                          ->limit($pageSize)
+                                          ->get();
+
+        $total = ManagerAvatarUser::query()->where('owner_id',$this->userId())->count();
+
+        return ['total'=>$total,'list'=>$list];
     }
 }

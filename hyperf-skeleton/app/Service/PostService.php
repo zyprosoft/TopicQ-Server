@@ -12,6 +12,7 @@ use App\Job\UniqueJobQueue;
 use App\Model\Post;
 use App\Model\PostDraft;
 use App\Model\ReportPost;
+use App\Model\User;
 use App\Model\UserFavorite;
 use App\Model\UserRead;
 use App\Model\UserVote;
@@ -53,6 +54,24 @@ class PostService extends BaseService
         'join_user_count',
         'avatar_list'
     ];
+
+    //重载获取当前用户ID的方法
+    protected function userId()
+    {
+        //当前用户是不是管理员
+        if (Auth::isGuest()) {
+            return Auth::userId();
+        }
+        $userId = Auth::userId();
+        $user = User::find($userId);
+        if ($user->role_id == Constants::USER_ROLE_ADMIN) {
+            //检查是不是在使用化身
+            if ($user->avatar_user_id > 0) {
+                return $user->avatar_user_id;
+            }
+        }
+        return $userId;
+    }
 
     public function create(array $params)
     {
