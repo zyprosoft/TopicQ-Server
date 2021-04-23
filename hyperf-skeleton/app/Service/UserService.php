@@ -293,15 +293,28 @@ class UserService extends BaseService
     {
         //统计回复未看的数量
         $userId = $this->userId();
+
+        //如果是管理员，且在使用化身
+        $user = User::query()->where('user_id',$userId)
+                             ->first();
+        if (!$user instanceof User) {
+            throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST);
+        }
+        if($user->role_id == Constants::USER_ROLE_ADMIN) {
+            if ($user->avatar_user_id > 0) {
+                $userId = $user->avatar_user_id;
+            }
+        }
+
         $unreadList = Db::select("select comment_id from comment where (post_owner_id = ? or parent_comment_owner_id = ?) and comment_id not in (select comment_id from user_comment_read where user_id = ?)",[$userId,$userId,$userId]);
 
         //统计私信未看的数量
-        $unreadMessage = PrivateMessage::query()->where('receive_id', $this->userId())
+        $unreadMessage = PrivateMessage::query()->where('receive_id', $userId)
                                                 ->where('read_status',Constants::STATUS_WAIT)
                                                 ->count();
 
         //统计未读提醒数量
-        $notificationCount = Notification::query()->where('user_id', $this->userId())
+        $notificationCount = Notification::query()->where('user_id', $userId)
                                                   ->where('is_read',Constants::STATUS_WAIT)
                                                   ->count();
 

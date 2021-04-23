@@ -14,25 +14,26 @@ use ZYProSoft\Log\Log;
 class NotificationService extends BaseService
 {
     //重载获取当前用户ID的方法
-    protected function isManagerAvatar(int $userId)
+    protected function userId()
     {
         //当前用户是不是管理员
-        $manageAvatarUser = ManagerAvatarUser::query()->where('avatar_user_id',$userId)
-                                                      ->first();
-        if($manageAvatarUser instanceof ManagerAvatarUser) {
-            return $manageAvatarUser;
+        if (Auth::isGuest()) {
+            return Auth::userId();
         }
-        return false;
+        $userId = Auth::userId();
+        $user = User::find($userId);
+        if ($user->role_id == Constants::USER_ROLE_ADMIN) {
+            //检查是不是在使用化身
+            if ($user->avatar_user_id > 0) {
+                Log::info("使用化身($user->avatar_user_id)");
+                return $user->avatar_user_id;
+            }
+        }
+        return $userId;
     }
 
     public function create(int $userId, string $title, string $content, bool $isTop = false, int $level = Constants::MESSAGE_LEVEL_NORMAL, string $levelLabel = null, string $keyInfo=null)
     {
-        //如果当前是管理员使用化身
-        $managerAvatarUser = $this->isManagerAvatar($userId);
-        if($managerAvatarUser !== false) {
-            //替换接收消息的对象为当前管理员
-            $userId = $managerAvatarUser->owner_id;
-        }
         $message = new Notification();
         $message->user_id = $userId;
         $message->title = $title;
