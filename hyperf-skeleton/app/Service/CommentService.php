@@ -441,7 +441,17 @@ class CommentService extends BaseService
                                           ->limit($pageSize)
                                           ->latest()
                                           ->get();
+        //找出未读Id列表
+        $unreadIds = $list->where('owner_read_status',0)->pluck('id');
         $total = UserCommentPraise::query()->where('comment_owner_id', $this->userId())->count();
-        return ['total'=>$total,'list'=>$list];
+        return ['total'=>$total,'list'=>$list,'id_list'=> $unreadIds];
+    }
+
+    public function markPraiseRead(array $praiseIds)
+    {
+        UserCommentPraise::query()->whereIn('id', $praiseIds)
+                                  ->where('comment_owner_id', $this->userId())
+                                  ->update(['owner_read_status'=>0]);
+        return $this->success();
     }
 }

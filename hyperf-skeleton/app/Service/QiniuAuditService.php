@@ -12,6 +12,7 @@ use App\Model\ImageAudit;
 use App\Model\Post;
 use App\Model\User;
 use App\Model\UserUpdate;
+use App\Model\VoteItem;
 use EasyWeChat\Factory;
 use Hyperf\DbConnection\Db;
 use ZYProSoft\Log\Log;
@@ -474,7 +475,9 @@ class QiniuAuditService extends BaseService
 
     public function auditPost(int $postId)
     {
-        $post = Post::find($postId);
+        $post = Post::query()->where('post_id',$postId)
+                             ->with(['vote'])
+                             ->first();
         if(!$post instanceof Post) {
             Log::info("帖子($postId)不存在");
             return;
@@ -516,6 +519,28 @@ class QiniuAuditService extends BaseService
         //内容审核通过
         $post->content_audit = Constants::STATUS_DONE;
         $post->saveOrFail();
+
+        //检查投票内容
+        if (isset($post->vote)) {
+            $itemContentList = [];
+            $post->vote->items->map(function (VoteItem $item) use (&$itemContentList){
+               $itemContentList[] = $item->content;
+            });
+            $voteContent = implode('--',$itemContentList);
+            $result = $app->content_security->checkText($voteContent);
+            Log::info("微信帖子投票审核结果:".json_encode($result));
+
+            //包含敏感信息
+            if(data_get($result,'errcode') == self::WX_SECURITY_CHECK_FAIL) {
+                $post->content_audit = Constants::STATUS_INVALIDATE;
+                $post->machine_audit = Constants::STATUS_INVALIDATE;
+                $post->audit_status = Constants::STATUS_INVALIDATE;
+                $post->saveOrFail();
+                //发送一条审核不通过的通知
+                $this->addPostAuditFailNotification($postId,$post->title,$post->owner_id,'投票内容包含敏感信息');
+                return;
+            }
+        }
 
         //审核都通过，检查一下帖子是不是全部审核完成
         $this->checkPostAuditFinish($postId);
