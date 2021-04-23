@@ -441,6 +441,21 @@ class CommentService extends BaseService
                                           ->limit($pageSize)
                                           ->latest()
                                           ->get();
+        //带上帖子信息
+        $commentIds = $list->pluck('comment_id');
+        $commentList = Comment::query()->whereIn('comment_id', $commentIds)
+                                       ->with(['post'])
+                                       ->get()
+                                       ->keyBy('comment_id');
+        $list->map(function (UserCommentPraise $praise) use ($commentList) {
+             $post = $commentList->get($praise->comment_id);
+             $praise->post = [
+                 'post_id' => $post->post_id,
+                 'title' => $post->title
+             ];
+             return $praise;
+        });
+
         //找出未读Id列表
         $unreadIds = $list->where('owner_read_status',0)->pluck('id');
         $total = UserCommentPraise::query()->where('comment_owner_id', $this->userId())->count();
