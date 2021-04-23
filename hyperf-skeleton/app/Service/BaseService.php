@@ -54,13 +54,6 @@ class BaseService extends AbstractService
         Log::info("获取图片ID:{$imageIdsLabel}进行校验审核结果");
         $imageAuditList = ImageAudit::query()->whereIn('image_id', $imageIds)
             ->get();
-        if ($imageAuditList->count() != count($imageIds)) {
-            Log::info("{$imageIdsLabel}图片审核结果和上传图片的个数不一致，需要进入异步审核阶段!");
-            return [
-                'need_audit' => true,
-                'need_review' => false
-            ];
-        }
 
         $imageAuditCheck = [
             'need_audit' => false,
