@@ -41,20 +41,25 @@ class CommentService extends BaseService
         if (isset($link)) {
             $comment->link = $link;
         }
-        $needAddAudit = false;
+
+        $imageAuditCheck = [
+            'need_audit' => false,
+            'need_review' => false
+        ];
         if (isset($imageList)) {
             if(!empty($imageList)) {
                 $comment->image_list = implode(';', $imageList);
+                $imageIds = $this->imageIdsFromUrlList($imageList);
+                $comment->image_ids = implode(';',$imageIds);
                 //审核图片
-                $needAddAudit = $this->auditImageOrFail($imageList);
+                $imageAuditCheck = $this->auditImageOrFail($imageList);
             }
         }
-        $comment->saveOrFail();
 
-        //增加待审核图片信息
-        if($needAddAudit) {
-            $this->addAuditImage($imageList,$comment->comment_id,Constants::IMAGE_AUDIT_OWNER_COMMENT);
+        if($imageAuditCheck['need_review']) {
+            $comment->machine_audit = Constants::STATUS_REVIEW;
         }
+        $comment->saveOrFail();
 
         //更新帖子统计信息
         $this->queueService->updatePost($postId);
