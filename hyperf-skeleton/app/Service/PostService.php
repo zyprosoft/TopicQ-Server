@@ -10,6 +10,7 @@ use App\Job\PostIncreaseReadJob;
 use App\Job\PostMachineAuditJob;
 use App\Job\UniqueJobQueue;
 use App\Model\Post;
+use App\Model\PostDraft;
 use App\Model\ReportPost;
 use App\Model\UserFavorite;
 use App\Model\UserRead;
@@ -454,10 +455,5 @@ class PostService extends BaseService
     {
         Post::findOrFail($postId)->increment('forward_count');
         return $this->success();
-    }
-
-    public function search(string $keyword)
-    {
-        
     }
 }
