@@ -170,6 +170,8 @@ class CommentService extends BaseService
         if (isset($imageList)) {
             if(!empty($imageList)) {
                 $comment->image_list = implode(';', $imageList);
+                $imageIds = $this->imageIdsFromUrlList($imageList);
+                $comment->image_ids = implode(';',$imageIds);
                 //审核图片
                 $imageAuditCheck = $this->auditImageOrFail($imageList);
             }
@@ -184,11 +186,6 @@ class CommentService extends BaseService
             $comment->machine_audit = Constants::STATUS_REVIEW;
         }
         $comment->saveOrFail();
-
-        //增加待审核图片信息
-        if($imageAuditCheck['need_review'] == false && $imageAuditCheck['need_audit'] == true) {
-            $this->addAuditImage($imageList,$comment->comment_id,Constants::IMAGE_AUDIT_OWNER_COMMENT);
-        }
 
         //读取数据库完整的帖子信息
         $comment = Comment::query()->where('comment_id', $comment->comment_id)

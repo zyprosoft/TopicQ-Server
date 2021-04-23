@@ -79,6 +79,8 @@ class PostService extends BaseService
             if (isset($imageList)) {
                 if (!empty($imageList)) {
                     $post->image_list = implode(';', $imageList);
+                    $imageIds = $this->imageIdsFromUrlList($imageList);
+                    $post->image_ids = implode(';',$imageIds);
                     //检测上传图片
                     $imageAuditCheck = $this->auditImageOrFail($imageList,true);
                 }
@@ -113,13 +115,6 @@ class PostService extends BaseService
             throw new HyperfCommonException(ErrorCode::SERVER_ERROR, '发布帖子失败');
         }
 
-        //需要人工审核
-        if($imageAuditCheck['need_audit'] == true) {
-            //插入图片待审核信息
-            if (!empty($imageList) && $imageAuditCheck['need_audit']) {
-                $this->addAuditImage($imageList, $post->post_id, Constants::IMAGE_AUDIT_OWNER_POST);
-            }
-        }
         //机器审核结果是需要人工继续审核就不需要自动审核任务了
         if($post->machine_audit !== Constants::STATUS_REVIEW) {
             Log::info("增加帖子($post->post_id)自动审核任务");
@@ -173,6 +168,8 @@ class PostService extends BaseService
             $post->image_list = implode(';', $params['imageList']);
             if (!empty($imageList)) {
                 $post->image_list = implode(';', $imageList);
+                $imageIds = $this->imageIdsFromUrlList($imageList);
+                $post->image_ids = implode(';',$imageIds);
                 //检测上传图片
                 $imageAuditCheck = $this->auditImageOrFail($imageList);
             }
@@ -191,13 +188,6 @@ class PostService extends BaseService
         }
         $post->saveOrFail();
 
-        //需要人工审核
-        if($imageAuditCheck['need_audit'] == true) {
-            //插入图片待审核信息
-            if (!empty($imageList) && $imageAuditCheck['need_audit']) {
-                $this->addAuditImage($imageList, $post->post_id, Constants::IMAGE_AUDIT_OWNER_POST);
-            }
-        }
         //机器审核结果是需要人工继续审核就不需要自动审核任务了
         if($post->machine_audit !== Constants::STATUS_REVIEW) {
             Log::info("增加帖子($post->post_id)自动审核任务");

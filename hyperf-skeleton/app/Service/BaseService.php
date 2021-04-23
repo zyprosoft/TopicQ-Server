@@ -22,56 +22,7 @@ use ZYProSoft\Service\AbstractService;
 
 class BaseService extends AbstractService
 {
-    public function addAuditImage(array $imageList, int $ownerId, int $ownerType)
-    {
-        Db::transaction(function () use ($imageList,$ownerId,$ownerType) {
-            //添加之前再次查询一下是不是有对应的图片审核信息,有的话采用更新方式
-            $imageIds = [];
-            collect($imageList)->map(function (string $imageUrl) use ($ownerId,$ownerType,&$imageIds) {
-                $imageID = collect(explode('/', $imageUrl))->last();
-                $imageIds[] = $imageID;
-            });
-            $auditList = ImageAudit::query()->whereIn('image_id',$imageIds)
-                                            ->lockForUpdate()
-                                            ->get();
-            if($auditList->isEmpty()) {
-                collect($imageIds)->map(function (string $imageID) use ($ownerId, $ownerType){
-                    $audit = new ImageAudit();
-                    $audit->image_id = $imageID;
-                    $audit->owner_id = $ownerId;
-                    $audit->owner_type = $ownerType;
-                    $audit->user_id = $this->userId();
-                    $result = $audit->save();
-                    if(!$result) {
-                        Log::error("图片ID($imageID)绑定实体($ownerId)($ownerType)信息失败");
-                    }
-                    Log::info("图片ID($imageID)绑定实体($ownerId)($ownerType)信息成功");
-                });
-            }else{
-                $auditStatusList = $auditList->keyBy('image_id');
-                collect($imageIds)->map(function (string $imageID) use ($auditStatusList,$ownerId,$ownerType){
-                    if(!isset($auditStatusList[$imageID])) {
-                        $audit = new ImageAudit();
-                        $audit->image_id = $imageID;
-                    }else{
-                        $audit = ImageAudit::query()->where('image_id',$imageID)->firstOrFail();
-                    }
-                    $audit->owner_id = $ownerId;
-                    $audit->owner_type = $ownerType;
-                    $audit->user_id = $this->userId();
-                    $result = $audit->save();
-                    if(!$result) {
-                        Log::error("图片ID($imageID)绑定实体($ownerId)($ownerType)信息失败");
-                    }else{
-                        Log::info("图片ID($imageID)绑定实体($ownerId)($ownerType)信息成功");
-                    }
-                });
-            }
-        });
-        Log::info("($ownerId)待审核图片添加完成!");
-    }
-
-    protected function imageIdsFromUrlList(array $imageList)
+    public function imageIdsFromUrlList(array $imageList)
     {
         $imageIds = [];
         collect($imageList)->map(function (string $imageUrl)  use (&$imageIds) {

@@ -216,6 +216,8 @@ class UserService extends BaseService
 
             //检查图片是否审核通过
             if(!empty($imageList)) {
+                $imageIds = $this->imageIdsFromUrlList($imageList);
+                $userUpdate->image_ids = implode(';',$imageIds);
                 $imageAuditCheck = $this->auditImageOrFail($imageList);
                 if($imageAuditCheck['need_review'] == false && $imageAuditCheck['need_audit'] == false) {
                     Log::info("图片无需再审核，直接更新到用户信息上");
@@ -254,13 +256,6 @@ class UserService extends BaseService
         //需要审核，查看资料更新ID是否存在
         if (!isset($userUpdate)) {
             throw new HyperfCommonException(ErrorCode::SERVER_ERROR);
-        }
-
-        //不能在事务里面触发异步任务，否则还没拿到新记录的ID，导致事情都是没法完成的
-
-        //不需要异步，否则导致审核任务异步无法获取结果，加入待审核图片列表
-        if($imageAuditCheck['need_audit'] && !empty($imageList)) {
-            $this->addAuditImage($imageList,$userUpdate->update_id,Constants::IMAGE_AUDIT_OWNER_USER);
         }
 
         //加入用户资料异步审核任务,是否需要审核取决于更新的内容是不是包含图片和昵称,用户资料没有人工审核检测

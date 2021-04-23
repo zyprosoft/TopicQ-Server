@@ -13,8 +13,8 @@ class AlterPostAddImageIdList extends Migration
     {
         Schema::table('post', function (Blueprint $table) {
             //
-            $table->string('image_ids',500)->nullable()->comment('图片列表获取出来图片ID');
-
+            $table->string('image_ids',130)->nullable()->comment('图片列表获取出来图片ID');
+            $table->index('image_ids');
         });
     }
 

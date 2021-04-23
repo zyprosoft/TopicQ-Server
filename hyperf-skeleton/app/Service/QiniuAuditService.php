@@ -14,7 +14,6 @@ use App\Model\User;
 use App\Model\UserUpdate;
 use EasyWeChat\Factory;
 use Hyperf\DbConnection\Db;
-use Hyperf\Utils\Str;
 use ZYProSoft\Log\Log;
 
 class QiniuAuditService extends BaseService
@@ -99,13 +98,56 @@ class QiniuAuditService extends BaseService
             return;
         }
         Log::info("保存图片($imageID)审核结果($updateStatus)成功!");
-        //如果有所有者，更新所有者审核信息
-        if(isset($imageAudit->owner_id) && isset($imageAudit->owner_type)) {
-            $updateJob = new ImageAuditUpdateJob($imageAudit->owner_id,$imageAudit->owner_type,$updateStatus,$imageID);
-            $this->push($updateJob);
-        }else{
-            Log::info("图片($imageID)没有绑定任何实体信息!");
+        //如果有所有者，更新所有者审核信息，通过ImageIds找到对应的实体
+        $this->checkAuditImagePost($imageID, $updateStatus);
+        $this->checkAuditImageComment($imageID, $updateStatus);
+        $this->checkAuditImageUserUpdate($imageID, $updateStatus);
+    }
+
+    protected function checkAuditImageUserUpdate(string $imageID, int $updateStatus)
+    {
+        $list = UserUpdate::query()->where('image_ids','like',"%$imageID%")
+                                   ->get();
+        if ($list->isEmpty()) {
+            Log::info("图片($imageID)与用户资料更新无关");
+            return;
         }
+        Log::info("图片($imageID)归属用户资料更新");
+        $list->map(function (UserUpdate $userUpdate) use ($imageID, $updateStatus) {
+            $updateJob = new ImageAuditUpdateJob($userUpdate->update_id,Constants::IMAGE_AUDIT_OWNER_USER,$updateStatus,$imageID);
+            $this->push($updateJob);
+        });
+    }
+
+    protected function checkAuditImageComment(string $imageID, int $updateStatus)
+    {
+        $list = Comment::query()->where('image_ids','like',"%$imageID%")
+                                ->get();
+        if ($list->isEmpty()) {
+            Log::info("图片($imageID)与评论无关");
+            return;
+        }
+        Log::info("图片($imageID)归属于评论");
+        $list->map(function (Comment $comment) use ($imageID,$updateStatus){
+            $updateJob = new ImageAuditUpdateJob($comment->comment_id,Constants::IMAGE_AUDIT_OWNER_COMMENT,$updateStatus,$imageID);
+            $this->push($updateJob);
+        });
+    }
+
+    protected function checkAuditImagePost(string $imageID, int $updateStatus)
+    {
+        $list = Post::query()->where('image_ids','like',"%$imageID%")
+                             ->get();
+        if ($list->isEmpty()) {
+            Log::info("图片($imageID)跟帖子无关");
+            return;
+        }
+        Log::info("图片($imageID)归属于帖子");
+        //找到相关性，异步处理
+        $list->map(function (Post $post) use ($imageID,$updateStatus) {
+            $updateJob = new ImageAuditUpdateJob($post->post_id,Constants::IMAGE_AUDIT_OWNER_POST,$updateStatus,$imageID);
+            $this->push($updateJob);
+        });
     }
 
     public function checkPostAuditFinish(int $postId)
