@@ -23,7 +23,7 @@ class AlterCommentAddImageIdList extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('comment', function (Blueprint $table) {
             //
             $table->removeColumn('image_ids');
         });
