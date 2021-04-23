@@ -16,6 +16,7 @@ class CreateManagerAvatarUserTable extends Migration
             $table->bigInteger('owner_id')->comment('管理员ID');
             $table->bigInteger('avatar_user_id')->comment('化身用户ID');
 
+            $table->unique('avatar_user_id');//只能被一个管理员使用
             $table->index('owner_id');
             $table->softDeletes();
             $table->timestamps();
