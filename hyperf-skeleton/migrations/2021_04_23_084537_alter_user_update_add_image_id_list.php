@@ -11,8 +11,9 @@ class AlterUserUpdateAddImageIdList extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('user_update', function (Blueprint $table) {
             //
+            $table->string('image_ids',500)->nullable()->comment('图片列表获取出来图片ID');
         });
     }
 
@@ -21,8 +22,9 @@ class AlterUserUpdateAddImageIdList extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('user_update', function (Blueprint $table) {
             //
+            $table->removeColumn('image_ids');
         });
     }
 }

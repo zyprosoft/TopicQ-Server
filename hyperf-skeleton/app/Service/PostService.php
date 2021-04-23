@@ -465,4 +465,9 @@ class PostService extends BaseService
         Post::findOrFail($postId)->increment('forward_count');
         return $this->success();
     }
+
+    public function search(string $keyword)
+    {
+        
+    }
 }
