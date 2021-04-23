@@ -448,10 +448,10 @@ class CommentService extends BaseService
                                        ->get()
                                        ->keyBy('comment_id');
         $list->map(function (UserCommentPraise $praise) use ($commentList) {
-             $post = $commentList->get($praise->comment_id);
+             $comment = $commentList->get($praise->comment_id);
              $praise->post = [
-                 'post_id' => $post->post_id,
-                 'title' => $post->title
+                 'post_id' => $comment->post_id,
+                 'title' => $comment->post->title
              ];
              return $praise;
         });
