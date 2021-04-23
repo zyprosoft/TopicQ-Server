@@ -29,17 +29,19 @@ class CommentService extends BaseService
      */
     private UniqueJobQueue $queueService;
 
-    public function create(int $postId, string $content, array $imageList = null, string $link = null)
+    public function create(int $postId, string $content = null, array $imageList = null, string $link = null)
     {
         $post = Post::findOrFail($postId);
 
         $comment = new Comment();
-        $comment->content = $content;
         $comment->owner_id = $this->userId();
         $comment->post_id = $postId;
         $comment->post_owner_id = $post->owner_id;
         if (isset($link)) {
             $comment->link = $link;
+        }
+        if(isset($content)) {
+            $comment->content = $content;
         }
 
         $imageAuditCheck = [
@@ -160,14 +162,15 @@ class CommentService extends BaseService
         return $result;
     }
 
-    public function reply(int $commentId, string $content, array $imageList = null, string $link = null)
+    public function reply(int $commentId, string $content = null, array $imageList = null, string $link = null)
     {
         $parentComment = Comment::findOrFail($commentId);
         $comment = new Comment();
         $comment->parent_comment_id = $commentId;
         $comment->parent_comment_owner_id = $parentComment->owner_id;
-        $comment->content = $content;
-
+        if(isset($content)) {
+            $comment->content = $content;
+        }
         $imageAuditCheck = [
             'need_audit' => false,
             'need_review' => false

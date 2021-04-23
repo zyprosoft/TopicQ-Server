@@ -24,8 +24,8 @@ class CommentController extends AbstractController
     public function create(AuthedRequest $request)
     {
         $this->validate([
-            'content' => 'string|required|min:1|max:500|sensitive',
-            'postId' => 'integer|required|min:1|exists:post,post_id',
+            'content' => 'string|required_without:imageList|min:1|max:500|sensitive',
+            'postId' => 'integer|required_without:content|min:1|exists:post,post_id',
             'imageList' => 'array|min:1|max:4',
             'link' => 'string|min:1|max:500'
         ]);

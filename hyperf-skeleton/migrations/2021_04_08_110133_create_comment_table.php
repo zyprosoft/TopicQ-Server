@@ -17,7 +17,7 @@ class CreateCommentTable extends Migration
             $table->bigInteger('parent_comment_id')->nullable()->comment('回复的评论');
             $table->bigInteger('parent_comment_owner_id')->nullable()->comment('原评论的作者ID');
             $table->bigInteger('owner_id')->comment('作者ID');
-            $table->string('content',500)->comment('回复内容');
+            $table->string('content',500)->default('')->comment('回复内容');
             $table->string('link',500)->nullable()->comment('回复的超链接');
             $table->text('image_list')->nullable()->comment('回复的图片列表');
             $table->integer('praise_count')->default(0)->comment('点赞数量');
