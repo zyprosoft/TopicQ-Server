@@ -38,6 +38,6 @@ class ManagerAvatarUser extends Model
 
     public function avatar_user()
     {
-        return $this->hasOne(User::class,'user_id','owner_id');
+        return $this->hasOne(User::class,'user_id','avatar_user_id');
     }
 }
