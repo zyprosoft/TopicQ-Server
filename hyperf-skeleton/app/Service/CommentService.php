@@ -466,7 +466,7 @@ class CommentService extends BaseService
     {
         UserCommentPraise::query()->whereIn('id', $praiseIds)
                                   ->where('comment_owner_id', $this->userId())
-                                  ->update(['owner_read_status'=>0]);
+                                  ->update(['owner_read_status'=>1]);
         return $this->success();
     }
 }
