@@ -14,6 +14,7 @@ class AlterUserPraiseCommentAddCommentOwner extends Migration
         Schema::table('user_comment_praise', function (Blueprint $table) {
             //
             $table->bigInteger('comment_owner_id')->comment('评论归属作者');
+            $table->index('comment_owner_id');
         });
     }
 
