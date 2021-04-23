@@ -58,4 +58,14 @@ class UserService extends \App\Service\BaseService
 
         return ['total'=>$total,'list'=>$list];
     }
+
+    public function createManagerAvatar(string $nickname, string $avatar, string $background)
+    {
+        $user = new User();
+        $user->nickname = $nickname;
+        $user->avatar = $avatar;
+        $user->background = $background;
+        $user->saveOrFail();
+        return $this->success($user);
+    }
 }
