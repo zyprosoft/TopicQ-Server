@@ -64,9 +64,6 @@ class UserService extends \App\Service\BaseService
 
     public function updateAvatarUserInfo(int $avatarUserId, array $params)
     {
-        if(!isset($nickname) && !isset($avatar) && !isset($background)) {
-            throw new HyperfCommonException(ErrorCode::SERVER_ERROR);
-        }
         $user = User::find($avatarUserId);
         if(!$user instanceof User) {
             throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST);
