@@ -67,6 +67,7 @@ class PostService extends BaseService
         if ($user->role_id == Constants::USER_ROLE_ADMIN) {
             //检查是不是在使用化身
             if ($user->avatar_user_id > 0) {
+                Log::info("使用化身($user->avatar_user_id)");
                 return $user->avatar_user_id;
             }
         }

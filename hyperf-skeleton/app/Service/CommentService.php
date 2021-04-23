@@ -10,6 +10,7 @@ use App\Job\CommentMachineAuditJob;
 use App\Model\Comment;
 use App\Model\Post;
 use App\Model\ReportComment;
+use App\Model\User;
 use App\Model\UserCommentPraise;
 use App\Model\UserCommentRead;
 use Hyperf\Database\Model\Collection;
@@ -28,6 +29,25 @@ class CommentService extends BaseService
      * @var UniqueJobQueue
      */
     private UniqueJobQueue $queueService;
+
+    //重载获取当前用户ID的方法
+    protected function userId()
+    {
+        //当前用户是不是管理员
+        if (Auth::isGuest()) {
+            return Auth::userId();
+        }
+        $userId = Auth::userId();
+        $user = User::find($userId);
+        if ($user->role_id == Constants::USER_ROLE_ADMIN) {
+            //检查是不是在使用化身
+            if ($user->avatar_user_id > 0) {
+                Log::info("使用化身($user->avatar_user_id)");
+                return $user->avatar_user_id;
+            }
+        }
+        return $userId;
+    }
 
     public function create(int $postId, string $content = null, array $imageList = null, string $link = null)
     {
