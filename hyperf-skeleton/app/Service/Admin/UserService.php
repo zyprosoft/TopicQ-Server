@@ -12,6 +12,7 @@ use App\Model\User;
 use Carbon\Carbon;
 use Hyperf\Database\Model\Builder;
 use Hyperf\DbConnection\Db;
+use Hyperf\Utils\Str;
 use ZYProSoft\Constants\ErrorCode as ZYErrorCode;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Facade\Auth;
@@ -96,6 +97,8 @@ class UserService extends \App\Service\BaseService
             $user->background = data_get($params,'background');
             $user->area = data_get($params,'area');
             $user->country = data_get($params,'country');
+            $user->token = Str::random(64);
+            $user->wx_token_expire = Str::random(64);
             $user->saveOrFail();
 
             $managerAvatarUser = new ManagerAvatarUser();
