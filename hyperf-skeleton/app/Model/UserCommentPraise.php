@@ -9,6 +9,7 @@ namespace App\Model;
  * @property int $comment_id 评论ID
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
+ * @property int $comment_owner_id 评论归属作者
  */
 class UserCommentPraise extends Model
 {
@@ -29,5 +30,5 @@ class UserCommentPraise extends Model
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'user_id' => 'integer', 'comment_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected $casts = ['id' => 'integer', 'user_id' => 'integer', 'comment_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'comment_owner_id' => 'integer'];
 }
