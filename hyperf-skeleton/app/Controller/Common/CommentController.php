@@ -172,4 +172,26 @@ class CommentController extends AbstractController
         $result = $this->service->markRead($commentIds);
         return $this->success($result);
     }
+
+    public function praiseList(AuthedRequest $request)
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30',
+        ]);
+        $pageIndex = $request->param('pageIndex');
+        $pageSize = $request->param('pageSize');
+        $result = $this->service->praiseList($pageIndex, $pageSize);
+        return $this->success($result);
+    }
+
+    public function markPraiseRead(AuthedRequest $request)
+    {
+        $this->validate([
+            'praiseIds' => 'array|required|min:1',
+        ]);
+        $praiseIds = $request->param('praiseIds');
+        $result = $this->service->markPraiseRead($praiseIds);
+        return $this->success($result);
+    }
 }
