@@ -32,6 +32,10 @@ class ManagerAvatarUser extends Model
      */
     protected $casts = ['id' => 'int', 'owner_id' => 'integer', 'avatar_user_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
 
+    protected $with = [
+        'avatar_user'
+    ];
+
     public function avatar_user()
     {
         return $this->hasOne(User::class,'user_id','owner_id');

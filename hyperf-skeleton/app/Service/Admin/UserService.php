@@ -144,10 +144,30 @@ class UserService extends \App\Service\BaseService
         $list = ManagerAvatarUser::query()->where('owner_id',$this->userId())
                                           ->offset($pageIndex * $pageSize)
                                           ->limit($pageSize)
+                                          ->latest()
                                           ->get();
+
+        //找到绑定的那个化身
+        $bindAvatar = null;
+        $manager = User::find($this->userId());
+        if(!$manager instanceof User) {
+            throw new HyperfCommonException(ErrorCode::SERVER_ERROR);
+        }
+        if ($manager->avatar_user_id != 0) {
+            $bindAvatar = User::find($manager->avatar_user_id);
+        }
+        $list = $list->pluck('avatar_user');
+        $list->map(function (User $user) use ($bindAvatar) {
+            if(isset($bindAvatar) && $bindAvatar->user_id == $user->user_id) {
+                $user->is_bind = 1;
+                return $user;
+            }
+            $user->is_bind = 0;
+            return $user;
+        });
 
         $total = ManagerAvatarUser::query()->where('owner_id',$this->userId())->count();
 
-        return ['total'=>$total,'list'=>$list];
+        return ['total'=>$total,'list'=>$list,'current'=>$bindAvatar];
     }
 }
