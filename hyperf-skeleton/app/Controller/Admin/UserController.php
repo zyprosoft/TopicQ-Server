@@ -67,11 +67,13 @@ class UserController extends AbstractController
                 'nickname' => 'string|required|min:1|max:20|sensitive',
                 'background' => 'string|required|min:1|max:500',
                 'area' => 'string|required|min:1|max:64',
-                'country' => 'string|required|min:1|max:64'
+                'country' => 'string|required|min:1|max:64',
+                'isBind' => 'integer|required|in:0,1'
             ]
         );
         $params = $request->getParams();
-        $result = $this->service->createManagerAvatar($params);
+        $isBind = $request->param('isBind');
+        $result = $this->service->createManagerAvatar($params, $isBind);
         return $this->success($result);
     }
 
