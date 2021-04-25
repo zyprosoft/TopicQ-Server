@@ -228,13 +228,44 @@ class ExampleTest extends HttpTestCase
         }
     }
 
-    public function createMiniProgram(int $categoryId, string $appId, string $name, string $icon, string $introduce)
+    public function createMiniProgram(int $categoryId, string $appId,string $shortName, string $name, string $icon, string $introduce)
     {
-        
+        $service = ApplicationContext::getContainer()->get(ThirdPartService::class);
+        $service->addMiniProgram($categoryId,$appId,$shortName,$name,$icon,$introduce);
     }
 
-    public function createOfficialAccount(int $categoryId, string $appId, string $name, string $icon, string $introduce)
+    public function createOfficialAccount(int $categoryId, string $wechatId, string $name, string $icon, string $introduce)
     {
+        $service = ApplicationContext::getContainer()->get(ThirdPartService::class);
+        $service->addOfficialAccount($categoryId,$wechatId,$name,$icon,$introduce);
+    }
 
+    public function testCreateMiniProgram()
+    {
+        $miniList = [
+            [
+                'categoryId' => 1,
+                'appId' => 'wxdbc858d8bb1722f4',
+                'shortName' => '吉安市图书馆',
+                'name' => '吉安市图书馆',
+                'icon' => 'https://static.lulingshuo.icodefuture.com/1618916654716',
+                'introduce' =>'吉安市图书馆数字阅读平台为广大读者提供丰富、优质的数字资源。平台拥有精读图书资源，听书，电子书，视频等'
+            ]
+        ];
+        $officialList = [
+            [
+                'categoryId' => 1,
+                'wechatId' => 'iCodeLeadsTheFuture',
+                'name' => '码动未来信息科技',
+                'icon' => 'https://static.lulingshuo.icodefuture.com/1618916654716',
+                'introduce' =>'码动未来信息科技专注于社区生活服务平台开发'
+            ]
+        ];
+        foreach ($miniList as $item) {
+            $this->createMiniProgram($item['categoryId'],$item['appId'],$item['shortName'],$item['name'],$item['icon'],$item['introduce']);
+        }
+        foreach ($officialList as $item) {
+            $this->createOfficialAccount($item['categoryId'],$item['wechatId'],$item['name'],$item['icon'],$item['introduce']);
+        }
     }
 }

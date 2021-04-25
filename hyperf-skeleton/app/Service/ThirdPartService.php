@@ -39,7 +39,7 @@ class ThirdPartService extends BaseService
         return $this->success();
     }
 
-    public function addMiniProgram(int $categoryId, string $appId, string $name, string $icon, string $introduce)
+    public function addMiniProgram(int $categoryId, string $appId,string $shortName, string $name, string $icon, string $introduce)
     {
         $miniProgram = MiniProgram::query()->where('appId',$appId)
                                            ->first();
@@ -47,6 +47,7 @@ class ThirdPartService extends BaseService
             throw new HyperfCommonException(ErrorCode::RECORD_DID_EXIST);
         }
         $miniProgram = new MiniProgram();
+        $miniProgram->short_name = $shortName;
         $miniProgram->name = $name;
         $miniProgram->app_id = $appId;
         $miniProgram->icon = $icon;
