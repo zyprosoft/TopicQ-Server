@@ -11,7 +11,7 @@ declare(strict_types=1);
  */
 namespace HyperfTest\Cases;
 
-use App\Service\ThirdPartService;
+use App\Service\Admin\ThirdPartService;
 use Hyperf\Utils\ApplicationContext;
 use HyperfTest\HttpTestCase;
 use Qbhy\HyperfTesting\Client;
