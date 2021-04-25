@@ -186,7 +186,7 @@ class UserService extends \App\Service\BaseService
         $result = Db::select('select count(user_id) as total from (select `user_id` from user where `user_id` not in (select `avatar_user_id` from manager_avatar_user)) u');
         $totalRealUser = data_get($result[0],'total');
         //今日新增用户
-        $result = Db::select("count(`user_id`) as total from user where `created_at` like '%$today%' and `user_id` not in (select `avatar_user_id` from manager_avatar_user)");
+        $result = Db::select("select count(user_id) as total from (select `user_id` from user where `created_at` like '%$today%' and `user_id` not in (select `avatar_user_id` from manager_avatar_user)) u");
         $totalRealUserToday = data_get($result[0],'total');
 
         //评论总数
