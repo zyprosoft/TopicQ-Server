@@ -22,6 +22,9 @@ class MiniProgramCategory extends Model
      * @var string
      */
     protected $table = 'mini_program_category';
+
+    protected $primaryKey = 'category_id';
+
     /**
      * The attributes that are mass assignable.
      *

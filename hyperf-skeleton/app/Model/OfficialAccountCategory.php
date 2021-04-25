@@ -22,6 +22,9 @@ class OfficialAccountCategory extends Model
      * @var string
      */
     protected $table = 'official_account_category';
+
+    protected $primaryKey = 'category_id';
+
     /**
      * The attributes that are mass assignable.
      *

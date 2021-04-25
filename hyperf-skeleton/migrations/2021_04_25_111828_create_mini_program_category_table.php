@@ -19,6 +19,7 @@ class CreateMiniProgramCategoryTable extends Migration
             $table->bigInteger('create_user_id')->nullable()->comment('创建者');
             $table->bigInteger('update_user_id')->nullable()->comment('更新者');
 
+            $table->unique('name');
             $table->softDeletes();
             $table->timestamps();
             $table->engine = "InnoDB";

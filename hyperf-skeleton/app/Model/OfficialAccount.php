@@ -30,6 +30,8 @@ class OfficialAccount extends Model
      * @var string
      */
     protected $table = 'official_account';
+
+    protected $primaryKey = 'account_id';
     /**
      * The attributes that are mass assignable.
      *
@@ -42,4 +44,13 @@ class OfficialAccount extends Model
      * @var array
      */
     protected $casts = ['account_id' => 'integer', 'category_id' => 'integer', 'create_user_id' => 'integer', 'update_user_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+
+    protected $with = [
+        'category'
+    ];
+
+    public function category()
+    {
+        return $this->hasOne(OfficialAccountCategory::class,'category_id','category_id');
+    }
 }
