@@ -190,7 +190,7 @@ class UserService extends \App\Service\BaseService
             ->leftJoin('manager_avatar_user', 'user.user_id', '=', 'manager_avatar_user.avatar_user_id')
             ->whereNull('manager_avatar_user.owner_id')
             ->count();
-        $totalRealUserToday = Comment::query()->select([
+        $totalRealUserToday = User::query()->select([
             'user.created_at',
             'user.user_id',
             'manager_avatar_user.avatar_user_id',
