@@ -33,4 +33,13 @@ class UserMiniProgramUse extends Model
      * @var array
      */
     protected $casts = ['id' => 'int', 'user_id' => 'integer', 'program_id' => 'integer', 'count' => 'integer', 'is_outside' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+
+    protected $with = [
+        'mini_program'
+    ];
+
+    public function mini_program()
+    {
+        return $this->hasOne(UserMiniProgramUse::class,'program_id','program_id');
+    }
 }

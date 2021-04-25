@@ -53,4 +53,9 @@ class ErrorCode extends AbstractConstants
      * @Message("警告，请不要上传敏感图片!")
      */
     const IMAGE_AUDIT_INVALIDATE = 30004;
+
+    /**
+     * @Message("外显小程序最多3个!")
+     */
+    const OUTSIDE_MINI_PROGRAM_FULL = 30005;
 }

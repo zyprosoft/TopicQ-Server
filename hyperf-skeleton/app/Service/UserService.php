@@ -16,6 +16,7 @@ use App\Model\TokenHistory;
 use App\Model\User;
 use App\Model\UserCommentPraise;
 use App\Model\UserCommentRead;
+use App\Model\UserMiniProgramUse;
 use App\Model\UserUpdate;
 use Carbon\Carbon;
 use EasyWeChat\Factory;
@@ -178,6 +179,12 @@ class UserService extends BaseService
                 $user->save();//不影响本次结果返回
             }
         }
+        //获取个人资料的时候获取一下外显的常用小程序信息
+        $alwaysUseMiniProgramList = UserMiniProgramUse::query()->where('user_id', $userId)
+                                                                ->where('is_outside', Constants::STATUS_DONE)
+                                                                ->get()
+                                                                ->pluck('mini_program');
+        $user->mini_program_list = $alwaysUseMiniProgramList;
         return $user;
     }
 

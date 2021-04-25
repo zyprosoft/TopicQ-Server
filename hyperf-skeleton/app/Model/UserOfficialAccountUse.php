@@ -32,4 +32,13 @@ class UserOfficialAccountUse extends Model
      * @var array
      */
     protected $casts = ['id' => 'int', 'user_id' => 'integer', 'account_id' => 'integer', 'count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+
+    protected $with = [
+        'official_account'
+    ];
+
+    public function official_account()
+    {
+        return $this->hasOne(OfficialAccount::class,'account_id','account_id');
+    }
 }

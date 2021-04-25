@@ -28,9 +28,63 @@ class ThirdPartController extends AbstractController
         return $this->success($result);
     }
 
-    public function getOfficialAccountAll()
+    public function getOfficialAccountAll(AuthedRequest $request)
     {
         $result = $this->service->getAllOfficialAccount(true);
+        return $this->success($result);
+    }
+
+    public function markMiniProgramUse(AuthedRequest $request)
+    {
+        $this->validate([
+            'program_id' => 'integer|required|exists:mini_program,program_id'
+        ]);
+        $programId = $request->param('program_id');
+        $result = $this->service->markMiniProgramUsed($programId);
+        return $this->success($result);
+    }
+
+    public function markMiniProgramOutside(AuthedRequest $request)
+    {
+        $this->validate([
+            'program_id' => 'integer|required|exists:mini_program,program_id'
+        ]);
+        $programId = $request->param('program_id');
+        $result = $this->service->markMiniProgramOutside($programId);
+        return $this->success($result);
+    }
+
+    public function unbindMiniProgramOutisde(AuthedRequest $request)
+    {
+        $this->validate([
+            'program_id' => 'integer|required|exists:mini_program,program_id'
+        ]);
+        $programId = $request->param('program_id');
+        $result = $this->service->unbindMiniProgramOutside($programId);
+        return $this->success($result);
+    }
+
+    public function getAlwaysUsedMiniProgramList(AuthedRequest $request)
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30',
+        ]);
+        $pageIndex = $this->request->param('pageIndex');
+        $pageSize = $this->request->param('pageSize');
+        $result = $this->service->getUserMiniProgramAlwaysUseList($pageIndex, $pageSize);
+        return $this->success($result);
+    }
+
+    public function getUsedMiniProgramList(AuthedRequest $request)
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30',
+        ]);
+        $pageIndex = $this->request->param('pageIndex');
+        $pageSize = $this->request->param('pageSize');
+        $result = $this->service->getUserMiniProgramUseList($pageIndex, $pageSize);
         return $this->success($result);
     }
 }
