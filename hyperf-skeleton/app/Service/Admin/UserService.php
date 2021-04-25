@@ -183,19 +183,11 @@ class UserService extends \App\Service\BaseService
         //获取用户总数
         $totalUser = User::count();
         //获取非化身总数
-        $totalRealUser = User::query()->select(['user_id,owner_id'])
-            ->leftJoin('manager_avatar_user', 'user.user_id', '=', 'manager_avatar_user.avatar_user_id')
-            ->whereNull('owner_id')
-            ->count();
+        $totalRealUser = User::query()->selectRaw('select count(user_id) as total from user where user_id not in (select avatar_user_id from manager_avatar_user)')
+            ->first()->getAttribute('total');
         //今日新增用户
-        $totalRealUserToday = User::query()->select([
-            'user_id,owner_id',
-            'user.created_at'
-        ])
-            ->leftJoin('manager_avatar_user', 'user.user_id', '=', 'manager_avatar_user.avatar_user_id')
-            ->whereNull('owner_id')
-            ->whereDate('user.created_at', $today)
-            ->count();
+        $totalRealUserToday = User::query()->selectRaw("select count(user_id) as total from user where created_at like '%$today%' user_id not in (select avatar_user_id from manager_avatar_user)")
+            ->first()->getAttribute('total');
 
         //评论总数
         $totalComment = Comment::count();
