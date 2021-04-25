@@ -11,16 +11,30 @@ class CreateUserMiniProgramUseTable extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_third_part_use', function (Blueprint $table) {
+        Schema::create('user_mini_program_use', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->comment('用户ID');
-            $table->tinyInteger('third_part_type')->default(0)->comment('第三方使用类型0小程序1公众号');
-            $table->bigInteger('third_part_id')->comment('第三方类型ID');
+            $table->bigInteger('program_id')->comment('小程序记录ID');
             $table->integer('count')->default(0)->comment('使用次数');
-            $table->tinyInteger('is_outside')->default(0)->comment('是否外显到我的页面,只支持小程序');
+            $table->tinyInteger('is_outside')->default(0)->comment('是否外显到我的页面');
 
             $table->index('user_id');
-            $table->unique(['user_id','third_part_id','third_part_type']);
+            $table->unique(['user_id','program_id',]);
+            $table->timestamps();
+            $table->softDeletes();
+            $table->engine = "InnoDB";
+            $table->charset = "utf8mb4";
+            $table->collation = "utf8mb4_unicode_ci";
+        });
+
+        Schema::create('user_official_account_use', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->bigInteger('user_id')->comment('用户ID');
+            $table->bigInteger('account_id')->comment('公众号记录ID');
+            $table->integer('count')->default(0)->comment('使用次数');
+
+            $table->index('user_id');
+            $table->unique(['user_id','account_id',]);
             $table->timestamps();
             $table->softDeletes();
             $table->engine = "InnoDB";
@@ -34,6 +48,7 @@ class CreateUserMiniProgramUseTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_third_part_use');
+        Schema::dropIfExists('user_mini_program_use');
+        Schema::dropIfExists('user_official_account_use');
     }
 }

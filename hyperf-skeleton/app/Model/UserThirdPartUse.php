@@ -3,6 +3,8 @@
 declare (strict_types=1);
 namespace App\Model;
 
+use App\Constants\Constants;
+
 /**
  * @property int $id 
  * @property int $user_id 用户ID
@@ -34,4 +36,6 @@ class UserThirdPartUse extends Model
      * @var array
      */
     protected $casts = ['id' => 'int', 'user_id' => 'integer', 'third_part_type' => 'integer', 'third_part_id' => 'integer', 'count' => 'integer', 'is_outside' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+
+
 }
