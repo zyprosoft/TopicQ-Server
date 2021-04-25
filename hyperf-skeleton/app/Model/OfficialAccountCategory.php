@@ -14,14 +14,14 @@ namespace App\Model;
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
  */
-class MiniProgramCategory extends Model
+class OfficialAccountCategory extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'mini_program_category';
+    protected $table = 'official_account_category';
     /**
      * The attributes that are mass assignable.
      *

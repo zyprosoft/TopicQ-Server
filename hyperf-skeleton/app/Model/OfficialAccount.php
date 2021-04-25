@@ -4,11 +4,11 @@ declare (strict_types=1);
 namespace App\Model;
 
 /**
- * @property int $id 
- * @property string $app_id 小程序appId
+ * @property int $account_id 
+ * @property string $wechat_id 微信号
  * @property string $icon 图标
  * @property string $name 名字
- * @property string $introduce 介绍
+ * @property string $introduce 公众号介绍
  * @property int $category_id 分类ID
  * @property string $owner_name 主体官方名字
  * @property string $address 主体的地址
@@ -22,14 +22,14 @@ namespace App\Model;
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
  */
-class MiniProgram extends Model
+class OfficialAccount extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'mini_program';
+    protected $table = 'official_account';
     /**
      * The attributes that are mass assignable.
      *
@@ -41,5 +41,5 @@ class MiniProgram extends Model
      *
      * @var array
      */
-    protected $casts = ['id' => 'int', 'category_id' => 'integer', 'create_user_id' => 'integer', 'update_user_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected $casts = ['account_id' => 'integer', 'category_id' => 'integer', 'create_user_id' => 'integer', 'update_user_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
 }
