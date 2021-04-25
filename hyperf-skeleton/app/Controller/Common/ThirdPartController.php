@@ -37,9 +37,9 @@ class ThirdPartController extends AbstractController
     public function markMiniProgramUse(AuthedRequest $request)
     {
         $this->validate([
-            'program_id' => 'integer|required|exists:mini_program,program_id'
+            'programId' => 'integer|required|exists:mini_program,program_id'
         ]);
-        $programId = $request->param('program_id');
+        $programId = $request->param('programId');
         $result = $this->service->markMiniProgramUsed($programId);
         return $this->success($result);
     }
@@ -47,9 +47,9 @@ class ThirdPartController extends AbstractController
     public function markOfficialAccountUse(AuthedRequest $request)
     {
         $this->validate([
-            'account_id' => 'integer|required|exists:official_account,account_id'
+            'accountId' => 'integer|required|exists:official_account,account_id'
         ]);
-        $programId = $request->param('program_id');
+        $programId = $request->param('accountId');
         $result = $this->service->markOfficialAccountUse($programId);
         return $this->success($result);
     }
@@ -57,9 +57,9 @@ class ThirdPartController extends AbstractController
     public function markMiniProgramOutside(AuthedRequest $request)
     {
         $this->validate([
-            'program_id' => 'integer|required|exists:mini_program,program_id'
+            'programId' => 'integer|required|exists:mini_program,program_id'
         ]);
-        $programId = $request->param('program_id');
+        $programId = $request->param('programId');
         $result = $this->service->markMiniProgramOutside($programId);
         return $this->success($result);
     }
@@ -67,9 +67,9 @@ class ThirdPartController extends AbstractController
     public function unbindMiniProgramOutside(AuthedRequest $request)
     {
         $this->validate([
-            'program_id' => 'integer|required|exists:mini_program,program_id'
+            'programId' => 'integer|required|exists:mini_program,program_id'
         ]);
-        $programId = $request->param('program_id');
+        $programId = $request->param('programId');
         $result = $this->service->unbindMiniProgramOutside($programId);
         return $this->success($result);
     }
