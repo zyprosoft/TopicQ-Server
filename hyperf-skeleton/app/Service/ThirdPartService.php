@@ -8,8 +8,6 @@ use App\Model\MiniProgram;
 use App\Model\MiniProgramCategory;
 use App\Model\OfficialAccount;
 use App\Model\OfficialAccountCategory;
-use ZYProSoft\Constants\ErrorCode;
-use ZYProSoft\Exception\HyperfCommonException;
 
 class ThirdPartService extends BaseService
 {
