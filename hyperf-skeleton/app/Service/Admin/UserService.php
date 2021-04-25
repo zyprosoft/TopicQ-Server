@@ -249,7 +249,7 @@ class UserService extends \App\Service\BaseService
             ->leftJoin('manager_avatar_user', 'private_message.from_id', '=', 'manager_avatar_user.avatar_user_id')
             ->whereNull('manager_avatar_user.owner_id')
             ->count();
-        $totalRealMessageToday = Post::query()->select([
+        $totalRealMessageToday = PrivateMessage::query()->select([
             'private_message.created_at',
             'private_message.from_id',
             'manager_avatar_user.avatar_user_id',
