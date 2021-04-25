@@ -183,7 +183,7 @@ class UserService extends \App\Service\BaseService
         //获取用户总数
         $totalUser = User::count();
         //获取非化身总数
-        $totalRealUser = User::query()->selectRaw('count(`user_id`) as total from user where `user_id` not in (select `avatar_user_id` from manager_avatar_user)')
+        $totalRealUser = Db::table('user')->selectRaw('count(`user_id`) as total from user where `user_id` not in (select `avatar_user_id` from manager_avatar_user)')
             ->get()->first->total;
         //今日新增用户
         $totalRealUserToday = User::query()->selectRaw("count(`user_id`) as total from user where `created_at` like '%$today%' and `user_id` not in (select `avatar_user_id` from manager_avatar_user)")
