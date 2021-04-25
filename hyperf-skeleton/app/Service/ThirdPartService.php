@@ -28,4 +28,9 @@ class ThirdPartService extends BaseService
         }
         return OfficialAccountCategory::query()->with(['items'])->get();
     }
+
+    public function markThirdPartUsed(string $partId,int $type)
+    {
+
+    }
 }

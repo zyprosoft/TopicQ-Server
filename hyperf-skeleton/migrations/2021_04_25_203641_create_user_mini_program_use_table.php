@@ -20,7 +20,7 @@ class CreateUserMiniProgramUseTable extends Migration
             $table->tinyInteger('is_outside')->default(0)->comment('是否外显到我的页面,只支持小程序');
 
             $table->index('user_id');
-            $table->unique(['user_id','third_part_id']);
+            $table->unique(['user_id','third_part_id','third_part_type']);
             $table->timestamps();
             $table->softDeletes();
             $table->engine = "InnoDB";
