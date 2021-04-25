@@ -12,7 +12,7 @@ class CreateMiniProgramTable extends Migration
     public function up(): void
     {
         Schema::create('mini_program', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('program_id');
             $table->string('app_id',48)->comment('小程序appId');
             $table->string('icon',500)->comment('图标');
             $table->string('name',64)->comment('名字');

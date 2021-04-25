@@ -11,8 +11,9 @@ class AlterMiniProgramChangePrimaryKey extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('mini_program', function (Blueprint $table) {
             //
+            $table->bigIncrements('program_id')->change();
         });
     }
 
@@ -21,7 +22,7 @@ class AlterMiniProgramChangePrimaryKey extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('mini_program', function (Blueprint $table) {
             //
         });
     }
