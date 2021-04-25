@@ -76,6 +76,7 @@ class ThirdPartService extends BaseService
         $list = UserMiniProgramUse::query()->where('user_id',$this->userId())
                                           ->where('count','>=', self::MINI_PROGRAM_BASE_ALWAYS_USE_COUNT)
                                           ->offset($pageIndex * $pageSize)
+                                          ->orderByDesc('is_outside')
                                           ->limit($pageSize)
                                           ->get();
         $total = UserMiniProgramUse::query()->where('user_id',$this->userId())
@@ -89,6 +90,7 @@ class ThirdPartService extends BaseService
     {
         $list = UserMiniProgramUse::query()->where('user_id',$this->userId())
             ->offset($pageIndex * $pageSize)
+            ->orderByDesc('is_outside')
             ->limit($pageSize)
             ->get();
         $total = UserMiniProgramUse::query()->where('user_id',$this->userId())

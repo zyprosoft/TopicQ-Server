@@ -180,7 +180,7 @@ class UserService extends BaseService
             }
         }
         //获取个人资料的时候获取一下外显的常用小程序信息
-        $alwaysUseMiniProgramList = UserMiniProgramUse::query()->where('user_id', $userId)
+        $alwaysUseMiniProgramList = UserMiniProgramUse::query()->where('user_id', $this->userId())
                                                                 ->where('is_outside', Constants::STATUS_DONE)
                                                                 ->get()
                                                                 ->pluck('mini_program');
