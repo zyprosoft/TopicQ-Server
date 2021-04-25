@@ -113,4 +113,10 @@ class UserController extends AbstractController
         $result = $this->service->unbindAvatarUser();
         return $this->success($result);
     }
+
+    public function statistic()
+    {
+        $result = $this->service->statistic();
+        return $this->success($result);
+    }
 }
