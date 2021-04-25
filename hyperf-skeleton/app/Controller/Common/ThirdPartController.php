@@ -44,6 +44,16 @@ class ThirdPartController extends AbstractController
         return $this->success($result);
     }
 
+    public function markOfficialAccountUse(AuthedRequest $request)
+    {
+        $this->validate([
+            'account_id' => 'integer|required|exists:official_account,account_id'
+        ]);
+        $programId = $request->param('program_id');
+        $result = $this->service->markOfficialAccountUse($programId);
+        return $this->success($result);
+    }
+
     public function markMiniProgramOutside(AuthedRequest $request)
     {
         $this->validate([

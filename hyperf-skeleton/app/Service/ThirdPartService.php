@@ -54,7 +54,7 @@ class ThirdPartService extends BaseService
         return  $this->success();
     }
 
-    public function markOfficialAccountUse(string $accountId)
+    public function markOfficialAccountUse(int $accountId)
     {
         $useRecord = UserOfficialAccountUse::query()->where('account_id', $accountId)
             ->where('user_id',$this->userId())
