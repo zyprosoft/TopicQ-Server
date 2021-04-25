@@ -17,6 +17,7 @@ class CreateUserMiniProgramUseTable extends Migration
             $table->tinyInteger('third_part_type')->default(0)->comment('第三方使用类型0小程序1公众号');
             $table->bigInteger('third_part_id')->comment('第三方类型ID');
             $table->integer('count')->default(0)->comment('使用次数');
+            $table->tinyInteger('is_outside')->default(0)->comment('是否外显到我的页面,只支持小程序');
 
             $table->index('user_id');
             $table->unique(['user_id','third_part_id']);
