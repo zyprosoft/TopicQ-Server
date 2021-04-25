@@ -40,6 +40,6 @@ class UserMiniProgramUse extends Model
 
     public function mini_program()
     {
-        return $this->hasOne(UserMiniProgramUse::class,'program_id','program_id');
+        return $this->hasOne(MiniProgram::class,'program_id','program_id');
     }
 }
