@@ -4,7 +4,7 @@ declare (strict_types=1);
 namespace App\Model;
 
 /**
- * @property int $id 
+ * @property int $program_id 
  * @property string $app_id 小程序appId
  * @property string $icon 图标
  * @property string $name 名字
@@ -45,7 +45,7 @@ class MiniProgram extends Model
      *
      * @var array
      */
-    protected $casts = ['id' => 'int', 'category_id' => 'integer', 'create_user_id' => 'integer', 'update_user_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'is_recommend' => 'integer'];
+    protected $casts = ['id' => 'int', 'category_id' => 'integer', 'create_user_id' => 'integer', 'update_user_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'is_recommend' => 'integer', 'program_id' => 'int'];
     protected $with = ['category'];
     public function category()
     {
