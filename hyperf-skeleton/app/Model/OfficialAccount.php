@@ -21,6 +21,8 @@ namespace App\Model;
  * @property string $deleted_at 
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
+ * @property int $is_recommend 0否1是
+ * @property-read \App\Model\OfficialAccountCategory $category 
  */
 class OfficialAccount extends Model
 {
@@ -30,7 +32,6 @@ class OfficialAccount extends Model
      * @var string
      */
     protected $table = 'official_account';
-
     protected $primaryKey = 'account_id';
     /**
      * The attributes that are mass assignable.
@@ -43,14 +44,10 @@ class OfficialAccount extends Model
      *
      * @var array
      */
-    protected $casts = ['account_id' => 'integer', 'category_id' => 'integer', 'create_user_id' => 'integer', 'update_user_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
-
-    protected $with = [
-        'category'
-    ];
-
+    protected $casts = ['account_id' => 'integer', 'category_id' => 'integer', 'create_user_id' => 'integer', 'update_user_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'is_recommend' => 'integer'];
+    protected $with = ['category'];
     public function category()
     {
-        return $this->hasOne(OfficialAccountCategory::class,'category_id','category_id');
+        return $this->hasOne(OfficialAccountCategory::class, 'category_id', 'category_id');
     }
 }

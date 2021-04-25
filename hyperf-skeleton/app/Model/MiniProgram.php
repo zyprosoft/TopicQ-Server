@@ -21,6 +21,9 @@ namespace App\Model;
  * @property string $deleted_at 
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
+ * @property int $is_recommend 0否1是
+ * @property string $short_name 缩略名字
+ * @property-read \App\Model\MiniProgramCategory $category 
  */
 class MiniProgram extends Model
 {
@@ -30,9 +33,7 @@ class MiniProgram extends Model
      * @var string
      */
     protected $table = 'mini_program';
-
     protected $primaryKey = 'program_id';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -44,14 +45,10 @@ class MiniProgram extends Model
      *
      * @var array
      */
-    protected $casts = ['id' => 'int', 'category_id' => 'integer', 'create_user_id' => 'integer', 'update_user_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
-
-    protected $with = [
-        'category'
-    ];
-
+    protected $casts = ['id' => 'int', 'category_id' => 'integer', 'create_user_id' => 'integer', 'update_user_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'is_recommend' => 'integer'];
+    protected $with = ['category'];
     public function category()
     {
-        return $this->hasOne(MiniProgramCategory::class,'category_id','category_id');
+        return $this->hasOne(MiniProgramCategory::class, 'category_id', 'category_id');
     }
 }
