@@ -11,6 +11,8 @@ declare(strict_types=1);
  */
 namespace HyperfTest\Cases;
 
+use App\Service\ThirdPartService;
+use Hyperf\Utils\ApplicationContext;
 use HyperfTest\HttpTestCase;
 use Qbhy\HyperfTesting\Client;
 
@@ -197,5 +199,42 @@ class ExampleTest extends HttpTestCase
             'pageSize' => 10,
         ];
         $this->safeRequest('common.comment.listByUser', $params, $token);
+    }
+
+    public function testCreateCategory()
+    {
+        $service = ApplicationContext::getContainer()->get(ThirdPartService::class);
+        $nameList = [
+            '推荐',
+            '政务',
+            '民生',
+            '医疗',
+            '教育',
+            '美食',
+            '娱乐',
+            '户外',
+            '购物',
+            '团购',
+            '女鞋',
+            '休闲',
+            '阅读',
+            '汽车',
+        ];
+        foreach ($nameList as $name) {
+            $service->createMiniProgramCategory($name);
+        }
+        foreach ($nameList as $name) {
+            $service->createOfficialAccountCategory($name);
+        }
+    }
+
+    public function createMiniProgram(int $categoryId, string $appId, string $name, string $icon, string $introduce)
+    {
+        
+    }
+
+    public function createOfficialAccount(int $categoryId, string $appId, string $name, string $icon, string $introduce)
+    {
+
     }
 }
