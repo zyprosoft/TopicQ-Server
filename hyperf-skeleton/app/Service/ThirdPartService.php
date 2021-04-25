@@ -19,14 +19,7 @@ class ThirdPartService extends BaseService
         if ($byCategory == false) {
             return $list;
         }
-        $byCategoryList = [];
-        $list->map(function (MiniProgram $miniProgram) use (&$byCategoryList) {
-              if (!$byCategoryList[$miniProgram->category_id]) {
-                  $byCategoryList[$miniProgram->category_id] = [];
-              }
-              $byCategoryList[$miniProgram->category_id][] = $miniProgram;
-        });
-        return $byCategoryList;
+        return MiniProgramCategory::query()->with(['items'])->get();
     }
 
     public function getAllOfficialAccount(bool $byCategory = false)
@@ -35,13 +28,6 @@ class ThirdPartService extends BaseService
         if ($byCategory == false) {
             return $list;
         }
-        $byCategoryList = [];
-        $list->map(function (OfficialAccount $officialAccount) use (&$byCategoryList) {
-            if (!$byCategoryList[$officialAccount->category_id]) {
-                $byCategoryList[$officialAccount->category_id] = [];
-            }
-            $byCategoryList[$officialAccount->category_id][] = $officialAccount;
-        });
-        return $byCategoryList;
+        return OfficialAccountCategory::query()->with(['items'])->get();
     }
 }

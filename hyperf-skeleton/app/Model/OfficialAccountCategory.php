@@ -37,4 +37,9 @@ class OfficialAccountCategory extends Model
      * @var array
      */
     protected $casts = ['category_id' => 'integer', 'total' => 'integer', 'create_user_id' => 'integer', 'update_user_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+
+    public function items()
+    {
+        return $this->hasMany(OfficialAccount::class,'category_id','category_id');
+    }
 }
