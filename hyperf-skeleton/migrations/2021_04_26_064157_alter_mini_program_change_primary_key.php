@@ -13,7 +13,8 @@ class AlterMiniProgramChangePrimaryKey extends Migration
     {
         Schema::table('mini_program', function (Blueprint $table) {
             //
-            $table->bigIncrements('program_id')->change();
+            $table->removeColumn('id');
+            $table->bigIncrements('program_id');
         });
     }
 
