@@ -64,7 +64,7 @@ class ThirdPartController extends AbstractController
         return $this->success($result);
     }
 
-    public function unbindMiniProgramOutisde(AuthedRequest $request)
+    public function unbindMiniProgramOutside(AuthedRequest $request)
     {
         $this->validate([
             'program_id' => 'integer|required|exists:mini_program,program_id'
