@@ -11,8 +11,10 @@ class AlterPostAddMiniOfficialRelation extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('post', function (Blueprint $table) {
             //
+            $table->bigInteger('program_id')->nullable()->comment('小程序ID');
+            $table->bigInteger('account_id')->nullable()->comment('公众号ID');
         });
     }
 
@@ -21,8 +23,10 @@ class AlterPostAddMiniOfficialRelation extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('post', function (Blueprint $table) {
             //
+            $table->removeColumn('program_id');
+            $table->removeColumn('account_id');
         });
     }
 }
