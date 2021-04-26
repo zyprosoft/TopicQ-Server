@@ -18,6 +18,9 @@ class UserSubscribe extends Model
      * @var string
      */
     protected $table = 'user_subscribe';
+
+    protected $primaryKey = 'subscribe_id';
+    
     /**
      * The attributes that are mass assignable.
      *
