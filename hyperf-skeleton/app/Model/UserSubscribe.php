@@ -30,4 +30,9 @@ class UserSubscribe extends Model
      * @var array
      */
     protected $casts = ['subscribe_id' => 'integer', 'user_id' => 'integer', 'forum_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+
+    public function forum()
+    {
+        return $this->hasOne(Forum::class,'forum_id','forum_id');
+    }
 }

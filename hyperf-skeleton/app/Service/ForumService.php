@@ -46,4 +46,11 @@ class ForumService extends BaseService
         $subscribe->delete();
         return $this->success();
     }
+
+    public function mySubscribeList()
+    {
+        return UserSubscribe::query()->with(['forum'])
+                                    ->where('user_id', $this->userId())
+                                    ->get();
+    }
 }

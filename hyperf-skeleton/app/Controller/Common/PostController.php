@@ -255,4 +255,10 @@ class PostController extends AbstractController
         $result = $this->service->getPostListBySubscribe($pageIndex, $pageSize);
         return $this->success($result);
     }
+
+    public function mySubscribeList(AuthedRequest $request)
+    {
+        $result = $this->forumService->mySubscribeList();
+        return $this->success($result);
+    }
 }
