@@ -41,6 +41,11 @@ class PrivateMessageService extends BaseService
 
     public function create(int $toUserId, string $content = null, string $image = null)
     {
+        //从逻辑上阻止自己和自己对话
+        if($toUserId == $this->userId()) {
+            throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::PARAM_ERROR);
+        }
+
         //微信敏感内容检测
         if(isset($content)) {
             $miniProgramConfig = config('weixin.miniProgram');
