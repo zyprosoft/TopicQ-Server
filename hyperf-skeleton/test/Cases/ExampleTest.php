@@ -11,6 +11,7 @@ declare(strict_types=1);
  */
 namespace HyperfTest\Cases;
 
+use App\Service\Admin\ForumService;
 use App\Service\Admin\ThirdPartService;
 use Hyperf\Utils\ApplicationContext;
 use HyperfTest\HttpTestCase;
@@ -266,6 +267,29 @@ class ExampleTest extends HttpTestCase
         }
         foreach ($officialList as $item) {
             $this->createOfficialAccount($item['categoryId'],$item['wechatId'],$item['name'],$item['icon'],$item['introduce']);
+        }
+    }
+
+    public function testCreateForum()
+    {
+        $formList = [
+            [
+                'name' => '房屋租售',
+                'icon' => 'https://static.lulingshuo.icodefuture.com/1618912738538'
+            ],
+            [
+                'name' => '求职招聘',
+                'icon' => 'https://static.lulingshuo.icodefuture.com/1618912738538'
+            ],
+            [
+                'name' => '亲子乐园',
+                'icon' => 'https://static.lulingshuo.icodefuture.com/1618912738538'
+            ]
+        ];
+        $service = ApplicationContext::getContainer()->get(ForumService::class);
+        foreach ($formList as $item)
+        {
+            $service->createForum($item['name'],$item['icon']);
         }
     }
 }
