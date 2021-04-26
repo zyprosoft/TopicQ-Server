@@ -335,6 +335,7 @@ class PostService extends BaseService
             case Constants::POST_SORT_TYPE_LATEST_REPLY:
                 $list = Post::query()->select($this->listRows)
                     ->where('audit_status', Constants::STATUS_DONE)
+                    ->where('forum_id',Constants::FORUM_MAIN_FORUM_ID)
                     ->orderByDesc('sort_index')
                     ->orderByDesc($order)
                     ->offset($pageIndex * $pageSize)
@@ -344,6 +345,7 @@ class PostService extends BaseService
             case Constants::POST_SORT_TYPE_REPLY_COUNT:
                 $list = Post::query()->select($this->listRows)
                     ->where('audit_status', Constants::STATUS_DONE)
+                    ->where('forum_id',Constants::FORUM_MAIN_FORUM_ID)
                     ->orderByDesc('sort_index')
                     ->orderByDesc($order)
                     ->orderByDesc('is_recommend')

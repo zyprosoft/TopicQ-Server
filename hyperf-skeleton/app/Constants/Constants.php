@@ -82,4 +82,6 @@ class Constants
     const MESSAGE_LEVEL_BLOCK = 3;
 
     const FORUM_TYPE_MAIN = 0;
+
+    const FORUM_MAIN_FORUM_ID = 1;//主板块默认ID
 }
