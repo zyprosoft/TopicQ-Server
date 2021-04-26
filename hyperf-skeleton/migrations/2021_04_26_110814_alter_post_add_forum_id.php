@@ -11,8 +11,9 @@ class AlterPostAddForumId extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('post', function (Blueprint $table) {
             //
+            $table->bigInteger('forum_id')->default(0)->comment('板块ID');
         });
     }
 
@@ -21,8 +22,9 @@ class AlterPostAddForumId extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('post', function (Blueprint $table) {
             //
+            $table->removeColumn('forum_id');
         });
     }
 }
