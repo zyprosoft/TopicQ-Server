@@ -16,8 +16,8 @@ class CreateUserSubscribeTable extends Migration
             $table->bigInteger('user_id')->comment('用户ID');
             $table->bigInteger('forum_id')->comment('板块ID');
 
+            $table->unique(['user_id','forum_id']);
             $table->timestamps();
-            $table->softDeletes();
             $table->engine = "InnoDB";
             $table->charset = "utf8mb4";
             $table->collation = "utf8mb4_unicode_ci";
