@@ -504,7 +504,48 @@ class PostService extends BaseService
         return $this->success();
     }
 
-    public function getPostListBySubscribeInner(int $pageIndex, int $pageSize, int $forumId = null, bool $isForUser=true)
+    public function getPostListBySubscribeInner(int $pageIndex, int $pageSize, int $forumId)
+    {
+        $selectRows = [
+            'post_id',
+            'title',
+            'summary',
+            'owner_id',
+            'image_list',
+            'link',
+            'vote_id',
+            'read_count',
+            'forward_count',
+            'comment_count',
+            'audit_status',
+            'is_hot',
+            'last_comment_time',
+            'sort_index',
+            'is_recommend',
+            'created_at',
+            'updated_at',
+            'join_user_count',
+            'avatar_list',
+        ];
+
+        $list = Post::query()->select($selectRows)
+            ->where('forum_id',$forumId)
+            ->where('audit_status', Constants::STATUS_DONE)
+            ->orderByDesc('sort_index')
+            ->orderByDesc('comment_count')
+            ->offset($pageIndex * $pageSize)
+            ->limit($pageSize)
+            ->get();
+
+        $total = Post::query()->select($selectRows)
+            ->where('forum_id',$forumId)
+            ->where('audit_status', Constants::STATUS_DONE)
+            ->count();
+
+        return ['total'=>$total, 'list'=>$list];
+    }
+
+    public function getPostListBySubscribe(int $pageIndex, int $pageSize)
     {
         $selectRows = [
             'post_id',
@@ -532,16 +573,7 @@ class PostService extends BaseService
 
         $list = Post::query()->select($selectRows)
             ->leftJoin('user_subscribe','post.forum_id','=','user_subscribe.forum_id')
-            ->where(function (Builder $query) use ($forumId) {
-                if(isset($forumId)) {
-                    $query->where('post.forum_id',$forumId);
-                }
-            })
-            ->where(function (Builder $query) use ($isForUser) {
-                if($isForUser) {
-                    $query->where('user_id',$this->userId());
-                }
-            })
+            ->where('user_id',$this->userId())
             ->where('audit_status', Constants::STATUS_DONE)
             ->orderByDesc('sort_index')
             ->orderByDesc('comment_count')
@@ -551,24 +583,10 @@ class PostService extends BaseService
 
         $total = Post::query()->select($selectRows)
             ->leftJoin('user_subscribe','post.forum_id','=','user_subscribe.forum_id')
-            ->where(function (Builder $query) use ($forumId) {
-                if(isset($forumId)) {
-                    $query->where('post.forum_id',$forumId);
-                }
-            })
-            ->where(function (Builder $query) use ($isForUser) {
-                if($isForUser) {
-                    $query->where('user_id',$this->userId());
-                }
-            })
+            ->where('user_id',$this->userId())
             ->where('audit_status', Constants::STATUS_DONE)
             ->count();
 
         return ['total'=>$total, 'list'=>$list];
-    }
-
-    public function getPostListBySubscribe(int $pageIndex, int $pageSize)
-    {
-        return $this->getPostListBySubscribeInner($pageIndex, $pageSize);
     }
 }
