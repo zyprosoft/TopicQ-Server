@@ -87,6 +87,8 @@ class PostService extends BaseService
             $link = data_get($params, 'link');
             $imageList = data_get($params, 'imageList');
             $vote = data_get($params, 'vote');
+            $programId = data_get($params,'programId');
+            $accountId = data_get($params,'accountId');
 
             $post = new Post();
             $post->owner_id = $this->userId();
@@ -97,11 +99,11 @@ class PostService extends BaseService
                 $post->summary = mb_substr($content, 0, 40);
             }
             $post->content = $content;
-            if(isset($params['programId'])) {
-                $post->program_id = $params['programId'];
+            if(isset($programId)) {
+                $post->program_id = $programId;
             }
-            if(isset($params['accountId'])) {
-                $post->account_id = $params['accountId'];
+            if(isset($accountId)) {
+                $post->account_id = $accountId;
             }
             if (isset($imageList)) {
                 if (!empty($imageList)) {
