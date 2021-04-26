@@ -39,4 +39,14 @@ class Forum extends Model
      * @var array
      */
     protected $casts = ['forum_id' => 'integer', 'type' => 'integer', 'parent_forum_id' => 'integer', 'sort_index' => 'integer', 'total_child_count' => 'integer', 'total_post_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+
+    public function parent_forum()
+    {
+        return $this->hasOne(Forum::class,'forum_id','parent_forum_id');
+    }
+
+    public function child_forum_list()
+    {
+        return $this->hasMany(Forum::class,'parent_forum_id','forum_id');
+    }
 }

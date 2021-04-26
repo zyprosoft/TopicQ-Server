@@ -24,6 +24,7 @@ class CreateForumTable extends Migration
             $table->integer('total_post_count')->default(0)->comment('帖子总数');
             $table->string('notice',256)->nullable()->comment('板块公告');
 
+            $table->unique(['type','name']);
             $table->index('type');
             $table->index('parent_forum_id');
             $table->index('area');

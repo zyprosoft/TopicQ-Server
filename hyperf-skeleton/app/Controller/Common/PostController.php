@@ -8,6 +8,7 @@ use ZYProSoft\Http\AuthedRequest;
 use App\Service\PostService;
 use  Hyperf\HttpServer\Annotation\AutoController;
 use Hyperf\Di\Annotation\Inject;
+use App\Service\Admin\ForumService;
 
 /**
  * @AutoController (prefix="/common/post")
@@ -22,6 +23,12 @@ class PostController extends AbstractController
      */
     private PostService $service;
 
+    /**
+     * @Inject
+     * @var ForumService
+     */
+    private ForumService $forumService;
+
     public function create(AuthedRequest $request)
     {
         $this->validate([
@@ -33,7 +40,8 @@ class PostController extends AbstractController
             'vote.subject' => 'string|required_with:vote|min:1|max:32|sensitive',
             'vote.items.*.content' => 'string|required_with:vote|min:1|max:32|sensitive',
             'programId' => 'integer|exists:mini_program,program_id',
-            'accountId' => 'integer|exists:official_account,account_id'
+            'accountId' => 'integer|exists:official_account,account_id',
+            'forumId' => 'integer|exists:forum,forum_id'
         ]);
         $params = $request->getParams();
         $result = $this->service->create($params);
@@ -59,7 +67,8 @@ class PostController extends AbstractController
             'imageList' => 'array|min:1|max:4',
             'link' => 'string|min:1|max:500|sensitive',
             'programId' => 'integer|exists:mini_program,program_id',
-            'accountId' => 'integer|exists:official_account,account_id'
+            'accountId' => 'integer|exists:official_account,account_id',
+            'forumId' => 'integer|exists:forum,forum_id'
         ]);
         $params = $request->getParams();
         $postId = $request->param('postId');
@@ -206,6 +215,18 @@ class PostController extends AbstractController
         ]);
         $postId = $this->request->param('postId');
         $result = $this->service->increaseForward($postId);
+        return $this->success($result);
+    }
+
+    public function getForumList(AuthedRequest $request)
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30',
+        ]);
+        $pageIndex = $request->param('pageIndex');
+        $pageSize = $request->param('pageSize');
+        $result = $this->forumService->getForumList($pageIndex, $pageSize);
         return $this->success($result);
     }
 }

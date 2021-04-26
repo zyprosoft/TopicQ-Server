@@ -89,6 +89,7 @@ class PostService extends BaseService
             $vote = data_get($params, 'vote');
             $programId = data_get($params,'programId');
             $accountId = data_get($params,'accountId');
+            $forumId = data_get($params,'forumId');
 
             $post = new Post();
             $post->owner_id = $this->userId();
@@ -104,6 +105,9 @@ class PostService extends BaseService
             }
             if(isset($accountId)) {
                 $post->account_id = $accountId;
+            }
+            if(isset($forumId)) {
+                $post->forum_id = $forumId;
             }
             if (isset($imageList)) {
                 if (!empty($imageList)) {
@@ -198,6 +202,9 @@ class PostService extends BaseService
         }
         if(isset($params['accountId'])) {
             $post->account_id = $params['accountId'];
+        }
+        if(isset($params['forumId'])) {
+            $post->forum_id = $params['forumId'];
         }
         if (isset($params['imageList'])) {
             $post->image_list = implode(';', $params['imageList']);

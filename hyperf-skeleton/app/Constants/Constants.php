@@ -75,4 +75,6 @@ class Constants
     const MESSAGE_LEVEL_WARN = 1;
     const MESSAGE_LEVEL_ERROR = 2;
     const MESSAGE_LEVEL_BLOCK = 3;
+
+    const FORUM_TYPE_MAIN = 0;
 }

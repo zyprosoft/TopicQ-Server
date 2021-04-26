@@ -12,8 +12,15 @@ class CreateUserSubscribeTable extends Migration
     public function up(): void
     {
         Schema::create('user_subscribe', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('subscribe_id');
+            $table->bigInteger('user_id')->comment('用户ID');
+            $table->bigInteger('forum_id')->comment('板块ID');
+
             $table->timestamps();
+            $table->softDeletes();
+            $table->engine = "InnoDB";
+            $table->charset = "utf8mb4";
+            $table->collation = "utf8mb4_unicode_ci";
         });
     }
 
