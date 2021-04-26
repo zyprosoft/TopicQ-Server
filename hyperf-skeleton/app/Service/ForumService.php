@@ -14,10 +14,26 @@ class ForumService extends BaseService
 {
     public function getForumList()
     {
-        return Forum::query()->with(['child_forum_list'])
+        $list = Forum::query()->with(['child_forum_list'])
             ->where('forum_id','>',1)
             ->where('type',Constants::FORUM_TYPE_MAIN)
             ->get();
+
+        //增加订阅状态
+        $mySubscribeList = UserSubscribe::query()->where('user_id',$this->userId())
+                                                 ->get()
+                                                 ->keyBy('forum_id');
+
+        $list->map(function (Forum $forum) use ($mySubscribeList) {
+            if($mySubscribeList->get($forum->forum_id) !== null) {
+                $forum->is_subscribe = 1;
+            }else{
+                $forum->is_subscribe = 0;
+            }
+            return $forum;
+        });
+
+        return $list;
     }
 
     public function subscribe(int $forumId)
