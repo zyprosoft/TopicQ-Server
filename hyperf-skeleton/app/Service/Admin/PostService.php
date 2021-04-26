@@ -13,9 +13,14 @@ use Hyperf\DbConnection\Db;
 use ZYProSoft\Constants\ErrorCode;
 use ZYProSoft\Exception\HyperfCommonException;
 use App\Service\PostService as FrontPostService;
+use Hyperf\Di\Annotation\Inject;
 
 class PostService extends BaseService
 {
+    /**
+     * @Inject 
+     * @var FrontPostService
+     */
     private FrontPostService $postService;
 
     public function waitOperatePostList(int $pageIndex, int $pageSize)
