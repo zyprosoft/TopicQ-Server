@@ -36,6 +36,8 @@ namespace App\Model;
  * @property int $program_id 小程序ID
  * @property int $account_id 公众号ID
  * @property-read \App\Model\User $author 
+ * @property-read \App\Model\MiniProgram $mini_program 
+ * @property-read \App\Model\OfficialAccount $official_account 
  * @property-read \App\Model\Vote $vote 
  */
 class Post extends Model
@@ -70,10 +72,10 @@ class Post extends Model
     }
     public function mini_program()
     {
-        return $this->hasOne(MiniProgram::class,'program_id','program_id');
+        return $this->hasOne(MiniProgram::class, 'program_id', 'program_id');
     }
     public function official_account()
     {
-        return $this->hasOne(OfficialAccount::class,'account_id','account_id');
+        return $this->hasOne(OfficialAccount::class, 'account_id', 'account_id');
     }
 }
