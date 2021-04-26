@@ -91,12 +91,18 @@ class PostService extends BaseService
             $post = new Post();
             $post->owner_id = $this->userId();
             $post->title = $title;
-            if (mb_strlen($content) < 32) {
+            if (mb_strlen($content) < 40) {
                 $post->summary = $content;
             } else {
-                $post->summary = mb_substr($content, 0, 32);
+                $post->summary = mb_substr($content, 0, 40);
             }
             $post->content = $content;
+            if(isset($params['programId'])) {
+                $post->program_id = $params['programId'];
+            }
+            if(isset($params['accountId'])) {
+                $post->account_id = $params['accountId'];
+            }
             if (isset($imageList)) {
                 if (!empty($imageList)) {
                     $post->image_list = implode(';', $imageList);
@@ -185,6 +191,12 @@ class PostService extends BaseService
         if (isset($params['title'])) {
             $post->title = $params['title'];
         }
+        if(isset($params['programId'])) {
+            $post->program_id = $params['programId'];
+        }
+        if(isset($params['accountId'])) {
+            $post->account_id = $params['accountId'];
+        }
         if (isset($params['imageList'])) {
             $post->image_list = implode(';', $params['imageList']);
             if (!empty($imageList)) {
@@ -223,7 +235,7 @@ class PostService extends BaseService
     public function detail(int $postId)
     {
         $post = Post::query()->where('post_id', $postId)
-            ->with(['vote'])
+            ->with(['vote','mini_program','official_account'])
             ->first();
         if (!$post instanceof Post) {
             throw new HyperfCommonException(ErrorCode::POST_NOT_EXIST);

@@ -68,4 +68,12 @@ class Post extends Model
     {
         return $this->hasOne(Vote::class, 'vote_id', 'vote_id');
     }
+    public function mini_program()
+    {
+        return $this->hasOne(MiniProgram::class,'program_id','program_id');
+    }
+    public function official_account()
+    {
+        return $this->hasOne(OfficialAccount::class,'account_id','account_id');
+    }
 }
