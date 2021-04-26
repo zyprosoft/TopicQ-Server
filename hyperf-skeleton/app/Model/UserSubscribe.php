@@ -9,7 +9,6 @@ namespace App\Model;
  * @property int $forum_id 板块ID
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
- * @property string $deleted_at 
  */
 class UserSubscribe extends Model
 {
