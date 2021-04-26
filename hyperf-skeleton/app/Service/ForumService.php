@@ -65,8 +65,14 @@ class ForumService extends BaseService
 
     public function mySubscribeList()
     {
-        return UserSubscribe::query()->with(['forum'])
+        $list = UserSubscribe::query()->with(['forum'])
                                     ->where('user_id', $this->userId())
-                                    ->get();
+                                    ->get()
+                                    ->pluck('forum');
+        $list->map(function (Forum $forum) {
+            $forum->is_subscribe = 1;
+            return $forum;
+        });
+        return $list;
     }
 }
