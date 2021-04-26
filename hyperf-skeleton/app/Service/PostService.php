@@ -504,7 +504,7 @@ class PostService extends BaseService
         return $this->success();
     }
 
-    public function getPostListBySubscribeInner(int $pageIndex, int $pageSize, int $forumId = null)
+    public function getPostListBySubscribeInner(int $pageIndex, int $pageSize, int $forumId = null, bool $isForUser=true)
     {
         $selectRows = [
             'post_id',
@@ -537,7 +537,11 @@ class PostService extends BaseService
                     $query->where('post.forum_id',$forumId);
                 }
             })
-            ->where('user_id',$this->userId())
+            ->where(function (Builder $query) use ($isForUser) {
+                if($isForUser) {
+                    $query->where('user_id',$this->userId());
+                }
+            })
             ->where('audit_status', Constants::STATUS_DONE)
             ->orderByDesc('sort_index')
             ->orderByDesc('comment_count')
@@ -547,7 +551,16 @@ class PostService extends BaseService
 
         $total = Post::query()->select($selectRows)
             ->leftJoin('user_subscribe','post.forum_id','=','user_subscribe.forum_id')
-            ->where('user_id',$this->userId())
+            ->where(function (Builder $query) use ($forumId) {
+                if(isset($forumId)) {
+                    $query->where('post.forum_id',$forumId);
+                }
+            })
+            ->where(function (Builder $query) use ($isForUser) {
+                if($isForUser) {
+                    $query->where('user_id',$this->userId());
+                }
+            })
             ->where('audit_status', Constants::STATUS_DONE)
             ->count();
 

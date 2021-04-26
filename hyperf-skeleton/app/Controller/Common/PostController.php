@@ -266,7 +266,7 @@ class PostController extends AbstractController
         $pageIndex = $request->param('pageIndex');
         $pageSize = $request->param('pageSize');
         $forumId = $request->param('forumId');
-        $result = $this->service->getPostListBySubscribeInner($pageIndex, $pageSize, $forumId);
+        $result = $this->service->getPostListBySubscribeInner($pageIndex, $pageSize, $forumId, false);
         return $this->success($result);
     }
 
