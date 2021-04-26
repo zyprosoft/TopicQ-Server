@@ -256,6 +256,20 @@ class PostController extends AbstractController
         return $this->success($result);
     }
 
+    public function getPostListBySubScribedForumId(AuthedRequest $request)
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30',
+            'forumId' => 'integer|required|exists:forum,forum_id',
+        ]);
+        $pageIndex = $request->param('pageIndex');
+        $pageSize = $request->param('pageSize');
+        $forumId = $request->param('forumId');
+        $result = $this->service->getPostListBySubscribeInner($pageIndex, $pageSize, $forumId);
+        return $this->success($result);
+    }
+
     public function mySubscribeList(AuthedRequest $request)
     {
         $result = $this->forumService->mySubscribeList();

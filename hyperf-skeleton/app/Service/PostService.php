@@ -502,7 +502,7 @@ class PostService extends BaseService
         return $this->success();
     }
 
-    public function getPostListBySubscribe(int $pageIndex, int $pageSize)
+    public function getPostListBySubscribeInner(int $pageIndex, int $pageSize, int $forumId = null)
     {
         $selectRows = [
             'post_id',
@@ -530,6 +530,11 @@ class PostService extends BaseService
 
         $list = Post::query()->select($selectRows)
             ->leftJoin('user_subscribe','post.forum_id','=','user_subscribe.forum_id')
+            ->where(function (Builder $query) use ($forumId) {
+                if(isset($forumId)) {
+                    $query->where('post.forum_id',$forumId);
+                }
+            })
             ->where('user_id',$this->userId())
             ->where('audit_status', Constants::STATUS_DONE)
             ->orderByDesc('sort_index')
@@ -545,5 +550,10 @@ class PostService extends BaseService
             ->count();
 
         return ['total'=>$total, 'list'=>$list];
+    }
+
+    public function getPostListBySubscribe(int $pageIndex, int $pageSize)
+    {
+        return $this->getPostListBySubscribeInner($pageIndex, $pageSize);
     }
 }
