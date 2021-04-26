@@ -35,6 +35,7 @@ namespace App\Model;
  * @property string $image_ids 图片列表获取出来图片ID
  * @property int $program_id 小程序ID
  * @property int $account_id 公众号ID
+ * @property int $forum_id 板块ID
  * @property-read \App\Model\User $author 
  * @property-read \App\Model\MiniProgram $mini_program 
  * @property-read \App\Model\OfficialAccount $official_account 
@@ -60,7 +61,7 @@ class Post extends Model
      *
      * @var array
      */
-    protected $casts = ['post_id' => 'integer', 'owner_id' => 'integer', 'vote_id' => 'integer', 'read_count' => 'integer', 'favorite_count' => 'integer', 'forward_count' => 'integer', 'comment_count' => 'integer', 'audit_status' => 'integer', 'is_hot' => 'integer', 'sort_index' => 'integer', 'is_recommend' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'join_user_count' => 'integer', 'machine_audit' => 'integer', 'manager_audit' => 'integer', 'text_audit' => 'integer', 'content_audit' => 'integer', 'title_audit' => 'integer', 'program_id' => 'integer', 'account_id' => 'integer'];
+    protected $casts = ['post_id' => 'integer', 'owner_id' => 'integer', 'vote_id' => 'integer', 'read_count' => 'integer', 'favorite_count' => 'integer', 'forward_count' => 'integer', 'comment_count' => 'integer', 'audit_status' => 'integer', 'is_hot' => 'integer', 'sort_index' => 'integer', 'is_recommend' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'join_user_count' => 'integer', 'machine_audit' => 'integer', 'manager_audit' => 'integer', 'text_audit' => 'integer', 'content_audit' => 'integer', 'title_audit' => 'integer', 'program_id' => 'integer', 'account_id' => 'integer', 'forum_id' => 'integer'];
     protected $with = ['author'];
     public function author()
     {
