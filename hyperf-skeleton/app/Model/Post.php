@@ -79,4 +79,8 @@ class Post extends Model
     {
         return $this->hasOne(OfficialAccount::class, 'account_id', 'account_id');
     }
+    public function forum()
+    {
+        return $this->hasOne(Forum::class,'forum_id','forum_id');
+    }
 }
