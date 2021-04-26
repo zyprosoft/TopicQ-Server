@@ -497,4 +497,49 @@ class PostService extends BaseService
         Post::findOrFail($postId)->increment('forward_count');
         return $this->success();
     }
+
+    public function getPostListBySubscribe(int $pageIndex, int $pageSize)
+    {
+        $selectRows = [
+            'post_id',
+            'title',
+            'summary',
+            'owner_id',
+            'image_list',
+            'link',
+            'vote_id',
+            'read_count',
+            'forward_count',
+            'comment_count',
+            'audit_status',
+            'is_hot',
+            'last_comment_time',
+            'sort_index',
+            'is_recommend',
+            'created_at',
+            'updated_at',
+            'join_user_count',
+            'avatar_list',
+            'user_subscribe.forum_id',
+            'user_id',
+        ];
+
+        $list = Post::query()->select($selectRows)
+            ->leftJoin('user_subscribe','post.forum_id','=','user_subscribe.forum_id')
+            ->where('user_id',$this->userId())
+            ->where('audit_status', Constants::STATUS_DONE)
+            ->orderByDesc('sort_index')
+            ->orderByDesc('comment_count')
+            ->offset($pageIndex * $pageSize)
+            ->limit($pageSize)
+            ->get();
+
+        $total = Post::query()->select($selectRows)
+            ->leftJoin('user_subscribe','post.forum_id','=','user_subscribe.forum_id')
+            ->where('user_id',$this->userId())
+            ->where('audit_status', Constants::STATUS_DONE)
+            ->count();
+
+        return ['total'=>$total, 'list'=>$list];
+    }
 }

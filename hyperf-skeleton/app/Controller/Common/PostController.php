@@ -8,7 +8,7 @@ use ZYProSoft\Http\AuthedRequest;
 use App\Service\PostService;
 use  Hyperf\HttpServer\Annotation\AutoController;
 use Hyperf\Di\Annotation\Inject;
-use App\Service\Admin\ForumService;
+use App\Service\ForumService;
 
 /**
  * @AutoController (prefix="/common/post")
@@ -227,6 +227,38 @@ class PostController extends AbstractController
         $pageIndex = $request->param('pageIndex');
         $pageSize = $request->param('pageSize');
         $result = $this->forumService->getForumList($pageIndex, $pageSize);
+        return $this->success($result);
+    }
+
+    public function subscribe(AuthedRequest $request)
+    {
+        $this->validate([
+            'forumId' => 'integer|required|exists:forum,forum_id',
+        ]);
+        $forumId = $request->param('forumId');
+        $result = $this->forumService->subscribe($forumId);
+        return $this->success($result);
+    }
+
+    public function unsubscribe(AuthedRequest $request)
+    {
+        $this->validate([
+            'forumId' => 'integer|required|exists:forum,forum_id',
+        ]);
+        $forumId = $request->param('forumId');
+        $result = $this->forumService->unsubscribe($forumId);
+        return $this->success($result);
+    }
+
+    public function getPostListBySubScribed(AuthedRequest $request)
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30',
+        ]);
+        $pageIndex = $request->param('pageIndex');
+        $pageSize = $request->param('pageSize');
+        $result = $this->service->getPostListBySubscribe($pageIndex, $pageSize);
         return $this->success($result);
     }
 }
