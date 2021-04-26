@@ -15,6 +15,7 @@ class ForumService extends BaseService
     public function getForumList()
     {
         return Forum::query()->with(['child_forum_list'])
+            ->where('forum_id','>',1)
             ->where('type',Constants::FORUM_TYPE_MAIN)
             ->get();
     }
