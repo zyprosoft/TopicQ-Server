@@ -586,6 +586,27 @@ class PostService extends BaseService
             ->limit($pageSize)
             ->get();
 
+        //增加是否阅读的状态
+        $postIds = $list->pluck('post_id');
+        $userReadList = [];
+        if (Auth::isGuest() == false) {
+            $userReadList = UserRead::query()->whereIn('post_id', $postIds)
+                ->where('user_id', $this->userId())
+                ->get()
+                ->keyBy('post_id');
+        }
+
+        $list->map(function (Post $post) use ($userReadList) {
+            if (!empty($post->avatar_list)) {
+                $post->avatar_list = explode(';', $post->avatar_list);
+            }
+            if (!empty($post->image_list)) {
+                $post->image_list = explode(';', $post->image_list);
+            }
+            $post->is_read = isset($userReadList[$post->post_id]) ? 1 : 0;
+            return $post;
+        });
+
         $total = Post::query()->select($selectRows)
             ->leftJoin('user_subscribe','post.forum_id','=','user_subscribe.forum_id')
             ->where('user_id',$this->userId())
