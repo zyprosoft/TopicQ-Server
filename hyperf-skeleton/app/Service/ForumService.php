@@ -36,16 +36,19 @@ class ForumService extends BaseService
         return $list;
     }
 
-    public function subscribe(int $forumId)
+    public function subscribe(int $forumId, int $userId = null)
     {
-        $subscribe = UserSubscribe::query()->where('user_id', $this->userId())
+        if(!isset($userId)) {
+            $userId = $this->userId();
+        }
+        $subscribe = UserSubscribe::query()->where('user_id', $userId)
             ->where('forum_id', $forumId)
             ->first();
         if ($subscribe instanceof UserSubscribe) {
             throw new HyperfCommonException(ErrorCode::RECORD_DID_EXIST);
         }
         $subscribe = new UserSubscribe();
-        $subscribe->user_id = $this->userId();
+        $subscribe->user_id = $userId;
         $subscribe->forum_id = $forumId;
         $subscribe->saveOrFail();
         return $this->success();

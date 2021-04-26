@@ -108,6 +108,8 @@ class PostService extends BaseService
             }
             if(isset($forumId)) {
                 $post->forum_id = $forumId;
+            }else{
+                $post->forum_id = Constants::FORUM_MAIN_FORUM_ID;
             }
             if (isset($imageList)) {
                 if (!empty($imageList)) {
@@ -147,6 +149,9 @@ class PostService extends BaseService
         if (!isset($post)) {
             throw new HyperfCommonException(ErrorCode::SERVER_ERROR, '发布帖子失败');
         }
+
+        //异步订阅板块
+        $this->queueService->subscribeForum($post->forum_id,$post->owner_id);
 
         //机器审核结果是需要人工继续审核就不需要自动审核任务了
         if($post->machine_audit !== Constants::STATUS_REVIEW) {

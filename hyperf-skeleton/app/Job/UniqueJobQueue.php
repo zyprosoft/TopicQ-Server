@@ -17,6 +17,8 @@ class UniqueJobQueue extends BaseService
 
     private string $commentJobPrefix = 'as:up:co:';
 
+    private string $subscribeJobPrefix = 'as:us:sb:';
+
     public function updatePost(int $postId)
     {
         $key = $this->postJobPrefix.$postId;
@@ -50,5 +52,11 @@ class UniqueJobQueue extends BaseService
     {
         $key = $this->commentHotJobPrefix.$postId;
         $this->uniquePush($key, new CommentHotStatusCheckJob($key, $postId));
+    }
+
+    public function subscribeForum(int $forumId, int $userId)
+    {
+        $key = $this->commentHotJobPrefix.$userId.$forumId;
+        $this->uniquePush($key, new AutoSubscribeForumJob($key,$userId,$forumId));
     }
 }
