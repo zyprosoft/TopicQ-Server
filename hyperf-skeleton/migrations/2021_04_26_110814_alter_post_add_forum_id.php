@@ -13,7 +13,7 @@ class AlterPostAddForumId extends Migration
     {
         Schema::table('post', function (Blueprint $table) {
             //
-            $table->bigInteger('forum_id')->default(0)->comment('板块ID');
+            $table->bigInteger('forum_id')->default(1)->comment('板块ID');
         });
     }
 
