@@ -53,6 +53,11 @@ class Constants
     const POST_SORT_TYPE_REPLY_COUNT = 1;
 
     /**
+     * 订阅内容
+     */
+    const POST_SORT_TYPE_SUBSCRIBE = 4;
+
+    /**
      * 帖子列表排序方式，最后回复
      */
     const POST_SORT_TYPE_LATEST_REPLY = 3;

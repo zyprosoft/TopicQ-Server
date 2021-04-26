@@ -320,6 +320,10 @@ class PostService extends BaseService
 
     public function getList(int $sortType, int $pageIndex, int $pageSize)
     {
+        //返回订阅内容
+        if($sortType == Constants::POST_SORT_TYPE_SUBSCRIBE) {
+            return $this->getPostListBySubscribe($pageIndex, $pageSize);
+        }
         $map = [
             Constants::POST_SORT_TYPE_LATEST => 'created_at',
             Constants::POST_SORT_TYPE_LATEST_REPLY => 'last_comment_time',
