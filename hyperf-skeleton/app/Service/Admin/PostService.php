@@ -4,6 +4,7 @@
 namespace App\Service\Admin;
 use App\Constants\Constants;
 use App\Job\AddNotificationJob;
+use App\Model\ManagerAvatarUser;
 use App\Model\Post;
 use App\Model\ReportPost;
 use App\Service\BaseService;
@@ -11,9 +12,32 @@ use Hyperf\Database\Model\Builder;
 use Hyperf\DbConnection\Db;
 use ZYProSoft\Constants\ErrorCode;
 use ZYProSoft\Exception\HyperfCommonException;
+use App\Service\PostService as FrontPostService;
 
 class PostService extends BaseService
 {
+    private FrontPostService $postService;
+
+    public function waitOperatePostList(int $pageIndex, int $pageSize)
+    {
+        $result = $this->postService->getList(Constants::POST_SORT_TYPE_LATEST, $pageIndex, $pageSize);
+        $postList = $result['list'];
+        //补充星标用户信息
+        $ownerIdList = collect($result['list'])->pluck('owner_id')->unique();
+        $userList = ManagerAvatarUser::query()->whereIn('avatar_user_id',$ownerIdList)
+                                              ->get()
+                                              ->keyBy('avatar_user_id');
+        $postList->map(function (Post $post) use ($userList) {
+            if(isset($userList[$post->owner_id])) {
+                $post->is_star = 0;
+            }else{
+                $post->is_star = 1;
+            }
+            return $post;
+        });
+        return ['list'=>$postList,'total'=>$result['total']];
+    }
+
     public function getWaitAuditPostList(int $pageIndex, int $pageSize, int $lastPostId = null)
     {
         $list = Post::query()->where('audit_status',Constants::STATUS_WAIT)

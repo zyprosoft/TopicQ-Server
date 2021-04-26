@@ -23,6 +23,18 @@ class PostController extends AbstractController
      */
     protected PostService $service;
 
+    public function waitOperatePostList(AppAdminRequest $request)
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30'
+        ]);
+        $pageIndex = $request->param('pageIndex');
+        $pageSize = $request->param('pageSize');
+        $result = $this->service->waitOperatePostList($pageIndex,$pageSize);
+        return $this->success($result);
+    }
+
     public function waitAuditList(AppAdminRequest $request)
     {
         $this->validate([
