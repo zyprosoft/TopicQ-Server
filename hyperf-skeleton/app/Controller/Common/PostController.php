@@ -115,7 +115,7 @@ class PostController extends AbstractController
         $this->validate([
             'pageIndex' => 'integer|required|min:0',
             'pageSize' => 'integer|required|min:10|max:30',
-            'type' => 'integer|required|in:1,2,3',
+            'type' => 'integer|required|in:1,2,3,4',
         ]);
         $pageIndex = $this->request->param('pageIndex');
         $pageSize = $this->request->param('pageSize');
