@@ -538,9 +538,31 @@ class PostService extends BaseService
             ->where('audit_status', Constants::STATUS_DONE)
             ->orderByDesc('sort_index')
             ->orderByDesc('comment_count')
+            ->latest()
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->get();
+
+        //增加是否阅读的状态
+        $postIds = $list->pluck('post_id');
+        $userReadList = [];
+        if (Auth::isGuest() == false) {
+            $userReadList = UserRead::query()->whereIn('post_id', $postIds)
+                ->where('user_id', $this->userId())
+                ->get()
+                ->keyBy('post_id');
+        }
+
+        $list->map(function (Post $post) use ($userReadList) {
+            if (!empty($post->avatar_list)) {
+                $post->avatar_list = explode(';', $post->avatar_list);
+            }
+            if (!empty($post->image_list)) {
+                $post->image_list = explode(';', $post->image_list);
+            }
+            $post->is_read = isset($userReadList[$post->post_id]) ? 1 : 0;
+            return $post;
+        });
 
         $total = Post::query()->select($selectRows)
             ->where('forum_id',$forumId)
@@ -582,6 +604,7 @@ class PostService extends BaseService
             ->where('audit_status', Constants::STATUS_DONE)
             ->orderByDesc('sort_index')
             ->orderByDesc('comment_count')
+            ->latest()
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->get();
