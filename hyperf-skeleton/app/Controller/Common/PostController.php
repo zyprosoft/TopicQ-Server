@@ -58,6 +58,8 @@ class PostController extends AbstractController
             'content' => 'string|min:10|max:5000|sensitive',
             'imageList' => 'array|min:1|max:4',
             'link' => 'string|min:1|max:500|sensitive',
+            'programId' => 'integer|exists:mini_program,program_id',
+            'accountId' => 'integer|exists:official_account,account_id'
         ]);
         $params = $request->getParams();
         $postId = $request->param('postId');
