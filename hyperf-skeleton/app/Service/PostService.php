@@ -504,7 +504,7 @@ class PostService extends BaseService
         return $this->success();
     }
 
-    public function getPostListBySubscribeInner(int $pageIndex, int $pageSize, int $forumId)
+    public function getPostListBySubscribeByForumId(int $pageIndex, int $pageSize, int $forumId)
     {
         $selectRows = [
             'post_id',
