@@ -220,13 +220,7 @@ class PostController extends AbstractController
 
     public function getForumList(AuthedRequest $request)
     {
-        $this->validate([
-            'pageIndex' => 'integer|required|min:0',
-            'pageSize' => 'integer|required|min:10|max:30',
-        ]);
-        $pageIndex = $request->param('pageIndex');
-        $pageSize = $request->param('pageSize');
-        $result = $this->forumService->getForumList($pageIndex, $pageSize);
+        $result = $this->forumService->getForumList();
         return $this->success($result);
     }
 
