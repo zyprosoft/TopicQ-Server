@@ -10,6 +10,7 @@ use App\Model\Conversation;
 use App\Model\PrivateMessage;
 use App\Model\User;
 use Carbon\Carbon;
+use EasyWeChat\Factory;
 use Hyperf\DbConnection\Db;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Facade\Auth;
@@ -17,6 +18,8 @@ use ZYProSoft\Log\Log;
 
 class PrivateMessageService extends BaseService
 {
+    const WX_SECURITY_CHECK_FAIL = 87014;
+
     //重载获取当前用户ID的方法
     protected function userId()
     {
@@ -38,6 +41,19 @@ class PrivateMessageService extends BaseService
 
     public function create(int $toUserId, string $content = null, string $image = null)
     {
+        //微信敏感内容检测
+        if(isset($content)) {
+            $miniProgramConfig = config('weixin.miniProgram');
+            $app = Factory::miniProgram($miniProgramConfig);
+            //标题审核
+            $result = $app->content_security->checkText($content);
+            Log::info("私信内容审核结果:".json_encode($result));
+            //包含敏感信息
+            if(data_get($result,'errcode') == self::WX_SECURITY_CHECK_FAIL) {
+                throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::PARAM_ERROR);
+            }
+        }
+
         $message = null;
         Db::transaction(function () use ($toUserId, $content, $image, &$message) {
 
