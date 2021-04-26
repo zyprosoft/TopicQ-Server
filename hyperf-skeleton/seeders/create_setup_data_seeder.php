@@ -14,20 +14,6 @@ class CreateSetupDataSeeder extends Seeder
      */
     public function run()
     {
-        Db::table('user')->insertOrIgnore([
-            'role_id' => 1,
-            'username' => 'admin',
-            'password' => password_hash('admin123',PASSWORD_DEFAULT),
-            'nickname' => '流水青葱岁月',
-            'wx_openid' => 'admin',
-        ]);
-        Db::table('user')->insertOrIgnore([
-            'role_id' => 0,
-            'username' => 'guest',
-            'password' => password_hash('guest123',PASSWORD_DEFAULT),
-            'nickname' => '测试账号',
-            'wx_openid' => 'guest',
-        ]);
         Db::table('role')->insertOrIgnore([
             'name' => '管理员'
         ]);
@@ -37,5 +23,34 @@ class CreateSetupDataSeeder extends Seeder
         Db::table('role')->insertOrIgnore([
             'name' => '巡查员'
         ]);
+
+        Db::table('forum')->insertOrIgnore([
+            'name' => '主板块',
+            'icon' => 'none'
+        ]);
+
+        $nameList = [
+            '推荐',
+            '政务',
+            '民生',
+            '医疗',
+            '教育',
+            '美食',
+            '娱乐',
+            '阅读',
+            '户外',
+            '购物',
+            '休闲',
+            '汽车',
+        ];
+        foreach ($nameList as $name)
+        {
+            Db::table('mini_program_category')->insertOrIgnore([
+                'name'=>$name
+            ]);
+            Db::table('official_account_category')->insertOrIgnore([
+                'name'=>$name
+            ]);
+        }
     }
 }

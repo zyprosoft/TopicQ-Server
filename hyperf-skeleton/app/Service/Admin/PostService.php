@@ -18,7 +18,7 @@ use Hyperf\Di\Annotation\Inject;
 class PostService extends BaseService
 {
     /**
-     * @Inject 
+     * @Inject
      * @var FrontPostService
      */
     private FrontPostService $postService;

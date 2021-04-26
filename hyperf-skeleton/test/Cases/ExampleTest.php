@@ -213,12 +213,10 @@ class ExampleTest extends HttpTestCase
             '教育',
             '美食',
             '娱乐',
+            '阅读',
             '户外',
             '购物',
-            '团购',
-            '女鞋',
             '休闲',
-            '阅读',
             '汽车',
         ];
         foreach ($nameList as $name) {
