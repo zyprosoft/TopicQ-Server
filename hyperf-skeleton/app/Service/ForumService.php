@@ -15,7 +15,7 @@ class ForumService extends BaseService
     public function getForumList()
     {
         $list = Forum::query()->with(['child_forum_list'])
-            ->where('forum_id','>',1)
+            ->where('forum_id','>',Constants::FORUM_MAIN_FORUM_ID)
             ->where('type',Constants::FORUM_TYPE_MAIN)
             ->get();
 
@@ -69,7 +69,8 @@ class ForumService extends BaseService
     public function mySubscribeList()
     {
         $list = UserSubscribe::query()->with(['forum'])
-                                    ->where('user_id', $this->userId())
+            ->where('forum_id','>',Constants::FORUM_MAIN_FORUM_ID)
+            ->where('user_id', $this->userId())
                                     ->get()
                                     ->pluck('forum');
         $list->map(function (Forum $forum) {
