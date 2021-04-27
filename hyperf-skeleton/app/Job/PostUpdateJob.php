@@ -71,6 +71,8 @@ class PostUpdateJob extends Job
         //最后三条不同作者的评论
         $commentList = Comment::query()->where('post_id', $this->postId)
                                        ->groupBy(['owner_id'])
+                                       ->latest()
+                                       ->offset(0)
                                        ->limit(3)
                                        ->get();
         if (!empty($commentList)) {
