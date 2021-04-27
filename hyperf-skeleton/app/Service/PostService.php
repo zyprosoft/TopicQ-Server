@@ -600,6 +600,7 @@ class PostService extends BaseService
 
         $list = Post::query()->select($selectRows)
             ->leftJoin('user_subscribe','post.forum_id','=','user_subscribe.forum_id')
+            ->where('forum_id','>',Constants::FORUM_MAIN_FORUM_ID)
             ->where('user_id',$this->userId())
             ->where('audit_status', Constants::STATUS_DONE)
             ->orderByDesc('sort_index')
@@ -634,6 +635,7 @@ class PostService extends BaseService
             ->leftJoin('user_subscribe','post.forum_id','=','user_subscribe.forum_id')
             ->where('user_id',$this->userId())
             ->where('audit_status', Constants::STATUS_DONE)
+            ->where('forum_id','>',Constants::FORUM_MAIN_FORUM_ID)
             ->count();
 
         return ['total'=>$total, 'list'=>$list];
