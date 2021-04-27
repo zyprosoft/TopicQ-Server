@@ -15,7 +15,7 @@ class CreateUserTable extends Migration
             $table->bigIncrements('user_id');
             $table->string('username',20)->nullable()->comment('用户名');
             $table->string('password',500)->nullable()->comment('密码');
-            $table->tinyInteger('role_id')->nullable()->comment('用户角色');
+            $table->tinyInteger('role_id')->default(1)->comment('用户角色');
             $table->string('mobile', 11)->nullable()->comment('手机');
             $table->string('nickname',20)->nullable()->comment('昵称');
             $table->string('address',128)->nullable()->comment('收货地址');

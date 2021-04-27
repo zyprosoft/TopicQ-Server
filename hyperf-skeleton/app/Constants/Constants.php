@@ -15,7 +15,7 @@ namespace App\Constants;
 
 class Constants
 {
-    const USER_ROLE_ADMIN = 1;
+    const USER_ROLE_ADMIN = 2;
 
     /**
      * 微信SessionKey有效期30天，我们设定为25天，提前刷新

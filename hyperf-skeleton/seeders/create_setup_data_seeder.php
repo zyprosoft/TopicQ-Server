@@ -15,6 +15,9 @@ class CreateSetupDataSeeder extends Seeder
     public function run()
     {
         Db::table('role')->insertOrIgnore([
+            'name' => '普通用户'
+        ]);
+        Db::table('role')->insertOrIgnore([
             'name' => '管理员'
         ]);
         Db::table('role')->insertOrIgnore([
