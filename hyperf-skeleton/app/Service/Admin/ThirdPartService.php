@@ -13,6 +13,16 @@ use ZYProSoft\Exception\HyperfCommonException;
 
 class ThirdPartService extends BaseService
 {
+    public function getMiniProgramCategoryList()
+    {
+        return MiniProgramCategory::all();
+    }
+
+    public  function getOfficialAccountCategoryList()
+    {
+        return OfficialAccountCategory::all();
+    }
+
     public function getMiniProgram(int $programId)
     {
         return MiniProgram::findOrFail($programId);

@@ -22,6 +22,18 @@ class ThirdPartController extends AbstractController
      */
     private ThirdPartService $service;
 
+    public function getMiniProgramCategoryList(AppAdminRequest $request)
+    {
+        $result = $this->service->getMiniProgramCategoryList();
+        return $this->success($result);
+    }
+
+    public function getOfficialAccountCategoryList(AppAdminRequest $request)
+    {
+        $result = $this->service->getOfficialAccountCategoryList();
+        return $this->success($result);
+    }
+
     public function getMiniProgram(AppAdminRequest $request)
     {
         $this->validate([
