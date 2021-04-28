@@ -290,4 +290,173 @@ class ExampleTest extends HttpTestCase
             $service->createForum($item['name'],$item['icon']);
         }
     }
+
+    public function testImportMiniProgram()
+    {
+        $miniProgramList = [
+            [
+                'name' => '吉安市人才资源开发服务部',
+                'shortName' => '吉安人才',
+                'icon' => '',
+                'appId' => 'wxde2a897ae5e78ac6',
+                'categoryId' => 1,
+                'introduce' => '简介待更新'
+            ],
+            [
+                'name' => '吉安市图书馆一网读尽',
+                'shortName' => '吉安市图书馆',
+                'icon' => '',
+                'appId' => 'wxdbc858d8bb1722f4',
+                'categoryId' => 1,
+                'introduce' => '简介待更新'
+            ],
+            [
+                'name' => '吉安政务服务投诉与建议',
+                'shortName' => '吉安政务服务投诉与建议',
+                'icon' => '',
+                'appId' => 'wx65c2b54eae3f4352',
+                'categoryId' => 1,
+                'introduce' => '简介待更新'
+            ],
+            [
+                'name' => '吉安县人民检查院',
+                'shortName' => '庐陵检查',
+                'icon' => '',
+                'appId' => 'wx7d7017091dd36795',
+                'categoryId' => 1,
+                'introduce' => '简介待更新'
+            ],
+            [
+                'name' => '吉安市检察院公益诉讼一键举报',
+                'shortName' => '吉安检查',
+                'icon' => '',
+                'appId' => 'wxb63d90af7aec096e',
+                'categoryId' => 1,
+                'introduce' => '简介待更新'
+            ],
+            [
+                'name' => '吉安电话本',
+                'shortName' => '吉安电话本',
+                'icon' => '',
+                'appId' => 'wx0a97577ab0776dea',
+                'categoryId' => 1,
+                'introduce' => '简介待更新'
+            ],
+            [
+                'name' => '生活缴费',
+                'shortName' => '生活缴费',
+                'icon' => '',
+                'appId' => 'wxd2ade0f25a874ee2',
+                'categoryId' => 1,
+                'introduce' => '简介待更新'
+            ],
+            [
+                'name' => '吉安市阳光鲜奶',
+                'shortName' => '吉安市阳光鲜奶',
+                'icon' => '',
+                'appId' => 'wx03cb68077b405b82',
+                'categoryId' => 1,
+                'introduce' => '简介待更新'
+            ],
+            [
+                'name' => '吉安县中医院发热门诊线上咨询',
+                'shortName' => '吉安县中医院',
+                'icon' => '',
+                'appId' => 'wx75e1dd168e31ef1a',
+                'categoryId' => 1,
+                'introduce' => '简介待更新'
+            ],
+            [
+                'name' => '吉安市中心人民医院互联网医院',
+                'shortName' => '吉安市中心人民医院',
+                'icon' => '',
+                'appId' => 'wx831c8c5230340075',
+                'categoryId' => 1,
+                'introduce' => '简介待更新'
+            ],
+            [
+                'name' => '春雨医生',
+                'shortName' => '春雨医生',
+                'icon' => '',
+                'appId' => 'wx2e72ecb9760b913c',
+                'categoryId' => 1,
+                'introduce' => '简介待更新'
+            ],
+            [
+                'name' => '吉安市青少年宫',
+                'shortName' => '吉安市青少年宫',
+                'icon' => '',
+                'appId' => 'wx45681c86c8e43258',
+                'categoryId' => 1,
+                'introduce' => '简介待更新'
+            ],
+            [
+                'name' => '吉安职业技术学院图书馆数字阅读',
+                'shortName' => '吉安职业技术学院图书馆',
+                'icon' => '',
+                'appId' => 'wx5b40553c6509d357',
+                'categoryId' => 1,
+                'introduce' => '简介待更新'
+            ],
+            [
+                'name' => '吉安县图书馆',
+                'shortName' => '吉安县图书馆',
+                'icon' => '',
+                'appId' => 'wx71201b2eafc05a60',
+                'categoryId' => 1,
+                'introduce' => '简介待更新'
+            ],
+            [
+                'name' => '云游吉安',
+                'shortName' => '云游吉安',
+                'icon' => '',
+                'appId' => 'wx7827424d4fb6f317',
+                'categoryId' => 1,
+                'introduce' => '简介待更新'
+            ],
+            [
+                'name' => '吉安房信网',
+                'shortName' => '吉安房信网',
+                'icon' => '',
+                'appId' => 'wxcb88a6253f606adc',
+                'categoryId' => 1,
+                'introduce' => '简介待更新'
+            ],
+            [
+                'name' => '吉安孕婴之家',
+                'shortName' => '吉安孕婴之家',
+                'icon' => '',
+                'appId' => 'wx1b26645627d70ae3',
+                'categoryId' => 1,
+                'introduce' => '简介待更新'
+            ],
+            [
+                'name' => '吉安靓典造型发屋',
+                'shortName' => '吉安靓典',
+                'icon' => '',
+                'appId' => 'wxad5b1f5a153d3413',
+                'categoryId' => 1,
+                'introduce' => '简介待更新'
+            ],
+            [
+                'name' => '吉安芒果巨幕影院',
+                'shortName' => '吉安芒果巨幕影院',
+                'icon' => '',
+                'appId' => 'wx56db74fb6a006093',
+                'categoryId' => 1,
+                'introduce' => '简介待更新'
+            ],
+            [
+                'name' => '吉安县纯粮烧酒坊',
+                'shortName' => '吉安县纯粮烧酒坊',
+                'icon' => '',
+                'appId' => 'wx713a37b3aa0a9edd',
+                'categoryId' => 1,
+                'introduce' => '简介待更新'
+            ],
+        ];
+        foreach ($miniProgramList as $item) {
+            $this->createMiniProgram($item['categoryId'],$item['appId'],$item['shortName'],$item['name'],$item['icon'],$item['introduce']);
+        }
+    }
 }
