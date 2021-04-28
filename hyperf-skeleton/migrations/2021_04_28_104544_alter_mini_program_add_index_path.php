@@ -11,8 +11,9 @@ class AlterMiniProgramAddIndexPath extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('mini_program', function (Blueprint $table) {
             //
+            $table->string('index_path',64)->default('pages/index/index')->comment('跳转路径');
         });
     }
 
@@ -21,8 +22,9 @@ class AlterMiniProgramAddIndexPath extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('mini_program', function (Blueprint $table) {
             //
+            $table->removeColumn('index_path');
         });
     }
 }
