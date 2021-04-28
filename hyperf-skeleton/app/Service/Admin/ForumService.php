@@ -11,6 +11,11 @@ use ZYProSoft\Exception\HyperfCommonException;
 
 class ForumService extends BaseService
 {
+    public function getForum(int $forumId)
+    {
+        return Forum::findOrFail($forumId);
+    }
+
     public function createForum(string $name,string $icon,int $type=0, string $area=null,string $country=null,int $parentForumId=null)
     {
         $forum = Forum::query()->where('name',$name)

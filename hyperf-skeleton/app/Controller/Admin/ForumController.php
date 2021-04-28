@@ -46,4 +46,14 @@ class ForumController extends AbstractController
         $result = $this->service->editForum($forumId,$name,$icon);
         return $this->success($result);
     }
+
+    public function getForum(AppAdminRequest $request)
+    {
+        $this->validate([
+            'forumId' => 'integer|required|exists:forum,forum_id',
+        ]);
+        $forumId = $request->param('forumId');
+        $result = $this->service->getForum($forumId);
+        return $this->success($result);
+    }
 }

@@ -22,6 +22,26 @@ class ThirdPartController extends AbstractController
      */
     private ThirdPartService $service;
 
+    public function getMiniProgram(AppAdminRequest $request)
+    {
+        $this->validate([
+            'programId' => 'integer|required|exists:mini_program,program_id',
+        ]);
+        $programId = $request->param('programId');
+        $result = $this->service->getMiniProgram($programId);
+        return $this->success($result);
+    }
+
+    public function getOfficialAccount(AppAdminRequest $request)
+    {
+        $this->validate([
+            'accountId' => 'integer|required|exist:official_account,account_id',
+        ]);
+        $accountId = $request->param('accountId');
+        $result = $this->service->getOfficialAccount($accountId);
+        return $this->success($result);
+    }
+
     public function createMiniProgram(AppAdminRequest $request)
     {
         $this->validate([
