@@ -57,7 +57,7 @@ class ThirdPartService extends BaseService
         return $this->success();
     }
 
-    public function addMiniProgram(int $categoryId, string $appId,string $shortName, string $name, string $icon, string $introduce)
+    public function addMiniProgram(int $categoryId, string $appId,string $shortName, string $name, string $icon, string $introduce, string $indexPath = null)
     {
         $miniProgram = MiniProgram::query()->where('app_id',$appId)
             ->first();
@@ -71,6 +71,9 @@ class ThirdPartService extends BaseService
         $miniProgram->icon = $icon;
         $miniProgram->category_id = $categoryId;
         $miniProgram->introduce = $introduce;
+        if(isset($indexPath)) {
+            $miniProgram->index_path = $indexPath;
+        }
         $miniProgram->saveOrFail();
         return $this->success();
     }
@@ -99,6 +102,9 @@ class ThirdPartService extends BaseService
         }
         if(isset($introduce)) {
             $miniProgram->introduce = $introduce;
+        }
+        if(isset($indexPath)) {
+            $miniProgram->index_path = $indexPath;
         }
         $miniProgram->saveOrFail();
         return $this->success();

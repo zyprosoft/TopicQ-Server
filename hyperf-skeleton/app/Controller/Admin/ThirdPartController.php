@@ -62,6 +62,7 @@ class ThirdPartController extends AbstractController
             'icon' => 'string|required|min:1|max:500',
             'introduce' => 'string|required|min:1|max:500',
             'appId' => 'string|required|min:1|max:64',
+            'indexPath' => 'string|min:1|max:64',
             'categoryId' => 'integer|required|exists:mini_program_category,category_id'
         ]);
         $name = $request->param('name');
@@ -83,6 +84,7 @@ class ThirdPartController extends AbstractController
             'icon' => 'string|min:1|max:500',
             'introduce' => 'string|min:1|max:500',
             'appId' => 'string|min:1|max:64',
+            'indexPath' => 'string|min:1|max:64',
             'categoryId' => 'integer|exists:mini_program_category,category_id'
         ]);
         $programId = $request->param('programId');
