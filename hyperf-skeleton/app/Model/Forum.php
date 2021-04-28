@@ -27,6 +27,9 @@ class Forum extends Model
      * @var string
      */
     protected $table = 'forum';
+
+    protected $primaryKey = 'forum_id';
+    
     /**
      * The attributes that are mass assignable.
      *
