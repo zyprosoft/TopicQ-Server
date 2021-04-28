@@ -55,6 +55,35 @@ class ThirdPartService extends BaseService
         return $this->success();
     }
 
+    public function editMiniProgram(int $programId, int $categoryId = null, string $appId = null,string $shortName=null, string $name=null, string $icon=null, string $introduce = null)
+    {
+        $miniProgram = MiniProgram::query()->where('program_id',$programId)
+            ->first();
+        if (!$miniProgram instanceof MiniProgram) {
+            throw new HyperfCommonException(ErrorCode::RECORD_NOT_EXIST);
+        }
+        if(isset($shortName)) {
+            $miniProgram->short_name = $shortName;
+        }
+        if (isset($name)) {
+            $miniProgram->name = $name;
+        }
+        if (isset($appId)) {
+            $miniProgram->app_id = $appId;
+        }
+        if (isset($icon)) {
+            $miniProgram->icon = $icon;
+        }
+        if (isset($categoryId)) {
+            $miniProgram->category_id = $categoryId;
+        }
+        if(isset($introduce)) {
+            $miniProgram->introduce = $introduce;
+        }
+        $miniProgram->saveOrFail();
+        return $this->success();
+    }
+
     public function addOfficialAccount(int $categoryId, string $wechatId, string $name, string $icon, string $introduce)
     {
         $officialAccount = OfficialAccount::query()->where('wechat_id',$wechatId)
@@ -68,6 +97,32 @@ class ThirdPartService extends BaseService
         $officialAccount->icon = $icon;
         $officialAccount->category_id = $categoryId;
         $officialAccount->introduce = $introduce;
+        $officialAccount->saveOrFail();
+        return $this->success();
+    }
+
+    public function editOfficialAccount(int $accountId, int $categoryId = null, string $wechatId = null, string $name = null, string $icon = null, string $introduce = null)
+    {
+        $officialAccount = OfficialAccount::query()->where('account_id',$accountId)
+            ->first();
+        if (!$officialAccount instanceof OfficialAccount) {
+            throw new HyperfCommonException(ErrorCode::RECORD_NOT_EXIST);
+        }
+        if (isset($name)) {
+            $officialAccount->name = $name;
+        }
+        if (isset($wechatId)) {
+            $officialAccount->wechat_id = $wechatId;
+        }
+        if (isset($icon)) {
+            $officialAccount->icon = $icon;
+        }
+        if (isset($categoryId)) {
+            $officialAccount->category_id = $categoryId;
+        }
+        if(isset($introduce)) {
+            $officialAccount->introduce = $introduce;
+        }
         $officialAccount->saveOrFail();
         return $this->success();
     }

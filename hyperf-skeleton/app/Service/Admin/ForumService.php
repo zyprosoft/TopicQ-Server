@@ -34,4 +34,32 @@ class ForumService extends BaseService
         }
         $forum->saveOrFail();
     }
+
+    public function editForum(int $forumId, string $name = null,string $icon = null, int $type=null, string $area=null,string $country=null,int $parentForumId=null)
+    {
+        $forum = Forum::query()->where('forum_id',$forumId)
+            ->first();
+        if (!$forum instanceof Forum) {
+            throw new HyperfCommonException(ErrorCode::RECORD_NOT_EXIST);
+        }
+        if(isset($name)) {
+            $forum->name = $name;
+        }
+        if (isset($icon)) {
+            $forum->icon = $icon;
+        }
+        if (isset($type)) {
+            $forum->type = $type;
+        }
+        if(isset($area)) {
+            $forum->area = $area;
+        }
+        if (isset($country)) {
+            $forum->country = $country;
+        }
+        if (isset($parentForumId)) {
+            $forum->parent_forum_id = $parentForumId;
+        }
+        $forum->saveOrFail();
+    }
 }
