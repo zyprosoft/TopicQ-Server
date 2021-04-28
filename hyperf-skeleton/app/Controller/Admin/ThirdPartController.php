@@ -62,7 +62,7 @@ class ThirdPartController extends AbstractController
             'icon' => 'string|required|min:1|max:500',
             'introduce' => 'string|required|min:1|max:500',
             'appId' => 'string|required|min:1|max:64',
-            'categoryId' => 'integer|required|exists:category,category_id'
+            'categoryId' => 'integer|required|exists:mini_program_category,category_id'
         ]);
         $name = $request->param('name');
         $shortName = $request->param('shortName');
@@ -83,7 +83,7 @@ class ThirdPartController extends AbstractController
             'icon' => 'string|min:1|max:500',
             'introduce' => 'string|min:1|max:500',
             'appId' => 'string|min:1|max:64',
-            'categoryId' => 'integer|exists:category,category_id'
+            'categoryId' => 'integer|exists:mini_program_category,category_id'
         ]);
         $programId = $request->param('programId');
         $name = $request->param('name');
@@ -103,7 +103,7 @@ class ThirdPartController extends AbstractController
             'icon' => 'string|required|min:1|max:500',
             'introduce' => 'string|required|min:1|max:500',
             'wechatId' => 'string|required|min:1|max:64',
-            'categoryId' => 'integer|required|exists:category,category_id'
+            'categoryId' => 'integer|required|exists:official_account_category,category_id'
         ]);
         $name = $request->param('name');
         $icon = $request->param('icon');
@@ -122,7 +122,7 @@ class ThirdPartController extends AbstractController
             'icon' => 'string|min:1|max:500',
             'introduce' => 'string|min:1|max:500',
             'wechatId' => 'string|min:1|max:64',
-            'categoryId' => 'integer|exists:category,category_id'
+            'categoryId' => 'integer|exists:official_account_category,category_id'
         ]);
         $name = $request->param('name');
         $icon = $request->param('icon');
