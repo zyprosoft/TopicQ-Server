@@ -23,6 +23,7 @@ namespace App\Model;
  * @property \Carbon\Carbon $updated_at 
  * @property int $is_recommend 0否1是
  * @property string $short_name 缩略名字
+ * @property string $index_path 跳转路径
  * @property-read \App\Model\MiniProgramCategory $category 
  */
 class MiniProgram extends Model
