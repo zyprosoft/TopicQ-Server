@@ -47,7 +47,7 @@ class ThirdPartController extends AbstractController
     public function getOfficialAccount(AppAdminRequest $request)
     {
         $this->validate([
-            'accountId' => 'integer|required|exist:official_account,account_id',
+            'accountId' => 'integer|required|exists:official_account,account_id',
         ]);
         $accountId = $request->param('accountId');
         $result = $this->service->getOfficialAccount($accountId);
