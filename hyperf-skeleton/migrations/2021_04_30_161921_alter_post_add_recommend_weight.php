@@ -11,8 +11,9 @@ class AlterPostAddRecommendWeight extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('post', function (Blueprint $table) {
             //
+            $table->integer('recommend_weight')->default(0)->comment('推荐权重');
         });
     }
 
@@ -21,8 +22,9 @@ class AlterPostAddRecommendWeight extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('post', function (Blueprint $table) {
             //
+            $table->removeColumn('recommend_weight');
         });
     }
 }
