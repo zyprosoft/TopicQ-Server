@@ -29,7 +29,7 @@ class PostRecommendCalculateTask
 
         do{
             $postList = Post::query()->select([
-                'favorite_count','comment_count','read_count','post_id','recommend_weight'
+                'favorite_count','comment_count','read_count','join_user_count','post_id','recommend_weight'
             ])
                 ->where('post_id','>', $lastPostId)
                 ->offset($pageIndex)
@@ -40,7 +40,9 @@ class PostRecommendCalculateTask
                 $postList->map(function (Post $post) use ($baseWeight,$gravity) {
                     //热度计算
                     $createdAt = new Carbon($post->created_at);
-                    $hotWeight = ($post->favorite_count+$post->comment_count+$post->read_count+$baseWeight)/pow($createdAt->timestamp+1,$gravity);
+                    $createdAtTs = floor($createdAt->timestamp/1000000);
+                    $postTotal = $post->favorite_count+$post->comment_count+$post->read_count+$post->join_user_count;
+                    $hotWeight = ($postTotal+$baseWeight)/pow($createdAtTs,$gravity);
                     $post->recommend_weight = $hotWeight;
                     $post->save();
                 });
