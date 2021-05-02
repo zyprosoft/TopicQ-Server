@@ -41,7 +41,7 @@ class PostRecommendCalculateTask
                     //热度计算
                     $createdAt = new Carbon($post->created_at);
                     $createdAtTs = round($createdAt->diffInHours(Carbon::now()))+1;
-                    $createdAtTs = $createdAtTs > 72? 72:$createdAtTs;//超过三天，系数一样
+                    $createdAtTs = $createdAtTs > 24? 24:$createdAtTs;//超过一天，系数一样
                     $postTotal = $post->read_count*10;//阅读系数放大
                     $postTotal = $postTotal + $post->favorite_count * 20; //收藏系数放大
                     $postTotal = $postTotal + $post->comment_count * 40; //评论系数放大
