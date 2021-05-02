@@ -40,10 +40,10 @@ class PostRecommendCalculateTask
                 $postList->map(function (Post $post) use ($baseWeight,$gravity) {
                     //热度计算
                     $createdAt = new Carbon($post->created_at);
-                    $createdAtTs = floor($createdAt->timestamp/1000000);
+                    $createdAtTs = round($createdAt->diffInHours(Carbon::now()))+1;
                     $postTotal = $post->favorite_count+$post->comment_count+$post->read_count+$post->join_user_count;
                     $hotWeight = ($postTotal+$baseWeight)/pow($createdAtTs,$gravity);
-                    $post->recommend_weight = $hotWeight;
+                    $post->recommend_weight = round($hotWeight);
                     $post->save();
                 });
             });
