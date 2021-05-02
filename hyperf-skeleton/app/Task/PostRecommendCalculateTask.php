@@ -42,8 +42,10 @@ class PostRecommendCalculateTask
                     $createdAt = new Carbon($post->created_at);
                     $createdAtTs = round($createdAt->diffInHours(Carbon::now()))+1;
                     $createdAtTs = $createdAtTs > 72? 72:$createdAtTs;//超过三天，系数一样
-                    $postTotal = $post->favorite_count+$post->comment_count+$post->read_count+$post->join_user_count;
-                    $postTotal = $postTotal * 100;
+                    $postTotal = $post->read_count*10;//阅读系数放大
+                    $postTotal = $postTotal + $post->favorite_count * 20; //收藏系数放大
+                    $postTotal = $postTotal + $post->comment_count * 40; //评论系数放大
+                    $postTotal = $postTotal + $post->join_user_count * 30;//参加人数放大
                     $hotWeight = ($postTotal+$baseWeight)/pow($createdAtTs,$gravity);
                     $post->recommend_weight = round($hotWeight);
                     $post->save();
