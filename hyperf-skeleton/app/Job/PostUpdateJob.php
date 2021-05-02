@@ -46,7 +46,7 @@ class PostUpdateJob extends Job
         $post->comment_count = $commentCount;
 
         //统计参与人数
-        $userCount = Comment::query()->select(['owner_id'])
+        $userCount = Comment::query()->select(['distinct owner_id'])
                                      ->groupBy(['owner_id'])
                                      ->get()
                                      ->count();
