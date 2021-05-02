@@ -28,7 +28,9 @@ class PostRecommendCalculateTask
         $gravity = 1.5;
 
         do{
-            $postList = Db::table('post')->selectRaw('sum(`favorite_count`,`comment_count`,`read_count`) as total,post_id,recommend_weight')
+            $postList = Post::query()->select([
+                'favorite_count','comment_count','read_count','post_id','recommend_weight'
+            ])
                 ->where('post_id','>', $lastPostId)
                 ->offset($pageIndex)
                 ->limit($pageSize)
