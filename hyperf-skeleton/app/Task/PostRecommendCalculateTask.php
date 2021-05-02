@@ -18,7 +18,7 @@ class PostRecommendCalculateTask
     public function execute()
     {
         //统计收藏、评论、点赞数、发表时间、阅读数
-        $baseWeight = 10;
+        $baseWeight = 1000;
 
         $pageIndex = 0;
         $pageSize = 30;
@@ -41,7 +41,9 @@ class PostRecommendCalculateTask
                     //热度计算
                     $createdAt = new Carbon($post->created_at);
                     $createdAtTs = round($createdAt->diffInHours(Carbon::now()))+1;
+                    $createdAtTs = $createdAtTs > 72? 72:$createdAtTs;//超过三天，系数一样
                     $postTotal = $post->favorite_count+$post->comment_count+$post->read_count+$post->join_user_count;
+                    $postTotal = $postTotal * 100;
                     $hotWeight = ($postTotal+$baseWeight)/pow($createdAtTs,$gravity);
                     $post->recommend_weight = round($hotWeight);
                     $post->save();
