@@ -13,6 +13,7 @@ namespace HyperfTest\Cases;
 
 use App\Service\Admin\ForumService;
 use App\Service\Admin\ThirdPartService;
+use App\Task\PostRecommendCalculateTask;
 use Hyperf\Utils\ApplicationContext;
 use HyperfTest\HttpTestCase;
 use Qbhy\HyperfTesting\Client;
@@ -458,5 +459,11 @@ class ExampleTest extends HttpTestCase
         foreach ($miniProgramList as $item) {
             $this->createMiniProgram($item['categoryId'],$item['appId'],$item['shortName'],$item['name'],$item['icon'],$item['introduce']);
         }
+    }
+
+    public function testHotRecommend()
+    {
+        $task = make(PostRecommendCalculateTask::class);
+        $task->execute();
     }
 }
