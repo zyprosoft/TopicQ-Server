@@ -43,9 +43,9 @@ class PostRecommendCalculateTask
                     $createdAtTs = round($createdAt->diffInHours(Carbon::now()))+1;
                     $createdAtTs = $createdAtTs > 24? 24:$createdAtTs;//超过一天，系数一样
                     $postTotal = $post->read_count;//阅读系数放大
-                    $postTotal = $postTotal + $post->favorite_count * 100 * 20; //收藏系数放大
-                    $postTotal = $postTotal + $post->comment_count * 100 * 40; //评论系数放大
-                    $postTotal = $postTotal + $post->join_user_count * 100 * 30;//参加人数放大
+                    $postTotal = $postTotal + $post->favorite_count * 100 * 2; //收藏系数放大
+                    $postTotal = $postTotal + $post->comment_count * 100 * 4; //评论系数放大
+                    $postTotal = $postTotal + $post->join_user_count * 100 * 3;//参加人数放大
                     $hotWeight = ($postTotal+$baseWeight)/pow($createdAtTs,$gravity);
                     $post->recommend_weight = round($hotWeight);
                     $post->save();
