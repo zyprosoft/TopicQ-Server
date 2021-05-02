@@ -10,7 +10,6 @@ use App\Job\PostIncreaseReadJob;
 use App\Job\PostMachineAuditJob;
 use App\Job\UniqueJobQueue;
 use App\Model\Post;
-use App\Model\PostDraft;
 use App\Model\ReportPost;
 use App\Model\User;
 use App\Model\UserFavorite;
@@ -52,7 +51,8 @@ class PostService extends BaseService
         'created_at',
         'updated_at',
         'join_user_count',
-        'avatar_list'
+        'avatar_list',
+        'recommend_weight'
     ];
 
     //重载获取当前用户ID的方法
@@ -531,6 +531,7 @@ class PostService extends BaseService
             'updated_at',
             'join_user_count',
             'avatar_list',
+            'recommend_weight'
         ];
 
         $list = Post::query()->select($selectRows)
@@ -596,6 +597,7 @@ class PostService extends BaseService
             'avatar_list',
             'user_subscribe.forum_id',
             'user_id',
+            'recommend_weight'
         ];
 
         $list = Post::query()->select($selectRows)
