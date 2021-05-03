@@ -62,7 +62,7 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
-            "Com\\Pdd\\Pop\\Sdk\\": "app/ThirdPart/pdd"
+            "Com\\Pdd\\Pop\\Sdk\\": "app/ThirdPart/pdd/"
         },
         "files": []
     },
