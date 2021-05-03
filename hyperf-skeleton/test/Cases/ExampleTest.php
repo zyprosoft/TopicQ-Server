@@ -13,6 +13,7 @@ namespace HyperfTest\Cases;
 
 use App\Service\Admin\ForumService;
 use App\Service\Admin\ThirdPartService;
+use App\Service\PddService;
 use App\Task\PostRecommendCalculateTask;
 use Hyperf\Utils\ApplicationContext;
 use HyperfTest\HttpTestCase;
@@ -465,5 +466,11 @@ class ExampleTest extends HttpTestCase
     {
         $task = make(PostRecommendCalculateTask::class);
         $task->execute();
+    }
+
+    public function testPdd()
+    {
+        $service = ApplicationContext::getContainer()->get(PddService::class);
+        $service->generatePid();
     }
 }

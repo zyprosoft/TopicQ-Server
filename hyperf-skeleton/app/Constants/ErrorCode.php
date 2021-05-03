@@ -58,4 +58,9 @@ class ErrorCode extends AbstractConstants
      * @Message("外显小程序最多3个!")
      */
     const OUTSIDE_MINI_PROGRAM_FULL = 30005;
+
+    /**
+     * @Message("调用拼多多错误!")
+     */
+    const CALL_PDD_ERROR = 30006;
 }
