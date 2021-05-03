@@ -62,6 +62,7 @@ class PddService extends AbstractService
             Log::error($e->getMessage());
             throw new HyperfCommonException($e->getCode(),$e->getMessage());
         }
+        Log::info($response->getBody());
         $content = $response->getContent();
         if (isset($content['error_response'])) {
             $errMsg = data_get($content,'error_response.error_msg');
@@ -91,6 +92,7 @@ class PddService extends AbstractService
             Log::error($e->getMessage());
             throw new HyperfCommonException($e->getCode(),$e->getMessage());
         }
+        Log::info($response->getBody());
         $content = $response->getContent();
         if (isset($content['error_response'])) {
             $errMsg = data_get($content,'error_response.error_msg');
