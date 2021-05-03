@@ -11,12 +11,12 @@ class PddStockWareMoveRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddStockWareMoveRequest_StockMoveOrderActionDto, "stock_move_order_action_dto")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddStockWareMoveRequest_StockMoveOrderActionDto, "stock_move_order_action_dto")
 	*/
 	private $stockMoveOrderActionDto;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddStockWareMoveRequest_StockMoveRecordActionDtoListItem>, "stock_move_record_action_dto_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddStockWareMoveRequest_StockMoveRecordActionDtoListItem>, "stock_move_record_action_dto_list")
 	*/
 	private $stockMoveRecordActionDtoList;
 
@@ -63,32 +63,32 @@ class PddStockWareMoveRequest_StockMoveOrderActionDto extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(Integer, "move_direction")
+	* #JsonProperty(Integer, "move_direction")
 	*/
 	private $moveDirection;
 
 	/**
-	* @JsonProperty(String, "order_note")
+	* #JsonProperty(String, "order_note")
 	*/
 	private $orderNote;
 
 	/**
-	* @JsonProperty(Integer, "business_type")
+	* #JsonProperty(Integer, "business_type")
 	*/
 	private $businessType;
 
 	/**
-	* @JsonProperty(String, "warehouse_sn")
+	* #JsonProperty(String, "warehouse_sn")
 	*/
 	private $warehouseSn;
 
 	/**
-	* @JsonProperty(Long, "move_time")
+	* #JsonProperty(Long, "move_time")
 	*/
 	private $moveTime;
 
 	/**
-	* @JsonProperty(String, "move_order_sn")
+	* #JsonProperty(String, "move_order_sn")
 	*/
 	private $moveOrderSn;
 
@@ -133,17 +133,17 @@ class PddStockWareMoveRequest_StockMoveRecordActionDtoListItem extends PopBaseJs
 	}
 
 	/**
-	* @JsonProperty(String, "note")
+	* #JsonProperty(String, "note")
 	*/
 	private $note;
 
 	/**
-	* @JsonProperty(Long, "move_num")
+	* #JsonProperty(Long, "move_num")
 	*/
 	private $moveNum;
 
 	/**
-	* @JsonProperty(String, "ware_sn")
+	* #JsonProperty(String, "ware_sn")
 	*/
 	private $wareSn;
 

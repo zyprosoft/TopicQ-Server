@@ -11,42 +11,42 @@ class PddMallInfoStoreGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "city")
+	* #JsonProperty(String, "city")
 	*/
 	private $city;
 
 	/**
-	* @JsonProperty(String, "district")
+	* #JsonProperty(String, "district")
 	*/
 	private $district;
 
 	/**
-	* @JsonProperty(Integer, "page_number")
+	* #JsonProperty(Integer, "page_number")
 	*/
 	private $pageNumber;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 
 	/**
-	* @JsonProperty(String, "province")
+	* #JsonProperty(String, "province")
 	*/
 	private $province;
 
 	/**
-	* @JsonProperty(Long, "store_id")
+	* #JsonProperty(Long, "store_id")
 	*/
 	private $storeId;
 
 	/**
-	* @JsonProperty(String, "store_name")
+	* #JsonProperty(String, "store_name")
 	*/
 	private $storeName;
 
 	/**
-	* @JsonProperty(String, "store_number")
+	* #JsonProperty(String, "store_number")
 	*/
 	private $storeNumber;
 

@@ -11,12 +11,12 @@ class PddAdApiUnitCreativeDistributeFlowRateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "adId")
+	* #JsonProperty(Long, "adId")
 	*/
 	private $adId;
 
 	/**
-	* @JsonProperty(Integer, "creativeFlowRate")
+	* #JsonProperty(Integer, "creativeFlowRate")
 	*/
 	private $creativeFlowRate;
 

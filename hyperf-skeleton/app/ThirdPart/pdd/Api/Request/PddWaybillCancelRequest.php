@@ -11,12 +11,12 @@ class PddWaybillCancelRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "waybill_code")
+	* #JsonProperty(String, "waybill_code")
 	*/
 	private $waybillCode;
 
 	/**
-	* @JsonProperty(String, "wp_code")
+	* #JsonProperty(String, "wp_code")
 	*/
 	private $wpCode;
 

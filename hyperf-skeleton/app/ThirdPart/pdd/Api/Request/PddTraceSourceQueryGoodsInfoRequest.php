@@ -11,12 +11,12 @@ class PddTraceSourceQueryGoodsInfoRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "httpMethod")
+	* #JsonProperty(String, "httpMethod")
 	*/
 	private $httpMethod;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddTraceSourceQueryGoodsInfoRequest_Params, "params")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddTraceSourceQueryGoodsInfoRequest_Params, "params")
 	*/
 	private $params;
 
@@ -63,22 +63,22 @@ class PddTraceSourceQueryGoodsInfoRequest_Params extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "userid")
+	* #JsonProperty(String, "userid")
 	*/
 	private $userid;
 
 	/**
-	* @JsonProperty(String, "timestamp")
+	* #JsonProperty(String, "timestamp")
 	*/
 	private $timestamp;
 
 	/**
-	* @JsonProperty(String, "sign")
+	* #JsonProperty(String, "sign")
 	*/
 	private $sign;
 
 	/**
-	* @JsonProperty(String, "id")
+	* #JsonProperty(String, "id")
 	*/
 	private $id;
 

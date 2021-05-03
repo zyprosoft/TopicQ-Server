@@ -11,7 +11,7 @@ class PddStockWareDeleteRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "ware_id")
+	* #JsonProperty(Long, "ware_id")
 	*/
 	private $wareId;
 

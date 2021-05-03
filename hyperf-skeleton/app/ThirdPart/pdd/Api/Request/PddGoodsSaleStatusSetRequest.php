@@ -11,12 +11,12 @@ class PddGoodsSaleStatusSetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "goods_id")
+	* #JsonProperty(Long, "goods_id")
 	*/
 	private $goodsId;
 
 	/**
-	* @JsonProperty(Integer, "is_onsale")
+	* #JsonProperty(Integer, "is_onsale")
 	*/
 	private $isOnsale;
 

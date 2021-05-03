@@ -11,42 +11,42 @@ class PddOrderListGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "order_status")
+	* #JsonProperty(Integer, "order_status")
 	*/
 	private $orderStatus;
 
 	/**
-	* @JsonProperty(Integer, "refund_status")
+	* #JsonProperty(Integer, "refund_status")
 	*/
 	private $refundStatus;
 
 	/**
-	* @JsonProperty(Long, "start_confirm_at")
+	* #JsonProperty(Long, "start_confirm_at")
 	*/
 	private $startConfirmAt;
 
 	/**
-	* @JsonProperty(Long, "end_confirm_at")
+	* #JsonProperty(Long, "end_confirm_at")
 	*/
 	private $endConfirmAt;
 
 	/**
-	* @JsonProperty(Integer, "page")
+	* #JsonProperty(Integer, "page")
 	*/
 	private $page;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 
 	/**
-	* @JsonProperty(Integer, "trade_type")
+	* #JsonProperty(Integer, "trade_type")
 	*/
 	private $tradeType;
 
 	/**
-	* @JsonProperty(Boolean, "use_has_next")
+	* #JsonProperty(Boolean, "use_has_next")
 	*/
 	private $useHasNext;
 

@@ -11,47 +11,47 @@ class PddGoodsCpsUnitChangeRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "coupon_end_time")
+	* #JsonProperty(String, "coupon_end_time")
 	*/
 	private $couponEndTime;
 
 	/**
-	* @JsonProperty(Long, "coupon_id")
+	* #JsonProperty(Long, "coupon_id")
 	*/
 	private $couponId;
 
 	/**
-	* @JsonProperty(String, "coupon_sn")
+	* #JsonProperty(String, "coupon_sn")
 	*/
 	private $couponSn;
 
 	/**
-	* @JsonProperty(String, "coupon_start_time")
+	* #JsonProperty(String, "coupon_start_time")
 	*/
 	private $couponStartTime;
 
 	/**
-	* @JsonProperty(Integer, "discount")
+	* #JsonProperty(Integer, "discount")
 	*/
 	private $discount;
 
 	/**
-	* @JsonProperty(Long, "goods_id")
+	* #JsonProperty(Long, "goods_id")
 	*/
 	private $goodsId;
 
 	/**
-	* @JsonProperty(Long, "init_quantity")
+	* #JsonProperty(Long, "init_quantity")
 	*/
 	private $initQuantity;
 
 	/**
-	* @JsonProperty(Integer, "rate")
+	* #JsonProperty(Integer, "rate")
 	*/
 	private $rate;
 
 	/**
-	* @JsonProperty(Long, "remain_quantity")
+	* #JsonProperty(Long, "remain_quantity")
 	*/
 	private $remainQuantity;
 

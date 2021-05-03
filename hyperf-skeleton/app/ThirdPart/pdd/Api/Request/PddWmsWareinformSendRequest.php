@@ -11,7 +11,7 @@ class PddWmsWareinformSendRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsWareinformSendRequest_Request, "request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsWareinformSendRequest_Request, "request")
 	*/
 	private $request;
 
@@ -52,12 +52,12 @@ class PddWmsWareinformSendRequest_Request extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "ownerCode")
+	* #JsonProperty(String, "ownerCode")
 	*/
 	private $ownerCode;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsWareinformSendRequest_RequestWare, "ware")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsWareinformSendRequest_RequestWare, "ware")
 	*/
 	private $ware;
 
@@ -82,47 +82,47 @@ class PddWmsWareinformSendRequest_RequestWare extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "color")
+	* #JsonProperty(String, "color")
 	*/
 	private $color;
 
 	/**
-	* @JsonProperty(String, "height")
+	* #JsonProperty(String, "height")
 	*/
 	private $height;
 
 	/**
-	* @JsonProperty(String, "length")
+	* #JsonProperty(String, "length")
 	*/
 	private $length;
 
 	/**
-	* @JsonProperty(String, "size")
+	* #JsonProperty(String, "size")
 	*/
 	private $size;
 
 	/**
-	* @JsonProperty(String, "volume")
+	* #JsonProperty(String, "volume")
 	*/
 	private $volume;
 
 	/**
-	* @JsonProperty(String, "wareName")
+	* #JsonProperty(String, "wareName")
 	*/
 	private $wareName;
 
 	/**
-	* @JsonProperty(String, "wareSn")
+	* #JsonProperty(String, "wareSn")
 	*/
 	private $wareSn;
 
 	/**
-	* @JsonProperty(String, "weight")
+	* #JsonProperty(String, "weight")
 	*/
 	private $weight;
 
 	/**
-	* @JsonProperty(String, "width")
+	* #JsonProperty(String, "width")
 	*/
 	private $width;
 

@@ -11,12 +11,12 @@ class PddDdkOauthOrderDetailGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "order_sn")
+	* #JsonProperty(String, "order_sn")
 	*/
 	private $orderSn;
 
 	/**
-	* @JsonProperty(Integer, "query_order_type")
+	* #JsonProperty(Integer, "query_order_type")
 	*/
 	private $queryOrderType;
 

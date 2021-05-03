@@ -11,52 +11,52 @@ class PddOrderUpdateAddressRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "address")
+	* #JsonProperty(String, "address")
 	*/
 	private $address;
 
 	/**
-	* @JsonProperty(String, "city")
+	* #JsonProperty(String, "city")
 	*/
 	private $city;
 
 	/**
-	* @JsonProperty(Integer, "city_id")
+	* #JsonProperty(Integer, "city_id")
 	*/
 	private $cityId;
 
 	/**
-	* @JsonProperty(String, "order_sn")
+	* #JsonProperty(String, "order_sn")
 	*/
 	private $orderSn;
 
 	/**
-	* @JsonProperty(String, "province")
+	* #JsonProperty(String, "province")
 	*/
 	private $province;
 
 	/**
-	* @JsonProperty(Integer, "province_id")
+	* #JsonProperty(Integer, "province_id")
 	*/
 	private $provinceId;
 
 	/**
-	* @JsonProperty(String, "receiver_name")
+	* #JsonProperty(String, "receiver_name")
 	*/
 	private $receiverName;
 
 	/**
-	* @JsonProperty(String, "receiver_phone")
+	* #JsonProperty(String, "receiver_phone")
 	*/
 	private $receiverPhone;
 
 	/**
-	* @JsonProperty(String, "town")
+	* #JsonProperty(String, "town")
 	*/
 	private $town;
 
 	/**
-	* @JsonProperty(Integer, "town_id")
+	* #JsonProperty(Integer, "town_id")
 	*/
 	private $townId;
 

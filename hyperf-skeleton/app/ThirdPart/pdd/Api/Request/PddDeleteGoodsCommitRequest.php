@@ -11,7 +11,7 @@ class PddDeleteGoodsCommitRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<Long>, "goods_ids")
+	* #JsonProperty(List<Long>, "goods_ids")
 	*/
 	private $goodsIds;
 

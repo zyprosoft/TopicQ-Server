@@ -11,42 +11,42 @@ class PddFlightChangeApplyRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "trace_id")
+	* #JsonProperty(String, "trace_id")
 	*/
 	private $traceId;
 
 	/**
-	* @JsonProperty(String, "sub_trace_id")
+	* #JsonProperty(String, "sub_trace_id")
 	*/
 	private $subTraceId;
 
 	/**
-	* @JsonProperty(String, "out_order_no")
+	* #JsonProperty(String, "out_order_no")
 	*/
 	private $outOrderNo;
 
 	/**
-	* @JsonProperty(String, "parent_travel_sn")
+	* #JsonProperty(String, "parent_travel_sn")
 	*/
 	private $parentTravelSn;
 
 	/**
-	* @JsonProperty(String, "change_date")
+	* #JsonProperty(String, "change_date")
 	*/
 	private $changeDate;
 
 	/**
-	* @JsonProperty(String, "attachment_path")
+	* #JsonProperty(String, "attachment_path")
 	*/
 	private $attachmentPath;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightChangeApplyRequest_PassengerInfoListItem>, "passenger_info_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightChangeApplyRequest_PassengerInfoListItem>, "passenger_info_list")
 	*/
 	private $passengerInfoList;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightChangeApplyRequest_FlightInfoListItem>, "flight_info_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightChangeApplyRequest_FlightInfoListItem>, "flight_info_list")
 	*/
 	private $flightInfoList;
 
@@ -129,37 +129,37 @@ class PddFlightChangeApplyRequest_PassengerInfoListItem extends PopBaseJsonEntit
 	}
 
 	/**
-	* @JsonProperty(String, "passenger_type")
+	* #JsonProperty(String, "passenger_type")
 	*/
 	private $passengerType;
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
 	/**
-	* @JsonProperty(String, "identity_type")
+	* #JsonProperty(String, "identity_type")
 	*/
 	private $identityType;
 
 	/**
-	* @JsonProperty(String, "identity_no")
+	* #JsonProperty(String, "identity_no")
 	*/
 	private $identityNo;
 
 	/**
-	* @JsonProperty(String, "travel_sn")
+	* #JsonProperty(String, "travel_sn")
 	*/
 	private $travelSn;
 
 	/**
-	* @JsonProperty(String, "ticket_no")
+	* #JsonProperty(String, "ticket_no")
 	*/
 	private $ticketNo;
 
 	/**
-	* @JsonProperty(String, "old_travel_sn")
+	* #JsonProperty(String, "old_travel_sn")
 	*/
 	private $oldTravelSn;
 
@@ -209,22 +209,22 @@ class PddFlightChangeApplyRequest_FlightInfoListItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "flight_no")
+	* #JsonProperty(String, "flight_no")
 	*/
 	private $flightNo;
 
 	/**
-	* @JsonProperty(Integer, "segment_no")
+	* #JsonProperty(Integer, "segment_no")
 	*/
 	private $segmentNo;
 
 	/**
-	* @JsonProperty(Integer, "sequence_no")
+	* #JsonProperty(Integer, "sequence_no")
 	*/
 	private $sequenceNo;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightChangeApplyRequest_FlightInfoListItemCabinInfoListItem>, "cabin_info_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightChangeApplyRequest_FlightInfoListItemCabinInfoListItem>, "cabin_info_list")
 	*/
 	private $cabinInfoList;
 
@@ -259,12 +259,12 @@ class PddFlightChangeApplyRequest_FlightInfoListItemCabinInfoListItem extends Po
 	}
 
 	/**
-	* @JsonProperty(String, "passenger_type")
+	* #JsonProperty(String, "passenger_type")
 	*/
 	private $passengerType;
 
 	/**
-	* @JsonProperty(String, "sub_class")
+	* #JsonProperty(String, "sub_class")
 	*/
 	private $subClass;
 

@@ -11,27 +11,27 @@ class PddDdkCashgiftDataQueryRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "cash_gift_id")
+	* #JsonProperty(Long, "cash_gift_id")
 	*/
 	private $cashGiftId;
 
 	/**
-	* @JsonProperty(Long, "end_time")
+	* #JsonProperty(Long, "end_time")
 	*/
 	private $endTime;
 
 	/**
-	* @JsonProperty(Integer, "page")
+	* #JsonProperty(Integer, "page")
 	*/
 	private $page;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 
 	/**
-	* @JsonProperty(Long, "start_time")
+	* #JsonProperty(Long, "start_time")
 	*/
 	private $startTime;
 

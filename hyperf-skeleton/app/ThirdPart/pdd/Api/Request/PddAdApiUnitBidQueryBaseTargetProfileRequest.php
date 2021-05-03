@@ -11,12 +11,12 @@ class PddAdApiUnitBidQueryBaseTargetProfileRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "goodsId")
+	* #JsonProperty(Long, "goodsId")
 	*/
 	private $goodsId;
 
 	/**
-	* @JsonProperty(Integer, "scenesType")
+	* #JsonProperty(Integer, "scenesType")
 	*/
 	private $scenesType;
 

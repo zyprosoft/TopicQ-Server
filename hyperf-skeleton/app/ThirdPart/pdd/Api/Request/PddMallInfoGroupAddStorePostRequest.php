@@ -11,12 +11,12 @@ class PddMallInfoGroupAddStorePostRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "group_id")
+	* #JsonProperty(Long, "group_id")
 	*/
 	private $groupId;
 
 	/**
-	* @JsonProperty(List<Long>, "store_id_list")
+	* #JsonProperty(List<Long>, "store_id_list")
 	*/
 	private $storeIdList;
 

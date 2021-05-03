@@ -11,22 +11,22 @@ class PddAdApiPlanCreateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdPlanCreateMessage, "adPlanCreateMessage")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdPlanCreateMessage, "adPlanCreateMessage")
 	*/
 	private $adPlanCreateMessage;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItem>, "adUnitCreateComplexMessageList")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItem>, "adUnitCreateComplexMessageList")
 	*/
 	private $adUnitCreateComplexMessageList;
 
 	/**
-	* @JsonProperty(Integer, "planStrategy")
+	* #JsonProperty(Integer, "planStrategy")
 	*/
 	private $planStrategy;
 
 	/**
-	* @JsonProperty(Integer, "scenesType")
+	* #JsonProperty(Integer, "scenesType")
 	*/
 	private $scenesType;
 
@@ -85,17 +85,17 @@ class PddAdApiPlanCreateRequest_AdPlanCreateMessage extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(Long, "maxCost")
+	* #JsonProperty(Long, "maxCost")
 	*/
 	private $maxCost;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdPlanCreateMessagePlanDiscount, "planDiscount")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdPlanCreateMessagePlanDiscount, "planDiscount")
 	*/
 	private $planDiscount;
 
 	/**
-	* @JsonProperty(String, "planName")
+	* #JsonProperty(String, "planName")
 	*/
 	private $planName;
 
@@ -125,7 +125,7 @@ class PddAdApiPlanCreateRequest_AdPlanCreateMessagePlanDiscount extends PopBaseJ
 	}
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdPlanCreateMessagePlanDiscountDiscountsItem>, "discounts")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdPlanCreateMessagePlanDiscountDiscountsItem>, "discounts")
 	*/
 	private $discounts;
 
@@ -145,12 +145,12 @@ class PddAdApiPlanCreateRequest_AdPlanCreateMessagePlanDiscountDiscountsItem ext
 	}
 
 	/**
-	* @JsonProperty(Integer, "index")
+	* #JsonProperty(Integer, "index")
 	*/
 	private $index;
 
 	/**
-	* @JsonProperty(Integer, "rate")
+	* #JsonProperty(Integer, "rate")
 	*/
 	private $rate;
 
@@ -175,42 +175,42 @@ class PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItem extends PopBa
 	}
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAdCreativeCreateMessagesListItem>, "adCreativeCreateMessagesList")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAdCreativeCreateMessagesListItem>, "adCreativeCreateMessagesList")
 	*/
 	private $adCreativeCreateMessagesList;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAdKeywordCreateMessageListItem>, "adKeywordCreateMessageList")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAdKeywordCreateMessageListItem>, "adKeywordCreateMessageList")
 	*/
 	private $adKeywordCreateMessageList;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAdKeywordSetMessage, "adKeywordSetMessage")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAdKeywordSetMessage, "adKeywordSetMessage")
 	*/
 	private $adKeywordSetMessage;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAdProductCreateMessage, "adProductCreateMessage")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAdProductCreateMessage, "adProductCreateMessage")
 	*/
 	private $adProductCreateMessage;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAdUnitCreateMessage, "adUnitCreateMessage")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAdUnitCreateMessage, "adUnitCreateMessage")
 	*/
 	private $adUnitCreateMessage;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAudienceBidCreateMessageListItem>, "audienceBidCreateMessageList")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAudienceBidCreateMessageListItem>, "audienceBidCreateMessageList")
 	*/
 	private $audienceBidCreateMessageList;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemLocationBidCreateMessageListItem>, "locationBidCreateMessageList")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemLocationBidCreateMessageListItem>, "locationBidCreateMessageList")
 	*/
 	private $locationBidCreateMessageList;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemSmartCreativeCreateMessage, "smartCreativeCreateMessage")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemSmartCreativeCreateMessage, "smartCreativeCreateMessage")
 	*/
 	private $smartCreativeCreateMessage;
 
@@ -265,17 +265,17 @@ class PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAdCreativeCrea
 	}
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAdCreativeCreateMessagesListItemAdImageVOListItem>, "adImageVOList")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAdCreativeCreateMessagesListItemAdImageVOListItem>, "adImageVOList")
 	*/
 	private $adImageVOList;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAdCreativeCreateMessagesListItemAdTextVOListItem>, "adTextVOList")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAdCreativeCreateMessagesListItemAdTextVOListItem>, "adTextVOList")
 	*/
 	private $adTextVOList;
 
 	/**
-	* @JsonProperty(Long, "creativeSpecificationId")
+	* #JsonProperty(Long, "creativeSpecificationId")
 	*/
 	private $creativeSpecificationId;
 
@@ -305,7 +305,7 @@ class PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAdCreativeCrea
 	}
 
 	/**
-	* @JsonProperty(String, "imageUrl")
+	* #JsonProperty(String, "imageUrl")
 	*/
 	private $imageUrl;
 
@@ -325,7 +325,7 @@ class PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAdCreativeCrea
 	}
 
 	/**
-	* @JsonProperty(String, "text")
+	* #JsonProperty(String, "text")
 	*/
 	private $text;
 
@@ -345,17 +345,17 @@ class PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAdKeywordCreat
 	}
 
 	/**
-	* @JsonProperty(Long, "bid")
+	* #JsonProperty(Long, "bid")
 	*/
 	private $bid;
 
 	/**
-	* @JsonProperty(Long, "premiumRate")
+	* #JsonProperty(Long, "premiumRate")
 	*/
 	private $premiumRate;
 
 	/**
-	* @JsonProperty(String, "word")
+	* #JsonProperty(String, "word")
 	*/
 	private $word;
 
@@ -385,7 +385,7 @@ class PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAdKeywordSetMe
 	}
 
 	/**
-	* @JsonProperty(Long, "keywordSetBid")
+	* #JsonProperty(Long, "keywordSetBid")
 	*/
 	private $keywordSetBid;
 
@@ -405,7 +405,7 @@ class PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAdProductCreat
 	}
 
 	/**
-	* @JsonProperty(Long, "goodsId")
+	* #JsonProperty(Long, "goodsId")
 	*/
 	private $goodsId;
 
@@ -425,17 +425,17 @@ class PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAdUnitCreateMe
 	}
 
 	/**
-	* @JsonProperty(String, "adName")
+	* #JsonProperty(String, "adName")
 	*/
 	private $adName;
 
 	/**
-	* @JsonProperty(Long, "bid")
+	* #JsonProperty(Long, "bid")
 	*/
 	private $bid;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAdUnitCreateMessageOptimizationMessage, "optimizationMessage")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAdUnitCreateMessageOptimizationMessage, "optimizationMessage")
 	*/
 	private $optimizationMessage;
 
@@ -465,27 +465,27 @@ class PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAdUnitCreateMe
 	}
 
 	/**
-	* @JsonProperty(Long, "accumulationBid")
+	* #JsonProperty(Long, "accumulationBid")
 	*/
 	private $accumulationBid;
 
 	/**
-	* @JsonProperty(Long, "optimizationBid")
+	* #JsonProperty(Long, "optimizationBid")
 	*/
 	private $optimizationBid;
 
 	/**
-	* @JsonProperty(Integer, "optimizationGoal")
+	* #JsonProperty(Integer, "optimizationGoal")
 	*/
 	private $optimizationGoal;
 
 	/**
-	* @JsonProperty(Integer, "optimizationMethod")
+	* #JsonProperty(Integer, "optimizationMethod")
 	*/
 	private $optimizationMethod;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAdUnitCreateMessageOptimizationMessageOptionalOptimizationBidMessageListItem>, "optionalOptimizationBidMessageList")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAdUnitCreateMessageOptimizationMessageOptionalOptimizationBidMessageListItem>, "optionalOptimizationBidMessageList")
 	*/
 	private $optionalOptimizationBidMessageList;
 
@@ -525,12 +525,12 @@ class PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAdUnitCreateMe
 	}
 
 	/**
-	* @JsonProperty(Long, "optimizationBid")
+	* #JsonProperty(Long, "optimizationBid")
 	*/
 	private $optimizationBid;
 
 	/**
-	* @JsonProperty(Integer, "optimizationGoal")
+	* #JsonProperty(Integer, "optimizationGoal")
 	*/
 	private $optimizationGoal;
 
@@ -555,22 +555,22 @@ class PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAudienceBidCre
 	}
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAudienceBidCreateMessageListItemAdTargetingCreateMessage, "adTargetingCreateMessage")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAudienceBidCreateMessageListItemAdTargetingCreateMessage, "adTargetingCreateMessage")
 	*/
 	private $adTargetingCreateMessage;
 
 	/**
-	* @JsonProperty(Long, "bidReferenceId")
+	* #JsonProperty(Long, "bidReferenceId")
 	*/
 	private $bidReferenceId;
 
 	/**
-	* @JsonProperty(Long, "bidValue")
+	* #JsonProperty(Long, "bidValue")
 	*/
 	private $bidValue;
 
 	/**
-	* @JsonProperty(Long, "subBidReferenceId")
+	* #JsonProperty(Long, "subBidReferenceId")
 	*/
 	private $subBidReferenceId;
 
@@ -605,12 +605,12 @@ class PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAudienceBidCre
 	}
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAudienceBidCreateMessageListItemAdTargetingCreateMessageAdTargetingSet, "adTargetingSet")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAudienceBidCreateMessageListItemAdTargetingCreateMessageAdTargetingSet, "adTargetingSet")
 	*/
 	private $adTargetingSet;
 
 	/**
-	* @JsonProperty(String, "targetingName")
+	* #JsonProperty(String, "targetingName")
 	*/
 	private $targetingName;
 
@@ -635,7 +635,7 @@ class PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAudienceBidCre
 	}
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAudienceBidCreateMessageListItemAdTargetingCreateMessageAdTargetingSetAreaStruct, "areaStruct")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAudienceBidCreateMessageListItemAdTargetingCreateMessageAdTargetingSetAreaStruct, "areaStruct")
 	*/
 	private $areaStruct;
 
@@ -655,7 +655,7 @@ class PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemAudienceBidCre
 	}
 
 	/**
-	* @JsonProperty(List<Integer>, "areaIds")
+	* #JsonProperty(List<Integer>, "areaIds")
 	*/
 	private $areaIds;
 
@@ -675,12 +675,12 @@ class PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemLocationBidCre
 	}
 
 	/**
-	* @JsonProperty(Long, "bidReferenceId")
+	* #JsonProperty(Long, "bidReferenceId")
 	*/
 	private $bidReferenceId;
 
 	/**
-	* @JsonProperty(Long, "bidValue")
+	* #JsonProperty(Long, "bidValue")
 	*/
 	private $bidValue;
 
@@ -705,17 +705,17 @@ class PddAdApiPlanCreateRequest_AdUnitCreateComplexMessageListItemSmartCreativeC
 	}
 
 	/**
-	* @JsonProperty(Integer, "creativeFlowRate")
+	* #JsonProperty(Integer, "creativeFlowRate")
 	*/
 	private $creativeFlowRate;
 
 	/**
-	* @JsonProperty(Integer, "enableSmartCreative")
+	* #JsonProperty(Integer, "enableSmartCreative")
 	*/
 	private $enableSmartCreative;
 
 	/**
-	* @JsonProperty(String, "smartCreativeTitle")
+	* #JsonProperty(String, "smartCreativeTitle")
 	*/
 	private $smartCreativeTitle;
 

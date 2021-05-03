@@ -11,57 +11,57 @@ class PddTrainGrabCreateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "pdd_order_id")
+	* #JsonProperty(String, "pdd_order_id")
 	*/
 	private $pddOrderId;
 
 	/**
-	* @JsonProperty(String, "end_time")
+	* #JsonProperty(String, "end_time")
 	*/
 	private $endTime;
 
 	/**
-	* @JsonProperty(List<String>, "depart_dates")
+	* #JsonProperty(List<String>, "depart_dates")
 	*/
 	private $departDates;
 
 	/**
-	* @JsonProperty(String, "have_account")
+	* #JsonProperty(String, "have_account")
 	*/
 	private $haveAccount;
 
 	/**
-	* @JsonProperty(String, "crh_account")
+	* #JsonProperty(String, "crh_account")
 	*/
 	private $crhAccount;
 
 	/**
-	* @JsonProperty(String, "crh_password")
+	* #JsonProperty(String, "crh_password")
 	*/
 	private $crhPassword;
 
 	/**
-	* @JsonProperty(String, "sum_ticket_price")
+	* #JsonProperty(String, "sum_ticket_price")
 	*/
 	private $sumTicketPrice;
 
 	/**
-	* @JsonProperty(List<Integer>, "seat_types")
+	* #JsonProperty(List<Integer>, "seat_types")
 	*/
 	private $seatTypes;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTrainGrabCreateRequest_TravelInfosItem>, "travel_infos")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTrainGrabCreateRequest_TravelInfosItem>, "travel_infos")
 	*/
 	private $travelInfos;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTrainGrabCreateRequest_PassengerInfosItem>, "passenger_infos")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTrainGrabCreateRequest_PassengerInfosItem>, "passenger_infos")
 	*/
 	private $passengerInfos;
 
 	/**
-	* @JsonProperty(Integer, "is_reserve_first")
+	* #JsonProperty(Integer, "is_reserve_first")
 	*/
 	private $isReserveFirst;
 
@@ -162,17 +162,17 @@ class PddTrainGrabCreateRequest_TravelInfosItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "train_no")
+	* #JsonProperty(String, "train_no")
 	*/
 	private $trainNo;
 
 	/**
-	* @JsonProperty(String, "depart_station")
+	* #JsonProperty(String, "depart_station")
 	*/
 	private $departStation;
 
 	/**
-	* @JsonProperty(String, "arrive_station")
+	* #JsonProperty(String, "arrive_station")
 	*/
 	private $arriveStation;
 
@@ -202,62 +202,62 @@ class PddTrainGrabCreateRequest_PassengerInfosItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
 	/**
-	* @JsonProperty(String, "card_no")
+	* #JsonProperty(String, "card_no")
 	*/
 	private $cardNo;
 
 	/**
-	* @JsonProperty(String, "card_type")
+	* #JsonProperty(String, "card_type")
 	*/
 	private $cardType;
 
 	/**
-	* @JsonProperty(Integer, "ticket_type")
+	* #JsonProperty(Integer, "ticket_type")
 	*/
 	private $ticketType;
 
 	/**
-	* @JsonProperty(String, "sub_pdd_order_id")
+	* #JsonProperty(String, "sub_pdd_order_id")
 	*/
 	private $subPddOrderId;
 
 	/**
-	* @JsonProperty(String, "effective_date")
+	* #JsonProperty(String, "effective_date")
 	*/
 	private $effectiveDate;
 
 	/**
-	* @JsonProperty(String, "sex")
+	* #JsonProperty(String, "sex")
 	*/
 	private $sex;
 
 	/**
-	* @JsonProperty(String, "country")
+	* #JsonProperty(String, "country")
 	*/
 	private $country;
 
 	/**
-	* @JsonProperty(String, "birthday")
+	* #JsonProperty(String, "birthday")
 	*/
 	private $birthday;
 
 	/**
-	* @JsonProperty(String, "order_sn")
+	* #JsonProperty(String, "order_sn")
 	*/
 	private $orderSn;
 
 	/**
-	* @JsonProperty(String, "mobile")
+	* #JsonProperty(String, "mobile")
 	*/
 	private $mobile;
 
 	/**
-	* @JsonProperty(String, "email")
+	* #JsonProperty(String, "email")
 	*/
 	private $email;
 

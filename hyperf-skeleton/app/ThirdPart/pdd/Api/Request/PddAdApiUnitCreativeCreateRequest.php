@@ -11,12 +11,12 @@ class PddAdApiUnitCreativeCreateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiUnitCreativeCreateRequest_AdCreativeCreateMessage, "adCreativeCreateMessage")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiUnitCreativeCreateRequest_AdCreativeCreateMessage, "adCreativeCreateMessage")
 	*/
 	private $adCreativeCreateMessage;
 
 	/**
-	* @JsonProperty(Long, "adId")
+	* #JsonProperty(Long, "adId")
 	*/
 	private $adId;
 
@@ -63,17 +63,17 @@ class PddAdApiUnitCreativeCreateRequest_AdCreativeCreateMessage extends PopBaseJ
 	}
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiUnitCreativeCreateRequest_AdCreativeCreateMessageAdImageVOListItem>, "adImageVOList")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiUnitCreativeCreateRequest_AdCreativeCreateMessageAdImageVOListItem>, "adImageVOList")
 	*/
 	private $adImageVOList;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiUnitCreativeCreateRequest_AdCreativeCreateMessageAdTextVOListItem>, "adTextVOList")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiUnitCreativeCreateRequest_AdCreativeCreateMessageAdTextVOListItem>, "adTextVOList")
 	*/
 	private $adTextVOList;
 
 	/**
-	* @JsonProperty(Long, "creativeSpecificationId")
+	* #JsonProperty(Long, "creativeSpecificationId")
 	*/
 	private $creativeSpecificationId;
 
@@ -103,7 +103,7 @@ class PddAdApiUnitCreativeCreateRequest_AdCreativeCreateMessageAdImageVOListItem
 	}
 
 	/**
-	* @JsonProperty(String, "imageUrl")
+	* #JsonProperty(String, "imageUrl")
 	*/
 	private $imageUrl;
 
@@ -123,7 +123,7 @@ class PddAdApiUnitCreativeCreateRequest_AdCreativeCreateMessageAdTextVOListItem 
 	}
 
 	/**
-	* @JsonProperty(String, "text")
+	* #JsonProperty(String, "text")
 	*/
 	private $text;
 

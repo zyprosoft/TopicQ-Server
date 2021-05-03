@@ -11,22 +11,22 @@ class PddAdApiGoodsQueryPageRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "goodsName")
+	* #JsonProperty(String, "goodsName")
 	*/
 	private $goodsName;
 
 	/**
-	* @JsonProperty(Integer, "pageNumber")
+	* #JsonProperty(Integer, "pageNumber")
 	*/
 	private $pageNumber;
 
 	/**
-	* @JsonProperty(Integer, "pageSize")
+	* #JsonProperty(Integer, "pageSize")
 	*/
 	private $pageSize;
 
 	/**
-	* @JsonProperty(Long, "planId")
+	* #JsonProperty(Long, "planId")
 	*/
 	private $planId;
 

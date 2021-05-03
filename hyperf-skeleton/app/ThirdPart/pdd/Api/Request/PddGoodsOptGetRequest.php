@@ -11,7 +11,7 @@ class PddGoodsOptGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "parent_opt_id")
+	* #JsonProperty(Integer, "parent_opt_id")
 	*/
 	private $parentOptId;
 

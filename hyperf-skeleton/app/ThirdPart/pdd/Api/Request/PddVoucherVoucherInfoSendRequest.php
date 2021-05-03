@@ -11,17 +11,17 @@ class PddVoucherVoucherInfoSendRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "order_sn")
+	* #JsonProperty(String, "order_sn")
 	*/
 	private $orderSn;
 
 	/**
-	* @JsonProperty(String, "out_biz_no")
+	* #JsonProperty(String, "out_biz_no")
 	*/
 	private $outBizNo;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddVoucherVoucherInfoSendRequest_VoucherListItem>, "voucher_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddVoucherVoucherInfoSendRequest_VoucherListItem>, "voucher_list")
 	*/
 	private $voucherList;
 
@@ -74,12 +74,12 @@ class PddVoucherVoucherInfoSendRequest_VoucherListItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "voucher_id")
+	* #JsonProperty(String, "voucher_id")
 	*/
 	private $voucherId;
 
 	/**
-	* @JsonProperty(String, "voucher_no")
+	* #JsonProperty(String, "voucher_no")
 	*/
 	private $voucherNo;
 

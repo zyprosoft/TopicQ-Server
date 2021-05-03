@@ -11,37 +11,37 @@ class PddOpenMsgServiceSendExpressMsgRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "sign_name")
+	* #JsonProperty(String, "sign_name")
 	*/
 	private $signName;
 
 	/**
-	* @JsonProperty(Long, "template_code")
+	* #JsonProperty(Long, "template_code")
 	*/
 	private $templateCode;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddOpenMsgServiceSendExpressMsgRequest_Map<String, String>>, "template_param_json")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddOpenMsgServiceSendExpressMsgRequest_Map<String, String>>, "template_param_json")
 	*/
 	private $templateParamJson;
 
 	/**
-	* @JsonProperty(List<String>, "waybill_codes")
+	* #JsonProperty(List<String>, "waybill_codes")
 	*/
 	private $waybillCodes;
 
 	/**
-	* @JsonProperty(String, "wp_code")
+	* #JsonProperty(String, "wp_code")
 	*/
 	private $wpCode;
 
 	/**
-	* @JsonProperty(String, "out_id")
+	* #JsonProperty(String, "out_id")
 	*/
 	private $outId;
 
 	/**
-	* @JsonProperty(String, "sms_up_extend_code")
+	* #JsonProperty(String, "sms_up_extend_code")
 	*/
 	private $smsUpExtendCode;
 

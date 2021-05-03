@@ -11,27 +11,27 @@ class AccessTokenRequest extends PopBaseJsonEntity
 {
 
     /**
-     * @JsonProperty(String, "client_id")
+     * #JsonProperty(String, "client_id")
      */
     private $clientId;
 
     /**
-     * @JsonProperty(String, "client_secret")
+     * #JsonProperty(String, "client_secret")
      */
     private $clientSecret;
 
     /**
-     * @JsonProperty(String, "grant_type")
+     * #JsonProperty(String, "grant_type")
      */
     private $grantType;
 
     /**
-     * @JsonProperty(String, "code")
+     * #JsonProperty(String, "code")
      */
     private $code;
 
     /**
-     * @JsonProperty(String, "redirect_uri")
+     * #JsonProperty(String, "redirect_uri")
      */
     private $redirectUri = "http://www.baidu.com";
 

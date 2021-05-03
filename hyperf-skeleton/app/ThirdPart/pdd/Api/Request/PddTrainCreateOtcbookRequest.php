@@ -11,67 +11,67 @@ class PddTrainCreateOtcbookRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "depart_station")
+	* #JsonProperty(String, "depart_station")
 	*/
 	private $departStation;
 
 	/**
-	* @JsonProperty(String, "arrive_station")
+	* #JsonProperty(String, "arrive_station")
 	*/
 	private $arriveStation;
 
 	/**
-	* @JsonProperty(String, "train_date")
+	* #JsonProperty(String, "train_date")
 	*/
 	private $trainDate;
 
 	/**
-	* @JsonProperty(String, "train_no")
+	* #JsonProperty(String, "train_no")
 	*/
 	private $trainNo;
 
 	/**
-	* @JsonProperty(String, "depart_time")
+	* #JsonProperty(String, "depart_time")
 	*/
 	private $departTime;
 
 	/**
-	* @JsonProperty(String, "arrive_time")
+	* #JsonProperty(String, "arrive_time")
 	*/
 	private $arriveTime;
 
 	/**
-	* @JsonProperty(Integer, "accept_other_seat")
+	* #JsonProperty(Integer, "accept_other_seat")
 	*/
 	private $acceptOtherSeat;
 
 	/**
-	* @JsonProperty(Integer, "accept_stand_seat")
+	* #JsonProperty(Integer, "accept_stand_seat")
 	*/
 	private $acceptStandSeat;
 
 	/**
-	* @JsonProperty(String, "pdd_order_id")
+	* #JsonProperty(String, "pdd_order_id")
 	*/
 	private $pddOrderId;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTrainCreateOtcbookRequest_OtcChooseSeatItem>, "otc_choose_seat")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTrainCreateOtcbookRequest_OtcChooseSeatItem>, "otc_choose_seat")
 	*/
 	private $otcChooseSeat;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTrainCreateOtcbookRequest_PassengerInfosItem>, "passenger_infos")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTrainCreateOtcbookRequest_PassengerInfosItem>, "passenger_infos")
 	*/
 	private $passengerInfos;
 
 	/**
-	* @JsonProperty(String, "request_id")
+	* #JsonProperty(String, "request_id")
 	*/
 	private $requestId;
 
 	/**
-	* @JsonProperty(String, "comment")
+	* #JsonProperty(String, "comment")
 	*/
 	private $comment;
 
@@ -184,12 +184,12 @@ class PddTrainCreateOtcbookRequest_OtcChooseSeatItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(Integer, "otc_choose_seat_type")
+	* #JsonProperty(Integer, "otc_choose_seat_type")
 	*/
 	private $otcChooseSeatType;
 
 	/**
-	* @JsonProperty(Integer, "count")
+	* #JsonProperty(Integer, "count")
 	*/
 	private $count;
 
@@ -214,72 +214,72 @@ class PddTrainCreateOtcbookRequest_PassengerInfosItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "card_type")
+	* #JsonProperty(String, "card_type")
 	*/
 	private $cardType;
 
 	/**
-	* @JsonProperty(String, "card_no")
+	* #JsonProperty(String, "card_no")
 	*/
 	private $cardNo;
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
 	/**
-	* @JsonProperty(Integer, "ticket_type")
+	* #JsonProperty(Integer, "ticket_type")
 	*/
 	private $ticketType;
 
 	/**
-	* @JsonProperty(Integer, "seat_type")
+	* #JsonProperty(Integer, "seat_type")
 	*/
 	private $seatType;
 
 	/**
-	* @JsonProperty(Long, "ticket_price")
+	* #JsonProperty(Long, "ticket_price")
 	*/
 	private $ticketPrice;
 
 	/**
-	* @JsonProperty(String, "sub_pdd_order_id")
+	* #JsonProperty(String, "sub_pdd_order_id")
 	*/
 	private $subPddOrderId;
 
 	/**
-	* @JsonProperty(String, "birthday")
+	* #JsonProperty(String, "birthday")
 	*/
 	private $birthday;
 
 	/**
-	* @JsonProperty(String, "effective_date")
+	* #JsonProperty(String, "effective_date")
 	*/
 	private $effectiveDate;
 
 	/**
-	* @JsonProperty(String, "mobile")
+	* #JsonProperty(String, "mobile")
 	*/
 	private $mobile;
 
 	/**
-	* @JsonProperty(String, "sex")
+	* #JsonProperty(String, "sex")
 	*/
 	private $sex;
 
 	/**
-	* @JsonProperty(String, "country")
+	* #JsonProperty(String, "country")
 	*/
 	private $country;
 
 	/**
-	* @JsonProperty(String, "email")
+	* #JsonProperty(String, "email")
 	*/
 	private $email;
 
 	/**
-	* @JsonProperty(String, "comment")
+	* #JsonProperty(String, "comment")
 	*/
 	private $comment;
 

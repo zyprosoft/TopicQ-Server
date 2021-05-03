@@ -11,7 +11,7 @@ class PddEinvoiceOutboundRuihongQueryTaxDiskStatusRequest extends PopBaseHttpReq
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddEinvoiceOutboundRuihongQueryTaxDiskStatusRequest_Request, "request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddEinvoiceOutboundRuihongQueryTaxDiskStatusRequest_Request, "request")
 	*/
 	private $request;
 
@@ -52,37 +52,37 @@ class PddEinvoiceOutboundRuihongQueryTaxDiskStatusRequest_Request extends PopBas
 	}
 
 	/**
-	* @JsonProperty(String, "appCode")
+	* #JsonProperty(String, "appCode")
 	*/
 	private $appCode;
 
 	/**
-	* @JsonProperty(String, "cmdName")
+	* #JsonProperty(String, "cmdName")
 	*/
 	private $cmdName;
 
 	/**
-	* @JsonProperty(String, "sign")
+	* #JsonProperty(String, "sign")
 	*/
 	private $sign;
 
 	/**
-	* @JsonProperty(String, "serialNo")
+	* #JsonProperty(String, "serialNo")
 	*/
 	private $serialNo;
 
 	/**
-	* @JsonProperty(String, "postTime")
+	* #JsonProperty(String, "postTime")
 	*/
 	private $postTime;
 
 	/**
-	* @JsonProperty(String, "taxpayerCode")
+	* #JsonProperty(String, "taxpayerCode")
 	*/
 	private $taxpayerCode;
 
 	/**
-	* @JsonProperty(String, "taxDiskNo")
+	* #JsonProperty(String, "taxDiskNo")
 	*/
 	private $taxDiskNo;
 

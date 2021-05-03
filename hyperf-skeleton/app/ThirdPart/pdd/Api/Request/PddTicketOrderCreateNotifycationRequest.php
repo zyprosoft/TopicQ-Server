@@ -11,42 +11,42 @@ class PddTicketOrderCreateNotifycationRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "code_type")
+	* #JsonProperty(Integer, "code_type")
 	*/
 	private $codeType;
 
 	/**
-	* @JsonProperty(Integer, "failed_code")
+	* #JsonProperty(Integer, "failed_code")
 	*/
 	private $failedCode;
 
 	/**
-	* @JsonProperty(String, "failed_reason")
+	* #JsonProperty(String, "failed_reason")
 	*/
 	private $failedReason;
 
 	/**
-	* @JsonProperty(String, "order_no")
+	* #JsonProperty(String, "order_no")
 	*/
 	private $orderNo;
 
 	/**
-	* @JsonProperty(String, "out_order_sn")
+	* #JsonProperty(String, "out_order_sn")
 	*/
 	private $outOrderSn;
 
 	/**
-	* @JsonProperty(Integer, "status")
+	* #JsonProperty(Integer, "status")
 	*/
 	private $status;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTicketOrderCreateNotifycationRequest_TicketsItem>, "tickets")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTicketOrderCreateNotifycationRequest_TicketsItem>, "tickets")
 	*/
 	private $tickets;
 
 	/**
-	* @JsonProperty(Integer, "ticket_type")
+	* #JsonProperty(Integer, "ticket_type")
 	*/
 	private $ticketType;
 
@@ -129,22 +129,22 @@ class PddTicketOrderCreateNotifycationRequest_TicketsItem extends PopBaseJsonEnt
 	}
 
 	/**
-	* @JsonProperty(String, "additional")
+	* #JsonProperty(String, "additional")
 	*/
 	private $additional;
 
 	/**
-	* @JsonProperty(String, "code")
+	* #JsonProperty(String, "code")
 	*/
 	private $code;
 
 	/**
-	* @JsonProperty(String, "file")
+	* #JsonProperty(String, "file")
 	*/
 	private $file;
 
 	/**
-	* @JsonProperty(String, "url")
+	* #JsonProperty(String, "url")
 	*/
 	private $url;
 

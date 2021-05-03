@@ -11,7 +11,7 @@ class PddVoucherOtaCardPrepareVerificationRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddVoucherOtaCardPrepareVerificationRequest_Request, "request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddVoucherOtaCardPrepareVerificationRequest_Request, "request")
 	*/
 	private $request;
 
@@ -52,12 +52,12 @@ class PddVoucherOtaCardPrepareVerificationRequest_Request extends PopBaseJsonEnt
 	}
 
 	/**
-	* @JsonProperty(String, "card_no")
+	* #JsonProperty(String, "card_no")
 	*/
 	private $cardNo;
 
 	/**
-	* @JsonProperty(Long, "store_id")
+	* #JsonProperty(Long, "store_id")
 	*/
 	private $storeId;
 

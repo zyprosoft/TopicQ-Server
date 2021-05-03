@@ -11,7 +11,7 @@ class PddWaybillQueryByWaybillcodeRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddWaybillQueryByWaybillcodeRequest_ParamListItem>, "param_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddWaybillQueryByWaybillcodeRequest_ParamListItem>, "param_list")
 	*/
 	private $paramList;
 
@@ -52,17 +52,17 @@ class PddWaybillQueryByWaybillcodeRequest_ParamListItem extends PopBaseJsonEntit
 	}
 
 	/**
-	* @JsonProperty(String, "object_id")
+	* #JsonProperty(String, "object_id")
 	*/
 	private $objectId;
 
 	/**
-	* @JsonProperty(String, "waybill_code")
+	* #JsonProperty(String, "waybill_code")
 	*/
 	private $waybillCode;
 
 	/**
-	* @JsonProperty(String, "wp_code")
+	* #JsonProperty(String, "wp_code")
 	*/
 	private $wpCode;
 

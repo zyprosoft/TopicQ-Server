@@ -11,12 +11,12 @@ class PddGoodsLogisticsTemplateGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "page")
+	* #JsonProperty(Integer, "page")
 	*/
 	private $page;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 

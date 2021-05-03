@@ -11,7 +11,7 @@ class PddKttGoodsUploadImageRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "url")
+	* #JsonProperty(String, "url")
 	*/
 	private $url;
 

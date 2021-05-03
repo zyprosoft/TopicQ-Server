@@ -11,47 +11,47 @@ class PddFlightChangePayRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "trace_id")
+	* #JsonProperty(String, "trace_id")
 	*/
 	private $traceId;
 
 	/**
-	* @JsonProperty(String, "sub_trace_id")
+	* #JsonProperty(String, "sub_trace_id")
 	*/
 	private $subTraceId;
 
 	/**
-	* @JsonProperty(String, "out_order_no")
+	* #JsonProperty(String, "out_order_no")
 	*/
 	private $outOrderNo;
 
 	/**
-	* @JsonProperty(String, "parent_travel_sn")
+	* #JsonProperty(String, "parent_travel_sn")
 	*/
 	private $parentTravelSn;
 
 	/**
-	* @JsonProperty(String, "out_change_no")
+	* #JsonProperty(String, "out_change_no")
 	*/
 	private $outChangeNo;
 
 	/**
-	* @JsonProperty(String, "change_date")
+	* #JsonProperty(String, "change_date")
 	*/
 	private $changeDate;
 
 	/**
-	* @JsonProperty(Long, "total_pay_fee")
+	* #JsonProperty(Long, "total_pay_fee")
 	*/
 	private $totalPayFee;
 
 	/**
-	* @JsonProperty(Long, "total_pay")
+	* #JsonProperty(Long, "total_pay")
 	*/
 	private $totalPay;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightChangePayRequest_PassengerInfoListItem>, "passenger_info_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightChangePayRequest_PassengerInfoListItem>, "passenger_info_list")
 	*/
 	private $passengerInfoList;
 
@@ -140,37 +140,37 @@ class PddFlightChangePayRequest_PassengerInfoListItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
 	/**
-	* @JsonProperty(String, "identity_type")
+	* #JsonProperty(String, "identity_type")
 	*/
 	private $identityType;
 
 	/**
-	* @JsonProperty(String, "identity_no")
+	* #JsonProperty(String, "identity_no")
 	*/
 	private $identityNo;
 
 	/**
-	* @JsonProperty(String, "sub_out_change_no")
+	* #JsonProperty(String, "sub_out_change_no")
 	*/
 	private $subOutChangeNo;
 
 	/**
-	* @JsonProperty(String, "travel_sn")
+	* #JsonProperty(String, "travel_sn")
 	*/
 	private $travelSn;
 
 	/**
-	* @JsonProperty(String, "ticket_no")
+	* #JsonProperty(String, "ticket_no")
 	*/
 	private $ticketNo;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightChangePayRequest_PassengerInfoListItemFlightListItem>, "flight_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightChangePayRequest_PassengerInfoListItemFlightListItem>, "flight_list")
 	*/
 	private $flightList;
 
@@ -220,22 +220,22 @@ class PddFlightChangePayRequest_PassengerInfoListItemFlightListItem extends PopB
 	}
 
 	/**
-	* @JsonProperty(String, "flight_no")
+	* #JsonProperty(String, "flight_no")
 	*/
 	private $flightNo;
 
 	/**
-	* @JsonProperty(Integer, "segment_no")
+	* #JsonProperty(Integer, "segment_no")
 	*/
 	private $segmentNo;
 
 	/**
-	* @JsonProperty(Integer, "sequence_no")
+	* #JsonProperty(Integer, "sequence_no")
 	*/
 	private $sequenceNo;
 
 	/**
-	* @JsonProperty(String, "sub_class")
+	* #JsonProperty(String, "sub_class")
 	*/
 	private $subClass;
 

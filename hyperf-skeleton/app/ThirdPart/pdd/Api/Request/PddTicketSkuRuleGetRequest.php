@@ -11,12 +11,12 @@ class PddTicketSkuRuleGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "out_rule_id")
+	* #JsonProperty(String, "out_rule_id")
 	*/
 	private $outRuleId;
 
 	/**
-	* @JsonProperty(String, "rule_id")
+	* #JsonProperty(String, "rule_id")
 	*/
 	private $ruleId;
 

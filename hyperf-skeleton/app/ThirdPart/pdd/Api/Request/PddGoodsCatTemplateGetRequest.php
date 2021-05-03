@@ -11,7 +11,7 @@ class PddGoodsCatTemplateGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "cat_id")
+	* #JsonProperty(Long, "cat_id")
 	*/
 	private $catId;
 

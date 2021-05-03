@@ -11,47 +11,47 @@ class PddKttIncrementOrderQueryRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "activity_no")
+	* #JsonProperty(String, "activity_no")
 	*/
 	private $activityNo;
 
 	/**
-	* @JsonProperty(Integer, "after_sales_status")
+	* #JsonProperty(Integer, "after_sales_status")
 	*/
 	private $afterSalesStatus;
 
 	/**
-	* @JsonProperty(Integer, "cancel_status")
+	* #JsonProperty(Integer, "cancel_status")
 	*/
 	private $cancelStatus;
 
 	/**
-	* @JsonProperty(Long, "end_updated_at")
+	* #JsonProperty(Long, "end_updated_at")
 	*/
 	private $endUpdatedAt;
 
 	/**
-	* @JsonProperty(Integer, "page_number")
+	* #JsonProperty(Integer, "page_number")
 	*/
 	private $pageNumber;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 
 	/**
-	* @JsonProperty(Integer, "shipping_status")
+	* #JsonProperty(Integer, "shipping_status")
 	*/
 	private $shippingStatus;
 
 	/**
-	* @JsonProperty(Long, "start_updated_at")
+	* #JsonProperty(Long, "start_updated_at")
 	*/
 	private $startUpdatedAt;
 
 	/**
-	* @JsonProperty(Integer, "verification_status")
+	* #JsonProperty(Integer, "verification_status")
 	*/
 	private $verificationStatus;
 

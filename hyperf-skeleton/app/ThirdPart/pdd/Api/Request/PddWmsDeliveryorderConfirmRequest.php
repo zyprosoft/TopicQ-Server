@@ -11,7 +11,7 @@ class PddWmsDeliveryorderConfirmRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsDeliveryorderConfirmRequest_Request, "request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsDeliveryorderConfirmRequest_Request, "request")
 	*/
 	private $request;
 
@@ -52,52 +52,52 @@ class PddWmsDeliveryorderConfirmRequest_Request extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "deliveryOrderCode")
+	* #JsonProperty(String, "deliveryOrderCode")
 	*/
 	private $deliveryOrderCode;
 
 	/**
-	* @JsonProperty(String, "expressCode")
+	* #JsonProperty(String, "expressCode")
 	*/
 	private $expressCode;
 
 	/**
-	* @JsonProperty(String, "logisticsCode")
+	* #JsonProperty(String, "logisticsCode")
 	*/
 	private $logisticsCode;
 
 	/**
-	* @JsonProperty(String, "logisticsName")
+	* #JsonProperty(String, "logisticsName")
 	*/
 	private $logisticsName;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddWmsDeliveryorderConfirmRequest_RequestOrderLinesItem>, "orderLines")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddWmsDeliveryorderConfirmRequest_RequestOrderLinesItem>, "orderLines")
 	*/
 	private $orderLines;
 
 	/**
-	* @JsonProperty(String, "orderType")
+	* #JsonProperty(String, "orderType")
 	*/
 	private $orderType;
 
 	/**
-	* @JsonProperty(String, "outBizCode")
+	* #JsonProperty(String, "outBizCode")
 	*/
 	private $outBizCode;
 
 	/**
-	* @JsonProperty(String, "ownerCode")
+	* #JsonProperty(String, "ownerCode")
 	*/
 	private $ownerCode;
 
 	/**
-	* @JsonProperty(String, "status")
+	* #JsonProperty(String, "status")
 	*/
 	private $status;
 
 	/**
-	* @JsonProperty(String, "warehouseCode")
+	* #JsonProperty(String, "warehouseCode")
 	*/
 	private $warehouseCode;
 
@@ -162,22 +162,22 @@ class PddWmsDeliveryorderConfirmRequest_RequestOrderLinesItem extends PopBaseJso
 	}
 
 	/**
-	* @JsonProperty(String, "inventoryType")
+	* #JsonProperty(String, "inventoryType")
 	*/
 	private $inventoryType;
 
 	/**
-	* @JsonProperty(String, "parentWareSn")
+	* #JsonProperty(String, "parentWareSn")
 	*/
 	private $parentWareSn;
 
 	/**
-	* @JsonProperty(String, "quantity")
+	* #JsonProperty(String, "quantity")
 	*/
 	private $quantity;
 
 	/**
-	* @JsonProperty(String, "wareSn")
+	* #JsonProperty(String, "wareSn")
 	*/
 	private $wareSn;
 

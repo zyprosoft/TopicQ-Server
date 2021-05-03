@@ -11,7 +11,7 @@ class PddEinvoiceOutboundQueryTaxpayerInfoRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddEinvoiceOutboundQueryTaxpayerInfoRequest_Request, "request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddEinvoiceOutboundQueryTaxpayerInfoRequest_Request, "request")
 	*/
 	private $request;
 
@@ -52,32 +52,32 @@ class PddEinvoiceOutboundQueryTaxpayerInfoRequest_Request extends PopBaseJsonEnt
 	}
 
 	/**
-	* @JsonProperty(String, "appCode")
+	* #JsonProperty(String, "appCode")
 	*/
 	private $appCode;
 
 	/**
-	* @JsonProperty(String, "cmdName")
+	* #JsonProperty(String, "cmdName")
 	*/
 	private $cmdName;
 
 	/**
-	* @JsonProperty(String, "sign")
+	* #JsonProperty(String, "sign")
 	*/
 	private $sign;
 
 	/**
-	* @JsonProperty(String, "serialNo")
+	* #JsonProperty(String, "serialNo")
 	*/
 	private $serialNo;
 
 	/**
-	* @JsonProperty(String, "postTime")
+	* #JsonProperty(String, "postTime")
 	*/
 	private $postTime;
 
 	/**
-	* @JsonProperty(String, "taxpayerCode")
+	* #JsonProperty(String, "taxpayerCode")
 	*/
 	private $taxpayerCode;
 

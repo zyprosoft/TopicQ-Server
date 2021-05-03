@@ -11,7 +11,7 @@ class PddKnockSupplierSendGroupRobotMessageRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddKnockSupplierSendGroupRobotMessageRequest_GroupRobotSendMsgReq, "group_robot_send_msg_req")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddKnockSupplierSendGroupRobotMessageRequest_GroupRobotSendMsgReq, "group_robot_send_msg_req")
 	*/
 	private $groupRobotSendMsgReq;
 
@@ -52,27 +52,27 @@ class PddKnockSupplierSendGroupRobotMessageRequest_GroupRobotSendMsgReq extends 
 	}
 
 	/**
-	* @JsonProperty(String, "at_all")
+	* #JsonProperty(String, "at_all")
 	*/
 	private $atAll;
 
 	/**
-	* @JsonProperty(String, "content")
+	* #JsonProperty(String, "content")
 	*/
 	private $content;
 
 	/**
-	* @JsonProperty(String, "group_robot_token")
+	* #JsonProperty(String, "group_robot_token")
 	*/
 	private $groupRobotToken;
 
 	/**
-	* @JsonProperty(String, "msg_type")
+	* #JsonProperty(String, "msg_type")
 	*/
 	private $msgType;
 
 	/**
-	* @JsonProperty(List<String>, "knock_ids")
+	* #JsonProperty(List<String>, "knock_ids")
 	*/
 	private $knockIds;
 

@@ -11,7 +11,7 @@ class PddMallTicketDetailRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "ticket_id")
+	* #JsonProperty(String, "ticket_id")
 	*/
 	private $ticketId;
 

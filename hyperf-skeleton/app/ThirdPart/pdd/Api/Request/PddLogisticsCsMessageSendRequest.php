@@ -11,37 +11,37 @@ class PddLogisticsCsMessageSendRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "session_id")
+	* #JsonProperty(String, "session_id")
 	*/
 	private $sessionId;
 
 	/**
-	* @JsonProperty(String, "wp_session_id")
+	* #JsonProperty(String, "wp_session_id")
 	*/
 	private $wpSessionId;
 
 	/**
-	* @JsonProperty(String, "action_time")
+	* #JsonProperty(String, "action_time")
 	*/
 	private $actionTime;
 
 	/**
-	* @JsonProperty(Integer, "message_type")
+	* #JsonProperty(Integer, "message_type")
 	*/
 	private $messageType;
 
 	/**
-	* @JsonProperty(String, "text")
+	* #JsonProperty(String, "text")
 	*/
 	private $text;
 
 	/**
-	* @JsonProperty(String, "attach")
+	* #JsonProperty(String, "attach")
 	*/
 	private $attach;
 
 	/**
-	* @JsonProperty(String, "preview")
+	* #JsonProperty(String, "preview")
 	*/
 	private $preview;
 

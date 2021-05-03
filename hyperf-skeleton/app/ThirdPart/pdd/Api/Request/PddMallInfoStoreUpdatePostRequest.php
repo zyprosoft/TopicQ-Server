@@ -11,82 +11,82 @@ class PddMallInfoStoreUpdatePostRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "business_status")
+	* #JsonProperty(Integer, "business_status")
 	*/
 	private $businessStatus;
 
 	/**
-	* @JsonProperty(List<Integer>, "business_week_list")
+	* #JsonProperty(List<Integer>, "business_week_list")
 	*/
 	private $businessWeekList;
 
 	/**
-	* @JsonProperty(String, "city")
+	* #JsonProperty(String, "city")
 	*/
 	private $city;
 
 	/**
-	* @JsonProperty(String, "district")
+	* #JsonProperty(String, "district")
 	*/
 	private $district;
 
 	/**
-	* @JsonProperty(String, "end_business_hour")
+	* #JsonProperty(String, "end_business_hour")
 	*/
 	private $endBusinessHour;
 
 	/**
-	* @JsonProperty(String, "poi_id")
+	* #JsonProperty(String, "poi_id")
 	*/
 	private $poiId;
 
 	/**
-	* @JsonProperty(Double, "poi_latitude")
+	* #JsonProperty(Double, "poi_latitude")
 	*/
 	private $poiLatitude;
 
 	/**
-	* @JsonProperty(Double, "poi_longitude")
+	* #JsonProperty(Double, "poi_longitude")
 	*/
 	private $poiLongitude;
 
 	/**
-	* @JsonProperty(String, "province")
+	* #JsonProperty(String, "province")
 	*/
 	private $province;
 
 	/**
-	* @JsonProperty(String, "start_business_hour")
+	* #JsonProperty(String, "start_business_hour")
 	*/
 	private $startBusinessHour;
 
 	/**
-	* @JsonProperty(String, "store_address")
+	* #JsonProperty(String, "store_address")
 	*/
 	private $storeAddress;
 
 	/**
-	* @JsonProperty(Long, "store_id")
+	* #JsonProperty(Long, "store_id")
 	*/
 	private $storeId;
 
 	/**
-	* @JsonProperty(String, "store_name")
+	* #JsonProperty(String, "store_name")
 	*/
 	private $storeName;
 
 	/**
-	* @JsonProperty(String, "store_number")
+	* #JsonProperty(String, "store_number")
 	*/
 	private $storeNumber;
 
 	/**
-	* @JsonProperty(String, "store_phone")
+	* #JsonProperty(String, "store_phone")
 	*/
 	private $storePhone;
 
 	/**
-	* @JsonProperty(Integer, "trade_type")
+	* #JsonProperty(Integer, "trade_type")
 	*/
 	private $tradeType;
 

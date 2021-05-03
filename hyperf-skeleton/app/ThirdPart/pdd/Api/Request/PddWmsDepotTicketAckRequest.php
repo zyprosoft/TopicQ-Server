@@ -11,7 +11,7 @@ class PddWmsDepotTicketAckRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<Long>, "ticketIds")
+	* #JsonProperty(List<Long>, "ticketIds")
 	*/
 	private $ticketIds;
 

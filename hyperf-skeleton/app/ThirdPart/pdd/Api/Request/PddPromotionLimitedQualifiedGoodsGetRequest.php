@@ -11,22 +11,22 @@ class PddPromotionLimitedQualifiedGoodsGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<Long>, "goods_id_list")
+	* #JsonProperty(List<Long>, "goods_id_list")
 	*/
 	private $goodsIdList;
 
 	/**
-	* @JsonProperty(Boolean, "is_valid")
+	* #JsonProperty(Boolean, "is_valid")
 	*/
 	private $isValid;
 
 	/**
-	* @JsonProperty(Integer, "page_no")
+	* #JsonProperty(Integer, "page_no")
 	*/
 	private $pageNo;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 

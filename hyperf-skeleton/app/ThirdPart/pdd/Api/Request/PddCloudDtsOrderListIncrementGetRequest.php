@@ -11,72 +11,72 @@ class PddCloudDtsOrderListIncrementGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "is_lucky_flag")
+	* #JsonProperty(Integer, "is_lucky_flag")
 	*/
 	private $isLuckyFlag;
 
 	/**
-	* @JsonProperty(Integer, "order_status")
+	* #JsonProperty(Integer, "order_status")
 	*/
 	private $orderStatus;
 
 	/**
-	* @JsonProperty(Long, "start_updated_at")
+	* #JsonProperty(Long, "start_updated_at")
 	*/
 	private $startUpdatedAt;
 
 	/**
-	* @JsonProperty(Long, "end_updated_at")
+	* #JsonProperty(Long, "end_updated_at")
 	*/
 	private $endUpdatedAt;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 
 	/**
-	* @JsonProperty(Integer, "page")
+	* #JsonProperty(Integer, "page")
 	*/
 	private $page;
 
 	/**
-	* @JsonProperty(Integer, "refund_status")
+	* #JsonProperty(Integer, "refund_status")
 	*/
 	private $refundStatus;
 
 	/**
-	* @JsonProperty(Integer, "trade_type")
+	* #JsonProperty(Integer, "trade_type")
 	*/
 	private $tradeType;
 
 	/**
-	* @JsonProperty(Boolean, "use_has_next")
+	* #JsonProperty(Boolean, "use_has_next")
 	*/
 	private $useHasNext;
 
 	/**
-	* @JsonProperty(Long, "mall_id")
+	* #JsonProperty(Long, "mall_id")
 	*/
 	private $mallId;
 
 	/**
-	* @JsonProperty(Long, "ext_id")
+	* #JsonProperty(Long, "ext_id")
 	*/
 	private $extId;
 
 	/**
-	* @JsonProperty(String, "token")
+	* #JsonProperty(String, "token")
 	*/
 	private $token;
 
 	/**
-	* @JsonProperty(List<String>, "order_sn_list")
+	* #JsonProperty(List<String>, "order_sn_list")
 	*/
 	private $orderSnList;
 
 	/**
-	* @JsonProperty(String, "extendProps")
+	* #JsonProperty(String, "extendProps")
 	*/
 	private $extendProps;
 

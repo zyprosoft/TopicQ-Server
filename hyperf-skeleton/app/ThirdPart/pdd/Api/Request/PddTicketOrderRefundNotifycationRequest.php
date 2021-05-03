@@ -11,27 +11,27 @@ class PddTicketOrderRefundNotifycationRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "order_no")
+	* #JsonProperty(String, "order_no")
 	*/
 	private $orderNo;
 
 	/**
-	* @JsonProperty(Long, "refund_amount")
+	* #JsonProperty(Long, "refund_amount")
 	*/
 	private $refundAmount;
 
 	/**
-	* @JsonProperty(String, "reject_reason")
+	* #JsonProperty(String, "reject_reason")
 	*/
 	private $rejectReason;
 
 	/**
-	* @JsonProperty(String, "serial_no")
+	* #JsonProperty(String, "serial_no")
 	*/
 	private $serialNo;
 
 	/**
-	* @JsonProperty(Integer, "status")
+	* #JsonProperty(Integer, "status")
 	*/
 	private $status;
 

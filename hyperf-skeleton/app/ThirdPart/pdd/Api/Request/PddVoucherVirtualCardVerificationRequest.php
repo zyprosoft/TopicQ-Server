@@ -11,12 +11,12 @@ class PddVoucherVirtualCardVerificationRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "order_sn")
+	* #JsonProperty(String, "order_sn")
 	*/
 	private $orderSn;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddVoucherVirtualCardVerificationRequest_VoucherDataListItem>, "voucher_data_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddVoucherVirtualCardVerificationRequest_VoucherDataListItem>, "voucher_data_list")
 	*/
 	private $voucherDataList;
 
@@ -63,22 +63,22 @@ class PddVoucherVirtualCardVerificationRequest_VoucherDataListItem extends PopBa
 	}
 
 	/**
-	* @JsonProperty(String, "out_trans_no")
+	* #JsonProperty(String, "out_trans_no")
 	*/
 	private $outTransNo;
 
 	/**
-	* @JsonProperty(Long, "voucher_time")
+	* #JsonProperty(Long, "voucher_time")
 	*/
 	private $voucherTime;
 
 	/**
-	* @JsonProperty(Integer, "voucher_status")
+	* #JsonProperty(Integer, "voucher_status")
 	*/
 	private $voucherStatus;
 
 	/**
-	* @JsonProperty(String, "voucher_no")
+	* #JsonProperty(String, "voucher_no")
 	*/
 	private $voucherNo;
 

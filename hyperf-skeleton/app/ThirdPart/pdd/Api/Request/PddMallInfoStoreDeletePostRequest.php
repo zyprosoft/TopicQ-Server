@@ -11,7 +11,7 @@ class PddMallInfoStoreDeletePostRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<Long>, "store_id_list")
+	* #JsonProperty(List<Long>, "store_id_list")
 	*/
 	private $storeIdList;
 

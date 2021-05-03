@@ -11,32 +11,32 @@ class PddGoodsLogisticsSerTemplateUpdateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "template_id")
+	* #JsonProperty(String, "template_id")
 	*/
 	private $templateId;
 
 	/**
-	* @JsonProperty(Integer, "template_type")
+	* #JsonProperty(Integer, "template_type")
 	*/
 	private $templateType;
 
 	/**
-	* @JsonProperty(String, "template_name")
+	* #JsonProperty(String, "template_name")
 	*/
 	private $templateName;
 
 	/**
-	* @JsonProperty(Integer, "price_unit")
+	* #JsonProperty(Integer, "price_unit")
 	*/
 	private $priceUnit;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsLogisticsSerTemplateUpdateRequest_ServiceAreaListItem>, "service_area_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsLogisticsSerTemplateUpdateRequest_ServiceAreaListItem>, "service_area_list")
 	*/
 	private $serviceAreaList;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsLogisticsSerTemplateUpdateRequest_CatListItem>, "cat_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsLogisticsSerTemplateUpdateRequest_CatListItem>, "cat_list")
 	*/
 	private $catList;
 
@@ -107,22 +107,22 @@ class PddGoodsLogisticsSerTemplateUpdateRequest_ServiceAreaListItem extends PopB
 	}
 
 	/**
-	* @JsonProperty(String, "value")
+	* #JsonProperty(String, "value")
 	*/
 	private $value;
 
 	/**
-	* @JsonProperty(String, "district_id")
+	* #JsonProperty(String, "district_id")
 	*/
 	private $districtId;
 
 	/**
-	* @JsonProperty(String, "city_id")
+	* #JsonProperty(String, "city_id")
 	*/
 	private $cityId;
 
 	/**
-	* @JsonProperty(String, "province_id")
+	* #JsonProperty(String, "province_id")
 	*/
 	private $provinceId;
 
@@ -157,17 +157,17 @@ class PddGoodsLogisticsSerTemplateUpdateRequest_CatListItem extends PopBaseJsonE
 	}
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsLogisticsSerTemplateUpdateRequest_CatListItemListItem>, "list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsLogisticsSerTemplateUpdateRequest_CatListItemListItem>, "list")
 	*/
 	private $list;
 
 	/**
-	* @JsonProperty(Long, "cat_id4")
+	* #JsonProperty(Long, "cat_id4")
 	*/
 	private $catId4;
 
 	/**
-	* @JsonProperty(Long, "cat_id3")
+	* #JsonProperty(Long, "cat_id3")
 	*/
 	private $catId3;
 
@@ -197,17 +197,17 @@ class PddGoodsLogisticsSerTemplateUpdateRequest_CatListItemListItem extends PopB
 	}
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsLogisticsSerTemplateUpdateRequest_CatListItemListItemContentItem>, "content")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsLogisticsSerTemplateUpdateRequest_CatListItemListItemContentItem>, "content")
 	*/
 	private $content;
 
 	/**
-	* @JsonProperty(Long, "value")
+	* #JsonProperty(Long, "value")
 	*/
 	private $value;
 
 	/**
-	* @JsonProperty(Integer, "limit_type")
+	* #JsonProperty(Integer, "limit_type")
 	*/
 	private $limitType;
 
@@ -237,17 +237,17 @@ class PddGoodsLogisticsSerTemplateUpdateRequest_CatListItemListItemContentItem e
 	}
 
 	/**
-	* @JsonProperty(Long, "price")
+	* #JsonProperty(Long, "price")
 	*/
 	private $price;
 
 	/**
-	* @JsonProperty(Long, "max_pro")
+	* #JsonProperty(Long, "max_pro")
 	*/
 	private $maxPro;
 
 	/**
-	* @JsonProperty(Long, "min_pro")
+	* #JsonProperty(Long, "min_pro")
 	*/
 	private $minPro;
 

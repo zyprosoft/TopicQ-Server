@@ -11,7 +11,7 @@ class PddOpenKmsSearchBatchRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddOpenKmsSearchBatchRequest_InputListItem>, "input_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddOpenKmsSearchBatchRequest_InputListItem>, "input_list")
 	*/
 	private $inputList;
 
@@ -52,12 +52,12 @@ class PddOpenKmsSearchBatchRequest_InputListItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "input")
+	* #JsonProperty(String, "input")
 	*/
 	private $input;
 
 	/**
-	* @JsonProperty(String, "type")
+	* #JsonProperty(String, "type")
 	*/
 	private $type;
 

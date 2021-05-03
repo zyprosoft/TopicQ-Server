@@ -11,7 +11,7 @@ class PddCloudprintCmdprintRenderRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudprintCmdprintRenderRequest_Request, "request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudprintCmdprintRenderRequest_Request, "request")
 	*/
 	private $request;
 
@@ -52,37 +52,37 @@ class PddCloudprintCmdprintRenderRequest_Request extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "client_side_id")
+	* #JsonProperty(String, "client_side_id")
 	*/
 	private $clientSideId;
 
 	/**
-	* @JsonProperty(String, "client_type")
+	* #JsonProperty(String, "client_type")
 	*/
 	private $clientType;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudprintCmdprintRenderRequest_RequestConfig, "config")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudprintCmdprintRenderRequest_RequestConfig, "config")
 	*/
 	private $config;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudprintCmdprintRenderRequest_RequestDocument, "document")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudprintCmdprintRenderRequest_RequestDocument, "document")
 	*/
 	private $document;
 
 	/**
-	* @JsonProperty(String, "printer_name")
+	* #JsonProperty(String, "printer_name")
 	*/
 	private $printerName;
 
 	/**
-	* @JsonProperty(String, "print_command_type")
+	* #JsonProperty(String, "print_command_type")
 	*/
 	private $printCommandType;
 
 	/**
-	* @JsonProperty(String, "cmd_encoding")
+	* #JsonProperty(String, "cmd_encoding")
 	*/
 	private $cmdEncoding;
 
@@ -132,32 +132,32 @@ class PddCloudprintCmdprintRenderRequest_RequestConfig extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(Double, "horizontal_offset")
+	* #JsonProperty(Double, "horizontal_offset")
 	*/
 	private $horizontalOffset;
 
 	/**
-	* @JsonProperty(Boolean, "need_bottom_logo")
+	* #JsonProperty(Boolean, "need_bottom_logo")
 	*/
 	private $needBottomLogo;
 
 	/**
-	* @JsonProperty(Boolean, "need_middle_logo")
+	* #JsonProperty(Boolean, "need_middle_logo")
 	*/
 	private $needMiddleLogo;
 
 	/**
-	* @JsonProperty(Boolean, "need_top_logo")
+	* #JsonProperty(Boolean, "need_top_logo")
 	*/
 	private $needTopLogo;
 
 	/**
-	* @JsonProperty(String, "orientation")
+	* #JsonProperty(String, "orientation")
 	*/
 	private $orientation;
 
 	/**
-	* @JsonProperty(Double, "vertical_offset")
+	* #JsonProperty(Double, "vertical_offset")
 	*/
 	private $verticalOffset;
 
@@ -202,7 +202,7 @@ class PddCloudprintCmdprintRenderRequest_RequestDocument extends PopBaseJsonEnti
 	}
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddCloudprintCmdprintRenderRequest_RequestDocumentContentsItem>, "contents")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddCloudprintCmdprintRenderRequest_RequestDocumentContentsItem>, "contents")
 	*/
 	private $contents;
 
@@ -222,32 +222,32 @@ class PddCloudprintCmdprintRenderRequest_RequestDocumentContentsItem extends Pop
 	}
 
 	/**
-	* @JsonProperty(String, "add_data")
+	* #JsonProperty(String, "add_data")
 	*/
 	private $addData;
 
 	/**
-	* @JsonProperty(Boolean, "encrypted")
+	* #JsonProperty(Boolean, "encrypted")
 	*/
 	private $encrypted;
 
 	/**
-	* @JsonProperty(String, "print_data")
+	* #JsonProperty(String, "print_data")
 	*/
 	private $printData;
 
 	/**
-	* @JsonProperty(String, "signature")
+	* #JsonProperty(String, "signature")
 	*/
 	private $signature;
 
 	/**
-	* @JsonProperty(String, "template_url")
+	* #JsonProperty(String, "template_url")
 	*/
 	private $templateUrl;
 
 	/**
-	* @JsonProperty(String, "ver")
+	* #JsonProperty(String, "ver")
 	*/
 	private $ver;
 

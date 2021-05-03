@@ -11,72 +11,72 @@ class PddDdkCashgiftCreateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "acquire_end_time")
+	* #JsonProperty(Long, "acquire_end_time")
 	*/
 	private $acquireEndTime;
 
 	/**
-	* @JsonProperty(Long, "acquire_start_time")
+	* #JsonProperty(Long, "acquire_start_time")
 	*/
 	private $acquireStartTime;
 
 	/**
-	* @JsonProperty(Boolean, "auto_take")
+	* #JsonProperty(Boolean, "auto_take")
 	*/
 	private $autoTake;
 
 	/**
-	* @JsonProperty(Integer, "coupon_amount")
+	* #JsonProperty(Integer, "coupon_amount")
 	*/
 	private $couponAmount;
 
 	/**
-	* @JsonProperty(Integer, "duration")
+	* #JsonProperty(Integer, "duration")
 	*/
 	private $duration;
 
 	/**
-	* @JsonProperty(Boolean, "fetch_risk_check")
+	* #JsonProperty(Boolean, "fetch_risk_check")
 	*/
 	private $fetchRiskCheck;
 
 	/**
-	* @JsonProperty(Long, "link_acquire_limit")
+	* #JsonProperty(Long, "link_acquire_limit")
 	*/
 	private $linkAcquireLimit;
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
 	/**
-	* @JsonProperty(Long, "quantity")
+	* #JsonProperty(Long, "quantity")
 	*/
 	private $quantity;
 
 	/**
-	* @JsonProperty(String, "source_url")
+	* #JsonProperty(String, "source_url")
 	*/
 	private $sourceUrl;
 
 	/**
-	* @JsonProperty(Integer, "user_limit")
+	* #JsonProperty(Integer, "user_limit")
 	*/
 	private $userLimit;
 
 	/**
-	* @JsonProperty(Long, "validity_end_time")
+	* #JsonProperty(Long, "validity_end_time")
 	*/
 	private $validityEndTime;
 
 	/**
-	* @JsonProperty(Long, "validity_start_time")
+	* #JsonProperty(Long, "validity_start_time")
 	*/
 	private $validityStartTime;
 
 	/**
-	* @JsonProperty(Integer, "validity_time_type")
+	* #JsonProperty(Integer, "validity_time_type")
 	*/
 	private $validityTimeType;
 

@@ -11,37 +11,37 @@ class PddCloudSecurityEventTrackingLoginRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "loginMessage")
+	* #JsonProperty(String, "loginMessage")
 	*/
 	private $loginMessage;
 
 	/**
-	* @JsonProperty(Boolean, "loginResult")
+	* #JsonProperty(Boolean, "loginResult")
 	*/
 	private $loginResult;
 
 	/**
-	* @JsonProperty(List<Long>, "mallIdList")
+	* #JsonProperty(List<Long>, "mallIdList")
 	*/
 	private $mallIdList;
 
 	/**
-	* @JsonProperty(String, "pati")
+	* #JsonProperty(String, "pati")
 	*/
 	private $pati;
 
 	/**
-	* @JsonProperty(Long, "timestamp")
+	* #JsonProperty(Long, "timestamp")
 	*/
 	private $timestamp;
 
 	/**
-	* @JsonProperty(String, "userId")
+	* #JsonProperty(String, "userId")
 	*/
 	private $userId;
 
 	/**
-	* @JsonProperty(String, "userIp")
+	* #JsonProperty(String, "userIp")
 	*/
 	private $userIp;
 

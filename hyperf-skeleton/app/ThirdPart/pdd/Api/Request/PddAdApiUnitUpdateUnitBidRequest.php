@@ -11,12 +11,12 @@ class PddAdApiUnitUpdateUnitBidRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "adId")
+	* #JsonProperty(Long, "adId")
 	*/
 	private $adId;
 
 	/**
-	* @JsonProperty(Long, "bid")
+	* #JsonProperty(Long, "bid")
 	*/
 	private $bid;
 

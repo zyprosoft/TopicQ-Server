@@ -11,12 +11,12 @@ class PddRefundInformationGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "after_sales_id")
+	* #JsonProperty(Long, "after_sales_id")
 	*/
 	private $afterSalesId;
 
 	/**
-	* @JsonProperty(String, "order_sn")
+	* #JsonProperty(String, "order_sn")
 	*/
 	private $orderSn;
 

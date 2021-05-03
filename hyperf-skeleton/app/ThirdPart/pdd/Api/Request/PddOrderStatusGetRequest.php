@@ -11,7 +11,7 @@ class PddOrderStatusGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "order_sns")
+	* #JsonProperty(String, "order_sns")
 	*/
 	private $orderSns;
 

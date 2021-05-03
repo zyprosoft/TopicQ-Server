@@ -11,272 +11,272 @@ class PddGoodsSubmitGoodsCommitRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "bad_fruit_claim")
+	* #JsonProperty(Integer, "bad_fruit_claim")
 	*/
 	private $badFruitClaim;
 
 	/**
-	* @JsonProperty(Long, "buy_limit")
+	* #JsonProperty(Long, "buy_limit")
 	*/
 	private $buyLimit;
 
 	/**
-	* @JsonProperty(List<String>, "carousel_gallery")
+	* #JsonProperty(List<String>, "carousel_gallery")
 	*/
 	private $carouselGallery;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSubmitGoodsCommitRequest_CarouselVideoItem>, "carousel_video")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSubmitGoodsCommitRequest_CarouselVideoItem>, "carousel_video")
 	*/
 	private $carouselVideo;
 
 	/**
-	* @JsonProperty(String, "carousel_video_url")
+	* #JsonProperty(String, "carousel_video_url")
 	*/
 	private $carouselVideoUrl;
 
 	/**
-	* @JsonProperty(Long, "cat_id")
+	* #JsonProperty(Long, "cat_id")
 	*/
 	private $catId;
 
 	/**
-	* @JsonProperty(Long, "cost_template_id")
+	* #JsonProperty(Long, "cost_template_id")
 	*/
 	private $costTemplateId;
 
 	/**
-	* @JsonProperty(Integer, "country_id")
+	* #JsonProperty(Integer, "country_id")
 	*/
 	private $countryId;
 
 	/**
-	* @JsonProperty(Long, "customer_num")
+	* #JsonProperty(Long, "customer_num")
 	*/
 	private $customerNum;
 
 	/**
-	* @JsonProperty(String, "customs")
+	* #JsonProperty(String, "customs")
 	*/
 	private $customs;
 
 	/**
-	* @JsonProperty(Integer, "delivery_one_day")
+	* #JsonProperty(Integer, "delivery_one_day")
 	*/
 	private $deliveryOneDay;
 
 	/**
-	* @JsonProperty(Integer, "delivery_type")
+	* #JsonProperty(Integer, "delivery_type")
 	*/
 	private $deliveryType;
 
 	/**
-	* @JsonProperty(List<String>, "detail_gallery")
+	* #JsonProperty(List<String>, "detail_gallery")
 	*/
 	private $detailGallery;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSubmitGoodsCommitRequest_ElecGoodsAttributes, "elec_goods_attributes")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSubmitGoodsCommitRequest_ElecGoodsAttributes, "elec_goods_attributes")
 	*/
 	private $elecGoodsAttributes;
 
 	/**
-	* @JsonProperty(Long, "goods_commit_id")
+	* #JsonProperty(Long, "goods_commit_id")
 	*/
 	private $goodsCommitId;
 
 	/**
-	* @JsonProperty(String, "goods_desc")
+	* #JsonProperty(String, "goods_desc")
 	*/
 	private $goodsDesc;
 
 	/**
-	* @JsonProperty(Long, "goods_id")
+	* #JsonProperty(Long, "goods_id")
 	*/
 	private $goodsId;
 
 	/**
-	* @JsonProperty(String, "goods_name")
+	* #JsonProperty(String, "goods_name")
 	*/
 	private $goodsName;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSubmitGoodsCommitRequest_GoodsPropertiesItem>, "goods_properties")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSubmitGoodsCommitRequest_GoodsPropertiesItem>, "goods_properties")
 	*/
 	private $goodsProperties;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSubmitGoodsCommitRequest_GoodsTradeAttr, "goods_trade_attr")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSubmitGoodsCommitRequest_GoodsTradeAttr, "goods_trade_attr")
 	*/
 	private $goodsTradeAttr;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSubmitGoodsCommitRequest_GoodsTravelAttr, "goods_travel_attr")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSubmitGoodsCommitRequest_GoodsTravelAttr, "goods_travel_attr")
 	*/
 	private $goodsTravelAttr;
 
 	/**
-	* @JsonProperty(Integer, "goods_type")
+	* #JsonProperty(Integer, "goods_type")
 	*/
 	private $goodsType;
 
 	/**
-	* @JsonProperty(String, "image_url")
+	* #JsonProperty(String, "image_url")
 	*/
 	private $imageUrl;
 
 	/**
-	* @JsonProperty(Integer, "invoice_status")
+	* #JsonProperty(Integer, "invoice_status")
 	*/
 	private $invoiceStatus;
 
 	/**
-	* @JsonProperty(Boolean, "is_customs")
+	* #JsonProperty(Boolean, "is_customs")
 	*/
 	private $isCustoms;
 
 	/**
-	* @JsonProperty(Boolean, "is_folt")
+	* #JsonProperty(Boolean, "is_folt")
 	*/
 	private $isFolt;
 
 	/**
-	* @JsonProperty(Integer, "is_group_pre_sale")
+	* #JsonProperty(Integer, "is_group_pre_sale")
 	*/
 	private $isGroupPreSale;
 
 	/**
-	* @JsonProperty(Boolean, "is_pre_sale")
+	* #JsonProperty(Boolean, "is_pre_sale")
 	*/
 	private $isPreSale;
 
 	/**
-	* @JsonProperty(Boolean, "is_refundable")
+	* #JsonProperty(Boolean, "is_refundable")
 	*/
 	private $isRefundable;
 
 	/**
-	* @JsonProperty(Integer, "lack_of_weight_claim")
+	* #JsonProperty(Integer, "lack_of_weight_claim")
 	*/
 	private $lackOfWeightClaim;
 
 	/**
-	* @JsonProperty(String, "mai_jia_zi_ti")
+	* #JsonProperty(String, "mai_jia_zi_ti")
 	*/
 	private $maiJiaZiTi;
 
 	/**
-	* @JsonProperty(Long, "market_price")
+	* #JsonProperty(Long, "market_price")
 	*/
 	private $marketPrice;
 
 	/**
-	* @JsonProperty(Integer, "operate_type")
+	* #JsonProperty(Integer, "operate_type")
 	*/
 	private $operateType;
 
 	/**
-	* @JsonProperty(Long, "order_limit")
+	* #JsonProperty(Long, "order_limit")
 	*/
 	private $orderLimit;
 
 	/**
-	* @JsonProperty(Integer, "origin_country_id")
+	* #JsonProperty(Integer, "origin_country_id")
 	*/
 	private $originCountryId;
 
 	/**
-	* @JsonProperty(String, "out_goods_id")
+	* #JsonProperty(String, "out_goods_id")
 	*/
 	private $outGoodsId;
 
 	/**
-	* @JsonProperty(String, "out_source_goods_id")
+	* #JsonProperty(String, "out_source_goods_id")
 	*/
 	private $outSourceGoodsId;
 
 	/**
-	* @JsonProperty(Integer, "out_source_type")
+	* #JsonProperty(Integer, "out_source_type")
 	*/
 	private $outSourceType;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSubmitGoodsCommitRequest_OverseaGoods, "oversea_goods")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSubmitGoodsCommitRequest_OverseaGoods, "oversea_goods")
 	*/
 	private $overseaGoods;
 
 	/**
-	* @JsonProperty(Integer, "oversea_type")
+	* #JsonProperty(Integer, "oversea_type")
 	*/
 	private $overseaType;
 
 	/**
-	* @JsonProperty(Long, "pre_sale_time")
+	* #JsonProperty(Long, "pre_sale_time")
 	*/
 	private $preSaleTime;
 
 	/**
-	* @JsonProperty(Integer, "quan_guo_lian_bao")
+	* #JsonProperty(Integer, "quan_guo_lian_bao")
 	*/
 	private $quanGuoLianBao;
 
 	/**
-	* @JsonProperty(Boolean, "second_hand")
+	* #JsonProperty(Boolean, "second_hand")
 	*/
 	private $secondHand;
 
 	/**
-	* @JsonProperty(String, "shang_men_an_zhuang")
+	* #JsonProperty(String, "shang_men_an_zhuang")
 	*/
 	private $shangMenAnZhuang;
 
 	/**
-	* @JsonProperty(Long, "shipment_limit_second")
+	* #JsonProperty(Long, "shipment_limit_second")
 	*/
 	private $shipmentLimitSecond;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSubmitGoodsCommitRequest_SkuListItem>, "sku_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSubmitGoodsCommitRequest_SkuListItem>, "sku_list")
 	*/
 	private $skuList;
 
 	/**
-	* @JsonProperty(Integer, "sku_type")
+	* #JsonProperty(Integer, "sku_type")
 	*/
 	private $skuType;
 
 	/**
-	* @JsonProperty(String, "song_huo_an_zhuang")
+	* #JsonProperty(String, "song_huo_an_zhuang")
 	*/
 	private $songHuoAnZhuang;
 
 	/**
-	* @JsonProperty(String, "song_huo_ru_hu")
+	* #JsonProperty(String, "song_huo_ru_hu")
 	*/
 	private $songHuoRuHu;
 
 	/**
-	* @JsonProperty(Integer, "sync_goods_operate")
+	* #JsonProperty(Integer, "sync_goods_operate")
 	*/
 	private $syncGoodsOperate;
 
 	/**
-	* @JsonProperty(String, "tiny_name")
+	* #JsonProperty(String, "tiny_name")
 	*/
 	private $tinyName;
 
 	/**
-	* @JsonProperty(String, "warehouse")
+	* #JsonProperty(String, "warehouse")
 	*/
 	private $warehouse;
 
 	/**
-	* @JsonProperty(String, "warm_tips")
+	* #JsonProperty(String, "warm_tips")
 	*/
 	private $warmTips;
 
 	/**
-	* @JsonProperty(Integer, "zhi_huan_bu_xiu")
+	* #JsonProperty(Integer, "zhi_huan_bu_xiu")
 	*/
 	private $zhiHuanBuXiu;
 
@@ -635,12 +635,12 @@ class PddGoodsSubmitGoodsCommitRequest_CarouselVideoItem extends PopBaseJsonEnti
 	}
 
 	/**
-	* @JsonProperty(Long, "file_id")
+	* #JsonProperty(Long, "file_id")
 	*/
 	private $fileId;
 
 	/**
-	* @JsonProperty(String, "video_url")
+	* #JsonProperty(String, "video_url")
 	*/
 	private $videoUrl;
 
@@ -665,22 +665,22 @@ class PddGoodsSubmitGoodsCommitRequest_ElecGoodsAttributes extends PopBaseJsonEn
 	}
 
 	/**
-	* @JsonProperty(Long, "begin_time")
+	* #JsonProperty(Long, "begin_time")
 	*/
 	private $beginTime;
 
 	/**
-	* @JsonProperty(Integer, "days_time")
+	* #JsonProperty(Integer, "days_time")
 	*/
 	private $daysTime;
 
 	/**
-	* @JsonProperty(Long, "end_time")
+	* #JsonProperty(Long, "end_time")
 	*/
 	private $endTime;
 
 	/**
-	* @JsonProperty(Integer, "time_type")
+	* #JsonProperty(Integer, "time_type")
 	*/
 	private $timeType;
 
@@ -715,52 +715,52 @@ class PddGoodsSubmitGoodsCommitRequest_GoodsPropertiesItem extends PopBaseJsonEn
 	}
 
 	/**
-	* @JsonProperty(Integer, "group_id")
+	* #JsonProperty(Integer, "group_id")
 	*/
 	private $groupId;
 
 	/**
-	* @JsonProperty(String, "img_url")
+	* #JsonProperty(String, "img_url")
 	*/
 	private $imgUrl;
 
 	/**
-	* @JsonProperty(String, "note")
+	* #JsonProperty(String, "note")
 	*/
 	private $note;
 
 	/**
-	* @JsonProperty(Long, "parent_spec_id")
+	* #JsonProperty(Long, "parent_spec_id")
 	*/
 	private $parentSpecId;
 
 	/**
-	* @JsonProperty(Long, "ref_pid")
+	* #JsonProperty(Long, "ref_pid")
 	*/
 	private $refPid;
 
 	/**
-	* @JsonProperty(Long, "spec_id")
+	* #JsonProperty(Long, "spec_id")
 	*/
 	private $specId;
 
 	/**
-	* @JsonProperty(Long, "template_pid")
+	* #JsonProperty(Long, "template_pid")
 	*/
 	private $templatePid;
 
 	/**
-	* @JsonProperty(String, "value")
+	* #JsonProperty(String, "value")
 	*/
 	private $value;
 
 	/**
-	* @JsonProperty(String, "value_unit")
+	* #JsonProperty(String, "value_unit")
 	*/
 	private $valueUnit;
 
 	/**
-	* @JsonProperty(Long, "vid")
+	* #JsonProperty(Long, "vid")
 	*/
 	private $vid;
 
@@ -825,17 +825,17 @@ class PddGoodsSubmitGoodsCommitRequest_GoodsTradeAttr extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(Integer, "advances_days")
+	* #JsonProperty(Integer, "advances_days")
 	*/
 	private $advancesDays;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSubmitGoodsCommitRequest_GoodsTradeAttrBookingNotes, "booking_notes")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSubmitGoodsCommitRequest_GoodsTradeAttrBookingNotes, "booking_notes")
 	*/
 	private $bookingNotes;
 
 	/**
-	* @JsonProperty(Integer, "life_span")
+	* #JsonProperty(Integer, "life_span")
 	*/
 	private $lifeSpan;
 
@@ -865,7 +865,7 @@ class PddGoodsSubmitGoodsCommitRequest_GoodsTradeAttrBookingNotes extends PopBas
 	}
 
 	/**
-	* @JsonProperty(String, "url")
+	* #JsonProperty(String, "url")
 	*/
 	private $url;
 
@@ -885,12 +885,12 @@ class PddGoodsSubmitGoodsCommitRequest_GoodsTravelAttr extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(Boolean, "need_tourist")
+	* #JsonProperty(Boolean, "need_tourist")
 	*/
 	private $needTourist;
 
 	/**
-	* @JsonProperty(Integer, "type")
+	* #JsonProperty(Integer, "type")
 	*/
 	private $type;
 
@@ -915,27 +915,27 @@ class PddGoodsSubmitGoodsCommitRequest_OverseaGoods extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "bonded_warehouse_key")
+	* #JsonProperty(String, "bonded_warehouse_key")
 	*/
 	private $bondedWarehouseKey;
 
 	/**
-	* @JsonProperty(Integer, "consumption_tax_rate")
+	* #JsonProperty(Integer, "consumption_tax_rate")
 	*/
 	private $consumptionTaxRate;
 
 	/**
-	* @JsonProperty(String, "customs_broker")
+	* #JsonProperty(String, "customs_broker")
 	*/
 	private $customsBroker;
 
 	/**
-	* @JsonProperty(String, "hs_code")
+	* #JsonProperty(String, "hs_code")
 	*/
 	private $hsCode;
 
 	/**
-	* @JsonProperty(Integer, "value_added_tax_rate")
+	* #JsonProperty(Integer, "value_added_tax_rate")
 	*/
 	private $valueAddedTaxRate;
 
@@ -975,67 +975,67 @@ class PddGoodsSubmitGoodsCommitRequest_SkuListItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(Integer, "is_onsale")
+	* #JsonProperty(Integer, "is_onsale")
 	*/
 	private $isOnsale;
 
 	/**
-	* @JsonProperty(Long, "length")
+	* #JsonProperty(Long, "length")
 	*/
 	private $length;
 
 	/**
-	* @JsonProperty(Long, "limit_quantity")
+	* #JsonProperty(Long, "limit_quantity")
 	*/
 	private $limitQuantity;
 
 	/**
-	* @JsonProperty(Long, "multi_price")
+	* #JsonProperty(Long, "multi_price")
 	*/
 	private $multiPrice;
 
 	/**
-	* @JsonProperty(String, "out_sku_sn")
+	* #JsonProperty(String, "out_sku_sn")
 	*/
 	private $outSkuSn;
 
 	/**
-	* @JsonProperty(String, "out_source_sku_id")
+	* #JsonProperty(String, "out_source_sku_id")
 	*/
 	private $outSourceSkuId;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSubmitGoodsCommitRequest_SkuListItemOverseaSku, "oversea_sku")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSubmitGoodsCommitRequest_SkuListItemOverseaSku, "oversea_sku")
 	*/
 	private $overseaSku;
 
 	/**
-	* @JsonProperty(Long, "price")
+	* #JsonProperty(Long, "price")
 	*/
 	private $price;
 
 	/**
-	* @JsonProperty(Long, "quantity")
+	* #JsonProperty(Long, "quantity")
 	*/
 	private $quantity;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSubmitGoodsCommitRequest_SkuListItemSkuPropertiesItem>, "sku_properties")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSubmitGoodsCommitRequest_SkuListItemSkuPropertiesItem>, "sku_properties")
 	*/
 	private $skuProperties;
 
 	/**
-	* @JsonProperty(List<Long>, "spec_id_list")
+	* #JsonProperty(List<Long>, "spec_id_list")
 	*/
 	private $specIdList;
 
 	/**
-	* @JsonProperty(String, "thumb_url")
+	* #JsonProperty(String, "thumb_url")
 	*/
 	private $thumbUrl;
 
 	/**
-	* @JsonProperty(Long, "weight")
+	* #JsonProperty(Long, "weight")
 	*/
 	private $weight;
 
@@ -1115,17 +1115,17 @@ class PddGoodsSubmitGoodsCommitRequest_SkuListItemOverseaSku extends PopBaseJson
 	}
 
 	/**
-	* @JsonProperty(String, "measurement_code")
+	* #JsonProperty(String, "measurement_code")
 	*/
 	private $measurementCode;
 
 	/**
-	* @JsonProperty(String, "specifications")
+	* #JsonProperty(String, "specifications")
 	*/
 	private $specifications;
 
 	/**
-	* @JsonProperty(Integer, "taxation")
+	* #JsonProperty(Integer, "taxation")
 	*/
 	private $taxation;
 
@@ -1155,22 +1155,22 @@ class PddGoodsSubmitGoodsCommitRequest_SkuListItemSkuPropertiesItem extends PopB
 	}
 
 	/**
-	* @JsonProperty(String, "punit")
+	* #JsonProperty(String, "punit")
 	*/
 	private $punit;
 
 	/**
-	* @JsonProperty(Long, "ref_pid")
+	* #JsonProperty(Long, "ref_pid")
 	*/
 	private $refPid;
 
 	/**
-	* @JsonProperty(String, "value")
+	* #JsonProperty(String, "value")
 	*/
 	private $value;
 
 	/**
-	* @JsonProperty(Long, "vid")
+	* #JsonProperty(Long, "vid")
 	*/
 	private $vid;
 

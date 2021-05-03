@@ -11,7 +11,7 @@ class PddVirtualGameServerQueryRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "goods_config_code")
+	* #JsonProperty(String, "goods_config_code")
 	*/
 	private $goodsConfigCode;
 

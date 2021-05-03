@@ -11,7 +11,7 @@ class PddAdApiGoodsQueryLongImagesRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "goodsId")
+	* #JsonProperty(Long, "goodsId")
 	*/
 	private $goodsId;
 

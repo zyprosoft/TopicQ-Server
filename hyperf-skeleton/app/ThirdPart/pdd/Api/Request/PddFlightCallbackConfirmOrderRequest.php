@@ -11,67 +11,67 @@ class PddFlightCallbackConfirmOrderRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "error_code")
+	* #JsonProperty(Integer, "error_code")
 	*/
 	private $errorCode;
 
 	/**
-	* @JsonProperty(String, "error_msg")
+	* #JsonProperty(String, "error_msg")
 	*/
 	private $errorMsg;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightCallbackConfirmOrderRequest_FlightInfoListItem>, "flight_info_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightCallbackConfirmOrderRequest_FlightInfoListItem>, "flight_info_list")
 	*/
 	private $flightInfoList;
 
 	/**
-	* @JsonProperty(String, "out_order_no")
+	* #JsonProperty(String, "out_order_no")
 	*/
 	private $outOrderNo;
 
 	/**
-	* @JsonProperty(String, "parent_travel_sn")
+	* #JsonProperty(String, "parent_travel_sn")
 	*/
 	private $parentTravelSn;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightCallbackConfirmOrderRequest_PassengerInfoListItem>, "passenger_info_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightCallbackConfirmOrderRequest_PassengerInfoListItem>, "passenger_info_list")
 	*/
 	private $passengerInfoList;
 
 	/**
-	* @JsonProperty(Integer, "ticket_status")
+	* #JsonProperty(Integer, "ticket_status")
 	*/
 	private $ticketStatus;
 
 	/**
-	* @JsonProperty(String, "ticket_time")
+	* #JsonProperty(String, "ticket_time")
 	*/
 	private $ticketTime;
 
 	/**
-	* @JsonProperty(Long, "total_airport_tax")
+	* #JsonProperty(Long, "total_airport_tax")
 	*/
 	private $totalAirportTax;
 
 	/**
-	* @JsonProperty(Long, "total_fuel_tax")
+	* #JsonProperty(Long, "total_fuel_tax")
 	*/
 	private $totalFuelTax;
 
 	/**
-	* @JsonProperty(Long, "total_pay")
+	* #JsonProperty(Long, "total_pay")
 	*/
 	private $totalPay;
 
 	/**
-	* @JsonProperty(Long, "total_settle_price")
+	* #JsonProperty(Long, "total_settle_price")
 	*/
 	private $totalSettlePrice;
 
 	/**
-	* @JsonProperty(String, "trace_id")
+	* #JsonProperty(String, "trace_id")
 	*/
 	private $traceId;
 
@@ -184,72 +184,72 @@ class PddFlightCallbackConfirmOrderRequest_FlightInfoListItem extends PopBaseJso
 	}
 
 	/**
-	* @JsonProperty(String, "arrival_airport_code")
+	* #JsonProperty(String, "arrival_airport_code")
 	*/
 	private $arrivalAirportCode;
 
 	/**
-	* @JsonProperty(String, "arrival_date_time")
+	* #JsonProperty(String, "arrival_date_time")
 	*/
 	private $arrivalDateTime;
 
 	/**
-	* @JsonProperty(String, "arrival_terminal")
+	* #JsonProperty(String, "arrival_terminal")
 	*/
 	private $arrivalTerminal;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightCallbackConfirmOrderRequest_FlightInfoListItemCabinInfoListItem>, "cabin_info_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightCallbackConfirmOrderRequest_FlightInfoListItemCabinInfoListItem>, "cabin_info_list")
 	*/
 	private $cabinInfoList;
 
 	/**
-	* @JsonProperty(String, "carrier_code")
+	* #JsonProperty(String, "carrier_code")
 	*/
 	private $carrierCode;
 
 	/**
-	* @JsonProperty(String, "departure_airport_code")
+	* #JsonProperty(String, "departure_airport_code")
 	*/
 	private $departureAirportCode;
 
 	/**
-	* @JsonProperty(String, "departure_date_time")
+	* #JsonProperty(String, "departure_date_time")
 	*/
 	private $departureDateTime;
 
 	/**
-	* @JsonProperty(String, "departure_terminal")
+	* #JsonProperty(String, "departure_terminal")
 	*/
 	private $departureTerminal;
 
 	/**
-	* @JsonProperty(String, "flight_no")
+	* #JsonProperty(String, "flight_no")
 	*/
 	private $flightNo;
 
 	/**
-	* @JsonProperty(String, "operate_carrier_code")
+	* #JsonProperty(String, "operate_carrier_code")
 	*/
 	private $operateCarrierCode;
 
 	/**
-	* @JsonProperty(String, "operate_flight_no")
+	* #JsonProperty(String, "operate_flight_no")
 	*/
 	private $operateFlightNo;
 
 	/**
-	* @JsonProperty(Integer, "segment_no")
+	* #JsonProperty(Integer, "segment_no")
 	*/
 	private $segmentNo;
 
 	/**
-	* @JsonProperty(Integer, "sequence_no")
+	* #JsonProperty(Integer, "sequence_no")
 	*/
 	private $sequenceNo;
 
 	/**
-	* @JsonProperty(Boolean, "shared")
+	* #JsonProperty(Boolean, "shared")
 	*/
 	private $shared;
 
@@ -334,12 +334,12 @@ class PddFlightCallbackConfirmOrderRequest_FlightInfoListItemCabinInfoListItem e
 	}
 
 	/**
-	* @JsonProperty(String, "passenger_type")
+	* #JsonProperty(String, "passenger_type")
 	*/
 	private $passengerType;
 
 	/**
-	* @JsonProperty(String, "sub_class")
+	* #JsonProperty(String, "sub_class")
 	*/
 	private $subClass;
 
@@ -364,57 +364,57 @@ class PddFlightCallbackConfirmOrderRequest_PassengerInfoListItem extends PopBase
 	}
 
 	/**
-	* @JsonProperty(Long, "airport_tax")
+	* #JsonProperty(Long, "airport_tax")
 	*/
 	private $airportTax;
 
 	/**
-	* @JsonProperty(Long, "fuel_tax")
+	* #JsonProperty(Long, "fuel_tax")
 	*/
 	private $fuelTax;
 
 	/**
-	* @JsonProperty(String, "identity_no")
+	* #JsonProperty(String, "identity_no")
 	*/
 	private $identityNo;
 
 	/**
-	* @JsonProperty(String, "identity_type")
+	* #JsonProperty(String, "identity_type")
 	*/
 	private $identityType;
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
 	/**
-	* @JsonProperty(String, "out_sub_order_no")
+	* #JsonProperty(String, "out_sub_order_no")
 	*/
 	private $outSubOrderNo;
 
 	/**
-	* @JsonProperty(Long, "pay")
+	* #JsonProperty(Long, "pay")
 	*/
 	private $pay;
 
 	/**
-	* @JsonProperty(String, "pnr")
+	* #JsonProperty(String, "pnr")
 	*/
 	private $pnr;
 
 	/**
-	* @JsonProperty(Long, "settle_price")
+	* #JsonProperty(Long, "settle_price")
 	*/
 	private $settlePrice;
 
 	/**
-	* @JsonProperty(String, "ticket_no")
+	* #JsonProperty(String, "ticket_no")
 	*/
 	private $ticketNo;
 
 	/**
-	* @JsonProperty(String, "travel_sn")
+	* #JsonProperty(String, "travel_sn")
 	*/
 	private $travelSn;
 

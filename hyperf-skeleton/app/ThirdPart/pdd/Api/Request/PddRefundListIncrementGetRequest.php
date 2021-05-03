@@ -11,32 +11,32 @@ class PddRefundListIncrementGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "after_sales_status")
+	* #JsonProperty(Integer, "after_sales_status")
 	*/
 	private $afterSalesStatus;
 
 	/**
-	* @JsonProperty(Integer, "after_sales_type")
+	* #JsonProperty(Integer, "after_sales_type")
 	*/
 	private $afterSalesType;
 
 	/**
-	* @JsonProperty(Long, "end_updated_at")
+	* #JsonProperty(Long, "end_updated_at")
 	*/
 	private $endUpdatedAt;
 
 	/**
-	* @JsonProperty(Integer, "page")
+	* #JsonProperty(Integer, "page")
 	*/
 	private $page;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 
 	/**
-	* @JsonProperty(Long, "start_updated_at")
+	* #JsonProperty(Long, "start_updated_at")
 	*/
 	private $startUpdatedAt;
 

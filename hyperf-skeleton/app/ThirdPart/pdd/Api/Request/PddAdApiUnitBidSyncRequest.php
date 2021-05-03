@@ -11,17 +11,17 @@ class PddAdApiUnitBidSyncRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "adId")
+	* #JsonProperty(Long, "adId")
 	*/
 	private $adId;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiUnitBidSyncRequest_AdUnitBidsItem>, "adUnitBids")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiUnitBidSyncRequest_AdUnitBidsItem>, "adUnitBids")
 	*/
 	private $adUnitBids;
 
 	/**
-	* @JsonProperty(Integer, "bidReferenceType")
+	* #JsonProperty(Integer, "bidReferenceType")
 	*/
 	private $bidReferenceType;
 
@@ -74,22 +74,22 @@ class PddAdApiUnitBidSyncRequest_AdUnitBidsItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiUnitBidSyncRequest_AdUnitBidsItemAdTargetingVO, "adTargetingVO")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiUnitBidSyncRequest_AdUnitBidsItemAdTargetingVO, "adTargetingVO")
 	*/
 	private $adTargetingVO;
 
 	/**
-	* @JsonProperty(Long, "bidReferenceId")
+	* #JsonProperty(Long, "bidReferenceId")
 	*/
 	private $bidReferenceId;
 
 	/**
-	* @JsonProperty(Long, "bidValue")
+	* #JsonProperty(Long, "bidValue")
 	*/
 	private $bidValue;
 
 	/**
-	* @JsonProperty(Long, "subBidReferenceId")
+	* #JsonProperty(Long, "subBidReferenceId")
 	*/
 	private $subBidReferenceId;
 
@@ -124,12 +124,12 @@ class PddAdApiUnitBidSyncRequest_AdUnitBidsItemAdTargetingVO extends PopBaseJson
 	}
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiUnitBidSyncRequest_AdUnitBidsItemAdTargetingVOAdTargetingSet, "adTargetingSet")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiUnitBidSyncRequest_AdUnitBidsItemAdTargetingVOAdTargetingSet, "adTargetingSet")
 	*/
 	private $adTargetingSet;
 
 	/**
-	* @JsonProperty(String, "targetingName")
+	* #JsonProperty(String, "targetingName")
 	*/
 	private $targetingName;
 
@@ -154,7 +154,7 @@ class PddAdApiUnitBidSyncRequest_AdUnitBidsItemAdTargetingVOAdTargetingSet exten
 	}
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiUnitBidSyncRequest_AdUnitBidsItemAdTargetingVOAdTargetingSetAreaStruct, "areaStruct")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiUnitBidSyncRequest_AdUnitBidsItemAdTargetingVOAdTargetingSetAreaStruct, "areaStruct")
 	*/
 	private $areaStruct;
 
@@ -174,7 +174,7 @@ class PddAdApiUnitBidSyncRequest_AdUnitBidsItemAdTargetingVOAdTargetingSetAreaSt
 	}
 
 	/**
-	* @JsonProperty(List<Integer>, "areaIds")
+	* #JsonProperty(List<Integer>, "areaIds")
 	*/
 	private $areaIds;
 

@@ -11,57 +11,57 @@ class PddDdkOauthRpPromUrlGenerateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "amount")
+	* #JsonProperty(Long, "amount")
 	*/
 	private $amount;
 
 	/**
-	* @JsonProperty(Integer, "channel_type")
+	* #JsonProperty(Integer, "channel_type")
 	*/
 	private $channelType;
 
 	/**
-	* @JsonProperty(String, "custom_parameters")
+	* #JsonProperty(String, "custom_parameters")
 	*/
 	private $customParameters;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddDdkOauthRpPromUrlGenerateRequest_DiyLotteryParam, "diy_lottery_param")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddDdkOauthRpPromUrlGenerateRequest_DiyLotteryParam, "diy_lottery_param")
 	*/
 	private $diyLotteryParam;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddDdkOauthRpPromUrlGenerateRequest_DiyRedPacketParam, "diy_red_packet_param")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddDdkOauthRpPromUrlGenerateRequest_DiyRedPacketParam, "diy_red_packet_param")
 	*/
 	private $diyRedPacketParam;
 
 	/**
-	* @JsonProperty(Boolean, "generate_qq_app")
+	* #JsonProperty(Boolean, "generate_qq_app")
 	*/
 	private $generateQqApp;
 
 	/**
-	* @JsonProperty(Boolean, "generate_schema_url")
+	* #JsonProperty(Boolean, "generate_schema_url")
 	*/
 	private $generateSchemaUrl;
 
 	/**
-	* @JsonProperty(Boolean, "generate_short_url")
+	* #JsonProperty(Boolean, "generate_short_url")
 	*/
 	private $generateShortUrl;
 
 	/**
-	* @JsonProperty(Boolean, "generate_we_app")
+	* #JsonProperty(Boolean, "generate_we_app")
 	*/
 	private $generateWeApp;
 
 	/**
-	* @JsonProperty(List<String>, "p_id_list")
+	* #JsonProperty(List<String>, "p_id_list")
 	*/
 	private $pIdList;
 
 	/**
-	* @JsonProperty(Long, "scratch_card_amount")
+	* #JsonProperty(Long, "scratch_card_amount")
 	*/
 	private $scratchCardAmount;
 
@@ -162,12 +162,12 @@ class PddDdkOauthRpPromUrlGenerateRequest_DiyLotteryParam extends PopBaseJsonEnt
 	}
 
 	/**
-	* @JsonProperty(Integer, "opt_id")
+	* #JsonProperty(Integer, "opt_id")
 	*/
 	private $optId;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddDdkOauthRpPromUrlGenerateRequest_DiyLotteryParamRangeItemsItem>, "range_items")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddDdkOauthRpPromUrlGenerateRequest_DiyLotteryParamRangeItemsItem>, "range_items")
 	*/
 	private $rangeItems;
 
@@ -192,17 +192,17 @@ class PddDdkOauthRpPromUrlGenerateRequest_DiyLotteryParamRangeItemsItem extends 
 	}
 
 	/**
-	* @JsonProperty(Long, "range_from")
+	* #JsonProperty(Long, "range_from")
 	*/
 	private $rangeFrom;
 
 	/**
-	* @JsonProperty(Integer, "range_id")
+	* #JsonProperty(Integer, "range_id")
 	*/
 	private $rangeId;
 
 	/**
-	* @JsonProperty(Long, "range_to")
+	* #JsonProperty(Long, "range_to")
 	*/
 	private $rangeTo;
 
@@ -232,27 +232,27 @@ class PddDdkOauthRpPromUrlGenerateRequest_DiyRedPacketParam extends PopBaseJsonE
 	}
 
 	/**
-	* @JsonProperty(List<Long>, "amount_probability")
+	* #JsonProperty(List<Long>, "amount_probability")
 	*/
 	private $amountProbability;
 
 	/**
-	* @JsonProperty(Boolean, "dis_text")
+	* #JsonProperty(Boolean, "dis_text")
 	*/
 	private $disText;
 
 	/**
-	* @JsonProperty(Boolean, "not_show_background")
+	* #JsonProperty(Boolean, "not_show_background")
 	*/
 	private $notShowBackground;
 
 	/**
-	* @JsonProperty(Integer, "opt_id")
+	* #JsonProperty(Integer, "opt_id")
 	*/
 	private $optId;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddDdkOauthRpPromUrlGenerateRequest_DiyRedPacketParamRangeItemsItem>, "range_items")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddDdkOauthRpPromUrlGenerateRequest_DiyRedPacketParamRangeItemsItem>, "range_items")
 	*/
 	private $rangeItems;
 
@@ -292,17 +292,17 @@ class PddDdkOauthRpPromUrlGenerateRequest_DiyRedPacketParamRangeItemsItem extend
 	}
 
 	/**
-	* @JsonProperty(Long, "range_from")
+	* #JsonProperty(Long, "range_from")
 	*/
 	private $rangeFrom;
 
 	/**
-	* @JsonProperty(Integer, "range_id")
+	* #JsonProperty(Integer, "range_id")
 	*/
 	private $rangeId;
 
 	/**
-	* @JsonProperty(Long, "range_to")
+	* #JsonProperty(Long, "range_to")
 	*/
 	private $rangeTo;
 

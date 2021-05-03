@@ -11,12 +11,12 @@ class PddAdApiPlanDeleteRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "planId")
+	* #JsonProperty(Long, "planId")
 	*/
 	private $planId;
 
 	/**
-	* @JsonProperty(Integer, "scenesType")
+	* #JsonProperty(Integer, "scenesType")
 	*/
 	private $scenesType;
 

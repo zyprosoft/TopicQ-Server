@@ -11,22 +11,22 @@ class PddFlightQueryGuestRuleRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "trace_id")
+	* #JsonProperty(String, "trace_id")
 	*/
 	private $traceId;
 
 	/**
-	* @JsonProperty(String, "sub_trace_id")
+	* #JsonProperty(String, "sub_trace_id")
 	*/
 	private $subTraceId;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightQueryGuestRuleRequest_ProductListItem>, "product_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightQueryGuestRuleRequest_ProductListItem>, "product_list")
 	*/
 	private $productList;
 
 	/**
-	* @JsonProperty(Integer, "query_stage")
+	* #JsonProperty(Integer, "query_stage")
 	*/
 	private $queryStage;
 
@@ -85,32 +85,32 @@ class PddFlightQueryGuestRuleRequest_ProductListItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(List<String>, "passenger_type_list")
+	* #JsonProperty(List<String>, "passenger_type_list")
 	*/
 	private $passengerTypeList;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightQueryGuestRuleRequest_ProductListItemFlightInfoListItem>, "flight_info_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightQueryGuestRuleRequest_ProductListItemFlightInfoListItem>, "flight_info_list")
 	*/
 	private $flightInfoList;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightQueryGuestRuleRequest_ProductListItemFlightCabinInfoListItem>, "flight_cabin_info_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightQueryGuestRuleRequest_ProductListItemFlightCabinInfoListItem>, "flight_cabin_info_list")
 	*/
 	private $flightCabinInfoList;
 
 	/**
-	* @JsonProperty(String, "trip_type")
+	* #JsonProperty(String, "trip_type")
 	*/
 	private $tripType;
 
 	/**
-	* @JsonProperty(String, "product_id")
+	* #JsonProperty(String, "product_id")
 	*/
 	private $productId;
 
 	/**
-	* @JsonProperty(Integer, "product_type")
+	* #JsonProperty(Integer, "product_type")
 	*/
 	private $productType;
 
@@ -155,42 +155,42 @@ class PddFlightQueryGuestRuleRequest_ProductListItemFlightInfoListItem extends P
 	}
 
 	/**
-	* @JsonProperty(Integer, "segment_no")
+	* #JsonProperty(Integer, "segment_no")
 	*/
 	private $segmentNo;
 
 	/**
-	* @JsonProperty(Integer, "sequence_no")
+	* #JsonProperty(Integer, "sequence_no")
 	*/
 	private $sequenceNo;
 
 	/**
-	* @JsonProperty(String, "departure_date_time")
+	* #JsonProperty(String, "departure_date_time")
 	*/
 	private $departureDateTime;
 
 	/**
-	* @JsonProperty(String, "departure_airport_code")
+	* #JsonProperty(String, "departure_airport_code")
 	*/
 	private $departureAirportCode;
 
 	/**
-	* @JsonProperty(String, "arrival_date_time")
+	* #JsonProperty(String, "arrival_date_time")
 	*/
 	private $arrivalDateTime;
 
 	/**
-	* @JsonProperty(String, "arrival_airport_code")
+	* #JsonProperty(String, "arrival_airport_code")
 	*/
 	private $arrivalAirportCode;
 
 	/**
-	* @JsonProperty(String, "flight_no")
+	* #JsonProperty(String, "flight_no")
 	*/
 	private $flightNo;
 
 	/**
-	* @JsonProperty(String, "carrier_code")
+	* #JsonProperty(String, "carrier_code")
 	*/
 	private $carrierCode;
 
@@ -245,17 +245,17 @@ class PddFlightQueryGuestRuleRequest_ProductListItemFlightCabinInfoListItem exte
 	}
 
 	/**
-	* @JsonProperty(Integer, "segment_no")
+	* #JsonProperty(Integer, "segment_no")
 	*/
 	private $segmentNo;
 
 	/**
-	* @JsonProperty(Integer, "sequence_no")
+	* #JsonProperty(Integer, "sequence_no")
 	*/
 	private $sequenceNo;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightQueryGuestRuleRequest_ProductListItemFlightCabinInfoListItemCabinInfoListItem>, "cabin_info_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightQueryGuestRuleRequest_ProductListItemFlightCabinInfoListItemCabinInfoListItem>, "cabin_info_list")
 	*/
 	private $cabinInfoList;
 
@@ -285,17 +285,17 @@ class PddFlightQueryGuestRuleRequest_ProductListItemFlightCabinInfoListItemCabin
 	}
 
 	/**
-	* @JsonProperty(String, "segment_no")
+	* #JsonProperty(String, "segment_no")
 	*/
 	private $segmentNo;
 
 	/**
-	* @JsonProperty(String, "sequence_no")
+	* #JsonProperty(String, "sequence_no")
 	*/
 	private $sequenceNo;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightQueryGuestRuleRequest_ProductListItemFlightCabinInfoListItemCabinInfoListItemCabinInfoListItem>, "cabin_info_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightQueryGuestRuleRequest_ProductListItemFlightCabinInfoListItemCabinInfoListItemCabinInfoListItem>, "cabin_info_list")
 	*/
 	private $cabinInfoList;
 
@@ -325,12 +325,12 @@ class PddFlightQueryGuestRuleRequest_ProductListItemFlightCabinInfoListItemCabin
 	}
 
 	/**
-	* @JsonProperty(String, "passenger_type")
+	* #JsonProperty(String, "passenger_type")
 	*/
 	private $passengerType;
 
 	/**
-	* @JsonProperty(String, "sub_class")
+	* #JsonProperty(String, "sub_class")
 	*/
 	private $subClass;
 

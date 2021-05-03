@@ -11,52 +11,52 @@ class PddAdApiReportEntityReportQueryRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "endDateString")
+	* #JsonProperty(String, "endDateString")
 	*/
 	private $endDateString;
 
 	/**
-	* @JsonProperty(Integer, "entityDimensionType")
+	* #JsonProperty(Integer, "entityDimensionType")
 	*/
 	private $entityDimensionType;
 
 	/**
-	* @JsonProperty(Long, "entityId")
+	* #JsonProperty(Long, "entityId")
 	*/
 	private $entityId;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiReportEntityReportQueryRequest_tring, String>, "externalParamMap")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiReportEntityReportQueryRequest_tring, String>, "externalParamMap")
 	*/
 	private $externalParamMap;
 
 	/**
-	* @JsonProperty(Integer, "orderBy")
+	* #JsonProperty(Integer, "orderBy")
 	*/
 	private $orderBy;
 
 	/**
-	* @JsonProperty(Integer, "orderType")
+	* #JsonProperty(Integer, "orderType")
 	*/
 	private $orderType;
 
 	/**
-	* @JsonProperty(Integer, "queryDimensionType")
+	* #JsonProperty(Integer, "queryDimensionType")
 	*/
 	private $queryDimensionType;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiReportEntityReportQueryRequest_QueryRange, "queryRange")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiReportEntityReportQueryRequest_QueryRange, "queryRange")
 	*/
 	private $queryRange;
 
 	/**
-	* @JsonProperty(Integer, "scenesType")
+	* #JsonProperty(Integer, "scenesType")
 	*/
 	private $scenesType;
 
 	/**
-	* @JsonProperty(String, "startDateString")
+	* #JsonProperty(String, "startDateString")
 	*/
 	private $startDateString;
 
@@ -151,12 +151,12 @@ class PddAdApiReportEntityReportQueryRequest_QueryRange extends PopBaseJsonEntit
 	}
 
 	/**
-	* @JsonProperty(Integer, "pageNumber")
+	* #JsonProperty(Integer, "pageNumber")
 	*/
 	private $pageNumber;
 
 	/**
-	* @JsonProperty(Integer, "pageSize")
+	* #JsonProperty(Integer, "pageSize")
 	*/
 	private $pageSize;
 

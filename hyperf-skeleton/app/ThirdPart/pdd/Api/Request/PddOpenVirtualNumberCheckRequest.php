@@ -11,17 +11,17 @@ class PddOpenVirtualNumberCheckRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "identify_number")
+	* #JsonProperty(String, "identify_number")
 	*/
 	private $identifyNumber;
 
 	/**
-	* @JsonProperty(String, "order_sn")
+	* #JsonProperty(String, "order_sn")
 	*/
 	private $orderSn;
 
 	/**
-	* @JsonProperty(String, "virtual_number")
+	* #JsonProperty(String, "virtual_number")
 	*/
 	private $virtualNumber;
 

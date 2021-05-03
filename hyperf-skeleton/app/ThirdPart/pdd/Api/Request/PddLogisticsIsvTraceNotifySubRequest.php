@@ -11,17 +11,17 @@ class PddLogisticsIsvTraceNotifySubRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "ship_code")
+	* #JsonProperty(String, "ship_code")
 	*/
 	private $shipCode;
 
 	/**
-	* @JsonProperty(String, "tel")
+	* #JsonProperty(String, "tel")
 	*/
 	private $tel;
 
 	/**
-	* @JsonProperty(String, "track_no")
+	* #JsonProperty(String, "track_no")
 	*/
 	private $trackNo;
 

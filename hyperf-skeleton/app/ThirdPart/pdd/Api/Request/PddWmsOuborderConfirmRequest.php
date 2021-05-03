@@ -11,7 +11,7 @@ class PddWmsOuborderConfirmRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOuborderConfirmRequest_Request, "request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOuborderConfirmRequest_Request, "request")
 	*/
 	private $request;
 
@@ -52,17 +52,17 @@ class PddWmsOuborderConfirmRequest_Request extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOuborderConfirmRequest_RequestOrderLinesItem>, "orderLines")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOuborderConfirmRequest_RequestOrderLinesItem>, "orderLines")
 	*/
 	private $orderLines;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOuborderConfirmRequest_RequestOubOrder, "oubOrder")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOuborderConfirmRequest_RequestOubOrder, "oubOrder")
 	*/
 	private $oubOrder;
 
 	/**
-	* @JsonProperty(String, "ownerCode")
+	* #JsonProperty(String, "ownerCode")
 	*/
 	private $ownerCode;
 
@@ -92,17 +92,17 @@ class PddWmsOuborderConfirmRequest_RequestOrderLinesItem extends PopBaseJsonEnti
 	}
 
 	/**
-	* @JsonProperty(String, "actualSendQuantity")
+	* #JsonProperty(String, "actualSendQuantity")
 	*/
 	private $actualSendQuantity;
 
 	/**
-	* @JsonProperty(String, "inventoryType")
+	* #JsonProperty(String, "inventoryType")
 	*/
 	private $inventoryType;
 
 	/**
-	* @JsonProperty(String, "wareSn")
+	* #JsonProperty(String, "wareSn")
 	*/
 	private $wareSn;
 
@@ -132,27 +132,27 @@ class PddWmsOuborderConfirmRequest_RequestOubOrder extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "orderType")
+	* #JsonProperty(String, "orderType")
 	*/
 	private $orderType;
 
 	/**
-	* @JsonProperty(String, "oubOrderCode")
+	* #JsonProperty(String, "oubOrderCode")
 	*/
 	private $oubOrderCode;
 
 	/**
-	* @JsonProperty(String, "outBizCode")
+	* #JsonProperty(String, "outBizCode")
 	*/
 	private $outBizCode;
 
 	/**
-	* @JsonProperty(String, "status")
+	* #JsonProperty(String, "status")
 	*/
 	private $status;
 
 	/**
-	* @JsonProperty(String, "warehouseCode")
+	* #JsonProperty(String, "warehouseCode")
 	*/
 	private $warehouseCode;
 

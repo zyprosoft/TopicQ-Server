@@ -11,57 +11,57 @@ class PddVasOrderSearchRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "create_time_end")
+	* #JsonProperty(Long, "create_time_end")
 	*/
 	private $createTimeEnd;
 
 	/**
-	* @JsonProperty(Long, "create_time_start")
+	* #JsonProperty(Long, "create_time_start")
 	*/
 	private $createTimeStart;
 
 	/**
-	* @JsonProperty(Long, "mall_id")
+	* #JsonProperty(Long, "mall_id")
 	*/
 	private $mallId;
 
 	/**
-	* @JsonProperty(String, "order_sn")
+	* #JsonProperty(String, "order_sn")
 	*/
 	private $orderSn;
 
 	/**
-	* @JsonProperty(Integer, "order_status")
+	* #JsonProperty(Integer, "order_status")
 	*/
 	private $orderStatus;
 
 	/**
-	* @JsonProperty(Integer, "page")
+	* #JsonProperty(Integer, "page")
 	*/
 	private $page;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 
 	/**
-	* @JsonProperty(Long, "pay_time_end")
+	* #JsonProperty(Long, "pay_time_end")
 	*/
 	private $payTimeEnd;
 
 	/**
-	* @JsonProperty(Long, "pay_time_start")
+	* #JsonProperty(Long, "pay_time_start")
 	*/
 	private $payTimeStart;
 
 	/**
-	* @JsonProperty(Long, "sku_id")
+	* #JsonProperty(Long, "sku_id")
 	*/
 	private $skuId;
 
 	/**
-	* @JsonProperty(Integer, "refund_status")
+	* #JsonProperty(Integer, "refund_status")
 	*/
 	private $refundStatus;
 

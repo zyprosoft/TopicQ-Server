@@ -11,12 +11,12 @@ class PddAdApiUnitUpdateOptimizationMessageRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "adId")
+	* #JsonProperty(Long, "adId")
 	*/
 	private $adId;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiUnitUpdateOptimizationMessageRequest_OptimizationMessage, "optimizationMessage")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiUnitUpdateOptimizationMessageRequest_OptimizationMessage, "optimizationMessage")
 	*/
 	private $optimizationMessage;
 
@@ -63,27 +63,27 @@ class PddAdApiUnitUpdateOptimizationMessageRequest_OptimizationMessage extends P
 	}
 
 	/**
-	* @JsonProperty(Long, "accumulationBid")
+	* #JsonProperty(Long, "accumulationBid")
 	*/
 	private $accumulationBid;
 
 	/**
-	* @JsonProperty(Long, "optimizationBid")
+	* #JsonProperty(Long, "optimizationBid")
 	*/
 	private $optimizationBid;
 
 	/**
-	* @JsonProperty(Integer, "optimizationGoal")
+	* #JsonProperty(Integer, "optimizationGoal")
 	*/
 	private $optimizationGoal;
 
 	/**
-	* @JsonProperty(Integer, "optimizationMethod")
+	* #JsonProperty(Integer, "optimizationMethod")
 	*/
 	private $optimizationMethod;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiUnitUpdateOptimizationMessageRequest_OptimizationMessageOptionalOptimizationBidMessageListItem>, "optionalOptimizationBidMessageList")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiUnitUpdateOptimizationMessageRequest_OptimizationMessageOptionalOptimizationBidMessageListItem>, "optionalOptimizationBidMessageList")
 	*/
 	private $optionalOptimizationBidMessageList;
 
@@ -123,12 +123,12 @@ class PddAdApiUnitUpdateOptimizationMessageRequest_OptimizationMessageOptionalOp
 	}
 
 	/**
-	* @JsonProperty(Long, "optimizationBid")
+	* #JsonProperty(Long, "optimizationBid")
 	*/
 	private $optimizationBid;
 
 	/**
-	* @JsonProperty(Integer, "optimizationGoal")
+	* #JsonProperty(Integer, "optimizationGoal")
 	*/
 	private $optimizationGoal;
 

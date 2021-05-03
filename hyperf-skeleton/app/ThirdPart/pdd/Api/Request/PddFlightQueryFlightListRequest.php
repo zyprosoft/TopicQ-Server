@@ -11,27 +11,27 @@ class PddFlightQueryFlightListRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<String>, "carrier_code_list")
+	* #JsonProperty(List<String>, "carrier_code_list")
 	*/
 	private $carrierCodeList;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightQueryFlightListRequest_SegmentListItem>, "segment_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightQueryFlightListRequest_SegmentListItem>, "segment_list")
 	*/
 	private $segmentList;
 
 	/**
-	* @JsonProperty(String, "sub_trace_id")
+	* #JsonProperty(String, "sub_trace_id")
 	*/
 	private $subTraceId;
 
 	/**
-	* @JsonProperty(String, "trace_id")
+	* #JsonProperty(String, "trace_id")
 	*/
 	private $traceId;
 
 	/**
-	* @JsonProperty(String, "trip_type")
+	* #JsonProperty(String, "trip_type")
 	*/
 	private $tripType;
 
@@ -96,32 +96,32 @@ class PddFlightQueryFlightListRequest_SegmentListItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(List<String>, "arrival_airport_code_list")
+	* #JsonProperty(List<String>, "arrival_airport_code_list")
 	*/
 	private $arrivalAirportCodeList;
 
 	/**
-	* @JsonProperty(String, "arrival_city_code")
+	* #JsonProperty(String, "arrival_city_code")
 	*/
 	private $arrivalCityCode;
 
 	/**
-	* @JsonProperty(List<String>, "departure_airport_code_list")
+	* #JsonProperty(List<String>, "departure_airport_code_list")
 	*/
 	private $departureAirportCodeList;
 
 	/**
-	* @JsonProperty(String, "departure_city_code")
+	* #JsonProperty(String, "departure_city_code")
 	*/
 	private $departureCityCode;
 
 	/**
-	* @JsonProperty(String, "departure_date")
+	* #JsonProperty(String, "departure_date")
 	*/
 	private $departureDate;
 
 	/**
-	* @JsonProperty(Integer, "segment_no")
+	* #JsonProperty(Integer, "segment_no")
 	*/
 	private $segmentNo;
 

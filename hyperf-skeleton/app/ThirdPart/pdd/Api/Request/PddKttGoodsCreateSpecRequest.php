@@ -11,7 +11,7 @@ class PddKttGoodsCreateSpecRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddKttGoodsCreateSpecRequest_tring, List<String>>, "spec_map")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddKttGoodsCreateSpecRequest_tring, List<String>>, "spec_map")
 	*/
 	private $specMap;
 

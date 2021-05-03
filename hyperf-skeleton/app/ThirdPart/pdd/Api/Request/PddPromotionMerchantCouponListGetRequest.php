@@ -11,32 +11,32 @@ class PddPromotionMerchantCouponListGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "page")
+	* #JsonProperty(Integer, "page")
 	*/
 	private $page;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 
 	/**
-	* @JsonProperty(Long, "batch_start_time_from")
+	* #JsonProperty(Long, "batch_start_time_from")
 	*/
 	private $batchStartTimeFrom;
 
 	/**
-	* @JsonProperty(Long, "batch_start_time_to")
+	* #JsonProperty(Long, "batch_start_time_to")
 	*/
 	private $batchStartTimeTo;
 
 	/**
-	* @JsonProperty(Integer, "batch_status")
+	* #JsonProperty(Integer, "batch_status")
 	*/
 	private $batchStatus;
 
 	/**
-	* @JsonProperty(Integer, "sort_by")
+	* #JsonProperty(Integer, "sort_by")
 	*/
 	private $sortBy;
 

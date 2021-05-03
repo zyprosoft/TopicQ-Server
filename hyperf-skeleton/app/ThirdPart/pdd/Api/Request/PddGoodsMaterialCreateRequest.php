@@ -11,22 +11,22 @@ class PddGoodsMaterialCreateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "content")
+	* #JsonProperty(String, "content")
 	*/
 	private $content;
 
 	/**
-	* @JsonProperty(Long, "file_id")
+	* #JsonProperty(Long, "file_id")
 	*/
 	private $fileId;
 
 	/**
-	* @JsonProperty(Long, "goods_id")
+	* #JsonProperty(Long, "goods_id")
 	*/
 	private $goodsId;
 
 	/**
-	* @JsonProperty(Integer, "material_type")
+	* #JsonProperty(Integer, "material_type")
 	*/
 	private $materialType;
 

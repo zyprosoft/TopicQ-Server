@@ -11,7 +11,7 @@ class PddVoucherRealtimeOrdernoGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddVoucherRealtimeOrdernoGetRequest_Data, "data")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddVoucherRealtimeOrdernoGetRequest_Data, "data")
 	*/
 	private $data;
 
@@ -52,7 +52,7 @@ class PddVoucherRealtimeOrdernoGetRequest_Data extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "order_sn")
+	* #JsonProperty(String, "order_sn")
 	*/
 	private $orderSn;
 

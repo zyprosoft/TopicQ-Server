@@ -11,12 +11,12 @@ class PddCloudWebsessionSendRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "cache_type")
+	* #JsonProperty(String, "cache_type")
 	*/
 	private $cacheType;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWebsessionSendRequest_SessionInfoListItem>, "session_info_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWebsessionSendRequest_SessionInfoListItem>, "session_info_list")
 	*/
 	private $sessionInfoList;
 
@@ -63,22 +63,22 @@ class PddCloudWebsessionSendRequest_SessionInfoListItem extends PopBaseJsonEntit
 	}
 
 	/**
-	* @JsonProperty(String, "key")
+	* #JsonProperty(String, "key")
 	*/
 	private $key;
 
 	/**
-	* @JsonProperty(String, "value")
+	* #JsonProperty(String, "value")
 	*/
 	private $value;
 
 	/**
-	* @JsonProperty(Long, "expir_time")
+	* #JsonProperty(Long, "expir_time")
 	*/
 	private $expirTime;
 
 	/**
-	* @JsonProperty(String, "function")
+	* #JsonProperty(String, "function")
 	*/
 	private $function;
 

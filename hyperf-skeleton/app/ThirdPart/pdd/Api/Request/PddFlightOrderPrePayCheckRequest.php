@@ -11,22 +11,22 @@ class PddFlightOrderPrePayCheckRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "trace_id")
+	* #JsonProperty(String, "trace_id")
 	*/
 	private $traceId;
 
 	/**
-	* @JsonProperty(String, "sub_trace_id")
+	* #JsonProperty(String, "sub_trace_id")
 	*/
 	private $subTraceId;
 
 	/**
-	* @JsonProperty(String, "out_order_no")
+	* #JsonProperty(String, "out_order_no")
 	*/
 	private $outOrderNo;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightOrderPrePayCheckRequest_PassengerInfoListItem>, "passenger_info_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightOrderPrePayCheckRequest_PassengerInfoListItem>, "passenger_info_list")
 	*/
 	private $passengerInfoList;
 
@@ -85,32 +85,32 @@ class PddFlightOrderPrePayCheckRequest_PassengerInfoListItem extends PopBaseJson
 	}
 
 	/**
-	* @JsonProperty(String, "travel_sn")
+	* #JsonProperty(String, "travel_sn")
 	*/
 	private $travelSn;
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
 	/**
-	* @JsonProperty(Integer, "passenger_type")
+	* #JsonProperty(Integer, "passenger_type")
 	*/
 	private $passengerType;
 
 	/**
-	* @JsonProperty(String, "identity_type")
+	* #JsonProperty(String, "identity_type")
 	*/
 	private $identityType;
 
 	/**
-	* @JsonProperty(String, "identity_no")
+	* #JsonProperty(String, "identity_no")
 	*/
 	private $identityNo;
 
 	/**
-	* @JsonProperty(String, "pnr")
+	* #JsonProperty(String, "pnr")
 	*/
 	private $pnr;
 

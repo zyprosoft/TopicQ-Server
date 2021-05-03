@@ -11,32 +11,32 @@ class PddOpenMsgServiceSendMsgRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<String>, "phone_numbers")
+	* #JsonProperty(List<String>, "phone_numbers")
 	*/
 	private $phoneNumbers;
 
 	/**
-	* @JsonProperty(String, "sign_name")
+	* #JsonProperty(String, "sign_name")
 	*/
 	private $signName;
 
 	/**
-	* @JsonProperty(Long, "template_code")
+	* #JsonProperty(Long, "template_code")
 	*/
 	private $templateCode;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddOpenMsgServiceSendMsgRequest_tring, String>, "template_param")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddOpenMsgServiceSendMsgRequest_tring, String>, "template_param")
 	*/
 	private $templateParam;
 
 	/**
-	* @JsonProperty(String, "out_id")
+	* #JsonProperty(String, "out_id")
 	*/
 	private $outId;
 
 	/**
-	* @JsonProperty(String, "sms_up_extend_code")
+	* #JsonProperty(String, "sms_up_extend_code")
 	*/
 	private $smsUpExtendCode;
 

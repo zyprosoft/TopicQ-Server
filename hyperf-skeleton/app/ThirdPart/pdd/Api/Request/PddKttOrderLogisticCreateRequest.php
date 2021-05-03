@@ -11,27 +11,27 @@ class PddKttOrderLogisticCreateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "logisticsId")
+	* #JsonProperty(Integer, "logisticsId")
 	*/
 	private $logisticsId;
 
 	/**
-	* @JsonProperty(String, "logisticsName")
+	* #JsonProperty(String, "logisticsName")
 	*/
 	private $logisticsName;
 
 	/**
-	* @JsonProperty(String, "orderSn")
+	* #JsonProperty(String, "orderSn")
 	*/
 	private $orderSn;
 
 	/**
-	* @JsonProperty(List<String>, "subOrderSnList")
+	* #JsonProperty(List<String>, "subOrderSnList")
 	*/
 	private $subOrderSnList;
 
 	/**
-	* @JsonProperty(String, "waybillNo")
+	* #JsonProperty(String, "waybillNo")
 	*/
 	private $waybillNo;
 

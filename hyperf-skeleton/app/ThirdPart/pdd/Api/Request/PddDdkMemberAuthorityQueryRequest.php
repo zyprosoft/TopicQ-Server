@@ -11,12 +11,12 @@ class PddDdkMemberAuthorityQueryRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "pid")
+	* #JsonProperty(String, "pid")
 	*/
 	private $pid;
 
 	/**
-	* @JsonProperty(String, "custom_parameters")
+	* #JsonProperty(String, "custom_parameters")
 	*/
 	private $customParameters;
 

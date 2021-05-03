@@ -11,7 +11,7 @@ class PddGoodsLogisticsSerTemplateDetailRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "template_id")
+	* #JsonProperty(String, "template_id")
 	*/
 	private $templateId;
 

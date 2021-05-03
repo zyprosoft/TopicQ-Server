@@ -11,7 +11,7 @@ class PddStockWareInfoListRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<String>, "ware_sn_list")
+	* #JsonProperty(List<String>, "ware_sn_list")
 	*/
 	private $wareSnList;
 

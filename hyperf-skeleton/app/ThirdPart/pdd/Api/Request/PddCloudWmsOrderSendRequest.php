@@ -11,7 +11,7 @@ class PddCloudWmsOrderSendRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWmsOrderSendRequest_WmsOrderSendRequest, "wms_order_send_request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWmsOrderSendRequest_WmsOrderSendRequest, "wms_order_send_request")
 	*/
 	private $wmsOrderSendRequest;
 
@@ -52,172 +52,172 @@ class PddCloudWmsOrderSendRequest_WmsOrderSendRequest extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "owner_code")
+	* #JsonProperty(String, "owner_code")
 	*/
 	private $ownerCode;
 
 	/**
-	* @JsonProperty(String, "owner_name")
+	* #JsonProperty(String, "owner_name")
 	*/
 	private $ownerName;
 
 	/**
-	* @JsonProperty(String, "warehouse_code")
+	* #JsonProperty(String, "warehouse_code")
 	*/
 	private $warehouseCode;
 
 	/**
-	* @JsonProperty(String, "warehouse_type")
+	* #JsonProperty(String, "warehouse_type")
 	*/
 	private $warehouseType;
 
 	/**
-	* @JsonProperty(String, "order_type")
+	* #JsonProperty(String, "order_type")
 	*/
 	private $orderType;
 
 	/**
-	* @JsonProperty(String, "delivery_order_code")
+	* #JsonProperty(String, "delivery_order_code")
 	*/
 	private $deliveryOrderCode;
 
 	/**
-	* @JsonProperty(String, "source_order_code")
+	* #JsonProperty(String, "source_order_code")
 	*/
 	private $sourceOrderCode;
 
 	/**
-	* @JsonProperty(String, "source_platform_code")
+	* #JsonProperty(String, "source_platform_code")
 	*/
 	private $sourcePlatformCode;
 
 	/**
-	* @JsonProperty(String, "shop_nick")
+	* #JsonProperty(String, "shop_nick")
 	*/
 	private $shopNick;
 
 	/**
-	* @JsonProperty(String, "seller_nick")
+	* #JsonProperty(String, "seller_nick")
 	*/
 	private $sellerNick;
 
 	/**
-	* @JsonProperty(String, "buyer_nick")
+	* #JsonProperty(String, "buyer_nick")
 	*/
 	private $buyerNick;
 
 	/**
-	* @JsonProperty(String, "create_time")
+	* #JsonProperty(String, "create_time")
 	*/
 	private $createTime;
 
 	/**
-	* @JsonProperty(String, "order_time")
+	* #JsonProperty(String, "order_time")
 	*/
 	private $orderTime;
 
 	/**
-	* @JsonProperty(String, "pay_time")
+	* #JsonProperty(String, "pay_time")
 	*/
 	private $payTime;
 
 	/**
-	* @JsonProperty(String, "operate_time")
+	* #JsonProperty(String, "operate_time")
 	*/
 	private $operateTime;
 
 	/**
-	* @JsonProperty(String, "order_flag")
+	* #JsonProperty(String, "order_flag")
 	*/
 	private $orderFlag;
 
 	/**
-	* @JsonProperty(Integer, "total_amount")
+	* #JsonProperty(Integer, "total_amount")
 	*/
 	private $totalAmount;
 
 	/**
-	* @JsonProperty(Integer, "discount_amount")
+	* #JsonProperty(Integer, "discount_amount")
 	*/
 	private $discountAmount;
 
 	/**
-	* @JsonProperty(Integer, "freight")
+	* #JsonProperty(Integer, "freight")
 	*/
 	private $freight;
 
 	/**
-	* @JsonProperty(Integer, "actual_amount")
+	* #JsonProperty(Integer, "actual_amount")
 	*/
 	private $actualAmount;
 
 	/**
-	* @JsonProperty(String, "logistics_code")
+	* #JsonProperty(String, "logistics_code")
 	*/
 	private $logisticsCode;
 
 	/**
-	* @JsonProperty(String, "logistics_no")
+	* #JsonProperty(String, "logistics_no")
 	*/
 	private $logisticsNo;
 
 	/**
-	* @JsonProperty(String, "seller_message")
+	* #JsonProperty(String, "seller_message")
 	*/
 	private $sellerMessage;
 
 	/**
-	* @JsonProperty(String, "buyer_message")
+	* #JsonProperty(String, "buyer_message")
 	*/
 	private $buyerMessage;
 
 	/**
-	* @JsonProperty(Boolean, "invoice_flag")
+	* #JsonProperty(Boolean, "invoice_flag")
 	*/
 	private $invoiceFlag;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWmsOrderSendRequest_WmsOrderSendRequestInvoiceInfo, "invoice_info")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWmsOrderSendRequest_WmsOrderSendRequestInvoiceInfo, "invoice_info")
 	*/
 	private $invoiceInfo;
 
 	/**
-	* @JsonProperty(String, "remark")
+	* #JsonProperty(String, "remark")
 	*/
 	private $remark;
 
 	/**
-	* @JsonProperty(String, "no_stack_tag")
+	* #JsonProperty(String, "no_stack_tag")
 	*/
 	private $noStackTag;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWmsOrderSendRequest_WmsOrderSendRequestSenderInfo, "senderInfo")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWmsOrderSendRequest_WmsOrderSendRequestSenderInfo, "senderInfo")
 	*/
 	private $senderInfo;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWmsOrderSendRequest_WmsOrderSendRequestReceiverInfo, "receiverInfo")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWmsOrderSendRequest_WmsOrderSendRequestReceiverInfo, "receiverInfo")
 	*/
 	private $receiverInfo;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWmsOrderSendRequest_WmsOrderSendRequestOrderLineListItem>, "order_line_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWmsOrderSendRequest_WmsOrderSendRequestOrderLineListItem>, "order_line_list")
 	*/
 	private $orderLineList;
 
 	/**
-	* @JsonProperty(String, "extendProps")
+	* #JsonProperty(String, "extendProps")
 	*/
 	private $extendProps;
 
 	/**
-	* @JsonProperty(String, "token")
+	* #JsonProperty(String, "token")
 	*/
 	private $token;
 
 	/**
-	* @JsonProperty(String, "customerId")
+	* #JsonProperty(String, "customerId")
 	*/
 	private $customerId;
 
@@ -402,27 +402,27 @@ class PddCloudWmsOrderSendRequest_WmsOrderSendRequestInvoiceInfo extends PopBase
 	}
 
 	/**
-	* @JsonProperty(String, "invoice_type")
+	* #JsonProperty(String, "invoice_type")
 	*/
 	private $invoiceType;
 
 	/**
-	* @JsonProperty(String, "invoice_head")
+	* #JsonProperty(String, "invoice_head")
 	*/
 	private $invoiceHead;
 
 	/**
-	* @JsonProperty(String, "invoice_content")
+	* #JsonProperty(String, "invoice_content")
 	*/
 	private $invoiceContent;
 
 	/**
-	* @JsonProperty(String, "invoice_tax_number")
+	* #JsonProperty(String, "invoice_tax_number")
 	*/
 	private $invoiceTaxNumber;
 
 	/**
-	* @JsonProperty(String, "invoice_ext_fields")
+	* #JsonProperty(String, "invoice_ext_fields")
 	*/
 	private $invoiceExtFields;
 
@@ -462,27 +462,27 @@ class PddCloudWmsOrderSendRequest_WmsOrderSendRequestSenderInfo extends PopBaseJ
 	}
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWmsOrderSendRequest_WmsOrderSendRequestSenderInfoAddress, "address")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWmsOrderSendRequest_WmsOrderSendRequestSenderInfoAddress, "address")
 	*/
 	private $address;
 
 	/**
-	* @JsonProperty(String, "mobile")
+	* #JsonProperty(String, "mobile")
 	*/
 	private $mobile;
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
 	/**
-	* @JsonProperty(String, "phone")
+	* #JsonProperty(String, "phone")
 	*/
 	private $phone;
 
 	/**
-	* @JsonProperty(String, "zipcode")
+	* #JsonProperty(String, "zipcode")
 	*/
 	private $zipcode;
 
@@ -522,32 +522,32 @@ class PddCloudWmsOrderSendRequest_WmsOrderSendRequestSenderInfoAddress extends P
 	}
 
 	/**
-	* @JsonProperty(String, "city")
+	* #JsonProperty(String, "city")
 	*/
 	private $city;
 
 	/**
-	* @JsonProperty(String, "detail")
+	* #JsonProperty(String, "detail")
 	*/
 	private $detail;
 
 	/**
-	* @JsonProperty(String, "district")
+	* #JsonProperty(String, "district")
 	*/
 	private $district;
 
 	/**
-	* @JsonProperty(String, "province")
+	* #JsonProperty(String, "province")
 	*/
 	private $province;
 
 	/**
-	* @JsonProperty(String, "town")
+	* #JsonProperty(String, "town")
 	*/
 	private $town;
 
 	/**
-	* @JsonProperty(String, "country")
+	* #JsonProperty(String, "country")
 	*/
 	private $country;
 
@@ -592,27 +592,27 @@ class PddCloudWmsOrderSendRequest_WmsOrderSendRequestReceiverInfo extends PopBas
 	}
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWmsOrderSendRequest_WmsOrderSendRequestReceiverInfoAddress, "address")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWmsOrderSendRequest_WmsOrderSendRequestReceiverInfoAddress, "address")
 	*/
 	private $address;
 
 	/**
-	* @JsonProperty(String, "mobile")
+	* #JsonProperty(String, "mobile")
 	*/
 	private $mobile;
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
 	/**
-	* @JsonProperty(String, "phone")
+	* #JsonProperty(String, "phone")
 	*/
 	private $phone;
 
 	/**
-	* @JsonProperty(String, "zipcode")
+	* #JsonProperty(String, "zipcode")
 	*/
 	private $zipcode;
 
@@ -652,32 +652,32 @@ class PddCloudWmsOrderSendRequest_WmsOrderSendRequestReceiverInfoAddress extends
 	}
 
 	/**
-	* @JsonProperty(String, "city")
+	* #JsonProperty(String, "city")
 	*/
 	private $city;
 
 	/**
-	* @JsonProperty(String, "detail")
+	* #JsonProperty(String, "detail")
 	*/
 	private $detail;
 
 	/**
-	* @JsonProperty(String, "district")
+	* #JsonProperty(String, "district")
 	*/
 	private $district;
 
 	/**
-	* @JsonProperty(String, "province")
+	* #JsonProperty(String, "province")
 	*/
 	private $province;
 
 	/**
-	* @JsonProperty(String, "town")
+	* #JsonProperty(String, "town")
 	*/
 	private $town;
 
 	/**
-	* @JsonProperty(String, "country")
+	* #JsonProperty(String, "country")
 	*/
 	private $country;
 
@@ -722,72 +722,72 @@ class PddCloudWmsOrderSendRequest_WmsOrderSendRequestOrderLineListItem extends P
 	}
 
 	/**
-	* @JsonProperty(String, "order_line_no")
+	* #JsonProperty(String, "order_line_no")
 	*/
 	private $orderLineNo;
 
 	/**
-	* @JsonProperty(String, "source_order_code")
+	* #JsonProperty(String, "source_order_code")
 	*/
 	private $sourceOrderCode;
 
 	/**
-	* @JsonProperty(String, "sub_source_order_code")
+	* #JsonProperty(String, "sub_source_order_code")
 	*/
 	private $subSourceOrderCode;
 
 	/**
-	* @JsonProperty(String, "owner_code")
+	* #JsonProperty(String, "owner_code")
 	*/
 	private $ownerCode;
 
 	/**
-	* @JsonProperty(String, "item_id")
+	* #JsonProperty(String, "item_id")
 	*/
 	private $itemId;
 
 	/**
-	* @JsonProperty(String, "item_code")
+	* #JsonProperty(String, "item_code")
 	*/
 	private $itemCode;
 
 	/**
-	* @JsonProperty(String, "item_name")
+	* #JsonProperty(String, "item_name")
 	*/
 	private $itemName;
 
 	/**
-	* @JsonProperty(Integer, "item_quantity")
+	* #JsonProperty(Integer, "item_quantity")
 	*/
 	private $itemQuantity;
 
 	/**
-	* @JsonProperty(String, "retail_price")
+	* #JsonProperty(String, "retail_price")
 	*/
 	private $retailPrice;
 
 	/**
-	* @JsonProperty(String, "actual_price")
+	* #JsonProperty(String, "actual_price")
 	*/
 	private $actualPrice;
 
 	/**
-	* @JsonProperty(String, "discount_amount")
+	* #JsonProperty(String, "discount_amount")
 	*/
 	private $discountAmount;
 
 	/**
-	* @JsonProperty(String, "batch_code")
+	* #JsonProperty(String, "batch_code")
 	*/
 	private $batchCode;
 
 	/**
-	* @JsonProperty(String, "remark")
+	* #JsonProperty(String, "remark")
 	*/
 	private $remark;
 
 	/**
-	* @JsonProperty(String, "order_ext_fields")
+	* #JsonProperty(String, "order_ext_fields")
 	*/
 	private $orderExtFields;
 

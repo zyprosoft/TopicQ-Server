@@ -11,32 +11,32 @@ class PddStockWareListRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "id")
+	* #JsonProperty(Long, "id")
 	*/
 	private $id;
 
 	/**
-	* @JsonProperty(String, "ware_sn")
+	* #JsonProperty(String, "ware_sn")
 	*/
 	private $wareSn;
 
 	/**
-	* @JsonProperty(String, "ware_name")
+	* #JsonProperty(String, "ware_name")
 	*/
 	private $wareName;
 
 	/**
-	* @JsonProperty(Integer, "ware_type")
+	* #JsonProperty(Integer, "ware_type")
 	*/
 	private $wareType;
 
 	/**
-	* @JsonProperty(Integer, "page")
+	* #JsonProperty(Integer, "page")
 	*/
 	private $page;
 
 	/**
-	* @JsonProperty(Integer, "size")
+	* #JsonProperty(Integer, "size")
 	*/
 	private $size;
 

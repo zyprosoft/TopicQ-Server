@@ -11,107 +11,107 @@ class PddTraceSourceUploadPlanInfoRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "arrive_time")
+	* #JsonProperty(String, "arrive_time")
 	*/
 	private $arriveTime;
 
 	/**
-	* @JsonProperty(String, "bill_no")
+	* #JsonProperty(String, "bill_no")
 	*/
 	private $billNo;
 
 	/**
-	* @JsonProperty(String, "ciq_date")
+	* #JsonProperty(String, "ciq_date")
 	*/
 	private $ciqDate;
 
 	/**
-	* @JsonProperty(String, "ciq_no")
+	* #JsonProperty(String, "ciq_no")
 	*/
 	private $ciqNo;
 
 	/**
-	* @JsonProperty(String, "dealer_org")
+	* #JsonProperty(String, "dealer_org")
 	*/
 	private $dealerOrg;
 
 	/**
-	* @JsonProperty(String, "declare_org")
+	* #JsonProperty(String, "declare_org")
 	*/
 	private $declareOrg;
 
 	/**
-	* @JsonProperty(String, "desp_port_name")
+	* #JsonProperty(String, "desp_port_name")
 	*/
 	private $despPortName;
 
 	/**
-	* @JsonProperty(String, "entry_date")
+	* #JsonProperty(String, "entry_date")
 	*/
 	private $entryDate;
 
 	/**
-	* @JsonProperty(String, "entry_no")
+	* #JsonProperty(String, "entry_no")
 	*/
 	private $entryNo;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTraceSourceUploadPlanInfoRequest_GoodsItem>, "goods")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTraceSourceUploadPlanInfoRequest_GoodsItem>, "goods")
 	*/
 	private $goods;
 
 	/**
-	* @JsonProperty(String, "list_date")
+	* #JsonProperty(String, "list_date")
 	*/
 	private $listDate;
 
 	/**
-	* @JsonProperty(String, "list_no")
+	* #JsonProperty(String, "list_no")
 	*/
 	private $listNo;
 
 	/**
-	* @JsonProperty(String, "load_port")
+	* #JsonProperty(String, "load_port")
 	*/
 	private $loadPort;
 
 	/**
-	* @JsonProperty(Long, "mall_id")
+	* #JsonProperty(Long, "mall_id")
 	*/
 	private $mallId;
 
 	/**
-	* @JsonProperty(String, "mall_name")
+	* #JsonProperty(String, "mall_name")
 	*/
 	private $mallName;
 
 	/**
-	* @JsonProperty(String, "plan_active_time")
+	* #JsonProperty(String, "plan_active_time")
 	*/
 	private $planActiveTime;
 
 	/**
-	* @JsonProperty(String, "plan_created_time")
+	* #JsonProperty(String, "plan_created_time")
 	*/
 	private $planCreatedTime;
 
 	/**
-	* @JsonProperty(String, "plan_no")
+	* #JsonProperty(String, "plan_no")
 	*/
 	private $planNo;
 
 	/**
-	* @JsonProperty(String, "port")
+	* #JsonProperty(String, "port")
 	*/
 	private $port;
 
 	/**
-	* @JsonProperty(String, "transport_mode")
+	* #JsonProperty(String, "transport_mode")
 	*/
 	private $transportMode;
 
 	/**
-	* @JsonProperty(String, "warehouse_name")
+	* #JsonProperty(String, "warehouse_name")
 	*/
 	private $warehouseName;
 
@@ -272,57 +272,57 @@ class PddTraceSourceUploadPlanInfoRequest_GoodsItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(Long, "code_amount")
+	* #JsonProperty(Long, "code_amount")
 	*/
 	private $codeAmount;
 
 	/**
-	* @JsonProperty(String, "end_serial_no")
+	* #JsonProperty(String, "end_serial_no")
 	*/
 	private $endSerialNo;
 
 	/**
-	* @JsonProperty(Long, "goods_id")
+	* #JsonProperty(Long, "goods_id")
 	*/
 	private $goodsId;
 
 	/**
-	* @JsonProperty(String, "goods_image_url")
+	* #JsonProperty(String, "goods_image_url")
 	*/
 	private $goodsImageUrl;
 
 	/**
-	* @JsonProperty(String, "goods_name")
+	* #JsonProperty(String, "goods_name")
 	*/
 	private $goodsName;
 
 	/**
-	* @JsonProperty(String, "goods_origin")
+	* #JsonProperty(String, "goods_origin")
 	*/
 	private $goodsOrigin;
 
 	/**
-	* @JsonProperty(String, "goods_property")
+	* #JsonProperty(String, "goods_property")
 	*/
 	private $goodsProperty;
 
 	/**
-	* @JsonProperty(String, "goods_sku_no")
+	* #JsonProperty(String, "goods_sku_no")
 	*/
 	private $goodsSkuNo;
 
 	/**
-	* @JsonProperty(String, "hs_code")
+	* #JsonProperty(String, "hs_code")
 	*/
 	private $hsCode;
 
 	/**
-	* @JsonProperty(String, "hs_name")
+	* #JsonProperty(String, "hs_name")
 	*/
 	private $hsName;
 
 	/**
-	* @JsonProperty(String, "start_serial_no")
+	* #JsonProperty(String, "start_serial_no")
 	*/
 	private $startSerialNo;
 

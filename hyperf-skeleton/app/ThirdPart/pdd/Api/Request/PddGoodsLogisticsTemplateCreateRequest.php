@@ -11,37 +11,37 @@ class PddGoodsLogisticsTemplateCreateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsLogisticsTemplateCreateRequest_CostTemplateListItem>, "cost_template_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsLogisticsTemplateCreateRequest_CostTemplateListItem>, "cost_template_list")
 	*/
 	private $costTemplateList;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsLogisticsTemplateCreateRequest_FreeProvinceListItem>, "free_province_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsLogisticsTemplateCreateRequest_FreeProvinceListItem>, "free_province_list")
 	*/
 	private $freeProvinceList;
 
 	/**
-	* @JsonProperty(Integer, "cost_type")
+	* #JsonProperty(Integer, "cost_type")
 	*/
 	private $costType;
 
 	/**
-	* @JsonProperty(String, "template_name")
+	* #JsonProperty(String, "template_name")
 	*/
 	private $templateName;
 
 	/**
-	* @JsonProperty(Integer, "province_id")
+	* #JsonProperty(Integer, "province_id")
 	*/
 	private $provinceId;
 
 	/**
-	* @JsonProperty(Integer, "city_id")
+	* #JsonProperty(Integer, "city_id")
 	*/
 	private $cityId;
 
 	/**
-	* @JsonProperty(Integer, "district_id")
+	* #JsonProperty(Integer, "district_id")
 	*/
 	private $districtId;
 
@@ -118,47 +118,47 @@ class PddGoodsLogisticsTemplateCreateRequest_CostTemplateListItem extends PopBas
 	}
 
 	/**
-	* @JsonProperty(Long, "first_standard")
+	* #JsonProperty(Long, "first_standard")
 	*/
 	private $firstStandard;
 
 	/**
-	* @JsonProperty(Long, "first_cost")
+	* #JsonProperty(Long, "first_cost")
 	*/
 	private $firstCost;
 
 	/**
-	* @JsonProperty(Long, "add_standard")
+	* #JsonProperty(Long, "add_standard")
 	*/
 	private $addStandard;
 
 	/**
-	* @JsonProperty(Long, "add_cost")
+	* #JsonProperty(Long, "add_cost")
 	*/
 	private $addCost;
 
 	/**
-	* @JsonProperty(Boolean, "is_have_free_min_count")
+	* #JsonProperty(Boolean, "is_have_free_min_count")
 	*/
 	private $isHaveFreeMinCount;
 
 	/**
-	* @JsonProperty(Integer, "have_free_min_count")
+	* #JsonProperty(Integer, "have_free_min_count")
 	*/
 	private $haveFreeMinCount;
 
 	/**
-	* @JsonProperty(Boolean, "is_have_free_min_amount")
+	* #JsonProperty(Boolean, "is_have_free_min_amount")
 	*/
 	private $isHaveFreeMinAmount;
 
 	/**
-	* @JsonProperty(Long, "have_free_min_amount")
+	* #JsonProperty(Long, "have_free_min_amount")
 	*/
 	private $haveFreeMinAmount;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsLogisticsTemplateCreateRequest_CostTemplateListItemCostProvinceListItem>, "cost_province_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsLogisticsTemplateCreateRequest_CostTemplateListItemCostProvinceListItem>, "cost_province_list")
 	*/
 	private $costProvinceList;
 
@@ -218,7 +218,7 @@ class PddGoodsLogisticsTemplateCreateRequest_CostTemplateListItemCostProvinceLis
 	}
 
 	/**
-	* @JsonProperty(Integer, "province_id")
+	* #JsonProperty(Integer, "province_id")
 	*/
 	private $provinceId;
 
@@ -238,7 +238,7 @@ class PddGoodsLogisticsTemplateCreateRequest_FreeProvinceListItem extends PopBas
 	}
 
 	/**
-	* @JsonProperty(Integer, "province_id")
+	* #JsonProperty(Integer, "province_id")
 	*/
 	private $provinceId;
 

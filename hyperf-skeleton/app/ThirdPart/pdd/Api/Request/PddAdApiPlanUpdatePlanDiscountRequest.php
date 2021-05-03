@@ -11,12 +11,12 @@ class PddAdApiPlanUpdatePlanDiscountRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanUpdatePlanDiscountRequest_PlanDiscount, "planDiscount")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanUpdatePlanDiscountRequest_PlanDiscount, "planDiscount")
 	*/
 	private $planDiscount;
 
 	/**
-	* @JsonProperty(Long, "planId")
+	* #JsonProperty(Long, "planId")
 	*/
 	private $planId;
 
@@ -63,7 +63,7 @@ class PddAdApiPlanUpdatePlanDiscountRequest_PlanDiscount extends PopBaseJsonEnti
 	}
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanUpdatePlanDiscountRequest_PlanDiscountDiscountsItem>, "discounts")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanUpdatePlanDiscountRequest_PlanDiscountDiscountsItem>, "discounts")
 	*/
 	private $discounts;
 
@@ -83,12 +83,12 @@ class PddAdApiPlanUpdatePlanDiscountRequest_PlanDiscountDiscountsItem extends Po
 	}
 
 	/**
-	* @JsonProperty(Integer, "index")
+	* #JsonProperty(Integer, "index")
 	*/
 	private $index;
 
 	/**
-	* @JsonProperty(Integer, "rate")
+	* #JsonProperty(Integer, "rate")
 	*/
 	private $rate;
 

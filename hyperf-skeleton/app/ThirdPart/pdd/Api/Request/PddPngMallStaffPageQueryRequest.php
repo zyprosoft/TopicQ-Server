@@ -11,12 +11,12 @@ class PddPngMallStaffPageQueryRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "limit")
+	* #JsonProperty(Integer, "limit")
 	*/
 	private $limit;
 
 	/**
-	* @JsonProperty(Long, "start_id")
+	* #JsonProperty(Long, "start_id")
 	*/
 	private $startId;
 

@@ -11,7 +11,7 @@ class PddServicemarketContractSearchRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "mallId")
+	* #JsonProperty(Long, "mallId")
 	*/
 	private $mallId;
 

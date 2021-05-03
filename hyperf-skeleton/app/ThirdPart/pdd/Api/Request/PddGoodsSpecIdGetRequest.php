@@ -11,12 +11,12 @@ class PddGoodsSpecIdGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "parent_spec_id")
+	* #JsonProperty(Long, "parent_spec_id")
 	*/
 	private $parentSpecId;
 
 	/**
-	* @JsonProperty(String, "spec_name")
+	* #JsonProperty(String, "spec_name")
 	*/
 	private $specName;
 

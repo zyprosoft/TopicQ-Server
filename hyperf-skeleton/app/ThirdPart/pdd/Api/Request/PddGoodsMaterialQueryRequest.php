@@ -11,12 +11,12 @@ class PddGoodsMaterialQueryRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<Long>, "goods_id_list")
+	* #JsonProperty(List<Long>, "goods_id_list")
 	*/
 	private $goodsIdList;
 
 	/**
-	* @JsonProperty(List<Long>, "type_list")
+	* #JsonProperty(List<Long>, "type_list")
 	*/
 	private $typeList;
 

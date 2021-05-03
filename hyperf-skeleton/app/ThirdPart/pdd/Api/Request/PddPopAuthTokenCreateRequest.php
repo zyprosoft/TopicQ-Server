@@ -11,7 +11,7 @@ class PddPopAuthTokenCreateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "code")
+	* #JsonProperty(String, "code")
 	*/
 	private $code;
 

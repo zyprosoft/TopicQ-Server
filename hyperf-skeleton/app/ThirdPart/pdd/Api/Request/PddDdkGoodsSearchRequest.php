@@ -11,92 +11,92 @@ class PddDdkGoodsSearchRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<Integer>, "activity_tags")
+	* #JsonProperty(List<Integer>, "activity_tags")
 	*/
 	private $activityTags;
 
 	/**
-	* @JsonProperty(List<Integer>, "block_cats")
+	* #JsonProperty(List<Integer>, "block_cats")
 	*/
 	private $blockCats;
 
 	/**
-	* @JsonProperty(List<Integer>, "block_cat_packages")
+	* #JsonProperty(List<Integer>, "block_cat_packages")
 	*/
 	private $blockCatPackages;
 
 	/**
-	* @JsonProperty(Long, "cat_id")
+	* #JsonProperty(Long, "cat_id")
 	*/
 	private $catId;
 
 	/**
-	* @JsonProperty(String, "custom_parameters")
+	* #JsonProperty(String, "custom_parameters")
 	*/
 	private $customParameters;
 
 	/**
-	* @JsonProperty(List<String>, "goods_sign_list")
+	* #JsonProperty(List<String>, "goods_sign_list")
 	*/
 	private $goodsSignList;
 
 	/**
-	* @JsonProperty(Boolean, "is_brand_goods")
+	* #JsonProperty(Boolean, "is_brand_goods")
 	*/
 	private $isBrandGoods;
 
 	/**
-	* @JsonProperty(String, "keyword")
+	* #JsonProperty(String, "keyword")
 	*/
 	private $keyword;
 
 	/**
-	* @JsonProperty(String, "list_id")
+	* #JsonProperty(String, "list_id")
 	*/
 	private $listId;
 
 	/**
-	* @JsonProperty(Integer, "merchant_type")
+	* #JsonProperty(Integer, "merchant_type")
 	*/
 	private $merchantType;
 
 	/**
-	* @JsonProperty(List<Integer>, "merchant_type_list")
+	* #JsonProperty(List<Integer>, "merchant_type_list")
 	*/
 	private $merchantTypeList;
 
 	/**
-	* @JsonProperty(Long, "opt_id")
+	* #JsonProperty(Long, "opt_id")
 	*/
 	private $optId;
 
 	/**
-	* @JsonProperty(Integer, "page")
+	* #JsonProperty(Integer, "page")
 	*/
 	private $page;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 
 	/**
-	* @JsonProperty(String, "pid")
+	* #JsonProperty(String, "pid")
 	*/
 	private $pid;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddDdkGoodsSearchRequest_RangeListItem>, "range_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddDdkGoodsSearchRequest_RangeListItem>, "range_list")
 	*/
 	private $rangeList;
 
 	/**
-	* @JsonProperty(Integer, "sort_type")
+	* #JsonProperty(Integer, "sort_type")
 	*/
 	private $sortType;
 
 	/**
-	* @JsonProperty(Boolean, "with_coupon")
+	* #JsonProperty(Boolean, "with_coupon")
 	*/
 	private $withCoupon;
 
@@ -239,17 +239,17 @@ class PddDdkGoodsSearchRequest_RangeListItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(Long, "range_from")
+	* #JsonProperty(Long, "range_from")
 	*/
 	private $rangeFrom;
 
 	/**
-	* @JsonProperty(Integer, "range_id")
+	* #JsonProperty(Integer, "range_id")
 	*/
 	private $rangeId;
 
 	/**
-	* @JsonProperty(Long, "range_to")
+	* #JsonProperty(Long, "range_to")
 	*/
 	private $rangeTo;
 

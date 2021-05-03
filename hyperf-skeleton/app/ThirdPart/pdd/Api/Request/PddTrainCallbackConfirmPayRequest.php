@@ -11,42 +11,42 @@ class PddTrainCallbackConfirmPayRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "code")
+	* #JsonProperty(Integer, "code")
 	*/
 	private $code;
 
 	/**
-	* @JsonProperty(String, "crh_order_id")
+	* #JsonProperty(String, "crh_order_id")
 	*/
 	private $crhOrderId;
 
 	/**
-	* @JsonProperty(String, "gate_no")
+	* #JsonProperty(String, "gate_no")
 	*/
 	private $gateNo;
 
 	/**
-	* @JsonProperty(String, "msg")
+	* #JsonProperty(String, "msg")
 	*/
 	private $msg;
 
 	/**
-	* @JsonProperty(String, "order_id")
+	* #JsonProperty(String, "order_id")
 	*/
 	private $orderId;
 
 	/**
-	* @JsonProperty(String, "pdd_order_id")
+	* #JsonProperty(String, "pdd_order_id")
 	*/
 	private $pddOrderId;
 
 	/**
-	* @JsonProperty(String, "request_id")
+	* #JsonProperty(String, "request_id")
 	*/
 	private $requestId;
 
 	/**
-	* @JsonProperty(String, "vendor_time")
+	* #JsonProperty(String, "vendor_time")
 	*/
 	private $vendorTime;
 

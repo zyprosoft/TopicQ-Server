@@ -11,127 +11,127 @@ class PddTrainCallbackGrabRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "arrive_station")
+	* #JsonProperty(String, "arrive_station")
 	*/
 	private $arriveStation;
 
 	/**
-	* @JsonProperty(String, "arrive_station_code")
+	* #JsonProperty(String, "arrive_station_code")
 	*/
 	private $arriveStationCode;
 
 	/**
-	* @JsonProperty(String, "arrive_time")
+	* #JsonProperty(String, "arrive_time")
 	*/
 	private $arriveTime;
 
 	/**
-	* @JsonProperty(Integer, "code")
+	* #JsonProperty(Integer, "code")
 	*/
 	private $code;
 
 	/**
-	* @JsonProperty(String, "crh_order_id")
+	* #JsonProperty(String, "crh_order_id")
 	*/
 	private $crhOrderId;
 
 	/**
-	* @JsonProperty(String, "depart_station")
+	* #JsonProperty(String, "depart_station")
 	*/
 	private $departStation;
 
 	/**
-	* @JsonProperty(String, "depart_station_code")
+	* #JsonProperty(String, "depart_station_code")
 	*/
 	private $departStationCode;
 
 	/**
-	* @JsonProperty(String, "depart_time")
+	* #JsonProperty(String, "depart_time")
 	*/
 	private $departTime;
 
 	/**
-	* @JsonProperty(String, "msg")
+	* #JsonProperty(String, "msg")
 	*/
 	private $msg;
 
 	/**
-	* @JsonProperty(String, "order_id")
+	* #JsonProperty(String, "order_id")
 	*/
 	private $orderId;
 
 	/**
-	* @JsonProperty(Long, "order_ticket_price")
+	* #JsonProperty(Long, "order_ticket_price")
 	*/
 	private $orderTicketPrice;
 
 	/**
-	* @JsonProperty(String, "order_time")
+	* #JsonProperty(String, "order_time")
 	*/
 	private $orderTime;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTrainCallbackGrabRequest_PassengersItem>, "passengers")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTrainCallbackGrabRequest_PassengersItem>, "passengers")
 	*/
 	private $passengers;
 
 	/**
-	* @JsonProperty(String, "pdd_order_id")
+	* #JsonProperty(String, "pdd_order_id")
 	*/
 	private $pddOrderId;
 
 	/**
-	* @JsonProperty(Integer, "ticket_num")
+	* #JsonProperty(Integer, "ticket_num")
 	*/
 	private $ticketNum;
 
 	/**
-	* @JsonProperty(String, "train_date")
+	* #JsonProperty(String, "train_date")
 	*/
 	private $trainDate;
 
 	/**
-	* @JsonProperty(String, "train_no")
+	* #JsonProperty(String, "train_no")
 	*/
 	private $trainNo;
 
 	/**
-	* @JsonProperty(String, "travel_time")
+	* #JsonProperty(String, "travel_time")
 	*/
 	private $travelTime;
 
 	/**
-	* @JsonProperty(String, "vendor_time")
+	* #JsonProperty(String, "vendor_time")
 	*/
 	private $vendorTime;
 
 	/**
-	* @JsonProperty(String, "end_time")
+	* #JsonProperty(String, "end_time")
 	*/
 	private $endTime;
 
 	/**
-	* @JsonProperty(Integer, "channel")
+	* #JsonProperty(Integer, "channel")
 	*/
 	private $channel;
 
 	/**
-	* @JsonProperty(Integer, "id_card_check_in")
+	* #JsonProperty(Integer, "id_card_check_in")
 	*/
 	private $idCardCheckIn;
 
 	/**
-	* @JsonProperty(String, "gate_no")
+	* #JsonProperty(String, "gate_no")
 	*/
 	private $gateNo;
 
 	/**
-	* @JsonProperty(String, "distance")
+	* #JsonProperty(String, "distance")
 	*/
 	private $distance;
 
 	/**
-	* @JsonProperty(Integer, "is_reserve_first")
+	* #JsonProperty(Integer, "is_reserve_first")
 	*/
 	private $isReserveFirst;
 
@@ -316,67 +316,67 @@ class PddTrainCallbackGrabRequest_PassengersItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "card_no")
+	* #JsonProperty(String, "card_no")
 	*/
 	private $cardNo;
 
 	/**
-	* @JsonProperty(String, "card_type")
+	* #JsonProperty(String, "card_type")
 	*/
 	private $cardType;
 
 	/**
-	* @JsonProperty(String, "coach_no")
+	* #JsonProperty(String, "coach_no")
 	*/
 	private $coachNo;
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
 	/**
-	* @JsonProperty(String, "seat_name")
+	* #JsonProperty(String, "seat_name")
 	*/
 	private $seatName;
 
 	/**
-	* @JsonProperty(String, "seat_no")
+	* #JsonProperty(String, "seat_no")
 	*/
 	private $seatNo;
 
 	/**
-	* @JsonProperty(Integer, "seat_type")
+	* #JsonProperty(Integer, "seat_type")
 	*/
 	private $seatType;
 
 	/**
-	* @JsonProperty(String, "seat_type_name")
+	* #JsonProperty(String, "seat_type_name")
 	*/
 	private $seatTypeName;
 
 	/**
-	* @JsonProperty(Integer, "status")
+	* #JsonProperty(Integer, "status")
 	*/
 	private $status;
 
 	/**
-	* @JsonProperty(String, "sub_order_id")
+	* #JsonProperty(String, "sub_order_id")
 	*/
 	private $subOrderId;
 
 	/**
-	* @JsonProperty(String, "sub_pdd_order_id")
+	* #JsonProperty(String, "sub_pdd_order_id")
 	*/
 	private $subPddOrderId;
 
 	/**
-	* @JsonProperty(Long, "ticket_price")
+	* #JsonProperty(Long, "ticket_price")
 	*/
 	private $ticketPrice;
 
 	/**
-	* @JsonProperty(Integer, "ticket_type")
+	* #JsonProperty(Integer, "ticket_type")
 	*/
 	private $ticketType;
 

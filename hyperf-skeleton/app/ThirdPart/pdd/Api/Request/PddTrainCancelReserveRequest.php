@@ -11,7 +11,7 @@ class PddTrainCancelReserveRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "order_id")
+	* #JsonProperty(String, "order_id")
 	*/
 	private $orderId;
 

@@ -11,47 +11,47 @@ class PddOrderNumberListIncrementGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "is_lucky_flag")
+	* #JsonProperty(Integer, "is_lucky_flag")
 	*/
 	private $isLuckyFlag;
 
 	/**
-	* @JsonProperty(Integer, "order_status")
+	* #JsonProperty(Integer, "order_status")
 	*/
 	private $orderStatus;
 
 	/**
-	* @JsonProperty(Long, "start_updated_at")
+	* #JsonProperty(Long, "start_updated_at")
 	*/
 	private $startUpdatedAt;
 
 	/**
-	* @JsonProperty(Long, "end_updated_at")
+	* #JsonProperty(Long, "end_updated_at")
 	*/
 	private $endUpdatedAt;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 
 	/**
-	* @JsonProperty(Integer, "page")
+	* #JsonProperty(Integer, "page")
 	*/
 	private $page;
 
 	/**
-	* @JsonProperty(Integer, "refund_status")
+	* #JsonProperty(Integer, "refund_status")
 	*/
 	private $refundStatus;
 
 	/**
-	* @JsonProperty(Integer, "trade_type")
+	* #JsonProperty(Integer, "trade_type")
 	*/
 	private $tradeType;
 
 	/**
-	* @JsonProperty(Boolean, "use_has_next")
+	* #JsonProperty(Boolean, "use_has_next")
 	*/
 	private $useHasNext;
 

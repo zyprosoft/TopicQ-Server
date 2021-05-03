@@ -11,52 +11,52 @@ class PddVoucherPhysicalGoodsSendRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "order_sn")
+	* #JsonProperty(String, "order_sn")
 	*/
 	private $orderSn;
 
 	/**
-	* @JsonProperty(String, "out_biz_no")
+	* #JsonProperty(String, "out_biz_no")
 	*/
 	private $outBizNo;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddVoucherPhysicalGoodsSendRequest_VoucherListItem>, "voucher_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddVoucherPhysicalGoodsSendRequest_VoucherListItem>, "voucher_list")
 	*/
 	private $voucherList;
 
 	/**
-	* @JsonProperty(Integer, "logistics_type")
+	* #JsonProperty(Integer, "logistics_type")
 	*/
 	private $logisticsType;
 
 	/**
-	* @JsonProperty(String, "recipient")
+	* #JsonProperty(String, "recipient")
 	*/
 	private $recipient;
 
 	/**
-	* @JsonProperty(String, "recipient_mobile")
+	* #JsonProperty(String, "recipient_mobile")
 	*/
 	private $recipientMobile;
 
 	/**
-	* @JsonProperty(String, "recipient_address")
+	* #JsonProperty(String, "recipient_address")
 	*/
 	private $recipientAddress;
 
 	/**
-	* @JsonProperty(String, "logistics_no")
+	* #JsonProperty(String, "logistics_no")
 	*/
 	private $logisticsNo;
 
 	/**
-	* @JsonProperty(String, "logistics_company_id")
+	* #JsonProperty(String, "logistics_company_id")
 	*/
 	private $logisticsCompanyId;
 
 	/**
-	* @JsonProperty(String, "logistics_company")
+	* #JsonProperty(String, "logistics_company")
 	*/
 	private $logisticsCompany;
 
@@ -151,12 +151,12 @@ class PddVoucherPhysicalGoodsSendRequest_VoucherListItem extends PopBaseJsonEnti
 	}
 
 	/**
-	* @JsonProperty(String, "voucher_id")
+	* #JsonProperty(String, "voucher_id")
 	*/
 	private $voucherId;
 
 	/**
-	* @JsonProperty(String, "voucher_no")
+	* #JsonProperty(String, "voucher_no")
 	*/
 	private $voucherNo;
 

@@ -11,7 +11,7 @@ class PddEinvoiceVendorRuihongInvoiceGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddEinvoiceVendorRuihongInvoiceGetRequest_Request, "request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddEinvoiceVendorRuihongInvoiceGetRequest_Request, "request")
 	*/
 	private $request;
 
@@ -52,32 +52,32 @@ class PddEinvoiceVendorRuihongInvoiceGetRequest_Request extends PopBaseJsonEntit
 	}
 
 	/**
-	* @JsonProperty(String, "serialNo")
+	* #JsonProperty(String, "serialNo")
 	*/
 	private $serialNo;
 
 	/**
-	* @JsonProperty(String, "postTime")
+	* #JsonProperty(String, "postTime")
 	*/
 	private $postTime;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddEinvoiceVendorRuihongInvoiceGetRequest_RequestCriteriaItem>, "criteria")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddEinvoiceVendorRuihongInvoiceGetRequest_RequestCriteriaItem>, "criteria")
 	*/
 	private $criteria;
 
 	/**
-	* @JsonProperty(String, "cmdName")
+	* #JsonProperty(String, "cmdName")
 	*/
 	private $cmdName;
 
 	/**
-	* @JsonProperty(String, "appCode")
+	* #JsonProperty(String, "appCode")
 	*/
 	private $appCode;
 
 	/**
-	* @JsonProperty(String, "sign")
+	* #JsonProperty(String, "sign")
 	*/
 	private $sign;
 
@@ -122,12 +122,12 @@ class PddEinvoiceVendorRuihongInvoiceGetRequest_RequestCriteriaItem extends PopB
 	}
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
 	/**
-	* @JsonProperty(String, "value")
+	* #JsonProperty(String, "value")
 	*/
 	private $value;
 

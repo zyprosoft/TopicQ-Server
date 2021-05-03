@@ -11,12 +11,12 @@ class PddAdApiPlanUpdateMaxCostRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "maxCost")
+	* #JsonProperty(Long, "maxCost")
 	*/
 	private $maxCost;
 
 	/**
-	* @JsonProperty(Long, "planId")
+	* #JsonProperty(Long, "planId")
 	*/
 	private $planId;
 

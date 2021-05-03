@@ -11,7 +11,7 @@ class PddAdApiUnitCreativeDeleteRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "unitCreativeId")
+	* #JsonProperty(Long, "unitCreativeId")
 	*/
 	private $unitCreativeId;
 

@@ -11,57 +11,57 @@ class PddTrainChangeTicketRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "pdd_order_id")
+	* #JsonProperty(String, "pdd_order_id")
 	*/
 	private $pddOrderId;
 
 	/**
-	* @JsonProperty(String, "order_id")
+	* #JsonProperty(String, "order_id")
 	*/
 	private $orderId;
 
 	/**
-	* @JsonProperty(String, "new_depart_station")
+	* #JsonProperty(String, "new_depart_station")
 	*/
 	private $newDepartStation;
 
 	/**
-	* @JsonProperty(String, "new_arrive_station")
+	* #JsonProperty(String, "new_arrive_station")
 	*/
 	private $newArriveStation;
 
 	/**
-	* @JsonProperty(String, "new_train_date")
+	* #JsonProperty(String, "new_train_date")
 	*/
 	private $newTrainDate;
 
 	/**
-	* @JsonProperty(String, "new_train_no")
+	* #JsonProperty(String, "new_train_no")
 	*/
 	private $newTrainNo;
 
 	/**
-	* @JsonProperty(String, "new_depart_time")
+	* #JsonProperty(String, "new_depart_time")
 	*/
 	private $newDepartTime;
 
 	/**
-	* @JsonProperty(String, "new_arrive_time")
+	* #JsonProperty(String, "new_arrive_time")
 	*/
 	private $newArriveTime;
 
 	/**
-	* @JsonProperty(Integer, "new_seat_type")
+	* #JsonProperty(Integer, "new_seat_type")
 	*/
 	private $newSeatType;
 
 	/**
-	* @JsonProperty(String, "new_choose_seat")
+	* #JsonProperty(String, "new_choose_seat")
 	*/
 	private $newChooseSeat;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTrainChangeTicketRequest_NewPassengerInfosItem>, "new_passenger_infos")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTrainChangeTicketRequest_NewPassengerInfosItem>, "new_passenger_infos")
 	*/
 	private $newPassengerInfos;
 
@@ -162,72 +162,72 @@ class PddTrainChangeTicketRequest_NewPassengerInfosItem extends PopBaseJsonEntit
 	}
 
 	/**
-	* @JsonProperty(String, "card_type")
+	* #JsonProperty(String, "card_type")
 	*/
 	private $cardType;
 
 	/**
-	* @JsonProperty(String, "card_no")
+	* #JsonProperty(String, "card_no")
 	*/
 	private $cardNo;
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
 	/**
-	* @JsonProperty(Integer, "ticket_type")
+	* #JsonProperty(Integer, "ticket_type")
 	*/
 	private $ticketType;
 
 	/**
-	* @JsonProperty(Integer, "seat_type")
+	* #JsonProperty(Integer, "seat_type")
 	*/
 	private $seatType;
 
 	/**
-	* @JsonProperty(Long, "ticket_price")
+	* #JsonProperty(Long, "ticket_price")
 	*/
 	private $ticketPrice;
 
 	/**
-	* @JsonProperty(String, "sub_order_id")
+	* #JsonProperty(String, "sub_order_id")
 	*/
 	private $subOrderId;
 
 	/**
-	* @JsonProperty(String, "new_sub_pdd_order_id")
+	* #JsonProperty(String, "new_sub_pdd_order_id")
 	*/
 	private $newSubPddOrderId;
 
 	/**
-	* @JsonProperty(String, "birthday")
+	* #JsonProperty(String, "birthday")
 	*/
 	private $birthday;
 
 	/**
-	* @JsonProperty(String, "effective_date")
+	* #JsonProperty(String, "effective_date")
 	*/
 	private $effectiveDate;
 
 	/**
-	* @JsonProperty(String, "sex")
+	* #JsonProperty(String, "sex")
 	*/
 	private $sex;
 
 	/**
-	* @JsonProperty(String, "country")
+	* #JsonProperty(String, "country")
 	*/
 	private $country;
 
 	/**
-	* @JsonProperty(String, "mobile")
+	* #JsonProperty(String, "mobile")
 	*/
 	private $mobile;
 
 	/**
-	* @JsonProperty(String, "email")
+	* #JsonProperty(String, "email")
 	*/
 	private $email;
 

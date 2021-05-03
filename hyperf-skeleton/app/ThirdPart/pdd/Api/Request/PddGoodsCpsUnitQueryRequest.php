@@ -11,7 +11,7 @@ class PddGoodsCpsUnitQueryRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "goods_id")
+	* #JsonProperty(Long, "goods_id")
 	*/
 	private $goodsId;
 

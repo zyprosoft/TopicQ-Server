@@ -11,87 +11,87 @@ class PddTicketGoodsUploadRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<String>, "carousel_gallery")
+	* #JsonProperty(List<String>, "carousel_gallery")
 	*/
 	private $carouselGallery;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTicketGoodsUploadRequest_CarouselVideoItem>, "carousel_video")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTicketGoodsUploadRequest_CarouselVideoItem>, "carousel_video")
 	*/
 	private $carouselVideo;
 
 	/**
-	* @JsonProperty(Long, "cat_id")
+	* #JsonProperty(Long, "cat_id")
 	*/
 	private $catId;
 
 	/**
-	* @JsonProperty(Integer, "code_mode")
+	* #JsonProperty(Integer, "code_mode")
 	*/
 	private $codeMode;
 
 	/**
-	* @JsonProperty(List<String>, "detail_gallery")
+	* #JsonProperty(List<String>, "detail_gallery")
 	*/
 	private $detailGallery;
 
 	/**
-	* @JsonProperty(Long, "goods_commit_id")
+	* #JsonProperty(Long, "goods_commit_id")
 	*/
 	private $goodsCommitId;
 
 	/**
-	* @JsonProperty(String, "goods_desc")
+	* #JsonProperty(String, "goods_desc")
 	*/
 	private $goodsDesc;
 
 	/**
-	* @JsonProperty(Long, "goods_id")
+	* #JsonProperty(Long, "goods_id")
 	*/
 	private $goodsId;
 
 	/**
-	* @JsonProperty(String, "goods_name")
+	* #JsonProperty(String, "goods_name")
 	*/
 	private $goodsName;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTicketGoodsUploadRequest_GoodsPropertiesItem>, "goods_properties")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTicketGoodsUploadRequest_GoodsPropertiesItem>, "goods_properties")
 	*/
 	private $goodsProperties;
 
 	/**
-	* @JsonProperty(Integer, "is_submit")
+	* #JsonProperty(Integer, "is_submit")
 	*/
 	private $isSubmit;
 
 	/**
-	* @JsonProperty(Long, "market_price")
+	* #JsonProperty(Long, "market_price")
 	*/
 	private $marketPrice;
 
 	/**
-	* @JsonProperty(String, "out_goods_sn")
+	* #JsonProperty(String, "out_goods_sn")
 	*/
 	private $outGoodsSn;
 
 	/**
-	* @JsonProperty(String, "reserve_limit_rule")
+	* #JsonProperty(String, "reserve_limit_rule")
 	*/
 	private $reserveLimitRule;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTicketGoodsUploadRequest_SkuListItem>, "sku_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTicketGoodsUploadRequest_SkuListItem>, "sku_list")
 	*/
 	private $skuList;
 
 	/**
-	* @JsonProperty(Integer, "sku_type")
+	* #JsonProperty(Integer, "sku_type")
 	*/
 	private $skuType;
 
 	/**
-	* @JsonProperty(Integer, "sync_goods_operate")
+	* #JsonProperty(Integer, "sync_goods_operate")
 	*/
 	private $syncGoodsOperate;
 
@@ -228,12 +228,12 @@ class PddTicketGoodsUploadRequest_CarouselVideoItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(Long, "file_id")
+	* #JsonProperty(Long, "file_id")
 	*/
 	private $fileId;
 
 	/**
-	* @JsonProperty(String, "video_url")
+	* #JsonProperty(String, "video_url")
 	*/
 	private $videoUrl;
 
@@ -258,32 +258,32 @@ class PddTicketGoodsUploadRequest_GoodsPropertiesItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(Long, "parent_spec_id")
+	* #JsonProperty(Long, "parent_spec_id")
 	*/
 	private $parentSpecId;
 
 	/**
-	* @JsonProperty(Long, "ref_pid")
+	* #JsonProperty(Long, "ref_pid")
 	*/
 	private $refPid;
 
 	/**
-	* @JsonProperty(Long, "spec_id")
+	* #JsonProperty(Long, "spec_id")
 	*/
 	private $specId;
 
 	/**
-	* @JsonProperty(String, "value")
+	* #JsonProperty(String, "value")
 	*/
 	private $value;
 
 	/**
-	* @JsonProperty(String, "value_unit")
+	* #JsonProperty(String, "value_unit")
 	*/
 	private $valueUnit;
 
 	/**
-	* @JsonProperty(Long, "vid")
+	* #JsonProperty(Long, "vid")
 	*/
 	private $vid;
 
@@ -328,52 +328,52 @@ class PddTicketGoodsUploadRequest_SkuListItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTicketGoodsUploadRequest_SkuListItemChildSkusItem>, "child_skus")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTicketGoodsUploadRequest_SkuListItemChildSkusItem>, "child_skus")
 	*/
 	private $childSkus;
 
 	/**
-	* @JsonProperty(Long, "group_price")
+	* #JsonProperty(Long, "group_price")
 	*/
 	private $groupPrice;
 
 	/**
-	* @JsonProperty(Integer, "is_onsale")
+	* #JsonProperty(Integer, "is_onsale")
 	*/
 	private $isOnsale;
 
 	/**
-	* @JsonProperty(String, "out_sku_sn")
+	* #JsonProperty(String, "out_sku_sn")
 	*/
 	private $outSkuSn;
 
 	/**
-	* @JsonProperty(Long, "quantity_delta")
+	* #JsonProperty(Long, "quantity_delta")
 	*/
 	private $quantityDelta;
 
 	/**
-	* @JsonProperty(String, "rule_id")
+	* #JsonProperty(String, "rule_id")
 	*/
 	private $ruleId;
 
 	/**
-	* @JsonProperty(Long, "single_price")
+	* #JsonProperty(Long, "single_price")
 	*/
 	private $singlePrice;
 
 	/**
-	* @JsonProperty(Long, "sku_id")
+	* #JsonProperty(Long, "sku_id")
 	*/
 	private $skuId;
 
 	/**
-	* @JsonProperty(List<Long>, "spec_id_list")
+	* #JsonProperty(List<Long>, "spec_id_list")
 	*/
 	private $specIdList;
 
 	/**
-	* @JsonProperty(String, "thumb_url")
+	* #JsonProperty(String, "thumb_url")
 	*/
 	private $thumbUrl;
 
@@ -438,22 +438,22 @@ class PddTicketGoodsUploadRequest_SkuListItemChildSkusItem extends PopBaseJsonEn
 	}
 
 	/**
-	* @JsonProperty(String, "date")
+	* #JsonProperty(String, "date")
 	*/
 	private $date;
 
 	/**
-	* @JsonProperty(Long, "group_price")
+	* #JsonProperty(Long, "group_price")
 	*/
 	private $groupPrice;
 
 	/**
-	* @JsonProperty(Long, "quantity_delta")
+	* #JsonProperty(Long, "quantity_delta")
 	*/
 	private $quantityDelta;
 
 	/**
-	* @JsonProperty(Long, "single_price")
+	* #JsonProperty(Long, "single_price")
 	*/
 	private $singlePrice;
 

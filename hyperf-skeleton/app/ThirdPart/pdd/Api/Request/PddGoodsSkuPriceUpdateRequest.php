@@ -11,27 +11,27 @@ class PddGoodsSkuPriceUpdateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "goods_id")
+	* #JsonProperty(Long, "goods_id")
 	*/
 	private $goodsId;
 
 	/**
-	* @JsonProperty(Long, "market_price")
+	* #JsonProperty(Long, "market_price")
 	*/
 	private $marketPrice;
 
 	/**
-	* @JsonProperty(String, "market_price_in_yuan")
+	* #JsonProperty(String, "market_price_in_yuan")
 	*/
 	private $marketPriceInYuan;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSkuPriceUpdateRequest_SkuPriceListItem>, "sku_price_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSkuPriceUpdateRequest_SkuPriceListItem>, "sku_price_list")
 	*/
 	private $skuPriceList;
 
 	/**
-	* @JsonProperty(Integer, "sync_goods_operate")
+	* #JsonProperty(Integer, "sync_goods_operate")
 	*/
 	private $syncGoodsOperate;
 
@@ -96,22 +96,22 @@ class PddGoodsSkuPriceUpdateRequest_SkuPriceListItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(Long, "group_price")
+	* #JsonProperty(Long, "group_price")
 	*/
 	private $groupPrice;
 
 	/**
-	* @JsonProperty(Integer, "is_onsale")
+	* #JsonProperty(Integer, "is_onsale")
 	*/
 	private $isOnsale;
 
 	/**
-	* @JsonProperty(Long, "single_price")
+	* #JsonProperty(Long, "single_price")
 	*/
 	private $singlePrice;
 
 	/**
-	* @JsonProperty(Long, "sku_id")
+	* #JsonProperty(Long, "sku_id")
 	*/
 	private $skuId;
 

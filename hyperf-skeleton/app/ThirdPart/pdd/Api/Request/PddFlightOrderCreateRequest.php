@@ -11,47 +11,47 @@ class PddFlightOrderCreateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "trace_id")
+	* #JsonProperty(String, "trace_id")
 	*/
 	private $traceId;
 
 	/**
-	* @JsonProperty(String, "sub_trace_id")
+	* #JsonProperty(String, "sub_trace_id")
 	*/
 	private $subTraceId;
 
 	/**
-	* @JsonProperty(String, "trip_type")
+	* #JsonProperty(String, "trip_type")
 	*/
 	private $tripType;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightOrderCreateRequest_FlightInfoListItem>, "flight_info_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightOrderCreateRequest_FlightInfoListItem>, "flight_info_list")
 	*/
 	private $flightInfoList;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightOrderCreateRequest_PassengerInfoListItem>, "passenger_info_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightOrderCreateRequest_PassengerInfoListItem>, "passenger_info_list")
 	*/
 	private $passengerInfoList;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightOrderCreateRequest_PriceInfoListItem>, "price_info_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightOrderCreateRequest_PriceInfoListItem>, "price_info_list")
 	*/
 	private $priceInfoList;
 
 	/**
-	* @JsonProperty(Integer, "product_type")
+	* #JsonProperty(Integer, "product_type")
 	*/
 	private $productType;
 
 	/**
-	* @JsonProperty(String, "product_id")
+	* #JsonProperty(String, "product_id")
 	*/
 	private $productId;
 
 	/**
-	* @JsonProperty(String, "token")
+	* #JsonProperty(String, "token")
 	*/
 	private $token;
 
@@ -140,62 +140,62 @@ class PddFlightOrderCreateRequest_FlightInfoListItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "flight_no")
+	* #JsonProperty(String, "flight_no")
 	*/
 	private $flightNo;
 
 	/**
-	* @JsonProperty(String, "carrier_code")
+	* #JsonProperty(String, "carrier_code")
 	*/
 	private $carrierCode;
 
 	/**
-	* @JsonProperty(Boolean, "shared")
+	* #JsonProperty(Boolean, "shared")
 	*/
 	private $shared;
 
 	/**
-	* @JsonProperty(String, "departure_date_time")
+	* #JsonProperty(String, "departure_date_time")
 	*/
 	private $departureDateTime;
 
 	/**
-	* @JsonProperty(String, "departure_airport_code")
+	* #JsonProperty(String, "departure_airport_code")
 	*/
 	private $departureAirportCode;
 
 	/**
-	* @JsonProperty(String, "departure_terminal")
+	* #JsonProperty(String, "departure_terminal")
 	*/
 	private $departureTerminal;
 
 	/**
-	* @JsonProperty(String, "arrival_date_time")
+	* #JsonProperty(String, "arrival_date_time")
 	*/
 	private $arrivalDateTime;
 
 	/**
-	* @JsonProperty(String, "arrival_airport_code")
+	* #JsonProperty(String, "arrival_airport_code")
 	*/
 	private $arrivalAirportCode;
 
 	/**
-	* @JsonProperty(String, "arrival_terminal")
+	* #JsonProperty(String, "arrival_terminal")
 	*/
 	private $arrivalTerminal;
 
 	/**
-	* @JsonProperty(Integer, "segment_no")
+	* #JsonProperty(Integer, "segment_no")
 	*/
 	private $segmentNo;
 
 	/**
-	* @JsonProperty(Integer, "sequence_no")
+	* #JsonProperty(Integer, "sequence_no")
 	*/
 	private $sequenceNo;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightOrderCreateRequest_FlightInfoListItemCabinInfoListItem>, "cabin_info_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightOrderCreateRequest_FlightInfoListItemCabinInfoListItem>, "cabin_info_list")
 	*/
 	private $cabinInfoList;
 
@@ -270,12 +270,12 @@ class PddFlightOrderCreateRequest_FlightInfoListItemCabinInfoListItem extends Po
 	}
 
 	/**
-	* @JsonProperty(String, "passenger_type")
+	* #JsonProperty(String, "passenger_type")
 	*/
 	private $passengerType;
 
 	/**
-	* @JsonProperty(String, "sub_class")
+	* #JsonProperty(String, "sub_class")
 	*/
 	private $subClass;
 
@@ -300,42 +300,42 @@ class PddFlightOrderCreateRequest_PassengerInfoListItem extends PopBaseJsonEntit
 	}
 
 	/**
-	* @JsonProperty(String, "passenger_type")
+	* #JsonProperty(String, "passenger_type")
 	*/
 	private $passengerType;
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
 	/**
-	* @JsonProperty(String, "identity_type")
+	* #JsonProperty(String, "identity_type")
 	*/
 	private $identityType;
 
 	/**
-	* @JsonProperty(String, "identity_no")
+	* #JsonProperty(String, "identity_no")
 	*/
 	private $identityNo;
 
 	/**
-	* @JsonProperty(String, "gender")
+	* #JsonProperty(String, "gender")
 	*/
 	private $gender;
 
 	/**
-	* @JsonProperty(String, "birthday")
+	* #JsonProperty(String, "birthday")
 	*/
 	private $birthday;
 
 	/**
-	* @JsonProperty(String, "effective_date")
+	* #JsonProperty(String, "effective_date")
 	*/
 	private $effectiveDate;
 
 	/**
-	* @JsonProperty(String, "phone_num")
+	* #JsonProperty(String, "phone_num")
 	*/
 	private $phoneNum;
 
@@ -390,37 +390,37 @@ class PddFlightOrderCreateRequest_PriceInfoListItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "passenger_type")
+	* #JsonProperty(String, "passenger_type")
 	*/
 	private $passengerType;
 
 	/**
-	* @JsonProperty(Long, "base_price")
+	* #JsonProperty(Long, "base_price")
 	*/
 	private $basePrice;
 
 	/**
-	* @JsonProperty(Long, "settle_price")
+	* #JsonProperty(Long, "settle_price")
 	*/
 	private $settlePrice;
 
 	/**
-	* @JsonProperty(Long, "airport_tax")
+	* #JsonProperty(Long, "airport_tax")
 	*/
 	private $airportTax;
 
 	/**
-	* @JsonProperty(Long, "fuel_tax")
+	* #JsonProperty(Long, "fuel_tax")
 	*/
 	private $fuelTax;
 
 	/**
-	* @JsonProperty(Double, "commission_point")
+	* #JsonProperty(Double, "commission_point")
 	*/
 	private $commissionPoint;
 
 	/**
-	* @JsonProperty(Long, "commission_money")
+	* #JsonProperty(Long, "commission_money")
 	*/
 	private $commissionMoney;
 

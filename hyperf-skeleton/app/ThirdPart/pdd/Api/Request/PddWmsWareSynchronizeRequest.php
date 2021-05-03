@@ -11,7 +11,7 @@ class PddWmsWareSynchronizeRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsWareSynchronizeRequest_Request, "request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsWareSynchronizeRequest_Request, "request")
 	*/
 	private $request;
 
@@ -52,17 +52,17 @@ class PddWmsWareSynchronizeRequest_Request extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "actionType")
+	* #JsonProperty(String, "actionType")
 	*/
 	private $actionType;
 
 	/**
-	* @JsonProperty(String, "ownerCode")
+	* #JsonProperty(String, "ownerCode")
 	*/
 	private $ownerCode;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsWareSynchronizeRequest_RequestWare, "ware")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsWareSynchronizeRequest_RequestWare, "ware")
 	*/
 	private $ware;
 
@@ -92,72 +92,72 @@ class PddWmsWareSynchronizeRequest_RequestWare extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "barCode")
+	* #JsonProperty(String, "barCode")
 	*/
 	private $barCode;
 
 	/**
-	* @JsonProperty(String, "brandName")
+	* #JsonProperty(String, "brandName")
 	*/
 	private $brandName;
 
 	/**
-	* @JsonProperty(String, "categoryId")
+	* #JsonProperty(String, "categoryId")
 	*/
 	private $categoryId;
 
 	/**
-	* @JsonProperty(String, "categoryName")
+	* #JsonProperty(String, "categoryName")
 	*/
 	private $categoryName;
 
 	/**
-	* @JsonProperty(String, "color")
+	* #JsonProperty(String, "color")
 	*/
 	private $color;
 
 	/**
-	* @JsonProperty(String, "height")
+	* #JsonProperty(String, "height")
 	*/
 	private $height;
 
 	/**
-	* @JsonProperty(String, "length")
+	* #JsonProperty(String, "length")
 	*/
 	private $length;
 
 	/**
-	* @JsonProperty(String, "size")
+	* #JsonProperty(String, "size")
 	*/
 	private $size;
 
 	/**
-	* @JsonProperty(String, "volume")
+	* #JsonProperty(String, "volume")
 	*/
 	private $volume;
 
 	/**
-	* @JsonProperty(String, "wareName")
+	* #JsonProperty(String, "wareName")
 	*/
 	private $wareName;
 
 	/**
-	* @JsonProperty(String, "wareSn")
+	* #JsonProperty(String, "wareSn")
 	*/
 	private $wareSn;
 
 	/**
-	* @JsonProperty(String, "wareType")
+	* #JsonProperty(String, "wareType")
 	*/
 	private $wareType;
 
 	/**
-	* @JsonProperty(String, "weight")
+	* #JsonProperty(String, "weight")
 	*/
 	private $weight;
 
 	/**
-	* @JsonProperty(String, "width")
+	* #JsonProperty(String, "width")
 	*/
 	private $width;
 

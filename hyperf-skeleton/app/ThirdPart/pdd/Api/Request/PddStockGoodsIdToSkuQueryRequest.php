@@ -11,12 +11,12 @@ class PddStockGoodsIdToSkuQueryRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "goods_id")
+	* #JsonProperty(Long, "goods_id")
 	*/
 	private $goodsId;
 
 	/**
-	* @JsonProperty(Long, "ware_id")
+	* #JsonProperty(Long, "ware_id")
 	*/
 	private $wareId;
 

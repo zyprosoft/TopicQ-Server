@@ -11,12 +11,12 @@ class PddAdApiPlanQueryCanCreateAdPlanRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "planName")
+	* #JsonProperty(String, "planName")
 	*/
 	private $planName;
 
 	/**
-	* @JsonProperty(Integer, "scenesType")
+	* #JsonProperty(Integer, "scenesType")
 	*/
 	private $scenesType;
 

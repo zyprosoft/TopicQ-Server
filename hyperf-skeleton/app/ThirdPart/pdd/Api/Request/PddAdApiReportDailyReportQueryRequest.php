@@ -11,32 +11,32 @@ class PddAdApiReportDailyReportQueryRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "endDateString")
+	* #JsonProperty(String, "endDateString")
 	*/
 	private $endDateString;
 
 	/**
-	* @JsonProperty(Long, "entityId")
+	* #JsonProperty(Long, "entityId")
 	*/
 	private $entityId;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiReportDailyReportQueryRequest_tring, String>, "externalParamMap")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiReportDailyReportQueryRequest_tring, String>, "externalParamMap")
 	*/
 	private $externalParamMap;
 
 	/**
-	* @JsonProperty(Integer, "queryDimensionType")
+	* #JsonProperty(Integer, "queryDimensionType")
 	*/
 	private $queryDimensionType;
 
 	/**
-	* @JsonProperty(Integer, "scenesType")
+	* #JsonProperty(Integer, "scenesType")
 	*/
 	private $scenesType;
 
 	/**
-	* @JsonProperty(String, "startDateString")
+	* #JsonProperty(String, "startDateString")
 	*/
 	private $startDateString;
 

@@ -11,52 +11,52 @@ class PddLogisticsTicketNotifyRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<String>, "attach_path_list")
+	* #JsonProperty(List<String>, "attach_path_list")
 	*/
 	private $attachPathList;
 
 	/**
-	* @JsonProperty(Long, "ticket_id")
+	* #JsonProperty(Long, "ticket_id")
 	*/
 	private $ticketId;
 
 	/**
-	* @JsonProperty(String, "waybill_no")
+	* #JsonProperty(String, "waybill_no")
 	*/
 	private $waybillNo;
 
 	/**
-	* @JsonProperty(String, "handle_result")
+	* #JsonProperty(String, "handle_result")
 	*/
 	private $handleResult;
 
 	/**
-	* @JsonProperty(Integer, "sign_state")
+	* #JsonProperty(Integer, "sign_state")
 	*/
 	private $signState;
 
 	/**
-	* @JsonProperty(Integer, "compensate_state")
+	* #JsonProperty(Integer, "compensate_state")
 	*/
 	private $compensateState;
 
 	/**
-	* @JsonProperty(Long, "compensate_amount")
+	* #JsonProperty(Long, "compensate_amount")
 	*/
 	private $compensateAmount;
 
 	/**
-	* @JsonProperty(Integer, "duty")
+	* #JsonProperty(Integer, "duty")
 	*/
 	private $duty;
 
 	/**
-	* @JsonProperty(String, "express_dealer")
+	* #JsonProperty(String, "express_dealer")
 	*/
 	private $expressDealer;
 
 	/**
-	* @JsonProperty(String, "express_dealer_contact")
+	* #JsonProperty(String, "express_dealer_contact")
 	*/
 	private $expressDealerContact;
 

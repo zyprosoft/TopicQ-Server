@@ -11,17 +11,17 @@ class PddGoodsSizespecTemplatesGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "class_id")
+	* #JsonProperty(Long, "class_id")
 	*/
 	private $classId;
 
 	/**
-	* @JsonProperty(Long, "limit")
+	* #JsonProperty(Long, "limit")
 	*/
 	private $limit;
 
 	/**
-	* @JsonProperty(Long, "offset")
+	* #JsonProperty(Long, "offset")
 	*/
 	private $offset;
 

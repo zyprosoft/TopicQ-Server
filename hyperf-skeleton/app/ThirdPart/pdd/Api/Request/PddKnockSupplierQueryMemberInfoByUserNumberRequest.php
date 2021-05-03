@@ -11,7 +11,7 @@ class PddKnockSupplierQueryMemberInfoByUserNumberRequest extends PopBaseHttpRequ
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddKnockSupplierQueryMemberInfoByUserNumberRequest_Request, "request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddKnockSupplierQueryMemberInfoByUserNumberRequest_Request, "request")
 	*/
 	private $request;
 
@@ -52,7 +52,7 @@ class PddKnockSupplierQueryMemberInfoByUserNumberRequest_Request extends PopBase
 	}
 
 	/**
-	* @JsonProperty(List<String>, "user_numbers")
+	* #JsonProperty(List<String>, "user_numbers")
 	*/
 	private $userNumbers;
 

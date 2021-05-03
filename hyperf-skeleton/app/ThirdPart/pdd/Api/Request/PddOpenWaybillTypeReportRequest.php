@@ -11,12 +11,12 @@ class PddOpenWaybillTypeReportRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<String>, "order_sn_list")
+	* #JsonProperty(List<String>, "order_sn_list")
 	*/
 	private $orderSnList;
 
 	/**
-	* @JsonProperty(Integer, "waybill_type")
+	* #JsonProperty(Integer, "waybill_type")
 	*/
 	private $waybillType;
 

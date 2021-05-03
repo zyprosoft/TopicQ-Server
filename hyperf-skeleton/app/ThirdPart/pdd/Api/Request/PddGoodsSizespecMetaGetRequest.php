@@ -11,7 +11,7 @@ class PddGoodsSizespecMetaGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "class_id")
+	* #JsonProperty(Integer, "class_id")
 	*/
 	private $classId;
 

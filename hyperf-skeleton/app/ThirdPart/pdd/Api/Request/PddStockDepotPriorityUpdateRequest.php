@@ -11,7 +11,7 @@ class PddStockDepotPriorityUpdateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddStockDepotPriorityUpdateRequest_PriorityListItem>, "priority_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddStockDepotPriorityUpdateRequest_PriorityListItem>, "priority_list")
 	*/
 	private $priorityList;
 
@@ -52,27 +52,27 @@ class PddStockDepotPriorityUpdateRequest_PriorityListItem extends PopBaseJsonEnt
 	}
 
 	/**
-	* @JsonProperty(Integer, "priority")
+	* #JsonProperty(Integer, "priority")
 	*/
 	private $priority;
 
 	/**
-	* @JsonProperty(Integer, "district_id")
+	* #JsonProperty(Integer, "district_id")
 	*/
 	private $districtId;
 
 	/**
-	* @JsonProperty(Integer, "city_id")
+	* #JsonProperty(Integer, "city_id")
 	*/
 	private $cityId;
 
 	/**
-	* @JsonProperty(Integer, "province_id")
+	* #JsonProperty(Integer, "province_id")
 	*/
 	private $provinceId;
 
 	/**
-	* @JsonProperty(Long, "depot_id")
+	* #JsonProperty(Long, "depot_id")
 	*/
 	private $depotId;
 

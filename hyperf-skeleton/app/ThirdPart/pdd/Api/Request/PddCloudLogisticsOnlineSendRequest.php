@@ -11,37 +11,37 @@ class PddCloudLogisticsOnlineSendRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "feature")
+	* #JsonProperty(String, "feature")
 	*/
 	private $feature;
 
 	/**
-	* @JsonProperty(Long, "logistics_id")
+	* #JsonProperty(Long, "logistics_id")
 	*/
 	private $logisticsId;
 
 	/**
-	* @JsonProperty(String, "order_sn")
+	* #JsonProperty(String, "order_sn")
 	*/
 	private $orderSn;
 
 	/**
-	* @JsonProperty(String, "refund_address_id")
+	* #JsonProperty(String, "refund_address_id")
 	*/
 	private $refundAddressId;
 
 	/**
-	* @JsonProperty(String, "tracking_number")
+	* #JsonProperty(String, "tracking_number")
 	*/
 	private $trackingNumber;
 
 	/**
-	* @JsonProperty(String, "ext_token")
+	* #JsonProperty(String, "ext_token")
 	*/
 	private $extToken;
 
 	/**
-	* @JsonProperty(Integer, "redelivery_type")
+	* #JsonProperty(Integer, "redelivery_type")
 	*/
 	private $redeliveryType;
 

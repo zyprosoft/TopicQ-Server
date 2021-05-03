@@ -11,7 +11,7 @@ class PddGoodsCpsUnitCreateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsCpsUnitCreateRequest_UnitsItem>, "units")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsCpsUnitCreateRequest_UnitsItem>, "units")
 	*/
 	private $units;
 
@@ -52,42 +52,42 @@ class PddGoodsCpsUnitCreateRequest_UnitsItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(Long, "goods_id")
+	* #JsonProperty(Long, "goods_id")
 	*/
 	private $goodsId;
 
 	/**
-	* @JsonProperty(Long, "rate")
+	* #JsonProperty(Long, "rate")
 	*/
 	private $rate;
 
 	/**
-	* @JsonProperty(Long, "coupon_id")
+	* #JsonProperty(Long, "coupon_id")
 	*/
 	private $couponId;
 
 	/**
-	* @JsonProperty(String, "coupon_start_time")
+	* #JsonProperty(String, "coupon_start_time")
 	*/
 	private $couponStartTime;
 
 	/**
-	* @JsonProperty(String, "coupon_end_time")
+	* #JsonProperty(String, "coupon_end_time")
 	*/
 	private $couponEndTime;
 
 	/**
-	* @JsonProperty(Long, "discount")
+	* #JsonProperty(Long, "discount")
 	*/
 	private $discount;
 
 	/**
-	* @JsonProperty(Long, "init_quantity")
+	* #JsonProperty(Long, "init_quantity")
 	*/
 	private $initQuantity;
 
 	/**
-	* @JsonProperty(Long, "remain_quantity")
+	* #JsonProperty(Long, "remain_quantity")
 	*/
 	private $remainQuantity;
 

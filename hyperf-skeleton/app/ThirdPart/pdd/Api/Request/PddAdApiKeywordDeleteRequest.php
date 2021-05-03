@@ -11,12 +11,12 @@ class PddAdApiKeywordDeleteRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "adId")
+	* #JsonProperty(Long, "adId")
 	*/
 	private $adId;
 
 	/**
-	* @JsonProperty(List<Long>, "keywordIds")
+	* #JsonProperty(List<Long>, "keywordIds")
 	*/
 	private $keywordIds;
 

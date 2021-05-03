@@ -11,7 +11,7 @@ class PddFdsOrderListGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddFdsOrderListGetRequest_ParamFdsOrderListGetRequest, "param_fds_order_list_get_request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddFdsOrderListGetRequest_ParamFdsOrderListGetRequest, "param_fds_order_list_get_request")
 	*/
 	private $paramFdsOrderListGetRequest;
 
@@ -52,22 +52,22 @@ class PddFdsOrderListGetRequest_ParamFdsOrderListGetRequest extends PopBaseJsonE
 	}
 
 	/**
-	* @JsonProperty(Long, "end_updated_time")
+	* #JsonProperty(Long, "end_updated_time")
 	*/
 	private $endUpdatedTime;
 
 	/**
-	* @JsonProperty(Integer, "page")
+	* #JsonProperty(Integer, "page")
 	*/
 	private $page;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 
 	/**
-	* @JsonProperty(Long, "start_updated_time")
+	* #JsonProperty(Long, "start_updated_time")
 	*/
 	private $startUpdatedTime;
 

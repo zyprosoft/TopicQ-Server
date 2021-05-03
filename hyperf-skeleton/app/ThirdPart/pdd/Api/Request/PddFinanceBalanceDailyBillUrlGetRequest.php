@@ -11,7 +11,7 @@ class PddFinanceBalanceDailyBillUrlGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "bill_date")
+	* #JsonProperty(String, "bill_date")
 	*/
 	private $billDate;
 

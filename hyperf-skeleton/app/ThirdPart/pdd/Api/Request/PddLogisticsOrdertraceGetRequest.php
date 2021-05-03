@@ -11,12 +11,12 @@ class PddLogisticsOrdertraceGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "company_code")
+	* #JsonProperty(String, "company_code")
 	*/
 	private $companyCode;
 
 	/**
-	* @JsonProperty(String, "mail_no")
+	* #JsonProperty(String, "mail_no")
 	*/
 	private $mailNo;
 

@@ -11,12 +11,12 @@ class PddAdApiUnitUpdateDataOperateStatusRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<Long>, "adIds")
+	* #JsonProperty(List<Long>, "adIds")
 	*/
 	private $adIds;
 
 	/**
-	* @JsonProperty(Integer, "dataOperateStatus")
+	* #JsonProperty(Integer, "dataOperateStatus")
 	*/
 	private $dataOperateStatus;
 

@@ -11,17 +11,17 @@ class PddTrainConfirmChangeRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "pdd_order_id")
+	* #JsonProperty(String, "pdd_order_id")
 	*/
 	private $pddOrderId;
 
 	/**
-	* @JsonProperty(String, "order_id")
+	* #JsonProperty(String, "order_id")
 	*/
 	private $orderId;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTrainConfirmChangeRequest_NewPassengerInfosItem>, "new_passenger_infos")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTrainConfirmChangeRequest_NewPassengerInfosItem>, "new_passenger_infos")
 	*/
 	private $newPassengerInfos;
 
@@ -74,22 +74,22 @@ class PddTrainConfirmChangeRequest_NewPassengerInfosItem extends PopBaseJsonEnti
 	}
 
 	/**
-	* @JsonProperty(String, "order_id")
+	* #JsonProperty(String, "order_id")
 	*/
 	private $orderId;
 
 	/**
-	* @JsonProperty(String, "new_sub_order_id")
+	* #JsonProperty(String, "new_sub_order_id")
 	*/
 	private $newSubOrderId;
 
 	/**
-	* @JsonProperty(String, "old_sub_order_Id")
+	* #JsonProperty(String, "old_sub_order_Id")
 	*/
 	private $oldSubOrderId;
 
 	/**
-	* @JsonProperty(String, "order_sn")
+	* #JsonProperty(String, "order_sn")
 	*/
 	private $orderSn;
 

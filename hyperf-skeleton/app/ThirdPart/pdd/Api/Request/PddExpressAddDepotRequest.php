@@ -11,57 +11,57 @@ class PddExpressAddDepotRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "contact_name")
+	* #JsonProperty(String, "contact_name")
 	*/
 	private $contactName;
 
 	/**
-	* @JsonProperty(String, "depot_address")
+	* #JsonProperty(String, "depot_address")
 	*/
 	private $depotAddress;
 
 	/**
-	* @JsonProperty(String, "depot_alias")
+	* #JsonProperty(String, "depot_alias")
 	*/
 	private $depotAlias;
 
 	/**
-	* @JsonProperty(Integer, "depot_city_id")
+	* #JsonProperty(Integer, "depot_city_id")
 	*/
 	private $depotCityId;
 
 	/**
-	* @JsonProperty(String, "depot_code")
+	* #JsonProperty(String, "depot_code")
 	*/
 	private $depotCode;
 
 	/**
-	* @JsonProperty(Integer, "depot_district_id")
+	* #JsonProperty(Integer, "depot_district_id")
 	*/
 	private $depotDistrictId;
 
 	/**
-	* @JsonProperty(String, "depot_name")
+	* #JsonProperty(String, "depot_name")
 	*/
 	private $depotName;
 
 	/**
-	* @JsonProperty(Integer, "depot_province_id")
+	* #JsonProperty(Integer, "depot_province_id")
 	*/
 	private $depotProvinceId;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddExpressAddDepotRequest_tring, Map<String, List<String>>>, "depot_region")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddExpressAddDepotRequest_tring, Map<String, List<String>>>, "depot_region")
 	*/
 	private $depotRegion;
 
 	/**
-	* @JsonProperty(String, "telephone")
+	* #JsonProperty(String, "telephone")
 	*/
 	private $telephone;
 
 	/**
-	* @JsonProperty(String, "zip_code")
+	* #JsonProperty(String, "zip_code")
 	*/
 	private $zipCode;
 

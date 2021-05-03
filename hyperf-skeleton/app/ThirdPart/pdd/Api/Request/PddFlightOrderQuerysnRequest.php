@@ -11,12 +11,12 @@ class PddFlightOrderQuerysnRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "trace_id")
+	* #JsonProperty(String, "trace_id")
 	*/
 	private $traceId;
 
 	/**
-	* @JsonProperty(String, "travel_sn")
+	* #JsonProperty(String, "travel_sn")
 	*/
 	private $travelSn;
 

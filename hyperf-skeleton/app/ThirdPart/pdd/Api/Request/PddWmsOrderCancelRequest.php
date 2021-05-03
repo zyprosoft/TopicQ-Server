@@ -11,7 +11,7 @@ class PddWmsOrderCancelRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOrderCancelRequest_Request, "request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOrderCancelRequest_Request, "request")
 	*/
 	private $request;
 
@@ -52,27 +52,27 @@ class PddWmsOrderCancelRequest_Request extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "cancelReason")
+	* #JsonProperty(String, "cancelReason")
 	*/
 	private $cancelReason;
 
 	/**
-	* @JsonProperty(String, "orderCode")
+	* #JsonProperty(String, "orderCode")
 	*/
 	private $orderCode;
 
 	/**
-	* @JsonProperty(String, "orderType")
+	* #JsonProperty(String, "orderType")
 	*/
 	private $orderType;
 
 	/**
-	* @JsonProperty(String, "ownerCode")
+	* #JsonProperty(String, "ownerCode")
 	*/
 	private $ownerCode;
 
 	/**
-	* @JsonProperty(String, "warehouseCode")
+	* #JsonProperty(String, "warehouseCode")
 	*/
 	private $warehouseCode;
 

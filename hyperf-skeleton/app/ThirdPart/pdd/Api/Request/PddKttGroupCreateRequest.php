@@ -11,32 +11,32 @@ class PddKttGroupCreateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "end_time")
+	* #JsonProperty(Long, "end_time")
 	*/
 	private $endTime;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddKttGroupCreateRequest_GoodsListItem>, "goods_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddKttGroupCreateRequest_GoodsListItem>, "goods_list")
 	*/
 	private $goodsList;
 
 	/**
-	* @JsonProperty(String, "isv_no")
+	* #JsonProperty(String, "isv_no")
 	*/
 	private $isvNo;
 
 	/**
-	* @JsonProperty(Integer, "is_save_preview")
+	* #JsonProperty(Integer, "is_save_preview")
 	*/
 	private $isSavePreview;
 
 	/**
-	* @JsonProperty(Long, "start_time")
+	* #JsonProperty(Long, "start_time")
 	*/
 	private $startTime;
 
 	/**
-	* @JsonProperty(String, "title")
+	* #JsonProperty(String, "title")
 	*/
 	private $title;
 
@@ -107,37 +107,37 @@ class PddKttGroupCreateRequest_GoodsListItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "category_name")
+	* #JsonProperty(String, "category_name")
 	*/
 	private $categoryName;
 
 	/**
-	* @JsonProperty(String, "goods_desc")
+	* #JsonProperty(String, "goods_desc")
 	*/
 	private $goodsDesc;
 
 	/**
-	* @JsonProperty(String, "goods_name")
+	* #JsonProperty(String, "goods_name")
 	*/
 	private $goodsName;
 
 	/**
-	* @JsonProperty(Integer, "limit_buy")
+	* #JsonProperty(Integer, "limit_buy")
 	*/
 	private $limitBuy;
 
 	/**
-	* @JsonProperty(Long, "market_price")
+	* #JsonProperty(Long, "market_price")
 	*/
 	private $marketPrice;
 
 	/**
-	* @JsonProperty(List<String>, "pic_url_list")
+	* #JsonProperty(List<String>, "pic_url_list")
 	*/
 	private $picUrlList;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddKttGroupCreateRequest_GoodsListItemSkuListItem>, "sku_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddKttGroupCreateRequest_GoodsListItemSkuListItem>, "sku_list")
 	*/
 	private $skuList;
 
@@ -187,32 +187,32 @@ class PddKttGroupCreateRequest_GoodsListItemSkuListItem extends PopBaseJsonEntit
 	}
 
 	/**
-	* @JsonProperty(String, "external_sku_id")
+	* #JsonProperty(String, "external_sku_id")
 	*/
 	private $externalSkuId;
 
 	/**
-	* @JsonProperty(Long, "price_in_fen")
+	* #JsonProperty(Long, "price_in_fen")
 	*/
 	private $priceInFen;
 
 	/**
-	* @JsonProperty(Integer, "quantity_type")
+	* #JsonProperty(Integer, "quantity_type")
 	*/
 	private $quantityType;
 
 	/**
-	* @JsonProperty(List<Long>, "spec_id_list")
+	* #JsonProperty(List<Long>, "spec_id_list")
 	*/
 	private $specIdList;
 
 	/**
-	* @JsonProperty(String, "thumb_url")
+	* #JsonProperty(String, "thumb_url")
 	*/
 	private $thumbUrl;
 
 	/**
-	* @JsonProperty(Long, "total_quantity")
+	* #JsonProperty(Long, "total_quantity")
 	*/
 	private $totalQuantity;
 

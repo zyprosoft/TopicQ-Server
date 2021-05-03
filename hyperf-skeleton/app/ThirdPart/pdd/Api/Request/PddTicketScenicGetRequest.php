@@ -11,22 +11,22 @@ class PddTicketScenicGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "city_code")
+	* #JsonProperty(Long, "city_code")
 	*/
 	private $cityCode;
 
 	/**
-	* @JsonProperty(Integer, "location_type")
+	* #JsonProperty(Integer, "location_type")
 	*/
 	private $locationType;
 
 	/**
-	* @JsonProperty(Long, "scenic_id")
+	* #JsonProperty(Long, "scenic_id")
 	*/
 	private $scenicId;
 
 	/**
-	* @JsonProperty(String, "scenic_name")
+	* #JsonProperty(String, "scenic_name")
 	*/
 	private $scenicName;
 

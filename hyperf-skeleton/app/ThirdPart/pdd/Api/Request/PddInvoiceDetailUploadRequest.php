@@ -11,117 +11,117 @@ class PddInvoiceDetailUploadRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "application_id")
+	* #JsonProperty(Long, "application_id")
 	*/
 	private $applicationId;
 
 	/**
-	* @JsonProperty(Integer, "business_type")
+	* #JsonProperty(Integer, "business_type")
 	*/
 	private $businessType;
 
 	/**
-	* @JsonProperty(Long, "invoice_amount")
+	* #JsonProperty(Long, "invoice_amount")
 	*/
 	private $invoiceAmount;
 
 	/**
-	* @JsonProperty(String, "invoice_code")
+	* #JsonProperty(String, "invoice_code")
 	*/
 	private $invoiceCode;
 
 	/**
-	* @JsonProperty(String, "invoice_file_content")
+	* #JsonProperty(String, "invoice_file_content")
 	*/
 	private $invoiceFileContent;
 
 	/**
-	* @JsonProperty(Integer, "invoice_kind")
+	* #JsonProperty(Integer, "invoice_kind")
 	*/
 	private $invoiceKind;
 
 	/**
-	* @JsonProperty(String, "invoice_no")
+	* #JsonProperty(String, "invoice_no")
 	*/
 	private $invoiceNo;
 
 	/**
-	* @JsonProperty(Long, "invoice_time")
+	* #JsonProperty(Long, "invoice_time")
 	*/
 	private $invoiceTime;
 
 	/**
-	* @JsonProperty(Integer, "invoice_type")
+	* #JsonProperty(Integer, "invoice_type")
 	*/
 	private $invoiceType;
 
 	/**
-	* @JsonProperty(String, "memo")
+	* #JsonProperty(String, "memo")
 	*/
 	private $memo;
 
 	/**
-	* @JsonProperty(String, "order_sn")
+	* #JsonProperty(String, "order_sn")
 	*/
 	private $orderSn;
 
 	/**
-	* @JsonProperty(String, "original_invoice_code")
+	* #JsonProperty(String, "original_invoice_code")
 	*/
 	private $originalInvoiceCode;
 
 	/**
-	* @JsonProperty(String, "original_invoice_no")
+	* #JsonProperty(String, "original_invoice_no")
 	*/
 	private $originalInvoiceNo;
 
 	/**
-	* @JsonProperty(String, "payee_operator")
+	* #JsonProperty(String, "payee_operator")
 	*/
 	private $payeeOperator;
 
 	/**
-	* @JsonProperty(String, "payer_account")
+	* #JsonProperty(String, "payer_account")
 	*/
 	private $payerAccount;
 
 	/**
-	* @JsonProperty(String, "payer_address")
+	* #JsonProperty(String, "payer_address")
 	*/
 	private $payerAddress;
 
 	/**
-	* @JsonProperty(String, "payer_bank")
+	* #JsonProperty(String, "payer_bank")
 	*/
 	private $payerBank;
 
 	/**
-	* @JsonProperty(String, "payer_name")
+	* #JsonProperty(String, "payer_name")
 	*/
 	private $payerName;
 
 	/**
-	* @JsonProperty(String, "payer_phone")
+	* #JsonProperty(String, "payer_phone")
 	*/
 	private $payerPhone;
 
 	/**
-	* @JsonProperty(String, "payer_register_no")
+	* #JsonProperty(String, "payer_register_no")
 	*/
 	private $payerRegisterNo;
 
 	/**
-	* @JsonProperty(Long, "sum_price")
+	* #JsonProperty(Long, "sum_price")
 	*/
 	private $sumPrice;
 
 	/**
-	* @JsonProperty(Integer, "sum_tax")
+	* #JsonProperty(Integer, "sum_tax")
 	*/
 	private $sumTax;
 
 	/**
-	* @JsonProperty(Integer, "tax_rate")
+	* #JsonProperty(Integer, "tax_rate")
 	*/
 	private $taxRate;
 

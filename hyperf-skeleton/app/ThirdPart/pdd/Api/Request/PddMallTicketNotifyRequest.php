@@ -11,17 +11,17 @@ class PddMallTicketNotifyRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "content")
+	* #JsonProperty(String, "content")
 	*/
 	private $content;
 
 	/**
-	* @JsonProperty(Boolean, "syn_to_user")
+	* #JsonProperty(Boolean, "syn_to_user")
 	*/
 	private $synToUser;
 
 	/**
-	* @JsonProperty(String, "ticket_id")
+	* #JsonProperty(String, "ticket_id")
 	*/
 	private $ticketId;
 

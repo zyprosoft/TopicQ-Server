@@ -11,12 +11,12 @@ class PddPromotionCouponQuantityAddRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "batch_id")
+	* #JsonProperty(Long, "batch_id")
 	*/
 	private $batchId;
 
 	/**
-	* @JsonProperty(Long, "add_quantity")
+	* #JsonProperty(Long, "add_quantity")
 	*/
 	private $addQuantity;
 

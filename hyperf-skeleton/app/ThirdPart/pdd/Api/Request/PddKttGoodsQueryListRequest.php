@@ -11,12 +11,12 @@ class PddKttGoodsQueryListRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "page")
+	* #JsonProperty(Integer, "page")
 	*/
 	private $page;
 
 	/**
-	* @JsonProperty(Integer, "size")
+	* #JsonProperty(Integer, "size")
 	*/
 	private $size;
 

@@ -11,37 +11,37 @@ class PddGoodsTemplatePropertyValueSearchRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "cat_id")
+	* #JsonProperty(Long, "cat_id")
 	*/
 	private $catId;
 
 	/**
-	* @JsonProperty(Integer, "page_num")
+	* #JsonProperty(Integer, "page_num")
 	*/
 	private $pageNum;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 
 	/**
-	* @JsonProperty(Long, "parent_vid")
+	* #JsonProperty(Long, "parent_vid")
 	*/
 	private $parentVid;
 
 	/**
-	* @JsonProperty(Long, "template_pid")
+	* #JsonProperty(Long, "template_pid")
 	*/
 	private $templatePid;
 
 	/**
-	* @JsonProperty(String, "value")
+	* #JsonProperty(String, "value")
 	*/
 	private $value;
 
 	/**
-	* @JsonProperty(Long, "ref_pid")
+	* #JsonProperty(Long, "ref_pid")
 	*/
 	private $refPid;
 

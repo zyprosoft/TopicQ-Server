@@ -11,17 +11,17 @@ class PddDdkGoodsPidGenerateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "number")
+	* #JsonProperty(Long, "number")
 	*/
 	private $number;
 
 	/**
-	* @JsonProperty(List<String>, "p_id_name_list")
+	* #JsonProperty(List<String>, "p_id_name_list")
 	*/
 	private $pIdNameList;
 
 	/**
-	* @JsonProperty(Long, "media_id")
+	* #JsonProperty(Long, "media_id")
 	*/
 	private $mediaId;
 

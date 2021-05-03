@@ -11,7 +11,7 @@ class PddWmsOrderCallbackRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOrderCallbackRequest_Request, "request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOrderCallbackRequest_Request, "request")
 	*/
 	private $request;
 
@@ -52,22 +52,22 @@ class PddWmsOrderCallbackRequest_Request extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "deliveryOrderCode")
+	* #JsonProperty(String, "deliveryOrderCode")
 	*/
 	private $deliveryOrderCode;
 
 	/**
-	* @JsonProperty(String, "orderType")
+	* #JsonProperty(String, "orderType")
 	*/
 	private $orderType;
 
 	/**
-	* @JsonProperty(String, "ownerCode")
+	* #JsonProperty(String, "ownerCode")
 	*/
 	private $ownerCode;
 
 	/**
-	* @JsonProperty(String, "warehouseCode")
+	* #JsonProperty(String, "warehouseCode")
 	*/
 	private $warehouseCode;
 

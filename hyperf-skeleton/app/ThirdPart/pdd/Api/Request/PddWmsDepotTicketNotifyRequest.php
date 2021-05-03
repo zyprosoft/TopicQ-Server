@@ -11,27 +11,27 @@ class PddWmsDepotTicketNotifyRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "ticketId")
+	* #JsonProperty(Long, "ticketId")
 	*/
 	private $ticketId;
 
 	/**
-	* @JsonProperty(String, "content")
+	* #JsonProperty(String, "content")
 	*/
 	private $content;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddWmsDepotTicketNotifyRequest_AttachUrlItem>, "attachUrl")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddWmsDepotTicketNotifyRequest_AttachUrlItem>, "attachUrl")
 	*/
 	private $attachUrl;
 
 	/**
-	* @JsonProperty(Integer, "serviceStatus")
+	* #JsonProperty(Integer, "serviceStatus")
 	*/
 	private $serviceStatus;
 
 	/**
-	* @JsonProperty(Integer, "compensateAmount")
+	* #JsonProperty(Integer, "compensateAmount")
 	*/
 	private $compensateAmount;
 
@@ -96,12 +96,12 @@ class PddWmsDepotTicketNotifyRequest_AttachUrlItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
 	/**
-	* @JsonProperty(String, "url")
+	* #JsonProperty(String, "url")
 	*/
 	private $url;
 

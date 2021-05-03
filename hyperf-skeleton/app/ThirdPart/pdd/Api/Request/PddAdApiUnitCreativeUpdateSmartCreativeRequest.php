@@ -11,12 +11,12 @@ class PddAdApiUnitCreativeUpdateSmartCreativeRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "text")
+	* #JsonProperty(String, "text")
 	*/
 	private $text;
 
 	/**
-	* @JsonProperty(Long, "unitCreativeId")
+	* #JsonProperty(Long, "unitCreativeId")
 	*/
 	private $unitCreativeId;
 

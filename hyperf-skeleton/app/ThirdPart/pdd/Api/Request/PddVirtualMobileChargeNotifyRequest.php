@@ -11,22 +11,22 @@ class PddVirtualMobileChargeNotifyRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddVirtualMobileChargeNotifyRequest_ChargeCertiItem>, "charge_certi")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddVirtualMobileChargeNotifyRequest_ChargeCertiItem>, "charge_certi")
 	*/
 	private $chargeCerti;
 
 	/**
-	* @JsonProperty(String, "order_sn")
+	* #JsonProperty(String, "order_sn")
 	*/
 	private $orderSn;
 
 	/**
-	* @JsonProperty(String, "outer_order_sn")
+	* #JsonProperty(String, "outer_order_sn")
 	*/
 	private $outerOrderSn;
 
 	/**
-	* @JsonProperty(String, "status")
+	* #JsonProperty(String, "status")
 	*/
 	private $status;
 
@@ -85,37 +85,37 @@ class PddVirtualMobileChargeNotifyRequest_ChargeCertiItem extends PopBaseJsonEnt
 	}
 
 	/**
-	* @JsonProperty(Long, "charge_certi_amount")
+	* #JsonProperty(Long, "charge_certi_amount")
 	*/
 	private $chargeCertiAmount;
 
 	/**
-	* @JsonProperty(String, "charge_certi_date")
+	* #JsonProperty(String, "charge_certi_date")
 	*/
 	private $chargeCertiDate;
 
 	/**
-	* @JsonProperty(String, "charge_certi_mobile")
+	* #JsonProperty(String, "charge_certi_mobile")
 	*/
 	private $chargeCertiMobile;
 
 	/**
-	* @JsonProperty(String, "charge_certi_mobile_tail")
+	* #JsonProperty(String, "charge_certi_mobile_tail")
 	*/
 	private $chargeCertiMobileTail;
 
 	/**
-	* @JsonProperty(String, "charge_certi_order_sn")
+	* #JsonProperty(String, "charge_certi_order_sn")
 	*/
 	private $chargeCertiOrderSn;
 
 	/**
-	* @JsonProperty(String, "charge_certi_text")
+	* #JsonProperty(String, "charge_certi_text")
 	*/
 	private $chargeCertiText;
 
 	/**
-	* @JsonProperty(String, "merchant_outer_id")
+	* #JsonProperty(String, "merchant_outer_id")
 	*/
 	private $merchantOuterId;
 

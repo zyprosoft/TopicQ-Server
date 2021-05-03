@@ -11,7 +11,7 @@ class PddWmsOrderstateSendRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOrderstateSendRequest_Request, "request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOrderstateSendRequest_Request, "request")
 	*/
 	private $request;
 
@@ -52,22 +52,22 @@ class PddWmsOrderstateSendRequest_Request extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOrderstateSendRequest_RequestOrder, "order")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOrderstateSendRequest_RequestOrder, "order")
 	*/
 	private $order;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOrderstateSendRequest_RequestOrderLinesItem>, "orderLines")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOrderstateSendRequest_RequestOrderLinesItem>, "orderLines")
 	*/
 	private $orderLines;
 
 	/**
-	* @JsonProperty(String, "ownerCode")
+	* #JsonProperty(String, "ownerCode")
 	*/
 	private $ownerCode;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOrderstateSendRequest_RequestProcess, "process")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOrderstateSendRequest_RequestProcess, "process")
 	*/
 	private $process;
 
@@ -102,17 +102,17 @@ class PddWmsOrderstateSendRequest_RequestOrder extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "orderCode")
+	* #JsonProperty(String, "orderCode")
 	*/
 	private $orderCode;
 
 	/**
-	* @JsonProperty(String, "orderType")
+	* #JsonProperty(String, "orderType")
 	*/
 	private $orderType;
 
 	/**
-	* @JsonProperty(String, "warehouseCode")
+	* #JsonProperty(String, "warehouseCode")
 	*/
 	private $warehouseCode;
 
@@ -142,22 +142,22 @@ class PddWmsOrderstateSendRequest_RequestOrderLinesItem extends PopBaseJsonEntit
 	}
 
 	/**
-	* @JsonProperty(String, "inventoryType")
+	* #JsonProperty(String, "inventoryType")
 	*/
 	private $inventoryType;
 
 	/**
-	* @JsonProperty(String, "parentWareSn")
+	* #JsonProperty(String, "parentWareSn")
 	*/
 	private $parentWareSn;
 
 	/**
-	* @JsonProperty(String, "quantity")
+	* #JsonProperty(String, "quantity")
 	*/
 	private $quantity;
 
 	/**
-	* @JsonProperty(String, "wareSn")
+	* #JsonProperty(String, "wareSn")
 	*/
 	private $wareSn;
 
@@ -192,22 +192,22 @@ class PddWmsOrderstateSendRequest_RequestProcess extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "operateInfo")
+	* #JsonProperty(String, "operateInfo")
 	*/
 	private $operateInfo;
 
 	/**
-	* @JsonProperty(String, "operateTime")
+	* #JsonProperty(String, "operateTime")
 	*/
 	private $operateTime;
 
 	/**
-	* @JsonProperty(String, "processStatus")
+	* #JsonProperty(String, "processStatus")
 	*/
 	private $processStatus;
 
 	/**
-	* @JsonProperty(String, "remark")
+	* #JsonProperty(String, "remark")
 	*/
 	private $remark;
 

@@ -11,27 +11,27 @@ class PddOpenMsgServiceQueryMsgRecordRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "biz_id")
+	* #JsonProperty(String, "biz_id")
 	*/
 	private $bizId;
 
 	/**
-	* @JsonProperty(Integer, "page_number")
+	* #JsonProperty(Integer, "page_number")
 	*/
 	private $pageNumber;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 
 	/**
-	* @JsonProperty(String, "phone_number")
+	* #JsonProperty(String, "phone_number")
 	*/
 	private $phoneNumber;
 
 	/**
-	* @JsonProperty(String, "send_date")
+	* #JsonProperty(String, "send_date")
 	*/
 	private $sendDate;
 

@@ -11,7 +11,7 @@ class PddGoodsCpsMallUnitChangeRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "rate")
+	* #JsonProperty(Integer, "rate")
 	*/
 	private $rate;
 

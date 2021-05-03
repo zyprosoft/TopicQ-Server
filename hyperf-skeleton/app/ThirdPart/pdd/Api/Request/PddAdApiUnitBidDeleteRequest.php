@@ -11,12 +11,12 @@ class PddAdApiUnitBidDeleteRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "adId")
+	* #JsonProperty(Long, "adId")
 	*/
 	private $adId;
 
 	/**
-	* @JsonProperty(List<Long>, "bidIds")
+	* #JsonProperty(List<Long>, "bidIds")
 	*/
 	private $bidIds;
 

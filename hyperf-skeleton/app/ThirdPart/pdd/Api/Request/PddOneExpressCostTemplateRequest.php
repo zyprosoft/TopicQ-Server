@@ -11,7 +11,7 @@ class PddOneExpressCostTemplateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "cost_template_id")
+	* #JsonProperty(Long, "cost_template_id")
 	*/
 	private $costTemplateId;
 

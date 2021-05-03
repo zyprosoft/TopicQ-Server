@@ -11,27 +11,27 @@ class PddDdkOauthGoodsDetailRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "custom_parameters")
+	* #JsonProperty(String, "custom_parameters")
 	*/
 	private $customParameters;
 
 	/**
-	* @JsonProperty(String, "goods_sign")
+	* #JsonProperty(String, "goods_sign")
 	*/
 	private $goodsSign;
 
 	/**
-	* @JsonProperty(String, "pid")
+	* #JsonProperty(String, "pid")
 	*/
 	private $pid;
 
 	/**
-	* @JsonProperty(String, "search_id")
+	* #JsonProperty(String, "search_id")
 	*/
 	private $searchId;
 
 	/**
-	* @JsonProperty(Long, "zs_duo_id")
+	* #JsonProperty(Long, "zs_duo_id")
 	*/
 	private $zsDuoId;
 

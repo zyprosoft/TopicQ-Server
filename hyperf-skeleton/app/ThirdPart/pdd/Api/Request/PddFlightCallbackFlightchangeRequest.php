@@ -11,32 +11,32 @@ class PddFlightCallbackFlightchangeRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "change_effect_time")
+	* #JsonProperty(String, "change_effect_time")
 	*/
 	private $changeEffectTime;
 
 	/**
-	* @JsonProperty(Integer, "change_type")
+	* #JsonProperty(Integer, "change_type")
 	*/
 	private $changeType;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddFlightCallbackFlightchangeRequest_FlightInfo, "flight_info")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddFlightCallbackFlightchangeRequest_FlightInfo, "flight_info")
 	*/
 	private $flightInfo;
 
 	/**
-	* @JsonProperty(String, "parent_travel_sn")
+	* #JsonProperty(String, "parent_travel_sn")
 	*/
 	private $parentTravelSn;
 
 	/**
-	* @JsonProperty(String, "trace_id")
+	* #JsonProperty(String, "trace_id")
 	*/
 	private $traceId;
 
 	/**
-	* @JsonProperty(List<String>, "travel_sn")
+	* #JsonProperty(List<String>, "travel_sn")
 	*/
 	private $travelSn;
 
@@ -107,42 +107,42 @@ class PddFlightCallbackFlightchangeRequest_FlightInfo extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "arrival_airport_code")
+	* #JsonProperty(String, "arrival_airport_code")
 	*/
 	private $arrivalAirportCode;
 
 	/**
-	* @JsonProperty(String, "arrival_date_time")
+	* #JsonProperty(String, "arrival_date_time")
 	*/
 	private $arrivalDateTime;
 
 	/**
-	* @JsonProperty(String, "departure_airport_code")
+	* #JsonProperty(String, "departure_airport_code")
 	*/
 	private $departureAirportCode;
 
 	/**
-	* @JsonProperty(String, "departure_date_time")
+	* #JsonProperty(String, "departure_date_time")
 	*/
 	private $departureDateTime;
 
 	/**
-	* @JsonProperty(String, "flight_no")
+	* #JsonProperty(String, "flight_no")
 	*/
 	private $flightNo;
 
 	/**
-	* @JsonProperty(String, "origin_arrival_date_time")
+	* #JsonProperty(String, "origin_arrival_date_time")
 	*/
 	private $originArrivalDateTime;
 
 	/**
-	* @JsonProperty(String, "origin_departure_date_time")
+	* #JsonProperty(String, "origin_departure_date_time")
 	*/
 	private $originDepartureDateTime;
 
 	/**
-	* @JsonProperty(String, "origin_flight_no")
+	* #JsonProperty(String, "origin_flight_no")
 	*/
 	private $originFlightNo;
 

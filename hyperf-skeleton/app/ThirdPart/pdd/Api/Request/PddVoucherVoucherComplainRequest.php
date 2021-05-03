@@ -11,42 +11,42 @@ class PddVoucherVoucherComplainRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "order_sn")
+	* #JsonProperty(String, "order_sn")
 	*/
 	private $orderSn;
 
 	/**
-	* @JsonProperty(String, "out_biz_no")
+	* #JsonProperty(String, "out_biz_no")
 	*/
 	private $outBizNo;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddVoucherVoucherComplainRequest_VoucherListItem>, "voucher_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddVoucherVoucherComplainRequest_VoucherListItem>, "voucher_list")
 	*/
 	private $voucherList;
 
 	/**
-	* @JsonProperty(String, "complain_user")
+	* #JsonProperty(String, "complain_user")
 	*/
 	private $complainUser;
 
 	/**
-	* @JsonProperty(String, "complain_user_mobile")
+	* #JsonProperty(String, "complain_user_mobile")
 	*/
 	private $complainUserMobile;
 
 	/**
-	* @JsonProperty(String, "complain_content")
+	* #JsonProperty(String, "complain_content")
 	*/
 	private $complainContent;
 
 	/**
-	* @JsonProperty(List<String>, "complain_attachment_list")
+	* #JsonProperty(List<String>, "complain_attachment_list")
 	*/
 	private $complainAttachmentList;
 
 	/**
-	* @JsonProperty(Integer, "complain_type")
+	* #JsonProperty(Integer, "complain_type")
 	*/
 	private $complainType;
 
@@ -129,12 +129,12 @@ class PddVoucherVoucherComplainRequest_VoucherListItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "voucher_id")
+	* #JsonProperty(String, "voucher_id")
 	*/
 	private $voucherId;
 
 	/**
-	* @JsonProperty(String, "voucher_no")
+	* #JsonProperty(String, "voucher_no")
 	*/
 	private $voucherNo;
 

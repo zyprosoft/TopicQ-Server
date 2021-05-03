@@ -11,7 +11,7 @@ class PddTrainTicketRefundRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "sub_order_id")
+	* #JsonProperty(String, "sub_order_id")
 	*/
 	private $subOrderId;
 

@@ -11,12 +11,12 @@ class PddCloudSecurityEventTrackingBatchOrderRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "eventType")
+	* #JsonProperty(Integer, "eventType")
 	*/
 	private $eventType;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddCloudSecurityEventTrackingBatchOrderRequest_OrderEventsItem>, "orderEvents")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddCloudSecurityEventTrackingBatchOrderRequest_OrderEventsItem>, "orderEvents")
 	*/
 	private $orderEvents;
 
@@ -63,57 +63,57 @@ class PddCloudSecurityEventTrackingBatchOrderRequest_OrderEventsItem extends Pop
 	}
 
 	/**
-	* @JsonProperty(List<Long>, "mallIdList")
+	* #JsonProperty(List<Long>, "mallIdList")
 	*/
 	private $mallIdList;
 
 	/**
-	* @JsonProperty(String, "operation")
+	* #JsonProperty(String, "operation")
 	*/
 	private $operation;
 
 	/**
-	* @JsonProperty(List<String>, "orderList")
+	* #JsonProperty(List<String>, "orderList")
 	*/
 	private $orderList;
 
 	/**
-	* @JsonProperty(String, "pati")
+	* #JsonProperty(String, "pati")
 	*/
 	private $pati;
 
 	/**
-	* @JsonProperty(String, "sendTo")
+	* #JsonProperty(String, "sendTo")
 	*/
 	private $sendTo;
 
 	/**
-	* @JsonProperty(Long, "timestamp")
+	* #JsonProperty(Long, "timestamp")
 	*/
 	private $timestamp;
 
 	/**
-	* @JsonProperty(String, "url")
+	* #JsonProperty(String, "url")
 	*/
 	private $url;
 
 	/**
-	* @JsonProperty(String, "userId")
+	* #JsonProperty(String, "userId")
 	*/
 	private $userId;
 
 	/**
-	* @JsonProperty(String, "userIp")
+	* #JsonProperty(String, "userIp")
 	*/
 	private $userIp;
 
 	/**
-	* @JsonProperty(List<Integer>, "sensitiveFieldEnumList")
+	* #JsonProperty(List<Integer>, "sensitiveFieldEnumList")
 	*/
 	private $sensitiveFieldEnumList;
 
 	/**
-	* @JsonProperty(Boolean, "isEncrypt")
+	* #JsonProperty(Boolean, "isEncrypt")
 	*/
 	private $isEncrypt;
 

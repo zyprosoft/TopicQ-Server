@@ -11,12 +11,12 @@ class PddLogisticsCoTrackSubRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "ship_id")
+	* #JsonProperty(String, "ship_id")
 	*/
 	private $shipId;
 
 	/**
-	* @JsonProperty(String, "data")
+	* #JsonProperty(String, "data")
 	*/
 	private $data;
 

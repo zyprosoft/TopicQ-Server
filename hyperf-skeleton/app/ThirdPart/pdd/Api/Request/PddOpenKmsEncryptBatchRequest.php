@@ -11,7 +11,7 @@ class PddOpenKmsEncryptBatchRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddOpenKmsEncryptBatchRequest_DataListItem>, "data_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddOpenKmsEncryptBatchRequest_DataListItem>, "data_list")
 	*/
 	private $dataList;
 
@@ -52,17 +52,17 @@ class PddOpenKmsEncryptBatchRequest_DataListItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "data")
+	* #JsonProperty(String, "data")
 	*/
 	private $data;
 
 	/**
-	* @JsonProperty(Boolean, "search")
+	* #JsonProperty(Boolean, "search")
 	*/
 	private $search;
 
 	/**
-	* @JsonProperty(String, "type")
+	* #JsonProperty(String, "type")
 	*/
 	private $type;
 

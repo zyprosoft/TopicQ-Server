@@ -11,22 +11,22 @@ class PddGoodsChildSkuEditRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "goods_commit_id")
+	* #JsonProperty(Long, "goods_commit_id")
 	*/
 	private $goodsCommitId;
 
 	/**
-	* @JsonProperty(Long, "goods_id")
+	* #JsonProperty(Long, "goods_id")
 	*/
 	private $goodsId;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsChildSkuEditRequest_SkusItem>, "skus")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsChildSkuEditRequest_SkusItem>, "skus")
 	*/
 	private $skus;
 
 	/**
-	* @JsonProperty(Integer, "sync_goods_operate")
+	* #JsonProperty(Integer, "sync_goods_operate")
 	*/
 	private $syncGoodsOperate;
 
@@ -85,22 +85,22 @@ class PddGoodsChildSkuEditRequest_SkusItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsChildSkuEditRequest_SkusItemChildSkusItem>, "child_skus")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsChildSkuEditRequest_SkusItemChildSkusItem>, "child_skus")
 	*/
 	private $childSkus;
 
 	/**
-	* @JsonProperty(Integer, "is_onsale")
+	* #JsonProperty(Integer, "is_onsale")
 	*/
 	private $isOnsale;
 
 	/**
-	* @JsonProperty(String, "out_sku_sn")
+	* #JsonProperty(String, "out_sku_sn")
 	*/
 	private $outSkuSn;
 
 	/**
-	* @JsonProperty(Long, "sku_id")
+	* #JsonProperty(Long, "sku_id")
 	*/
 	private $skuId;
 
@@ -135,22 +135,22 @@ class PddGoodsChildSkuEditRequest_SkusItemChildSkusItem extends PopBaseJsonEntit
 	}
 
 	/**
-	* @JsonProperty(String, "date")
+	* #JsonProperty(String, "date")
 	*/
 	private $date;
 
 	/**
-	* @JsonProperty(Long, "group_price")
+	* #JsonProperty(Long, "group_price")
 	*/
 	private $groupPrice;
 
 	/**
-	* @JsonProperty(Long, "quantity_delta")
+	* #JsonProperty(Long, "quantity_delta")
 	*/
 	private $quantityDelta;
 
 	/**
-	* @JsonProperty(Long, "single_price")
+	* #JsonProperty(Long, "single_price")
 	*/
 	private $singlePrice;
 

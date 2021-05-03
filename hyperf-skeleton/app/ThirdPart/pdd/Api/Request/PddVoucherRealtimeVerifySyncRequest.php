@@ -11,7 +11,7 @@ class PddVoucherRealtimeVerifySyncRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddVoucherRealtimeVerifySyncRequest_Request, "request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddVoucherRealtimeVerifySyncRequest_Request, "request")
 	*/
 	private $request;
 
@@ -52,37 +52,37 @@ class PddVoucherRealtimeVerifySyncRequest_Request extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "order_sn")
+	* #JsonProperty(String, "order_sn")
 	*/
 	private $orderSn;
 
 	/**
-	* @JsonProperty(String, "remark")
+	* #JsonProperty(String, "remark")
 	*/
 	private $remark;
 
 	/**
-	* @JsonProperty(String, "serial_no")
+	* #JsonProperty(String, "serial_no")
 	*/
 	private $serialNo;
 
 	/**
-	* @JsonProperty(String, "shop_name")
+	* #JsonProperty(String, "shop_name")
 	*/
 	private $shopName;
 
 	/**
-	* @JsonProperty(String, "shop_no")
+	* #JsonProperty(String, "shop_no")
 	*/
 	private $shopNo;
 
 	/**
-	* @JsonProperty(Long, "verify_time")
+	* #JsonProperty(Long, "verify_time")
 	*/
 	private $verifyTime;
 
 	/**
-	* @JsonProperty(String, "out_voucher_id")
+	* #JsonProperty(String, "out_voucher_id")
 	*/
 	private $outVoucherId;
 

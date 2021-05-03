@@ -11,87 +11,87 @@ class PddTrainCallbackReserveRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "arrive_date")
+	* #JsonProperty(String, "arrive_date")
 	*/
 	private $arriveDate;
 
 	/**
-	* @JsonProperty(String, "arrive_station")
+	* #JsonProperty(String, "arrive_station")
 	*/
 	private $arriveStation;
 
 	/**
-	* @JsonProperty(String, "arrive_time")
+	* #JsonProperty(String, "arrive_time")
 	*/
 	private $arriveTime;
 
 	/**
-	* @JsonProperty(Long, "code")
+	* #JsonProperty(Long, "code")
 	*/
 	private $code;
 
 	/**
-	* @JsonProperty(String, "crh_order")
+	* #JsonProperty(String, "crh_order")
 	*/
 	private $crhOrder;
 
 	/**
-	* @JsonProperty(String, "depart_date")
+	* #JsonProperty(String, "depart_date")
 	*/
 	private $departDate;
 
 	/**
-	* @JsonProperty(String, "depart_station")
+	* #JsonProperty(String, "depart_station")
 	*/
 	private $departStation;
 
 	/**
-	* @JsonProperty(String, "depart_time")
+	* #JsonProperty(String, "depart_time")
 	*/
 	private $departTime;
 
 	/**
-	* @JsonProperty(String, "msg")
+	* #JsonProperty(String, "msg")
 	*/
 	private $msg;
 
 	/**
-	* @JsonProperty(String, "order_id")
+	* #JsonProperty(String, "order_id")
 	*/
 	private $orderId;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTrainCallbackReserveRequest_PassengersItem>, "passengers")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTrainCallbackReserveRequest_PassengersItem>, "passengers")
 	*/
 	private $passengers;
 
 	/**
-	* @JsonProperty(String, "pay_limit_time")
+	* #JsonProperty(String, "pay_limit_time")
 	*/
 	private $payLimitTime;
 
 	/**
-	* @JsonProperty(String, "pdd_order_id")
+	* #JsonProperty(String, "pdd_order_id")
 	*/
 	private $pddOrderId;
 
 	/**
-	* @JsonProperty(String, "request_id")
+	* #JsonProperty(String, "request_id")
 	*/
 	private $requestId;
 
 	/**
-	* @JsonProperty(String, "train_no")
+	* #JsonProperty(String, "train_no")
 	*/
 	private $trainNo;
 
 	/**
-	* @JsonProperty(Integer, "use_id_card_in")
+	* #JsonProperty(Integer, "use_id_card_in")
 	*/
 	private $useIdCardIn;
 
 	/**
-	* @JsonProperty(String, "vendor_time")
+	* #JsonProperty(String, "vendor_time")
 	*/
 	private $vendorTime;
 
@@ -228,62 +228,62 @@ class PddTrainCallbackReserveRequest_PassengersItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "card_no")
+	* #JsonProperty(String, "card_no")
 	*/
 	private $cardNo;
 
 	/**
-	* @JsonProperty(String, "card_type")
+	* #JsonProperty(String, "card_type")
 	*/
 	private $cardType;
 
 	/**
-	* @JsonProperty(String, "coach_name")
+	* #JsonProperty(String, "coach_name")
 	*/
 	private $coachName;
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
 	/**
-	* @JsonProperty(String, "seat_name")
+	* #JsonProperty(String, "seat_name")
 	*/
 	private $seatName;
 
 	/**
-	* @JsonProperty(Integer, "seat_type")
+	* #JsonProperty(Integer, "seat_type")
 	*/
 	private $seatType;
 
 	/**
-	* @JsonProperty(String, "sub_crh_order")
+	* #JsonProperty(String, "sub_crh_order")
 	*/
 	private $subCrhOrder;
 
 	/**
-	* @JsonProperty(String, "sub_order_id")
+	* #JsonProperty(String, "sub_order_id")
 	*/
 	private $subOrderId;
 
 	/**
-	* @JsonProperty(String, "sub_pdd_order_id")
+	* #JsonProperty(String, "sub_pdd_order_id")
 	*/
 	private $subPddOrderId;
 
 	/**
-	* @JsonProperty(Long, "ticket_price")
+	* #JsonProperty(Long, "ticket_price")
 	*/
 	private $ticketPrice;
 
 	/**
-	* @JsonProperty(Integer, "ticket_type")
+	* #JsonProperty(Integer, "ticket_type")
 	*/
 	private $ticketType;
 
 	/**
-	* @JsonProperty(Integer, "is_choose_seat")
+	* #JsonProperty(Integer, "is_choose_seat")
 	*/
 	private $isChooseSeat;
 

@@ -11,42 +11,42 @@ class PddSmsVendorComplaintCreateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "account")
+	* #JsonProperty(String, "account")
 	*/
 	private $account;
 
 	/**
-	* @JsonProperty(String, "complaint_time")
+	* #JsonProperty(String, "complaint_time")
 	*/
 	private $complaintTime;
 
 	/**
-	* @JsonProperty(Integer, "count")
+	* #JsonProperty(Integer, "count")
 	*/
 	private $count;
 
 	/**
-	* @JsonProperty(String, "deliver_time")
+	* #JsonProperty(String, "deliver_time")
 	*/
 	private $deliverTime;
 
 	/**
-	* @JsonProperty(String, "mobile")
+	* #JsonProperty(String, "mobile")
 	*/
 	private $mobile;
 
 	/**
-	* @JsonProperty(String, "operator")
+	* #JsonProperty(String, "operator")
 	*/
 	private $operator;
 
 	/**
-	* @JsonProperty(String, "province")
+	* #JsonProperty(String, "province")
 	*/
 	private $province;
 
 	/**
-	* @JsonProperty(String, "sms_content")
+	* #JsonProperty(String, "sms_content")
 	*/
 	private $smsContent;
 

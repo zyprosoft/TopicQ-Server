@@ -11,22 +11,22 @@ class PddAdApiReportHourlyReportQueryRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "dateString")
+	* #JsonProperty(String, "dateString")
 	*/
 	private $dateString;
 
 	/**
-	* @JsonProperty(Long, "entityId")
+	* #JsonProperty(Long, "entityId")
 	*/
 	private $entityId;
 
 	/**
-	* @JsonProperty(Integer, "queryDimensionType")
+	* #JsonProperty(Integer, "queryDimensionType")
 	*/
 	private $queryDimensionType;
 
 	/**
-	* @JsonProperty(Integer, "scenesType")
+	* #JsonProperty(Integer, "scenesType")
 	*/
 	private $scenesType;
 

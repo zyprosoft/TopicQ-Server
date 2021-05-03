@@ -11,12 +11,12 @@ class PddAdApiUnitCreativeCheckTitleRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "goodsId")
+	* #JsonProperty(Long, "goodsId")
 	*/
 	private $goodsId;
 
 	/**
-	* @JsonProperty(String, "title")
+	* #JsonProperty(String, "title")
 	*/
 	private $title;
 

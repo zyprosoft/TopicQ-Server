@@ -11,27 +11,27 @@ class PddWmsDepotTicketGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Boolean, "notAck")
+	* #JsonProperty(Boolean, "notAck")
 	*/
 	private $notAck;
 
 	/**
-	* @JsonProperty(Integer, "createdAtGte")
+	* #JsonProperty(Integer, "createdAtGte")
 	*/
 	private $createdAtGte;
 
 	/**
-	* @JsonProperty(Integer, "createdAtLte")
+	* #JsonProperty(Integer, "createdAtLte")
 	*/
 	private $createdAtLte;
 
 	/**
-	* @JsonProperty(Integer, "pageNum")
+	* #JsonProperty(Integer, "pageNum")
 	*/
 	private $pageNum;
 
 	/**
-	* @JsonProperty(Integer, "pageSize")
+	* #JsonProperty(Integer, "pageSize")
 	*/
 	private $pageSize;
 

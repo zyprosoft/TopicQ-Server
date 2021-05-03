@@ -11,7 +11,7 @@ class PddKttGroupQueryStatusRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "activity_no")
+	* #JsonProperty(String, "activity_no")
 	*/
 	private $activityNo;
 

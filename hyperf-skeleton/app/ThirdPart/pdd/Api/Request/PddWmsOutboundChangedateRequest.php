@@ -11,7 +11,7 @@ class PddWmsOutboundChangedateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOutboundChangedateRequest_Request, "request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOutboundChangedateRequest_Request, "request")
 	*/
 	private $request;
 
@@ -52,22 +52,22 @@ class PddWmsOutboundChangedateRequest_Request extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "deliveryOrderCode")
+	* #JsonProperty(String, "deliveryOrderCode")
 	*/
 	private $deliveryOrderCode;
 
 	/**
-	* @JsonProperty(String, "warehouseCode")
+	* #JsonProperty(String, "warehouseCode")
 	*/
 	private $warehouseCode;
 
 	/**
-	* @JsonProperty(String, "scheduleStart")
+	* #JsonProperty(String, "scheduleStart")
 	*/
 	private $scheduleStart;
 
 	/**
-	* @JsonProperty(String, "scheduleEnd")
+	* #JsonProperty(String, "scheduleEnd")
 	*/
 	private $scheduleEnd;
 

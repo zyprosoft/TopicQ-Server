@@ -11,7 +11,7 @@ class PddGoodsSizespecTemplateUpdateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSizespecTemplateUpdateRequest_SizeSpecDto, "size_spec_dto")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSizespecTemplateUpdateRequest_SizeSpecDto, "size_spec_dto")
 	*/
 	private $sizeSpecDto;
 
@@ -52,22 +52,22 @@ class PddGoodsSizespecTemplateUpdateRequest_SizeSpecDto extends PopBaseJsonEntit
 	}
 
 	/**
-	* @JsonProperty(Integer, "class_id")
+	* #JsonProperty(Integer, "class_id")
 	*/
 	private $classId;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSizespecTemplateUpdateRequest_SizeSpecDtoContent, "content")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSizespecTemplateUpdateRequest_SizeSpecDtoContent, "content")
 	*/
 	private $content;
 
 	/**
-	* @JsonProperty(Long, "id")
+	* #JsonProperty(Long, "id")
 	*/
 	private $id;
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
@@ -102,12 +102,12 @@ class PddGoodsSizespecTemplateUpdateRequest_SizeSpecDtoContent extends PopBaseJs
 	}
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSizespecTemplateUpdateRequest_SizeSpecDtoContentMeta, "meta")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSizespecTemplateUpdateRequest_SizeSpecDtoContentMeta, "meta")
 	*/
 	private $meta;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSizespecTemplateUpdateRequest_SizeSpecDtoContentRecordsItem>, "records")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSizespecTemplateUpdateRequest_SizeSpecDtoContentRecordsItem>, "records")
 	*/
 	private $records;
 
@@ -132,12 +132,12 @@ class PddGoodsSizespecTemplateUpdateRequest_SizeSpecDtoContentMeta extends PopBa
 	}
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSizespecTemplateUpdateRequest_SizeSpecDtoContentMetaElementsItem>, "elements")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSizespecTemplateUpdateRequest_SizeSpecDtoContentMetaElementsItem>, "elements")
 	*/
 	private $elements;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSizespecTemplateUpdateRequest_SizeSpecDtoContentMetaGroupsItem>, "groups")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSizespecTemplateUpdateRequest_SizeSpecDtoContentMetaGroupsItem>, "groups")
 	*/
 	private $groups;
 
@@ -162,12 +162,12 @@ class PddGoodsSizespecTemplateUpdateRequest_SizeSpecDtoContentMetaElementsItem e
 	}
 
 	/**
-	* @JsonProperty(Integer, "id")
+	* #JsonProperty(Integer, "id")
 	*/
 	private $id;
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
@@ -192,12 +192,12 @@ class PddGoodsSizespecTemplateUpdateRequest_SizeSpecDtoContentMetaGroupsItem ext
 	}
 
 	/**
-	* @JsonProperty(Integer, "id")
+	* #JsonProperty(Integer, "id")
 	*/
 	private $id;
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
@@ -222,7 +222,7 @@ class PddGoodsSizespecTemplateUpdateRequest_SizeSpecDtoContentRecordsItem extend
 	}
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSizespecTemplateUpdateRequest_tring, String>, "values")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSizespecTemplateUpdateRequest_tring, String>, "values")
 	*/
 	private $values;
 

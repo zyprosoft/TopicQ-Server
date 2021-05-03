@@ -11,37 +11,37 @@ class PddPromotionLimitedDiscountListGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<Integer>, "activity_types")
+	* #JsonProperty(List<Integer>, "activity_types")
 	*/
 	private $activityTypes;
 
 	/**
-	* @JsonProperty(List<Long>, "goods_id_list")
+	* #JsonProperty(List<Long>, "goods_id_list")
 	*/
 	private $goodsIdList;
 
 	/**
-	* @JsonProperty(Boolean, "just_count")
+	* #JsonProperty(Boolean, "just_count")
 	*/
 	private $justCount;
 
 	/**
-	* @JsonProperty(Integer, "order")
+	* #JsonProperty(Integer, "order")
 	*/
 	private $order;
 
 	/**
-	* @JsonProperty(Integer, "page_no")
+	* #JsonProperty(Integer, "page_no")
 	*/
 	private $pageNo;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 
 	/**
-	* @JsonProperty(List<Integer>, "status_list")
+	* #JsonProperty(List<Integer>, "status_list")
 	*/
 	private $statusList;
 

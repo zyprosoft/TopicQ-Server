@@ -11,52 +11,52 @@ class PddFlightCallbackConfirmChangeRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "change_time")
+	* #JsonProperty(String, "change_time")
 	*/
 	private $changeTime;
 
 	/**
-	* @JsonProperty(Integer, "change_type")
+	* #JsonProperty(Integer, "change_type")
 	*/
 	private $changeType;
 
 	/**
-	* @JsonProperty(Integer, "error_code")
+	* #JsonProperty(Integer, "error_code")
 	*/
 	private $errorCode;
 
 	/**
-	* @JsonProperty(String, "error_msg")
+	* #JsonProperty(String, "error_msg")
 	*/
 	private $errorMsg;
 
 	/**
-	* @JsonProperty(String, "out_change_no")
+	* #JsonProperty(String, "out_change_no")
 	*/
 	private $outChangeNo;
 
 	/**
-	* @JsonProperty(String, "out_order_no")
+	* #JsonProperty(String, "out_order_no")
 	*/
 	private $outOrderNo;
 
 	/**
-	* @JsonProperty(String, "parent_travel_sn")
+	* #JsonProperty(String, "parent_travel_sn")
 	*/
 	private $parentTravelSn;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightCallbackConfirmChangeRequest_PassengerInfoListItem>, "passenger_info_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightCallbackConfirmChangeRequest_PassengerInfoListItem>, "passenger_info_list")
 	*/
 	private $passengerInfoList;
 
 	/**
-	* @JsonProperty(String, "sub_trace_id")
+	* #JsonProperty(String, "sub_trace_id")
 	*/
 	private $subTraceId;
 
 	/**
-	* @JsonProperty(String, "trace_id")
+	* #JsonProperty(String, "trace_id")
 	*/
 	private $traceId;
 
@@ -151,82 +151,82 @@ class PddFlightCallbackConfirmChangeRequest_PassengerInfoListItem extends PopBas
 	}
 
 	/**
-	* @JsonProperty(Long, "airport_tax")
+	* #JsonProperty(Long, "airport_tax")
 	*/
 	private $airportTax;
 
 	/**
-	* @JsonProperty(String, "change_ticket_no")
+	* #JsonProperty(String, "change_ticket_no")
 	*/
 	private $changeTicketNo;
 
 	/**
-	* @JsonProperty(Long, "fuel_tax")
+	* #JsonProperty(Long, "fuel_tax")
 	*/
 	private $fuelTax;
 
 	/**
-	* @JsonProperty(String, "identity_no")
+	* #JsonProperty(String, "identity_no")
 	*/
 	private $identityNo;
 
 	/**
-	* @JsonProperty(String, "identity_type")
+	* #JsonProperty(String, "identity_type")
 	*/
 	private $identityType;
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
 	/**
-	* @JsonProperty(String, "origin_pnr")
+	* #JsonProperty(String, "origin_pnr")
 	*/
 	private $originPnr;
 
 	/**
-	* @JsonProperty(String, "origin_ticket_no")
+	* #JsonProperty(String, "origin_ticket_no")
 	*/
 	private $originTicketNo;
 
 	/**
-	* @JsonProperty(Long, "pay")
+	* #JsonProperty(Long, "pay")
 	*/
 	private $pay;
 
 	/**
-	* @JsonProperty(Long, "pay_airline_tax")
+	* #JsonProperty(Long, "pay_airline_tax")
 	*/
 	private $payAirlineTax;
 
 	/**
-	* @JsonProperty(Long, "pay_fee")
+	* #JsonProperty(Long, "pay_fee")
 	*/
 	private $payFee;
 
 	/**
-	* @JsonProperty(Long, "pay_fuel_tax")
+	* #JsonProperty(Long, "pay_fuel_tax")
 	*/
 	private $payFuelTax;
 
 	/**
-	* @JsonProperty(Long, "pay_price")
+	* #JsonProperty(Long, "pay_price")
 	*/
 	private $payPrice;
 
 	/**
-	* @JsonProperty(Long, "price")
+	* #JsonProperty(Long, "price")
 	*/
 	private $price;
 
 	/**
-	* @JsonProperty(String, "sub_out_change_no")
+	* #JsonProperty(String, "sub_out_change_no")
 	*/
 	private $subOutChangeNo;
 
 	/**
-	* @JsonProperty(String, "travel_sn")
+	* #JsonProperty(String, "travel_sn")
 	*/
 	private $travelSn;
 

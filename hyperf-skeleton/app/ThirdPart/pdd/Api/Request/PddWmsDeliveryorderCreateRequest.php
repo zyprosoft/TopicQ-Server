@@ -11,7 +11,7 @@ class PddWmsDeliveryorderCreateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsDeliveryorderCreateRequest_Request, "request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsDeliveryorderCreateRequest_Request, "request")
 	*/
 	private $request;
 
@@ -52,77 +52,77 @@ class PddWmsDeliveryorderCreateRequest_Request extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "createTime")
+	* #JsonProperty(String, "createTime")
 	*/
 	private $createTime;
 
 	/**
-	* @JsonProperty(String, "deliveryOrderCode")
+	* #JsonProperty(String, "deliveryOrderCode")
 	*/
 	private $deliveryOrderCode;
 
 	/**
-	* @JsonProperty(String, "orderFlag")
+	* #JsonProperty(String, "orderFlag")
 	*/
 	private $orderFlag;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddWmsDeliveryorderCreateRequest_RequestOrderLinesItem>, "orderLines")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddWmsDeliveryorderCreateRequest_RequestOrderLinesItem>, "orderLines")
 	*/
 	private $orderLines;
 
 	/**
-	* @JsonProperty(String, "orderType")
+	* #JsonProperty(String, "orderType")
 	*/
 	private $orderType;
 
 	/**
-	* @JsonProperty(String, "ownerCode")
+	* #JsonProperty(String, "ownerCode")
 	*/
 	private $ownerCode;
 
 	/**
-	* @JsonProperty(String, "placeOrderTime")
+	* #JsonProperty(String, "placeOrderTime")
 	*/
 	private $placeOrderTime;
 
 	/**
-	* @JsonProperty(String, "receiverCity")
+	* #JsonProperty(String, "receiverCity")
 	*/
 	private $receiverCity;
 
 	/**
-	* @JsonProperty(String, "receiverDetailAddress")
+	* #JsonProperty(String, "receiverDetailAddress")
 	*/
 	private $receiverDetailAddress;
 
 	/**
-	* @JsonProperty(String, "receiverDistrict")
+	* #JsonProperty(String, "receiverDistrict")
 	*/
 	private $receiverDistrict;
 
 	/**
-	* @JsonProperty(String, "receiverName")
+	* #JsonProperty(String, "receiverName")
 	*/
 	private $receiverName;
 
 	/**
-	* @JsonProperty(String, "receiverPhone")
+	* #JsonProperty(String, "receiverPhone")
 	*/
 	private $receiverPhone;
 
 	/**
-	* @JsonProperty(String, "receiverProvince")
+	* #JsonProperty(String, "receiverProvince")
 	*/
 	private $receiverProvince;
 
 	/**
-	* @JsonProperty(String, "shopNick")
+	* #JsonProperty(String, "shopNick")
 	*/
 	private $shopNick;
 
 	/**
-	* @JsonProperty(String, "warehouseCode")
+	* #JsonProperty(String, "warehouseCode")
 	*/
 	private $warehouseCode;
 
@@ -212,17 +212,17 @@ class PddWmsDeliveryorderCreateRequest_RequestOrderLinesItem extends PopBaseJson
 	}
 
 	/**
-	* @JsonProperty(String, "parentWareSn")
+	* #JsonProperty(String, "parentWareSn")
 	*/
 	private $parentWareSn;
 
 	/**
-	* @JsonProperty(String, "quantity")
+	* #JsonProperty(String, "quantity")
 	*/
 	private $quantity;
 
 	/**
-	* @JsonProperty(String, "wareSn")
+	* #JsonProperty(String, "wareSn")
 	*/
 	private $wareSn;
 

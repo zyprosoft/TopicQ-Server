@@ -11,7 +11,7 @@ class PddServiceMailServiceTimeQueryRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddServiceMailServiceTimeQueryRequest_Request, "request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddServiceMailServiceTimeQueryRequest_Request, "request")
 	*/
 	private $request;
 
@@ -52,27 +52,27 @@ class PddServiceMailServiceTimeQueryRequest_Request extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "provName")
+	* #JsonProperty(String, "provName")
 	*/
 	private $provName;
 
 	/**
-	* @JsonProperty(String, "cityName")
+	* #JsonProperty(String, "cityName")
 	*/
 	private $cityName;
 
 	/**
-	* @JsonProperty(String, "districtName")
+	* #JsonProperty(String, "districtName")
 	*/
 	private $districtName;
 
 	/**
-	* @JsonProperty(String, "streetName")
+	* #JsonProperty(String, "streetName")
 	*/
 	private $streetName;
 
 	/**
-	* @JsonProperty(String, "postType")
+	* #JsonProperty(String, "postType")
 	*/
 	private $postType;
 

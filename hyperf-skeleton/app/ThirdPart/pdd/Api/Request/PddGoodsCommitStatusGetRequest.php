@@ -11,7 +11,7 @@ class PddGoodsCommitStatusGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<Long>, "goods_commit_id_list")
+	* #JsonProperty(List<Long>, "goods_commit_id_list")
 	*/
 	private $goodsCommitIdList;
 

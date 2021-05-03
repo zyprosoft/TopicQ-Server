@@ -11,7 +11,7 @@ class PddNextoneLogisticsWarehouseUpdateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddNextoneLogisticsWarehouseUpdateRequest_Request, "request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddNextoneLogisticsWarehouseUpdateRequest_Request, "request")
 	*/
 	private $request;
 
@@ -52,32 +52,32 @@ class PddNextoneLogisticsWarehouseUpdateRequest_Request extends PopBaseJsonEntit
 	}
 
 	/**
-	* @JsonProperty(Long, "after_sales_id")
+	* #JsonProperty(Long, "after_sales_id")
 	*/
 	private $afterSalesId;
 
 	/**
-	* @JsonProperty(Long, "operate_time")
+	* #JsonProperty(Long, "operate_time")
 	*/
 	private $operateTime;
 
 	/**
-	* @JsonProperty(String, "order_sn")
+	* #JsonProperty(String, "order_sn")
 	*/
 	private $orderSn;
 
 	/**
-	* @JsonProperty(Integer, "reverse_logistics_id")
+	* #JsonProperty(Integer, "reverse_logistics_id")
 	*/
 	private $reverseLogisticsId;
 
 	/**
-	* @JsonProperty(String, "reverse_tracking_number")
+	* #JsonProperty(String, "reverse_tracking_number")
 	*/
 	private $reverseTrackingNumber;
 
 	/**
-	* @JsonProperty(Integer, "warehouse_status")
+	* #JsonProperty(Integer, "warehouse_status")
 	*/
 	private $warehouseStatus;
 

@@ -11,7 +11,7 @@ class PddWmsOuborderCreateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOuborderCreateRequest_Request, "request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOuborderCreateRequest_Request, "request")
 	*/
 	private $request;
 
@@ -52,12 +52,12 @@ class PddWmsOuborderCreateRequest_Request extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOuborderCreateRequest_RequestOrderLineItem>, "orderLine")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOuborderCreateRequest_RequestOrderLineItem>, "orderLine")
 	*/
 	private $orderLine;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOuborderCreateRequest_RequestOubOrder, "oubOrder")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOuborderCreateRequest_RequestOubOrder, "oubOrder")
 	*/
 	private $oubOrder;
 
@@ -82,17 +82,17 @@ class PddWmsOuborderCreateRequest_RequestOrderLineItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "inventoryType")
+	* #JsonProperty(String, "inventoryType")
 	*/
 	private $inventoryType;
 
 	/**
-	* @JsonProperty(String, "planSendQuantity")
+	* #JsonProperty(String, "planSendQuantity")
 	*/
 	private $planSendQuantity;
 
 	/**
-	* @JsonProperty(String, "wareSn")
+	* #JsonProperty(String, "wareSn")
 	*/
 	private $wareSn;
 
@@ -122,52 +122,52 @@ class PddWmsOuborderCreateRequest_RequestOubOrder extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "createTime")
+	* #JsonProperty(String, "createTime")
 	*/
 	private $createTime;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOuborderCreateRequest_RequestOubOrderMallContracter, "mallContracter")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOuborderCreateRequest_RequestOubOrderMallContracter, "mallContracter")
 	*/
 	private $mallContracter;
 
 	/**
-	* @JsonProperty(String, "orderType")
+	* #JsonProperty(String, "orderType")
 	*/
 	private $orderType;
 
 	/**
-	* @JsonProperty(String, "oubOrderCode")
+	* #JsonProperty(String, "oubOrderCode")
 	*/
 	private $oubOrderCode;
 
 	/**
-	* @JsonProperty(String, "ownerCode")
+	* #JsonProperty(String, "ownerCode")
 	*/
 	private $ownerCode;
 
 	/**
-	* @JsonProperty(String, "planSendTime")
+	* #JsonProperty(String, "planSendTime")
 	*/
 	private $planSendTime;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOuborderCreateRequest_RequestOubOrderReceiverInfo, "receiverInfo")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOuborderCreateRequest_RequestOubOrderReceiverInfo, "receiverInfo")
 	*/
 	private $receiverInfo;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOuborderCreateRequest_RequestOubOrderRelatedOrdersItem>, "relatedOrders")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddWmsOuborderCreateRequest_RequestOubOrderRelatedOrdersItem>, "relatedOrders")
 	*/
 	private $relatedOrders;
 
 	/**
-	* @JsonProperty(String, "remark")
+	* #JsonProperty(String, "remark")
 	*/
 	private $remark;
 
 	/**
-	* @JsonProperty(String, "warehouseCode")
+	* #JsonProperty(String, "warehouseCode")
 	*/
 	private $warehouseCode;
 
@@ -232,12 +232,12 @@ class PddWmsOuborderCreateRequest_RequestOubOrderMallContracter extends PopBaseJ
 	}
 
 	/**
-	* @JsonProperty(String, "mobile")
+	* #JsonProperty(String, "mobile")
 	*/
 	private $mobile;
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
@@ -262,32 +262,32 @@ class PddWmsOuborderCreateRequest_RequestOubOrderReceiverInfo extends PopBaseJso
 	}
 
 	/**
-	* @JsonProperty(String, "address")
+	* #JsonProperty(String, "address")
 	*/
 	private $address;
 
 	/**
-	* @JsonProperty(String, "area")
+	* #JsonProperty(String, "area")
 	*/
 	private $area;
 
 	/**
-	* @JsonProperty(String, "city")
+	* #JsonProperty(String, "city")
 	*/
 	private $city;
 
 	/**
-	* @JsonProperty(String, "mobile")
+	* #JsonProperty(String, "mobile")
 	*/
 	private $mobile;
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
 	/**
-	* @JsonProperty(String, "province")
+	* #JsonProperty(String, "province")
 	*/
 	private $province;
 
@@ -332,12 +332,12 @@ class PddWmsOuborderCreateRequest_RequestOubOrderRelatedOrdersItem extends PopBa
 	}
 
 	/**
-	* @JsonProperty(String, "orderCode")
+	* #JsonProperty(String, "orderCode")
 	*/
 	private $orderCode;
 
 	/**
-	* @JsonProperty(String, "orderType")
+	* #JsonProperty(String, "orderType")
 	*/
 	private $orderType;
 

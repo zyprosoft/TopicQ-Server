@@ -11,7 +11,7 @@ class PddLogisticsCsHistoryMessageGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "session_id")
+	* #JsonProperty(String, "session_id")
 	*/
 	private $sessionId;
 

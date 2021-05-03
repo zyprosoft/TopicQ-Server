@@ -11,7 +11,7 @@ class PddFdsOrderGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddFdsOrderGetRequest_ParamFdsOrderGetRequest, "param_fds_order_get_request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddFdsOrderGetRequest_ParamFdsOrderGetRequest, "param_fds_order_get_request")
 	*/
 	private $paramFdsOrderGetRequest;
 
@@ -52,12 +52,12 @@ class PddFdsOrderGetRequest_ParamFdsOrderGetRequest extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "mall_mask_id")
+	* #JsonProperty(String, "mall_mask_id")
 	*/
 	private $mallMaskId;
 
 	/**
-	* @JsonProperty(String, "order_mask_sn")
+	* #JsonProperty(String, "order_mask_sn")
 	*/
 	private $orderMaskSn;
 

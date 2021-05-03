@@ -11,97 +11,97 @@ class PddTrainCallbackChangeReserveRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "arrive_date")
+	* #JsonProperty(String, "arrive_date")
 	*/
 	private $arriveDate;
 
 	/**
-	* @JsonProperty(String, "arrive_station")
+	* #JsonProperty(String, "arrive_station")
 	*/
 	private $arriveStation;
 
 	/**
-	* @JsonProperty(String, "arrive_time")
+	* #JsonProperty(String, "arrive_time")
 	*/
 	private $arriveTime;
 
 	/**
-	* @JsonProperty(Long, "change_pay")
+	* #JsonProperty(Long, "change_pay")
 	*/
 	private $changePay;
 
 	/**
-	* @JsonProperty(Long, "change_refund")
+	* #JsonProperty(Long, "change_refund")
 	*/
 	private $changeRefund;
 
 	/**
-	* @JsonProperty(Integer, "code")
+	* #JsonProperty(Integer, "code")
 	*/
 	private $code;
 
 	/**
-	* @JsonProperty(String, "crh_order_id")
+	* #JsonProperty(String, "crh_order_id")
 	*/
 	private $crhOrderId;
 
 	/**
-	* @JsonProperty(String, "depart_date")
+	* #JsonProperty(String, "depart_date")
 	*/
 	private $departDate;
 
 	/**
-	* @JsonProperty(String, "depart_station")
+	* #JsonProperty(String, "depart_station")
 	*/
 	private $departStation;
 
 	/**
-	* @JsonProperty(String, "depart_time")
+	* #JsonProperty(String, "depart_time")
 	*/
 	private $departTime;
 
 	/**
-	* @JsonProperty(String, "msg")
+	* #JsonProperty(String, "msg")
 	*/
 	private $msg;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTrainCallbackChangeReserveRequest_NewPassengersItem>, "new_passengers")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTrainCallbackChangeReserveRequest_NewPassengersItem>, "new_passengers")
 	*/
 	private $newPassengers;
 
 	/**
-	* @JsonProperty(String, "order_id")
+	* #JsonProperty(String, "order_id")
 	*/
 	private $orderId;
 
 	/**
-	* @JsonProperty(String, "pay_limit_time")
+	* #JsonProperty(String, "pay_limit_time")
 	*/
 	private $payLimitTime;
 
 	/**
-	* @JsonProperty(String, "pdd_order_id")
+	* #JsonProperty(String, "pdd_order_id")
 	*/
 	private $pddOrderId;
 
 	/**
-	* @JsonProperty(String, "request_id")
+	* #JsonProperty(String, "request_id")
 	*/
 	private $requestId;
 
 	/**
-	* @JsonProperty(String, "train_no")
+	* #JsonProperty(String, "train_no")
 	*/
 	private $trainNo;
 
 	/**
-	* @JsonProperty(Integer, "use_id_card_in")
+	* #JsonProperty(Integer, "use_id_card_in")
 	*/
 	private $useIdCardIn;
 
 	/**
-	* @JsonProperty(String, "vendor_time")
+	* #JsonProperty(String, "vendor_time")
 	*/
 	private $vendorTime;
 
@@ -250,67 +250,67 @@ class PddTrainCallbackChangeReserveRequest_NewPassengersItem extends PopBaseJson
 	}
 
 	/**
-	* @JsonProperty(Long, "change_pay")
+	* #JsonProperty(Long, "change_pay")
 	*/
 	private $changePay;
 
 	/**
-	* @JsonProperty(Long, "change_refund")
+	* #JsonProperty(Long, "change_refund")
 	*/
 	private $changeRefund;
 
 	/**
-	* @JsonProperty(String, "coach_name")
+	* #JsonProperty(String, "coach_name")
 	*/
 	private $coachName;
 
 	/**
-	* @JsonProperty(String, "coach_no")
+	* #JsonProperty(String, "coach_no")
 	*/
 	private $coachNo;
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
 	/**
-	* @JsonProperty(String, "new_sub_order_id")
+	* #JsonProperty(String, "new_sub_order_id")
 	*/
 	private $newSubOrderId;
 
 	/**
-	* @JsonProperty(String, "new_sub_pdd_order_id")
+	* #JsonProperty(String, "new_sub_pdd_order_id")
 	*/
 	private $newSubPddOrderId;
 
 	/**
-	* @JsonProperty(String, "old_sub_order_id")
+	* #JsonProperty(String, "old_sub_order_id")
 	*/
 	private $oldSubOrderId;
 
 	/**
-	* @JsonProperty(String, "old_sub_pdd_order_id")
+	* #JsonProperty(String, "old_sub_pdd_order_id")
 	*/
 	private $oldSubPddOrderId;
 
 	/**
-	* @JsonProperty(String, "seat_name")
+	* #JsonProperty(String, "seat_name")
 	*/
 	private $seatName;
 
 	/**
-	* @JsonProperty(Integer, "seat_type")
+	* #JsonProperty(Integer, "seat_type")
 	*/
 	private $seatType;
 
 	/**
-	* @JsonProperty(String, "sub_crh_order_id")
+	* #JsonProperty(String, "sub_crh_order_id")
 	*/
 	private $subCrhOrderId;
 
 	/**
-	* @JsonProperty(Long, "ticket_price")
+	* #JsonProperty(Long, "ticket_price")
 	*/
 	private $ticketPrice;
 

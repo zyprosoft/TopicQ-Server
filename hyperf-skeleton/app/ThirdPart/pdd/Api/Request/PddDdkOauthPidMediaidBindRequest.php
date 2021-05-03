@@ -11,12 +11,12 @@ class PddDdkOauthPidMediaidBindRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "media_id")
+	* #JsonProperty(Long, "media_id")
 	*/
 	private $mediaId;
 
 	/**
-	* @JsonProperty(List<String>, "pid_list")
+	* #JsonProperty(List<String>, "pid_list")
 	*/
 	private $pidList;
 

@@ -11,27 +11,27 @@ class PddGoodsQuantityUpdateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "goods_id")
+	* #JsonProperty(Long, "goods_id")
 	*/
 	private $goodsId;
 
 	/**
-	* @JsonProperty(Long, "quantity")
+	* #JsonProperty(Long, "quantity")
 	*/
 	private $quantity;
 
 	/**
-	* @JsonProperty(Long, "sku_id")
+	* #JsonProperty(Long, "sku_id")
 	*/
 	private $skuId;
 
 	/**
-	* @JsonProperty(String, "outer_id")
+	* #JsonProperty(String, "outer_id")
 	*/
 	private $outerId;
 
 	/**
-	* @JsonProperty(Integer, "update_type")
+	* #JsonProperty(Integer, "update_type")
 	*/
 	private $updateType;
 

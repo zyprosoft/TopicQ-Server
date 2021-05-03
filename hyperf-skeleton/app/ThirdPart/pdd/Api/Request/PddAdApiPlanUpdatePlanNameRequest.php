@@ -11,12 +11,12 @@ class PddAdApiPlanUpdatePlanNameRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "planId")
+	* #JsonProperty(Long, "planId")
 	*/
 	private $planId;
 
 	/**
-	* @JsonProperty(String, "planName")
+	* #JsonProperty(String, "planName")
 	*/
 	private $planName;
 

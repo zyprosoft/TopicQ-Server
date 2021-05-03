@@ -11,42 +11,42 @@ class PddLogisticsOnlineCreateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "delivery_address")
+	* #JsonProperty(String, "delivery_address")
 	*/
 	private $deliveryAddress;
 
 	/**
-	* @JsonProperty(String, "delivery_id")
+	* #JsonProperty(String, "delivery_id")
 	*/
 	private $deliveryId;
 
 	/**
-	* @JsonProperty(String, "delivery_name")
+	* #JsonProperty(String, "delivery_name")
 	*/
 	private $deliveryName;
 
 	/**
-	* @JsonProperty(String, "delivery_phone")
+	* #JsonProperty(String, "delivery_phone")
 	*/
 	private $deliveryPhone;
 
 	/**
-	* @JsonProperty(String, "order_sn")
+	* #JsonProperty(String, "order_sn")
 	*/
 	private $orderSn;
 
 	/**
-	* @JsonProperty(String, "return_id")
+	* #JsonProperty(String, "return_id")
 	*/
 	private $returnId;
 
 	/**
-	* @JsonProperty(Integer, "shipping_id")
+	* #JsonProperty(Integer, "shipping_id")
 	*/
 	private $shippingId;
 
 	/**
-	* @JsonProperty(String, "tracking_number")
+	* #JsonProperty(String, "tracking_number")
 	*/
 	private $trackingNumber;
 

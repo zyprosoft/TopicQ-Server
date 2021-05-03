@@ -11,12 +11,12 @@ class PddDdyPdpUserAddRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "history_days")
+	* #JsonProperty(Integer, "history_days")
 	*/
 	private $historyDays;
 
 	/**
-	* @JsonProperty(String, "rds_id")
+	* #JsonProperty(String, "rds_id")
 	*/
 	private $rdsId;
 

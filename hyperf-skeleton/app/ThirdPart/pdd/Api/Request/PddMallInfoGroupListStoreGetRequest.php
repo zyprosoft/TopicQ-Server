@@ -11,17 +11,17 @@ class PddMallInfoGroupListStoreGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "group_id")
+	* #JsonProperty(Long, "group_id")
 	*/
 	private $groupId;
 
 	/**
-	* @JsonProperty(Integer, "page_number")
+	* #JsonProperty(Integer, "page_number")
 	*/
 	private $pageNumber;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 

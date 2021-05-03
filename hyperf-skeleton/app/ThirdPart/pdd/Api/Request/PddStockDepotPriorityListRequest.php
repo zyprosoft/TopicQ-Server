@@ -11,32 +11,32 @@ class PddStockDepotPriorityListRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "province_id")
+	* #JsonProperty(Integer, "province_id")
 	*/
 	private $provinceId;
 
 	/**
-	* @JsonProperty(Integer, "city_id")
+	* #JsonProperty(Integer, "city_id")
 	*/
 	private $cityId;
 
 	/**
-	* @JsonProperty(Integer, "district_id")
+	* #JsonProperty(Integer, "district_id")
 	*/
 	private $districtId;
 
 	/**
-	* @JsonProperty(String, "depot_code")
+	* #JsonProperty(String, "depot_code")
 	*/
 	private $depotCode;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 
 	/**
-	* @JsonProperty(Integer, "page_num")
+	* #JsonProperty(Integer, "page_num")
 	*/
 	private $pageNum;
 

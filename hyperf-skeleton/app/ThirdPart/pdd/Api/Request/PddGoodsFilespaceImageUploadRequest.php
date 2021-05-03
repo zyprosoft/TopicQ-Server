@@ -11,7 +11,7 @@ class PddGoodsFilespaceImageUploadRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsFilespaceImageUploadRequest_FILE, "file")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsFilespaceImageUploadRequest_FILE, "file")
 	*/
 	private $file;
 

@@ -11,7 +11,7 @@ class PddStockWareWarehouseQueryRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddStockWareWarehouseQueryRequest_Request, "request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddStockWareWarehouseQueryRequest_Request, "request")
 	*/
 	private $request;
 
@@ -52,17 +52,17 @@ class PddStockWareWarehouseQueryRequest_Request extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(Integer, "page")
+	* #JsonProperty(Integer, "page")
 	*/
 	private $page;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 
 	/**
-	* @JsonProperty(List<String>, "ware_sn_list")
+	* #JsonProperty(List<String>, "ware_sn_list")
 	*/
 	private $wareSnList;
 

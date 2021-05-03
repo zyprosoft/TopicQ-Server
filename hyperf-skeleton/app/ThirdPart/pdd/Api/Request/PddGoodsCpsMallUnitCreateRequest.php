@@ -11,12 +11,12 @@ class PddGoodsCpsMallUnitCreateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "erp_code")
+	* #JsonProperty(String, "erp_code")
 	*/
 	private $erpCode;
 
 	/**
-	* @JsonProperty(Long, "rate")
+	* #JsonProperty(Long, "rate")
 	*/
 	private $rate;
 

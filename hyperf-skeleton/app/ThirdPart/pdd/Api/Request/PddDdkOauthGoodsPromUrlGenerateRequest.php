@@ -11,77 +11,77 @@ class PddDdkOauthGoodsPromUrlGenerateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "cash_gift_id")
+	* #JsonProperty(Long, "cash_gift_id")
 	*/
 	private $cashGiftId;
 
 	/**
-	* @JsonProperty(String, "cash_gift_name")
+	* #JsonProperty(String, "cash_gift_name")
 	*/
 	private $cashGiftName;
 
 	/**
-	* @JsonProperty(String, "custom_parameters")
+	* #JsonProperty(String, "custom_parameters")
 	*/
 	private $customParameters;
 
 	/**
-	* @JsonProperty(Boolean, "force_duo_id")
+	* #JsonProperty(Boolean, "force_duo_id")
 	*/
 	private $forceDuoId;
 
 	/**
-	* @JsonProperty(Boolean, "generate_authority_url")
+	* #JsonProperty(Boolean, "generate_authority_url")
 	*/
 	private $generateAuthorityUrl;
 
 	/**
-	* @JsonProperty(Boolean, "generate_mall_collect_coupon")
+	* #JsonProperty(Boolean, "generate_mall_collect_coupon")
 	*/
 	private $generateMallCollectCoupon;
 
 	/**
-	* @JsonProperty(Boolean, "generate_qq_app")
+	* #JsonProperty(Boolean, "generate_qq_app")
 	*/
 	private $generateQqApp;
 
 	/**
-	* @JsonProperty(Boolean, "generate_schema_url")
+	* #JsonProperty(Boolean, "generate_schema_url")
 	*/
 	private $generateSchemaUrl;
 
 	/**
-	* @JsonProperty(Boolean, "generate_short_url")
+	* #JsonProperty(Boolean, "generate_short_url")
 	*/
 	private $generateShortUrl;
 
 	/**
-	* @JsonProperty(Boolean, "generate_we_app")
+	* #JsonProperty(Boolean, "generate_we_app")
 	*/
 	private $generateWeApp;
 
 	/**
-	* @JsonProperty(List<String>, "goods_sign_list")
+	* #JsonProperty(List<String>, "goods_sign_list")
 	*/
 	private $goodsSignList;
 
 	/**
-	* @JsonProperty(Boolean, "multi_group")
+	* #JsonProperty(Boolean, "multi_group")
 	*/
 	private $multiGroup;
 
 	/**
-	* @JsonProperty(String, "p_id")
+	* #JsonProperty(String, "p_id")
 	*/
 	private $pId;
 
 	/**
-	* @JsonProperty(String, "search_id")
+	* #JsonProperty(String, "search_id")
 	*/
 	private $searchId;
 
 	/**
-	* @JsonProperty(Long, "zs_duo_id")
+	* #JsonProperty(Long, "zs_duo_id")
 	*/
 	private $zsDuoId;
 

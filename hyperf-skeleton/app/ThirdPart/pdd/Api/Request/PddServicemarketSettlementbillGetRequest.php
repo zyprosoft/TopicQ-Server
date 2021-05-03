@@ -11,22 +11,22 @@ class PddServicemarketSettlementbillGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "page")
+	* #JsonProperty(Integer, "page")
 	*/
 	private $page;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 
 	/**
-	* @JsonProperty(String, "service_order_sn")
+	* #JsonProperty(String, "service_order_sn")
 	*/
 	private $serviceOrderSn;
 
 	/**
-	* @JsonProperty(String, "settle_month")
+	* #JsonProperty(String, "settle_month")
 	*/
 	private $settleMonth;
 

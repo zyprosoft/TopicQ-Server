@@ -11,7 +11,7 @@ class PddPopAuthTokenRefreshRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "refresh_token")
+	* #JsonProperty(String, "refresh_token")
 	*/
 	private $refreshToken;
 

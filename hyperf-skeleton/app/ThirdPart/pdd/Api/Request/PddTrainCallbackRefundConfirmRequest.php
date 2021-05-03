@@ -11,57 +11,57 @@ class PddTrainCallbackRefundConfirmRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "card_no")
+	* #JsonProperty(String, "card_no")
 	*/
 	private $cardNo;
 
 	/**
-	* @JsonProperty(Integer, "code")
+	* #JsonProperty(Integer, "code")
 	*/
 	private $code;
 
 	/**
-	* @JsonProperty(String, "msg")
+	* #JsonProperty(String, "msg")
 	*/
 	private $msg;
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
 	/**
-	* @JsonProperty(String, "pdd_order_id")
+	* #JsonProperty(String, "pdd_order_id")
 	*/
 	private $pddOrderId;
 
 	/**
-	* @JsonProperty(Long, "refund_money")
+	* #JsonProperty(Long, "refund_money")
 	*/
 	private $refundMoney;
 
 	/**
-	* @JsonProperty(Integer, "refund_type")
+	* #JsonProperty(Integer, "refund_type")
 	*/
 	private $refundType;
 
 	/**
-	* @JsonProperty(String, "request_id")
+	* #JsonProperty(String, "request_id")
 	*/
 	private $requestId;
 
 	/**
-	* @JsonProperty(String, "sub_order_id")
+	* #JsonProperty(String, "sub_order_id")
 	*/
 	private $subOrderId;
 
 	/**
-	* @JsonProperty(String, "sub_pdd_order_id")
+	* #JsonProperty(String, "sub_pdd_order_id")
 	*/
 	private $subPddOrderId;
 
 	/**
-	* @JsonProperty(String, "vendor_time")
+	* #JsonProperty(String, "vendor_time")
 	*/
 	private $vendorTime;
 

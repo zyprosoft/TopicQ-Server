@@ -11,7 +11,7 @@ class PddPromotionLimitedActivityCreateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddPromotionLimitedActivityCreateRequest_RequestItem>, "request")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddPromotionLimitedActivityCreateRequest_RequestItem>, "request")
 	*/
 	private $request;
 
@@ -52,47 +52,47 @@ class PddPromotionLimitedActivityCreateRequest_RequestItem extends PopBaseJsonEn
 	}
 
 	/**
-	* @JsonProperty(String, "activity_name")
+	* #JsonProperty(String, "activity_name")
 	*/
 	private $activityName;
 
 	/**
-	* @JsonProperty(Integer, "activity_type")
+	* #JsonProperty(Integer, "activity_type")
 	*/
 	private $activityType;
 
 	/**
-	* @JsonProperty(Long, "discount")
+	* #JsonProperty(Long, "discount")
 	*/
 	private $discount;
 
 	/**
-	* @JsonProperty(Long, "end_time")
+	* #JsonProperty(Long, "end_time")
 	*/
 	private $endTime;
 
 	/**
-	* @JsonProperty(Long, "goods_id")
+	* #JsonProperty(Long, "goods_id")
 	*/
 	private $goodsId;
 
 	/**
-	* @JsonProperty(Long, "quantity")
+	* #JsonProperty(Long, "quantity")
 	*/
 	private $quantity;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddPromotionLimitedActivityCreateRequest_RequestItemSkuPriceListItem>, "sku_price_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddPromotionLimitedActivityCreateRequest_RequestItemSkuPriceListItem>, "sku_price_list")
 	*/
 	private $skuPriceList;
 
 	/**
-	* @JsonProperty(Long, "start_time")
+	* #JsonProperty(Long, "start_time")
 	*/
 	private $startTime;
 
 	/**
-	* @JsonProperty(Long, "user_activity_limit")
+	* #JsonProperty(Long, "user_activity_limit")
 	*/
 	private $userActivityLimit;
 
@@ -152,12 +152,12 @@ class PddPromotionLimitedActivityCreateRequest_RequestItemSkuPriceListItem exten
 	}
 
 	/**
-	* @JsonProperty(Long, "activity_price")
+	* #JsonProperty(Long, "activity_price")
 	*/
 	private $activityPrice;
 
 	/**
-	* @JsonProperty(Long, "sku_id")
+	* #JsonProperty(Long, "sku_id")
 	*/
 	private $skuId;
 

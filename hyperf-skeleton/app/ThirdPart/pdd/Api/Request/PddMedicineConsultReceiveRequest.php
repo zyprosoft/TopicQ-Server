@@ -11,27 +11,27 @@ class PddMedicineConsultReceiveRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "consult_no")
+	* #JsonProperty(String, "consult_no")
 	*/
 	private $consultNo;
 
 	/**
-	* @JsonProperty(String, "content")
+	* #JsonProperty(String, "content")
 	*/
 	private $content;
 
 	/**
-	* @JsonProperty(Long, "doctor_id")
+	* #JsonProperty(Long, "doctor_id")
 	*/
 	private $doctorId;
 
 	/**
-	* @JsonProperty(String, "msg_id")
+	* #JsonProperty(String, "msg_id")
 	*/
 	private $msgId;
 
 	/**
-	* @JsonProperty(Integer, "receive_type")
+	* #JsonProperty(Integer, "receive_type")
 	*/
 	private $receiveType;
 

@@ -11,7 +11,7 @@ class PddKnockSyncSupplierOrgInfoRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddKnockSyncSupplierOrgInfoRequest_SyncRequest, "sync_request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddKnockSyncSupplierOrgInfoRequest_SyncRequest, "sync_request")
 	*/
 	private $syncRequest;
 
@@ -52,7 +52,7 @@ class PddKnockSyncSupplierOrgInfoRequest_SyncRequest extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddKnockSyncSupplierOrgInfoRequest_SyncRequestSupplierOrgSyncInfosItem>, "supplier_org_sync_infos")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddKnockSyncSupplierOrgInfoRequest_SyncRequestSupplierOrgSyncInfosItem>, "supplier_org_sync_infos")
 	*/
 	private $supplierOrgSyncInfos;
 
@@ -72,22 +72,22 @@ class PddKnockSyncSupplierOrgInfoRequest_SyncRequestSupplierOrgSyncInfosItem ext
 	}
 
 	/**
-	* @JsonProperty(String, "org_name")
+	* #JsonProperty(String, "org_name")
 	*/
 	private $orgName;
 
 	/**
-	* @JsonProperty(String, "org_number")
+	* #JsonProperty(String, "org_number")
 	*/
 	private $orgNumber;
 
 	/**
-	* @JsonProperty(String, "org_short_name")
+	* #JsonProperty(String, "org_short_name")
 	*/
 	private $orgShortName;
 
 	/**
-	* @JsonProperty(String, "supplier_org_sync_action")
+	* #JsonProperty(String, "supplier_org_sync_action")
 	*/
 	private $supplierOrgSyncAction;
 

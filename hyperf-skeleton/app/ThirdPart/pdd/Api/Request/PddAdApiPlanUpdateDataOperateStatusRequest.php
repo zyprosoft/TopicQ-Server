@@ -11,17 +11,17 @@ class PddAdApiPlanUpdateDataOperateStatusRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "dataOperateStatus")
+	* #JsonProperty(Integer, "dataOperateStatus")
 	*/
 	private $dataOperateStatus;
 
 	/**
-	* @JsonProperty(List<Long>, "planIds")
+	* #JsonProperty(List<Long>, "planIds")
 	*/
 	private $planIds;
 
 	/**
-	* @JsonProperty(Integer, "scenesType")
+	* #JsonProperty(Integer, "scenesType")
 	*/
 	private $scenesType;
 

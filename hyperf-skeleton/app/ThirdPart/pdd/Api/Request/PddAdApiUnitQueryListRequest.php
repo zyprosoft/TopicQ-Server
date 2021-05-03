@@ -11,32 +11,32 @@ class PddAdApiUnitQueryListRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "beginDate")
+	* #JsonProperty(String, "beginDate")
 	*/
 	private $beginDate;
 
 	/**
-	* @JsonProperty(String, "endDate")
+	* #JsonProperty(String, "endDate")
 	*/
 	private $endDate;
 
 	/**
-	* @JsonProperty(Integer, "orderBy")
+	* #JsonProperty(Integer, "orderBy")
 	*/
 	private $orderBy;
 
 	/**
-	* @JsonProperty(Long, "planId")
+	* #JsonProperty(Long, "planId")
 	*/
 	private $planId;
 
 	/**
-	* @JsonProperty(Integer, "scenesType")
+	* #JsonProperty(Integer, "scenesType")
 	*/
 	private $scenesType;
 
 	/**
-	* @JsonProperty(Integer, "sortBy")
+	* #JsonProperty(Integer, "sortBy")
 	*/
 	private $sortBy;
 

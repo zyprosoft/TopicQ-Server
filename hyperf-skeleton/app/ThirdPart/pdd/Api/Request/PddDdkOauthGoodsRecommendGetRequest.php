@@ -11,52 +11,52 @@ class PddDdkOauthGoodsRecommendGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<Integer>, "activity_tags")
+	* #JsonProperty(List<Integer>, "activity_tags")
 	*/
 	private $activityTags;
 
 	/**
-	* @JsonProperty(Long, "cat_id")
+	* #JsonProperty(Long, "cat_id")
 	*/
 	private $catId;
 
 	/**
-	* @JsonProperty(Integer, "channel_type")
+	* #JsonProperty(Integer, "channel_type")
 	*/
 	private $channelType;
 
 	/**
-	* @JsonProperty(String, "custom_parameters")
+	* #JsonProperty(String, "custom_parameters")
 	*/
 	private $customParameters;
 
 	/**
-	* @JsonProperty(Boolean, "force_auth_duo_id")
+	* #JsonProperty(Boolean, "force_auth_duo_id")
 	*/
 	private $forceAuthDuoId;
 
 	/**
-	* @JsonProperty(List<String>, "goods_sign_list")
+	* #JsonProperty(List<String>, "goods_sign_list")
 	*/
 	private $goodsSignList;
 
 	/**
-	* @JsonProperty(Integer, "limit")
+	* #JsonProperty(Integer, "limit")
 	*/
 	private $limit;
 
 	/**
-	* @JsonProperty(String, "list_id")
+	* #JsonProperty(String, "list_id")
 	*/
 	private $listId;
 
 	/**
-	* @JsonProperty(Integer, "offset")
+	* #JsonProperty(Integer, "offset")
 	*/
 	private $offset;
 
 	/**
-	* @JsonProperty(String, "pid")
+	* #JsonProperty(String, "pid")
 	*/
 	private $pid;
 

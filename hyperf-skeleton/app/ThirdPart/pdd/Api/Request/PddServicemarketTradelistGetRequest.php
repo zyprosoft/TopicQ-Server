@@ -11,32 +11,32 @@ class PddServicemarketTradelistGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "begin_time")
+	* #JsonProperty(Integer, "begin_time")
 	*/
 	private $beginTime;
 
 	/**
-	* @JsonProperty(Integer, "end_time")
+	* #JsonProperty(Integer, "end_time")
 	*/
 	private $endTime;
 
 	/**
-	* @JsonProperty(Integer, "group_type")
+	* #JsonProperty(Integer, "group_type")
 	*/
 	private $groupType;
 
 	/**
-	* @JsonProperty(Integer, "page")
+	* #JsonProperty(Integer, "page")
 	*/
 	private $page;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 
 	/**
-	* @JsonProperty(String, "service_order_sn")
+	* #JsonProperty(String, "service_order_sn")
 	*/
 	private $serviceOrderSn;
 

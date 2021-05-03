@@ -11,7 +11,7 @@ class PddCloudprintStdtemplatesGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "wp_code")
+	* #JsonProperty(String, "wp_code")
 	*/
 	private $wpCode;
 

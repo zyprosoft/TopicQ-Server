@@ -11,12 +11,12 @@ class PddTicketVerificationNotifycationRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "order_no")
+	* #JsonProperty(String, "order_no")
 	*/
 	private $orderNo;
 
 	/**
-	* @JsonProperty(Long, "verify_time")
+	* #JsonProperty(Long, "verify_time")
 	*/
 	private $verifyTime;
 

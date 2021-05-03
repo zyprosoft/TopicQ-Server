@@ -11,57 +11,57 @@ class PddExpressChangeDepotInfoRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "depot_id")
+	* #JsonProperty(Long, "depot_id")
 	*/
 	private $depotId;
 
 	/**
-	* @JsonProperty(String, "depot_code")
+	* #JsonProperty(String, "depot_code")
 	*/
 	private $depotCode;
 
 	/**
-	* @JsonProperty(String, "depot_name")
+	* #JsonProperty(String, "depot_name")
 	*/
 	private $depotName;
 
 	/**
-	* @JsonProperty(String, "depot_alias")
+	* #JsonProperty(String, "depot_alias")
 	*/
 	private $depotAlias;
 
 	/**
-	* @JsonProperty(Integer, "depot_province_id")
+	* #JsonProperty(Integer, "depot_province_id")
 	*/
 	private $depotProvinceId;
 
 	/**
-	* @JsonProperty(Integer, "depot_city_id")
+	* #JsonProperty(Integer, "depot_city_id")
 	*/
 	private $depotCityId;
 
 	/**
-	* @JsonProperty(Integer, "depot_district_id")
+	* #JsonProperty(Integer, "depot_district_id")
 	*/
 	private $depotDistrictId;
 
 	/**
-	* @JsonProperty(String, "depot_address")
+	* #JsonProperty(String, "depot_address")
 	*/
 	private $depotAddress;
 
 	/**
-	* @JsonProperty(String, "contact_name")
+	* #JsonProperty(String, "contact_name")
 	*/
 	private $contactName;
 
 	/**
-	* @JsonProperty(String, "telephone")
+	* #JsonProperty(String, "telephone")
 	*/
 	private $telephone;
 
 	/**
-	* @JsonProperty(String, "depot_region")
+	* #JsonProperty(String, "depot_region")
 	*/
 	private $depotRegion;
 

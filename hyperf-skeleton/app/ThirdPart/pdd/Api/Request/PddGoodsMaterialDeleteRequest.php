@@ -11,7 +11,7 @@ class PddGoodsMaterialDeleteRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "material_id")
+	* #JsonProperty(Long, "material_id")
 	*/
 	private $materialId;
 

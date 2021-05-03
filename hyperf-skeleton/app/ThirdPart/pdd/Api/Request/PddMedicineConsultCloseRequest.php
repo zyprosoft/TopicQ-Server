@@ -11,12 +11,12 @@ class PddMedicineConsultCloseRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "consult_no")
+	* #JsonProperty(String, "consult_no")
 	*/
 	private $consultNo;
 
 	/**
-	* @JsonProperty(String, "reason")
+	* #JsonProperty(String, "reason")
 	*/
 	private $reason;
 

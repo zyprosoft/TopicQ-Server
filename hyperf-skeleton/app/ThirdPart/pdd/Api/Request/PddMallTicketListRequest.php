@@ -11,27 +11,27 @@ class PddMallTicketListRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "create_end_time")
+	* #JsonProperty(Integer, "create_end_time")
 	*/
 	private $createEndTime;
 
 	/**
-	* @JsonProperty(Integer, "create_start_time")
+	* #JsonProperty(Integer, "create_start_time")
 	*/
 	private $createStartTime;
 
 	/**
-	* @JsonProperty(Integer, "page_num")
+	* #JsonProperty(Integer, "page_num")
 	*/
 	private $pageNum;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 
 	/**
-	* @JsonProperty(Integer, "progress")
+	* #JsonProperty(Integer, "progress")
 	*/
 	private $progress;
 

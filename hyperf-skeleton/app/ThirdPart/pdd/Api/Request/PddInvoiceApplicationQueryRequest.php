@@ -11,42 +11,42 @@ class PddInvoiceApplicationQueryRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "application_id")
+	* #JsonProperty(Long, "application_id")
 	*/
 	private $applicationId;
 
 	/**
-	* @JsonProperty(String, "order_sn")
+	* #JsonProperty(String, "order_sn")
 	*/
 	private $orderSn;
 
 	/**
-	* @JsonProperty(Integer, "page")
+	* #JsonProperty(Integer, "page")
 	*/
 	private $page;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 
 	/**
-	* @JsonProperty(Integer, "quality_goods_invoice")
+	* #JsonProperty(Integer, "quality_goods_invoice")
 	*/
 	private $qualityGoodsInvoice;
 
 	/**
-	* @JsonProperty(Integer, "status")
+	* #JsonProperty(Integer, "status")
 	*/
 	private $status;
 
 	/**
-	* @JsonProperty(Long, "update_end_time")
+	* #JsonProperty(Long, "update_end_time")
 	*/
 	private $updateEndTime;
 
 	/**
-	* @JsonProperty(Long, "update_start_time")
+	* #JsonProperty(Long, "update_start_time")
 	*/
 	private $updateStartTime;
 

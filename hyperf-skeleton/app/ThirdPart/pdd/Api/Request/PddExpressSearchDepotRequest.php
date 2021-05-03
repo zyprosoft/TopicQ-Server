@@ -11,22 +11,22 @@ class PddExpressSearchDepotRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "code")
+	* #JsonProperty(String, "code")
 	*/
 	private $code;
 
 	/**
-	* @JsonProperty(Integer, "length")
+	* #JsonProperty(Integer, "length")
 	*/
 	private $length;
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
 	/**
-	* @JsonProperty(Integer, "start")
+	* #JsonProperty(Integer, "start")
 	*/
 	private $start;
 

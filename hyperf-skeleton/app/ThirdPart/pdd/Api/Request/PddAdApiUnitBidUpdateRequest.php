@@ -11,17 +11,17 @@ class PddAdApiUnitBidUpdateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "adId")
+	* #JsonProperty(Long, "adId")
 	*/
 	private $adId;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiUnitBidUpdateRequest_AdUnitBidsItem>, "adUnitBids")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiUnitBidUpdateRequest_AdUnitBidsItem>, "adUnitBids")
 	*/
 	private $adUnitBids;
 
 	/**
-	* @JsonProperty(Integer, "bidReferenceType")
+	* #JsonProperty(Integer, "bidReferenceType")
 	*/
 	private $bidReferenceType;
 
@@ -74,12 +74,12 @@ class PddAdApiUnitBidUpdateRequest_AdUnitBidsItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(Long, "bidId")
+	* #JsonProperty(Long, "bidId")
 	*/
 	private $bidId;
 
 	/**
-	* @JsonProperty(Long, "bidValue")
+	* #JsonProperty(Long, "bidValue")
 	*/
 	private $bidValue;
 

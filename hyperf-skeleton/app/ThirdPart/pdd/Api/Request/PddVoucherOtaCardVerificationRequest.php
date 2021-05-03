@@ -11,22 +11,22 @@ class PddVoucherOtaCardVerificationRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "card_no")
+	* #JsonProperty(String, "card_no")
 	*/
 	private $cardNo;
 
 	/**
-	* @JsonProperty(Long, "store_id")
+	* #JsonProperty(Long, "store_id")
 	*/
 	private $storeId;
 
 	/**
-	* @JsonProperty(String, "store_name")
+	* #JsonProperty(String, "store_name")
 	*/
 	private $storeName;
 
 	/**
-	* @JsonProperty(String, "order_sn")
+	* #JsonProperty(String, "order_sn")
 	*/
 	private $orderSn;
 

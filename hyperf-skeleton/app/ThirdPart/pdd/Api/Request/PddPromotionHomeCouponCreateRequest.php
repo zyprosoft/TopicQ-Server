@@ -11,37 +11,37 @@ class PddPromotionHomeCouponCreateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "batch_desc")
+	* #JsonProperty(String, "batch_desc")
 	*/
 	private $batchDesc;
 
 	/**
-	* @JsonProperty(Long, "batch_start_time")
+	* #JsonProperty(Long, "batch_start_time")
 	*/
 	private $batchStartTime;
 
 	/**
-	* @JsonProperty(Long, "batch_end_time")
+	* #JsonProperty(Long, "batch_end_time")
 	*/
 	private $batchEndTime;
 
 	/**
-	* @JsonProperty(Long, "discount")
+	* #JsonProperty(Long, "discount")
 	*/
 	private $discount;
 
 	/**
-	* @JsonProperty(Long, "min_order_amount")
+	* #JsonProperty(Long, "min_order_amount")
 	*/
 	private $minOrderAmount;
 
 	/**
-	* @JsonProperty(Long, "init_quantity")
+	* #JsonProperty(Long, "init_quantity")
 	*/
 	private $initQuantity;
 
 	/**
-	* @JsonProperty(Long, "user_limit")
+	* #JsonProperty(Long, "user_limit")
 	*/
 	private $userLimit;
 

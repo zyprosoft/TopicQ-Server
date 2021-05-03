@@ -11,22 +11,22 @@ class PddOrderNoteUpdateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "note")
+	* #JsonProperty(String, "note")
 	*/
 	private $note;
 
 	/**
-	* @JsonProperty(Integer, "tag")
+	* #JsonProperty(Integer, "tag")
 	*/
 	private $tag;
 
 	/**
-	* @JsonProperty(String, "tag_name")
+	* #JsonProperty(String, "tag_name")
 	*/
 	private $tagName;
 
 	/**
-	* @JsonProperty(String, "order_sn")
+	* #JsonProperty(String, "order_sn")
 	*/
 	private $orderSn;
 

@@ -11,22 +11,22 @@ class PddErpOrderSyncRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "logistics_id")
+	* #JsonProperty(Long, "logistics_id")
 	*/
 	private $logisticsId;
 
 	/**
-	* @JsonProperty(String, "order_sn")
+	* #JsonProperty(String, "order_sn")
 	*/
 	private $orderSn;
 
 	/**
-	* @JsonProperty(Integer, "order_state")
+	* #JsonProperty(Integer, "order_state")
 	*/
 	private $orderState;
 
 	/**
-	* @JsonProperty(String, "waybill_no")
+	* #JsonProperty(String, "waybill_no")
 	*/
 	private $waybillNo;
 

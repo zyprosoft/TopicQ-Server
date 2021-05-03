@@ -11,12 +11,12 @@ class PddPngMallStaffBatchSycnRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<Long>, "staff_ids")
+	* #JsonProperty(List<Long>, "staff_ids")
 	*/
 	private $staffIds;
 
 	/**
-	* @JsonProperty(Long, "to_mall_id")
+	* #JsonProperty(Long, "to_mall_id")
 	*/
 	private $toMallId;
 

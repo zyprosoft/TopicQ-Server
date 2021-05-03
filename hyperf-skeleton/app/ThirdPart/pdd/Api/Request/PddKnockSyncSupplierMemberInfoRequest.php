@@ -11,7 +11,7 @@ class PddKnockSyncSupplierMemberInfoRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddKnockSyncSupplierMemberInfoRequest_SyncRequest, "sync_request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddKnockSyncSupplierMemberInfoRequest_SyncRequest, "sync_request")
 	*/
 	private $syncRequest;
 
@@ -52,7 +52,7 @@ class PddKnockSyncSupplierMemberInfoRequest_SyncRequest extends PopBaseJsonEntit
 	}
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddKnockSyncSupplierMemberInfoRequest_SyncRequestSupplierMemberSyncInfosItem>, "supplier_member_sync_infos")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddKnockSyncSupplierMemberInfoRequest_SyncRequestSupplierMemberSyncInfosItem>, "supplier_member_sync_infos")
 	*/
 	private $supplierMemberSyncInfos;
 
@@ -72,42 +72,42 @@ class PddKnockSyncSupplierMemberInfoRequest_SyncRequestSupplierMemberSyncInfosIt
 	}
 
 	/**
-	* @JsonProperty(String, "email")
+	* #JsonProperty(String, "email")
 	*/
 	private $email;
 
 	/**
-	* @JsonProperty(String, "mobile")
+	* #JsonProperty(String, "mobile")
 	*/
 	private $mobile;
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
 	/**
-	* @JsonProperty(String, "org_number")
+	* #JsonProperty(String, "org_number")
 	*/
 	private $orgNumber;
 
 	/**
-	* @JsonProperty(String, "sync_action")
+	* #JsonProperty(String, "sync_action")
 	*/
 	private $syncAction;
 
 	/**
-	* @JsonProperty(Boolean, "temp_user")
+	* #JsonProperty(Boolean, "temp_user")
 	*/
 	private $tempUser;
 
 	/**
-	* @JsonProperty(String, "user_number")
+	* #JsonProperty(String, "user_number")
 	*/
 	private $userNumber;
 
 	/**
-	* @JsonProperty(String, "encrypted_job_id")
+	* #JsonProperty(String, "encrypted_job_id")
 	*/
 	private $encryptedJobId;
 

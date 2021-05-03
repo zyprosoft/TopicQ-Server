@@ -11,12 +11,12 @@ class PddDdkCashgiftStatusUpdateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "cash_gift_id")
+	* #JsonProperty(Long, "cash_gift_id")
 	*/
 	private $cashGiftId;
 
 	/**
-	* @JsonProperty(Integer, "update_type")
+	* #JsonProperty(Integer, "update_type")
 	*/
 	private $updateType;
 

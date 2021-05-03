@@ -11,17 +11,17 @@ class PddCloudIsvPageCodeRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<String>, "mallIdList")
+	* #JsonProperty(List<String>, "mallIdList")
 	*/
 	private $mallIdList;
 
 	/**
-	* @JsonProperty(String, "httpReferer")
+	* #JsonProperty(String, "httpReferer")
 	*/
 	private $httpReferer;
 
 	/**
-	* @JsonProperty(String, "userId")
+	* #JsonProperty(String, "userId")
 	*/
 	private $userId;
 

@@ -11,12 +11,12 @@ class PddOverseaDeclarationFailNotifyRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "fail_reason")
+	* #JsonProperty(Integer, "fail_reason")
 	*/
 	private $failReason;
 
 	/**
-	* @JsonProperty(String, "order_sn")
+	* #JsonProperty(String, "order_sn")
 	*/
 	private $orderSn;
 

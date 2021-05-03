@@ -11,32 +11,32 @@ class PddDdkOrderListRangeGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Boolean, "cash_gift_order")
+	* #JsonProperty(Boolean, "cash_gift_order")
 	*/
 	private $cashGiftOrder;
 
 	/**
-	* @JsonProperty(String, "end_time")
+	* #JsonProperty(String, "end_time")
 	*/
 	private $endTime;
 
 	/**
-	* @JsonProperty(String, "last_order_id")
+	* #JsonProperty(String, "last_order_id")
 	*/
 	private $lastOrderId;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 
 	/**
-	* @JsonProperty(Integer, "query_order_type")
+	* #JsonProperty(Integer, "query_order_type")
 	*/
 	private $queryOrderType;
 
 	/**
-	* @JsonProperty(String, "start_time")
+	* #JsonProperty(String, "start_time")
 	*/
 	private $startTime;
 

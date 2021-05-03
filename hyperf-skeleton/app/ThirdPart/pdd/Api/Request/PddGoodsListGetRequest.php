@@ -11,37 +11,37 @@ class PddGoodsListGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "outer_id")
+	* #JsonProperty(String, "outer_id")
 	*/
 	private $outerId;
 
 	/**
-	* @JsonProperty(Integer, "is_onsale")
+	* #JsonProperty(Integer, "is_onsale")
 	*/
 	private $isOnsale;
 
 	/**
-	* @JsonProperty(String, "goods_name")
+	* #JsonProperty(String, "goods_name")
 	*/
 	private $goodsName;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 
 	/**
-	* @JsonProperty(Integer, "page")
+	* #JsonProperty(Integer, "page")
 	*/
 	private $page;
 
 	/**
-	* @JsonProperty(String, "outer_goods_id")
+	* #JsonProperty(String, "outer_goods_id")
 	*/
 	private $outerGoodsId;
 
 	/**
-	* @JsonProperty(Long, "cost_template_id")
+	* #JsonProperty(Long, "cost_template_id")
 	*/
 	private $costTemplateId;
 

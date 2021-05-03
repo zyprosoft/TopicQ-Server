@@ -11,7 +11,7 @@ class PddWaybillUpdateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWaybillUpdateRequest_ParamWaybillCloudPrintUpdateRequest, "param_waybill_cloud_print_update_request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWaybillUpdateRequest_ParamWaybillCloudPrintUpdateRequest, "param_waybill_cloud_print_update_request")
 	*/
 	private $paramWaybillCloudPrintUpdateRequest;
 
@@ -52,37 +52,37 @@ class PddWaybillUpdateRequest_ParamWaybillCloudPrintUpdateRequest extends PopBas
 	}
 
 	/**
-	* @JsonProperty(String, "object_id")
+	* #JsonProperty(String, "object_id")
 	*/
 	private $objectId;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWaybillUpdateRequest_ParamWaybillCloudPrintUpdateRequestPackageInfo, "package_info")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWaybillUpdateRequest_ParamWaybillCloudPrintUpdateRequestPackageInfo, "package_info")
 	*/
 	private $packageInfo;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWaybillUpdateRequest_ParamWaybillCloudPrintUpdateRequestRecipient, "recipient")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWaybillUpdateRequest_ParamWaybillCloudPrintUpdateRequestRecipient, "recipient")
 	*/
 	private $recipient;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWaybillUpdateRequest_ParamWaybillCloudPrintUpdateRequestSender, "sender")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWaybillUpdateRequest_ParamWaybillCloudPrintUpdateRequestSender, "sender")
 	*/
 	private $sender;
 
 	/**
-	* @JsonProperty(String, "template_url")
+	* #JsonProperty(String, "template_url")
 	*/
 	private $templateUrl;
 
 	/**
-	* @JsonProperty(String, "waybill_code")
+	* #JsonProperty(String, "waybill_code")
 	*/
 	private $waybillCode;
 
 	/**
-	* @JsonProperty(String, "wp_code")
+	* #JsonProperty(String, "wp_code")
 	*/
 	private $wpCode;
 
@@ -132,17 +132,17 @@ class PddWaybillUpdateRequest_ParamWaybillCloudPrintUpdateRequestPackageInfo ext
 	}
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddWaybillUpdateRequest_ParamWaybillCloudPrintUpdateRequestPackageInfoItemsItem>, "items")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddWaybillUpdateRequest_ParamWaybillCloudPrintUpdateRequestPackageInfoItemsItem>, "items")
 	*/
 	private $items;
 
 	/**
-	* @JsonProperty(Integer, "volume")
+	* #JsonProperty(Integer, "volume")
 	*/
 	private $volume;
 
 	/**
-	* @JsonProperty(Integer, "weight")
+	* #JsonProperty(Integer, "weight")
 	*/
 	private $weight;
 
@@ -172,12 +172,12 @@ class PddWaybillUpdateRequest_ParamWaybillCloudPrintUpdateRequestPackageInfoItem
 	}
 
 	/**
-	* @JsonProperty(Integer, "count")
+	* #JsonProperty(Integer, "count")
 	*/
 	private $count;
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
@@ -202,22 +202,22 @@ class PddWaybillUpdateRequest_ParamWaybillCloudPrintUpdateRequestRecipient exten
 	}
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWaybillUpdateRequest_ParamWaybillCloudPrintUpdateRequestRecipientAddress, "address")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWaybillUpdateRequest_ParamWaybillCloudPrintUpdateRequestRecipientAddress, "address")
 	*/
 	private $address;
 
 	/**
-	* @JsonProperty(String, "mobile")
+	* #JsonProperty(String, "mobile")
 	*/
 	private $mobile;
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
 	/**
-	* @JsonProperty(String, "phone")
+	* #JsonProperty(String, "phone")
 	*/
 	private $phone;
 
@@ -252,32 +252,32 @@ class PddWaybillUpdateRequest_ParamWaybillCloudPrintUpdateRequestRecipientAddres
 	}
 
 	/**
-	* @JsonProperty(String, "city")
+	* #JsonProperty(String, "city")
 	*/
 	private $city;
 
 	/**
-	* @JsonProperty(String, "country")
+	* #JsonProperty(String, "country")
 	*/
 	private $country;
 
 	/**
-	* @JsonProperty(String, "detail")
+	* #JsonProperty(String, "detail")
 	*/
 	private $detail;
 
 	/**
-	* @JsonProperty(String, "district")
+	* #JsonProperty(String, "district")
 	*/
 	private $district;
 
 	/**
-	* @JsonProperty(String, "province")
+	* #JsonProperty(String, "province")
 	*/
 	private $province;
 
 	/**
-	* @JsonProperty(String, "town")
+	* #JsonProperty(String, "town")
 	*/
 	private $town;
 
@@ -322,17 +322,17 @@ class PddWaybillUpdateRequest_ParamWaybillCloudPrintUpdateRequestSender extends 
 	}
 
 	/**
-	* @JsonProperty(String, "mobile")
+	* #JsonProperty(String, "mobile")
 	*/
 	private $mobile;
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
 	/**
-	* @JsonProperty(String, "phone")
+	* #JsonProperty(String, "phone")
 	*/
 	private $phone;
 

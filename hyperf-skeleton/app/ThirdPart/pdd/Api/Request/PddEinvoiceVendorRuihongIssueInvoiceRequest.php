@@ -11,7 +11,7 @@ class PddEinvoiceVendorRuihongIssueInvoiceRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddEinvoiceVendorRuihongIssueInvoiceRequest_Request, "request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddEinvoiceVendorRuihongIssueInvoiceRequest_Request, "request")
 	*/
 	private $request;
 
@@ -52,42 +52,42 @@ class PddEinvoiceVendorRuihongIssueInvoiceRequest_Request extends PopBaseJsonEnt
 	}
 
 	/**
-	* @JsonProperty(String, "serialNo")
+	* #JsonProperty(String, "serialNo")
 	*/
 	private $serialNo;
 
 	/**
-	* @JsonProperty(String, "postTime")
+	* #JsonProperty(String, "postTime")
 	*/
 	private $postTime;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddEinvoiceVendorRuihongIssueInvoiceRequest_RequestOrder, "order")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddEinvoiceVendorRuihongIssueInvoiceRequest_RequestOrder, "order")
 	*/
 	private $order;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddEinvoiceVendorRuihongIssueInvoiceRequest_RequestInvoice, "invoice")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddEinvoiceVendorRuihongIssueInvoiceRequest_RequestInvoice, "invoice")
 	*/
 	private $invoice;
 
 	/**
-	* @JsonProperty(String, "appCode")
+	* #JsonProperty(String, "appCode")
 	*/
 	private $appCode;
 
 	/**
-	* @JsonProperty(String, "cmdName")
+	* #JsonProperty(String, "cmdName")
 	*/
 	private $cmdName;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddEinvoiceVendorRuihongIssueInvoiceRequest_RequestExtendedParams, "extendedParams")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddEinvoiceVendorRuihongIssueInvoiceRequest_RequestExtendedParams, "extendedParams")
 	*/
 	private $extendedParams;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddEinvoiceVendorRuihongIssueInvoiceRequest_RequestDynamicParams, "dynamicParams")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddEinvoiceVendorRuihongIssueInvoiceRequest_RequestDynamicParams, "dynamicParams")
 	*/
 	private $dynamicParams;
 
@@ -142,7 +142,7 @@ class PddEinvoiceVendorRuihongIssueInvoiceRequest_RequestOrder extends PopBaseJs
 	}
 
 	/**
-	* @JsonProperty(String, "orderNo")
+	* #JsonProperty(String, "orderNo")
 	*/
 	private $orderNo;
 
@@ -162,97 +162,97 @@ class PddEinvoiceVendorRuihongIssueInvoiceRequest_RequestInvoice extends PopBase
 	}
 
 	/**
-	* @JsonProperty(String, "taxpayerCode")
+	* #JsonProperty(String, "taxpayerCode")
 	*/
 	private $taxpayerCode;
 
 	/**
-	* @JsonProperty(String, "taxpayerName")
+	* #JsonProperty(String, "taxpayerName")
 	*/
 	private $taxpayerName;
 
 	/**
-	* @JsonProperty(String, "taxpayerAddress")
+	* #JsonProperty(String, "taxpayerAddress")
 	*/
 	private $taxpayerAddress;
 
 	/**
-	* @JsonProperty(String, "taxpayerTel")
+	* #JsonProperty(String, "taxpayerTel")
 	*/
 	private $taxpayerTel;
 
 	/**
-	* @JsonProperty(String, "taxpayerBankName")
+	* #JsonProperty(String, "taxpayerBankName")
 	*/
 	private $taxpayerBankName;
 
 	/**
-	* @JsonProperty(String, "taxpayerBankAccount")
+	* #JsonProperty(String, "taxpayerBankAccount")
 	*/
 	private $taxpayerBankAccount;
 
 	/**
-	* @JsonProperty(String, "customerName")
+	* #JsonProperty(String, "customerName")
 	*/
 	private $customerName;
 
 	/**
-	* @JsonProperty(String, "customerCode")
+	* #JsonProperty(String, "customerCode")
 	*/
 	private $customerCode;
 
 	/**
-	* @JsonProperty(String, "customerAddress")
+	* #JsonProperty(String, "customerAddress")
 	*/
 	private $customerAddress;
 
 	/**
-	* @JsonProperty(String, "customerTel")
+	* #JsonProperty(String, "customerTel")
 	*/
 	private $customerTel;
 
 	/**
-	* @JsonProperty(String, "customerBankName")
+	* #JsonProperty(String, "customerBankName")
 	*/
 	private $customerBankName;
 
 	/**
-	* @JsonProperty(String, "customerBankAccount")
+	* #JsonProperty(String, "customerBankAccount")
 	*/
 	private $customerBankAccount;
 
 	/**
-	* @JsonProperty(String, "invoiceType")
+	* #JsonProperty(String, "invoiceType")
 	*/
 	private $invoiceType;
 
 	/**
-	* @JsonProperty(String, "drawer")
+	* #JsonProperty(String, "drawer")
 	*/
 	private $drawer;
 
 	/**
-	* @JsonProperty(String, "payee")
+	* #JsonProperty(String, "payee")
 	*/
 	private $payee;
 
 	/**
-	* @JsonProperty(String, "reviewer")
+	* #JsonProperty(String, "reviewer")
 	*/
 	private $reviewer;
 
 	/**
-	* @JsonProperty(String, "totalAmount")
+	* #JsonProperty(String, "totalAmount")
 	*/
 	private $totalAmount;
 
 	/**
-	* @JsonProperty(String, "remark")
+	* #JsonProperty(String, "remark")
 	*/
 	private $remark;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddEinvoiceVendorRuihongIssueInvoiceRequest_RequestInvoiceItemsItem>, "items")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddEinvoiceVendorRuihongIssueInvoiceRequest_RequestInvoiceItemsItem>, "items")
 	*/
 	private $items;
 
@@ -362,62 +362,62 @@ class PddEinvoiceVendorRuihongIssueInvoiceRequest_RequestInvoiceItemsItem extend
 	}
 
 	/**
-	* @JsonProperty(String, "type")
+	* #JsonProperty(String, "type")
 	*/
 	private $type;
 
 	/**
-	* @JsonProperty(String, "catalogCode")
+	* #JsonProperty(String, "catalogCode")
 	*/
 	private $catalogCode;
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
 	/**
-	* @JsonProperty(String, "spec")
+	* #JsonProperty(String, "spec")
 	*/
 	private $spec;
 
 	/**
-	* @JsonProperty(String, "price")
+	* #JsonProperty(String, "price")
 	*/
 	private $price;
 
 	/**
-	* @JsonProperty(String, "quantity")
+	* #JsonProperty(String, "quantity")
 	*/
 	private $quantity;
 
 	/**
-	* @JsonProperty(String, "uom")
+	* #JsonProperty(String, "uom")
 	*/
 	private $uom;
 
 	/**
-	* @JsonProperty(String, "taxRate")
+	* #JsonProperty(String, "taxRate")
 	*/
 	private $taxRate;
 
 	/**
-	* @JsonProperty(String, "amount")
+	* #JsonProperty(String, "amount")
 	*/
 	private $amount;
 
 	/**
-	* @JsonProperty(String, "preferentialPolicyFlg")
+	* #JsonProperty(String, "preferentialPolicyFlg")
 	*/
 	private $preferentialPolicyFlg;
 
 	/**
-	* @JsonProperty(String, "addedValueTaxFlg")
+	* #JsonProperty(String, "addedValueTaxFlg")
 	*/
 	private $addedValueTaxFlg;
 
 	/**
-	* @JsonProperty(String, "zeroTaxRateFlg")
+	* #JsonProperty(String, "zeroTaxRateFlg")
 	*/
 	private $zeroTaxRateFlg;
 

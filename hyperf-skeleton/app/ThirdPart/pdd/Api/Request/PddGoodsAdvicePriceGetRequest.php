@@ -11,7 +11,7 @@ class PddGoodsAdvicePriceGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsAdvicePriceGetRequest_Request, "request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsAdvicePriceGetRequest_Request, "request")
 	*/
 	private $request;
 
@@ -52,12 +52,12 @@ class PddGoodsAdvicePriceGetRequest_Request extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(Integer, "page")
+	* #JsonProperty(Integer, "page")
 	*/
 	private $page;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 

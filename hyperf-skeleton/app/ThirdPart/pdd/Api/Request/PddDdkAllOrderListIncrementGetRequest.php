@@ -11,27 +11,27 @@ class PddDdkAllOrderListIncrementGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "end_update_time")
+	* #JsonProperty(Long, "end_update_time")
 	*/
 	private $endUpdateTime;
 
 	/**
-	* @JsonProperty(Integer, "page")
+	* #JsonProperty(Integer, "page")
 	*/
 	private $page;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 
 	/**
-	* @JsonProperty(Integer, "query_order_type")
+	* #JsonProperty(Integer, "query_order_type")
 	*/
 	private $queryOrderType;
 
 	/**
-	* @JsonProperty(Long, "start_update_time")
+	* #JsonProperty(Long, "start_update_time")
 	*/
 	private $startUpdateTime;
 

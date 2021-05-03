@@ -11,7 +11,7 @@ class PddFdsWaybillCancelRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddFdsWaybillCancelRequest_InnerPddFdsWaybillCancelRequest, "pdd_fds_waybill_cancel_request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddFdsWaybillCancelRequest_InnerPddFdsWaybillCancelRequest, "pdd_fds_waybill_cancel_request")
 	*/
 	private $pddFdsWaybillCancelRequest;
 
@@ -52,22 +52,22 @@ class PddFdsWaybillCancelRequest_InnerPddFdsWaybillCancelRequest extends PopBase
 	}
 
 	/**
-	* @JsonProperty(String, "mall_mask_id")
+	* #JsonProperty(String, "mall_mask_id")
 	*/
 	private $mallMaskId;
 
 	/**
-	* @JsonProperty(String, "order_mask_sn")
+	* #JsonProperty(String, "order_mask_sn")
 	*/
 	private $orderMaskSn;
 
 	/**
-	* @JsonProperty(String, "waybill_code")
+	* #JsonProperty(String, "waybill_code")
 	*/
 	private $waybillCode;
 
 	/**
-	* @JsonProperty(String, "wp_code")
+	* #JsonProperty(String, "wp_code")
 	*/
 	private $wpCode;
 

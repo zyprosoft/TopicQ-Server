@@ -11,7 +11,7 @@ class PddCloudprintCustomaresGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "template_id")
+	* #JsonProperty(Integer, "template_id")
 	*/
 	private $templateId;
 

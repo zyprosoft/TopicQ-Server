@@ -11,12 +11,12 @@ class PddPromotionLimitedActivityCancelRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "detail_id")
+	* #JsonProperty(Long, "detail_id")
 	*/
 	private $detailId;
 
 	/**
-	* @JsonProperty(Long, "goods_id")
+	* #JsonProperty(Long, "goods_id")
 	*/
 	private $goodsId;
 

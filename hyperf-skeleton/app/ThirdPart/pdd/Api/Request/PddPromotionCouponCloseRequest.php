@@ -11,7 +11,7 @@ class PddPromotionCouponCloseRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "batch_id")
+	* #JsonProperty(Long, "batch_id")
 	*/
 	private $batchId;
 

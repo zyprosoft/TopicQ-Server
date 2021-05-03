@@ -11,27 +11,27 @@ class PddDdyPdpUsersGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "owner_id")
+	* #JsonProperty(Long, "owner_id")
 	*/
 	private $ownerId;
 
 	/**
-	* @JsonProperty(String, "start_modified")
+	* #JsonProperty(String, "start_modified")
 	*/
 	private $startModified;
 
 	/**
-	* @JsonProperty(String, "end_modified")
+	* #JsonProperty(String, "end_modified")
 	*/
 	private $endModified;
 
 	/**
-	* @JsonProperty(Integer, "page_no")
+	* #JsonProperty(Integer, "page_no")
 	*/
 	private $pageNo;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 

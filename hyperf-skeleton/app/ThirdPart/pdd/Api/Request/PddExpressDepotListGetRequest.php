@@ -11,12 +11,12 @@ class PddExpressDepotListGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "length")
+	* #JsonProperty(Long, "length")
 	*/
 	private $length;
 
 	/**
-	* @JsonProperty(Long, "start")
+	* #JsonProperty(Long, "start")
 	*/
 	private $start;
 

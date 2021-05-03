@@ -11,22 +11,22 @@ class PddSmsDetailbillPushRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "account")
+	* #JsonProperty(String, "account")
 	*/
 	private $account;
 
 	/**
-	* @JsonProperty(Long, "batch_version")
+	* #JsonProperty(Long, "batch_version")
 	*/
 	private $batchVersion;
 
 	/**
-	* @JsonProperty(String, "date")
+	* #JsonProperty(String, "date")
 	*/
 	private $date;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddSmsDetailbillPushRequest_DetailsItem>, "details")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddSmsDetailbillPushRequest_DetailsItem>, "details")
 	*/
 	private $details;
 
@@ -85,22 +85,22 @@ class PddSmsDetailbillPushRequest_DetailsItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "deliver_time")
+	* #JsonProperty(String, "deliver_time")
 	*/
 	private $deliverTime;
 
 	/**
-	* @JsonProperty(String, "error_code")
+	* #JsonProperty(String, "error_code")
 	*/
 	private $errorCode;
 
 	/**
-	* @JsonProperty(Long, "msg_id")
+	* #JsonProperty(Long, "msg_id")
 	*/
 	private $msgId;
 
 	/**
-	* @JsonProperty(String, "submit_time")
+	* #JsonProperty(String, "submit_time")
 	*/
 	private $submitTime;
 

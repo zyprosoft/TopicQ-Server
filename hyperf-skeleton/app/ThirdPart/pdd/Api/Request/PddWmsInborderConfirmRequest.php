@@ -11,7 +11,7 @@ class PddWmsInborderConfirmRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsInborderConfirmRequest_Request, "request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsInborderConfirmRequest_Request, "request")
 	*/
 	private $request;
 
@@ -52,17 +52,17 @@ class PddWmsInborderConfirmRequest_Request extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsInborderConfirmRequest_RequestInbOrder, "inbOrder")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddWmsInborderConfirmRequest_RequestInbOrder, "inbOrder")
 	*/
 	private $inbOrder;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddWmsInborderConfirmRequest_RequestOrderLinesItem>, "orderLines")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddWmsInborderConfirmRequest_RequestOrderLinesItem>, "orderLines")
 	*/
 	private $orderLines;
 
 	/**
-	* @JsonProperty(String, "ownerCode")
+	* #JsonProperty(String, "ownerCode")
 	*/
 	private $ownerCode;
 
@@ -92,32 +92,32 @@ class PddWmsInborderConfirmRequest_RequestInbOrder extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "inbOrderCode")
+	* #JsonProperty(String, "inbOrderCode")
 	*/
 	private $inbOrderCode;
 
 	/**
-	* @JsonProperty(String, "orderType")
+	* #JsonProperty(String, "orderType")
 	*/
 	private $orderType;
 
 	/**
-	* @JsonProperty(String, "outBizCode")
+	* #JsonProperty(String, "outBizCode")
 	*/
 	private $outBizCode;
 
 	/**
-	* @JsonProperty(String, "status")
+	* #JsonProperty(String, "status")
 	*/
 	private $status;
 
 	/**
-	* @JsonProperty(String, "warehouseCode")
+	* #JsonProperty(String, "warehouseCode")
 	*/
 	private $warehouseCode;
 
 	/**
-	* @JsonProperty(Long, "warehouseId")
+	* #JsonProperty(Long, "warehouseId")
 	*/
 	private $warehouseId;
 
@@ -162,17 +162,17 @@ class PddWmsInborderConfirmRequest_RequestOrderLinesItem extends PopBaseJsonEnti
 	}
 
 	/**
-	* @JsonProperty(Long, "actualReceiveQuantity")
+	* #JsonProperty(Long, "actualReceiveQuantity")
 	*/
 	private $actualReceiveQuantity;
 
 	/**
-	* @JsonProperty(String, "inventoryType")
+	* #JsonProperty(String, "inventoryType")
 	*/
 	private $inventoryType;
 
 	/**
-	* @JsonProperty(String, "wareSn")
+	* #JsonProperty(String, "wareSn")
 	*/
 	private $wareSn;
 

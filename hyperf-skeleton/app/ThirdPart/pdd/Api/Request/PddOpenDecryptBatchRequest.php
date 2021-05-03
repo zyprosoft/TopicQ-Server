@@ -11,7 +11,7 @@ class PddOpenDecryptBatchRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddOpenDecryptBatchRequest_DataListItem>, "data_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddOpenDecryptBatchRequest_DataListItem>, "data_list")
 	*/
 	private $dataList;
 
@@ -52,12 +52,12 @@ class PddOpenDecryptBatchRequest_DataListItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "data_tag")
+	* #JsonProperty(String, "data_tag")
 	*/
 	private $dataTag;
 
 	/**
-	* @JsonProperty(String, "encrypted_data")
+	* #JsonProperty(String, "encrypted_data")
 	*/
 	private $encryptedData;
 

@@ -11,7 +11,7 @@ class PddRdcPddgeniusSendgoodsCancelRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddRdcPddgeniusSendgoodsCancelRequest_Param, "param")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddRdcPddgeniusSendgoodsCancelRequest_Param, "param")
 	*/
 	private $param;
 
@@ -52,37 +52,37 @@ class PddRdcPddgeniusSendgoodsCancelRequest_Param extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(Integer, "fail_reason_code")
+	* #JsonProperty(Integer, "fail_reason_code")
 	*/
 	private $failReasonCode;
 
 	/**
-	* @JsonProperty(String, "msg")
+	* #JsonProperty(String, "msg")
 	*/
 	private $msg;
 
 	/**
-	* @JsonProperty(Long, "operate_time")
+	* #JsonProperty(Long, "operate_time")
 	*/
 	private $operateTime;
 
 	/**
-	* @JsonProperty(Integer, "refund_fee")
+	* #JsonProperty(Integer, "refund_fee")
 	*/
 	private $refundFee;
 
 	/**
-	* @JsonProperty(Long, "refund_id")
+	* #JsonProperty(Long, "refund_id")
 	*/
 	private $refundId;
 
 	/**
-	* @JsonProperty(String, "status")
+	* #JsonProperty(String, "status")
 	*/
 	private $status;
 
 	/**
-	* @JsonProperty(String, "tid")
+	* #JsonProperty(String, "tid")
 	*/
 	private $tid;
 

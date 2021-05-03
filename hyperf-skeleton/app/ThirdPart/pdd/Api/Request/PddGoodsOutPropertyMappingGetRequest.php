@@ -11,17 +11,17 @@ class PddGoodsOutPropertyMappingGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "cat_id")
+	* #JsonProperty(Long, "cat_id")
 	*/
 	private $catId;
 
 	/**
-	* @JsonProperty(String, "out_property_name")
+	* #JsonProperty(String, "out_property_name")
 	*/
 	private $outPropertyName;
 
 	/**
-	* @JsonProperty(String, "out_property_value_name")
+	* #JsonProperty(String, "out_property_value_name")
 	*/
 	private $outPropertyValueName;
 

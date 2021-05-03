@@ -11,22 +11,22 @@ class PddKttGoodsIncrQuantityRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "goods_id")
+	* #JsonProperty(Long, "goods_id")
 	*/
 	private $goodsId;
 
 	/**
-	* @JsonProperty(Integer, "modify_quantity_type")
+	* #JsonProperty(Integer, "modify_quantity_type")
 	*/
 	private $modifyQuantityType;
 
 	/**
-	* @JsonProperty(Integer, "quantity_delta")
+	* #JsonProperty(Integer, "quantity_delta")
 	*/
 	private $quantityDelta;
 
 	/**
-	* @JsonProperty(Long, "sku_id")
+	* #JsonProperty(Long, "sku_id")
 	*/
 	private $skuId;
 

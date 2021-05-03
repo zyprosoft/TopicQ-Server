@@ -11,7 +11,7 @@ class PddDdyPdpUserDeleteRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "owner_id")
+	* #JsonProperty(Long, "owner_id")
 	*/
 	private $ownerId;
 

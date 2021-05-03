@@ -11,7 +11,7 @@ class PddVoucherVirtualCardBatchAddRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddVoucherVirtualCardBatchAddRequest_Data, "data")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddVoucherVirtualCardBatchAddRequest_Data, "data")
 	*/
 	private $data;
 
@@ -52,22 +52,22 @@ class PddVoucherVirtualCardBatchAddRequest_Data extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "chargeAddress")
+	* #JsonProperty(String, "chargeAddress")
 	*/
 	private $chargeAddress;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddVoucherVirtualCardBatchAddRequest_DataDataListItem>, "dataList")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddVoucherVirtualCardBatchAddRequest_DataDataListItem>, "dataList")
 	*/
 	private $dataList;
 
 	/**
-	* @JsonProperty(Long, "goodsId")
+	* #JsonProperty(Long, "goodsId")
 	*/
 	private $goodsId;
 
 	/**
-	* @JsonProperty(Long, "skuId")
+	* #JsonProperty(Long, "skuId")
 	*/
 	private $skuId;
 
@@ -102,12 +102,12 @@ class PddVoucherVirtualCardBatchAddRequest_DataDataListItem extends PopBaseJsonE
 	}
 
 	/**
-	* @JsonProperty(String, "cardNo")
+	* #JsonProperty(String, "cardNo")
 	*/
 	private $cardNo;
 
 	/**
-	* @JsonProperty(String, "encryptPassword")
+	* #JsonProperty(String, "encryptPassword")
 	*/
 	private $encryptPassword;
 

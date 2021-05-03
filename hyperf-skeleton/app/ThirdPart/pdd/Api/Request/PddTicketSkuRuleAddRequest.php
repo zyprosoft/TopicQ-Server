@@ -11,47 +11,47 @@ class PddTicketSkuRuleAddRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddTicketSkuRuleAddRequest_BookerInfoLimitation, "booker_info_limitation")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddTicketSkuRuleAddRequest_BookerInfoLimitation, "booker_info_limitation")
 	*/
 	private $bookerInfoLimitation;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddTicketSkuRuleAddRequest_BookingNotice, "booking_notice")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddTicketSkuRuleAddRequest_BookingNotice, "booking_notice")
 	*/
 	private $bookingNotice;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddTicketSkuRuleAddRequest_OrderLimitation, "order_limitation")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddTicketSkuRuleAddRequest_OrderLimitation, "order_limitation")
 	*/
 	private $orderLimitation;
 
 	/**
-	* @JsonProperty(String, "out_rule_id")
+	* #JsonProperty(String, "out_rule_id")
 	*/
 	private $outRuleId;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddTicketSkuRuleAddRequest_ProviderContactInfo, "provider_contact_info")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddTicketSkuRuleAddRequest_ProviderContactInfo, "provider_contact_info")
 	*/
 	private $providerContactInfo;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddTicketSkuRuleAddRequest_RefundLimitations, "refund_limitations")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddTicketSkuRuleAddRequest_RefundLimitations, "refund_limitations")
 	*/
 	private $refundLimitations;
 
 	/**
-	* @JsonProperty(String, "rule_name")
+	* #JsonProperty(String, "rule_name")
 	*/
 	private $ruleName;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddTicketSkuRuleAddRequest_TravelerInfoLimitation, "traveler_info_limitation")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddTicketSkuRuleAddRequest_TravelerInfoLimitation, "traveler_info_limitation")
 	*/
 	private $travelerInfoLimitation;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddTicketSkuRuleAddRequest_ValidLimitation, "valid_limitation")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddTicketSkuRuleAddRequest_ValidLimitation, "valid_limitation")
 	*/
 	private $validLimitation;
 
@@ -140,12 +140,12 @@ class PddTicketSkuRuleAddRequest_BookerInfoLimitation extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(Integer, "booker_required")
+	* #JsonProperty(Integer, "booker_required")
 	*/
 	private $bookerRequired;
 
 	/**
-	* @JsonProperty(Integer, "mobile")
+	* #JsonProperty(Integer, "mobile")
 	*/
 	private $mobile;
 
@@ -170,52 +170,52 @@ class PddTicketSkuRuleAddRequest_BookingNotice extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "enter_address")
+	* #JsonProperty(String, "enter_address")
 	*/
 	private $enterAddress;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTicketSkuRuleAddRequest_BookingNoticeEnterTimeItem>, "enter_time")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTicketSkuRuleAddRequest_BookingNoticeEnterTimeItem>, "enter_time")
 	*/
 	private $enterTime;
 
 	/**
-	* @JsonProperty(String, "enter_ways")
+	* #JsonProperty(String, "enter_ways")
 	*/
 	private $enterWays;
 
 	/**
-	* @JsonProperty(String, "extra_desc")
+	* #JsonProperty(String, "extra_desc")
 	*/
 	private $extraDesc;
 
 	/**
-	* @JsonProperty(String, "fee_include")
+	* #JsonProperty(String, "fee_include")
 	*/
 	private $feeInclude;
 
 	/**
-	* @JsonProperty(String, "fee_not_include")
+	* #JsonProperty(String, "fee_not_include")
 	*/
 	private $feeNotInclude;
 
 	/**
-	* @JsonProperty(String, "important_notice")
+	* #JsonProperty(String, "important_notice")
 	*/
 	private $importantNotice;
 
 	/**
-	* @JsonProperty(Integer, "pass_time_limit")
+	* #JsonProperty(Integer, "pass_time_limit")
 	*/
 	private $passTimeLimit;
 
 	/**
-	* @JsonProperty(String, "ticket_place")
+	* #JsonProperty(String, "ticket_place")
 	*/
 	private $ticketPlace;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTicketSkuRuleAddRequest_BookingNoticeTicketTimeItem>, "ticket_time")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTicketSkuRuleAddRequest_BookingNoticeTicketTimeItem>, "ticket_time")
 	*/
 	private $ticketTime;
 
@@ -280,17 +280,17 @@ class PddTicketSkuRuleAddRequest_BookingNoticeEnterTimeItem extends PopBaseJsonE
 	}
 
 	/**
-	* @JsonProperty(String, "comment")
+	* #JsonProperty(String, "comment")
 	*/
 	private $comment;
 
 	/**
-	* @JsonProperty(String, "end_at")
+	* #JsonProperty(String, "end_at")
 	*/
 	private $endAt;
 
 	/**
-	* @JsonProperty(String, "start_at")
+	* #JsonProperty(String, "start_at")
 	*/
 	private $startAt;
 
@@ -320,17 +320,17 @@ class PddTicketSkuRuleAddRequest_BookingNoticeTicketTimeItem extends PopBaseJson
 	}
 
 	/**
-	* @JsonProperty(String, "comment")
+	* #JsonProperty(String, "comment")
 	*/
 	private $comment;
 
 	/**
-	* @JsonProperty(String, "end_at")
+	* #JsonProperty(String, "end_at")
 	*/
 	private $endAt;
 
 	/**
-	* @JsonProperty(String, "start_at")
+	* #JsonProperty(String, "start_at")
 	*/
 	private $startAt;
 
@@ -360,22 +360,22 @@ class PddTicketSkuRuleAddRequest_OrderLimitation extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(Integer, "cycle_length")
+	* #JsonProperty(Integer, "cycle_length")
 	*/
 	private $cycleLength;
 
 	/**
-	* @JsonProperty(Integer, "limitation_type")
+	* #JsonProperty(Integer, "limitation_type")
 	*/
 	private $limitationType;
 
 	/**
-	* @JsonProperty(Integer, "limit_cycle")
+	* #JsonProperty(Integer, "limit_cycle")
 	*/
 	private $limitCycle;
 
 	/**
-	* @JsonProperty(Integer, "limit_num")
+	* #JsonProperty(Integer, "limit_num")
 	*/
 	private $limitNum;
 
@@ -410,17 +410,17 @@ class PddTicketSkuRuleAddRequest_ProviderContactInfo extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTicketSkuRuleAddRequest_ProviderContactInfoProviderBusinessHourItem>, "provider_business_hour")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTicketSkuRuleAddRequest_ProviderContactInfoProviderBusinessHourItem>, "provider_business_hour")
 	*/
 	private $providerBusinessHour;
 
 	/**
-	* @JsonProperty(String, "provider_name")
+	* #JsonProperty(String, "provider_name")
 	*/
 	private $providerName;
 
 	/**
-	* @JsonProperty(String, "provider_telephone")
+	* #JsonProperty(String, "provider_telephone")
 	*/
 	private $providerTelephone;
 
@@ -450,17 +450,17 @@ class PddTicketSkuRuleAddRequest_ProviderContactInfoProviderBusinessHourItem ext
 	}
 
 	/**
-	* @JsonProperty(String, "close_at")
+	* #JsonProperty(String, "close_at")
 	*/
 	private $closeAt;
 
 	/**
-	* @JsonProperty(String, "open_at")
+	* #JsonProperty(String, "open_at")
 	*/
 	private $openAt;
 
 	/**
-	* @JsonProperty(String, "time_info")
+	* #JsonProperty(String, "time_info")
 	*/
 	private $timeInfo;
 
@@ -490,12 +490,12 @@ class PddTicketSkuRuleAddRequest_RefundLimitations extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(Integer, "is_refundable")
+	* #JsonProperty(Integer, "is_refundable")
 	*/
 	private $isRefundable;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTicketSkuRuleAddRequest_RefundLimitationsRefundRulesItem>, "refund_rules")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTicketSkuRuleAddRequest_RefundLimitationsRefundRulesItem>, "refund_rules")
 	*/
 	private $refundRules;
 
@@ -520,22 +520,22 @@ class PddTicketSkuRuleAddRequest_RefundLimitationsRefundRulesItem extends PopBas
 	}
 
 	/**
-	* @JsonProperty(Integer, "ahead_time")
+	* #JsonProperty(Integer, "ahead_time")
 	*/
 	private $aheadTime;
 
 	/**
-	* @JsonProperty(Integer, "deduction_fee")
+	* #JsonProperty(Integer, "deduction_fee")
 	*/
 	private $deductionFee;
 
 	/**
-	* @JsonProperty(Integer, "deduction_unit")
+	* #JsonProperty(Integer, "deduction_unit")
 	*/
 	private $deductionUnit;
 
 	/**
-	* @JsonProperty(Integer, "type")
+	* #JsonProperty(Integer, "type")
 	*/
 	private $type;
 
@@ -570,17 +570,17 @@ class PddTicketSkuRuleAddRequest_TravelerInfoLimitation extends PopBaseJsonEntit
 	}
 
 	/**
-	* @JsonProperty(Integer, "credential")
+	* #JsonProperty(Integer, "credential")
 	*/
 	private $credential;
 
 	/**
-	* @JsonProperty(Integer, "name")
+	* #JsonProperty(Integer, "name")
 	*/
 	private $name;
 
 	/**
-	* @JsonProperty(Integer, "traveler_required")
+	* #JsonProperty(Integer, "traveler_required")
 	*/
 	private $travelerRequired;
 
@@ -610,22 +610,22 @@ class PddTicketSkuRuleAddRequest_ValidLimitation extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(Integer, "days_time")
+	* #JsonProperty(Integer, "days_time")
 	*/
 	private $daysTime;
 
 	/**
-	* @JsonProperty(Long, "end_time")
+	* #JsonProperty(Long, "end_time")
 	*/
 	private $endTime;
 
 	/**
-	* @JsonProperty(Long, "start_time")
+	* #JsonProperty(Long, "start_time")
 	*/
 	private $startTime;
 
 	/**
-	* @JsonProperty(Integer, "time_type")
+	* #JsonProperty(Integer, "time_type")
 	*/
 	private $timeType;
 

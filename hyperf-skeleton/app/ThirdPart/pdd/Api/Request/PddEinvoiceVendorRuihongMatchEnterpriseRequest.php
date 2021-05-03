@@ -11,22 +11,22 @@ class PddEinvoiceVendorRuihongMatchEnterpriseRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "appCode")
+	* #JsonProperty(String, "appCode")
 	*/
 	private $appCode;
 
 	/**
-	* @JsonProperty(String, "cmdName")
+	* #JsonProperty(String, "cmdName")
 	*/
 	private $cmdName;
 
 	/**
-	* @JsonProperty(String, "sign")
+	* #JsonProperty(String, "sign")
 	*/
 	private $sign;
 
 	/**
-	* @JsonProperty(String, "customerName")
+	* #JsonProperty(String, "customerName")
 	*/
 	private $customerName;
 

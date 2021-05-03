@@ -11,7 +11,7 @@ class PddTraceSourceUploadCodeInfoRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTraceSourceUploadCodeInfoRequest_SerialNumListItem>, "serial_num_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTraceSourceUploadCodeInfoRequest_SerialNumListItem>, "serial_num_list")
 	*/
 	private $serialNumList;
 
@@ -52,12 +52,12 @@ class PddTraceSourceUploadCodeInfoRequest_SerialNumListItem extends PopBaseJsonE
 	}
 
 	/**
-	* @JsonProperty(String, "encoded_serial_num")
+	* #JsonProperty(String, "encoded_serial_num")
 	*/
 	private $encodedSerialNum;
 
 	/**
-	* @JsonProperty(String, "serial_num")
+	* #JsonProperty(String, "serial_num")
 	*/
 	private $serialNum;
 

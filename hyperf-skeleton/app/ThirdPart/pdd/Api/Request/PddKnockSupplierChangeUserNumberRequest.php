@@ -11,7 +11,7 @@ class PddKnockSupplierChangeUserNumberRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddKnockSupplierChangeUserNumberRequest_SupplierChangeUserNumberRequest, "supplier_change_user_number_request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddKnockSupplierChangeUserNumberRequest_SupplierChangeUserNumberRequest, "supplier_change_user_number_request")
 	*/
 	private $supplierChangeUserNumberRequest;
 
@@ -52,12 +52,12 @@ class PddKnockSupplierChangeUserNumberRequest_SupplierChangeUserNumberRequest ex
 	}
 
 	/**
-	* @JsonProperty(String, "new_user_number")
+	* #JsonProperty(String, "new_user_number")
 	*/
 	private $newUserNumber;
 
 	/**
-	* @JsonProperty(String, "old_user_number")
+	* #JsonProperty(String, "old_user_number")
 	*/
 	private $oldUserNumber;
 

@@ -11,7 +11,7 @@ class PddQrpayPayeeRegisterRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddQrpayPayeeRegisterRequest_PayeeListItem>, "payee_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddQrpayPayeeRegisterRequest_PayeeListItem>, "payee_list")
 	*/
 	private $payeeList;
 
@@ -52,7 +52,7 @@ class PddQrpayPayeeRegisterRequest_PayeeListItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "payee")
+	* #JsonProperty(String, "payee")
 	*/
 	private $payee;
 

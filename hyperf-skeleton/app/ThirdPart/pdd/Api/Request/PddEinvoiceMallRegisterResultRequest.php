@@ -11,7 +11,7 @@ class PddEinvoiceMallRegisterResultRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddEinvoiceMallRegisterResultRequest_Data, "data")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddEinvoiceMallRegisterResultRequest_Data, "data")
 	*/
 	private $data;
 
@@ -52,37 +52,37 @@ class PddEinvoiceMallRegisterResultRequest_Data extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "einvoiceApiVersion")
+	* #JsonProperty(String, "einvoiceApiVersion")
 	*/
 	private $einvoiceApiVersion;
 
 	/**
-	* @JsonProperty(String, "eventSerialNo")
+	* #JsonProperty(String, "eventSerialNo")
 	*/
 	private $eventSerialNo;
 
 	/**
-	* @JsonProperty(String, "mallId")
+	* #JsonProperty(String, "mallId")
 	*/
 	private $mallId;
 
 	/**
-	* @JsonProperty(String, "refuseReason")
+	* #JsonProperty(String, "refuseReason")
 	*/
 	private $refuseReason;
 
 	/**
-	* @JsonProperty(String, "registerId")
+	* #JsonProperty(String, "registerId")
 	*/
 	private $registerId;
 
 	/**
-	* @JsonProperty(Integer, "registerStatus")
+	* #JsonProperty(Integer, "registerStatus")
 	*/
 	private $registerStatus;
 
 	/**
-	* @JsonProperty(String, "taxNo")
+	* #JsonProperty(String, "taxNo")
 	*/
 	private $taxNo;
 

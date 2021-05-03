@@ -11,17 +11,17 @@ class PddDdkOauthGoodsPidQueryRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "page")
+	* #JsonProperty(Integer, "page")
 	*/
 	private $page;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 
 	/**
-	* @JsonProperty(List<String>, "pid_list")
+	* #JsonProperty(List<String>, "pid_list")
 	*/
 	private $pidList;
 

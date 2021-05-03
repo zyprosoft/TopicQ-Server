@@ -11,7 +11,7 @@ class PddPmcUserGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "owner_id")
+	* #JsonProperty(String, "owner_id")
 	*/
 	private $ownerId;
 

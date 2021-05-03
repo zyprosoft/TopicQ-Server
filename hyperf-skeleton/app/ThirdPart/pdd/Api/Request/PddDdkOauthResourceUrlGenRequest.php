@@ -11,27 +11,27 @@ class PddDdkOauthResourceUrlGenRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "custom_parameters")
+	* #JsonProperty(String, "custom_parameters")
 	*/
 	private $customParameters;
 
 	/**
-	* @JsonProperty(Boolean, "generate_we_app")
+	* #JsonProperty(Boolean, "generate_we_app")
 	*/
 	private $generateWeApp;
 
 	/**
-	* @JsonProperty(String, "pid")
+	* #JsonProperty(String, "pid")
 	*/
 	private $pid;
 
 	/**
-	* @JsonProperty(Integer, "resource_type")
+	* #JsonProperty(Integer, "resource_type")
 	*/
 	private $resourceType;
 
 	/**
-	* @JsonProperty(String, "url")
+	* #JsonProperty(String, "url")
 	*/
 	private $url;
 

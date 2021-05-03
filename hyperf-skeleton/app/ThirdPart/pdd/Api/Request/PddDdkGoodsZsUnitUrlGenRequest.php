@@ -11,17 +11,17 @@ class PddDdkGoodsZsUnitUrlGenRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "custom_parameters")
+	* #JsonProperty(String, "custom_parameters")
 	*/
 	private $customParameters;
 
 	/**
-	* @JsonProperty(String, "pid")
+	* #JsonProperty(String, "pid")
 	*/
 	private $pid;
 
 	/**
-	* @JsonProperty(String, "source_url")
+	* #JsonProperty(String, "source_url")
 	*/
 	private $sourceUrl;
 

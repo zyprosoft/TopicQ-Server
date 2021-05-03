@@ -11,12 +11,12 @@ class PddTicketGoodsQueryRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "goods_commit_id")
+	* #JsonProperty(Long, "goods_commit_id")
 	*/
 	private $goodsCommitId;
 
 	/**
-	* @JsonProperty(Long, "goods_id")
+	* #JsonProperty(Long, "goods_id")
 	*/
 	private $goodsId;
 

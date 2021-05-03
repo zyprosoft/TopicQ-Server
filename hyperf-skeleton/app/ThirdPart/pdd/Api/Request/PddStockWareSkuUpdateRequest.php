@@ -11,12 +11,12 @@ class PddStockWareSkuUpdateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "ware_id")
+	* #JsonProperty(Long, "ware_id")
 	*/
 	private $wareId;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddStockWareSkuUpdateRequest_WareSkusItem>, "ware_skus")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddStockWareSkuUpdateRequest_WareSkusItem>, "ware_skus")
 	*/
 	private $wareSkus;
 
@@ -63,12 +63,12 @@ class PddStockWareSkuUpdateRequest_WareSkusItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(Long, "sku_id")
+	* #JsonProperty(Long, "sku_id")
 	*/
 	private $skuId;
 
 	/**
-	* @JsonProperty(Long, "goods_id")
+	* #JsonProperty(Long, "goods_id")
 	*/
 	private $goodsId;
 

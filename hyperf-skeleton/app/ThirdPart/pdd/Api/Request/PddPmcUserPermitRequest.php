@@ -11,7 +11,7 @@ class PddPmcUserPermitRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "topics")
+	* #JsonProperty(String, "topics")
 	*/
 	private $topics;
 

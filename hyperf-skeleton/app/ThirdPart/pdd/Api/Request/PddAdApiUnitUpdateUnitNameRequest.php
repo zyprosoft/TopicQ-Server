@@ -11,12 +11,12 @@ class PddAdApiUnitUpdateUnitNameRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "adId")
+	* #JsonProperty(Long, "adId")
 	*/
 	private $adId;
 
 	/**
-	* @JsonProperty(String, "adName")
+	* #JsonProperty(String, "adName")
 	*/
 	private $adName;
 

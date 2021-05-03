@@ -11,57 +11,57 @@ class PddFlightCallbackConfirmRefundRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "error_code")
+	* #JsonProperty(Integer, "error_code")
 	*/
 	private $errorCode;
 
 	/**
-	* @JsonProperty(String, "error_msg")
+	* #JsonProperty(String, "error_msg")
 	*/
 	private $errorMsg;
 
 	/**
-	* @JsonProperty(String, "out_order_no")
+	* #JsonProperty(String, "out_order_no")
 	*/
 	private $outOrderNo;
 
 	/**
-	* @JsonProperty(String, "out_refund_no")
+	* #JsonProperty(String, "out_refund_no")
 	*/
 	private $outRefundNo;
 
 	/**
-	* @JsonProperty(String, "parent_travel_sn")
+	* #JsonProperty(String, "parent_travel_sn")
 	*/
 	private $parentTravelSn;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightCallbackConfirmRefundRequest_PassengerInfoListItem>, "passenger_info_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightCallbackConfirmRefundRequest_PassengerInfoListItem>, "passenger_info_list")
 	*/
 	private $passengerInfoList;
 
 	/**
-	* @JsonProperty(Integer, "refund_callback_type")
+	* #JsonProperty(Integer, "refund_callback_type")
 	*/
 	private $refundCallbackType;
 
 	/**
-	* @JsonProperty(Integer, "refund_status")
+	* #JsonProperty(Integer, "refund_status")
 	*/
 	private $refundStatus;
 
 	/**
-	* @JsonProperty(String, "refund_time")
+	* #JsonProperty(String, "refund_time")
 	*/
 	private $refundTime;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightCallbackConfirmRefundRequest_SubRefundInfoListItem>, "sub_refund_info_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightCallbackConfirmRefundRequest_SubRefundInfoListItem>, "sub_refund_info_list")
 	*/
 	private $subRefundInfoList;
 
 	/**
-	* @JsonProperty(String, "trace_id")
+	* #JsonProperty(String, "trace_id")
 	*/
 	private $traceId;
 
@@ -162,42 +162,42 @@ class PddFlightCallbackConfirmRefundRequest_PassengerInfoListItem extends PopBas
 	}
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
 	/**
-	* @JsonProperty(Long, "refund_airport_tax")
+	* #JsonProperty(Long, "refund_airport_tax")
 	*/
 	private $refundAirportTax;
 
 	/**
-	* @JsonProperty(Long, "refund_fee")
+	* #JsonProperty(Long, "refund_fee")
 	*/
 	private $refundFee;
 
 	/**
-	* @JsonProperty(Long, "refund_fuel_tax")
+	* #JsonProperty(Long, "refund_fuel_tax")
 	*/
 	private $refundFuelTax;
 
 	/**
-	* @JsonProperty(Long, "refund_settle_price")
+	* #JsonProperty(Long, "refund_settle_price")
 	*/
 	private $refundSettlePrice;
 
 	/**
-	* @JsonProperty(String, "sub_out_refund_no")
+	* #JsonProperty(String, "sub_out_refund_no")
 	*/
 	private $subOutRefundNo;
 
 	/**
-	* @JsonProperty(String, "ticket_no")
+	* #JsonProperty(String, "ticket_no")
 	*/
 	private $ticketNo;
 
 	/**
-	* @JsonProperty(String, "travel_sn")
+	* #JsonProperty(String, "travel_sn")
 	*/
 	private $travelSn;
 
@@ -252,12 +252,12 @@ class PddFlightCallbackConfirmRefundRequest_SubRefundInfoListItem extends PopBas
 	}
 
 	/**
-	* @JsonProperty(String, "no")
+	* #JsonProperty(String, "no")
 	*/
 	private $no;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightCallbackConfirmRefundRequest_SubRefundInfoListItemPassengerInfoListItem>, "passenger_info_list")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddFlightCallbackConfirmRefundRequest_SubRefundInfoListItemPassengerInfoListItem>, "passenger_info_list")
 	*/
 	private $passengerInfoList;
 
@@ -282,42 +282,42 @@ class PddFlightCallbackConfirmRefundRequest_SubRefundInfoListItemPassengerInfoLi
 	}
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
 	/**
-	* @JsonProperty(Long, "refund_airport_tax")
+	* #JsonProperty(Long, "refund_airport_tax")
 	*/
 	private $refundAirportTax;
 
 	/**
-	* @JsonProperty(Long, "refund_fee")
+	* #JsonProperty(Long, "refund_fee")
 	*/
 	private $refundFee;
 
 	/**
-	* @JsonProperty(Long, "refund_fuel_tax")
+	* #JsonProperty(Long, "refund_fuel_tax")
 	*/
 	private $refundFuelTax;
 
 	/**
-	* @JsonProperty(Long, "refund_settle_price")
+	* #JsonProperty(Long, "refund_settle_price")
 	*/
 	private $refundSettlePrice;
 
 	/**
-	* @JsonProperty(String, "sub_out_refund_no")
+	* #JsonProperty(String, "sub_out_refund_no")
 	*/
 	private $subOutRefundNo;
 
 	/**
-	* @JsonProperty(String, "ticket_no")
+	* #JsonProperty(String, "ticket_no")
 	*/
 	private $ticketNo;
 
 	/**
-	* @JsonProperty(String, "travel_sn")
+	* #JsonProperty(String, "travel_sn")
 	*/
 	private $travelSn;
 

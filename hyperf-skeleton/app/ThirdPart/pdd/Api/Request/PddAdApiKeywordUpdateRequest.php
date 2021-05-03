@@ -11,12 +11,12 @@ class PddAdApiKeywordUpdateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "adId")
+	* #JsonProperty(Long, "adId")
 	*/
 	private $adId;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiKeywordUpdateRequest_KeywordsItem>, "keywords")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiKeywordUpdateRequest_KeywordsItem>, "keywords")
 	*/
 	private $keywords;
 
@@ -63,17 +63,17 @@ class PddAdApiKeywordUpdateRequest_KeywordsItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(Long, "bid")
+	* #JsonProperty(Long, "bid")
 	*/
 	private $bid;
 
 	/**
-	* @JsonProperty(Long, "keywordId")
+	* #JsonProperty(Long, "keywordId")
 	*/
 	private $keywordId;
 
 	/**
-	* @JsonProperty(Long, "premiumRate")
+	* #JsonProperty(Long, "premiumRate")
 	*/
 	private $premiumRate;
 

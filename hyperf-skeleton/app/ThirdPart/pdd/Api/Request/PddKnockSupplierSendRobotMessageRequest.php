@@ -11,7 +11,7 @@ class PddKnockSupplierSendRobotMessageRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddKnockSupplierSendRobotMessageRequest_SupplierSendRobotMsgReq, "supplier_send_robot_msg_req")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddKnockSupplierSendRobotMessageRequest_SupplierSendRobotMsgReq, "supplier_send_robot_msg_req")
 	*/
 	private $supplierSendRobotMsgReq;
 
@@ -52,27 +52,27 @@ class PddKnockSupplierSendRobotMessageRequest_SupplierSendRobotMsgReq extends Po
 	}
 
 	/**
-	* @JsonProperty(String, "content_json_body")
+	* #JsonProperty(String, "content_json_body")
 	*/
 	private $contentJsonBody;
 
 	/**
-	* @JsonProperty(List<String>, "encrypt_uuid_list")
+	* #JsonProperty(List<String>, "encrypt_uuid_list")
 	*/
 	private $encryptUuidList;
 
 	/**
-	* @JsonProperty(String, "msg_type")
+	* #JsonProperty(String, "msg_type")
 	*/
 	private $msgType;
 
 	/**
-	* @JsonProperty(String, "robot_name")
+	* #JsonProperty(String, "robot_name")
 	*/
 	private $robotName;
 
 	/**
-	* @JsonProperty(String, "send_msg_id")
+	* #JsonProperty(String, "send_msg_id")
 	*/
 	private $sendMsgId;
 

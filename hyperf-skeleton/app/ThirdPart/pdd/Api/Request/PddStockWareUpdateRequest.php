@@ -11,92 +11,92 @@ class PddStockWareUpdateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "id")
+	* #JsonProperty(Long, "id")
 	*/
 	private $id;
 
 	/**
-	* @JsonProperty(Integer, "ware_type")
+	* #JsonProperty(Integer, "ware_type")
 	*/
 	private $wareType;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddStockWareUpdateRequest_WareInfosItem>, "ware_infos")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddStockWareUpdateRequest_WareInfosItem>, "ware_infos")
 	*/
 	private $wareInfos;
 
 	/**
-	* @JsonProperty(String, "ware_sn")
+	* #JsonProperty(String, "ware_sn")
 	*/
 	private $wareSn;
 
 	/**
-	* @JsonProperty(String, "ware_name")
+	* #JsonProperty(String, "ware_name")
 	*/
 	private $wareName;
 
 	/**
-	* @JsonProperty(String, "note")
+	* #JsonProperty(String, "note")
 	*/
 	private $note;
 
 	/**
-	* @JsonProperty(Integer, "service_quality")
+	* #JsonProperty(Integer, "service_quality")
 	*/
 	private $serviceQuality;
 
 	/**
-	* @JsonProperty(Integer, "volume")
+	* #JsonProperty(Integer, "volume")
 	*/
 	private $volume;
 
 	/**
-	* @JsonProperty(Integer, "length")
+	* #JsonProperty(Integer, "length")
 	*/
 	private $length;
 
 	/**
-	* @JsonProperty(Integer, "width")
+	* #JsonProperty(Integer, "width")
 	*/
 	private $width;
 
 	/**
-	* @JsonProperty(Integer, "height")
+	* #JsonProperty(Integer, "height")
 	*/
 	private $height;
 
 	/**
-	* @JsonProperty(Integer, "weight")
+	* #JsonProperty(Integer, "weight")
 	*/
 	private $weight;
 
 	/**
-	* @JsonProperty(Integer, "gross_weight")
+	* #JsonProperty(Integer, "gross_weight")
 	*/
 	private $grossWeight;
 
 	/**
-	* @JsonProperty(Integer, "net_weight")
+	* #JsonProperty(Integer, "net_weight")
 	*/
 	private $netWeight;
 
 	/**
-	* @JsonProperty(Integer, "tare_weight")
+	* #JsonProperty(Integer, "tare_weight")
 	*/
 	private $tareWeight;
 
 	/**
-	* @JsonProperty(Integer, "price")
+	* #JsonProperty(Integer, "price")
 	*/
 	private $price;
 
 	/**
-	* @JsonProperty(String, "color")
+	* #JsonProperty(String, "color")
 	*/
 	private $color;
 
 	/**
-	* @JsonProperty(String, "packing")
+	* #JsonProperty(String, "packing")
 	*/
 	private $packing;
 
@@ -239,12 +239,12 @@ class PddStockWareUpdateRequest_WareInfosItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(Long, "ware_id")
+	* #JsonProperty(Long, "ware_id")
 	*/
 	private $wareId;
 
 	/**
-	* @JsonProperty(Integer, "ware_quantity")
+	* #JsonProperty(Integer, "ware_quantity")
 	*/
 	private $wareQuantity;
 

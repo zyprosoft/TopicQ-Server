@@ -10,22 +10,22 @@ use Com\Pdd\Pop\Sdk\PopBaseJsonEntity;
 class RefreshAccessTokenRequest extends PopBaseJsonEntity
 {
     /**
-     * @JsonProperty(String, "client_id")
+     * #JsonProperty(String, "client_id")
      */
     private $clientId;
 
     /**
-     * @JsonProperty(String, "client_secret")
+     * #JsonProperty(String, "client_secret")
      */
     private $clientSecret;
 
     /**
-     * @JsonProperty(String, "grant_type")
+     * #JsonProperty(String, "grant_type")
      */
     private $grantType;
 
     /**
-     * @JsonProperty(String, "refresh_token")
+     * #JsonProperty(String, "refresh_token")
      */
     private $refreshToken;
 

@@ -11,12 +11,12 @@ class PddKttUserSitePagequeryRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "page_no")
+	* #JsonProperty(Integer, "page_no")
 	*/
 	private $pageNo;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 

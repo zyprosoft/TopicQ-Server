@@ -11,17 +11,17 @@ class PddTrainConfirmPayRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "order_id")
+	* #JsonProperty(String, "order_id")
 	*/
 	private $orderId;
 
 	/**
-	* @JsonProperty(String, "pdd_order_id")
+	* #JsonProperty(String, "pdd_order_id")
 	*/
 	private $pddOrderId;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTrainConfirmPayRequest_OrderInfosItem>, "order_infos")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddTrainConfirmPayRequest_OrderInfosItem>, "order_infos")
 	*/
 	private $orderInfos;
 
@@ -74,17 +74,17 @@ class PddTrainConfirmPayRequest_OrderInfosItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(String, "travel_sn")
+	* #JsonProperty(String, "travel_sn")
 	*/
 	private $travelSn;
 
 	/**
-	* @JsonProperty(String, "mall_order")
+	* #JsonProperty(String, "mall_order")
 	*/
 	private $mallOrder;
 
 	/**
-	* @JsonProperty(String, "order_sn")
+	* #JsonProperty(String, "order_sn")
 	*/
 	private $orderSn;
 

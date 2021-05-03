@@ -11,7 +11,7 @@ class PddEinvoiceQueryMallRegisterOrderRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddEinvoiceQueryMallRegisterOrderRequest_Data, "data")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddEinvoiceQueryMallRegisterOrderRequest_Data, "data")
 	*/
 	private $data;
 
@@ -52,17 +52,17 @@ class PddEinvoiceQueryMallRegisterOrderRequest_Data extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(Integer, "page")
+	* #JsonProperty(Integer, "page")
 	*/
 	private $page;
 
 	/**
-	* @JsonProperty(Integer, "pageSize")
+	* #JsonProperty(Integer, "pageSize")
 	*/
 	private $pageSize;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddEinvoiceQueryMallRegisterOrderRequest_DataRequest, "request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddEinvoiceQueryMallRegisterOrderRequest_DataRequest, "request")
 	*/
 	private $request;
 
@@ -92,22 +92,22 @@ class PddEinvoiceQueryMallRegisterOrderRequest_DataRequest extends PopBaseJsonEn
 	}
 
 	/**
-	* @JsonProperty(String, "einvoiceApiVersion")
+	* #JsonProperty(String, "einvoiceApiVersion")
 	*/
 	private $einvoiceApiVersion;
 
 	/**
-	* @JsonProperty(Long, "endTime")
+	* #JsonProperty(Long, "endTime")
 	*/
 	private $endTime;
 
 	/**
-	* @JsonProperty(List<Integer>, "registerStatusList")
+	* #JsonProperty(List<Integer>, "registerStatusList")
 	*/
 	private $registerStatusList;
 
 	/**
-	* @JsonProperty(Long, "startTime")
+	* #JsonProperty(Long, "startTime")
 	*/
 	private $startTime;
 

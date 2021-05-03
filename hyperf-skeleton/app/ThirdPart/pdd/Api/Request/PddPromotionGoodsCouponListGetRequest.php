@@ -11,32 +11,32 @@ class PddPromotionGoodsCouponListGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "page")
+	* #JsonProperty(Integer, "page")
 	*/
 	private $page;
 
 	/**
-	* @JsonProperty(Integer, "page_size")
+	* #JsonProperty(Integer, "page_size")
 	*/
 	private $pageSize;
 
 	/**
-	* @JsonProperty(Long, "goods_id")
+	* #JsonProperty(Long, "goods_id")
 	*/
 	private $goodsId;
 
 	/**
-	* @JsonProperty(Integer, "query_range")
+	* #JsonProperty(Integer, "query_range")
 	*/
 	private $queryRange;
 
 	/**
-	* @JsonProperty(Integer, "batch_status")
+	* #JsonProperty(Integer, "batch_status")
 	*/
 	private $batchStatus;
 
 	/**
-	* @JsonProperty(Integer, "sort_by")
+	* #JsonProperty(Integer, "sort_by")
 	*/
 	private $sortBy;
 

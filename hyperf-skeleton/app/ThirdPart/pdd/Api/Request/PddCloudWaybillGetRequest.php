@@ -11,7 +11,7 @@ class PddCloudWaybillGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWaybillGetRequest_ParamWaybillCloudPrintApplyNewRequest, "param_waybill_cloud_print_apply_new_request")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWaybillGetRequest_ParamWaybillCloudPrintApplyNewRequest, "param_waybill_cloud_print_apply_new_request")
 	*/
 	private $paramWaybillCloudPrintApplyNewRequest;
 
@@ -52,42 +52,42 @@ class PddCloudWaybillGetRequest_ParamWaybillCloudPrintApplyNewRequest extends Po
 	}
 
 	/**
-	* @JsonProperty(Boolean, "need_encrypt")
+	* #JsonProperty(Boolean, "need_encrypt")
 	*/
 	private $needEncrypt;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWaybillGetRequest_ParamWaybillCloudPrintApplyNewRequestSender, "sender")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWaybillGetRequest_ParamWaybillCloudPrintApplyNewRequestSender, "sender")
 	*/
 	private $sender;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWaybillGetRequest_ParamWaybillCloudPrintApplyNewRequestTradeOrderInfoDtosItem>, "trade_order_info_dtos")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWaybillGetRequest_ParamWaybillCloudPrintApplyNewRequestTradeOrderInfoDtosItem>, "trade_order_info_dtos")
 	*/
 	private $tradeOrderInfoDtos;
 
 	/**
-	* @JsonProperty(String, "wp_code")
+	* #JsonProperty(String, "wp_code")
 	*/
 	private $wpCode;
 
 	/**
-	* @JsonProperty(String, "token")
+	* #JsonProperty(String, "token")
 	*/
 	private $token;
 
 	/**
-	* @JsonProperty(Long, "ext_id")
+	* #JsonProperty(Long, "ext_id")
 	*/
 	private $extId;
 
 	/**
-	* @JsonProperty(String, "extendProps")
+	* #JsonProperty(String, "extendProps")
 	*/
 	private $extendProps;
 
 	/**
-	* @JsonProperty(String, "order_sn")
+	* #JsonProperty(String, "order_sn")
 	*/
 	private $orderSn;
 
@@ -142,22 +142,22 @@ class PddCloudWaybillGetRequest_ParamWaybillCloudPrintApplyNewRequestSender exte
 	}
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWaybillGetRequest_ParamWaybillCloudPrintApplyNewRequestSenderAddress, "address")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWaybillGetRequest_ParamWaybillCloudPrintApplyNewRequestSenderAddress, "address")
 	*/
 	private $address;
 
 	/**
-	* @JsonProperty(String, "mobile")
+	* #JsonProperty(String, "mobile")
 	*/
 	private $mobile;
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
 	/**
-	* @JsonProperty(String, "phone")
+	* #JsonProperty(String, "phone")
 	*/
 	private $phone;
 
@@ -192,32 +192,32 @@ class PddCloudWaybillGetRequest_ParamWaybillCloudPrintApplyNewRequestSenderAddre
 	}
 
 	/**
-	* @JsonProperty(String, "city")
+	* #JsonProperty(String, "city")
 	*/
 	private $city;
 
 	/**
-	* @JsonProperty(String, "detail")
+	* #JsonProperty(String, "detail")
 	*/
 	private $detail;
 
 	/**
-	* @JsonProperty(String, "district")
+	* #JsonProperty(String, "district")
 	*/
 	private $district;
 
 	/**
-	* @JsonProperty(String, "province")
+	* #JsonProperty(String, "province")
 	*/
 	private $province;
 
 	/**
-	* @JsonProperty(String, "town")
+	* #JsonProperty(String, "town")
 	*/
 	private $town;
 
 	/**
-	* @JsonProperty(String, "country")
+	* #JsonProperty(String, "country")
 	*/
 	private $country;
 
@@ -262,37 +262,37 @@ class PddCloudWaybillGetRequest_ParamWaybillCloudPrintApplyNewRequestTradeOrderI
 	}
 
 	/**
-	* @JsonProperty(String, "logistics_services")
+	* #JsonProperty(String, "logistics_services")
 	*/
 	private $logisticsServices;
 
 	/**
-	* @JsonProperty(String, "object_id")
+	* #JsonProperty(String, "object_id")
 	*/
 	private $objectId;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWaybillGetRequest_ParamWaybillCloudPrintApplyNewRequestTradeOrderInfoDtosItemOrderInfo, "order_info")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWaybillGetRequest_ParamWaybillCloudPrintApplyNewRequestTradeOrderInfoDtosItemOrderInfo, "order_info")
 	*/
 	private $orderInfo;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWaybillGetRequest_ParamWaybillCloudPrintApplyNewRequestTradeOrderInfoDtosItemPackageInfo, "package_info")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWaybillGetRequest_ParamWaybillCloudPrintApplyNewRequestTradeOrderInfoDtosItemPackageInfo, "package_info")
 	*/
 	private $packageInfo;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWaybillGetRequest_ParamWaybillCloudPrintApplyNewRequestTradeOrderInfoDtosItemRecipient, "recipient")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWaybillGetRequest_ParamWaybillCloudPrintApplyNewRequestTradeOrderInfoDtosItemRecipient, "recipient")
 	*/
 	private $recipient;
 
 	/**
-	* @JsonProperty(String, "user_id")
+	* #JsonProperty(String, "user_id")
 	*/
 	private $userId;
 
 	/**
-	* @JsonProperty(String, "template_url")
+	* #JsonProperty(String, "template_url")
 	*/
 	private $templateUrl;
 
@@ -342,12 +342,12 @@ class PddCloudWaybillGetRequest_ParamWaybillCloudPrintApplyNewRequestTradeOrderI
 	}
 
 	/**
-	* @JsonProperty(String, "order_channels_type")
+	* #JsonProperty(String, "order_channels_type")
 	*/
 	private $orderChannelsType;
 
 	/**
-	* @JsonProperty(List<String>, "trade_order_list")
+	* #JsonProperty(List<String>, "trade_order_list")
 	*/
 	private $tradeOrderList;
 
@@ -372,37 +372,37 @@ class PddCloudWaybillGetRequest_ParamWaybillCloudPrintApplyNewRequestTradeOrderI
 	}
 
 	/**
-	* @JsonProperty(String, "goods_description")
+	* #JsonProperty(String, "goods_description")
 	*/
 	private $goodsDescription;
 
 	/**
-	* @JsonProperty(String, "id")
+	* #JsonProperty(String, "id")
 	*/
 	private $id;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWaybillGetRequest_ParamWaybillCloudPrintApplyNewRequestTradeOrderInfoDtosItemPackageInfoItemsItem>, "items")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWaybillGetRequest_ParamWaybillCloudPrintApplyNewRequestTradeOrderInfoDtosItemPackageInfoItemsItem>, "items")
 	*/
 	private $items;
 
 	/**
-	* @JsonProperty(String, "packaging_description")
+	* #JsonProperty(String, "packaging_description")
 	*/
 	private $packagingDescription;
 
 	/**
-	* @JsonProperty(String, "total_packages_count")
+	* #JsonProperty(String, "total_packages_count")
 	*/
 	private $totalPackagesCount;
 
 	/**
-	* @JsonProperty(String, "volume")
+	* #JsonProperty(String, "volume")
 	*/
 	private $volume;
 
 	/**
-	* @JsonProperty(String, "weight")
+	* #JsonProperty(String, "weight")
 	*/
 	private $weight;
 
@@ -452,12 +452,12 @@ class PddCloudWaybillGetRequest_ParamWaybillCloudPrintApplyNewRequestTradeOrderI
 	}
 
 	/**
-	* @JsonProperty(Integer, "count")
+	* #JsonProperty(Integer, "count")
 	*/
 	private $count;
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
@@ -482,22 +482,22 @@ class PddCloudWaybillGetRequest_ParamWaybillCloudPrintApplyNewRequestTradeOrderI
 	}
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWaybillGetRequest_ParamWaybillCloudPrintApplyNewRequestTradeOrderInfoDtosItemRecipientAddress, "address")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddCloudWaybillGetRequest_ParamWaybillCloudPrintApplyNewRequestTradeOrderInfoDtosItemRecipientAddress, "address")
 	*/
 	private $address;
 
 	/**
-	* @JsonProperty(String, "mobile")
+	* #JsonProperty(String, "mobile")
 	*/
 	private $mobile;
 
 	/**
-	* @JsonProperty(String, "name")
+	* #JsonProperty(String, "name")
 	*/
 	private $name;
 
 	/**
-	* @JsonProperty(String, "phone")
+	* #JsonProperty(String, "phone")
 	*/
 	private $phone;
 
@@ -532,32 +532,32 @@ class PddCloudWaybillGetRequest_ParamWaybillCloudPrintApplyNewRequestTradeOrderI
 	}
 
 	/**
-	* @JsonProperty(String, "city")
+	* #JsonProperty(String, "city")
 	*/
 	private $city;
 
 	/**
-	* @JsonProperty(String, "detail")
+	* #JsonProperty(String, "detail")
 	*/
 	private $detail;
 
 	/**
-	* @JsonProperty(String, "district")
+	* #JsonProperty(String, "district")
 	*/
 	private $district;
 
 	/**
-	* @JsonProperty(String, "province")
+	* #JsonProperty(String, "province")
 	*/
 	private $province;
 
 	/**
-	* @JsonProperty(String, "town")
+	* #JsonProperty(String, "town")
 	*/
 	private $town;
 
 	/**
-	* @JsonProperty(String, "country")
+	* #JsonProperty(String, "country")
 	*/
 	private $country;
 

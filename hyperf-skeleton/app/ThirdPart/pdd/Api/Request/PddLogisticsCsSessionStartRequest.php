@@ -11,57 +11,57 @@ class PddLogisticsCsSessionStartRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "session_id")
+	* #JsonProperty(String, "session_id")
 	*/
 	private $sessionId;
 
 	/**
-	* @JsonProperty(String, "wp_session_id")
+	* #JsonProperty(String, "wp_session_id")
 	*/
 	private $wpSessionId;
 
 	/**
-	* @JsonProperty(String, "action_time")
+	* #JsonProperty(String, "action_time")
 	*/
 	private $actionTime;
 
 	/**
-	* @JsonProperty(Integer, "biz_type")
+	* #JsonProperty(Integer, "biz_type")
 	*/
 	private $bizType;
 
 	/**
-	* @JsonProperty(String, "dealer_id")
+	* #JsonProperty(String, "dealer_id")
 	*/
 	private $dealerId;
 
 	/**
-	* @JsonProperty(String, "queue_id")
+	* #JsonProperty(String, "queue_id")
 	*/
 	private $queueId;
 
 	/**
-	* @JsonProperty(String, "queue_name")
+	* #JsonProperty(String, "queue_name")
 	*/
 	private $queueName;
 
 	/**
-	* @JsonProperty(Integer, "queue_index")
+	* #JsonProperty(Integer, "queue_index")
 	*/
 	private $queueIndex;
 
 	/**
-	* @JsonProperty(Integer, "exception_code")
+	* #JsonProperty(Integer, "exception_code")
 	*/
 	private $exceptionCode;
 
 	/**
-	* @JsonProperty(String, "exception_msg")
+	* #JsonProperty(String, "exception_msg")
 	*/
 	private $exceptionMsg;
 
 	/**
-	* @JsonProperty(String, "queue_address")
+	* #JsonProperty(String, "queue_address")
 	*/
 	private $queueAddress;
 

@@ -11,12 +11,12 @@ class PddGoodsSpuGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(String, "cat_id")
+	* #JsonProperty(String, "cat_id")
 	*/
 	private $catId;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSpuGetRequest_KeyPropItem>, "key_prop")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSpuGetRequest_KeyPropItem>, "key_prop")
 	*/
 	private $keyProp;
 
@@ -63,22 +63,22 @@ class PddGoodsSpuGetRequest_KeyPropItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(Long, "ref_pid")
+	* #JsonProperty(Long, "ref_pid")
 	*/
 	private $refPid;
 
 	/**
-	* @JsonProperty(String, "value_unit")
+	* #JsonProperty(String, "value_unit")
 	*/
 	private $valueUnit;
 
 	/**
-	* @JsonProperty(String, "value")
+	* #JsonProperty(String, "value")
 	*/
 	private $value;
 
 	/**
-	* @JsonProperty(Long, "vid")
+	* #JsonProperty(Long, "vid")
 	*/
 	private $vid;
 

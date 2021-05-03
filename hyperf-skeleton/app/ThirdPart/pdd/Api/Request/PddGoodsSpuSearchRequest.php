@@ -11,17 +11,17 @@ class PddGoodsSpuSearchRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "cat_id")
+	* #JsonProperty(Long, "cat_id")
 	*/
 	private $catId;
 
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSpuSearchRequest_KeyPropItem>, "key_prop")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddGoodsSpuSearchRequest_KeyPropItem>, "key_prop")
 	*/
 	private $keyProp;
 
 	/**
-	* @JsonProperty(String, "spu_name")
+	* #JsonProperty(String, "spu_name")
 	*/
 	private $spuName;
 
@@ -74,22 +74,22 @@ class PddGoodsSpuSearchRequest_KeyPropItem extends PopBaseJsonEntity
 	}
 
 	/**
-	* @JsonProperty(Long, "ref_pid")
+	* #JsonProperty(Long, "ref_pid")
 	*/
 	private $refPid;
 
 	/**
-	* @JsonProperty(String, "value_unit")
+	* #JsonProperty(String, "value_unit")
 	*/
 	private $valueUnit;
 
 	/**
-	* @JsonProperty(String, "value")
+	* #JsonProperty(String, "value")
 	*/
 	private $value;
 
 	/**
-	* @JsonProperty(Long, "vid")
+	* #JsonProperty(Long, "vid")
 	*/
 	private $vid;
 

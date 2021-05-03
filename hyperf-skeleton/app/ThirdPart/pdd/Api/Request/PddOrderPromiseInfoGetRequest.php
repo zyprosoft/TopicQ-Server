@@ -11,7 +11,7 @@ class PddOrderPromiseInfoGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "promise_id")
+	* #JsonProperty(Long, "promise_id")
 	*/
 	private $promiseId;
 

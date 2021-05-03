@@ -11,17 +11,17 @@ class PddAdApiPlanUpdatePlanToOcpcRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanUpdatePlanToOcpcRequest_AdUnitUpdateOcpcMessageListItem>, "adUnitUpdateOcpcMessageList")
+	* #JsonProperty(List<\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanUpdatePlanToOcpcRequest_AdUnitUpdateOcpcMessageListItem>, "adUnitUpdateOcpcMessageList")
 	*/
 	private $adUnitUpdateOcpcMessageList;
 
 	/**
-	* @JsonProperty(Long, "planId")
+	* #JsonProperty(Long, "planId")
 	*/
 	private $planId;
 
 	/**
-	* @JsonProperty(Integer, "scenesType")
+	* #JsonProperty(Integer, "scenesType")
 	*/
 	private $scenesType;
 
@@ -74,12 +74,12 @@ class PddAdApiPlanUpdatePlanToOcpcRequest_AdUnitUpdateOcpcMessageListItem extend
 	}
 
 	/**
-	* @JsonProperty(Long, "adId")
+	* #JsonProperty(Long, "adId")
 	*/
 	private $adId;
 
 	/**
-	* @JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanUpdatePlanToOcpcRequest_AdUnitUpdateOcpcMessageListItemOptimizationMessage, "optimizationMessage")
+	* #JsonProperty(\Com\Pdd\Pop\Sdk\Api\Request\PddAdApiPlanUpdatePlanToOcpcRequest_AdUnitUpdateOcpcMessageListItemOptimizationMessage, "optimizationMessage")
 	*/
 	private $optimizationMessage;
 
@@ -104,17 +104,17 @@ class PddAdApiPlanUpdatePlanToOcpcRequest_AdUnitUpdateOcpcMessageListItemOptimiz
 	}
 
 	/**
-	* @JsonProperty(Long, "optimizationBid")
+	* #JsonProperty(Long, "optimizationBid")
 	*/
 	private $optimizationBid;
 
 	/**
-	* @JsonProperty(Integer, "optimizationGoal")
+	* #JsonProperty(Integer, "optimizationGoal")
 	*/
 	private $optimizationGoal;
 
 	/**
-	* @JsonProperty(Integer, "optimizationMethod")
+	* #JsonProperty(Integer, "optimizationMethod")
 	*/
 	private $optimizationMethod;
 

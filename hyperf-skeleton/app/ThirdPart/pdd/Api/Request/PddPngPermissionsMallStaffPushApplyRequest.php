@@ -11,7 +11,7 @@ class PddPngPermissionsMallStaffPushApplyRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "to_mall_id")
+	* #JsonProperty(Long, "to_mall_id")
 	*/
 	private $toMallId;
 

@@ -11,12 +11,12 @@ class PddAdApiKeywordRelevanceGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "goodsId")
+	* #JsonProperty(Long, "goodsId")
 	*/
 	private $goodsId;
 
 	/**
-	* @JsonProperty(List<String>, "words")
+	* #JsonProperty(List<String>, "words")
 	*/
 	private $words;
 

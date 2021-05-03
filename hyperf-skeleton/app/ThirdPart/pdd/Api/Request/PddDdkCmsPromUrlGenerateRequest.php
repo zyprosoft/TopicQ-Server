@@ -11,47 +11,47 @@ class PddDdkCmsPromUrlGenerateRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "channel_type")
+	* #JsonProperty(Integer, "channel_type")
 	*/
 	private $channelType;
 
 	/**
-	* @JsonProperty(String, "custom_parameters")
+	* #JsonProperty(String, "custom_parameters")
 	*/
 	private $customParameters;
 
 	/**
-	* @JsonProperty(Boolean, "generate_mobile")
+	* #JsonProperty(Boolean, "generate_mobile")
 	*/
 	private $generateMobile;
 
 	/**
-	* @JsonProperty(Boolean, "generate_schema_url")
+	* #JsonProperty(Boolean, "generate_schema_url")
 	*/
 	private $generateSchemaUrl;
 
 	/**
-	* @JsonProperty(Boolean, "generate_short_url")
+	* #JsonProperty(Boolean, "generate_short_url")
 	*/
 	private $generateShortUrl;
 
 	/**
-	* @JsonProperty(Boolean, "generate_we_app")
+	* #JsonProperty(Boolean, "generate_we_app")
 	*/
 	private $generateWeApp;
 
 	/**
-	* @JsonProperty(String, "keyword")
+	* #JsonProperty(String, "keyword")
 	*/
 	private $keyword;
 
 	/**
-	* @JsonProperty(Boolean, "multi_group")
+	* #JsonProperty(Boolean, "multi_group")
 	*/
 	private $multiGroup;
 
 	/**
-	* @JsonProperty(List<String>, "p_id_list")
+	* #JsonProperty(List<String>, "p_id_list")
 	*/
 	private $pIdList;
 

@@ -11,7 +11,7 @@ class PddExpressDepotInfoGetRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "depot_id")
+	* #JsonProperty(Long, "depot_id")
 	*/
 	private $depotId;
 

@@ -11,7 +11,7 @@ class PddGoodsAuthorizationCatsRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Long, "parent_cat_id")
+	* #JsonProperty(Long, "parent_cat_id")
 	*/
 	private $parentCatId;
 

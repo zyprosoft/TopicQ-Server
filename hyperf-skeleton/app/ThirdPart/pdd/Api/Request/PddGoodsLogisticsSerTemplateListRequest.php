@@ -11,22 +11,22 @@ class PddGoodsLogisticsSerTemplateListRequest extends PopBaseHttpRequest
 
 	}
 	/**
-	* @JsonProperty(Integer, "template_type")
+	* #JsonProperty(Integer, "template_type")
 	*/
 	private $templateType;
 
 	/**
-	* @JsonProperty(Integer, "start")
+	* #JsonProperty(Integer, "start")
 	*/
 	private $start;
 
 	/**
-	* @JsonProperty(Integer, "length")
+	* #JsonProperty(Integer, "length")
 	*/
 	private $length;
 
 	/**
-	* @JsonProperty(Integer, "query_type")
+	* #JsonProperty(Integer, "query_type")
 	*/
 	private $queryType;
 
