@@ -123,7 +123,7 @@ class PddService extends AbstractService
             throw new HyperfCommonException(ErrorCode::CALL_PDD_ERROR,$errMsg);
         }
         Log::info($response->getBody());
-        return $content;
+        return data_get($content,'rp_promotion_url_generate_response');
     }
 
     public function queryPidAuthStatus()
