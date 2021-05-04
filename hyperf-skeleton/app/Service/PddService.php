@@ -29,7 +29,7 @@ class PddService extends AbstractService
 
     private string $authCode;
 
-    private string $pidList;
+    private array $pidList;
 
     private string $accessToken;
 
@@ -38,7 +38,7 @@ class PddService extends AbstractService
         parent::__construct($container);
         $this->clientId = config('mall.pdd.client_id');
         $this->clientSecret = config('mall.pdd.client_secret');
-        $this->pidList[] = config('mall.pdd.pid');
+        $this->pidList = [config('mall.pdd.pid')];
         $this->authCode = config('mall.pdd.auth_code');
         //缓存获取accessToken
 //        $accessToken = Cache::get(self::PDD_ACCESS_TOKEN_CACHE_KEY);
