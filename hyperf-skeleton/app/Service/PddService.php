@@ -39,11 +39,11 @@ class PddService extends AbstractService
         $this->pid = config('mall.pdd.pid');
         $this->authCode = config('mall.pdd.auth_code');
         //缓存获取accessToken
-        $accessToken = Cache::get(self::PDD_ACCESS_TOKEN_CACHE_KEY);
-        if (!isset($accessToken)) {
-            $accessToken = $this->generateAccessToken();
-        }
-        $this->accessToken = $accessToken;
+//        $accessToken = Cache::get(self::PDD_ACCESS_TOKEN_CACHE_KEY);
+//        if (!isset($accessToken)) {
+//            $accessToken = $this->generateAccessToken();
+//        }
+//        $this->accessToken = $accessToken;
     }
 
     public function notify()

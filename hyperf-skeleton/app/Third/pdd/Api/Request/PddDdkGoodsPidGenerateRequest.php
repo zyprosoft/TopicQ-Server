@@ -6,10 +6,6 @@ use Com\Pdd\Pop\Sdk\PopBaseJsonEntity;
 
 class PddDdkGoodsPidGenerateRequest extends PopBaseHttpRequest
 {
-    public function __construct()
-	{
-
-	}
 	/**
 	* #JsonProperty(Long, "number")
 	*/
