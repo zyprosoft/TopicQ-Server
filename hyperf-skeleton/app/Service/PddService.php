@@ -43,7 +43,7 @@ class PddService extends AbstractService
 //        if (!isset($accessToken)) {
 //            $accessToken = $this->generateAccessToken();
 //        }
-//        $this->accessToken = $accessToken;
+        $this->accessToken = '';
     }
 
     public function notify()
