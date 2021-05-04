@@ -14,6 +14,8 @@ use Com\Pdd\Pop\Sdk\PopAccessTokenClient;
 use Com\Pdd\Pop\Sdk\PopHttpClient;
 use Com\Pdd\Pop\Sdk\Api\Request\PddDdkGoodsPidGenerateRequest;
 use Com\Pdd\Pop\Sdk\PopHttpException;
+use Com\Pdd\Pop\Sdk\Api\Request\PddDdkRpPromUrlGenerateRequest;
+use Com\Pdd\Pop\Sdk\Api\Request\PddDdkOauthMemberAuthorityQueryRequest;
 
 class PddService extends AbstractService
 {
@@ -27,7 +29,7 @@ class PddService extends AbstractService
 
     private string $authCode;
 
-    private string $pid;
+    private string $pidList;
 
     private string $accessToken;
 
@@ -36,7 +38,7 @@ class PddService extends AbstractService
         parent::__construct($container);
         $this->clientId = config('mall.pdd.client_id');
         $this->clientSecret = config('mall.pdd.client_secret');
-        $this->pid = config('mall.pdd.pid');
+        $this->pidList[] = config('mall.pdd.pid');
         $this->authCode = config('mall.pdd.auth_code');
         //缓存获取accessToken
 //        $accessToken = Cache::get(self::PDD_ACCESS_TOKEN_CACHE_KEY);
@@ -83,9 +85,7 @@ class PddService extends AbstractService
         $request = new PddDdkGoodsPidGenerateRequest();
 
         $request->setNumber(1);
-        $pIdNameList = array();
-        $pIdNameList[] = $this->pid;
-        $request->setPIdNameList($pIdNameList);
+        $request->setPIdNameList($this->pidList);
         try {
             $response = $client->syncInvoke($request, $this->accessToken);
         } catch (\Throwable $e) {
@@ -98,11 +98,55 @@ class PddService extends AbstractService
             $errMsg = data_get($content,'error_response.error_msg');
             throw new HyperfCommonException(ErrorCode::CALL_PDD_ERROR,$errMsg);
         }
-        echo json_encode($content, JSON_UNESCAPED_UNICODE);
+        return $content;
     }
 
     public function generatePidAuthUrl()
     {
+        $client = new PopHttpClient($this->clientId, $this->clientSecret);
 
+        $request = new PddDdkRpPromUrlGenerateRequest();
+
+        $request->setAmount(1);
+        $request->setChannelType(10);
+        $request->setGenerateWeApp(true);
+        $request->setPIdList($this->pidList);
+        try{
+            $response = $client->syncInvoke($request);
+        } catch(\Throwable $e){
+            Log::error($e->getMessage());
+            throw new HyperfCommonException($e->getCode(),$e->getMessage());
+        }
+        Log::info($response->getBody());
+        $content = $response->getContent();
+        if (isset($content['error_response'])) {
+            $errMsg = data_get($content,'error_response.error_msg');
+            throw new HyperfCommonException(ErrorCode::CALL_PDD_ERROR,$errMsg);
+        }
+        Log::info($response->getBody());
+        return $content;
+    }
+
+    public function queryPidAuthStatus()
+    {
+        $client = new PopHttpClient($this->clientId, $this->clientSecret);
+
+        $request = new PddDdkOauthMemberAuthorityQueryRequest();
+
+        $request->setPid($this->pidList[0]);
+        try{
+            $response = $client->syncInvoke($request);
+        } catch(\Throwable $e){
+            Log::error($e->getMessage());
+            throw new HyperfCommonException($e->getCode(),$e->getMessage());
+        }
+        Log::info($response->getBody());
+        $content = $response->getContent();
+        if (isset($content['error_response'])) {
+            $errMsg = data_get($content,'error_response.error_msg');
+            throw new HyperfCommonException(ErrorCode::CALL_PDD_ERROR,$errMsg);
+        }
+        Log::info($response->getBody());
+        return $content;
     }
 }
