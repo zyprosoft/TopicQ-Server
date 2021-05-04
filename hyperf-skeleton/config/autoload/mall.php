@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'pdd' => [
-        'pid' => '100000_1',
+        'pid' => '16116857_10000',
         'name' => '统一推广位',
         'client_id' => env('PDD_CLIENT_ID'),
         'client_secret' => env('PDD_CLIENT_SECRET'),

@@ -107,7 +107,6 @@ class PddService extends AbstractService
 
         $request = new PddDdkRpPromUrlGenerateRequest();
 
-        $request->setAmount(1);
         $request->setChannelType(10);
         $request->setGenerateWeApp(true);
         $request->setPIdList($this->pidList);
