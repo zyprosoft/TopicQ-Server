@@ -472,6 +472,7 @@ class ExampleTest extends HttpTestCase
     {
         $service = ApplicationContext::getContainer()->get(PddService::class);
 //        $service->generatePid();
-        $service->generatePidAuthUrl();
+//        $service->generatePidAuthUrl();
+        $service->queryPidAuthStatus();
     }
 }
