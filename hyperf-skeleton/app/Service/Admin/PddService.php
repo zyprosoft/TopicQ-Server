@@ -57,7 +57,7 @@ class PddService extends AbstractService
             //筛选范围列表 样例：[{"range_id":0,"range_from":1,"range_to":1500},
             //{"range_id":1,"range_from":1,"range_to":1500}]
             'range_list' => [[
-                'rang_id' => 2,
+                'range_id' => 2,
                 'sort_type' => 2,
                 'with_coupon' => true,
             ]],
