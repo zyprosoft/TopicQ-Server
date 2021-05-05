@@ -108,6 +108,7 @@ class PddService extends AbstractService
         $request->setKeyword($keyword);
         $request->setPage($pageIndex);
         $request->setPageSize($pageSize);
+        $request->setPid($this->pidList[0]);
         if (isset($listId)) {
             $request->setListId($listId);
         }
