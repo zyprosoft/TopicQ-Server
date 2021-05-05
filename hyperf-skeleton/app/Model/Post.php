@@ -37,6 +37,9 @@ namespace App\Model;
  * @property int $account_id 公众号ID
  * @property int $forum_id 板块ID
  * @property int $recommend_weight 推荐权重
+ * @property int $mall_type 0:拼多多1:京东
+ * @property string $mall_goods 关联的商品信息
+ * @property string $mall_goods_buy_info 商品购买跳转信息
  * @property-read \App\Model\User $author 
  * @property-read \App\Model\Forum $forum 
  * @property-read \App\Model\MiniProgram $mini_program 
@@ -63,7 +66,7 @@ class Post extends Model
      *
      * @var array
      */
-    protected $casts = ['post_id' => 'integer', 'owner_id' => 'integer', 'vote_id' => 'integer', 'read_count' => 'integer', 'favorite_count' => 'integer', 'forward_count' => 'integer', 'comment_count' => 'integer', 'audit_status' => 'integer', 'is_hot' => 'integer', 'sort_index' => 'integer', 'is_recommend' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'join_user_count' => 'integer', 'machine_audit' => 'integer', 'manager_audit' => 'integer', 'text_audit' => 'integer', 'content_audit' => 'integer', 'title_audit' => 'integer', 'program_id' => 'integer', 'account_id' => 'integer', 'forum_id' => 'integer', 'recommend_weight' => 'integer'];
+    protected $casts = ['post_id' => 'integer', 'owner_id' => 'integer', 'vote_id' => 'integer', 'read_count' => 'integer', 'favorite_count' => 'integer', 'forward_count' => 'integer', 'comment_count' => 'integer', 'audit_status' => 'integer', 'is_hot' => 'integer', 'sort_index' => 'integer', 'is_recommend' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'join_user_count' => 'integer', 'machine_audit' => 'integer', 'manager_audit' => 'integer', 'text_audit' => 'integer', 'content_audit' => 'integer', 'title_audit' => 'integer', 'program_id' => 'integer', 'account_id' => 'integer', 'forum_id' => 'integer', 'recommend_weight' => 'integer', 'mall_type' => 'integer'];
     protected $with = ['author'];
     public function author()
     {
