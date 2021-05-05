@@ -18,6 +18,8 @@ use Com\Pdd\Pop\Sdk\Api\Request\PddDdkRpPromUrlGenerateRequest;
 
 class PddService extends AbstractService
 {
+    const MALL_TYPE_PDD = 0;
+
     const BUY_FORUM_ID = 9;
 
     const PDD_ACCESS_TOKEN_CODE = 'lulingshuo';
@@ -161,6 +163,7 @@ class PddService extends AbstractService
         $goodsSign = data_get($goodsInfo,'goods_sign');
         $buyInfo = $this->generateBuyInfo($goodsSign,$searchId);
         $post->mall_goods_buy_info = json_encode($buyInfo);
+        $post->mall_type = self::MALL_TYPE_PDD;
         $post->saveOrFail();
         return $this->success($post);
     }

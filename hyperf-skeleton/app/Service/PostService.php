@@ -257,6 +257,13 @@ class PostService extends BaseService
         if(!empty($post->image_list)) {
             $post->image_list = explode(';', $post->image_list);
         }
+        //解码购物信息
+        if (isset($post->mall_goods)) {
+            $post->mall_goods = json_decode($post->mall_goods);
+        }
+        if (isset($post->mall_goods_buy_info)) {
+            $post->mall_goods_buy_info = json_decode($post->mall_goods_buy_info);
+        }
         if (Auth::isGuest() == false) {
             //投票状态
             $userVote = UserVote::query()->where('user_id', $this->userId())
