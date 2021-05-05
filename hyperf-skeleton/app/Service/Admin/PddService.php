@@ -147,6 +147,11 @@ class PddService extends AbstractService
         $post = new Post();
         $post->title = $title;
         $post->content = $content;
+        if (mb_strlen($content) < 40) {
+            $post->summary = $content;
+        } else {
+            $post->summary = mb_substr($content, 0, 40);
+        }
         $post->mall_goods = json_encode($goodsInfo);
         //商品图片作为图片使用
         if (!isset($imageList)) {
@@ -166,6 +171,7 @@ class PddService extends AbstractService
         $post->mall_goods_buy_info = json_encode($buyInfo);
         $post->mall_type = self::MALL_TYPE_PDD;
         $post->audit_status = Constants::STATUS_DONE;
+        $post->owner_id = $this->userId();
         $post->saveOrFail();
         return $this->success($post);
     }
