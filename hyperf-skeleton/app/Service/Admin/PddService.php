@@ -78,7 +78,7 @@ class PddService extends AbstractService
     {
         $client = new PopHttpClient($this->clientId, $this->clientSecret);
         try {
-            $response = $client->syncInvoke($request, $this->accessToken);
+            $response = $client->syncInvoke($request);
         } catch (\Throwable $e) {
             Log::error($e->getMessage());
             throw new HyperfCommonException($e->getCode(),$e->getMessage());

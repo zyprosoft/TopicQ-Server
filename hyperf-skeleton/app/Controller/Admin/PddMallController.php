@@ -24,7 +24,7 @@ class PddMallController extends AbstractController
     public function search(AppAdminRequest $request)
     {
         $this->validate([
-            'pageIndex' => 'integer|required|min:0',
+            'pageIndex' => 'integer|required|min:1',
             'pageSize' => 'integer|required|min:10|max:30',
             'keyword' => 'string|required|min:1',
             'optId' => 'integer',
@@ -42,7 +42,7 @@ class PddMallController extends AbstractController
     public function recommend(AppAdminRequest $request)
     {
         $this->validate([
-            'pageIndex' => 'integer|required|min:0',
+            'pageIndex' => 'integer|required|min:1',
             'pageSize' => 'integer|required|min:10|max:30',
             'listId' => 'string|min:1'
         ]);
