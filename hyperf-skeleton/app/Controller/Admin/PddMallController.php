@@ -61,7 +61,8 @@ class PddMallController extends AbstractController
                 'content' => 'string|required|min:1|max:5000|sensitive',
                 'imageList' => 'array|min:1|max:4',
                 'link' => 'string|min:1|max:500',
-                'goodsInfo' => 'array|required'
+                'goodsInfo' => 'array|required',
+                'forumId' => 'integer|exists:forum,forum_id'
             ]
         );
         $title = $request->param('title');
@@ -69,7 +70,8 @@ class PddMallController extends AbstractController
         $goodsInfo = $request->param('goodsInfo');
         $link = $request->param('link');
         $imageList = $request->param('imageList');
-        $result = $this->service->createPost($title,$content,$goodsInfo,$link,$imageList);
+        $forumId = $request->param('forumId');
+        $result = $this->service->createPost($title,$content,$goodsInfo,$link,$imageList,$forumId);
         return $this->success($result);
     }
 }

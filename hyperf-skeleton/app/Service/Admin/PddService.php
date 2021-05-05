@@ -144,7 +144,7 @@ class PddService extends AbstractService
         return data_get($content,'goods_promotion_url_generate_response.goods_promotion_url_list')[0];
     }
 
-    public function createPost(string $title, string $content, array $goodsInfo, string $link = null, array $imageList = null)
+    public function createPost(string $title, string $content, array $goodsInfo, string $link = null, array $imageList = null, int $forumId = null)
     {
         $post = new Post();
         $post->title = $title;
@@ -168,7 +168,11 @@ class PddService extends AbstractService
             $post->link = $link;
         }
         //固定板块
-        $post->forum_id = self::BUY_FORUM_ID;
+        if (isset($forumId)) {
+            $post->forum_id = $forumId;
+        }else{
+            $post->forum_id = self::BUY_FORUM_ID;
+        }
         //获取跳转信息
         $searchId = data_get($goodsInfo,'search_id');
         $goodsSign = data_get($goodsInfo,'goods_sign');
