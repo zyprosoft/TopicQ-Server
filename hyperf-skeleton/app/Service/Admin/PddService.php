@@ -159,8 +159,11 @@ class PddService extends AbstractService
         if (!isset($imageList)) {
             $post->image_list = data_get($goodsInfo,'goods_image_url');
         }else{
+            //增加商品图片
+            $imageList[] = data_get($goodsInfo,'goods_image_url');
             $post->image_list = implode(';',$imageList);
         }
+
         if (isset($link)) {
             $post->link = $link;
         }
