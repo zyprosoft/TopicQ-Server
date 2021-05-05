@@ -109,7 +109,7 @@ class PddService extends AbstractService
             $request->setOptId($optId);
         }
         $content = $this->commonRequest($request);
-        return data_get($content,'goods_search_response.goods_list');
+        return data_get($content,'goods_search_response');
     }
 
     public function recommendList(int $pageIndex, int $pageSize, string $listId = null)
@@ -121,7 +121,7 @@ class PddService extends AbstractService
         }
         $request->setLimit($pageSize);
         $content = $this->commonRequest($request);
-        return data_get($content,'goods_basic_detail_response.list');
+        return data_get($content,'goods_basic_detail_response');
     }
 
     public function generateBuyInfo(string $goodsSign, string $searchId = null)

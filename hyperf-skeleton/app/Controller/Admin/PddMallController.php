@@ -7,7 +7,6 @@ use ZYProSoft\Controller\AbstractController;
 use Hyperf\HttpServer\Annotation\AutoController;
 use Hyperf\Di\Annotation\Inject;
 use App\Service\Admin\PddService;
-use ZYProSoft\Http\AuthedRequest;
 
 /**
  * @AutoController (prefix="/admin/pdd")
