@@ -18,6 +18,8 @@ use Com\Pdd\Pop\Sdk\Api\Request\PddDdkRpPromUrlGenerateRequest;
 
 class PddService extends AbstractService
 {
+    const BUY_FORUM_ID = 9;
+
     const PDD_ACCESS_TOKEN_CODE = 'lulingshuo';
 
     const PDD_ACCESS_TOKEN_CACHE_KEY = 'pdd:ac:tk';
@@ -151,6 +153,8 @@ class PddService extends AbstractService
         if (isset($link)) {
             $post->link = $link;
         }
+        //固定板块
+        $post->forum_id = self::BUY_FORUM_ID;
         //获取跳转信息
         $searchId = data_get($goodsInfo,'search_id');
         $goodsSign = data_get($goodsInfo,'goods_sign');
