@@ -540,6 +540,7 @@ class PostService extends BaseService
         ];
 
         $list = Post::query()->select($selectRows)
+            ->with(['forum'])
             ->where('forum_id',$forumId)
             ->where('audit_status', Constants::STATUS_DONE)
             ->orderByDesc('sort_index')
@@ -606,6 +607,7 @@ class PostService extends BaseService
         ];
 
         $list = Post::query()->select($selectRows)
+            ->with(['forum'])
             ->leftJoin('user_subscribe','post.forum_id','=','user_subscribe.forum_id')
             ->where('user_subscribe.forum_id','>',Constants::FORUM_MAIN_FORUM_ID)
             ->where('user_id',$this->userId())
