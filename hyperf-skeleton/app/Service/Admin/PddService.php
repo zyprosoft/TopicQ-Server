@@ -161,6 +161,6 @@ class PddService extends AbstractService
         $buyInfo = $this->generateBuyInfo($goodsSign,$searchId);
         $post->mall_goods_buy_info = json_encode($buyInfo);
         $post->saveOrFail();
-        return $this->success();
+        return $this->success($post);
     }
 }
