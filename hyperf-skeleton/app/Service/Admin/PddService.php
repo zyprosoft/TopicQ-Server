@@ -136,14 +136,21 @@ class PddService extends AbstractService
         return data_get($content,'goods_promotion_url_generate_response.goods_promotion_url_list')[0];
     }
 
-    public function createPost(string $title, string $content, array $goodsInfo)
+    public function createPost(string $title, string $content, array $goodsInfo, string $link = null, array $imageList = null)
     {
         $post = new Post();
         $post->title = $title;
         $post->content = $content;
         $post->mall_goods = json_encode($goodsInfo);
         //商品图片作为图片使用
-        $post->image_list = data_get($goodsInfo,'goods_image_url');
+        if (!isset($imageList)) {
+            $post->image_list = data_get($goodsInfo,'goods_image_url');
+        }else{
+            $post->image_list = implode(';',$imageList);
+        }
+        if (isset($link)) {
+            $post->link = $link;
+        }
         //获取跳转信息
         $searchId = data_get($goodsInfo,'search_id');
         $goodsSign = data_get($goodsInfo,'goods_sign');

@@ -59,13 +59,17 @@ class PddMallController extends AbstractController
             [
                 'title' => 'string|required|min:1|max:40|sensitive',
                 'content' => 'string|required|min:1|max:5000|sensitive',
+                'imageList' => 'array|min:1|max:4',
+                'link' => 'string|min:1|max:500',
                 'goodsInfo' => 'array|required'
             ]
         );
         $title = $request->param('title');
         $content = $request->param('content');
         $goodsInfo = $request->param('goodsInfo');
-        $result = $this->service->createPost($title,$content,$goodsInfo);
+        $link = $request->param('link');
+        $imageList = $request->param('imageList');
+        $result = $this->service->createPost($title,$content,$goodsInfo,$link,$imageList);
         return $this->success($result);
     }
 }
