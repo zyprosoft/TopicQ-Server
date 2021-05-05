@@ -131,6 +131,7 @@ class PddService extends AbstractService
         $request = new PddDdkGoodsPromotionUrlGenerateRequest();
         $request->setPId($this->pidList[0]);
         $request->setGoodsSignList([$goodsSign]);
+        $request->setGenerateWeApp(true);
         if (isset($searchId)) {
             $request->setSearchId($searchId);
         }
