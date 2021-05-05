@@ -1,24 +1,20 @@
 <?php
 
 
-namespace App\Service;
+namespace App\Service\Admin;
 
 use App\Constants\ErrorCode;
+use App\Model\Post;
+use Com\Pdd\Pop\Sdk\Api\Request\PddDdkGoodsPromotionUrlGenerateRequest;
 use Com\Pdd\Pop\Sdk\Api\Request\PddDdkGoodsRecommendGetRequest;
 use Com\Pdd\Pop\Sdk\Api\Request\PddDdkGoodsSearchRequest;
-use Com\Pdd\Pop\Sdk\Api\Request\PddPopAuthTokenCreateRequest;
 use Com\Pdd\Pop\Sdk\PopBaseHttpRequest;
 use Psr\Container\ContainerInterface;
 use ZYProSoft\Exception\HyperfCommonException;
-use ZYProSoft\Facade\Cache;
 use ZYProSoft\Log\Log;
 use ZYProSoft\Service\AbstractService;
-use Com\Pdd\Pop\Sdk\PopAccessTokenClient;
 use Com\Pdd\Pop\Sdk\PopHttpClient;
-use Com\Pdd\Pop\Sdk\Api\Request\PddDdkGoodsPidGenerateRequest;
-use Com\Pdd\Pop\Sdk\PopHttpException;
 use Com\Pdd\Pop\Sdk\Api\Request\PddDdkRpPromUrlGenerateRequest;
-use Com\Pdd\Pop\Sdk\Api\Request\PddDdkOauthMemberAuthorityQueryRequest;
 
 class PddService extends AbstractService
 {
@@ -112,7 +108,8 @@ class PddService extends AbstractService
         if (isset($optId)) {
             $request->setOptId($optId);
         }
-        return $this->commonRequest($request);
+        $content = $this->commonRequest($request);
+        return data_get($content,'goods_search_response.goods_list');
     }
 
     public function recommendList(int $pageIndex, int $pageSize, string $listId = null)
@@ -123,6 +120,36 @@ class PddService extends AbstractService
             $request->setListId($listId);
         }
         $request->setLimit($pageSize);
-        return $this->commonRequest($request);
+        $content = $this->commonRequest($request);
+        return data_get($content,'goods_basic_detail_response.list');
+    }
+
+    public function generateBuyInfo(string $goodsSign, string $searchId = null)
+    {
+        $request = new PddDdkGoodsPromotionUrlGenerateRequest();
+        $request->setPId($this->pidList[0]);
+        $request->setGoodsSignList([$goodsSign]);
+        if (isset($searchId)) {
+            $request->setSearchId($searchId);
+        }
+        $content = $this->commonRequest($request);
+        return data_get($content,'goods_promotion_url_generate_response.goods_promotion_url_list')[0];
+    }
+
+    public function createPost(string $title, string $content, array $goodsInfo)
+    {
+        $post = new Post();
+        $post->title = $title;
+        $post->content = $content;
+        $post->mall_goods = json_encode($goodsInfo);
+        //商品图片作为图片使用
+        $post->image_list = data_get($goodsInfo,'goods_image_url');
+        //获取跳转信息
+        $searchId = data_get($goodsInfo,'search_id');
+        $goodsSign = data_get($goodsInfo,'goods_sign');
+        $buyInfo = $this->generateBuyInfo($goodsSign,$searchId);
+        $post->mall_goods_buy_info = json_encode($buyInfo);
+        $post->saveOrFail();
+        return $this->success();
     }
 }
