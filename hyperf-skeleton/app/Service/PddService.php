@@ -4,7 +4,10 @@
 namespace App\Service;
 
 use App\Constants\ErrorCode;
+use Com\Pdd\Pop\Sdk\Api\Request\PddDdkGoodsRecommendGetRequest;
+use Com\Pdd\Pop\Sdk\Api\Request\PddDdkGoodsSearchRequest;
 use Com\Pdd\Pop\Sdk\Api\Request\PddPopAuthTokenCreateRequest;
+use Com\Pdd\Pop\Sdk\PopBaseHttpRequest;
 use Psr\Container\ContainerInterface;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Facade\Cache;
@@ -40,12 +43,24 @@ class PddService extends AbstractService
         $this->clientSecret = config('mall.pdd.client_secret');
         $this->pidList = [config('mall.pdd.pid')];
         $this->authCode = config('mall.pdd.auth_code');
-        //缓存获取accessToken
-//        $accessToken = Cache::get(self::PDD_ACCESS_TOKEN_CACHE_KEY);
-//        if (!isset($accessToken)) {
-//            $accessToken = $this->generateAccessToken();
-//        }
-        $this->accessToken = '';
+    }
+
+    public function searchCondition()
+    {
+        return [
+            //活动商品标记数组，例：[4,7]，4-秒杀，7-百亿补贴，10851-千万补贴，
+            //31-品牌黑标，10564-精选爆品-官方直推爆款，10584-精选爆品-团长推荐，24-品牌高佣，其他的值请忽略
+            'activity_tags' => [7,10851,31,10564,10854,24],
+           //屏蔽商品类目包：1-拼多多小程序屏蔽的类目&关键词;2-虚拟类目;3-医疗器械;4-处方药;5-非处方药
+            'block_cat_packages' => [1,2,3,4,5],
+            //筛选范围列表 样例：[{"range_id":0,"range_from":1,"range_to":1500},
+            //{"range_id":1,"range_from":1,"range_to":1500}]
+            'range_list' => [[
+                'rang_id' => 2,
+                'sort_type' => 2,
+                'with_coupon' => true,
+            ]],
+        ];
     }
 
     public function notify()
@@ -53,39 +68,19 @@ class PddService extends AbstractService
 
     }
 
-    public function generateAccessToken()
+    public function generatePidAuthUrl()
     {
-        $client = new PopHttpClient($this->clientId,$this->clientSecret);
-        $request = new PddPopAuthTokenCreateRequest();
-        $request->setCode(self::PDD_ACCESS_TOKEN_CODE);
-        try {
-            $response = $client->syncInvoke($request);
-        } catch (\Throwable $e) {
-            Log::error($e->getMessage());
-            throw new HyperfCommonException($e->getCode(),$e->getMessage());
-        }
-        Log::info($response->getBody());
-        $content = $response->getContent();
-        if (isset($content['error_response'])) {
-            $errMsg = data_get($content,'error_response.error_msg');
-            throw new HyperfCommonException(ErrorCode::CALL_PDD_ERROR,$errMsg);
-        }
-        $expiresIn = data_get($content,'expires_in');
-        $expiresIn -= 60; //提前60秒过期
-        $accessToken = data_get($content,'access_token');
-        Cache::set(self::PDD_ACCESS_TOKEN_CACHE_KEY,$accessToken,$expiresIn);
-        Log::info("获取拼多多Token成功!$accessToken;($expiresIn)秒后过期");
-        return $accessToken;
+        $request = new PddDdkRpPromUrlGenerateRequest();
+        $request->setChannelType(10);
+        $request->setGenerateWeApp(true);
+        $request->setPIdList($this->pidList);
+        $content = $this->commonRequest($request);
+        return data_get($content,'rp_promotion_url_generate_response');
     }
 
-    public function generatePid()
+    public function commonRequest(PopBaseHttpRequest $request)
     {
         $client = new PopHttpClient($this->clientId, $this->clientSecret);
-
-        $request = new PddDdkGoodsPidGenerateRequest();
-
-        $request->setNumber(1);
-        $request->setPIdNameList($this->pidList);
         try {
             $response = $client->syncInvoke($request, $this->accessToken);
         } catch (\Throwable $e) {
@@ -101,51 +96,33 @@ class PddService extends AbstractService
         return $content;
     }
 
-    public function generatePidAuthUrl()
+    public function search(string $keyword, int $pageIndex, int $pageSize, string $listId = null, int $optId = null)
     {
-        $client = new PopHttpClient($this->clientId, $this->clientSecret);
-
-        $request = new PddDdkRpPromUrlGenerateRequest();
-
-        $request->setChannelType(10);
-        $request->setGenerateWeApp(true);
-        $request->setPIdList($this->pidList);
-        try{
-            $response = $client->syncInvoke($request);
-        } catch(\Throwable $e){
-            Log::error($e->getMessage());
-            throw new HyperfCommonException($e->getCode(),$e->getMessage());
+        $request = new PddDdkGoodsSearchRequest();
+        $condition = $this->searchCondition();
+        $request->setActivityTags($condition['activity_tags']);
+        $request->setBlockCatPackages($condition['block_cat_packages']);
+        $request->setRangeList($condition['range_list']);
+        $request->setKeyword($keyword);
+        $request->setPage($pageIndex);
+        $request->setPageSize($pageSize);
+        if (isset($listId)) {
+            $request->setListId($listId);
         }
-        Log::info($response->getBody());
-        $content = $response->getContent();
-        if (isset($content['error_response'])) {
-            $errMsg = data_get($content,'error_response.error_msg');
-            throw new HyperfCommonException(ErrorCode::CALL_PDD_ERROR,$errMsg);
+        if (isset($optId)) {
+            $request->setOptId($optId);
         }
-        Log::info($response->getBody());
-        return data_get($content,'rp_promotion_url_generate_response');
+        return $this->commonRequest($request);
     }
 
-    public function queryPidAuthStatus()
+    public function recommendList(int $pageIndex, int $pageSize, string $listId = null)
     {
-        $client = new PopHttpClient($this->clientId, $this->clientSecret);
-
-        $request = new PddDdkOauthMemberAuthorityQueryRequest();
-
-        $request->setPid($this->pidList[0]);
-        try{
-            $response = $client->syncInvoke($request);
-        } catch(\Throwable $e){
-            Log::error($e->getMessage());
-            throw new HyperfCommonException($e->getCode(),$e->getMessage());
+        $request = new PddDdkGoodsRecommendGetRequest();
+        $request->setOffset($pageIndex*$pageSize);
+        if(isset($listId)) {
+            $request->setListId($listId);
         }
-        Log::info($response->getBody());
-        $content = $response->getContent();
-        if (isset($content['error_response'])) {
-            $errMsg = data_get($content,'error_response.error_msg');
-            throw new HyperfCommonException(ErrorCode::CALL_PDD_ERROR,$errMsg);
-        }
-        Log::info($response->getBody());
-        return $content;
+        $request->setLimit($pageSize);
+        return $this->commonRequest($request);
     }
 }

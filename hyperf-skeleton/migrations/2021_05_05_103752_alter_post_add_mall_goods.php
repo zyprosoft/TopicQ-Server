@@ -11,8 +11,11 @@ class AlterPostAddMallGoods extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('post', function (Blueprint $table) {
             //
+            $table->tinyInteger('mall_type')->default(0)->comment('0:拼多多1:京东');
+            $table->text('mall_goods')->nullable()->comment('关联的商品信息');
+            $table->text('mall_goods_buy_info')->nullable()->comment('商品购买跳转信息');
         });
     }
 
@@ -21,8 +24,11 @@ class AlterPostAddMallGoods extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('post', function (Blueprint $table) {
             //
+            $table->removeColumn('mall_type');
+            $table->removeColumn('mall_goods');
+            $table->removeColumn('mall_goods_buy_info');
         });
     }
 }
