@@ -1,10 +1,28 @@
 <?php
 return [
     'avatar_list'=>[
-        'https://static.weshop.lulinggushi.com/1615030380059'
+        'https://static.weshop.lulinggushi.com/1615030380059',
+        'https://static.lulingshuo.icodefuture.com/161922711067',
+        'https://static.lulingshuo.icodefuture.com/1619227027844',
+        'https://static.lulingshuo.icodefuture.com/1619226938229',
+        'https://static.lulingshuo.icodefuture.com/1619210642943',
+        'https://static.lulingshuo.icodefuture.com/1619175080466',
+        'https://static.lulingshuo.icodefuture.com/1619174980812',
+        'https://static.lulingshuo.icodefuture.com/1619169947250',
+        'https://static.lulingshuo.icodefuture.com/1619169524795',
+        'https://static.lulingshuo.icodefuture.com/1619160897482',
     ],
     'background_list'=>[
-        'https://static.weshop.lulinggushi.com/1618554060632'
+        'https://static.weshop.lulinggushi.com/1618554060632',
+        'https://static.lulingshuo.icodefuture.com/1619227096443',
+        'https://static.lulingshuo.icodefuture.com/1619227010938',
+        'https://static.lulingshuo.icodefuture.com/1619226916206',
+        'https://static.lulingshuo.icodefuture.com/1619210622779',
+        'https://static.lulingshuo.icodefuture.com/1619175066447',
+        'https://static.lulingshuo.icodefuture.com/1619174966951',
+        'https://static.lulingshuo.icodefuture.com/1619169933227',
+        'https://static.lulingshuo.icodefuture.com/1619169503037',
+        'https://static.lulingshuo.icodefuture.com/1619160884030'
     ],
     'nickname_list'=>[
         '森旅迷了鹿',
