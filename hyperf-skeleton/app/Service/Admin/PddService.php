@@ -3,6 +3,7 @@
 
 namespace App\Service\Admin;
 
+use App\Constants\Constants;
 use App\Constants\ErrorCode;
 use App\Model\Post;
 use Com\Pdd\Pop\Sdk\Api\Request\PddDdkGoodsPromotionUrlGenerateRequest;
@@ -164,6 +165,7 @@ class PddService extends AbstractService
         $buyInfo = $this->generateBuyInfo($goodsSign,$searchId);
         $post->mall_goods_buy_info = json_encode($buyInfo);
         $post->mall_type = self::MALL_TYPE_PDD;
+        $post->audit_status = Constants::STATUS_DONE;
         $post->saveOrFail();
         return $this->success($post);
     }
