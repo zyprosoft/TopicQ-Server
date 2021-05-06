@@ -11,8 +11,9 @@ class AlterShopAddSetting extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('shop', function (Blueprint $table) {
             //
+            $table->tinyInteger('self_mall_use_recommend')->default(0)->comment('自营店铺是否开启外部商品导购');
         });
     }
 
@@ -21,8 +22,9 @@ class AlterShopAddSetting extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('shop', function (Blueprint $table) {
             //
+            $table->removeColumn('self_mall_use_recommend');
         });
     }
 }
