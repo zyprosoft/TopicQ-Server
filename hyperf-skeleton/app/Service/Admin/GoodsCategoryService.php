@@ -2,6 +2,7 @@
 
 
 namespace App\Service\Admin;
+use App\Model\Category;
 use App\Model\GoodsCategory;
 use App\Model\Good;
 use App\Service\BaseService;
@@ -72,5 +73,13 @@ class GoodsCategoryService extends BaseService
                 ->delete();
         });
         return $this->success();
+    }
+
+    public function getAllWithShopId(int $shopId)
+    {
+        return GoodsCategory::query()->where('create_user',$this->userId())
+            ->where('shop_id', $shopId)
+            ->latest()
+            ->get();
     }
 }

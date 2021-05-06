@@ -63,4 +63,14 @@ class GoodsCategoryController extends AbstractController
         $result = $this->service->userDelete($categoryId,$shopId);
         return $this->success($result);
     }
+
+    public function getAllWithShopId()
+    {
+        $this->validate([
+            'shopId' => 'integer|required|exists:shop,shop_id'
+        ]);
+        $shopId = $this->request->param('shopId');
+        $result = $this->service->getAllWithShopId($shopId);
+        return $this->success($result);
+    }
 }
