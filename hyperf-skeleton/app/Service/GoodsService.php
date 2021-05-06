@@ -4,9 +4,7 @@
 namespace App\Service;
 
 
-use App\Model\Category;
 use App\Model\Good;
-use App\Model\GoodsCategory;
 use ZYProSoft\Log\Log;
 
 class GoodsService extends BaseService
