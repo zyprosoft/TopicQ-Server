@@ -13,5 +13,19 @@ use App\Service\ShopService;
  */
 class ShopController extends AbstractController
 {
+    /**
+     * @Inject
+     * @var ShopService
+     */
+    protected ShopService $service;
 
+    public function info()
+    {
+        $this->validate([
+            'shopId' => 'required|integer|exists:shop,shop_id',
+        ]);
+        $shopId = $this->request->param('shopId');
+        $result = $this->service->info($shopId);
+        return $this->success($result);
+    }
 }
