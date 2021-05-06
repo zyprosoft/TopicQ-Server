@@ -30,19 +30,16 @@ class CreateShopTable extends Migration
             $table->integer('total_order')->default(0)->comment('总订单数');
             $table->string('latest_order_list')->nullable()->comment('最近15单的订单编号列表，用分号分割');
             $table->unsignedInteger('wait_deliver_order_count')->default(0)->comment('等待送货订单数量');
-            $table->string('qr_code',500)->after('wait_deliver_order_count')->nullable()->comment('小程序码链接地址');
-            $table->unsignedInteger('platform_cut')->after('qr_code')->default(3)->comment('店铺平台特定抽成');
+            $table->string('qr_code',500)->nullable()->comment('小程序码链接地址');
+            $table->unsignedInteger('platform_cut')->default(3)->comment('店铺平台特定抽成');
             $table->tinyInteger('audit_status')
-                ->after('platform_cut')
                 ->default(0)
                 ->comment('店铺审核状态-1:不合规0:审核中1:合规');
             $table->string('audit_note',500)
-                ->after('audit_status')
                 ->nullable()
                 ->comment('店铺审核总体备注');
             $table->string('image_id',30)->after('image')->nullable()->comment('图片ID');
             $table->string('printer_sn',128)
-                ->after('wait_deliver_order_count')
                 ->nullable()
                 ->comment('店铺绑定的打印机');
             $table->string('printer_key',128)
