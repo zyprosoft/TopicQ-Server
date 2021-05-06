@@ -7,6 +7,7 @@ use ZYProSoft\Controller\AbstractController;
 use Hyperf\HttpServer\Annotation\AutoController;
 use Hyperf\Di\Annotation\Inject;
 use App\Service\Admin\PddService;
+use ZYProSoft\Http\AuthedRequest;
 
 /**
  * @AutoController (prefix="/admin/pdd")
@@ -72,6 +73,18 @@ class PddMallController extends AbstractController
         $imageList = $request->param('imageList');
         $forumId = $request->param('forumId');
         $result = $this->service->createPost($title,$content,$goodsInfo,$link,$imageList,$forumId);
+        return $this->success($result);
+    }
+
+    public function getBuyJumpInfo(AuthedRequest $request)
+    {
+        $this->validate([
+            'goodsSign' => 'string|required|min:1',
+            'searchId' => 'string|min:1'
+        ]);
+        $goodsSign = $request->param('goodsSign');
+        $searchId = $request->param('searchId');
+        $result = $this->service->generateBuyInfo($goodsSign,$searchId);
         return $this->success($result);
     }
 }
