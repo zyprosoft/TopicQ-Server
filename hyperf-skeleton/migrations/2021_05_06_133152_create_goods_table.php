@@ -24,6 +24,7 @@ class CreateGoodsTable extends Migration
             $table->tinyInteger('status')->default(0)->comment('商品状态');
             $table->bigInteger('total_sale_count')->default(0)->comment('总售出数量');
             $table->string('labels',500)->nullable()->comment('标签');
+            $table->string('desc',1000)->nullable()->comment('商品简介');
 
             $table->index('owner_id');
             $table->index('category_id');
