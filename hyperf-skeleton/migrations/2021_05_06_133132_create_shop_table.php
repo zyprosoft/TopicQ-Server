@@ -18,7 +18,7 @@ class CreateShopTable extends Migration
             $table->string('introduce',1000)->comment('店铺简介');
             $table->tinyInteger('type')->default(0)->comment('店铺类型,默认值0');
             $table->bigInteger('owner_id')->comment('店主用户ID');
-            $table->tinyInteger('status')->default(0)->comment('店铺状态,0待发布;-1:拉黑;1:发布');
+            $table->tinyInteger('status')->default(1)->comment('店铺状态,0待发布;-1:拉黑;1:发布');
             $table->string('block_reason',128)->nullable()->comment('拉黑备注');
             $table->string('image',500)->comment('店铺图片');
             $table->unsignedInteger('base_deliver_price')->default(100)->comment('起送价格,单位分');
