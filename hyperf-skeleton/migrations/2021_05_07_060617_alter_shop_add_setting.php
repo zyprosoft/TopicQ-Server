@@ -13,7 +13,7 @@ class AlterShopAddSetting extends Migration
     {
         Schema::table('shop', function (Blueprint $table) {
             //
-            $table->tinyInteger('self_mall_use_recommend')->default(0)->comment('自营店铺是否开启外部商品导购');
+            $table->tinyInteger('self_mall_use_recommend')->default(0)->comment('自营店铺是否开启外部商品导购0否1是');
         });
     }
 
