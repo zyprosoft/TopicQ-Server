@@ -8,19 +8,15 @@ use App\Constants\Constants;
 use App\Constants\ErrorCode;
 use App\Job\UserUpdateMachineAuditJob;
 use App\Model\Advice;
-use App\Model\Comment;
-use App\Model\ImageAudit;
 use App\Model\Notification;
 use App\Model\PrivateMessage;
 use App\Model\TokenHistory;
 use App\Model\User;
 use App\Model\UserCommentPraise;
-use App\Model\UserCommentRead;
 use App\Model\UserMiniProgramUse;
 use App\Model\UserUpdate;
 use Carbon\Carbon;
 use EasyWeChat\Factory;
-use Hyperf\Database\Query\JoinClause;
 use Hyperf\DbConnection\Db;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Facade\Auth;
@@ -348,5 +344,21 @@ class UserService extends BaseService
         $advice->owner_id = $this->userId();
         $advice->saveOrFail();
         return $this->success();
+    }
+
+    /**
+     * 当前用户是不是被拉黑
+     */
+    public
+    static function checkUserStatusOrFail()
+    {
+        $user = User::find(Auth::userId());
+        if (!$user instanceof User) {
+            throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST);
+        }
+        if ($user->status == Constants::STATUS_INVALIDATE) {
+            throw new HyperfCommonException(ErrorCode::USER_BLOCK_BY_PLATFORM);
+        }
+        return $user;
     }
 }

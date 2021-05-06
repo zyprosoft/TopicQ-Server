@@ -84,4 +84,34 @@ class Constants
     const FORUM_TYPE_MAIN = 0;
 
     const FORUM_MAIN_FORUM_ID = 1;//主板块默认ID
+
+    /**
+     * 订单状态进行中
+     */
+    const ORDER_STATUS_PROCESSING = 0;
+
+    /**
+     * 订单确认收货
+     */
+    const ORDER_RECEIVE_STATUS_FINISH = 1;
+
+    /**
+     * 待支付
+     */
+    const ORDER_SUMMARY_NOT_PAY = 0;
+
+    /**
+     * 等待发货
+     */
+    const ORDER_SUMMARY_WAIT_DELIVER = 1;
+
+    /**
+     * 已经发货
+     */
+    const ORDER_SUMMARY_DELIVERED = 2;
+
+    /**
+     * 发货完成
+     */
+    const ORDER_SUMMARY_FINISH = 3;
 }

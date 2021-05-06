@@ -63,4 +63,39 @@ class ErrorCode extends AbstractConstants
      * @Message("调用拼多多错误!")
      */
     const CALL_PDD_ERROR = 30006;
+
+    /**
+     * @Message("用户已被平台拉黑!")
+     */
+    const USER_BLOCK_BY_PLATFORM = 30007;
+
+    /**
+     * @Message("店铺不归属当前用户!")
+     */
+    const SHOP_NOT_BELONG_CURRENT_USER = 30008;
+
+    /**
+     * @Message("物品不归属当前用户!")
+     */
+    const STAFF_NOT_BELONG_CURRENT_USER = 30009;
+
+    /**
+     * @Message("请求微信支付失败!")
+     */
+    const REQUEST_WX_PAY_FAIL = 30010;
+
+    /**
+     * @Message("订单已经是支付状态,请勿重复支付!")
+     */
+    const ORDER_DID_FINISH_PAY = 30011;
+
+    /**
+     * @Message("店铺已停止发布")
+     */
+    const SHOP_PAUSED_PUBLISH = 30012;
+
+    /**
+     * @Message("下单商品超过当前库存,请修改数量!")
+     */
+    const ORDER_GOODS_COUNT_OVER_STOCK = 30013;
 }

@@ -54,6 +54,7 @@ class Good extends Model
     {
         return $this->hasOne(Shop::class, 'shop_id', 'shop_id');
     }
+
     public function owner()
     {
         return $this->hasOne(User::class, 'user_id', 'owner_id');
