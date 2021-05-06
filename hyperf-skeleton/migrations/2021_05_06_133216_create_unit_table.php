@@ -12,8 +12,15 @@ class CreateUnitTable extends Migration
     public function up(): void
     {
         Schema::create('unit', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->integerIncrements('unit_id');
+            $table->string('name',10)->comment('单位名称');
+
+            $table->unique('name');
             $table->timestamps();
+            $table->softDeletes();
+            $table->engine = "InnoDB";
+            $table->charset = "utf8mb4";
+            $table->collation = "utf8mb4_unicode_ci";
         });
     }
 
