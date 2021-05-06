@@ -21,7 +21,7 @@ class GoodsController extends AbstractController
      */
     protected GoodsService $service;
 
-    public function getGoodsListByShopId(AuthedRequest $request)
+    public function getGoodsListByShopId()
     {
         $this->validate([
             'shopId' => 'integer|required|exists:shop,shop_id',
@@ -31,7 +31,7 @@ class GoodsController extends AbstractController
         return $this->success($result);
     }
 
-    public function getGoodsListByCategoryId(AuthedRequest $request)
+    public function getGoodsListByCategoryId()
     {
         $this->validate([
             'shopId' => 'integer|required|exists:shop,shop_id',
