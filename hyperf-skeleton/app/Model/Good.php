@@ -16,6 +16,7 @@ namespace App\Model;
  * @property int $status 商品状态
  * @property int $total_sale_count 总售出数量
  * @property string $labels 标签
+ * @property string $desc 商品简介
  * @property string $deleted_at 
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
