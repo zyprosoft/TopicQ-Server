@@ -6,6 +6,7 @@ namespace App\Service\Admin;
 use App\Constants\Constants;
 use App\Constants\ErrorCode;
 use App\Model\Post;
+use App\Model\User;
 use Com\Pdd\Pop\Sdk\Api\Request\PddDdkGoodsPromotionUrlGenerateRequest;
 use Com\Pdd\Pop\Sdk\Api\Request\PddDdkGoodsRecommendGetRequest;
 use Com\Pdd\Pop\Sdk\Api\Request\PddDdkGoodsSearchRequest;
@@ -180,7 +181,17 @@ class PddService extends AbstractService
         $post->mall_goods_buy_info = json_encode($buyInfo);
         $post->mall_type = self::MALL_TYPE_PDD;
         $post->audit_status = Constants::STATUS_DONE;
-        $post->owner_id = $this->userId();
+        //允许使用化身来发布
+        $userId = $this->userId();
+        $user = User::find($userId);
+        if ($user->role_id == Constants::USER_ROLE_ADMIN) {
+            //检查是不是在使用化身
+            if ($user->avatar_user_id > 0) {
+                Log::info("使用化身($user->avatar_user_id)");
+                $userId = $user->avatar_user_id;
+            }
+        }
+        $post->owner_id = $userId;
         $post->saveOrFail();
         return $this->success($post);
     }
