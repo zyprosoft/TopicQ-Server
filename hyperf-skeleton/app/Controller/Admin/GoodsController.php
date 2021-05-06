@@ -75,4 +75,26 @@ class GoodsController extends AbstractController
         $result = $this->service->allUnit();
         return $this->success($result);
     }
+
+    public function createPost(AppAdminRequest $request)
+    {
+        $this->validate(
+            [
+                'title' => 'string|required|min:1|max:40|sensitive',
+                'content' => 'string|required|min:1|max:5000|sensitive',
+                'imageList' => 'array|min:1|max:4',
+                'link' => 'string|min:1|max:500',
+                'goodsInfo' => 'array|required',
+                'forumId' => 'integer|exists:forum,forum_id'
+            ]
+        );
+        $title = $request->param('title');
+        $content = $request->param('content');
+        $goodsInfo = $request->param('goodsInfo');
+        $link = $request->param('link');
+        $imageList = $request->param('imageList');
+        $forumId = $request->param('forumId');
+        $result = $this->service->createPost($title,$content,$goodsInfo,$link,$imageList,$forumId);
+        return $this->success($result);
+    }
 }

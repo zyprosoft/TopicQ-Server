@@ -2,13 +2,17 @@
 
 
 namespace App\Service\Admin;
+use App\Constants\Constants;
 use App\Constants\ErrorCode;
 use App\Model\Good;
+use App\Model\Post;
 use App\Model\Unit;
+use App\Model\User;
 use App\Service\BaseService;
 use App\Service\UserService;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Facade\Auth;
+use ZYProSoft\Log\Log;
 
 class GoodsService extends BaseService
 {
@@ -87,5 +91,43 @@ class GoodsService extends BaseService
         $goods = GoodsService::checkOwnOrFail($goodsId);
         $goods->delete();
         return $this->success();
+    }
+
+    public function createPost(string $title, string $content, array $goodsInfo, string $link = null, array $imageList = null, int $forumId = null)
+    {
+        $post = new Post();
+        $post->title = $title;
+        $post->content = $content;
+        if (mb_strlen($content) < 40) {
+            $post->summary = $content;
+        } else {
+            $post->summary = mb_substr($content, 0, 40);
+        }
+        $post->mall_goods = json_encode($goodsInfo);
+        //商品图片作为图片使用
+        if (!isset($imageList)) {
+            $post->image_list = data_get($goodsInfo,'goods_image_url');
+        }else{
+            //增加商品图片
+            $imageList[] = data_get($goodsInfo,'goods_image_url');
+            $post->image_list = implode(';',$imageList);
+        }
+
+        if (isset($link)) {
+            $post->link = $link;
+        }
+        //固定板块
+        if (isset($forumId)) {
+            $post->forum_id = $forumId;
+        }else{
+            $post->forum_id = Constants::BUY_FORUM_ID;
+        }
+        $buyInfo = [];
+        $post->mall_goods_buy_info = json_encode($buyInfo);
+        $post->mall_type = Constants::MALL_TYPE_SELF;
+        $post->audit_status = Constants::STATUS_DONE;
+        $post->owner_id = $this->userId();//自营店铺只能管理员发布
+        $post->saveOrFail();
+        return $this->success($post);
     }
 }

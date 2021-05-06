@@ -114,4 +114,13 @@ class Constants
      * 发货完成
      */
     const ORDER_SUMMARY_FINISH = 3;
+
+    /**
+     * 自营店铺类型
+     */
+    const MALL_TYPE_SELF = 1;
+
+    const MALL_TYPE_PDD = 0;
+
+    const BUY_FORUM_ID = 9;
 }
