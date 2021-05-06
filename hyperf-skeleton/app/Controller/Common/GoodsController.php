@@ -7,6 +7,7 @@ use Hyperf\HttpServer\Annotation\AutoController;
 use Hyperf\Di\Annotation\Inject;
 use App\Service\GoodsService;
 use ZYProSoft\Http\AuthedRequest;
+use App\Service\Admin\PddService;
 
 /**
  * @AutoController (prefix="/common/goods")
@@ -20,6 +21,12 @@ class GoodsController extends AbstractController
      * @var GoodsService
      */
     protected GoodsService $service;
+
+    /**
+     * @Inject
+     * @var PddService
+     */
+    protected PddService $pddService;
 
     public function getGoodsListByShopId(AuthedRequest $request)
     {
@@ -46,6 +53,18 @@ class GoodsController extends AbstractController
     public function getThirdRecommendGoodsList(AuthedRequest $request)
     {
         $result = $this->service->getThirdRecommendGoodsList();
+        return $this->success($result);
+    }
+
+    public function getBuyJumpInfo(AuthedRequest $request)
+    {
+        $this->validate([
+            'goodsSign' => 'string|required|min:1',
+            'searchId' => 'string|min:1'
+        ]);
+        $goodsSign = $request->param('goodsSign');
+        $searchId = $request->param('searchId');
+        $result = $this->pddService->generateBuyInfo($goodsSign,$searchId);
         return $this->success($result);
     }
 }
