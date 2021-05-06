@@ -6,9 +6,17 @@ namespace App\Service;
 
 use App\Model\Good;
 use ZYProSoft\Log\Log;
+use App\Service\Admin\PddService;
+use Hyperf\Di\Annotation\Inject;
 
 class GoodsService extends BaseService
 {
+    /**
+     * @Inject
+     * @var PddService
+     */
+    protected PddService $pddService;
+
     public function getGoodsListByShopId(int $shopId)
     {
         $allGoods = Good::query()->where('shop_id', $shopId)
@@ -42,5 +50,10 @@ class GoodsService extends BaseService
         return Good::query()->where('category_id', $categoryId)
             ->where('shop_id', $shopId)
             ->get();
+    }
+
+    public function getThirdRecommendGoodsList()
+    {
+        return $this->pddService->recommendList(1,10);
     }
 }

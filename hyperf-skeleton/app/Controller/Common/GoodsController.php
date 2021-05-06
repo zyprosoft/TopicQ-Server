@@ -21,25 +21,31 @@ class GoodsController extends AbstractController
      */
     protected GoodsService $service;
 
-    public function getGoodsListByShopId()
+    public function getGoodsListByShopId(AuthedRequest $request)
     {
         $this->validate([
             'shopId' => 'integer|required|exists:shop,shop_id',
         ]);
-        $shopId = $this->request->param('shopId');
+        $shopId = $request->param('shopId');
         $result = $this->service->getGoodsListByShopId($shopId);
         return $this->success($result);
     }
 
-    public function getGoodsListByCategoryId()
+    public function getGoodsListByCategoryId(AuthedRequest $request)
     {
         $this->validate([
             'shopId' => 'integer|required|exists:shop,shop_id',
             'categoryId' => 'integer|required|exists:goods_category,category_id'
         ]);
-        $shopId = $this->request->param('shopId');
-        $categoryId = $this->request->param('categoryId');
+        $shopId = $request->param('shopId');
+        $categoryId = $request->param('categoryId');
         $result = $this->service->getGoodsListByCategoryId($categoryId, $shopId);
+        return $this->success($result);
+    }
+
+    public function getThirdRecommendGoodsList(AuthedRequest $request)
+    {
+        $result = $this->service->getThirdRecommendGoodsList();
         return $this->success($result);
     }
 }
