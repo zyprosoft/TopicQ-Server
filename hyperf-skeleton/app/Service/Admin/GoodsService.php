@@ -38,9 +38,6 @@ class GoodsService extends BaseService
             $goods->desc = $params['desc'];
         }
         $goods->owner_id = $this->userId();
-        //从图片里面得到image_id
-        $imageID = collect(explode('/',$goods->image))->last();
-        $goods->image_id = $imageID;
         $goods->saveOrFail();
 
         return $goods;
