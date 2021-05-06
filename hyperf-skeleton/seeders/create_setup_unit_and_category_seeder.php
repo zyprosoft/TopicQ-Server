@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Hyperf\Database\Seeders\Seeder;
+use Hyperf\DbConnection\Db;
 
 class CreateSetupUnitAndCategorySeeder extends Seeder
 {
