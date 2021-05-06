@@ -106,10 +106,10 @@ class GoodsService extends BaseService
         $post->mall_goods = json_encode($goodsInfo);
         //商品图片作为图片使用
         if (!isset($imageList)) {
-            $post->image_list = data_get($goodsInfo,'goods_image_url');
+            $post->image_list = data_get($goodsInfo,'image');
         }else{
             //增加商品图片
-            $imageList[] = data_get($goodsInfo,'goods_image_url');
+            $imageList[] = data_get($goodsInfo,'image');
             $post->image_list = implode(';',$imageList);
         }
 
