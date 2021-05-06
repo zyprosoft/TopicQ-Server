@@ -35,7 +35,7 @@ class GoodsController extends AbstractController
     {
         $this->validate([
             'shopId' => 'integer|required|exists:shop,shop_id',
-            'categoryId' => 'integer|required|exists:category,category_id'
+            'categoryId' => 'integer|required|exists:goods_category,category_id'
         ]);
         $shopId = $this->request->param('shopId');
         $categoryId = $this->request->param('categoryId');

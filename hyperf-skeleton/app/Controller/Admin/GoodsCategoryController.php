@@ -39,7 +39,7 @@ class GoodsCategoryController extends AbstractController
     public function update(AppAdminRequest $request)
     {
         $this->validate([
-            'categoryId' => 'integer|required|exists:category,category_id',
+            'categoryId' => 'integer|required|exists:goods_category,category_id',
             'name' => 'string|required|min:1|max:50|sensitive',
             'image' => 'string|min:1|max:500',
             'shopId' => 'integer|min:1|exists:shop,shop_id'
@@ -55,7 +55,7 @@ class GoodsCategoryController extends AbstractController
     public function delete(AppAdminRequest $request)
     {
         $this->validate([
-            'categoryId' => 'integer|min:1|exists:category,category_id',
+            'categoryId' => 'integer|min:1|exists:goods_category,category_id',
             'shopId' => 'integer|min:1|exists:shop,shop_id'
         ]);
         $categoryId = $request->param('categoryId');

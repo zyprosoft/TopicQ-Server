@@ -31,7 +31,7 @@ class GoodsController extends AbstractController
                 'required',
                 Rule::in(Unit::all()->pluck('name'))
             ],
-            'categoryId' => 'integer|required|exists:category,category_id',
+            'categoryId' => 'integer|required|exists:goods_category,category_id',
             'name' => 'string|required|min:1|max:12|sensitive',
             'image' => 'string|required|min:1|max:500',
             'shopId' => 'integer|required|exists:shop,shop_id',
