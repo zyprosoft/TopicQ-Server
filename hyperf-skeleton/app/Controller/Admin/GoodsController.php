@@ -69,4 +69,10 @@ class GoodsController extends AbstractController
         $result = $this->service->delete($goodsId);
         return $this->success($result);
     }
+
+    public function allUnit(AppAdminRequest $request)
+    {
+        $result = $this->service->allUnit();
+        return $this->success($result);
+    }
 }
