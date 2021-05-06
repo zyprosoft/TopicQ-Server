@@ -66,4 +66,14 @@ class ShopController extends AbstractController
         $result = $this->service->changeStatus($status, $shopId);
         return $this->success($result);
     }
+
+    public function changeRecommendStatus(AppAdminRequest $request)
+    {
+        $this->validate([
+            'status' => 'required|integer|in:0,1',
+        ]);
+        $status = $request->param('status');
+        $result = $this->service->changeShopRecommendStatus($status);
+        return $this->success($result);
+    }
 }

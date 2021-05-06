@@ -164,4 +164,15 @@ class ShopService extends BaseService
 
         return $shop;
     }
+
+    public function changeShopRecommendStatus(int $status)
+    {
+        $shop = Shop::first();
+        if(!$shop instanceof Shop) {
+            throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST);
+        }
+        $shop->self_mall_use_recommend = $status;
+        $shop->saveOrFail();
+        return $this->success();
+    }
 }
