@@ -37,7 +37,7 @@ class GoodsController extends AbstractController
             'shopId' => 'integer|required|exists:shop,shop_id',
             'price' => 'integer|required|min:1',
             'stock' => 'integer|required|min:1|max:9999',
-            'desc' => 'string|min:1|max:1000'
+            'desc' => 'string|required|min:1|max:1000'
         ]);
         $result = $this->service->create($request->getParams());
         return $this->success($result);

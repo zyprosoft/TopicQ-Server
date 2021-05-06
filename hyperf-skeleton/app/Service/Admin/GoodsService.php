@@ -34,7 +34,9 @@ class GoodsService extends BaseService
         $goods->price = $params['price'];
         $goods->unit = $params['unit'];
         $goods->image = $params['image'];
-        $goods->desc = $params['desc'];
+        if(isset($params['desc'])) {
+            $goods->desc = $params['desc'];
+        }
         $goods->owner_id = $this->userId();
         //从图片里面得到image_id
         $imageID = collect(explode('/',$goods->image))->last();
