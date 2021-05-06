@@ -7,6 +7,7 @@ use App\Service\Admin\OrderService;
 use ZYProSoft\Controller\AbstractController;
 use Hyperf\HttpServer\Annotation\AutoController;
 use Hyperf\Di\Annotation\Inject;
+use ZYProSoft\Http\AuthedRequest;
 
 /**
  * @AutoController (prefix="/admin/order")
@@ -84,6 +85,20 @@ class OrderController extends AbstractController
         $pageSize = $this->request->param('pageSize');
         $shopId = $this->request->param('shopId');
         $result = $this->service->getShopOrderList($shopId, $pageIndex, $pageSize);
+        return $this->success($result);
+    }
+
+    /**
+     * 与列表返回不一致的时候，主动刷新统计数据
+     * @param AuthedRequest $request
+     */
+    public function refreshShopOrderSummary(AuthedRequest $request)
+    {
+        $this->validate([
+            'shopId' => 'required|integer|exists:shop,shop_id',
+        ]);
+        $shopId = $request->param('shopId');
+        $result = $this->service->refreshShopOrderSummary($shopId);
         return $this->success($result);
     }
 }

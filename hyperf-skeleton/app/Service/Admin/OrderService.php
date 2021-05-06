@@ -151,4 +151,10 @@ class OrderService extends BaseService
 
         return $order;
     }
+
+    public function refreshShopOrderSummary(int $shopId)
+    {
+        $this->push(new RefreshShopOrderSummaryJob($shopId));
+        return $this->success();
+    }
 }

@@ -2,6 +2,7 @@
 
 
 namespace App\Controller\Common;
+use App\Http\AppAdminRequest;
 use ZYProSoft\Controller\AbstractController;
 use Hyperf\HttpServer\Annotation\AutoController;
 use Hyperf\Di\Annotation\Inject;
@@ -125,23 +126,9 @@ class OrderController extends AbstractController
      * 与列表返回不一致的时候主动刷新统计数据
      * @param AuthedRequest $request
      */
-    public function refreshUserOrderSummary(AuthedRequest $request)
+    public function refreshUserOrderSummary(AppAdminRequest $request)
     {
         $result = $this->service->refreshUserOrderSummary();
-        return $this->success($result);
-    }
-
-    /**
-     * 与列表返回不一致的时候，主动刷新统计数据
-     * @param AuthedRequest $request
-     */
-    public function refreshShopOrderSummary(AuthedRequest $request)
-    {
-        $this->validate([
-            'shopId' => 'required|integer|exists:shop,shop_id',
-        ]);
-        $shopId = $request->param('shopId');
-        $result = $this->service->refreshShopOrderSummary($shopId);
         return $this->success($result);
     }
 }
