@@ -32,6 +32,8 @@ namespace App\Model;
  * @property string $deleted_at 
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
+ * @property int $self_mall_use_recommend 自营店铺是否开启外部商品导购0否1是
+ * @property-read \App\Model\User $owner 
  */
 class Shop extends Model
 {
@@ -41,9 +43,7 @@ class Shop extends Model
      * @var string
      */
     protected $table = 'shop';
-
     protected $primaryKey = 'shop_id';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -55,8 +55,7 @@ class Shop extends Model
      *
      * @var array
      */
-    protected $casts = ['shop_id' => 'integer', 'type' => 'integer', 'owner_id' => 'integer', 'status' => 'integer', 'base_deliver_price' => 'integer', 'open_time' => 'integer', 'close_time' => 'integer', 'total_customer' => 'integer', 'total_order' => 'integer', 'wait_deliver_order_count' => 'integer', 'platform_cut' => 'integer', 'audit_status' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
-
+    protected $casts = ['shop_id' => 'integer', 'type' => 'integer', 'owner_id' => 'integer', 'status' => 'integer', 'base_deliver_price' => 'integer', 'open_time' => 'integer', 'close_time' => 'integer', 'total_customer' => 'integer', 'total_order' => 'integer', 'wait_deliver_order_count' => 'integer', 'platform_cut' => 'integer', 'audit_status' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'self_mall_use_recommend' => 'integer'];
     public function owner()
     {
         return $this->hasOne(User::class, 'user_id', 'owner_id');
