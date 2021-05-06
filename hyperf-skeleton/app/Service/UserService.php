@@ -12,6 +12,7 @@ use App\Model\Notification;
 use App\Model\PrivateMessage;
 use App\Model\TokenHistory;
 use App\Model\User;
+use App\Model\UserAddress;
 use App\Model\UserCommentPraise;
 use App\Model\UserMiniProgramUse;
 use App\Model\UserUpdate;
@@ -360,5 +361,33 @@ class UserService extends BaseService
             throw new HyperfCommonException(ErrorCode::USER_BLOCK_BY_PLATFORM);
         }
         return $user;
+    }
+
+    public
+    function addAddress(array $param)
+    {
+        //是否已经存在
+        $address = UserAddress::query()->where('nickname', $param['nickname'])
+            ->where('city', $param['city'])
+            ->where('country', $param['country'])
+            ->where('detail_info', $param['detailInfo'])
+            ->where('phone_number', $param['phoneNumber'])
+            ->first();
+        if (!$address instanceof UserAddress) {
+            $address = new UserAddress();
+        }
+        $address->nickname = $param['nickname'];
+        $address->postal_code = $param['postalCode'];
+        $address->province = $param['province'];
+        $address->city = $param['city'];
+        $address->country = $param['country'];
+        $address->detail_info = $param['detailInfo'];
+        if (isset($param['nationalCode'])) {
+            $address->national_code = $param['nationalCode'];
+        }
+        $address->phone_number = $param['phoneNumber'];
+        $address->owner_id = $this->userId();
+        $address->save();
+        return $this->success($address);
     }
 }

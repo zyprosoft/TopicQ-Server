@@ -115,4 +115,20 @@ class UserController extends AbstractController
         $result = $this->userService->advice($content);
         return $this->success($result);
     }
+
+    public function addAddress(AuthedRequest $request)
+    {
+        $this->validate([
+            'nickname' => 'string|required|min:1|max:20',
+            'postalCode' => 'digits:6|required',
+            'province' => 'string|required|min:1|max:30',
+            'city' => 'string|required|min:1|max:50',
+            'country' => 'string|required|min:1|max:50',
+            'detailInfo' => 'string|required|min:1|max:128',
+            'nationalCode' => 'string|min:1|max:20',
+            'phoneNumber'=> 'string|required|min:1|max:20'
+        ]);
+        $result = $this->userService->addAddress($request->getParams());
+        return $this->success($result);
+    }
 }
