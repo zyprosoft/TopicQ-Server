@@ -38,12 +38,11 @@ class CreateShopTable extends Migration
             $table->string('audit_note',500)
                 ->nullable()
                 ->comment('店铺审核总体备注');
-            $table->string('image_id',30)->after('image')->nullable()->comment('图片ID');
+            $table->string('image_id',30)->nullable()->comment('图片ID');
             $table->string('printer_sn',128)
                 ->nullable()
                 ->comment('店铺绑定的打印机');
             $table->string('printer_key',128)
-                ->after('printer_sn')
                 ->nullable()
                 ->comment('店铺绑定的打印机的key');
 

@@ -32,16 +32,16 @@ class CreateOrderTable extends Migration
             $table->tinyInteger('is_appreciate')->default(0)->comment('客户是否点赞');
             $table->dateTime('deliver_time')->nullable()->comment('发货时间');
             $table->dateTime('receive_time')->nullable()->comment('确认收货时间');
-            $table->unsignedInteger('order_expire')->default(30)->after('statistic_gap_hour')->comment('未支付订单过期时间，单位分钟,默认30分钟');
-            $table->string('wx_prepay_id',64)->after('receive_time')->nullable()->comment('微信支付统一订单号');
-            $table->dateTime('wx_prepay_id_time')->after('wx_prepay_id')->nullable()->comment('微信支付订单号生成时间');
-            $table->string('pay_status_note',500)->after('pay_status')->nullable()->comment('支付状态变更备注');
-            $table->string('wx_prepay_body',500)->after('wx_prepay_id_time')->nullable()->comment('微信支付申请统一订单时候的body');
-            $table->dateTime('pay_time')->after('pay_status')->nullable()->comment('支付成功时间');
-            $table->dateTime('pay_expire_time')->after('pay_status_note')->nullable()->comment('未支付状态下的过期时间');
-            $table->tinyInteger('is_comment')->after('is_appreciate')->default(0)->comment('是否已点评订单0:否1:是');
-            $table->string('print_order_id',128)->after('is_comment')->nullable()->comment('云打印机的返回的编号，如果打印了这个编号存在');
-            $table->dateTime('print_time')->after('print_order_id')->nullable()->comment('云打印成功的时间');
+            $table->unsignedInteger('order_expire')->default(30)->comment('未支付订单过期时间，单位分钟,默认30分钟');
+            $table->string('wx_prepay_id',64)->nullable()->comment('微信支付统一订单号');
+            $table->dateTime('wx_prepay_id_time')->nullable()->comment('微信支付订单号生成时间');
+            $table->string('pay_status_note',500)->nullable()->comment('支付状态变更备注');
+            $table->string('wx_prepay_body',500)->nullable()->comment('微信支付申请统一订单时候的body');
+            $table->dateTime('pay_time')->nullable()->comment('支付成功时间');
+            $table->dateTime('pay_expire_time')->nullable()->comment('未支付状态下的过期时间');
+            $table->tinyInteger('is_comment')->default(0)->comment('是否已点评订单0:否1:是');
+            $table->string('print_order_id',128)->nullable()->comment('云打印机的返回的编号，如果打印了这个编号存在');
+            $table->dateTime('print_time')->nullable()->comment('云打印成功的时间');
 
             $table->unique('order_no');
             $table->index('pay_status');
