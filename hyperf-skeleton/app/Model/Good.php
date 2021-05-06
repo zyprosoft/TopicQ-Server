@@ -29,6 +29,9 @@ class Good extends Model
      * @var string
      */
     protected $table = 'goods';
+
+    protected $primaryKey = 'goods_id';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -41,4 +44,18 @@ class Good extends Model
      * @var array
      */
     protected $casts = ['goods_id' => 'integer', 'stock' => 'integer', 'category_id' => 'integer', 'shop_id' => 'integer', 'owner_id' => 'integer', 'price' => 'integer', 'status' => 'integer', 'total_sale_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+
+    public function category()
+    {
+        return $this->hasOne(GoodsCategory::class,'category_id','category_id');
+    }
+
+    public function shop()
+    {
+        return $this->hasOne(Shop::class, 'shop_id', 'shop_id');
+    }
+    public function owner()
+    {
+        return $this->hasOne(User::class, 'user_id', 'owner_id');
+    }
 }
