@@ -14,5 +14,18 @@ class CreateSetupUnitAndCategorySeeder extends Seeder
     public function run()
     {
         //
+        Db::table('unit')->insertOrIgnore([
+            ['name' => '次'],
+            ['name' => '斤'],
+            ['name' => '份'],
+            ['name' => '个'],
+            ['name' => '包'],
+            ['name' => '盒'],
+            ['name' => '瓶'],
+            ['name' => '桶'],
+            ['name' => '箱'],
+            ['name' => 'L'],
+            ['name' => '两'],
+        ]);
     }
 }
