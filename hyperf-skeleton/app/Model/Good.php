@@ -20,6 +20,10 @@ namespace App\Model;
  * @property string $deleted_at 
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
+ * @property int $bind_forum_id 绑定板块ID
+ * @property-read \App\Model\GoodsCategory $category 
+ * @property-read \App\Model\User $owner 
+ * @property-read \App\Model\Shop $shop 
  */
 class Good extends Model
 {
@@ -29,9 +33,7 @@ class Good extends Model
      * @var string
      */
     protected $table = 'goods';
-
     protected $primaryKey = 'goods_id';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -43,18 +45,15 @@ class Good extends Model
      *
      * @var array
      */
-    protected $casts = ['goods_id' => 'integer', 'stock' => 'integer', 'category_id' => 'integer', 'shop_id' => 'integer', 'owner_id' => 'integer', 'price' => 'integer', 'status' => 'integer', 'total_sale_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
-
+    protected $casts = ['goods_id' => 'integer', 'stock' => 'integer', 'category_id' => 'integer', 'shop_id' => 'integer', 'owner_id' => 'integer', 'price' => 'integer', 'status' => 'integer', 'total_sale_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'bind_forum_id' => 'integer'];
     public function category()
     {
-        return $this->hasOne(GoodsCategory::class,'category_id','category_id');
+        return $this->hasOne(GoodsCategory::class, 'category_id', 'category_id');
     }
-
     public function shop()
     {
         return $this->hasOne(Shop::class, 'shop_id', 'shop_id');
     }
-
     public function owner()
     {
         return $this->hasOne(User::class, 'user_id', 'owner_id');
