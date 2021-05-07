@@ -34,7 +34,7 @@ class OrderController extends AbstractController
             'note' => 'string|min:1|max:128|sensitive',//这个信息会外显，需要过滤
             'mobile' => 'required|string|min:1|max:11',
             'deliverType' => 'required|integer|in:0,1',
-            'hasSubscribe' => 'integer|in:0,1|default:0',//是不是包含虚拟商品，只有选了1才会校验用户是否已经订阅过
+            'hasSubscribe' => 'integer|in:0,1',//是不是包含虚拟商品，只有选了1才会校验用户是否已经订阅过
         ]);
         $result = $this->service->create($request->getParams());
         return $this->success($result);
