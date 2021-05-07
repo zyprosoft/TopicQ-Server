@@ -537,7 +537,7 @@ class PostService extends BaseService
         if ($user->role_id < Constants::USER_ROLE_ADMIN) {
             $forum = Forum::findOrFail($forumId);
             //授权或者订阅类板块
-            if($forum->need_auth || $forum->goods_id > 0) {
+            if($forum->need_auth == 1 || $forum->goods_id > 0) {
                 $userSubscribe = UserSubscribe::query()->where('user_id',$user->user_id)
                     ->where('forum_id',$forumId)
                     ->first();
