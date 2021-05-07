@@ -17,6 +17,7 @@ class CreateSubscribeForumPasswordTable extends Migration
             $table->bigInteger('forum_id')->comment('绑定的板块');
             $table->tinyInteger('status')->comment('0未使用1已使用');
             $table->bigInteger('owner_id')->comment('被谁领取了');
+            $table->bigInteger('price')->default(0)->comment('钥匙串价值单位分0不重要>0需要显示');
 
             $table->unique('unlock_sn_no');
             $table->index('forum_id');
