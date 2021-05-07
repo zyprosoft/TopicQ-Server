@@ -12,7 +12,10 @@ use App\Model\ShopOrderSummary;
 use App\Service\BaseService;
 use Carbon\Carbon;
 use Hyperf\DbConnection\Db;
+use ZYProSoft\Constants\ErrorCode;
+use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Log\Log;
+use function GuzzleHttp\Promise\inspect;
 
 class OrderService extends BaseService
 {
@@ -131,6 +134,34 @@ class OrderService extends BaseService
             if ($order->deliver_status == $status) {
                 Log::info("orderNo($orderNo) update deliver status is the same!");
                 return $order;
+            }
+            $order->deliver_status = $status;
+            $order->deliver_time = Carbon::now()->toDateTimeString();
+            $order->saveOrFail();
+        });
+
+        //确认发货成功，异步刷新店铺信息
+        $this->push(new RefreshShopInfoJob($order->shop_id));
+
+        //异步刷新店铺订单统计信息
+        $this->push(new RefreshShopOrderSummaryJob($order->shop_id));
+
+        //异步刷新用户订单统计信息
+        $this->push(new RefreshUserOrderSummaryJob($order->owner_id));
+
+        //发送订单状态变化通知
+        $this->push(new SendUserOrderStatusChangeMessageJob($order->order_no));
+
+        return $order;
+    }
+
+    public function autoDeliveryUpdateStatus(string $orderNo, int $status)
+    {
+        $order = null;
+        Db::transaction(function () use ($orderNo, $status, &$order) {
+            $order = Order::query()->where('order_no',$orderNo)->lockForUpdate()->first();
+            if (!$order instanceof Order) {
+                throw new HyperfCommonException(ErrorCode::RECORD_NOT_EXIST);
             }
             $order->deliver_status = $status;
             $order->deliver_time = Carbon::now()->toDateTimeString();
