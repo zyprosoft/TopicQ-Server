@@ -128,4 +128,9 @@ class ErrorCode extends AbstractConstants
      * @Message("付费或授权板块未获得权限")
      */
     const FORUM_NOT_PAY_OR_AUTH = 30019;
+
+    /**
+     * @Message("包含已经订阅过的商品!")
+     */
+    const BUY_FORUM_NOT_NEED = 30020;
 }

@@ -16,6 +16,7 @@ use App\Model\OrderGood;
 use App\Model\Shop;
 use App\Model\User;
 use App\Model\UserOrderSummary;
+use App\Model\UserSubscribe;
 use Carbon\Carbon;
 use Hyperf\DbConnection\Db;
 use ZYProSoft\Exception\HyperfCommonException;
@@ -23,6 +24,7 @@ use ZYProSoft\Facade\Auth;
 use ZYProSoft\Log\Log;
 use Hyperf\Di\Annotation\Inject;
 use App\Service\Admin\ShopService;
+use const Zipkin\Tags\ERROR;
 
 class OrderService extends BaseService
 {
@@ -85,6 +87,24 @@ class OrderService extends BaseService
 
         //店铺是不是已经处于停止发布状态
         $shop = ShopService::checkShopPublishOrFail($params['shopId']);
+
+        //用户是不是买的虚拟订阅产品，并且已经订购过了
+        if (isset($params['hasSubscribe']) && $params['hasSubscribe'] == 1) {
+            $goodsList = collect($params['goodsList']);
+            $goodsIds = $goodsList->pluck('goodsId');
+            $existGoodsList = Good::findMany($goodsIds);
+            $existGoodsList->map(function (Good $good) {
+                if($good->bind_forum_id > 0) {
+                    //检查用户是否已经订阅过了
+                    $subscribe = UserSubscribe::query()->where('user_id',$this->userId())
+                        ->where('forum_id',$good->bind_forum_id)
+                        ->first();
+                    if ($subscribe instanceof UserSubscribe) {
+                        throw new HyperfCommonException(ErrorCode::BUY_FORUM_NOT_NEED);
+                    }
+                }
+            });
+        }
 
         $order = null;
         Db::transaction(function () use ($params, &$order) {
