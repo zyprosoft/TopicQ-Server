@@ -4,6 +4,7 @@
 namespace App\Service\Admin;
 use App\Constants\Constants;
 use App\Model\Forum;
+use App\Model\Good;
 use App\Model\Post;
 use App\Model\SubscribeForumPassword;
 use App\Service\BaseService;
@@ -60,6 +61,12 @@ class ForumService extends BaseService
                 $forum->max_member_count = $maxMemberCount;
              }
             $forum->saveOrFail();
+            //绑定对应的板块ID到商品上
+            if (isset($goodsId)) {
+                $goods = Good::findOrFail($goodsId);
+                $goods->bind_forum_id = $forum->forum_id;
+                $goods->saveOrFail();
+            }
             if(isset($password) && isset($maxMemberCount)) {
                 //创建对应授权批次
                 $policy = new SubscribeForumPassword();
@@ -118,6 +125,12 @@ class ForumService extends BaseService
                 $forum->max_member_count = $maxMemberCount;
             }
             $forum->saveOrFail();
+            //绑定对应的板块ID到商品上
+            if (isset($goodsId)) {
+                $goods = Good::findOrFail($goodsId);
+                $goods->bind_forum_id = $forum->forum_id;
+                $goods->saveOrFail();
+            }
             if(isset($password) && isset($maxMemberCount)) {
                 //创建对应授权批次
                 $policy = new SubscribeForumPassword();
