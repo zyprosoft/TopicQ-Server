@@ -98,4 +98,9 @@ class ErrorCode extends AbstractConstants
      * @Message("下单商品超过当前库存,请修改数量!")
      */
     const ORDER_GOODS_COUNT_OVER_STOCK = 30013;
+
+    /**
+     * @Message("解锁订阅密码错误!")
+     */
+    const FORUM_UNLOCK_PASSWORD_ERROR = 30014;
 }

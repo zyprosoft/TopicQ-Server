@@ -65,6 +65,15 @@ class ForumService extends BaseService
         return $this->success();
     }
 
+    public function unlockSubscribe(int $forumId, string $password)
+    {
+        $forum = Forum::findOrFail($forumId);
+        if (password_verify($password,$forum->password) == false) {
+            throw new HyperfCommonException(\App\Constants\ErrorCode::FORUM_UNLOCK_PASSWORD_ERROR);
+        }
+        return $this->subscribe($forumId);
+    }
+
     public function buyAndSubscribe(int $forumId)
     {
         $forum = Forum::findOrFail($forumId);

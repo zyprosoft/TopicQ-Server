@@ -244,6 +244,18 @@ class PostController extends AbstractController
         return $this->success($result);
     }
 
+    public function unlockSubscribe(AuthedRequest $request)
+    {
+        $this->validate([
+            'password' => 'string|required|min:1|max:30',
+            'forumId' => 'integer|required|exists:forum,forum_id',
+        ]);
+        $forumId = $request->param('forumId');
+        $password = $request->param('password');
+        $result = $this->forumService->unlockSubscribe($forumId,$password);
+        return $this->success($result);
+    }
+
     public function unsubscribe(AuthedRequest $request)
     {
         $this->validate([
