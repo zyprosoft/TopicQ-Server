@@ -23,7 +23,6 @@ class CreateSubscribeForumPasswordTable extends Migration
 
             $table->index('forum_id');
             $table->index('status');
-            $table->index('owner_id');
             $table->timestamps();
             $table->softDeletes();
             $table->engine = "InnoDB";

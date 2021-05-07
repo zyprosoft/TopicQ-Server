@@ -17,7 +17,7 @@ class CreateUserSubscribePasswordTable extends Migration
             $table->bigInteger('owner_id')->comment('归属谁');
             $table->tinyInteger('status')->default(0)->comment('0待使用1已使用');
             $table->bigInteger('policy_id')->comment('归属哪个批次');
-            
+
             $table->unique(['unlock_sn','policy_id']);
             $table->index('owner_id');
             $table->index('status');
