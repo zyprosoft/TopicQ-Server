@@ -56,7 +56,7 @@ class WxPayService extends BaseService
             Db::transaction(function () use ($message, $fail, &$order) {
 
                 $orderNo = data_get($message, 'out_trade_no');
-                $order = Order::query()->where('order_no', $orderNo)->lockForUpdate()->first();
+                $order = Order::query()->where('order_no', $orderNo)->with(['order_goods'])->lockForUpdate()->first();
                 if (!$order instanceof Order) {
                     Log::info("($orderNo)订单不存在!");
                     return true;
