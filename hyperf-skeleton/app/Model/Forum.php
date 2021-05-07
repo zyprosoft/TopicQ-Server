@@ -19,10 +19,8 @@ namespace App\Model;
  * @property \Carbon\Carbon $updated_at 
  * @property string $deleted_at 
  * @property string $password 密码
- * @property int $max_member_count 最多订阅用户0为不限制
- * @property int $need_buy 是否需要付费0否1是
  * @property int $need_auth 是否需要密码授权
- * @property int $price 付费价格单位分
+ * @property int $goods_id 绑定商品的ID
  * @property string $buy_tip 付费提示内容
  * @property-read \Hyperf\Database\Model\Collection|\App\Model\Forum[] $child_forum_list 
  * @property-read \App\Model\Forum $parent_forum 
@@ -47,10 +45,8 @@ class Forum extends Model
      *
      * @var array
      */
-    protected $casts = ['forum_id' => 'integer', 'type' => 'integer', 'parent_forum_id' => 'integer', 'sort_index' => 'integer', 'total_child_count' => 'integer', 'total_post_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'max_member_count' => 'integer', 'need_buy' => 'integer', 'need_auth' => 'integer', 'price' => 'integer'];
-
+    protected $casts = ['forum_id' => 'integer', 'type' => 'integer', 'parent_forum_id' => 'integer', 'sort_index' => 'integer', 'total_child_count' => 'integer', 'total_post_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'max_member_count' => 'integer', 'need_buy' => 'integer', 'need_auth' => 'integer', 'price' => 'integer', 'goods_id' => 'integer'];
     protected $hidden = ['password'];
-
     public function parent_forum()
     {
         return $this->hasOne(Forum::class, 'forum_id', 'parent_forum_id');
