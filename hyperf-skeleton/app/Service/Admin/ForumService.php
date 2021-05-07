@@ -50,6 +50,10 @@ class ForumService extends BaseService
         if (isset($buyTip)) {
             $forum->buy_tip = $buyTip;
         }
+        if (isset($maxMemberCount)) {
+            $forum->max_member_count = $maxMemberCount;
+            //创建对应数量的解锁密码
+        }
         $forum->saveOrFail();
     }
 
