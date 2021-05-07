@@ -10,13 +10,10 @@ use App\Job\AddShopNotificationJob;
 use App\Job\RefreshOrderPayStatusJob;
 use App\Job\RefreshShopOrderSummaryJob;
 use App\Job\RefreshUserOrderSummaryJob;
-use App\Job\UpdateShopUnreadMessageCountJob;
 use App\Model\Good;
-use App\Model\Notification;
 use App\Model\Order;
 use App\Model\OrderGood;
 use App\Model\Shop;
-use App\Model\ShopNotification;
 use App\Model\User;
 use App\Model\UserOrderSummary;
 use Carbon\Carbon;
@@ -385,5 +382,14 @@ class OrderService extends BaseService
         $job->level = Constants::MESSAGE_LEVEL_WARN;
         $job->levelLabel = "点评";
         $this->push($job);
+    }
+
+    /**
+     * 付费订阅
+     * @param int $forumId
+     */
+    public function buyForum(int $forumId)
+    {
+
     }
 }

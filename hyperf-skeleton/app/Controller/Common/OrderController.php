@@ -3,6 +3,7 @@
 
 namespace App\Controller\Common;
 use App\Http\AppAdminRequest;
+use Qiniu\Auth;
 use ZYProSoft\Controller\AbstractController;
 use Hyperf\HttpServer\Annotation\AutoController;
 use Hyperf\Di\Annotation\Inject;

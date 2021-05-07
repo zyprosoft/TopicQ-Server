@@ -48,6 +48,9 @@ class Forum extends Model
      * @var array
      */
     protected $casts = ['forum_id' => 'integer', 'type' => 'integer', 'parent_forum_id' => 'integer', 'sort_index' => 'integer', 'total_child_count' => 'integer', 'total_post_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'max_member_count' => 'integer', 'need_buy' => 'integer', 'need_auth' => 'integer', 'price' => 'integer'];
+
+    protected $hidden = ['password'];
+
     public function parent_forum()
     {
         return $this->hasOne(Forum::class, 'forum_id', 'parent_forum_id');

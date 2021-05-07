@@ -25,7 +25,8 @@ class ForumController extends AbstractController
     {
         $this->validate([
             'name'=> 'string|required|min:1|max:24',
-            'icon' => 'string|required|min:1|max:500'
+            'icon' => 'string|required|min:1|max:500',
+            'goodsId' => 'integer|exists:goods,goods_id',//创建付费订阅必选信息
         ]);
         $name = $request->param('name');
         $icon = $request->param('icon');
