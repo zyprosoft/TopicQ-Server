@@ -56,7 +56,7 @@ class WxPayService extends BaseService
             Db::transaction(function () use ($message, $fail, &$order) {
 
                 $orderNo = data_get($message, 'out_trade_no');
-                $order = Order::query()->where('order_no', $orderNo)->with(['order_goods'])->lockForUpdate()->first();
+                $order = Order::query()->where('order_no', $orderNo)->lockForUpdate()->first();
                 if (!$order instanceof Order) {
                     Log::info("($orderNo)订单不存在!");
                     return true;
@@ -89,7 +89,8 @@ class WxPayService extends BaseService
                         $order->pay_status_note = '微信支付回调通知支付成功确认完成';
 
                         //查看订单是不是订阅商品
-                        $goods = $order->order_goods->first();
+                        $orderGoods = $order->order_goods->first();
+                        $goods = Good::find($orderGoods->goods_id);
                         Log::info("订单第一个商品:".json_encode($goods));
                         if($goods instanceof Good) {
                             if ($goods->bind_forum_id > 0) {
