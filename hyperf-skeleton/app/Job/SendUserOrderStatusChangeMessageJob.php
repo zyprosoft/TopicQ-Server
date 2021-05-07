@@ -38,12 +38,13 @@ class SendUserOrderStatusChangeMessageJob extends Job
 
         //现在只发送站内通知信息
         $deliverStatus = $order->deliver_status==Constants::STATUS_WAIT?'待发货':'已发货';
+        $tab = $order->deliver_status==Constants::STATUS_WAIT? 1:2;
         $message = "您的订单【{$order->order_no}】已进入{$deliverStatus}状态";
         $title = "订单状态已更新";
         $levelLabel = "订单";
         $level = Constants::MESSAGE_LEVEL_ERROR;
         $service = ApplicationContext::getContainer()->get(NotificationService::class);
-        $keyInfo = json_encode(['order_no'=>$order->order_no]);
+        $keyInfo = json_encode(['order_no'=>$order->order_no,'tab'=>$tab]);
         $service->create($order->owner_id,$title,$message,false,$level,$levelLabel,$keyInfo);
 
         $miniProgramConfig = config('weixin.miniProgram');
