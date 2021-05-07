@@ -98,7 +98,6 @@ class ForumController extends AbstractController
                 'content' => 'string|required|min:1|max:5000|sensitive',
                 'imageList' => 'array|min:1|max:4',
                 'link' => 'string|min:1|max:500',
-                'goodsInfo' => 'array|required',
                 'forumId' => 'integer|exists:forum,forum_id',
                 'policyId' => 'integer|required|exists:subscribe_forum_password,policy_id'
             ]
