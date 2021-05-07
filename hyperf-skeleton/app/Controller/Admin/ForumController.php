@@ -47,7 +47,11 @@ class ForumController extends AbstractController
         $this->validate([
             'forumId' => 'integer|required|exists:forum,forum_id',
             'name'=> 'string|required|min:1|max:24',
-            'icon' => 'string|required|min:1|max:500'
+            'icon' => 'string|required|min:1|max:500',
+            'needAuth' => 'string|required_with:maxMemberCount|in:0,1',
+            'maxMemberCount' => 'integer|required_unless:needAuth,0|min:1',
+            'buyTip' => 'string|required_with:goodsId|min:1|max:500',
+            'goodsId' => 'integer|required_with:buyTip|exists:goods,goods_id',//创建付费订阅必选信息
         ]);
         $forumId = $request->param('forumId');
         $name = $request->param('name');
