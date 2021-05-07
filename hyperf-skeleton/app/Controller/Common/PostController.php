@@ -247,12 +247,14 @@ class PostController extends AbstractController
     public function unlockSubscribe(AuthedRequest $request)
     {
         $this->validate([
-            'password' => 'string|required|min:1|max:30',
+            'unlockSn' => 'string|required|min:1|max:64',
+            'policyId' => 'integer|required|exists:subscribe_forum_password,policy_id',
             'forumId' => 'integer|required|exists:forum,forum_id',
         ]);
         $forumId = $request->param('forumId');
-        $password = $request->param('password');
-        $result = $this->forumService->unlockSubscribe($forumId,$password);
+        $sn = $request->param('unlockSn');
+        $policyId = $request->param('policyId');
+        $result = $this->forumService->unlockSubscribe($forumId,$sn,$policyId);
         return $this->success($result);
     }
 
@@ -295,6 +297,30 @@ class PostController extends AbstractController
     public function mySubscribeList(AuthedRequest $request)
     {
         $result = $this->forumService->mySubscribeList();
+        return $this->success($result);
+    }
+
+    public function getMySubscribeVoucherList(AuthedRequest $request)
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30',
+        ]);
+        $pageIndex = $request->param('pageIndex');
+        $pageSize = $request->param('pageSize');
+        $result = $this->forumService->getMySubscribeVoucherList($pageIndex, $pageSize);
+        return $this->success($result);
+    }
+
+    public function getUnlockForumSn(AuthedRequest $request)
+    {
+        $this->validate([
+            'policyId' => 'integer|required|exists:subscribe_forum_password,policy_id',
+            'forumId' => 'integer|required|exists:forum,forum_id',
+        ]);
+        $policyId = $request->param('policyId');
+        $forumId = $request->param('forumId');
+        $result = $this->forumService->getUnlockForumSn($forumId,$policyId);
         return $this->success($result);
     }
 }

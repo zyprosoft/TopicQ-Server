@@ -4,6 +4,7 @@
 namespace App\Service\Admin;
 use App\Constants\Constants;
 use App\Model\Forum;
+use App\Model\Post;
 use App\Model\SubscribeForumPassword;
 use App\Service\BaseService;
 use Carbon\Carbon;
@@ -101,5 +102,54 @@ class ForumService extends BaseService
             $forum->parent_forum_id = $parentForumId;
         }
         $forum->saveOrFail();
+    }
+
+    public function getForumSubscribeVoucherList(int $pageIndex, int $pageSize)
+    {
+        $list = SubscribeForumPassword::query()->offset($pageIndex * $pageSize)
+            ->limit($pageSize)
+            ->get();
+        $total = SubscribeForumPassword::query()->count();
+
+        return ['total'=>$total,'list'=>$list];
+    }
+
+    public function createPostForPolicy(int $policyId, string $title, string $content, array $goodsInfo, string $link = null, array $imageList = null, int $forumId = null)
+    {
+        $post = new Post();
+        $post->title = $title;
+        $post->content = $content;
+        if (mb_strlen($content) < 40) {
+            $post->summary = $content;
+        } else {
+            $post->summary = mb_substr($content, 0, 40);
+        }
+        $post->mall_goods = json_encode($goodsInfo);
+        //商品图片作为图片使用
+        if (!isset($imageList)) {
+            $post->image_list = data_get($goodsInfo,'image');
+        }else{
+            //增加商品图片
+            $imageList[] = data_get($goodsInfo,'image');
+            $post->image_list = implode(';',$imageList);
+        }
+
+        if (isset($link)) {
+            $post->link = $link;
+        }
+        //固定板块
+        if (isset($forumId)) {
+            $post->forum_id = $forumId;
+        }else{
+            $post->forum_id = Constants::FORUM_MAIN_FORUM_ID;
+        }
+        $post->policy_id = $policyId;
+        $buyInfo = [];
+        $post->mall_goods_buy_info = json_encode($buyInfo);
+        $post->mall_type = Constants::MALL_TYPE_SELF;
+        $post->audit_status = Constants::STATUS_DONE;
+        $post->owner_id = $this->userId();//自营店铺只能管理员发布
+        $post->saveOrFail();
+        return $this->success($post);
     }
 }

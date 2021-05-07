@@ -7,6 +7,7 @@ use Hyperf\HttpServer\Annotation\AutoController;
 use Hyperf\Di\Annotation\Inject;
 use App\Service\Admin\ForumService;
 use App\Http\AppAdminRequest;
+use ZYProSoft\Http\AuthedRequest;
 
 /**
  * @AutoController (prefix="/admin/forum")
@@ -62,6 +63,42 @@ class ForumController extends AbstractController
         ]);
         $forumId = $request->param('forumId');
         $result = $this->service->getForum($forumId);
+        return $this->success($result);
+    }
+
+    public function getForumSubscribeVoucherList(AppAdminRequest $request)
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30',
+        ]);
+        $pageIndex = $request->param('pageIndex');
+        $pageSize = $request->param('pageSize');
+        $result = $this->service->getForumSubscribeVoucherList($pageIndex, $pageSize);
+        return $this->success($result);
+    }
+
+    public function createPostForPolicy(AppAdminRequest $request)
+    {
+        $this->validate(
+            [
+                'title' => 'string|required|min:1|max:40|sensitive',
+                'content' => 'string|required|min:1|max:5000|sensitive',
+                'imageList' => 'array|min:1|max:4',
+                'link' => 'string|min:1|max:500',
+                'goodsInfo' => 'array|required',
+                'forumId' => 'integer|exists:forum,forum_id',
+                'policyId' => 'integer|required|exists:subscribe_forum_password,policy_id'
+            ]
+        );
+        $title = $request->param('title');
+        $content = $request->param('content');
+        $goodsInfo = $request->param('goodsInfo');
+        $link = $request->param('link');
+        $imageList = $request->param('imageList');
+        $forumId = $request->param('forumId');
+        $policyId = $request->param('policyId');
+        $result = $this->service->createPostForPolicy($policyId,$title,$content,$goodsInfo,$link,$imageList,$forumId);
         return $this->success($result);
     }
 }
