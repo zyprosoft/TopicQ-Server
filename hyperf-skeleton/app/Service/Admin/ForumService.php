@@ -24,9 +24,10 @@ class ForumService extends BaseService
                                 int $type=0, string $area=null,
                                 string $country=null, int $parentForumId=null,
                                 int $needAuth = null, int $goodsId=null,
-                                string $buyTip=null, int $maxMemberCount=null)
+                                string $buyTip=null, int $maxMemberCount=null,
+                                int $unlockPrice=null)
     {
-        Db::transaction(function() use ($name,$icon,$type,$area,$country,$parentForumId, $needAuth, $goodsId,$buyTip,$maxMemberCount){
+        Db::transaction(function() use ($name,$icon,$type,$area,$country,$parentForumId, $needAuth, $goodsId,$buyTip,$maxMemberCount,$unlockPrice){
             $forum = Forum::query()->where('name',$name)
                 ->where('type',$type)
                 ->first();
@@ -78,14 +79,14 @@ class ForumService extends BaseService
     public function editForum(int $forumId, string $name = null,string $icon = null,
                               int $type=null, string $area=null,string $country=null,
                               int $parentForumId=null,int $needAuth = null, int $goodsId=null,
-                              string $buyTip=null, int $maxMemberCount=null)
+                              string $buyTip=null, int $maxMemberCount=null, int $unlockPrice=null)
     {
         $forum = Forum::query()->where('forum_id',$forumId)
             ->first();
         if (!$forum instanceof Forum) {
             throw new HyperfCommonException(ErrorCode::RECORD_NOT_EXIST);
         }
-        Db::transaction(function() use ($forum,$name,$icon,$type,$area,$country,$parentForumId, $needAuth, $goodsId,$buyTip,$maxMemberCount){
+        Db::transaction(function() use ($forum,$name,$icon,$type,$area,$country,$parentForumId, $needAuth, $goodsId,$buyTip,$maxMemberCount,$unlockPrice){
             if (isset($name)) {
                 $forum->name = $name;
             }
