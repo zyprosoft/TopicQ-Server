@@ -4,7 +4,6 @@
 namespace App\Service\Admin;
 use App\Constants\Constants;
 use App\Model\Forum;
-use App\Model\UserSubscribe;
 use App\Service\BaseService;
 use ZYProSoft\Constants\ErrorCode;
 use ZYProSoft\Exception\HyperfCommonException;
@@ -19,7 +18,8 @@ class ForumService extends BaseService
     public function createForum(string $name,string $icon,
                                 int $type=0, string $area=null,
                                 string $country=null, int $parentForumId=null,
-                                string $password=null, int $goodsId=null, string $buyTip=null)
+                                string $password=null, int $goodsId=null,
+                                string $buyTip=null, int $maxMemberCount=null)
     {
         $forum = Forum::query()->where('name',$name)
                                 ->where('type',$type)
