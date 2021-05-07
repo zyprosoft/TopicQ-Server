@@ -257,6 +257,7 @@ class PostService extends BaseService
         if (!$post instanceof Post) {
             throw new HyperfCommonException(ErrorCode::POST_NOT_EXIST);
         }
+
         if(!empty($post->image_list)) {
             $post->image_list = explode(';', $post->image_list);
         }
@@ -268,6 +269,22 @@ class PostService extends BaseService
             $post->mall_goods_buy_info = json_decode($post->mall_goods_buy_info);
         }
         if (Auth::isGuest() == false) {
+            //从逻辑层面杜绝订阅或者授权板块的帖子被查看
+            $forum = Forum::findOrFail($post->forum_id);
+            $user = $this->user();
+            $isAdmin = false;
+            if ($user instanceof User) {
+                $isAdmin = $user->isAdmin();
+            }
+            //需要检查订阅权限，并且不是管理员
+            if($forum->needCheckSubscribe() && $isAdmin == false) {
+                $userSubscribe = UserSubscribe::query()->where('user_id',$this->userId())
+                                                               ->where('forum_id',$post->forum_id)
+                                                               ->first();
+                if (!$userSubscribe instanceof UserSubscribe) {
+                    throw new HyperfCommonException(ErrorCode::FORUM_POST_NEED_PAY_OR_AUTH);
+                }
+            }
             //投票状态
             $userVote = UserVote::query()->where('user_id', $this->userId())
                 ->where('post_id', $postId)

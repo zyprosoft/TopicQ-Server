@@ -133,4 +133,9 @@ class ErrorCode extends AbstractConstants
      * @Message("包含已经订阅过的商品!")
      */
     const BUY_FORUM_NOT_NEED = 30020;
+
+    /**
+     * @Message("本板块帖子需要付费或者授权才可查看!")
+     */
+    const FORUM_POST_NEED_PAY_OR_AUTH = 30021;
 }

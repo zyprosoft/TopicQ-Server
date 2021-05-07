@@ -61,4 +61,9 @@ class Forum extends Model
     {
         return $this->hasOne(Good::class, 'goods_id', 'goods_id');
     }
+
+    public function needCheckSubscribe()
+    {
+        return $this->need_auth == 1 || $this->goods_id > 0;
+    }
 }
