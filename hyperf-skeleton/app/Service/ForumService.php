@@ -7,13 +7,18 @@ namespace App\Service;
 use App\Constants\Constants;
 use App\Model\Forum;
 use App\Model\Good;
+use App\Model\SubscribeForumPassword;
 use App\Model\User;
 use App\Model\UserAddress;
 use App\Model\UserSubscribe;
+use App\Model\UserSubscribePassword;
+use Carbon\Carbon;
+use Hyperf\DbConnection\Db;
 use ZYProSoft\Constants\ErrorCode;
 use ZYProSoft\Exception\HyperfCommonException;
 use App\Service\OrderService;
 use Hyperf\Di\Annotation\Inject;
+use ZYProSoft\Log\Log;
 
 class ForumService extends BaseService
 {
@@ -65,13 +70,31 @@ class ForumService extends BaseService
         return $this->success();
     }
 
-    public function unlockSubscribe(int $forumId, string $password)
+    public function unlockSubscribe(int $forumId, string $unlockSn, int $policyId)
     {
-        $forum = Forum::findOrFail($forumId);
-        if (password_verify($password,$forum->password) == false) {
-            throw new HyperfCommonException(\App\Constants\ErrorCode::FORUM_UNLOCK_PASSWORD_ERROR);
-        }
-        return $this->subscribe($forumId);
+        Db::transaction(function () use ($forumId,$unlockSn,$policyId) {
+            //解锁
+            $voucher = UserSubscribePassword::query()->where('policy_id',$policyId)
+                ->where('unlock_sn',$unlockSn)
+                ->lockForUpdate()
+                ->first();
+            if(!$voucher instanceof UserSubscribePassword) {
+                throw new HyperfCommonException(ErrorCode::RECORD_NOT_EXIST);
+            }
+            if($voucher->status == Constants::STATUS_DONE) {
+                throw new HyperfCommonException(\App\Constants\ErrorCode::FORUM_UNLOCK_STATUS_DONE);
+            }
+            if($voucher->status == Constants::STATUS_INVALIDATE) {
+                throw new HyperfCommonException(\App\Constants\ErrorCode::FORUM_UNLOCK_STATUS_INVALIDATE);
+            }
+            if($voucher->policy->forum->forum_id !== $forumId) {
+                throw new HyperfCommonException(\App\Constants\ErrorCode::FORUM_UNLOCK_NOT_EQUAL);
+            }
+            $this->subscribe($forumId);
+            $voucher->status = Constants::STATUS_DONE;
+            $voucher->saveOrFail();
+        });
+        return $this->success();
     }
 
     public function buyAndSubscribe(int $forumId)
@@ -130,5 +153,60 @@ class ForumService extends BaseService
             return $forum;
         });
         return $list;
+    }
+
+    protected function generateUnlockSn(string $prefix)
+    {
+        $datetime = date('YmdHis');
+        $now = Carbon::now();
+        $microsecond = $now->microsecond;
+        return $prefix.$datetime.$microsecond;
+    }
+
+    public function getUnlockForumSn(int $forumId, int $policyId)
+    {
+        $voucher = null;
+        Db::transaction(function () use ($forumId, $policyId, &$voucher){
+            $policy = SubscribeForumPassword::query()->where('policy_id',$policyId)
+                                                     ->lockForUpdate()
+                                                     ->first();
+            if(!$policy instanceof SubscribeForumPassword) {
+                throw new HyperfCommonException(ErrorCode::RECORD_NOT_EXIST);
+            }
+            if ($policy->forum_id !== $forumId) {
+                Log::error("传递的板块ID($forumId)和批次内包含的板块ID({$policy->forum_id})不一致!");
+                throw new HyperfCommonException(ErrorCode::PARAM_ERROR);
+            }
+            if ($policy->left_count == 0) {
+                Log::error("{$policyId}批次授权已经用完");
+                throw new HyperfCommonException(\App\Constants\ErrorCode::FORUM_UNLOCK_PASSWORD_ERROR);
+            }
+            //创建批次对应的授权码
+            $sn = $this->generateUnlockSn($policy->sn_prefix);
+            $voucher = new UserSubscribePassword();
+            $voucher->unlock_sn = $sn;
+            $voucher->policy_id = $policyId;
+            $voucher->owner_id = $this->userId();
+            $voucher->saveOrFail();
+            $policy->decrement('left_count');
+        });
+
+        if (!isset($voucher)) {
+            Log::info("($policyId)批次领取失败!");
+            throw new HyperfCommonException(ErrorCode::RECORD_NOT_EXIST);
+        }
+
+        return $this->success($voucher);
+    }
+
+    public function getMySubscribeVoucherList(int $pageIndex, int $pageSize)
+    {
+        $list = UserSubscribePassword::query()->where('owner_id', $this->userId())
+                                              ->offset($pageIndex * $pageSize)
+                                              ->limit($pageSize)
+                                              ->get();
+        $total = UserSubscribePassword::query()->where('owner_id', $this->userId())->count();
+
+        return ['total'=>$total,'list'=>$list];
     }
 }

@@ -24,6 +24,9 @@ class SubscribeForumPassword extends Model
      * @var string
      */
     protected $table = 'subscribe_forum_password';
+
+    protected $primaryKey = 'policy_id';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -36,4 +39,13 @@ class SubscribeForumPassword extends Model
      * @var array
      */
     protected $casts = ['id' => 'int', 'forum_id' => 'integer', 'status' => 'integer', 'owner_id' => 'integer', 'price' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'policy_id' => 'integer', 'total_count' => 'integer', 'left_count' => 'integer'];
+
+    protected $with = [
+        'forum'
+    ];
+
+    public function forum()
+    {
+        return $this->hasOne(Forum::class,'forum_id','forum_id');
+    }
 }

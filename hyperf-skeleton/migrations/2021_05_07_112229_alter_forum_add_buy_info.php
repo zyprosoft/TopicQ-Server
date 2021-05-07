@@ -13,7 +13,6 @@ class AlterForumAddBuyInfo extends Migration
     {
         Schema::table('forum', function (Blueprint $table) {
             //
-            $table->string('password',500)->nullable()->comment('密码');
             $table->tinyInteger('need_auth')->default(0)->comment('是否需要密码授权');
             $table->bigInteger('goods_id')->default(0)->comment('绑定商品的ID');
             $table->string('buy_tip',500)->comment('付费提示内容');
@@ -27,11 +26,8 @@ class AlterForumAddBuyInfo extends Migration
     {
         Schema::table('forum', function (Blueprint $table) {
             //
-            $table->dropColumn('password');
-            $table->dropColumn('max_member_count');
-            $table->dropColumn('need_buy');
             $table->dropColumn('need_auth');
-            $table->dropColumn('price');
+            $table->dropColumn('goods_id');
             $table->dropColumn('buy_tip');
         });
     }

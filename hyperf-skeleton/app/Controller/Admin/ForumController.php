@@ -26,18 +26,18 @@ class ForumController extends AbstractController
         $this->validate([
             'name'=> 'string|required|min:1|max:24',
             'icon' => 'string|required|min:1|max:500',
-            'password' => 'string|required_with:maxMemberCount|min:6|max:30',
-            'maxMemberCount' => 'integer|required_with:password|min:1',
+            'needAuth' => 'string|required_with:maxMemberCount|in:0,1',
+            'maxMemberCount' => 'integer|required_unless:needAuth,0|min:1',
             'buyTip' => 'string|required_with:goodsId|min:1|max:500',
             'goodsId' => 'integer|required_with:buyTip|exists:goods,goods_id',//创建付费订阅必选信息
         ]);
         $name = $request->param('name');
         $icon = $request->param('icon');
-        $password = $request->param('password');
+        $needAuth = $request->param('needAuth');
         $buyTip = $request->param('buyTip');
         $goodsId = $request->param('goodsId');
         $maxMemberCount = $request->param('maxMemberCount');
-        $result = $this->service->createForum($name,$icon,0,null,null,null,$password,$goodsId,$buyTip,$maxMemberCount);
+        $result = $this->service->createForum($name,$icon,0,null,null,null,$needAuth,$goodsId,$buyTip,$maxMemberCount);
         return $this->success($result);
     }
 

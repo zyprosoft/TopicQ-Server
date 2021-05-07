@@ -33,4 +33,13 @@ class UserSubscribePassword extends Model
      * @var array
      */
     protected $casts = ['id' => 'int', 'owner_id' => 'integer', 'status' => 'integer', 'policy_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+
+    protected $with = [
+        'policy'
+    ];
+
+    public function policy()
+    {
+        return $this->hasOne(SubscribeForumPassword::class,'policy_id','policy_id');
+    }
 }

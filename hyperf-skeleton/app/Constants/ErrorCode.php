@@ -103,4 +103,24 @@ class ErrorCode extends AbstractConstants
      * @Message("解锁订阅密码错误!")
      */
     const FORUM_UNLOCK_PASSWORD_ERROR = 30014;
+
+    /**
+     * @Message("本批次授权已经用完!")
+     */
+    const FORUM_UNLOCK_POLICY_COUNT_ERROR = 30015;
+
+    /**
+     * @Message("本授权码已经使用!")
+     */
+    const FORUM_UNLOCK_STATUS_DONE = 30016;
+
+    /**
+     * @Message("本批次授权已经失效!")
+     */
+    const FORUM_UNLOCK_STATUS_INVALIDATE = 30017;
+
+    /**
+     * @Message("本授权与提交订阅板块不一致!")
+     */
+    const FORUM_UNLOCK_NOT_EQUAL = 30018;
 }
