@@ -30,6 +30,12 @@ class ForumService extends BaseService
 
     public function getUserPublishForumList()
     {
+        //管理员可以返回全部的板块
+        $user = User::findOrFail($this->userId());
+        if($user->isAdmin()) {
+            return $this->getForumList();
+        }
+
         //非授权或者付费板块
         $list = Forum::query()->with(['child_forum_list'])
             ->where('goods_id','>',0)
@@ -42,7 +48,7 @@ class ForumService extends BaseService
                                                    ->with(['forum'])
                                                    ->get()->pluck('forum');
         //合并数据
-        return $list->union($userSubscribeList)->unique();
+        return $userSubscribeList->union($list)->unique();
     }
 
     public function getForumList()
@@ -50,6 +56,8 @@ class ForumService extends BaseService
         $list = Forum::query()->with(['child_forum_list'])
             ->where('forum_id','>',Constants::FORUM_MAIN_FORUM_ID)
             ->where('type',Constants::FORUM_TYPE_MAIN)
+            ->orderByDesc('goods_id')
+            ->orderByDesc('need_auth')
             ->get();
 
         //增加订阅状态
