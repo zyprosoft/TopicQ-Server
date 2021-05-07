@@ -37,7 +37,7 @@ class SendUserOrderStatusChangeMessageJob extends Job
         }
 
         //现在只发送站内通知信息
-        $deliverStatus = $order->deliver_status==Constants::STATUS_WAIT?'待发货':'已发货';
+        $deliverStatus = $order->deliver_status==Constants::STATUS_WAIT?'《待发货》':'《已发货》';
         $tab = $order->deliver_status==Constants::STATUS_WAIT? 1:2;
         $message = "您的订单【{$order->order_no}】已进入{$deliverStatus}状态";
         $title = "订单状态已更新";
