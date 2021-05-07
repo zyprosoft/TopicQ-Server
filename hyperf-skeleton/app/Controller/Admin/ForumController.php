@@ -48,8 +48,8 @@ class ForumController extends AbstractController
     {
         $this->validate([
             'forumId' => 'integer|required|exists:forum,forum_id',
-            'name'=> 'string|required|min:1|max:24',
-            'icon' => 'string|required|min:1|max:500',
+            'name'=> 'string|min:1|max:24',
+            'icon' => 'string|min:1|max:500',
             'needAuth' => 'integer|in:0,1',
             'maxMemberCount' => 'integer|required_if:needAuth,1|min:1',
             'unlockPrice' => 'integer|min:0',
