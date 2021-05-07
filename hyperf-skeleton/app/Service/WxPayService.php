@@ -4,8 +4,10 @@
 namespace App\Service;
 use App\Constants\Constants;
 use App\Constants\ErrorCode;
+use App\Job\AutoDeliverySubscribeGoodsJob;
 use App\Job\OrderPrintJob;
 use App\Job\RefreshUserOrderSummaryJob;
+use App\Model\Good;
 use App\Model\Order;
 use App\Model\Shop;
 use App\Model\User;
@@ -85,6 +87,15 @@ class WxPayService extends BaseService
                         $order->pay_time = Carbon::now()->toDateTimeString(); // 更新支付时间为当前时间
                         $order->pay_status = Constants::STATUS_DONE;
                         $order->pay_status_note = '微信支付回调通知支付成功确认完成';
+
+                        //查看订单是不是订阅商品
+                        $goods = collect($order->order_goods)->first;
+                        if($goods instanceof Good) {
+                            if ($goods->bind_forum_id > 0) {
+                                //自动发货
+                                $this->push(new AutoDeliverySubscribeGoodsJob($orderNo,$order->owner_id,$goods->bind_forum_id));
+                            }
+                        }
 
                         // 用户支付失败
                     } elseif (data_get($message, 'result_code') === 'FAIL') {
