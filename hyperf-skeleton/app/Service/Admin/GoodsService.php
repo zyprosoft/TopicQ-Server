@@ -6,6 +6,7 @@ use App\Constants\Constants;
 use App\Constants\ErrorCode;
 use App\Model\Good;
 use App\Model\Post;
+use App\Model\Shop;
 use App\Model\Unit;
 use App\Model\User;
 use App\Service\BaseService;
@@ -136,7 +137,32 @@ class GoodsService extends BaseService
      */
     public function getSubscribeGoodsList()
     {
-        return Good::query()->where('category_id',Constants::SUBSCRIBE_GOODS_CATEGORY_ID)
-                            ->get();
+        $shop = Shop::firstOrFail();
+        
+        $allGoods = Good::query()->where('shop_id', $shop->shop_id)
+            ->where('category_id',Constants::SUBSCRIBE_GOODS_CATEGORY_ID)
+            ->with(['category'])
+            ->get();
+
+        $categoryList = $allGoods->pluck('category')->unique();
+        Log::info('category list:'.json_encode($categoryList));
+        $categoryGoodsList = [];
+        foreach ($allGoods as $goods) {
+            $categoryId = $goods->category_id;
+            $categoryGoodsList[$categoryId][] = $goods;
+        }
+        Log::info('category goods list:'.json_encode($categoryGoodsList));
+
+        $resultList = [];
+        $categoryList->map(function ($category) use ($categoryGoodsList, &$resultList) {
+            Log::info('category item:'.json_encode($category));
+            Log::info('goodsList:'.json_encode($categoryGoodsList[$category->category_id]));
+            $categoryItem = $category->toArray();
+            $categoryItem['goods_list'] = $categoryGoodsList[$category->category_id];
+            Log::info('category item after:'.json_encode($categoryItem));
+            $resultList[]=$categoryItem;
+        });
+        Log::info('category final list:'.json_encode($resultList));
+        return $resultList;
     }
 }
