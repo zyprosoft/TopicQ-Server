@@ -22,7 +22,9 @@ namespace App\Model;
  * @property int $need_auth 是否需要密码授权
  * @property int $goods_id 绑定商品的ID
  * @property string $buy_tip 付费提示内容
+ * @property int $max_member_count 0不限制
  * @property-read \Hyperf\Database\Model\Collection|\App\Model\Forum[] $child_forum_list 
+ * @property-read \App\Model\Good $goods 
  * @property-read \App\Model\Forum $parent_forum 
  */
 class Forum extends Model
@@ -47,9 +49,7 @@ class Forum extends Model
      */
     protected $casts = ['forum_id' => 'integer', 'type' => 'integer', 'parent_forum_id' => 'integer', 'sort_index' => 'integer', 'total_child_count' => 'integer', 'total_post_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'max_member_count' => 'integer', 'need_buy' => 'integer', 'need_auth' => 'integer', 'price' => 'integer', 'goods_id' => 'integer'];
     protected $hidden = ['password'];
-    protected $with = [
-        'goods'
-    ];
+    protected $with = ['goods'];
     public function parent_forum()
     {
         return $this->hasOne(Forum::class, 'forum_id', 'parent_forum_id');
@@ -60,6 +60,6 @@ class Forum extends Model
     }
     public function goods()
     {
-        return $this->hasOne(Good::class,'goods_id','goods_id');
+        return $this->hasOne(Good::class, 'goods_id', 'goods_id');
     }
 }
