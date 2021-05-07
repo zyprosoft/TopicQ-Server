@@ -27,12 +27,12 @@ class AlterForumAddBuyInfo extends Migration
     {
         Schema::table('forum', function (Blueprint $table) {
             //
-            $table->removeColumn('password');
-            $table->removeColumn('max_member_count');
-            $table->removeColumn('need_buy');
-            $table->removeColumn('need_auth');
-            $table->removeColumn('price');
-            $table->removeColumn('buy_tip');
+            $table->dropColumn('password');
+            $table->dropColumn('max_member_count');
+            $table->dropColumn('need_buy');
+            $table->dropColumn('need_auth');
+            $table->dropColumn('price');
+            $table->dropColumn('buy_tip');
         });
     }
 }
