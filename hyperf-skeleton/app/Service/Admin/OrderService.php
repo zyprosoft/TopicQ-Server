@@ -144,7 +144,7 @@ class OrderService extends BaseService
         $this->push(new RefreshShopOrderSummaryJob($order->shop_id));
 
         //异步刷新用户订单统计信息
-        $this->push(new RefreshUserOrderSummaryJob($this->userId()));
+        $this->push(new RefreshUserOrderSummaryJob($order->owner_id));
 
         //发送订单状态变化通知
         $this->push(new SendUserOrderStatusChangeMessageJob($order->order_no));
