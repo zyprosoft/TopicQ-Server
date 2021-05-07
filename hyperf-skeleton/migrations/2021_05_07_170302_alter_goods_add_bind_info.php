@@ -11,8 +11,9 @@ class AlterGoodsAddBindInfo extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('goods', function (Blueprint $table) {
             //
+            $table->bigInteger('bind_forum_id')->default(0)->comment('绑定板块ID');
         });
     }
 
@@ -21,8 +22,9 @@ class AlterGoodsAddBindInfo extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('goods', function (Blueprint $table) {
             //
+            $table->dropColumn('bind_forum_id');
         });
     }
 }
