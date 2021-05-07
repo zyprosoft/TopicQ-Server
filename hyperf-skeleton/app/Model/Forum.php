@@ -18,7 +18,6 @@ namespace App\Model;
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
  * @property string $deleted_at 
- * @property string $password 密码
  * @property int $need_auth 是否需要密码授权
  * @property int $goods_id 绑定商品的ID
  * @property string $buy_tip 付费提示内容
