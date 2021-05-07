@@ -251,7 +251,7 @@ class PostService extends BaseService
     public function detail(int $postId)
     {
         $post = Post::query()->where('post_id', $postId)
-            ->with(['vote','mini_program','official_account','forum'])
+            ->with(['vote','mini_program','official_account','forum','forum_voucher'])
             ->first();
         if (!$post instanceof Post) {
             throw new HyperfCommonException(ErrorCode::POST_NOT_EXIST);
