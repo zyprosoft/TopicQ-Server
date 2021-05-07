@@ -13,7 +13,7 @@ class AlterPostAddSubscribePolicy extends Migration
     {
         Schema::table('post', function (Blueprint $table) {
             //
-            $table->bigInteger('policy_id')->comment('填充的授权批次ID');
+            $table->bigInteger('policy_id')->default(0)->comment('填充的授权批次ID');
         });
     }
 
