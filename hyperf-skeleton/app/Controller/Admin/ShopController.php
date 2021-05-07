@@ -29,7 +29,7 @@ class ShopController extends AbstractController
             'address' => 'string|min:1|max:128|required',
             'introduce' => 'string|min:1|max:1000|sensitive',
             'phone' => 'string|min:1|max:20|required',
-            'basePrice' => 'integer|min:100|max:1000000', //起送价最多不能超过1万
+            'basePrice' => 'integer|min:10|max:1000000', //起送价最多不能超过1万
             'openTime' => 'integer|between:0,24',
             'closeTime' => 'integer|between:0,24|gt:openTime',
         ]);
@@ -45,7 +45,7 @@ class ShopController extends AbstractController
             'name' => 'string|min:1|max:50|sensitive',
             'address' => 'string|min:1|max:128',
             'introduce' => 'string|min:1|max:1000|sensitive',
-            'basePrice' => 'numeric|min:1|max:1000000', //起送价最多不能超过1万
+            'basePrice' => 'integer|min:10|max:1000000', //起送价最多不能超过1万
             'openTime' => 'integer|between:0,24',
             'closeTime' => 'integer|between:0,24|gt:openTime',
             'phone' => 'string|min:1|max:20',
