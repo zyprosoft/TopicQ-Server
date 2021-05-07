@@ -67,7 +67,7 @@ class ForumService extends BaseService
                 $goods->bind_forum_id = $forum->forum_id;
                 $goods->saveOrFail();
             }
-            if(isset($password) && isset($maxMemberCount)) {
+            if(isset($needAuth) && isset($maxMemberCount)) {
                 //创建对应授权批次
                 $policy = new SubscribeForumPassword();
                 $policy->total_count = $maxMemberCount;
