@@ -9,11 +9,13 @@ use App\Constants\ErrorCode;
 use App\Job\PostIncreaseReadJob;
 use App\Job\PostMachineAuditJob;
 use App\Job\UniqueJobQueue;
+use App\Model\Forum;
 use App\Model\Post;
 use App\Model\ReportPost;
 use App\Model\User;
 use App\Model\UserFavorite;
 use App\Model\UserRead;
+use App\Model\UserSubscribe;
 use App\Model\UserVote;
 use App\Model\Vote;
 use App\Model\VoteItem;
@@ -516,6 +518,22 @@ class PostService extends BaseService
 
     public function getPostListBySubscribeByForumId(int $pageIndex, int $pageSize, int $forumId)
     {
+        //用户是不是已经订阅了此板块,或者是管理员以上身份
+        $user = User::findOrFail($this->userId());
+        //非管理员身份需要校验订阅权限
+        if ($user->role_id < Constants::USER_ROLE_ADMIN) {
+            $forum = Forum::findOrFail($forumId);
+            //授权或者订阅类板块
+            if($forum->need_auth || $forum->goods_id > 0) {
+                $userSubscribe = UserSubscribe::query()->where('user_id',$user->user_id)
+                    ->where('forum_id',$forumId)
+                    ->first();
+                if (!$userSubscribe instanceof UserSubscribe) {
+                    throw new HyperfCommonException(ErrorCode::FORUM_NOT_PAY_OR_AUTH);
+                }
+            }
+        }
+
         $selectRows = [
             'post_id',
             'title',

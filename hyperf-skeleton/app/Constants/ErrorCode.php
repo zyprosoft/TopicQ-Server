@@ -123,4 +123,9 @@ class ErrorCode extends AbstractConstants
      * @Message("本授权与提交订阅板块不一致!")
      */
     const FORUM_UNLOCK_NOT_EQUAL = 30018;
+
+    /**
+     * @Message("付费或授权板块未获得权限")
+     */
+    const FORUM_NOT_PAY_OR_AUTH = 30019;
 }
