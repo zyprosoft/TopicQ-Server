@@ -157,7 +157,7 @@ class ForumService extends BaseService
         return ['total'=>$total,'list'=>$list];
     }
 
-    public function createPostForPolicy(int $policyId, string $title, string $content, array $goodsInfo, string $link = null, array $imageList = null, int $forumId = null)
+    public function createPostForPolicy(int $policyId, string $title, string $content, string $link = null, array $imageList = null, int $forumId = null)
     {
         $post = new Post();
         $post->title = $title;
@@ -167,16 +167,9 @@ class ForumService extends BaseService
         } else {
             $post->summary = mb_substr($content, 0, 40);
         }
-        $post->mall_goods = json_encode($goodsInfo);
-        //商品图片作为图片使用
-        if (!isset($imageList)) {
-            $post->image_list = data_get($goodsInfo,'image');
-        }else{
-            //增加商品图片
-            $imageList[] = data_get($goodsInfo,'image');
+        if (isset($imageList)) {
             $post->image_list = implode(';',$imageList);
         }
-
         if (isset($link)) {
             $post->link = $link;
         }
@@ -187,11 +180,8 @@ class ForumService extends BaseService
             $post->forum_id = Constants::FORUM_MAIN_FORUM_ID;
         }
         $post->policy_id = $policyId;
-        $buyInfo = [];
-        $post->mall_goods_buy_info = json_encode($buyInfo);
-        $post->mall_type = Constants::MALL_TYPE_SELF;
         $post->audit_status = Constants::STATUS_DONE;
-        $post->owner_id = $this->userId();//自营店铺只能管理员发布
+        $post->owner_id = $this->userId();//发券只能管理员发布
         $post->saveOrFail();
         return $this->success($post);
     }

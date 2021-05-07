@@ -104,12 +104,11 @@ class ForumController extends AbstractController
         );
         $title = $request->param('title');
         $content = $request->param('content');
-        $goodsInfo = $request->param('goodsInfo');
         $link = $request->param('link');
         $imageList = $request->param('imageList');
         $forumId = $request->param('forumId');
         $policyId = $request->param('policyId');
-        $result = $this->service->createPostForPolicy($policyId,$title,$content,$goodsInfo,$link,$imageList,$forumId);
+        $result = $this->service->createPostForPolicy($policyId,$title,$content,$link,$imageList,$forumId);
         return $this->success($result);
     }
 }
