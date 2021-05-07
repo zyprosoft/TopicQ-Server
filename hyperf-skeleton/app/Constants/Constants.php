@@ -123,4 +123,17 @@ class Constants
     const MALL_TYPE_PDD = 0;
 
     const BUY_FORUM_ID = 9;
+
+    const STATUS_OK = 1;
+
+    const STATUS_NOT = 0;
+
+    const GOODS_ID_INVALIDATE = 0;
+
+    const SUBSCRIBE_GOODS_CATEGORY_ID = 1;//虚拟产品默认分类1
+
+    /**
+     * 分类中由系统创建的
+     */
+    const CATEGORY_SHOP_ID_SYSTEM_USE = -1;
 }

@@ -130,4 +130,13 @@ class GoodsService extends BaseService
         $post->saveOrFail();
         return $this->success($post);
     }
+
+    /**
+     * 获取所有虚拟产品
+     */
+    public function getSubscribeGoodsList()
+    {
+        return Good::query()->where('category_id',Constants::SUBSCRIBE_GOODS_CATEGORY_ID)
+                            ->get();
+    }
 }

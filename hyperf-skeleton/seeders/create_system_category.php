@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Hyperf\Database\Seeders\Seeder;
+use Hyperf\DbConnection\Db;
 
 class CreateSystemCategory extends Seeder
 {
@@ -13,6 +14,8 @@ class CreateSystemCategory extends Seeder
      */
     public function run()
     {
-        //
+        Db::table('category')->insertOrIgnore([
+            'name' => '虚拟商品'
+        ]);
     }
 }

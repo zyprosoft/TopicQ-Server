@@ -16,7 +16,10 @@ class ForumService extends BaseService
         return Forum::findOrFail($forumId);
     }
 
-    public function createForum(string $name,string $icon,int $type=0, string $area=null,string $country=null,int $parentForumId=null)
+    public function createForum(string $name,string $icon,
+                                int $type=0, string $area=null,
+                                string $country=null, int $parentForumId=null,
+                                string $password=null, int $goodsId=null, string $buyTip=null)
     {
         $forum = Forum::query()->where('name',$name)
                                 ->where('type',$type)
@@ -36,6 +39,16 @@ class ForumService extends BaseService
         }
         if (isset($parentForumId)) {
             $forum->parent_forum_id = $parentForumId;
+        }
+        if (isset($password)) {
+            $forum->password = password_hash($password,PASSWORD_DEFAULT);
+            $forum->need_auth = Constants::STATUS_OK;
+        }
+        if (isset($goodsId)) {
+            $forum->goods_id = $goodsId;
+        }
+        if (isset($buyTip)) {
+            $forum->buy_tip = $buyTip;
         }
         $forum->saveOrFail();
     }

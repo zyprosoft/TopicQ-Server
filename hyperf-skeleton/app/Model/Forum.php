@@ -47,6 +47,9 @@ class Forum extends Model
      */
     protected $casts = ['forum_id' => 'integer', 'type' => 'integer', 'parent_forum_id' => 'integer', 'sort_index' => 'integer', 'total_child_count' => 'integer', 'total_post_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'max_member_count' => 'integer', 'need_buy' => 'integer', 'need_auth' => 'integer', 'price' => 'integer', 'goods_id' => 'integer'];
     protected $hidden = ['password'];
+    protected $with = [
+        'goods'
+    ];
     public function parent_forum()
     {
         return $this->hasOne(Forum::class, 'forum_id', 'parent_forum_id');
@@ -54,5 +57,9 @@ class Forum extends Model
     public function child_forum_list()
     {
         return $this->hasMany(Forum::class, 'parent_forum_id', 'forum_id');
+    }
+    public function goods()
+    {
+        return $this->hasOne(Good::class,'goods_id','goods_id');
     }
 }

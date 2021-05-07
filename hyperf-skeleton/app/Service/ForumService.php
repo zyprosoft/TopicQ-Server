@@ -6,12 +6,23 @@ namespace App\Service;
 
 use App\Constants\Constants;
 use App\Model\Forum;
+use App\Model\Good;
+use App\Model\User;
+use App\Model\UserAddress;
 use App\Model\UserSubscribe;
 use ZYProSoft\Constants\ErrorCode;
 use ZYProSoft\Exception\HyperfCommonException;
+use App\Service\OrderService;
+use Hyperf\Di\Annotation\Inject;
 
 class ForumService extends BaseService
 {
+    /**
+     * @Inject
+     * @var \App\Service\OrderService
+     */
+    protected OrderService $orderService;
+
     public function getForumList()
     {
         $list = Forum::query()->with(['child_forum_list'])
@@ -52,6 +63,38 @@ class ForumService extends BaseService
         $subscribe->forum_id = $forumId;
         $subscribe->saveOrFail();
         return $this->success();
+    }
+
+    public function buyAndSubscribe(int $forumId)
+    {
+        $forum = Forum::findOrFail($forumId);
+        if($forum->goods_id == Constants::GOODS_ID_INVALIDATE) {
+            //无需付费，直接走常规订阅
+            return $this->subscribe($forumId);
+        }
+        //查出商品
+        $goodsInfo = Good::findOrFail($forum->goods_id);
+        $user = User::findOrFail($this->userId());
+        $orderInfo = [
+            'goodsList' => [
+                'goodsId' => $forum->goods_id,
+                'count' => 1
+            ],
+            'shopId' => $goodsInfo->shop_id,
+            'nickname' => $user->nickname,
+            'mobile' => $user->mobile,
+            'note' => '自动发货',
+            'deliverType' => 0
+        ];
+        //查出用户的地址信息
+        $address = UserAddress::first();
+        if ($address instanceof UserAddress) {
+            $addressInfo = "{$address->city}{$address->country}{$address->detail_info}";
+        }else{
+            $addressInfo = "购买虚拟产品可不填写地址";
+        }
+        $orderInfo['address'] = $addressInfo;
+        return $this->orderService->create($orderInfo);
     }
 
     public function unsubscribe(int $forumId)

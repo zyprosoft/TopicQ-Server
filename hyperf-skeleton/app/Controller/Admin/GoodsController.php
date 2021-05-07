@@ -97,4 +97,10 @@ class GoodsController extends AbstractController
         $result = $this->service->createPost($title,$content,$goodsInfo,$link,$imageList,$forumId);
         return $this->success($result);
     }
+
+    public function getSubscribeGoodsList(AppAdminRequest $request)
+    {
+        $result = $this->service->getSubscribeGoodsList();
+        return $this->success($result);
+    }
 }

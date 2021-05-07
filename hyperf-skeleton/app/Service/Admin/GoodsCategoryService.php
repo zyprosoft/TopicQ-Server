@@ -2,6 +2,7 @@
 
 
 namespace App\Service\Admin;
+use App\Constants\Constants;
 use App\Model\Category;
 use App\Model\GoodsCategory;
 use App\Model\Good;
@@ -77,9 +78,18 @@ class GoodsCategoryService extends BaseService
 
     public function getAllWithShopId(int $shopId)
     {
-        return GoodsCategory::query()->where('create_user',$this->userId())
+        $systemCreateList = $this->getAllSystem();
+        $userCreateList = GoodsCategory::query()->where('create_user',$this->userId())
             ->where('shop_id', $shopId)
             ->latest()
+            ->get();
+
+        return $userCreateList->merge($systemCreateList);
+    }
+
+    public function getAllSystem()
+    {
+        return GoodsCategory::query()->where('shop_id', Constants::CATEGORY_SHOP_ID_SYSTEM_USE)
             ->get();
     }
 }

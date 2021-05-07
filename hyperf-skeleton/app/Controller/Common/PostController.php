@@ -234,6 +234,16 @@ class PostController extends AbstractController
         return $this->success($result);
     }
 
+    public function buySubscribe(AuthedRequest $request)
+    {
+        $this->validate([
+            'forumId' => 'integer|required|exists:forum,forum_id',
+        ]);
+        $forumId = $request->param('forumId');
+        $result = $this->forumService->buyAndSubscribe($forumId);
+        return $this->success($result);
+    }
+
     public function unsubscribe(AuthedRequest $request)
     {
         $this->validate([
