@@ -18,6 +18,14 @@ namespace App\Model;
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
  * @property string $deleted_at 
+ * @property string $password 密码
+ * @property int $max_member_count 最多订阅用户0为不限制
+ * @property int $need_buy 是否需要付费0否1是
+ * @property int $need_auth 是否需要密码授权
+ * @property int $price 付费价格单位分
+ * @property string $buy_tip 付费提示内容
+ * @property-read \Hyperf\Database\Model\Collection|\App\Model\Forum[] $child_forum_list 
+ * @property-read \App\Model\Forum $parent_forum 
  */
 class Forum extends Model
 {
@@ -27,9 +35,7 @@ class Forum extends Model
      * @var string
      */
     protected $table = 'forum';
-
     protected $primaryKey = 'forum_id';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -41,15 +47,13 @@ class Forum extends Model
      *
      * @var array
      */
-    protected $casts = ['forum_id' => 'integer', 'type' => 'integer', 'parent_forum_id' => 'integer', 'sort_index' => 'integer', 'total_child_count' => 'integer', 'total_post_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
-
+    protected $casts = ['forum_id' => 'integer', 'type' => 'integer', 'parent_forum_id' => 'integer', 'sort_index' => 'integer', 'total_child_count' => 'integer', 'total_post_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'max_member_count' => 'integer', 'need_buy' => 'integer', 'need_auth' => 'integer', 'price' => 'integer'];
     public function parent_forum()
     {
-        return $this->hasOne(Forum::class,'forum_id','parent_forum_id');
+        return $this->hasOne(Forum::class, 'forum_id', 'parent_forum_id');
     }
-
     public function child_forum_list()
     {
-        return $this->hasMany(Forum::class,'parent_forum_id','forum_id');
+        return $this->hasMany(Forum::class, 'parent_forum_id', 'forum_id');
     }
 }
