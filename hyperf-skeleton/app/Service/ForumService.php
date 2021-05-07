@@ -134,8 +134,10 @@ class ForumService extends BaseService
         $user = User::findOrFail($this->userId());
         $orderInfo = [
             'goodsList' => [
-                'goodsId' => $goodsInfo->goods_id,
-                'count' => 1
+                [
+                    'goodsId' => $goodsInfo->goods_id,
+                    'count' => 1
+                ]
             ],
             'shopId' => $goodsInfo->shop_id,
             'nickname' => $user->nickname,
