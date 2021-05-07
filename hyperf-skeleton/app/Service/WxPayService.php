@@ -89,11 +89,12 @@ class WxPayService extends BaseService
                         $order->pay_status_note = '微信支付回调通知支付成功确认完成';
 
                         //查看订单是不是订阅商品
-                        $goods = collect($order->order_goods)->first;
+                        $goods = $order->order_goods->first;
+                        Log::info("订单第一个商品:".json_encode($goods));
                         if($goods instanceof Good) {
                             if ($goods->bind_forum_id > 0) {
                                 //自动发货
-                                $this->push(new AutoDeliverySubscribeGoodsJob($orderNo,$order->owner_id,$goods->bind_forum_id));
+                                $this->push(new AutoDeliverySubscribeGoodsJob($order->order_no,$order->owner_id,$goods->bind_forum_id));
                             }
                         }
 
