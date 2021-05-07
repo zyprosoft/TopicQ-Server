@@ -16,6 +16,7 @@ use App\Model\User;
 use App\Model\UserFavorite;
 use App\Model\UserRead;
 use App\Model\UserSubscribe;
+use App\Model\UserSubscribePassword;
 use App\Model\UserVote;
 use App\Model\Vote;
 use App\Model\VoteItem;
@@ -294,10 +295,22 @@ class PostService extends BaseService
             } else {
                 $post->is_favorite = 0;
             }
+            //如果有订阅券，查看是不是已经领取过
+            if($post->policy_id > 0) {
+                $userSubscribeVoucher = UserSubscribePassword::query()->where('owner_id',$this->userId())
+                                                                    ->where('policy_id',$post->policy_id)
+                                                                    ->first();
+                if ($userSubscribeVoucher instanceof UserSubscribePassword) {
+                    $post->finish_get_policy = 1;
+                }else{
+                    $post->finish_get_policy = 0;
+                }
+            }
         } else {
             $post->is_read = 0;
             $post->is_voted = 0;
             $post->is_favorite = 0;
+            $post->finish_get_policy = 0;
         }
 
         //增加阅读数
