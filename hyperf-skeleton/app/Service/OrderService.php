@@ -6,13 +6,17 @@ namespace App\Service;
 
 use App\Constants\Constants;
 use App\Constants\ErrorCode;
+use App\Job\AddShopNotificationJob;
 use App\Job\RefreshOrderPayStatusJob;
 use App\Job\RefreshShopOrderSummaryJob;
 use App\Job\RefreshUserOrderSummaryJob;
+use App\Job\UpdateShopUnreadMessageCountJob;
 use App\Model\Good;
+use App\Model\Notification;
 use App\Model\Order;
 use App\Model\OrderGood;
 use App\Model\Shop;
+use App\Model\ShopNotification;
 use App\Model\User;
 use App\Model\UserOrderSummary;
 use Carbon\Carbon;
@@ -320,5 +324,66 @@ class OrderService extends BaseService
     {
         $this->push(new RefreshUserOrderSummaryJob($this->userId()));
         return $this->success();
+    }
+
+    protected function buildOrderGoodsInfo(Order $order)
+    {
+        $orderGoods = [];
+        $order->order_goods->map(function (OrderGood $goods) use (&$orderGoods) {
+            $item = $goods->order_goods_name.'x'.$goods->count.$goods->order_unit;
+            $orderGoods[] = $item;
+        });
+        $orderGoodsMessage = implode('; ',$orderGoods);
+        return "该顾客的订单商品详情如下:【{$orderGoodsMessage}】";
+    }
+
+    /**
+     * 通过订单给店铺留言
+     * @param string $orderNo
+     * @param string $content
+     */
+    public function addOrderMessage(string $orderNo, string $content)
+    {
+        //订单归属检测
+        OrderService::checkOwnOrFail($orderNo);
+        $order = Order::query()->where('order_no', $orderNo)
+            ->with(['order_goods','owner'])
+            ->first();
+        if (!$order instanceof Order) {
+            Log::error("($orderNo)订单留言，但是订单不存在!");
+            throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST);
+        }
+        $title = "顾客订单留言通知";
+        $message = '单号:【'.$orderNo.'】的顾客【'.$order->nickname.'】发来一条留言:【'.$content.'】';
+        $goodsInfo = $this->buildOrderGoodsInfo($order);
+        $message .= $goodsInfo;
+        $job = new AddShopNotificationJob($order->shop_id,$title,$message);
+        $job->levelLabel = "留言";
+        $job->level = Constants::MESSAGE_LEVEL_WARN;
+        $this->push($job);
+    }
+
+    public function addOrderComment(string $orderNo, string $content)
+    {
+        //订单归属检测
+        OrderService::checkOwnOrFail($orderNo);
+        $order = Order::query()->where('order_no', $orderNo)
+            ->with(['order_goods','owner'])
+            ->first();
+        if (!$order instanceof Order) {
+            Log::error("($orderNo)订单点评，但是订单不存在!");
+            throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST);
+        }
+        $title = "顾客订单点评通知";
+        $message = '单号:【'.$orderNo.'】的顾客【'.$order->nickname.'】发来一条点评:【'.$content.'】';
+        $goodsInfo = $this->buildOrderGoodsInfo($order);
+        $message .= $goodsInfo;
+        //保存已点评状态
+        $order->is_comment = Constants::STATUS_DONE;
+        $order->save();
+        $job = new AddShopNotificationJob($order->shop_id,$title,$message);
+        $job->level = Constants::MESSAGE_LEVEL_WARN;
+        $job->levelLabel = "点评";
+        $this->push($job);
     }
 }

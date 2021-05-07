@@ -126,9 +126,33 @@ class OrderController extends AbstractController
      * 与列表返回不一致的时候主动刷新统计数据
      * @param AuthedRequest $request
      */
-    public function refreshUserOrderSummary(AppAdminRequest $request)
+    public function refreshUserOrderSummary(AuthedRequest $request)
     {
         $result = $this->service->refreshUserOrderSummary();
+        return $this->success($result);
+    }
+
+    public function addOrderMessage(AuthedRequest $request)
+    {
+        $this->validate([
+            'orderNo' => 'required|string|min:1|max:30|exists:order,order_no',
+            'content' => 'required|string|min:1|max:128|sensitive'
+        ]);
+        $orderNo = $request->param('orderNo');
+        $content = $request->param('content');
+        $result = $this->service->addOrderMessage($orderNo,$content);
+        return $this->success($result);
+    }
+
+    public function addOrderComment(AuthedRequest $request)
+    {
+        $this->validate([
+            'orderNo' => 'required|string|min:1|max:30|exists:order,order_no',
+            'content' => 'required|string|min:1|max:128|sensitive'
+        ]);
+        $orderNo = $request->param('orderNo');
+        $content = $request->param('content');
+        $result = $this->service->addOrderComment($orderNo,$content);
         return $this->success($result);
     }
 }
