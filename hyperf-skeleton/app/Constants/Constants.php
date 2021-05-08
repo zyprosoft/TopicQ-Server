@@ -43,6 +43,11 @@ class Constants
     const COMMENT_SORT_TYPE_ONLY_POST_OWNER = 4;
 
     /**
+     * 最早发表
+     */
+    const COMMENT_SORT_TYPE_POST_EARLY = 5;
+
+    /**
      * 帖子列表排序方式，最近发表
      */
     const POST_SORT_TYPE_LATEST = 2;
