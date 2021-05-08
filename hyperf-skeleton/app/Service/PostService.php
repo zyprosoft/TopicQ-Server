@@ -282,10 +282,15 @@ class PostService extends BaseService
                                                                ->where('forum_id',$post->forum_id)
                                                                ->first();
                 if (!$userSubscribe instanceof UserSubscribe) {
+                    //未支付，但是需要返回部分信息供后续购买或授权做引导作用
+                    $limitPost = Post::query()->select(['title','forum_id'])
+                                        ->where('post_id', $postId)
+                                        ->with(['forum'])
+                                        ->firstOrFail();
                     if($forum->goods_id > 0) {
-                        throw new HyperfCommonException(ErrorCode::FORUM_POST_NEED_PAY,$forum->name);
+                        return $this->errorWithData(ErrorCode::FORUM_POST_NEED_PAY,'该帖子属于付费板块',$limitPost);
                     }elseif ($forum->need_auth) {
-                        throw new HyperfCommonException(ErrorCode::FORUM_POST_NEED_AUTH,$forum->name);
+                        return $this->errorWithData(ErrorCode::FORUM_POST_NEED_AUTH,'该帖子属于授权板块',$limitPost);
                     }
                 }
             }
