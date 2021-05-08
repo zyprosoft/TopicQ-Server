@@ -185,7 +185,7 @@ class OrderService extends BaseService
 
     public function refreshShopOrderSummary(int $shopId)
     {
-        $this->push(new RefreshShopOrderSummaryJob($shopId));
+        $this->queueService->refreshShopOrderSummary($shopId);
         return $this->success();
     }
 }
