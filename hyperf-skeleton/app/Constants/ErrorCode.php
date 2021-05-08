@@ -90,7 +90,7 @@ class ErrorCode extends AbstractConstants
     const ORDER_DID_FINISH_PAY = 30011;
 
     /**
-     * @Message("店铺已停止发布")
+     * @Message("店铺已经打烊了!")
      */
     const SHOP_PAUSED_PUBLISH = 30012;
 
