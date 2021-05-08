@@ -194,6 +194,13 @@ class ForumService extends BaseService
     {
         $voucher = null;
         Db::transaction(function () use ($forumId, $policyId, &$voucher){
+            //用户是不是已经领过券了
+            $voucher = UserSubscribePassword::query()->where('policy_id',$policyId)
+                                                     ->where('owner_id',$this->userId())
+                                                     ->first();
+            if($voucher instanceof UserSubscribePassword) {
+                throw new HyperfCommonException(\App\Constants\ErrorCode::DO_NOT_REPEAT_ACTION,'您已经领过该券了');
+            }
             $policy = SubscribeForumPassword::query()->where('policy_id',$policyId)
                                                      ->lockForUpdate()
                                                      ->first();
