@@ -179,7 +179,7 @@ class ForumService extends BaseService
             $forum->is_subscribe = 1;
             return $forum;
         });
-        return $list;
+        return $list->sortByDesc('goods_id')->sortByDesc('need_auth')->values()->all();
     }
 
     protected function generateUnlockSn(string $prefix)
