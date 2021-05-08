@@ -135,7 +135,12 @@ class ErrorCode extends AbstractConstants
     const BUY_FORUM_NOT_NEED = 30020;
 
     /**
-     * @Message("本板块帖子需要付费或者授权才可查看!")
+     * @Message("本板块帖子需要付费才可查看!")
      */
-    const FORUM_POST_NEED_PAY_OR_AUTH = 30021;
+    const FORUM_POST_NEED_PAY = 30021;
+
+    /**
+     * @Message("本板块帖子需要授权才可查看!")
+     */
+    const FORUM_POST_NEED_AUTH = 30021;
 }

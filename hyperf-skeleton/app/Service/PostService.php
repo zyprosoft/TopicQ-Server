@@ -282,7 +282,11 @@ class PostService extends BaseService
                                                                ->where('forum_id',$post->forum_id)
                                                                ->first();
                 if (!$userSubscribe instanceof UserSubscribe) {
-                    throw new HyperfCommonException(ErrorCode::FORUM_POST_NEED_PAY_OR_AUTH);
+                    if($forum->goods_id > 0) {
+                        throw new HyperfCommonException(ErrorCode::FORUM_POST_NEED_PAY);
+                    }elseif ($forum->need_auth) {
+                        throw new HyperfCommonException(ErrorCode::FORUM_POST_NEED_AUTH);
+                    }
                 }
             }
             //投票状态
@@ -328,7 +332,11 @@ class PostService extends BaseService
             $forum = Forum::findOrFail($post->forum_id);
             if($forum->needCheckSubscribe()) {
                 //没有登陆，必然没有权限
-                throw new HyperfCommonException(ErrorCode::FORUM_POST_NEED_PAY_OR_AUTH);
+                if($forum->goods_id > 0) {
+                    throw new HyperfCommonException(ErrorCode::FORUM_POST_NEED_PAY);
+                }elseif ($forum->need_auth) {
+                    throw new HyperfCommonException(ErrorCode::FORUM_POST_NEED_AUTH);
+                }
             }
             $post->is_read = 0;
             $post->is_voted = 0;
