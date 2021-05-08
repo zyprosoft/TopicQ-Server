@@ -142,5 +142,5 @@ class ErrorCode extends AbstractConstants
     /**
      * @Message("本板块帖子需要授权才可查看!")
      */
-    const FORUM_POST_NEED_AUTH = 30021;
+    const FORUM_POST_NEED_AUTH = 30022;
 }
