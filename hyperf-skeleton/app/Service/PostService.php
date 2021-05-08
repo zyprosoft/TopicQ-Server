@@ -283,9 +283,9 @@ class PostService extends BaseService
                                                                ->first();
                 if (!$userSubscribe instanceof UserSubscribe) {
                     if($forum->goods_id > 0) {
-                        throw new HyperfCommonException(ErrorCode::FORUM_POST_NEED_PAY);
+                        throw new HyperfCommonException(ErrorCode::FORUM_POST_NEED_PAY,$forum->name);
                     }elseif ($forum->need_auth) {
-                        throw new HyperfCommonException(ErrorCode::FORUM_POST_NEED_AUTH);
+                        throw new HyperfCommonException(ErrorCode::FORUM_POST_NEED_AUTH,$forum->name);
                     }
                 }
             }
