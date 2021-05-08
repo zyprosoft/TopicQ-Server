@@ -16,20 +16,11 @@ use App\Model\UserCommentRead;
 use Hyperf\Database\Model\Collection;
 use Hyperf\DbConnection\Db;
 use ZYProSoft\Exception\HyperfCommonException;
-use App\Job\UniqueJobQueue;
-
-use Hyperf\Di\Annotation\Inject;
 use ZYProSoft\Facade\Auth;
 use ZYProSoft\Log\Log;
 
 class CommentService extends BaseService
 {
-    /**
-     * @Inject
-     * @var UniqueJobQueue
-     */
-    private UniqueJobQueue $queueService;
-
     //重载获取当前用户ID的方法
     protected function userId()
     {

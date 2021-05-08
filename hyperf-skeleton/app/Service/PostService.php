@@ -8,7 +8,6 @@ use App\Constants\Constants;
 use App\Constants\ErrorCode;
 use App\Job\PostIncreaseReadJob;
 use App\Job\PostMachineAuditJob;
-use App\Job\UniqueJobQueue;
 use App\Model\Forum;
 use App\Model\Post;
 use App\Model\ReportPost;
@@ -25,16 +24,9 @@ use Hyperf\DbConnection\Db;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Facade\Auth;
 use ZYProSoft\Log\Log;
-use Hyperf\Di\Annotation\Inject;
 
 class PostService extends BaseService
 {
-    /**
-     * @Inject
-     * @var UniqueJobQueue
-     */
-    private UniqueJobQueue $queueService;
-
     private array $listRows = [
         'post_id',
         'title',
