@@ -2,13 +2,25 @@
 
 
 namespace App\Job;
-use App\Service\BaseService;
+use Hyperf\AsyncQueue\Driver\DriverFactory;
+use Hyperf\AsyncQueue\Driver\DriverInterface;
 use Hyperf\AsyncQueue\Job;
+use Hyperf\Contract\ContainerInterface;
 use ZYProSoft\Facade\Cache;
 use ZYProSoft\Log\Log;
 
-class UniqueJobQueue extends BaseService
+class UniqueJobQueue
 {
+    /**
+     * @var DriverInterface
+     */
+    protected $driver;
+
+    /**
+     * @var DriverFactory
+     */
+    protected $driverFactory;
+
     private string $commentHotJobPrefix = 'as:up:coh:';
 
     private string $postJobPrefix = 'as:up:po:';
@@ -22,6 +34,22 @@ class UniqueJobQueue extends BaseService
     private string $shopOrderSummaryJobPrefix = 'as:up:spo:';
 
     private string $refreshJobInfoPrefix = 'as:up:rsi:';
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->driverFactory = $container->get(DriverFactory::class);
+        $this->driver = $this->driverFactory->get('default');
+    }
+
+    /**
+     * 使用默认分组default队列来执行任务
+     * @param Job $job
+     * @param int $delay
+     */
+    protected function push(Job $job, int $delay = 0)
+    {
+        $this->driver->push($job, $delay);
+    }
 
     public function updatePost(int $postId)
     {
