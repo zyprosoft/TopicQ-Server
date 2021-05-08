@@ -19,6 +19,10 @@ class UniqueJobQueue extends BaseService
 
     private string $subscribeJobPrefix = 'as:us:sb:';
 
+    private string $shopOrderSummaryJobPrefix = 'as:up:spo:';
+
+    private string $refreshJobInfoPrefix = 'as:up:rsi:';
+
     public function updatePost(int $postId)
     {
         $key = $this->postJobPrefix.$postId;
@@ -56,7 +60,19 @@ class UniqueJobQueue extends BaseService
 
     public function subscribeForum(int $forumId, int $userId)
     {
-        $key = $this->commentHotJobPrefix.$userId.$forumId;
+        $key = $this->subscribeJobPrefix.$userId.$forumId;
         $this->uniquePush($key, new AutoSubscribeForumJob($key,$userId,$forumId));
+    }
+
+    public function refreshShopOrderSummary(int $shopId)
+    {
+        $key = $this->shopOrderSummaryJobPrefix.$shopId;
+        $this->uniquePush($key, new RefreshShopOrderSummaryJob($shopId,$key));
+    }
+
+    public function refreshShopInfo(int $shopId)
+    {
+        $key = $this->refreshJobInfoPrefix.$shopId;
+        $this->uniquePush($key, new RefreshShopInfoJob($shopId,$key));
     }
 }

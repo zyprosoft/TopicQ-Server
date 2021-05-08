@@ -9,19 +9,23 @@ use App\Model\ShopOrderSummary;
 use Hyperf\AsyncQueue\Job;
 use Hyperf\DbConnection\Db;
 use Hyperf\Utils\Collection;
+use ZYProSoft\Facade\Cache;
 use ZYProSoft\Log\Log;
 
 class RefreshShopOrderSummaryJob extends Job
 {
+    private string $cacheKey;
+
     /**
      * 待刷新的店铺
      * @var int
      */
     private int $shopId;
 
-    public function __construct(int $shopId)
+    public function __construct(int $shopId,string $cacheKey)
     {
         $this->shopId = $shopId;
+        $this->cacheKey = $cacheKey;
     }
 
     protected function getSummaryInfoByOrderList(Collection $list)
@@ -89,6 +93,8 @@ class RefreshShopOrderSummaryJob extends Job
      */
     public function handle()
     {
+        Cache::delete($this->cacheKey);
+
         //获取发货中的
         $waitOrderSummary = $this->getOrderSummaryByDeliveryStatus(Constants::STATUS_WAIT, $this->shopId);
         //更新订单数量

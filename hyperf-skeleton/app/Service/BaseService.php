@@ -14,14 +14,21 @@ declare (strict_types=1);
 namespace App\Service;
 use App\Constants\Constants;
 use App\Constants\ErrorCode;
+use App\Job\UniqueJobQueue;
 use App\Model\ImageAudit;
-use Hyperf\DbConnection\Db;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Log\Log;
 use ZYProSoft\Service\AbstractService;
+use Hyperf\Di\Annotation\Inject;
 
 class BaseService extends AbstractService
 {
+    /**
+     * @Inject
+     * @var UniqueJobQueue
+     */
+    protected UniqueJobQueue $queueService;
+
     public function imageIdsFromUrlList(array $imageList)
     {
         $imageIds = [];

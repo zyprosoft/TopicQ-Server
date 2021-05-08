@@ -141,10 +141,10 @@ class OrderService extends BaseService
         });
 
         //确认发货成功，异步刷新店铺信息
-        $this->push(new RefreshShopInfoJob($order->shop_id));
+        $this->queueService->refreshShopInfo($order->shop_id);
 
         //异步刷新店铺订单统计信息
-        $this->push(new RefreshShopOrderSummaryJob($order->shop_id));
+        $this->queueService->refreshShopOrderSummary($order->shop_id);
 
         //异步刷新用户订单统计信息
         $this->push(new RefreshUserOrderSummaryJob($order->owner_id));
@@ -169,10 +169,10 @@ class OrderService extends BaseService
         });
 
         //确认发货成功，异步刷新店铺信息
-        $this->push(new RefreshShopInfoJob($order->shop_id));
+        $this->queueService->refreshShopInfo($order->shop_id);
 
         //异步刷新店铺订单统计信息
-        $this->push(new RefreshShopOrderSummaryJob($order->shop_id));
+        $this->queueService->refreshShopOrderSummary($order->shop_id);
 
         //异步刷新用户订单统计信息
         $this->push(new RefreshUserOrderSummaryJob($order->owner_id));

@@ -7,16 +7,19 @@ use App\Model\Order;
 use App\Model\Shop;
 use App\Model\User;
 use Hyperf\AsyncQueue\Job;
-use Hyperf\DbConnection\Db;
+use ZYProSoft\Facade\Cache;
 use ZYProSoft\Log\Log;
 
 class RefreshShopInfoJob extends Job
 {
+    private string $cacheKey;
+
     private int $shopId;
 
-    public function __construct(int $shopId)
+    public function __construct(int $shopId, string $cacheKey)
     {
         $this->shopId = $shopId;
+        $this->cacheKey = $cacheKey;
     }
 
     /**
@@ -24,6 +27,8 @@ class RefreshShopInfoJob extends Job
      */
     public function handle()
     {
+        Cache::delete($this->cacheKey);
+
         $shopId = $this->shopId;
 
         //异步统计该店铺的总用户数

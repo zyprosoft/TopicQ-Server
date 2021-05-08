@@ -147,10 +147,10 @@ class WxPayService extends BaseService
         $this->push(new RefreshUserOrderSummaryJob($order->owner_id));
 
         //下单成功，异步刷新店铺信息
-        $this->push(new RefreshShopInfoJob($order->shop_id));
+        $this->queueService->refreshShopInfo($order->shop_id);
 
         //异步刷新店铺订单统计信息
-        $this->push(new RefreshShopOrderSummaryJob($order->shop_id));
+        $this->queueService->refreshShopOrderSummary($order->shop_id);
     }
 
     public function checkOrderPayStatus(string $orderNo)
