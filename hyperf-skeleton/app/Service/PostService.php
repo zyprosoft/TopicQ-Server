@@ -324,6 +324,12 @@ class PostService extends BaseService
                 }
             }
         } else {
+            //需要检查订阅权限，并且不是管理员
+            $forum = Forum::findOrFail($post->forum_id);
+            if($forum->needCheckSubscribe()) {
+                //没有登陆，必然没有权限
+                throw new HyperfCommonException(ErrorCode::FORUM_POST_NEED_PAY_OR_AUTH);
+            }
             $post->is_read = 0;
             $post->is_voted = 0;
             $post->is_favorite = 0;
