@@ -289,8 +289,8 @@ class UserService extends BaseService
             $user->avatar = $avatarList[$randAvatarIndex];
             $randBackIndex = rand(0,count($backgroundList)-1);
             $user->background = $backgroundList[$randBackIndex];
-            $user->area = "吉州区";
-            $user->country = "不限";
+            $user->area = $registerUserInfo['area'];
+            $user->country = $registerUserInfo['country'];
         }
         $user->saveOrFail();
         return $user;

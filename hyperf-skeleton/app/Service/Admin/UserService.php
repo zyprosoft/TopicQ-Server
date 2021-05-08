@@ -50,6 +50,37 @@ class UserService extends \App\Service\BaseService
         return ['token' => $user->token, 'token_expire' => $user->token_expire->timestamp, 'wx_token_expire' => $wxExpireTime];
     }
 
+    public function updateUserStatus(int $userId, int $status, string $note)
+    {
+        $user = User::findOrFail($userId);
+        $user->status = $status;
+        $user->block_reason = $note;
+        $user->saveOrFail();
+        return $this->success($user);
+    }
+
+    public function searchUser(string $mobile = null)
+    {
+        return User::query()->where('mobile','like',"%$mobile%")
+                             ->get();
+    }
+
+    public function getUserList(int $pageIndex, int $pageSize, int $lastId = null)
+    {
+        $list = User::query()->where(function (Builder $query) use ($lastId) {
+            if (isset($lastId)) {
+                $query->where('user_id', '<', $lastId);
+            }
+        })->offset($pageIndex * $pageSize)
+            ->limit($pageSize)
+            ->latest()
+            ->get();
+
+        $total = User::count();
+
+        return ['total' => $total, 'list' => $list];
+    }
+
     public function getAdviceList(int $pageIndex, int $pageSize, int $lastId = null)
     {
         $list = Advice::query()->where(function (Builder $query) use ($lastId) {

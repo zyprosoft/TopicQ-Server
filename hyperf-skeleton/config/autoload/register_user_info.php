@@ -1,5 +1,7 @@
 <?php
 return [
+    'area' => env('REGISTER_AREA'),
+    'country' => env('REGISTER_COUNTRY'),
     'avatar_list'=>[
         'https://static.weshop.lulinggushi.com/1615030380059',
         'https://static.lulingshuo.icodefuture.com/161922711067',

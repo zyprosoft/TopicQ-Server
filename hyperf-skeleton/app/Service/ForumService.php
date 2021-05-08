@@ -48,7 +48,7 @@ class ForumService extends BaseService
                                                    ->with(['forum'])
                                                    ->get()->pluck('forum');
         //合并数据
-        return $userSubscribeList->union($list)->unique();
+        return $userSubscribeList->union($list)->unique()->sortByDesc('need_auth')->sortByDesc('goods_id')->values()->all();
     }
 
     public function getForumList()
