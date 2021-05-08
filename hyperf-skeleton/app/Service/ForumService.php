@@ -146,7 +146,7 @@ class ForumService extends BaseService
             'deliverType' => 0
         ];
         //查出用户的地址信息
-        $address = UserAddress::first();
+        $address = UserAddress::query()->where('owner_id',$this->userId())->first();
         if ($address instanceof UserAddress) {
             $addressInfo = "{$address->city}{$address->country}{$address->detail_info}";
         }else{
