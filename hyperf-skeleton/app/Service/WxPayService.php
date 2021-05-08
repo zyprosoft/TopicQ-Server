@@ -18,8 +18,6 @@ use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Log\Log;
-use App\Job\RefreshShopInfoJob;
-use App\Job\RefreshShopOrderSummaryJob;
 
 class WxPayService extends BaseService
 {

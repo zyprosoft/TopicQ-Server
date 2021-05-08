@@ -33,7 +33,7 @@ class UniqueJobQueue
 
     private string $shopOrderSummaryJobPrefix = 'as:up:spo:';
 
-    private string $refreshJobInfoPrefix = 'as:up:rsi:';
+    private string $refreshShopInfoPrefix = 'as:up:rsi:';
 
     public function __construct(ContainerInterface $container)
     {
@@ -100,7 +100,7 @@ class UniqueJobQueue
 
     public function refreshShopInfo(int $shopId)
     {
-        $key = $this->refreshJobInfoPrefix.$shopId;
+        $key = $this->refreshShopInfoPrefix.$shopId;
         $this->uniquePush($key, new RefreshShopInfoJob($shopId,$key));
     }
 }
