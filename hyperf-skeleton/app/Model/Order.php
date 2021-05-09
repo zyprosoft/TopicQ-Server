@@ -37,6 +37,10 @@ namespace App\Model;
  * @property string $deleted_at 
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
+ * @property int $deduct_cash 券抵扣金额,单位分
+ * @property-read \Hyperf\Database\Model\Collection|\App\Model\OrderGood[] $order_goods 
+ * @property-read \App\Model\User $owner 
+ * @property-read \App\Model\Shop $shop 
  */
 class Order extends Model
 {
@@ -46,9 +50,7 @@ class Order extends Model
      * @var string
      */
     protected $table = 'order';
-
     protected $primaryKey = 'order_id';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -60,23 +62,16 @@ class Order extends Model
      *
      * @var array
      */
-    protected $casts = ['order_id' => 'integer', 'pay_status' => 'integer', 'deliver_status' => 'integer', 'owner_id' => 'integer', 'shop_owner_id' => 'integer', 'shop_id' => 'integer', 'cash' => 'integer', 'platform_cut' => 'integer', 'deliver_type' => 'integer', 'receive_status' => 'integer', 'finish_status' => 'integer', 'is_appreciate' => 'integer', 'order_expire' => 'integer', 'is_comment' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
-
-    protected $with = [
-        'order_goods',
-        'shop'
-    ];
-
+    protected $casts = ['order_id' => 'integer', 'pay_status' => 'integer', 'deliver_status' => 'integer', 'owner_id' => 'integer', 'shop_owner_id' => 'integer', 'shop_id' => 'integer', 'cash' => 'integer', 'platform_cut' => 'integer', 'deliver_type' => 'integer', 'receive_status' => 'integer', 'finish_status' => 'integer', 'is_appreciate' => 'integer', 'order_expire' => 'integer', 'is_comment' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'deduct_cash' => 'integer'];
+    protected $with = ['order_goods', 'shop'];
     public function order_goods()
     {
         return $this->hasMany(OrderGood::class, 'order_no', 'order_no');
     }
-
     public function shop()
     {
         return $this->hasOne(Shop::class, 'shop_id', 'shop_id');
     }
-
     public function owner()
     {
         return $this->hasOne(User::class, 'user_id', 'owner_id');
