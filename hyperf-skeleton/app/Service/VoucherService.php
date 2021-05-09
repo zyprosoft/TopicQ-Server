@@ -144,7 +144,7 @@ class VoucherService extends BaseService
         return false;
     }
 
-    public function checkOrderMatchVoucherCashInfo(array $orderGoods, string $voucherSn, bool $needLock)
+    public function checkOrderMatchVoucherCashInfo(array $orderGoods, string $voucherSn, bool $needLock = false)
     {
         if (empty($orderGoods)) {
             return false;

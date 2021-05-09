@@ -17,6 +17,7 @@ use App\Model\Shop;
 use App\Model\User;
 use App\Model\UserOrderSummary;
 use App\Model\UserSubscribe;
+use App\Model\VoucherUseHistory;
 use Carbon\Carbon;
 use Hyperf\DbConnection\Db;
 use ZYProSoft\Exception\HyperfCommonException;
@@ -143,6 +144,7 @@ class OrderService extends BaseService
             });
 
             //是否有传代金券
+            $deductAmount = 0;
             if (!empty($params['voucherSn'])) {
                 $deductInfo = $this->voucherService->checkOrderMatchVoucherCashInfo($params['goodsList'],$params['voucherSn'],true);
                 if ($deductInfo !== false) {
@@ -152,6 +154,9 @@ class OrderService extends BaseService
                         $voucherLeftAmount = data_get($deductInfo,'voucherLeftAmount',0);
                         $voucher = data_get($deductInfo,'voucher');
                         $voucher->left_amount = $voucherLeftAmount;
+                        $voucher->saveOrFail();
+                        Log::info(json_encode($deductInfo));
+                        Log::info("({$params['voucherSn']})代金券抵扣信息处理完成!");
 
                     }
                 }
@@ -167,9 +172,16 @@ class OrderService extends BaseService
             $order->customer_note = $params['note'];
             $order->deliver_type = $params['deliverType'];
             $order->cash = $orderCash;
+            $order->deduct_cash = $deductAmount;
             $order->owner_id = $this->userId();
             $shop = Shop::findOrFail($order->shop_id);
             $order->shop_owner_id = $shop->owner_id;
+
+            //写入代金券使用记录
+            $voucherUseHistory = new VoucherUseHistory();
+            $voucherUseHistory->order_no = $orderNo;
+            $voucherUseHistory->voucher_sn = $params['voucherSn'];
+            $voucherUseHistory->amount = $deductAmount;
 
             //获取过期时间
             $expireTime = self::ORDER_EXPIRE_TIME;
