@@ -14,7 +14,7 @@ class AddPostHasVideoTag extends Migration
         Schema::table('post', function (Blueprint $table) {
             //
             $table->tinyInteger('has_video')->default(0)->comment('是否包含视频');
-            $table->tinyInteger('is_video_admin')->default(1)->comment('视频是不是管理员的');
+            $table->tinyInteger('is_video_admin')->default(0)->comment('视频是不是管理员的');
         });
     }
 

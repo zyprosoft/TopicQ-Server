@@ -21,6 +21,7 @@ use App\Model\Vote;
 use App\Model\VoteItem;
 use Hyperf\Database\Model\Builder;
 use Hyperf\DbConnection\Db;
+use Hyperf\Utils\Str;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Facade\Auth;
 use ZYProSoft\Log\Log;
@@ -117,6 +118,13 @@ class PostService extends BaseService
             }
             if (isset($link)) {
                 $post->link = $link;
+                if(Str::endsWith($link,'.mp4')) {
+                    $post->has_video = 1;
+                }
+                $user = $this->user();
+                if($user instanceof User && $user->isAdmin()) {
+                    $post->is_video_admin = 1;
+                }
             }
 
             if (isset($vote)) {
