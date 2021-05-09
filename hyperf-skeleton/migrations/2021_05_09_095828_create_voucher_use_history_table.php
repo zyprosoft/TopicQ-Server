@@ -25,7 +25,7 @@ class CreateVoucherUseHistoryTable extends Migration
             $table->index('owner_id');
             $table->index('voucher_sn');
             $table->index('order_no');
-            $table->index('type');
+            $table->index('status');
             $table->timestamps();
             $table->softDeletes();
             $table->engine = "InnoDB";
