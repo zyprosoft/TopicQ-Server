@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Constants\Constants;
 use App\Constants\ErrorCode;
 use App\Model\Good;
+use App\Model\Order;
 use App\Model\Voucher;
 use App\Model\VoucherPolicy;
 use App\Model\VoucherUseHistory;
@@ -201,5 +202,40 @@ class VoucherService extends BaseService
         $total = VoucherUseHistory::query()->where('owner_id',$this->userId())->count();
 
         return ['total'=>$total,'list'=>$list];
+    }
+
+    public function rollbackVoucher(string $orderNo)
+    {
+        //回滚订单使用的代金券
+        $order = Order::query()->where('order_no',$orderNo)->first();
+        if (!$order instanceof Order) {
+            Log::info("{$orderNo}订单未找到!");
+            return;
+        }
+        if (!isset($order->voucher)) {
+            Log::info("{$orderNo}订单没有使用代金券!");
+            return;
+        }
+        //查找订单使用记录
+        $voucherUseHistory = VoucherUseHistory::query()->where('voucher_id',$order->voucher_id)
+            ->where('order_id',$order->order_id)
+            ->where('status',0)
+            ->first();
+        if (!$voucherUseHistory instanceof VoucherUseHistory) {
+            Log::info("{$orderNo}订单没有找到扣券记录");
+            return;
+        }
+        //开始回滚
+        Db::transaction(function () use ($order, $voucherUseHistory){
+            $voucher = Voucher::query()->where('voucher_id',$order->voucher_id)->lockForUpdate()->first();
+            if (!$voucher instanceof Voucher) {
+                return;
+            }
+            $voucher->left_amount += $voucherUseHistory->amount;
+            $voucher->saveOrFail();
+            Log::info("订单{$order->order_no}所使用的代金券金额({$voucherUseHistory->amount})已回滚");
+            //更新使用记录状态
+
+        });
     }
 }

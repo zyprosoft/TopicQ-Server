@@ -17,7 +17,8 @@ class CreateVoucherUseHistoryTable extends Migration
             $table->string('voucher_sn',64)->comment('券编码');
             $table->bigInteger('voucher_id')->comment('券ID');
             $table->bigInteger('amount')->comment('金额');
-            $table->tinyInteger('type')->default(0)->comment('0扣减1:回滚');
+            $table->tinyInteger('status')->default(0)->comment('0扣减-1:回滚');
+            $table->dateTime('rollback_time')->nullable()->comment('回滚时间');
             $table->string('order_no',30)->comment('使用时候的订单号');
             $table->bigInteger('order_id')->comment('订单编号');
 

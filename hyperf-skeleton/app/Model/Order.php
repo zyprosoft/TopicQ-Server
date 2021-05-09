@@ -64,7 +64,7 @@ class Order extends Model
      * @var array
      */
     protected $casts = ['order_id' => 'integer', 'pay_status' => 'integer', 'deliver_status' => 'integer', 'owner_id' => 'integer', 'shop_owner_id' => 'integer', 'shop_id' => 'integer', 'cash' => 'integer', 'platform_cut' => 'integer', 'deliver_type' => 'integer', 'receive_status' => 'integer', 'finish_status' => 'integer', 'is_appreciate' => 'integer', 'order_expire' => 'integer', 'is_comment' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'deduct_cash' => 'integer', 'voucher_id' => 'integer'];
-    protected $with = ['order_goods', 'shop'];
+    protected $with = ['order_goods', 'shop', 'voucher'];
     public function order_goods()
     {
         return $this->hasMany(OrderGood::class, 'order_no', 'order_no');
@@ -76,5 +76,9 @@ class Order extends Model
     public function owner()
     {
         return $this->hasOne(User::class, 'user_id', 'owner_id');
+    }
+    public function voucher()
+    {
+        return $this->hasOne(Voucher::class,'voucher_id','voucher_id');
     }
 }

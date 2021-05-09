@@ -177,6 +177,9 @@ class OrderService extends BaseService
             $order->deliver_type = $params['deliverType'];
             $order->cash = $orderCash;
             $order->deduct_cash = $deductAmount;
+            if ($deductAmount > 0 && isset($voucher)) {
+                $order->voucher_id = $voucher->voucher_id;
+            }
             $order->owner_id = $this->userId();
             $shop = Shop::findOrFail($order->shop_id);
             $order->shop_owner_id = $shop->owner_id;
