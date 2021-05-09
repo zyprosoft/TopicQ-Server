@@ -11,8 +11,10 @@ class AddPostHasVideoTag extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('post', function (Blueprint $table) {
             //
+            $table->tinyInteger('has_video')->default(0)->comment('是否包含视频');
+            $table->tinyInteger('is_video_admin')->default(1)->comment('视频是不是管理员的');
         });
     }
 
@@ -21,8 +23,10 @@ class AddPostHasVideoTag extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('post', function (Blueprint $table) {
             //
+            $table->dropColumn('has_video');
+            $table->dropColumn('is_video_admin');
         });
     }
 }
