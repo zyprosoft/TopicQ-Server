@@ -226,6 +226,13 @@ class PostService extends BaseService
         }
         if (isset($params['link'])) {
             $post->link = $params['link'];
+            if(Str::endsWith($post->link,'.mp4')) {
+                $post->has_video = 1;
+            }
+            $user = $this->user();
+            if($user instanceof User && $user->isAdmin()) {
+                $post->is_video_admin = 1;
+            }
         }
         if (isset($params['content'])) {
             $post->content = $params['content'];
