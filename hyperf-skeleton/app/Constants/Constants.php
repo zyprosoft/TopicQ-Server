@@ -155,4 +155,8 @@ class Constants
     const VOUCHER_STATUS_INVALIDATE = -1;
     const VOUCHER_STATUS_USED = 1;
     const VOUCHER_STATUS_WAIT = 0;
+
+    const VIDEO_POST_LIST_TYPE_ADMIN = 1;
+    const VIDEO_POST_LIST_TYPE_CUSTOMER = 2;
+    const VIDEO_POST_LIST_TYPE_BOTH = 3;
 }

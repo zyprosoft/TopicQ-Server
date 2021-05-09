@@ -723,4 +723,29 @@ class PostService extends BaseService
 
         return ['total'=>$total, 'list'=>$list];
     }
+
+    public function getVideoPostList(int $pageIndex, int $pageSize, int $type = Constants::VIDEO_POST_LIST_TYPE_ADMIN)
+    {
+        $list = Post::query()->where('has_video',Constants::STATUS_OK)
+                             ->where(function (Builder $query) use ($type){
+                                 if ($type == Constants::VIDEO_POST_LIST_TYPE_ADMIN) {
+                                     $query->where('is_video_admin',Constants::STATUS_OK);
+                                 }elseif ($type == Constants::VIDEO_POST_LIST_TYPE_CUSTOMER) {
+                                     $query->where('is_video_admin','<>', Constants::STATUS_OK);
+                                 }
+                             })
+                             ->orderByDesc('recommend_weight')
+                             ->offset($pageIndex * $pageSize)
+                             ->limit($pageSize)
+                             ->get();
+        $total = Post::query()->where('has_video',Constants::STATUS_OK)
+            ->where(function (Builder $query) use ($type){
+                if ($type == Constants::VIDEO_POST_LIST_TYPE_ADMIN) {
+                    $query->where('is_video_admin',Constants::STATUS_OK);
+                }elseif ($type == Constants::VIDEO_POST_LIST_TYPE_CUSTOMER) {
+                    $query->where('is_video_admin','<>', Constants::STATUS_OK);
+                }
+            })->count();
+        return ['total'=>$total,'list'=>$list];
+    }
 }
