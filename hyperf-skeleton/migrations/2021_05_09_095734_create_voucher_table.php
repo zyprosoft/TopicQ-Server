@@ -13,10 +13,7 @@ class CreateVoucherTable extends Migration
     {
         Schema::create('voucher', function (Blueprint $table) {
             $table->bigIncrements('voucher_id');
-            $table->bigInteger('activity_id')->comment('活动ID');
             $table->bigInteger('policy_id')->comment('批次ID');
-            $table->bigInteger('policy_goods_id')->nullable()->comment('适用商品ID,没有为全部适用');
-            $table->bigInteger('policy_black_id')->nullable()->comment('不适用商品ID,没有为不拉黑');
             $table->string('voucher_sn',64)->comment('代金券编码');
             $table->tinyInteger('status')->default(0)->comment('0待适用1已使用-1已作废');
             $table->bigInteger('owner_id')->default(0)->comment('归属者ID,为0的时候说明没有归属，可以后续绑定');
@@ -26,9 +23,7 @@ class CreateVoucherTable extends Migration
             $table->dateTime('used_time')->nullable()->comment('使用时间，多次使用为最后一次使用时间');
 
             $table->unique('voucher_sn');
-            $table->index('activity_id');
             $table->index('policy_id');
-            $table->index('policy_goods_id');
             $table->index('status');
             $table->index('owner_id');
             $table->index('begin_time');
