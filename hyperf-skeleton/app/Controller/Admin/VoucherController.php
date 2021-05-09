@@ -25,8 +25,8 @@ class VoucherController extends AbstractController
     {
         $this->validate([
             'name' => 'string|required|min:1|max:32',
-            'introduce' => 'string|min:1|max:500',
-            'imageList' => 'array|min:1',
+            'introduce' => 'string|required|min:1|max:500',
+            'imageList' => 'array|required|min:1',
             'beginTime' => 'date',
             'endTime' => 'date'
         ]);

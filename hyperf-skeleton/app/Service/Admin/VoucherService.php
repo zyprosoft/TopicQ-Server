@@ -46,6 +46,12 @@ class VoucherService extends BaseService
                                         ->offset($pageIndex * $pageSize)
                                         ->limit($pageSize)
                                         ->get();
+        $list->map(function (VoucherActivity $activity) {
+            if(!empty($activity->image_list)) {
+                $activity->image_list = explode(';',$activity->image_list);
+                return $activity;
+            }
+        });
         $total = VoucherActivity::query()->where('status',Constants::STATUS_WAIT)->count();
         return ['total'=>$total,'list'=>$list];
     }
