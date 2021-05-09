@@ -25,8 +25,8 @@ class AlterOrderAddDeductCash extends Migration
     {
         Schema::table('order', function (Blueprint $table) {
             //
-//            $table->dropColumn('deduct_cash');
-//            $table->dropColumn('voucher_id');
+            $table->dropColumn('deduct_cash');
+            $table->dropColumn('voucher_id');
         });
     }
 }
