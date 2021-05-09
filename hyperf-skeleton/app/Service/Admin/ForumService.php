@@ -21,14 +21,23 @@ class ForumService extends BaseService
         return Forum::findOrFail($forumId);
     }
 
-    public function createForum(string $name,string $icon,
-                                int $type=0, string $area=null,
-                                string $country=null, int $parentForumId=null,
-                                int $needAuth = null, int $goodsId=null,
-                                string $buyTip=null, int $maxMemberCount=null,
-                                int $unlockPrice=null)
+    public function createForum(array $params)
     {
-        Db::transaction(function() use ($name,$icon,$type,$area,$country,$parentForumId, $needAuth, $goodsId,$buyTip,$maxMemberCount,$unlockPrice){
+        Db::transaction(function() use ($params){
+
+            $name = data_get($params,'name');
+            $icon = data_get($params,'icon');
+            $type= data_get($params,'type',0);
+            $area= data_get($params,'area');
+            $country= data_get($params,'country');
+            $parentForumId = data_get($params,'parentForumId');
+            $needAuth = data_get($params,'needAuth');
+            $goodsId= data_get($params,'goodsId');
+            $buyTip= data_get($params,'buyTip');
+            $maxMemberCount=data_get($params,'maxMemberCount');
+            $unlockPrice=data_get($params,'unlockPrice');
+            $pagePath = data_get($params,'pagePath');
+
             $forum = Forum::query()->where('name',$name)
                 ->where('type',$type)
                 ->first();
@@ -60,6 +69,9 @@ class ForumService extends BaseService
             if (isset($maxMemberCount)) {
                 $forum->max_member_count = $maxMemberCount;
              }
+            if (isset($pagePath)) {
+                $forum->page_path = $pagePath;
+            }
             $forum->saveOrFail();
             //绑定对应的板块ID到商品上
             if (isset($goodsId)) {
@@ -83,17 +95,30 @@ class ForumService extends BaseService
         return $this->success();
     }
 
-    public function editForum(int $forumId, string $name = null,string $icon = null,
-                              int $type=null, string $area=null,string $country=null,
-                              int $parentForumId=null,int $needAuth = null, int $goodsId=null,
-                              string $buyTip=null, int $maxMemberCount=null, int $unlockPrice=null)
+    public function editForum(array $params)
     {
+        $forumId = data_get($params,'forumId');
+
         $forum = Forum::query()->where('forum_id',$forumId)
             ->first();
         if (!$forum instanceof Forum) {
             throw new HyperfCommonException(ErrorCode::RECORD_NOT_EXIST);
         }
-        Db::transaction(function() use ($forum,$name,$icon,$type,$area,$country,$parentForumId, $needAuth, $goodsId,$buyTip,$maxMemberCount,$unlockPrice){
+        Db::transaction(function() use ($params,$forum){
+
+            $name = data_get($params,'name');
+            $icon = data_get($params,'icon');
+            $type= data_get($params,'type',0);
+            $area= data_get($params,'area');
+            $country= data_get($params,'country');
+            $parentForumId = data_get($params,'parentForumId');
+            $needAuth = data_get($params,'needAuth');
+            $goodsId= data_get($params,'goodsId');
+            $buyTip= data_get($params,'buyTip');
+            $maxMemberCount=data_get($params,'maxMemberCount');
+            $unlockPrice=data_get($params,'unlockPrice');
+            $pagePath = data_get($params,'pagePath');
+
             if (isset($name)) {
                 $forum->name = $name;
             }
@@ -123,6 +148,9 @@ class ForumService extends BaseService
             }
             if (isset($maxMemberCount)) {
                 $forum->max_member_count = $maxMemberCount;
+            }
+            if (isset($pagePath)) {
+                $forum->page_path = $pagePath;
             }
             $forum->saveOrFail();
             //绑定对应的板块ID到商品上
