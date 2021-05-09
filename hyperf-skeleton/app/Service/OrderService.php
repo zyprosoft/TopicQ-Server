@@ -145,6 +145,7 @@ class OrderService extends BaseService
 
             //是否有传代金券
             $deductAmount = 0;
+            $voucher = null;
             if (!empty($params['voucherSn'])) {
                 $deductInfo = $this->voucherService->checkOrderMatchVoucherCashInfo($params['goodsList'],$params['voucherSn'],true);
                 if ($deductInfo !== false) {
@@ -154,10 +155,13 @@ class OrderService extends BaseService
                         $voucherLeftAmount = data_get($deductInfo,'voucherLeftAmount',0);
                         $voucher = data_get($deductInfo,'voucher');
                         $voucher->left_amount = $voucherLeftAmount;
+                        //如果券不是多次使用券，那么转成已使用状态
+                        if($voucher->multi_use == Constants::STATUS_NOT) {
+                            $voucher->status = Constants::STATUS_DONE;
+                        }
                         $voucher->saveOrFail();
                         Log::info(json_encode($deductInfo));
                         Log::info("({$params['voucherSn']})代金券抵扣信息处理完成!");
-
                     }
                 }
             }
@@ -177,18 +181,24 @@ class OrderService extends BaseService
             $shop = Shop::findOrFail($order->shop_id);
             $order->shop_owner_id = $shop->owner_id;
 
-            //写入代金券使用记录
-            $voucherUseHistory = new VoucherUseHistory();
-            $voucherUseHistory->order_no = $orderNo;
-            $voucherUseHistory->voucher_sn = $params['voucherSn'];
-            $voucherUseHistory->amount = $deductAmount;
-
             //获取过期时间
             $expireTime = self::ORDER_EXPIRE_TIME;
             $orderExpireTime = Carbon::now()->addRealMinutes($expireTime)->toDateTimeString();
             $order->pay_expire_time = $orderExpireTime;
 
             $order->saveOrFail();
+
+            //写入代金券使用记录
+            if($deductAmount > 0 && isset($voucher)) {
+                $voucherUseHistory = new VoucherUseHistory();
+                $voucherUseHistory->order_no = $orderNo;
+                $voucherUseHistory->voucher_sn = $params['voucherSn'];
+                $voucherUseHistory->amount = $deductAmount;
+                $voucherUseHistory->order_id = $order->order_id;
+                $voucherUseHistory->voucher_id = $voucher->voucher_id;
+                $voucherUseHistory->owner_id = $this->userId();
+                $voucherUseHistory->saveOrFail();
+            }
 
         });
 

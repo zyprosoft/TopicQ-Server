@@ -14,6 +14,7 @@ class AlterOrderAddDeductCash extends Migration
         Schema::table('order', function (Blueprint $table) {
             //
             $table->bigInteger('deduct_cash')->default(0)->comment('券抵扣金额,单位分');
+            $table->bigInteger('voucher_id')->default(0)->comment('券ID');
         });
     }
 
@@ -25,6 +26,7 @@ class AlterOrderAddDeductCash extends Migration
         Schema::table('order', function (Blueprint $table) {
             //
             $table->dropColumn('deduct_cash');
+            $table->dropColumn('voucher_id');
         });
     }
 }

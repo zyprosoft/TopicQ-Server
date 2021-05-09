@@ -9,6 +9,7 @@ use App\Constants\ErrorCode;
 use App\Model\Good;
 use App\Model\Voucher;
 use App\Model\VoucherPolicy;
+use App\Model\VoucherUseHistory;
 use Carbon\Carbon;
 use Hyperf\DbConnection\Db;
 use phpDocumentor\Reflection\Types\Collection;
@@ -188,5 +189,17 @@ class VoucherService extends BaseService
             'voucherLeftAmount' => $initVoucherAmount,
             'voucher' => $voucher
         ];
+    }
+
+    public function getMyVoucherUseHistoryList(int $pageIndex, int $pageSize)
+    {
+        $list = VoucherUseHistory::query()->where('owner_id',$this->userId())
+                                          ->offset($pageIndex * $pageSize)
+                                          ->limit($pageSize)
+                                          ->get();
+
+        $total = VoucherUseHistory::query()->where('owner_id',$this->userId())->count();
+
+        return ['total'=>$total,'list'=>$list];
     }
 }

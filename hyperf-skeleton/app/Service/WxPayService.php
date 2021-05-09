@@ -258,42 +258,44 @@ class WxPayService extends BaseService
 
     public function closeOrder(string $orderNo)
     {
-        //订单支付状态是不是已经成功或者失效关闭状态
-        $order = Order::query()->where('order_no', $orderNo)->first();
-        if (!$order instanceof Order) {
-            Log::info("关闭订单时($orderNo)找不到对应的订单!");
-            return false;
-        }
-        if ($order->pay_status == Constants::STATUS_DONE) {
-            Log::info("关闭订单($orderNo)查到当前订单已经支付成功");
-            return false;
-        }
-        if ($order->pay_status == Constants::STATUS_INVALIDATE) {
-            Log::info("关闭订单($orderNo)发现订单已经是失效取消状态");
-            return false;
-        }
-
-        //开始尝试关闭
-        Log::info('payment config:'.json_encode($this->paymentConfig));
-        $app = Factory::payment($this->paymentConfig);
-        try {
-            $result = $app->order->close($orderNo);
-            //判断交易成功的条件
-            if ($result['return_code'] == self::WX_REQUEST_SUCCESS_CODE &&
-                $result['result_code'] == self::WX_REQUEST_SUCCESS_CODE
-            ) {
-                Log::info("从微信支付查询到($orderNo)关闭执行成功!");
-                //保存订单成关闭
-                $order->pay_status = Constants::STATUS_INVALIDATE;
-                $order->pay_status_note = "订单已经被系统执行关闭!";
-                return $order->save();
+        Db::transaction(function () use ($orderNo) {
+            //订单支付状态是不是已经成功或者失效关闭状态
+            $order = Order::query()->where('order_no', $orderNo)->lockForUpdate()->first();
+            if (!$order instanceof Order) {
+                Log::info("关闭订单时($orderNo)找不到对应的订单!");
+                return false;
             }
-            Log::info("close order($orderNo) fail!");
-            return  false;
-        }catch (\Exception $exception) {
-            Log::error('wxpay close order error code:'.$exception->getCode());
-            Log::error('wxpay close order error msg:'.$exception->getMessage());
-            return false;
-        }
+            if ($order->pay_status == Constants::STATUS_DONE) {
+                Log::info("关闭订单($orderNo)查到当前订单已经支付成功");
+                return false;
+            }
+            if ($order->pay_status == Constants::STATUS_INVALIDATE) {
+                Log::info("关闭订单($orderNo)发现订单已经是失效取消状态");
+                return false;
+            }
+
+            //开始尝试关闭
+            Log::info('payment config:'.json_encode($this->paymentConfig));
+            $app = Factory::payment($this->paymentConfig);
+            try {
+                $result = $app->order->close($orderNo);
+                //判断交易成功的条件
+                if ($result['return_code'] == self::WX_REQUEST_SUCCESS_CODE &&
+                    $result['result_code'] == self::WX_REQUEST_SUCCESS_CODE
+                ) {
+                    Log::info("从微信支付查询到($orderNo)关闭执行成功!");
+                    //保存订单成关闭
+                    $order->pay_status = Constants::STATUS_INVALIDATE;
+                    $order->pay_status_note = "订单已经被系统执行关闭!";
+                    return $order->save();
+                }
+                Log::info("close order($orderNo) fail!");
+                return  false;
+            }catch (\Exception $exception) {
+                Log::error('wxpay close order error code:'.$exception->getCode());
+                Log::error('wxpay close order error msg:'.$exception->getMessage());
+                return false;
+            }
+        });
     }
 }
