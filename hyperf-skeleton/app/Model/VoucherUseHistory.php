@@ -36,4 +36,19 @@ class VoucherUseHistory extends Model
      * @var array
      */
     protected $casts = ['id' => 'int', 'owner_id' => 'integer', 'policy_id' => 'integer', 'policy_goods_id' => 'integer', 'policy_black_id' => 'integer', 'amount' => 'integer', 'type' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+
+    public function policy()
+    {
+        return $this->hasOne(VoucherPolicy::class,'policy_id','policy_id');
+    }
+
+    public function goods()
+    {
+        return $this->hasOne(VoucherPolicyGood::class,'policy_goods_id','policy_goods_id');
+    }
+
+    public function black_goods()
+    {
+        return $this->hasOne(VoucherPolicyBlackGood::class,'policy_black_id','policy_black_id');
+    }
 }

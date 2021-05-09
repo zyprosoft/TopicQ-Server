@@ -21,6 +21,9 @@ class VoucherPolicyBlackGood extends Model
      * @var string
      */
     protected $table = 'voucher_policy_black_goods';
+
+    protected $primaryKey = 'policy_black_id';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -33,4 +36,27 @@ class VoucherPolicyBlackGood extends Model
      * @var array
      */
     protected $casts = ['policy_black_id' => 'integer', 'activity_id' => 'integer', 'policy_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+
+    public function policy()
+    {
+        return $this->hasOne(VoucherPolicy::class,'policy_id','policy_id');
+    }
+
+    public function category_items()
+    {
+        if(empty($this->category_list)) {
+            return [];
+        }
+        $categoryIds = explode(',', $this->category_list);
+        return GoodsCategory::findMany($categoryIds);
+    }
+
+    public function goods_items()
+    {
+        if (empty($this->goods_list)) {
+            return [];
+        }
+        $goodsIds = explode(',', $this->goods_list);
+        return Good::findMany($goodsIds);
+    }
 }

@@ -24,6 +24,9 @@ class VoucherActivity extends Model
      * @var string
      */
     protected $table = 'voucher_activity';
+
+    protected $primaryKey = 'activity_id';
+
     /**
      * The attributes that are mass assignable.
      *
