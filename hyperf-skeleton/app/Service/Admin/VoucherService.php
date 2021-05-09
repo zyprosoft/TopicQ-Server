@@ -27,8 +27,8 @@ class VoucherService extends BaseService
         if (isset($params['introduce'])) {
             $activity->introduce = $params['introduce'];
         }
-        if (isset($params['image_list'])) {
-            $activity->image_list = implode(';',$params['image_list']);
+        if (isset($params['imageList'])) {
+            $activity->image_list = implode(';',$params['imageList']);
         }
         if(isset($params['beginTime'])) {
             $activity->begin_time = $params['beginTime'];
