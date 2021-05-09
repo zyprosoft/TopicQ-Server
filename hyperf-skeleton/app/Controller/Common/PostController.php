@@ -335,10 +335,12 @@ class PostController extends AbstractController
         $this->validate([
             'pageIndex' => 'integer|required|min:0',
             'pageSize' => 'integer|required|min:10|max:30',
+            'type' => 'integer|in:1,2,3'
         ]);
         $pageIndex = $request->param('pageIndex');
         $pageSize = $request->param('pageSize');
-        $result = $this->service->getVideoPostList($pageIndex, $pageSize);
+        $type = $request->param('type');
+        $result = $this->service->getVideoPostList($pageIndex, $pageSize, $type);
         return $this->success($result);
     }
 }
