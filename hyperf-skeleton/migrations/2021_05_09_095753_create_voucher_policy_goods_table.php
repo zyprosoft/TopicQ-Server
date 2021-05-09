@@ -13,13 +13,9 @@ class CreateVoucherPolicyGoodsTable extends Migration
     {
         Schema::create('voucher_policy_goods', function (Blueprint $table) {
             $table->bigIncrements('policy_goods_id');
-            $table->bigInteger('activity_id')->comment('活动ID');
-            $table->bigInteger('policy_id')->comment('批次ID');
             $table->string('category_list',1000)->nullable()->comment('适用产品类别，多个ID使用逗号分割,没有goods_list的时候说明是类别适用');
             $table->string('goods_list',1000)->nullable()->comment('适用具体产品，当有指定产品列表的时候，就不存在为类别通用');
 
-            $table->index('activity_id');
-            $table->unique('policy_id'); //一个批次只能有一条适用
             $table->timestamps();
             $table->softDeletes();
             $table->engine = "InnoDB";
