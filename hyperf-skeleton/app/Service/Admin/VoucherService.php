@@ -122,12 +122,4 @@ class VoucherService extends BaseService
         return $this->success();
     }
 
-    public function createVoucher(array $params)
-    {
-        Db::transaction(function () use ($params) {
-
-
-
-        });
-    }
 }

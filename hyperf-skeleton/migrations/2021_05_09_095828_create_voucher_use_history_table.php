@@ -20,10 +20,12 @@ class CreateVoucherUseHistoryTable extends Migration
             $table->bigInteger('policy_black_id')->comment('不适用商品ID');
             $table->bigInteger('amount')->comment('金额');
             $table->tinyInteger('type')->default(0)->comment('0扣减1:回滚');
+            $table->string('order_no',30)->comment('使用时候的订单号');
 
             $table->index('owner_id');
             $table->index('voucher_sn');
             $table->index('policy_id');
+            $table->index('order_no');
             $table->index('type');
             $table->timestamps();
             $table->softDeletes();

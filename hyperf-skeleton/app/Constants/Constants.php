@@ -141,4 +141,12 @@ class Constants
      * 分类中由系统创建的
      */
     const CATEGORY_SHOP_ID_SYSTEM_USE = -1;
+
+    const VOUCHER_TIME_UNIT_MINUTE = 'p';
+    const VOUCHER_TIME_UNIT_HOUR = 'h';
+    const VOUCHER_TIME_UNIT_DAY = 'd';
+    const VOUCHER_TIME_UNIT_MONTH = 'm';
+    const VOUCHER_TIME_UNIT_YEAR = 'y';
+
+
 }

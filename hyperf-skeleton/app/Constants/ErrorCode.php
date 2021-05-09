@@ -153,4 +153,9 @@ class ErrorCode extends AbstractConstants
      * @Message("创建代金券批次时，选择白名单分类和黑名单商品产生冲突!")
      */
     const VOUCHER_POLICY_CREATE_GOODS_CONFLICT = 30024;
+
+    /**
+     * @Message("同一批次的券不可重复领取!")
+     */
+    const VOUCHER_CREATE_REPEAT = 30025;
 }
