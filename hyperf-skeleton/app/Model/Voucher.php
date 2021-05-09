@@ -5,10 +5,7 @@ namespace App\Model;
 
 /**
  * @property int $voucher_id 
- * @property int $activity_id 活动ID
  * @property int $policy_id 批次ID
- * @property int $policy_goods_id 适用商品ID,没有为全部适用
- * @property int $policy_black_id 不适用商品ID,没有为不拉黑
  * @property string $voucher_sn 代金券编码
  * @property int $status 0待适用1已使用-1已作废
  * @property int $owner_id 归属者ID,为0的时候说明没有归属，可以后续绑定
