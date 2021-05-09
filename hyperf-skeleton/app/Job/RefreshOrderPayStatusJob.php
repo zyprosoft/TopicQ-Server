@@ -72,7 +72,7 @@ class RefreshOrderPayStatusJob extends Job
 
     protected function rollbackVoucher()
     {
-        
+
     }
 
     /**
