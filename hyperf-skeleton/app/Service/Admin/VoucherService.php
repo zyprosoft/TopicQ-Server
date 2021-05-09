@@ -101,4 +101,12 @@ class VoucherService extends BaseService
         return $this->success();
     }
 
+    public function getPolicyList(int $pageIndex, int $pageSize)
+    {
+        $list = VoucherPolicy::query()->offset($pageIndex * $pageSize)
+                                      ->limit($pageSize)
+                                      ->get();
+        $total = VoucherPolicy::count();
+        return ['total'=>$total,'list'=>$list];
+    }
 }
