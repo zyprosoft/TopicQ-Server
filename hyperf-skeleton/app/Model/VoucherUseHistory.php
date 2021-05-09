@@ -9,15 +9,15 @@ namespace App\Model;
  * @property string $voucher_sn 券编码
  * @property int $voucher_id 券ID
  * @property int $amount 金额
- * @property int $type 0扣减1:回滚
+ * @property int $status 0扣减-1:回滚
+ * @property string $rollback_time 回滚时间
  * @property string $order_no 使用时候的订单号
  * @property int $order_id 订单编号
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
  * @property string $deleted_at 
- * @property-read \App\Model\VoucherPolicyBlackGood $black_goods 
- * @property-read \App\Model\VoucherPolicyGood $goods 
- * @property-read \App\Model\VoucherPolicy $policy 
+ * @property-read \App\Model\Order $order 
+ * @property-read \App\Model\Voucher $voucher 
  */
 class VoucherUseHistory extends Model
 {
@@ -38,20 +38,14 @@ class VoucherUseHistory extends Model
      *
      * @var array
      */
-    protected $casts = ['id' => 'int', 'owner_id' => 'integer', 'policy_id' => 'integer', 'policy_goods_id' => 'integer', 'policy_black_id' => 'integer', 'amount' => 'integer', 'type' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'voucher_id' => 'integer', 'order_id' => 'integer'];
-
-    protected $with = [
-        'voucher',
-        'order'
-    ];
-
+    protected $casts = ['id' => 'int', 'owner_id' => 'integer', 'policy_id' => 'integer', 'policy_goods_id' => 'integer', 'policy_black_id' => 'integer', 'amount' => 'integer', 'type' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'voucher_id' => 'integer', 'order_id' => 'integer', 'status' => 'integer'];
+    protected $with = ['voucher', 'order'];
     public function voucher()
     {
-        return $this->hasOne(Voucher::class,'voucher_id','voucher_id');
+        return $this->hasOne(Voucher::class, 'voucher_id', 'voucher_id');
     }
-
     public function order()
     {
-        return $this->hasOne(Order::class,'order_id','order_id');
+        return $this->hasOne(Order::class, 'order_id', 'order_id');
     }
 }
