@@ -22,6 +22,7 @@ namespace App\Model;
  * @property int $goods_id 绑定商品的ID
  * @property string $buy_tip 付费提示内容
  * @property int $max_member_count 0不限制
+ * @property string $page_path 小程序内部跳转链接
  * @property-read \Hyperf\Database\Model\Collection|\App\Model\Forum[] $child_forum_list 
  * @property-read \App\Model\Good $goods 
  * @property-read \App\Model\Forum $parent_forum 
@@ -61,7 +62,6 @@ class Forum extends Model
     {
         return $this->hasOne(Good::class, 'goods_id', 'goods_id');
     }
-
     public function needCheckSubscribe()
     {
         return $this->need_auth == 1 || $this->goods_id > 0;
