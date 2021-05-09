@@ -18,6 +18,11 @@ namespace App\Model;
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
  * @property string $deleted_at 
+ * @property int $policy_goods_id 适用商品ID,没有为全部适用
+ * @property int $policy_black_id 不适用商品ID,没有为不拉黑
+ * @property-read \App\Model\VoucherActivity $activity 
+ * @property-read \App\Model\VoucherPolicyBlackGood $black_goods 
+ * @property-read \App\Model\VoucherPolicyGood $goods 
  */
 class VoucherPolicy extends Model
 {
@@ -27,9 +32,7 @@ class VoucherPolicy extends Model
      * @var string
      */
     protected $table = 'voucher_policy';
-
     protected $primaryKey = 'policy_id';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -41,26 +44,18 @@ class VoucherPolicy extends Model
      *
      * @var array
      */
-    protected $casts = ['policy_id' => 'integer', 'activity_id' => 'integer', 'total_count' => 'integer', 'amount' => 'integer', 'left_count' => 'integer', 'multi_use' => 'integer', 'base_amount' => 'integer', 'time_span' => 'integer', 'status' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
-
-    protected $with = [
-        'activity',
-        'goods',
-        'black_goods',
-    ];
-
+    protected $casts = ['policy_id' => 'integer', 'activity_id' => 'integer', 'total_count' => 'integer', 'amount' => 'integer', 'left_count' => 'integer', 'multi_use' => 'integer', 'base_amount' => 'integer', 'time_span' => 'integer', 'status' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'policy_goods_id' => 'integer', 'policy_black_id' => 'integer'];
+    protected $with = ['activity', 'goods', 'black_goods'];
     public function activity()
     {
-        return $this->hasOne(VoucherActivity::class,'activity_id','activity_id');
+        return $this->hasOne(VoucherActivity::class, 'activity_id', 'activity_id');
     }
-
     public function goods()
     {
-        return $this->hasOne(VoucherPolicyGood::class,'policy_id','policy_id');
+        return $this->hasOne(VoucherPolicyGood::class, 'policy_id', 'policy_id');
     }
-
     public function black_goods()
     {
-        return $this->hasOne(VoucherPolicyBlackGood::class,'policy_id','policy_id');
+        return $this->hasOne(VoucherPolicyBlackGood::class, 'policy_id', 'policy_id');
     }
 }
