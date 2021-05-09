@@ -11,8 +11,9 @@ class AlterOrderAddDeductCash extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('order', function (Blueprint $table) {
             //
+            $table->bigInteger('deduct_cash')->default(0)->comment('券抵扣金额,单位分');
         });
     }
 
@@ -21,8 +22,9 @@ class AlterOrderAddDeductCash extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('order', function (Blueprint $table) {
             //
+            $table->dropColumn('deduct_cash');
         });
     }
 }

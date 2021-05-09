@@ -24,7 +24,6 @@ use ZYProSoft\Facade\Auth;
 use ZYProSoft\Log\Log;
 use Hyperf\Di\Annotation\Inject;
 use App\Service\Admin\ShopService;
-use const Zipkin\Tags\ERROR;
 
 class OrderService extends BaseService
 {
@@ -35,6 +34,12 @@ class OrderService extends BaseService
      * @var WxPayService
      */
     protected WxPayService $payService;
+
+    /**
+     * @Inject
+     * @var VoucherService
+     */
+    protected VoucherService $voucherService;
 
     /**
      * 生成订单号
@@ -136,6 +141,21 @@ class OrderService extends BaseService
                 $orderGoods->saveOrFail();
                 $existGoods->saveOrFail();
             });
+
+            //是否有传代金券
+            if (!empty($params['voucherSn'])) {
+                $deductInfo = $this->voucherService->checkOrderMatchVoucherCashInfo($params['goodsList'],$params['voucherSn'],true);
+                if ($deductInfo !== false) {
+                    $deductAmount = data_get($deductInfo,'deduct',0);
+                    if ($deductAmount > 0) {
+                        $orderCash -= $deductAmount;
+                        $voucherLeftAmount = data_get($deductInfo,'voucherLeftAmount',0);
+                        $voucher = data_get($deductInfo,'voucher');
+                        $voucher->left_amount = $voucherLeftAmount;
+
+                    }
+                }
+            }
 
             //创建订单
             $order = new Order();

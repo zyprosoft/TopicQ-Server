@@ -39,39 +39,6 @@ class VoucherService extends BaseService
         return $this->success();
     }
 
-    public function checkAcceptGoodsAndBlackGoods(array $acceptGoods, array $blackGoods)
-    {
-        if (empty($acceptGoods) && empty($blackGoods)) {
-            return true;
-        }
-        if (empty($acceptGoods) && !empty($blackGoods)) {
-            return true;
-        }
-        if (!empty($acceptGoods) && empty($blackGoods)) {
-            return true;
-        }
-
-        $acceptCategoryIds = data_get($acceptGoods,'categoryIds', []);
-        $acceptGoodsIds = data_get($acceptGoods,'goodsIds', []);
-
-        $blackCategoryIds = data_get($blackGoods,'categoryIds', []);
-        $blackGoodsIds = data_get($blackGoods,'goodsIds', []);
-
-        //检查分类是否有交集
-        $isValidate = collect($acceptCategoryIds)->intersect($blackCategoryIds)->count() > 0? false:true;
-        if (!$isValidate) {
-            throw new HyperfCommonException(\App\Constants\ErrorCode::VOUCHER_POLICY_CREATE_CATEGORY_CONFLICT);
-        }
-
-        //检查商品是否有交集
-        $isValidate = collect($acceptGoodsIds)->intersect($blackGoodsIds)->count() > 0? false:true;
-        if (!$isValidate) {
-            throw new HyperfCommonException(\App\Constants\ErrorCode::VOUCHER_POLICY_CREATE_GOODS_CONFLICT);
-        }
-
-        return true;
-    }
-
     public function createPolicy(array $params)
     {
         Db::transaction(function () use ($params){
@@ -88,8 +55,9 @@ class VoucherService extends BaseService
             $policy->time_unit = data_get($params,'timeUnit');
             $acceptGoods = data_get($params,'acceptGoods', []);
             $blackGoods = data_get($params,'blackGoods', []);
-            //检查黑白名单冲突
-            $this->checkAcceptGoodsAndBlackGoods($acceptGoods,$blackGoods);
+            if (!empty($acceptGoods) && !empty($blackGoods)) {
+                throw new HyperfCommonException(\App\Constants\ErrorCode::VOUCHER_POLICY_CREATE_CONFLICT);
+            }
             //创建黑白名单适用记录
             if (!empty($acceptGoods)) {
                 $policyGoods = new VoucherPolicyGood();
