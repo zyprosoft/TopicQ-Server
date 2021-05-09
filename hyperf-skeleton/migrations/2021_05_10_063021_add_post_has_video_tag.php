@@ -15,6 +15,9 @@ class AddPostHasVideoTag extends Migration
             //
             $table->tinyInteger('has_video')->default(0)->comment('是否包含视频');
             $table->tinyInteger('is_video_admin')->default(0)->comment('视频是不是管理员的');
+
+            $table->index('has_video');
+            $table->index('is_video_admin');
         });
     }
 
