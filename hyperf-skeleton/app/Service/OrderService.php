@@ -8,7 +8,6 @@ use App\Constants\Constants;
 use App\Constants\ErrorCode;
 use App\Job\AddShopNotificationJob;
 use App\Job\RefreshOrderPayStatusJob;
-use App\Job\RefreshShopOrderSummaryJob;
 use App\Job\RefreshUserOrderSummaryJob;
 use App\Model\Good;
 use App\Model\Order;
@@ -17,6 +16,7 @@ use App\Model\Shop;
 use App\Model\User;
 use App\Model\UserOrderSummary;
 use App\Model\UserSubscribe;
+use App\Model\Voucher;
 use App\Model\VoucherUseHistory;
 use Carbon\Carbon;
 use Hyperf\DbConnection\Db;
@@ -147,7 +147,13 @@ class OrderService extends BaseService
             $deductAmount = 0;
             $voucher = null;
             if (!empty($params['voucherSn'])) {
-                $deductInfo = $this->voucherService->checkOrderMatchVoucherCashInfo($params['goodsList'],$params['voucherSn'],true);
+                $voucher = Voucher::query()->where('voucher_sn',$params['voucherSn'])
+                    ->where('status',Constants::STATUS_WAIT)
+                    ->lockForUpdate()->first();
+                if (!$voucher instanceof Voucher) {
+                    throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST);
+                }
+                $deductInfo = $this->voucherService->checkOrderMatchVoucherCashInfo($params['goodsList'],$voucher);
                 if ($deductInfo !== false) {
                     $deductAmount = data_get($deductInfo,'deduct',0);
                     if ($deductAmount > 0) {
@@ -159,6 +165,7 @@ class OrderService extends BaseService
                         if($voucher->multi_use == Constants::STATUS_NOT) {
                             $voucher->status = Constants::STATUS_DONE;
                         }
+                        $voucher->used_time = Carbon::now()->toDateTimeString();
                         $voucher->saveOrFail();
                         Log::info(json_encode($deductInfo));
                         Log::info("({$params['voucherSn']})代金券抵扣信息处理完成!");
@@ -449,12 +456,21 @@ class OrderService extends BaseService
         $this->push($job);
     }
 
-    /**
-     * 付费订阅
-     * @param int $forumId
-     */
-    public function buyForum(int $forumId)
+    public function closeOrder(string $orderNo)
     {
-
+        //检查订单归属
+        OrderService::checkOwnOrFail($orderNo);
+        $result = $this->payService->closeOrder($orderNo);
+        if ($result == false) {
+            $result = $this->payService->checkOrderStatusInvalidate($orderNo);
+            if ($result === 1) {
+                throw new HyperfCommonException(ErrorCode::ORDER_CLOSE_STATUS_DONE);
+            }elseif ($result === true) {
+                return $this->success();
+            }else{
+                throw new HyperfCommonException(ErrorCode::ORDER_CLOSE_FAIL);
+            }
+        }
+        return $this->success();
     }
 }

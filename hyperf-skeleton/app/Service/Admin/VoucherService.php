@@ -2,6 +2,7 @@
 
 
 namespace App\Service\Admin;
+use App\Constants\Constants;
 use App\Model\VoucherActivity;
 use App\Model\VoucherPolicy;
 use App\Model\VoucherPolicyBlackGood;
@@ -37,6 +38,16 @@ class VoucherService extends BaseService
         }
         $activity->saveOrFail();
         return $this->success();
+    }
+
+    public function getActivityList(int $pageIndex,int $pageSize)
+    {
+        $list = VoucherActivity::query()->where('status',Constants::STATUS_WAIT)
+                                        ->offset($pageIndex * $pageSize)
+                                        ->limit($pageSize)
+                                        ->get();
+        $total = VoucherActivity::query()->where('status',Constants::STATUS_WAIT)->count();
+        return ['total'=>$total,'list'=>$list];
     }
 
     public function createPolicy(array $params)

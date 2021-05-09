@@ -18,9 +18,16 @@ use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Log\Log;
+use Hyperf\Di\Annotation\Inject;
 
 class WxPayService extends BaseService
 {
+    /**
+     * @Inject
+     * @var VoucherService
+     */
+    protected VoucherService $voucherService;
+
     /**
      * 需要识别为支付成功的错误码
      */
@@ -256,6 +263,26 @@ class WxPayService extends BaseService
         return $app->jssdk->bridgeConfig($prepayId,false);
     }
 
+    public function checkOrderStatusInvalidate(string $orderNo)
+    {
+        Db::transaction(function () use ($orderNo) {
+            $order = Order::query()->where('order_no', $orderNo)->lockForUpdate()->first();
+            if (!$order instanceof Order) {
+                Log::info("关闭订单时($orderNo)找不到对应的订单!");
+                return false;
+            }
+            if ($order->pay_status == Constants::STATUS_INVALIDATE) {
+                Log::info("关闭订单($order->order_no)发现订单已经是失效取消状态");
+                return true;
+            }
+            if ($order->pay_status == Constants::STATUS_DONE) {
+                Log::info("关闭订单($order->order_no)查到当前订单已经支付成功");
+                return 1;
+            }
+            return false;
+        });
+    }
+
     public function closeOrder(string $orderNo)
     {
         Db::transaction(function () use ($orderNo) {
@@ -287,7 +314,13 @@ class WxPayService extends BaseService
                     //保存订单成关闭
                     $order->pay_status = Constants::STATUS_INVALIDATE;
                     $order->pay_status_note = "订单已经被系统执行关闭!";
-                    return $order->save();
+
+                    $result = $order->save();
+                    if ($result) {
+                        //回滚代金券,不需要事务，已经在事务里面
+                        $this->voucherService->rollbackVoucher($orderNo,false);
+                    }
+                    return  $result;
                 }
                 Log::info("close order($orderNo) fail!");
                 return  false;

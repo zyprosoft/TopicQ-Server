@@ -148,5 +148,11 @@ class Constants
     const VOUCHER_TIME_UNIT_MONTH = 'm';
     const VOUCHER_TIME_UNIT_YEAR = 'y';
 
+    const VOUCHER_USE_HISTORY_STATUS_NORMAL = 0;
+    const VOUCHER_USE_HISTORY_STATUS_ROLLBACK = -1;
 
+    const VOUCHER_STATUS_EXPIRED = 2;
+    const VOUCHER_STATUS_INVALIDATE = -1;
+    const VOUCHER_STATUS_USED = 1;
+    const VOUCHER_STATUS_WAIT = 0;
 }

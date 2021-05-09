@@ -35,6 +35,7 @@ class OrderController extends AbstractController
             'mobile' => 'required|string|min:1|max:11',
             'deliverType' => 'required|integer|in:0,1',
             'hasSubscribe' => 'integer|in:0,1',//是不是包含虚拟商品，只有选了1才会校验用户是否已经订阅过
+            'voucherSn' => 'string|exists:voucher,voucher_sn'
         ]);
         $result = $this->service->create($request->getParams());
         return $this->success($result);
@@ -155,6 +156,16 @@ class OrderController extends AbstractController
         $orderNo = $request->param('orderNo');
         $content = $request->param('content');
         $result = $this->service->addOrderComment($orderNo,$content);
+        return $this->success($result);
+    }
+
+    public function closeOrder(AuthedRequest $request)
+    {
+        $this->validate([
+            'orderNo' => 'required|string|min:1|max:30|exists:order,order_no',
+        ]);
+        $orderNo = $request->param('orderNo');
+        $result = $this->service->closeOrder($orderNo);
         return $this->success($result);
     }
 }

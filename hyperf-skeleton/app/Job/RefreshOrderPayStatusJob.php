@@ -61,9 +61,11 @@ class RefreshOrderPayStatusJob extends Job
             $result = $service->closeOrder($this->orderNo);
             $status = $result?"成功":"失败";
             Log::info("尝试微信关闭订单($this->orderNo)执行结果:$status");
-            //订单不管是否关闭成功这个时候都可以回滚代金券了
-            $voucherService = ApplicationContext::getContainer()->get(VoucherService::class);
-            $voucherService->rollbackVoucher($this->orderNo);
+            //订单在支付服务内被关闭的时候，同时会回滚代金券
+            if ($result == false) {
+                $voucherService = ApplicationContext::getContainer()->get(VoucherService::class);
+                $voucherService->rollbackVoucher($this->orderNo);
+            }
             return;
         }
         $delayTime = $configList[$this->retryIndex++];

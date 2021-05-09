@@ -153,4 +153,19 @@ class ErrorCode extends AbstractConstants
      * @Message("同一批次的券不可重复领取!")
      */
     const VOUCHER_CREATE_REPEAT = 30024;
+
+    /**
+     * @Message("订单已经是支付完成状态，无需关闭，请刷新!")
+     */
+    const ORDER_CLOSE_STATUS_DONE = 30025;
+
+    /**
+     * @Message("订单主动关闭失败!")
+     */
+    const ORDER_CLOSE_FAIL = 30026;
+
+    /**
+     * @Message("领券失败，本批次券已经领完!")
+     */
+    const VOUCHER_CREATE_POLICY_COUNT_ERROR = 30027;
 }

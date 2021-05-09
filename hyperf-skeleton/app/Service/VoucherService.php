@@ -36,7 +36,13 @@ class VoucherService extends BaseService
         Db::transaction(function () use ($policyId) {
 
             //批次检查
-            $policy = VoucherPolicy::findOrFail($policyId);
+            $policy = VoucherPolicy::query()->where('policy_id',$policyId)->lockForUpdate()->first();
+            if (!$policy instanceof VoucherPolicy) {
+                throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST);
+            }
+            if ($policy->left_count < 1) {
+                throw new HyperfCommonException(ErrorCode::VOUCHER_CREATE_POLICY_COUNT_ERROR);
+            }
 
             //用户是不是领过这个批次的券，一个批次只能领一次
             $voucher = Voucher::query()->where('policy_id', $policyId)
@@ -52,7 +58,7 @@ class VoucherService extends BaseService
             $voucher->voucher_sn = $this->generateVoucherSn($policy->sn_prefix);
             //计算生效和过期时间
             if (!empty($policy->time_span) && !empty($policy->time_unit)) {
-                $voucher->begin_time = Carbon::now()->toDateString();
+                $voucher->begin_time = Carbon::now()->toDateTimeString();
                 switch ($policy->time_unit) {
                     case Constants::VOUCHER_TIME_UNIT_MINUTE:
                         $endTime = Carbon::now()->addRealMinutes($policy->time_span);
@@ -73,22 +79,32 @@ class VoucherService extends BaseService
                         $endTime = Carbon::now()->addRealMinutes(1)->toDateString();
                         break;
                 }
+                //结束都按照天来算,不足一天算一天
                 $voucher->end_time = $endTime->toDateString();
             }
             $voucher->saveOrFail();
+            //批次减少一张券
+            $policy->decrement('left_count');
         });
         return $this->success();
     }
 
-    public function getMyVoucherList(int $pageIndex, int $pageSize)
+    public function getMyVoucherList(int $pageIndex, int $pageSize, int $status)
     {
-        $list = Voucher::query()->where('owner_id',$this->userId())
-                                ->offset($pageIndex * $pageSize)
-                                ->limit($pageSize)
-                                ->latest()
-                                ->get();
-        $total = Voucher::query()->where('owner_id',$this->userId())->count();
+        $operate = '=';
+        if ($status == Constants::STATUS_NOT) {
+            $operate = '<>';
+        }
 
+        $list = Voucher::query()->where('owner_id',$this->userId())
+            ->where('status',$operate,Constants::STATUS_DONE)
+            ->offset($pageIndex * $pageSize)
+            ->limit($pageSize)
+            ->latest()
+            ->get();
+        $total = Voucher::query()->where('owner_id',$this->userId())
+            ->where('status',$operate,Constants::STATUS_DONE)
+            ->count();
         return ['total'=>$total,'list'=>$list];
     }
 
@@ -146,24 +162,18 @@ class VoucherService extends BaseService
         return false;
     }
 
-    public function checkOrderMatchVoucherCashInfo(array $orderGoods, string $voucherSn, bool $needLock = false)
+    public function checkOrderMatchVoucherCashInfo(array $orderGoods, Voucher $voucher, $goodsList = null)
     {
         if (empty($orderGoods)) {
             return false;
-        }
-        if($needLock) {
-            $voucher = Voucher::query()->where('voucher_sn',$voucherSn)->lockForUpdate()->first();
-        }else{
-            $voucher = Voucher::query()->where('voucher_sn',$voucherSn)->first();
-        }
-        if (!$voucher instanceof Voucher) {
-            throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST);
         }
         //
         $deductAmount = 0;
         $orderGoods = collect($orderGoods);
         $goodsIds = $orderGoods->pluck('goodsId');
-        $goodsList = Good::findMany($goodsIds)->keyBy('goods_id');
+        if (!isset($goodsList)) {
+            $goodsList = Good::findMany($goodsIds)->keyBy('goods_id');
+        }
         $initVoucherAmount = $voucher->left_amount;
         $orderGoods->map(function ($goods) use (&$deductAmount, &$initVoucherAmount, $goodsList , $voucher) {
             $goodsId = $goods['goodsId'];
@@ -184,7 +194,7 @@ class VoucherService extends BaseService
         });
         //返回最终可以抵扣的金额
         $goodsIdsString = $goodsIds->toJson();
-        Log::info("计算出券($voucherSn)和商品列表($goodsIdsString)最终可抵扣金额为:($deductAmount)分");
+        Log::info("计算出券($voucher->voucher_sn)和商品列表($goodsIdsString)最终可抵扣金额为:($deductAmount)分");
         return [
             'deduct' => $deductAmount,
             'voucherLeftAmount' => $initVoucherAmount,
@@ -204,7 +214,33 @@ class VoucherService extends BaseService
         return ['total'=>$total,'list'=>$list];
     }
 
-    public function rollbackVoucher(string $orderNo)
+    protected function innerRollbackVoucher(Order $order)
+    {
+        //查找订单使用记录
+        $voucherUseHistory = VoucherUseHistory::query()->where('voucher_id',$order->voucher_id)
+            ->where('order_id',$order->order_id)
+            ->where('status',Constants::VOUCHER_USE_HISTORY_STATUS_NORMAL)
+            ->lockForUpdate()
+            ->first();
+        if (!$voucherUseHistory instanceof VoucherUseHistory) {
+            Log::info("{$order->order_no}订单没有找到扣券记录");
+            return;
+        }
+        $voucher = Voucher::query()->where('voucher_id',$order->voucher_id)->lockForUpdate()->first();
+        if (!$voucher instanceof Voucher) {
+            Log::info("{$order->order_no}订单使用代金券不存在!");
+            return;
+        }
+        $voucher->left_amount += $voucherUseHistory->amount;
+        $voucher->saveOrFail();
+        //更新使用记录状态
+        $voucherUseHistory->status = Constants::VOUCHER_USE_HISTORY_STATUS_ROLLBACK;
+        $voucherUseHistory->rollback_time = Carbon::now()->toDateTimeString();
+        $voucherUseHistory->saveOrFail();
+        Log::info("订单{$order->order_no}所使用的代金券金额({$voucherUseHistory->amount})已回滚");
+    }
+
+    public function rollbackVoucher(string $orderNo,bool $needTrans = true)
     {
         //回滚订单使用的代金券
         $order = Order::query()->where('order_no',$orderNo)->first();
@@ -216,26 +252,36 @@ class VoucherService extends BaseService
             Log::info("{$orderNo}订单没有使用代金券!");
             return;
         }
-        //查找订单使用记录
-        $voucherUseHistory = VoucherUseHistory::query()->where('voucher_id',$order->voucher_id)
-            ->where('order_id',$order->order_id)
-            ->where('status',0)
-            ->first();
-        if (!$voucherUseHistory instanceof VoucherUseHistory) {
-            Log::info("{$orderNo}订单没有找到扣券记录");
-            return;
+        if ($needTrans) {
+            //开始回滚
+            Db::transaction(function () use ($order){
+                $this->innerRollbackVoucher($order);
+            });
+        }else{
+            $this->innerRollbackVoucher($order);
         }
-        //开始回滚
-        Db::transaction(function () use ($order, $voucherUseHistory){
-            $voucher = Voucher::query()->where('voucher_id',$order->voucher_id)->lockForUpdate()->first();
-            if (!$voucher instanceof Voucher) {
-                return;
-            }
-            $voucher->left_amount += $voucherUseHistory->amount;
-            $voucher->saveOrFail();
-            Log::info("订单{$order->order_no}所使用的代金券金额({$voucherUseHistory->amount})已回滚");
-            //更新使用记录状态
+    }
 
+    //查询订单商品可使用的代金券列表
+    public function getVoucherListByGoodsIds(array $orderGoods)
+    {
+        //获取所有待使用的券
+        $voucherList = Voucher::query()->where('status',Constants::STATUS_WAIT)
+                                       ->where('owner_id', $this->userId())
+                                       ->get();
+        //检查券和商品列表是否匹配
+        $goodsIds = collect($orderGoods)->pluck('goodsId');
+        $goodsList = Good::findMany($goodsIds)->keyBy('goods_id');
+        $matchedList = collect();
+        $voucherList->map(function (Voucher $voucher) use ($orderGoods,$goodsList,&$matchedList){
+            $deductInfo = $this->checkOrderMatchVoucherCashInfo($orderGoods,$voucher,$goodsList);
+            if ($deductInfo !== false && $deductInfo['deduct'] > 0) {
+                $voucher->deduct = $deductInfo['deduct'];
+                $matchedList->push($voucher);
+            }
         });
+        //进行排序,可抵扣金额大的靠前,到期时间最快的靠前
+        $sortList = $matchedList->sortByDesc('deduct')->sortBy('end_time')->values()->all();
+        return $this->success($sortList);
     }
 }
