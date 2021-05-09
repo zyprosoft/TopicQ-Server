@@ -52,10 +52,10 @@ class VoucherPolicy extends Model
     }
     public function goods()
     {
-        return $this->hasOne(VoucherPolicyGood::class, 'policy_id', 'policy_id');
+        return $this->hasOne(VoucherPolicyGood::class, 'policy_goods_id', 'policy_goods_id');
     }
     public function black_goods()
     {
-        return $this->hasOne(VoucherPolicyBlackGood::class, 'policy_id', 'policy_id');
+        return $this->hasOne(VoucherPolicyBlackGood::class, 'policy_black_id', 'policy_black_id');
     }
 }

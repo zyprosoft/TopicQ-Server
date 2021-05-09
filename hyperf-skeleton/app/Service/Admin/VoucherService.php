@@ -8,6 +8,7 @@ use App\Model\VoucherPolicyBlackGood;
 use App\Model\VoucherPolicyGood;
 use App\Service\BaseService;
 use Hyperf\DbConnection\Db;
+use Hyperf\Utils\Str;
 use ZYProSoft\Constants\ErrorCode;
 use ZYProSoft\Exception\HyperfCommonException;
 
@@ -76,10 +77,18 @@ class VoucherService extends BaseService
         Db::transaction(function () use ($params){
 
             $policy = new VoucherPolicy();
-            $policy->activity_id = $params['activityId'];
+            $policy->activity_id = data_get($params,'activityId');
+            $policy->total_count = data_get($params,'totalCount');
+            $policy->left_count = $policy->total_count;
+            $policy->amount = data_get($params,'amount');
+            $policy->base_amount = data_get($params,'baseAmount',0);
+            $policy->multi_use = data_get($params,'multiUse',0);
+            $policy->sn_prefix = Str::upper(Str::random(10));
+            $policy->time_span = data_get($params,'timeSpan');
+            $policy->time_unit = data_get($params,'timeUnit');
             $acceptGoods = data_get($params,'acceptGoods', []);
             $blackGoods = data_get($params,'blackGoods', []);
-            //检查黑白冲突
+            //检查黑白名单冲突
             $this->checkAcceptGoodsAndBlackGoods($acceptGoods,$blackGoods);
             //创建黑白名单适用记录
             if (!empty($acceptGoods)) {
@@ -93,7 +102,7 @@ class VoucherService extends BaseService
                     $policyGoods->goods_list = implode(',',$acceptGoodsIds);
                 }
                 $policyGoods->saveOrFail();
-
+                $policy->policy_goods_id = $policyGoods->policy_goods_id;
             }
             if (!empty($blackGoods)) {
                 $policyBlackGoods = new VoucherPolicyBlackGood();
@@ -106,14 +115,19 @@ class VoucherService extends BaseService
                     $policyBlackGoods->goods_list = implode(',',$blackGoods);
                 }
                 $policyBlackGoods->saveOrFail();
+                $policy->policy_black_id = $policyBlackGoods->policy_black_id;
             }
-
-
+            $policy->saveOrFail();
         });
+        return $this->success();
     }
 
     public function createVoucher(array $params)
     {
+        Db::transaction(function () use ($params) {
 
+
+
+        });
     }
 }

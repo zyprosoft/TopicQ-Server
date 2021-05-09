@@ -33,10 +33,7 @@ class VoucherPolicyBlackGood extends Model
      * @var array
      */
     protected $casts = ['policy_black_id' => 'integer', 'activity_id' => 'integer', 'policy_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
-    public function policy()
-    {
-        return $this->hasOne(VoucherPolicy::class, 'policy_id', 'policy_id');
-    }
+
     public function category_items()
     {
         if (empty($this->category_list)) {
