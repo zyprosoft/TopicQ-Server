@@ -13,7 +13,23 @@ class CreateVoucherUseHistoryTable extends Migration
     {
         Schema::create('voucher_use_history', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('owner_id')->comment('归属者');
+            $table->string('voucher_sn',64)->comment('券编码');
+            $table->bigInteger('policy_id')->comment('批次ID');
+            $table->bigInteger('policy_goods_id')->comment('适用商品ID');
+            $table->bigInteger('policy_black_id')->comment('不适用商品ID');
+            $table->bigInteger('amount')->comment('金额');
+            $table->tinyInteger('type')->default(0)->comment('0扣减1:回滚');
+
+            $table->index('owner_id');
+            $table->index('voucher_sn');
+            $table->index('policy_id');
+            $table->index('type');
             $table->timestamps();
+            $table->softDeletes();
+            $table->engine = "InnoDB";
+            $table->charset = "utf8mb4";
+            $table->collation = "utf8mb4_unicode_ci";
         });
     }
 
