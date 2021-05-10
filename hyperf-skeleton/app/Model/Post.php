@@ -98,4 +98,8 @@ class Post extends Model
     {
         return $this->hasOne(SubscribeForumPassword::class, 'policy_id', 'policy_id');
     }
+    public function voucher_policy()
+    {
+        return $this->hasOne(VoucherPolicy::class,'policy_id', 'voucher_policy_id');
+    }
 }
