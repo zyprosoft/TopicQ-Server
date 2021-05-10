@@ -304,7 +304,9 @@ class VoucherService extends BaseService
 
     public function decodeVoucherInfo(&$policy)
     {
-        $policy->activity->image_list = explode(';',$policy->activity->image_list);
+        if(!empty($policy->activity->image_list)) {
+            $policy->activity->image_list = explode(';',$policy->activity->image_list);
+        }
         if (isset($policy->goods)) {
             $goodsDisplay =  $this->getDisplayName($policy->goods,false);
             $policy->goods_display = $goodsDisplay;
