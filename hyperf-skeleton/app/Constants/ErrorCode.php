@@ -168,4 +168,9 @@ class ErrorCode extends AbstractConstants
      * @Message("领券失败，本批次券已经领完!")
      */
     const VOUCHER_CREATE_POLICY_COUNT_ERROR = 30027;
+
+    /**
+     * @Message("订单已经被代金券抵扣成功，无需再继续拉起支付!")
+     */
+    const ORDER_CREATE_SUCCESS_BY_VOUCHER_DEDUCT = 30028;
 }

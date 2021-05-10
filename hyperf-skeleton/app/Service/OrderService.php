@@ -191,10 +191,17 @@ class OrderService extends BaseService
             $shop = Shop::findOrFail($order->shop_id);
             $order->shop_owner_id = $shop->owner_id;
 
-            //获取过期时间
-            $expireTime = self::ORDER_EXPIRE_TIME;
-            $orderExpireTime = Carbon::now()->addRealMinutes($expireTime)->toDateTimeString();
-            $order->pay_expire_time = $orderExpireTime;
+            //是不是完全被代金券抵扣掉了
+            if ($order->cash == 0) {
+                $order->pay_status = Constants::STATUS_DONE;
+                $order->pay_status_note = "本订单已被代金券完全抵扣，直接转支付成功!";
+            }else{
+                //获取过期时间
+                $expireTime = self::ORDER_EXPIRE_TIME;
+                $orderExpireTime = Carbon::now()->addRealMinutes($expireTime)->toDateTimeString();
+                $order->pay_expire_time = $orderExpireTime;
+            }
+
 
             $order->saveOrFail();
 
@@ -210,10 +217,17 @@ class OrderService extends BaseService
                 $voucherUseHistory->saveOrFail();
             }
 
+
         });
 
         if (!isset($order)) {
             throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST);
+        }
+
+        if ($order->pay_status == Constants::STATUS_DONE) {
+            //异步刷新用户订单统计信息
+            $this->push(new RefreshUserOrderSummaryJob($this->userId()));
+            return $this->errorWithData(ErrorCode::ORDER_CREATE_SUCCESS_BY_VOUCHER_DEDUCT,'下单成功',$order);
         }
 
         //生成支付订单的签名信息
