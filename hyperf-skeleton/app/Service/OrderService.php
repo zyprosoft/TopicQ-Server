@@ -164,7 +164,7 @@ class OrderService extends BaseService
                         $voucher = data_get($deductInfo,'voucher');
                         $voucher->left_amount = $voucherLeftAmount;
                         //如果券不是多次使用券，那么转成已使用状态
-                        if($voucher->multi_use == Constants::STATUS_NOT) {
+                        if($voucher->policy->multi_use == Constants::STATUS_NOT) {
                             $voucher->status = Constants::STATUS_DONE;
                         }
                         $voucher->used_time = Carbon::now()->toDateTimeString();
