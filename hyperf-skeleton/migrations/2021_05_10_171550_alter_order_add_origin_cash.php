@@ -11,8 +11,9 @@ class AlterOrderAddOriginCash extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('order', function (Blueprint $table) {
             //
+            $table->bigInteger('origin_cash')->default(0)->comment('抵扣钱订单金额');
         });
     }
 
@@ -21,8 +22,9 @@ class AlterOrderAddOriginCash extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('order', function (Blueprint $table) {
             //
+            $table->dropColumn('origin_cash');
         });
     }
 }
