@@ -744,6 +744,28 @@ class PostService extends BaseService
                              ->offset($pageIndex * $pageSize)
                              ->limit($pageSize)
                              ->get();
+        //检查用户收藏状态
+        $postIds = $list->pluck('post_id');
+        if(Auth::isGuest() == false) {
+            $favoriteList = UserFavorite::query()->where('owner_id',$this->userId())
+                ->whereIn('post_id',$postIds)
+                ->get()
+                ->keyBy('post_id');
+            $list->map(function (Post $post) use ($favoriteList) {
+                if (!empty($favoriteList->get($post->post_id))) {
+                    $post->is_favorite = 1;
+                }else{
+                    $post->is_favorite = 0;
+                }
+                return $post;
+            });
+        }else{
+            $list->map(function (Post $post) {
+               $post->is_favorite = 0;
+               return $post;
+            });
+        }
+
         $total = Post::query()->where('has_video',Constants::STATUS_OK)
             ->where(function (Builder $query) use ($type){
                 if ($type == Constants::VIDEO_POST_LIST_TYPE_ADMIN) {
