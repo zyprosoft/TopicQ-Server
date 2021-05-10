@@ -308,13 +308,13 @@ class VoucherService extends BaseService
             $goodsDisplay =  $this->getDisplayName($policy->goods,false);
             $policy->goods_display = $goodsDisplay;
         }else{
-            $policy->goods_display = '未选择适用产品';
+            $policy->goods_display = null;
         }
         if(isset($policy->black_goods)) {
             $blackDisplay = $this->getDisplayName($policy->black_goods, true);
             $policy->black_display = $blackDisplay;
         }else{
-            $policy->black_display = '未选择不适用产品';
+            $policy->black_display = null;
         }
     }
 }
