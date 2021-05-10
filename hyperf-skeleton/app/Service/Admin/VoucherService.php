@@ -107,11 +107,37 @@ class VoucherService extends BaseService
         return $this->success();
     }
 
+    protected function getDisplayName($goodsOrBlackGoods,$isBlack)
+    {
+        $categoryItems = $goodsOrBlackGoods->category_items();
+        $goodsItems = $goodsOrBlackGoods->goods_items();
+        if($goodsItems->isNotEmpty()) {
+            $names = $goodsItems->pluck('name')->toArray();
+            return implode(';',$names);
+        }else{
+            if ($categoryItems->isNotEmpty()) {
+                $names = $categoryItems->pluck('name')->toArray();
+                return  implode(';',$names);
+            }
+        }
+        return $isBlack? '无黑名单产品限制':'适用产品无限制';
+    }
+
     public function getPolicyList(int $pageIndex, int $pageSize)
     {
         $list = VoucherPolicy::query()->offset($pageIndex * $pageSize)
                                       ->limit($pageSize)
                                       ->get();
+        $list->map(function (VoucherPolicy $policy) {
+             if (isset($policy->goods)) {
+                 $goodsDisplay =  $this->getDisplayName($policy->goods,false);
+                 $policy->goods_display = $goodsDisplay;
+             }
+             if(isset($policy->black_goods)) {
+                 $blackDisplay = $this->getDisplayName($policy->black_goods, true);
+                 $policy->black_display = $blackDisplay;
+             }
+        });
         $total = VoucherPolicy::count();
         return ['total'=>$total,'list'=>$list];
     }
