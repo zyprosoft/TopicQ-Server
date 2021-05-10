@@ -36,7 +36,7 @@ class VoucherPolicyGood extends Model
     public function category_items()
     {
         if (empty($this->category_list)) {
-            return [];
+            return collect();
         }
         $categoryIds = explode(',', $this->category_list);
         return GoodsCategory::findMany($categoryIds);
@@ -44,7 +44,7 @@ class VoucherPolicyGood extends Model
     public function goods_items()
     {
         if (empty($this->goods_list)) {
-            return [];
+            return collect();
         }
         $goodsIds = explode(',', $this->goods_list);
         return Good::findMany($goodsIds);
