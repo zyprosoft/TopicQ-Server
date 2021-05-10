@@ -43,6 +43,7 @@ namespace App\Model;
  * @property int $policy_id 填充的授权批次ID
  * @property int $has_video 是否包含视频
  * @property int $is_video_admin 视频是不是管理员的
+ * @property int $praise_count 点赞数
  * @property-read \App\Model\User $author 
  * @property-read \App\Model\Forum $forum 
  * @property-read \App\Model\SubscribeForumPassword $forum_voucher 
@@ -70,7 +71,7 @@ class Post extends Model
      *
      * @var array
      */
-    protected $casts = ['post_id' => 'integer', 'owner_id' => 'integer', 'vote_id' => 'integer', 'read_count' => 'integer', 'favorite_count' => 'integer', 'forward_count' => 'integer', 'comment_count' => 'integer', 'audit_status' => 'integer', 'is_hot' => 'integer', 'sort_index' => 'integer', 'is_recommend' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'join_user_count' => 'integer', 'machine_audit' => 'integer', 'manager_audit' => 'integer', 'text_audit' => 'integer', 'content_audit' => 'integer', 'title_audit' => 'integer', 'program_id' => 'integer', 'account_id' => 'integer', 'forum_id' => 'integer', 'recommend_weight' => 'integer', 'mall_type' => 'integer', 'policy_id' => 'integer', 'has_video' => 'integer', 'is_video_admin' => 'integer'];
+    protected $casts = ['post_id' => 'integer', 'owner_id' => 'integer', 'vote_id' => 'integer', 'read_count' => 'integer', 'favorite_count' => 'integer', 'forward_count' => 'integer', 'comment_count' => 'integer', 'audit_status' => 'integer', 'is_hot' => 'integer', 'sort_index' => 'integer', 'is_recommend' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'join_user_count' => 'integer', 'machine_audit' => 'integer', 'manager_audit' => 'integer', 'text_audit' => 'integer', 'content_audit' => 'integer', 'title_audit' => 'integer', 'program_id' => 'integer', 'account_id' => 'integer', 'forum_id' => 'integer', 'recommend_weight' => 'integer', 'mall_type' => 'integer', 'policy_id' => 'integer', 'has_video' => 'integer', 'is_video_admin' => 'integer', 'praise_count' => 'integer'];
     protected $with = ['author'];
     public function author()
     {
