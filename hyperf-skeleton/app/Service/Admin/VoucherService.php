@@ -108,7 +108,7 @@ class VoucherService extends BaseService
         return $this->success();
     }
 
-    protected function getDisplayName($goodsOrBlackGoods,$isBlack)
+    public function getDisplayName($goodsOrBlackGoods,$isBlack)
     {
         $categoryItems = $goodsOrBlackGoods->category_items();
         $goodsItems = $goodsOrBlackGoods->goods_items();
@@ -120,8 +120,8 @@ class VoucherService extends BaseService
                 $names = $categoryItems->pluck('name')->toArray();
                 return  implode(';',$names);
             }
+            return $isBlack? '无黑名单产品限制':'适用产品无限制';
         }
-        return $isBlack? '无黑名单产品限制':'适用产品无限制';
     }
 
     public function getPolicyList(int $pageIndex, int $pageSize)

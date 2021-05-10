@@ -284,4 +284,20 @@ class VoucherService extends BaseService
         $sortList = $matchedList->sortByDesc('deduct')->sortBy('end_time')->values()->all();
         return $this->success($sortList);
     }
+
+    public function getDisplayName($goodsOrBlackGoods,$isBlack)
+    {
+        $categoryItems = $goodsOrBlackGoods->category_items();
+        $goodsItems = $goodsOrBlackGoods->goods_items();
+        if($goodsItems->isNotEmpty()) {
+            $names = $goodsItems->pluck('name')->toArray();
+            return implode(';',$names);
+        }else{
+            if ($categoryItems->isNotEmpty()) {
+                $names = $categoryItems->pluck('name')->toArray();
+                return  implode(';',$names);
+            }
+            return $isBlack? '无黑名单产品限制':'适用产品无限制';
+        }
+    }
 }

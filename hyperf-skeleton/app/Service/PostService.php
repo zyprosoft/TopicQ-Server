@@ -25,9 +25,16 @@ use Hyperf\Utils\Str;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Facade\Auth;
 use ZYProSoft\Log\Log;
+use Hyperf\Di\Annotation\Inject;
 
 class PostService extends BaseService
 {
+    /**
+     * @Inject
+     * @var VoucherService
+     */
+    protected VoucherService $voucherService;
+
     private array $listRows = [
         'post_id',
         'title',
@@ -354,6 +361,23 @@ class PostService extends BaseService
             $post->is_voted = 0;
             $post->is_favorite = 0;
             $post->finish_get_policy = 0;
+        }
+
+        //解析代金券信息
+        if(isset($post->voucher_policy)) {
+            $post->voucher_policy->activity->image_list = explode(';',$post->voucher_policy->activity->image_list);
+            if (isset($policy->goods)) {
+                $goodsDisplay =  $this->voucherService->getDisplayName($policy->goods,false);
+                $post->voucher_policy->goods_display = $goodsDisplay;
+            }else{
+                $post->voucher_policy->goods_display = '未选择适用产品';
+            }
+            if(isset($policy->black_goods)) {
+                $blackDisplay = $this->voucherService->getDisplayName($policy->black_goods, true);
+                $post->voucher_policy->black_display = $blackDisplay;
+            }else{
+                $post->voucher_policy->black_display = '未选择不适用产品';
+            }
         }
 
         //增加阅读数
