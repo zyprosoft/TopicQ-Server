@@ -50,7 +50,7 @@ class VoucherController extends AbstractController
     public function createPolicy(AppAdminRequest $request)
     {
         $this->validate([
-            'activityId' => 'string|required|exists:voucher_activity,activity_id',
+            'activityId' => 'integer|required|exists:voucher_activity,activity_id',
             'totalCount' => 'integer|required|min:1',
             'amount' => 'integer|required|min:1',
             'baseAmount' => 'integer|min:0',
