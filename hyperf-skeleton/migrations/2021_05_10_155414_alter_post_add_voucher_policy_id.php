@@ -11,8 +11,9 @@ class AlterPostAddVoucherPolicyId extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('post', function (Blueprint $table) {
             //
+            $table->bigInteger('voucher_policy_id')->default(0)->comment('代金券批次ID');
         });
     }
 
@@ -21,8 +22,9 @@ class AlterPostAddVoucherPolicyId extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('post', function (Blueprint $table) {
             //
+            $table->dropColumn('voucher_policy_id');
         });
     }
 }

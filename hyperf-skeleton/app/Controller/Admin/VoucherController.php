@@ -78,4 +78,26 @@ class VoucherController extends AbstractController
         $result = $this->service->getPolicyList($pageIndex,$pageSize);
         return $this->success($result);
     }
+
+    public function createPostForVoucherPolicy(AppAdminRequest $request)
+    {
+        $this->validate(
+            [
+                'title' => 'string|required|min:1|max:40|sensitive',
+                'content' => 'string|required|min:1|max:5000|sensitive',
+                'imageList' => 'array|min:1|max:4',
+                'link' => 'string|min:1|max:500',
+                'forumId' => 'integer|exists:forum,forum_id',
+                'policyId' => 'integer|required|exists:subscribe_forum_password,policy_id'
+            ]
+        );
+        $title = $request->param('title');
+        $content = $request->param('content');
+        $link = $request->param('link');
+        $imageList = $request->param('imageList');
+        $forumId = $request->param('forumId');
+        $policyId = $request->param('policyId');
+        $result = $this->service->createPostForPolicy($policyId,$title,$content,$link,$imageList,$forumId);
+        return $this->success($result);
+    }
 }

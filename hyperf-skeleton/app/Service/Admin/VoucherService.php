@@ -3,6 +3,7 @@
 
 namespace App\Service\Admin;
 use App\Constants\Constants;
+use App\Model\Post;
 use App\Model\VoucherActivity;
 use App\Model\VoucherPolicy;
 use App\Model\VoucherPolicyBlackGood;
@@ -146,5 +147,34 @@ class VoucherService extends BaseService
         });
         $total = VoucherPolicy::count();
         return ['total'=>$total,'list'=>$list];
+    }
+
+    public function createPostForPolicy(int $policyId, string $title, string $content, string $link = null, array $imageList = null, int $forumId = null)
+    {
+        $post = new Post();
+        $post->title = $title;
+        $post->content = $content;
+        if (mb_strlen($content) < 40) {
+            $post->summary = $content;
+        } else {
+            $post->summary = mb_substr($content, 0, 40);
+        }
+        if (isset($imageList)) {
+            $post->image_list = implode(';',$imageList);
+        }
+        if (isset($link)) {
+            $post->link = $link;
+        }
+        //固定板块
+        if (isset($forumId)) {
+            $post->forum_id = $forumId;
+        }else{
+            $post->forum_id = Constants::FORUM_MAIN_FORUM_ID;
+        }
+        $post->policy_id = $policyId;
+        $post->audit_status = Constants::STATUS_DONE;
+        $post->owner_id = $this->userId();//发券只能管理员发布
+        $post->saveOrFail();
+        return $this->success($post);
     }
 }
