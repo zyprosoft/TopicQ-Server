@@ -274,6 +274,7 @@ class VoucherService extends BaseService
         $goodsList = Good::findMany($goodsIds)->keyBy('goods_id');
         $matchedList = collect();
         $voucherList->map(function (Voucher $voucher) use ($orderGoods,$goodsList,&$matchedList){
+            $this->decodeVoucherInfo($voucher->policy);
             $deductInfo = $this->checkOrderMatchVoucherCashInfo($orderGoods,$voucher,$goodsList);
             if ($deductInfo !== false && $deductInfo['deduct'] > 0) {
                 $voucher->deduct = $deductInfo['deduct'];
