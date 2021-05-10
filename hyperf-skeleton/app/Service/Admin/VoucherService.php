@@ -171,7 +171,7 @@ class VoucherService extends BaseService
         }else{
             $post->forum_id = Constants::FORUM_MAIN_FORUM_ID;
         }
-        $post->policy_id = $policyId;
+        $post->voucher_policy_id = $policyId;
         $post->audit_status = Constants::STATUS_DONE;
         $post->owner_id = $this->userId();//发券只能管理员发布
         $post->saveOrFail();
