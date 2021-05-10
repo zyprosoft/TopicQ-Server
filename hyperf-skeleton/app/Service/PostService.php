@@ -365,19 +365,7 @@ class PostService extends BaseService
 
         //解析代金券信息
         if(isset($post->voucher_policy)) {
-            $post->voucher_policy->activity->image_list = explode(';',$post->voucher_policy->activity->image_list);
-            if (isset($policy->goods)) {
-                $goodsDisplay =  $this->voucherService->getDisplayName($policy->goods,false);
-                $post->voucher_policy->goods_display = $goodsDisplay;
-            }else{
-                $post->voucher_policy->goods_display = '未选择适用产品';
-            }
-            if(isset($policy->black_goods)) {
-                $blackDisplay = $this->voucherService->getDisplayName($policy->black_goods, true);
-                $post->voucher_policy->black_display = $blackDisplay;
-            }else{
-                $post->voucher_policy->black_display = '未选择不适用产品';
-            }
+            $this->voucherService->decodeVoucherInfo($post->voucher_policy);
         }
 
         //增加阅读数

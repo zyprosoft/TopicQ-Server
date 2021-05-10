@@ -13,9 +13,17 @@ use Hyperf\DbConnection\Db;
 use Hyperf\Utils\Str;
 use ZYProSoft\Constants\ErrorCode;
 use ZYProSoft\Exception\HyperfCommonException;
+use Hyperf\Di\Annotation\Inject;
+use App\Service\VoucherService as FrontVoucherService;
 
 class VoucherService extends BaseService
 {
+    /**
+     * @Inject
+     * @var FrontVoucherService
+     */
+    protected FrontVoucherService $voucherService;
+
     public function createActivity(array $params)
     {
         $activity = VoucherActivity::query()->where('name',$params['name'])
@@ -108,41 +116,13 @@ class VoucherService extends BaseService
         return $this->success();
     }
 
-    public function getDisplayName($goodsOrBlackGoods,$isBlack)
-    {
-        $categoryItems = $goodsOrBlackGoods->category_items();
-        $goodsItems = $goodsOrBlackGoods->goods_items();
-        if($goodsItems->isNotEmpty()) {
-            $names = $goodsItems->pluck('name')->toArray();
-            return implode(';',$names);
-        }else{
-            if ($categoryItems->isNotEmpty()) {
-                $names = $categoryItems->pluck('name')->toArray();
-                return  implode(';',$names);
-            }
-            return $isBlack? '无黑名单产品限制':'适用产品无限制';
-        }
-    }
-
     public function getPolicyList(int $pageIndex, int $pageSize)
     {
         $list = VoucherPolicy::query()->offset($pageIndex * $pageSize)
                                       ->limit($pageSize)
                                       ->get();
         $list->map(function (VoucherPolicy $policy) {
-             $policy->activity->image_list = explode(';',$policy->activity->image_list);
-             if (isset($policy->goods)) {
-                 $goodsDisplay =  $this->getDisplayName($policy->goods,false);
-                 $policy->goods_display = $goodsDisplay;
-             }else{
-                 $policy->goods_display = '未选择适用产品';
-             }
-             if(isset($policy->black_goods)) {
-                 $blackDisplay = $this->getDisplayName($policy->black_goods, true);
-                 $policy->black_display = $blackDisplay;
-             }else{
-                 $policy->black_display = '未选择不适用产品';
-             }
+             $this->voucherService->decodeVoucherInfo($policy);
              return $policy;
         });
         $total = VoucherPolicy::count();

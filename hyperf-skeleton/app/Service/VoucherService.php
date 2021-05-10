@@ -300,4 +300,21 @@ class VoucherService extends BaseService
             return $isBlack? '无黑名单产品限制':'适用产品无限制';
         }
     }
+
+    public function decodeVoucherInfo(&$policy)
+    {
+        $policy->activity->image_list = explode(';',$policy->activity->image_list);
+        if (isset($policy->goods)) {
+            $goodsDisplay =  $this->getDisplayName($policy->goods,false);
+            $policy->goods_display = $goodsDisplay;
+        }else{
+            $policy->goods_display = '未选择适用产品';
+        }
+        if(isset($policy->black_goods)) {
+            $blackDisplay = $this->getDisplayName($policy->black_goods, true);
+            $policy->black_display = $blackDisplay;
+        }else{
+            $policy->black_display = '未选择不适用产品';
+        }
+    }
 }
