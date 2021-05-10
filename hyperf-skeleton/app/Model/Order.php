@@ -39,9 +39,11 @@ namespace App\Model;
  * @property \Carbon\Carbon $updated_at 
  * @property int $deduct_cash 券抵扣金额,单位分
  * @property int $voucher_id 券ID
+ * @property int $origin_cash 抵扣钱订单金额
  * @property-read \Hyperf\Database\Model\Collection|\App\Model\OrderGood[] $order_goods 
  * @property-read \App\Model\User $owner 
  * @property-read \App\Model\Shop $shop 
+ * @property-read \App\Model\Voucher $voucher 
  */
 class Order extends Model
 {
@@ -63,7 +65,7 @@ class Order extends Model
      *
      * @var array
      */
-    protected $casts = ['order_id' => 'integer', 'pay_status' => 'integer', 'deliver_status' => 'integer', 'owner_id' => 'integer', 'shop_owner_id' => 'integer', 'shop_id' => 'integer', 'cash' => 'integer', 'platform_cut' => 'integer', 'deliver_type' => 'integer', 'receive_status' => 'integer', 'finish_status' => 'integer', 'is_appreciate' => 'integer', 'order_expire' => 'integer', 'is_comment' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'deduct_cash' => 'integer', 'voucher_id' => 'integer'];
+    protected $casts = ['order_id' => 'integer', 'pay_status' => 'integer', 'deliver_status' => 'integer', 'owner_id' => 'integer', 'shop_owner_id' => 'integer', 'shop_id' => 'integer', 'cash' => 'integer', 'platform_cut' => 'integer', 'deliver_type' => 'integer', 'receive_status' => 'integer', 'finish_status' => 'integer', 'is_appreciate' => 'integer', 'order_expire' => 'integer', 'is_comment' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'deduct_cash' => 'integer', 'voucher_id' => 'integer', 'origin_cash' => 'integer'];
     protected $with = ['order_goods', 'shop', 'voucher'];
     public function order_goods()
     {
@@ -79,6 +81,6 @@ class Order extends Model
     }
     public function voucher()
     {
-        return $this->hasOne(Voucher::class,'voucher_id','voucher_id');
+        return $this->hasOne(Voucher::class, 'voucher_id', 'voucher_id');
     }
 }
