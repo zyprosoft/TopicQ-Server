@@ -367,14 +367,16 @@ class PostService extends BaseService
         //解析代金券信息
         if(isset($post->voucher_policy)) {
             $this->voucherService->decodeVoucherInfo($post->voucher_policy);
-            //如果有订阅券，查看是不是已经领取过
-            $voucher = Voucher::query()->where('owner_id',$this->userId())
-                ->where('policy_id',$post->policy_id)
-                ->first();
-            if ($voucher instanceof Voucher) {
-                $post->finish_get_voucher = 1;
-            }else{
-                $post->finish_get_voucher = 0;
+            if(Auth::isGuest() == false) {
+                //如果有订阅券，查看是不是已经领取过
+                $voucher = Voucher::query()->where('owner_id',$this->userId())
+                    ->where('policy_id',$post->policy_id)
+                    ->first();
+                if ($voucher instanceof Voucher) {
+                    $post->finish_get_voucher = 1;
+                }else{
+                    $post->finish_get_voucher = 0;
+                }
             }
         }
 
