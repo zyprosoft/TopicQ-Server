@@ -129,6 +129,7 @@ class VoucherService extends BaseService
                                       ->limit($pageSize)
                                       ->get();
         $list->map(function (VoucherPolicy $policy) {
+             $policy->activity->image_list = explode(';',$policy->activity->image_list);
              if (isset($policy->goods)) {
                  $goodsDisplay =  $this->getDisplayName($policy->goods,false);
                  $policy->goods_display = $goodsDisplay;
