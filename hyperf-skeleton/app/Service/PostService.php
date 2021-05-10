@@ -745,9 +745,9 @@ class PostService extends BaseService
                              ->limit($pageSize)
                              ->get();
         //检查用户收藏状态
-        $postIds = $list->pluck('post_id');
         if(Auth::isGuest() == false) {
-            $favoriteList = UserFavorite::query()->where('owner_id',$this->userId())
+            $postIds = $list->pluck('post_id');
+            $favoriteList = UserFavorite::query()->where('user_id',$this->userId())
                 ->whereIn('post_id',$postIds)
                 ->get()
                 ->keyBy('post_id');
