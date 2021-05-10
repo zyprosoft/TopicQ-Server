@@ -88,7 +88,7 @@ class VoucherController extends AbstractController
                 'imageList' => 'array|min:1|max:4',
                 'link' => 'string|min:1|max:500',
                 'forumId' => 'integer|exists:forum,forum_id',
-                'policyId' => 'integer|required|exists:subscribe_forum_password,policy_id'
+                'policyId' => 'integer|required|exists:voucher_policy,policy_id'
             ]
         );
         $title = $request->param('title');
