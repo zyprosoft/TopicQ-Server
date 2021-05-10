@@ -137,6 +137,7 @@ class VoucherService extends BaseService
                  $blackDisplay = $this->getDisplayName($policy->black_goods, true);
                  $policy->black_display = $blackDisplay;
              }
+             return $policy;
         });
         $total = VoucherPolicy::count();
         return ['total'=>$total,'list'=>$list];
