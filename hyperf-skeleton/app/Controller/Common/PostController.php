@@ -343,4 +343,14 @@ class PostController extends AbstractController
         $result = $this->service->getVideoPostList($pageIndex, $pageSize, $type);
         return $this->success($result);
     }
+
+    public function praise(AuthedRequest $request)
+    {
+        $this->validate([
+            'postId' => 'integer|required|exists:post,post_id',
+        ]);
+        $postId = $request->param('postId');
+        $result = $this->service->praise($postId);
+        return $this->success($result);
+    }
 }

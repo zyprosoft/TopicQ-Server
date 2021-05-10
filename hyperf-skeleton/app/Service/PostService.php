@@ -572,6 +572,12 @@ class PostService extends BaseService
         return $this->success();
     }
 
+    public function praise(int $postId)
+    {
+        Post::findOrFail($postId)->increment('praise_count');
+        return $this->success();
+    }
+
     public function getPostListBySubscribeByForumId(int $pageIndex, int $pageSize, int $forumId)
     {
         //用户是不是已经订阅了此板块,或者是管理员以上身份
