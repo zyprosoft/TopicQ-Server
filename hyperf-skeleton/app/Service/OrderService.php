@@ -117,6 +117,7 @@ class OrderService extends BaseService
 
             //先保存订单的商品信息
             $orderCash = 0;
+            $originCash = 0;
             $goodsList = collect($params['goodsList']);
             $orderNo = $this->generateOrderNo();
             $goodsList->map(function ($goods) use ($orderNo, &$orderCash) {
@@ -142,6 +143,7 @@ class OrderService extends BaseService
                 $orderGoods->saveOrFail();
                 $existGoods->saveOrFail();
             });
+            $originCash = $orderCash;
 
             //是否有传代金券
             $deductAmount = 0;
@@ -183,6 +185,7 @@ class OrderService extends BaseService
             $order->customer_note = $params['note'];
             $order->deliver_type = $params['deliverType'];
             $order->cash = $orderCash;
+            $order->origin_cash = $originCash;
             $order->deduct_cash = $deductAmount;
             if ($deductAmount > 0 && isset($voucher)) {
                 $order->voucher_id = $voucher->voucher_id;
