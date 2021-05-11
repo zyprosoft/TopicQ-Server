@@ -38,15 +38,17 @@ class ForumService extends BaseService
 
         //非授权或者付费板块
         $list = Forum::query()->with(['child_forum_list'])
-            ->where('goods_id','>',0)
-            ->orWhere('need_auth',Constants::STATUS_OK)
+            ->where('goods_id',0)
+            ->orWhere('need_auth',Constants::STATUS_WAIT)
             ->where('forum_id','>',Constants::FORUM_MAIN_FORUM_ID)
             ->where('type',Constants::FORUM_TYPE_MAIN)
             ->get();
         //获取用户已经获得授权的板块信息
         $userSubscribeList = UserSubscribe::query()->where('user_id', $this->userId())
                                                    ->with(['forum'])
-                                                   ->get()->pluck('forum');
+                                                   ->get()
+                                                   ->pluck('forum');
+
         //合并数据
         return $userSubscribeList->union($list)->unique()->sortByDesc('need_auth')->sortByDesc('goods_id')->values()->all();
     }

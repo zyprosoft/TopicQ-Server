@@ -347,6 +347,17 @@ class PostService extends BaseService
                     $post->finish_get_policy = 0;
                 }
             }
+            if($post->voucher_policy_id > 0) {
+                //如果有代金券，查看是不是已经领取过
+                $voucher = Voucher::query()->where('owner_id',$this->userId())
+                    ->where('policy_id',$post->policy_id)
+                    ->first();
+                if ($voucher instanceof Voucher) {
+                    $post->finish_get_voucher = 1;
+                }else{
+                    $post->finish_get_voucher = 0;
+                }
+            }
         } else {
             //需要检查订阅权限，并且不是管理员
             $forum = Forum::findOrFail($post->forum_id);
@@ -362,26 +373,12 @@ class PostService extends BaseService
             $post->is_voted = 0;
             $post->is_favorite = 0;
             $post->finish_get_policy = 0;
+            $post->finish_get_voucher = 0;
         }
 
         //解析代金券信息
         if(isset($post->voucher_policy)) {
             $this->voucherService->decodeVoucherInfo($post->voucher_policy);
-            if(Auth::isGuest() == false) {
-                //如果有订阅券，查看是不是已经领取过
-                $voucher = Voucher::query()->where('owner_id',$this->userId())
-                    ->where('policy_id',$post->policy_id)
-                    ->first();
-                if ($voucher instanceof Voucher) {
-                    $post->finish_get_voucher = 1;
-                }else{
-                    $post->finish_get_voucher = 0;
-                }
-            }else{
-                $post->finish_get_voucher = 0;
-            }
-        }else{
-            $post->finish_get_voucher = 0;
         }
 
         //增加阅读数
