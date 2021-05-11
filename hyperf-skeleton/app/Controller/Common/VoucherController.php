@@ -34,7 +34,7 @@ class VoucherController extends AbstractController
     public function getMyVoucherList(AuthedRequest $request)
     {
         $this->validate([
-            'status' => 'integer|required|0,1',
+            'status' => 'integer|0,1',
             'pageIndex' => 'integer|required|min:0',
             'pageSize' => 'integer|required|min:10|max:30',
         ]);

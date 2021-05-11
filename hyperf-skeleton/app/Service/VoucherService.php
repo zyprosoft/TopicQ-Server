@@ -89,8 +89,22 @@ class VoucherService extends BaseService
         return $this->success();
     }
 
-    public function getMyVoucherList(int $pageIndex, int $pageSize, int $status)
+    public function getMyVoucherList(int $pageIndex, int $pageSize, int $status = null)
     {
+        if (!isset($status)) {
+            $list = Voucher::query()->where('owner_id',$this->userId())
+                ->offset($pageIndex * $pageSize)
+                ->limit($pageSize)
+                ->latest()
+                ->get();
+            $list->map(function (Voucher $voucher){
+                $this->decodeVoucherInfo($voucher->policy);
+            });
+            $total = Voucher::query()->where('owner_id',$this->userId())
+                ->count();
+            return ['total'=>$total,'list'=>$list];
+        }
+
         $operate = '=';
         if ($status == Constants::STATUS_NOT) {
             $operate = '<>';
