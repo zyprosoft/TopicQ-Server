@@ -167,6 +167,9 @@ class OrderService extends BaseService
                         if($voucher->policy->multi_use == Constants::STATUS_NOT) {
                             $voucher->status = Constants::STATUS_DONE;
                         }
+                        if($voucher->left_amount == 0) {
+                            $voucher->status = Constants::STATUS_DONE;
+                        }
                         $voucher->used_time = Carbon::now()->toDateTimeString();
                         $voucher->saveOrFail();
                         Log::info(json_encode($deductInfo));

@@ -3,6 +3,8 @@
 declare (strict_types=1);
 namespace App\Model;
 
+use Carbon\Carbon;
+
 /**
  * @property int $voucher_id 
  * @property int $policy_id 批次ID
@@ -44,5 +46,9 @@ class Voucher extends Model
     public function policy()
     {
         return $this->hasOne(VoucherPolicy::class, 'policy_id', 'policy_id');
+    }
+    public function isExpired()
+    {
+        return Carbon::now()->greaterThanOrEqualTo($this->end_time);
     }
 }

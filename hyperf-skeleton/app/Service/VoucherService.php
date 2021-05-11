@@ -246,6 +246,11 @@ class VoucherService extends BaseService
             return;
         }
         $voucher->left_amount += $voucherUseHistory->amount;
+        $voucher->status = Constants::STATUS_WAIT;//转待使用
+        if($voucher->isExpired()) {
+            //过期增加三天使用时间
+            $voucher->end_time = Carbon::now()->addDays(3)->toDateTimeString();
+        }
         $voucher->saveOrFail();
         //更新使用记录状态
         $voucherUseHistory->status = Constants::VOUCHER_USE_HISTORY_STATUS_ROLLBACK;
