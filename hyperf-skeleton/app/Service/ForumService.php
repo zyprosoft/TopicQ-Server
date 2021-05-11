@@ -39,7 +39,7 @@ class ForumService extends BaseService
         //非授权或者付费板块
         $list = Forum::query()->with(['child_forum_list'])
             ->where('goods_id',0)
-            ->orWhere('need_auth',Constants::STATUS_WAIT)
+            ->where('need_auth',Constants::STATUS_WAIT)
             ->where('forum_id','>',Constants::FORUM_MAIN_FORUM_ID)
             ->where('type',Constants::FORUM_TYPE_MAIN)
             ->get();
