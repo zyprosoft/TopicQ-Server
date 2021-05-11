@@ -377,6 +377,8 @@ class PostService extends BaseService
                 }else{
                     $post->finish_get_voucher = 0;
                 }
+            }else{
+                $post->finish_get_voucher = 0;
             }
         }
 
