@@ -3,6 +3,7 @@ use Hyperf\Crontab\Crontab;
 use ZYProSoft\Task\ClearExpireCaptchaTask;
 use ZYProSoft\Task\ClearLogFileTask;
 use App\Task\PostRecommendCalculateTask;
+use App\Task\VoucherExpireTask;
 
 return [
     // 是否开启定时任务
@@ -20,5 +21,9 @@ return [
             ->setRule('*/10 * * * *')
             ->setCallback([PostRecommendCalculateTask::class, 'execute'])
             ->setMemo('定时统计帖子推荐权重'),
+        (new Crontab())->setName('calculateRecommendWeight')
+            ->setRule('10 0 * * *')
+            ->setCallback([VoucherExpireTask::class, 'execute'])
+            ->setMemo('每天定时过期代金券'),
     ]
 ];
