@@ -15,6 +15,7 @@ use App\Model\User;
 use App\Model\UserAddress;
 use App\Model\UserCommentPraise;
 use App\Model\UserMiniProgramUse;
+use App\Model\UserSetting;
 use App\Model\UserUpdate;
 use Carbon\Carbon;
 use EasyWeChat\Factory;
@@ -182,6 +183,10 @@ class UserService extends BaseService
                                                                 ->get()
                                                                 ->pluck('mini_program');
         $user->mini_program_list = $alwaysUseMiniProgramList;
+        //获取用户设置
+        $userSetting = UserSetting::query()->where('owner_id',$this->userId())->first();
+        $user->user_setting = $userSetting;
+
         return $user;
     }
 

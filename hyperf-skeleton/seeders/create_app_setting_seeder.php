@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Hyperf\Database\Seeders\Seeder;
+use Hyperf\DbConnection\Db;
 
 class CreateAppSettingSeeder extends Seeder
 {
@@ -14,5 +15,11 @@ class CreateAppSettingSeeder extends Seeder
     public function run()
     {
         //
+        Db::table('app_setting')->insertOrIgnore([
+            'app_name' => 'TopicQ',
+            'custom_no_more' => 1,
+            'company' => '码动未来信息科技',
+            'contact_weixin' => '微信(13177627765)',
+        ]);
     }
 }
