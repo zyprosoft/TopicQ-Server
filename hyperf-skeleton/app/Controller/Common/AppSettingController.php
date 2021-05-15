@@ -8,7 +8,7 @@ use Hyperf\Di\Annotation\Inject;
 use App\Service\AppSettingService;
 
 /**
- * @AutoController (prefix="/app/setting")
+ * @AutoController (prefix="/common/app")
  * Class AppSettingController
  * @package App\Controller\Common
  */
