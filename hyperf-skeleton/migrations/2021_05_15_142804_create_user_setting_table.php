@@ -13,7 +13,14 @@ class CreateUserSettingTable extends Migration
     {
         Schema::create('user_setting', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('owner_id')->comment('用户ID');
+            $table->tinyInteger('open_private_message')->default(1)->comment('默认打开接收私信');
+            
             $table->timestamps();
+            $table->softDeletes();
+            $table->engine = "InnoDB";
+            $table->charset = "utf8mb4";
+            $table->collation = "utf8mb4_unicode_ci";
         });
     }
 

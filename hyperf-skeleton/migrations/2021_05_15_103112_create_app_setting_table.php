@@ -29,7 +29,6 @@ class CreateAppSettingTable extends Migration
             $table->tinyInteger('private_message_open')->default(1)->comment('私信功能是否打开0不打开1打开');
             $table->tinyInteger('message_on_attention')->default(1)->comment('必须关注才能发消息0不需要1需要');
             $table->tinyInteger('self_mall_open')->default(0)->comment('自营店铺，默认不打开,不打开的情况下我的订单也被隐藏起来');
-
             $table->tinyInteger('red_bag_post')->default(0)->comment('悬赏帖是否打开');
             $table->tinyInteger('praise_cash_post')->default(0)->comment('赞赏功能是否打开');
 
