@@ -119,7 +119,7 @@ class ThirdPartController extends AbstractController
     public function editOfficialAccount(AppAdminRequest $request)
     {
         $this->validate([
-            'accountId' => 'integer|required|exist:official_account,account_id',
+            'accountId' => 'integer|required|exists:official_account,account_id',
             'name'=> 'string|min:1|max:24',
             'icon' => 'string|min:1|max:500',
             'introduce' => 'string|min:1|max:500',
