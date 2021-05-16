@@ -15,7 +15,7 @@ class CreateSystemCategory extends Seeder
     public function run()
     {
         Db::table('goods_category')->insertOrIgnore([
-            'name' => '虚拟商品'
+           [ 'name' => '订阅商品'],
         ]);
     }
 }

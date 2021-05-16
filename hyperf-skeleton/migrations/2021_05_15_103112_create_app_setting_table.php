@@ -25,7 +25,7 @@ class CreateAppSettingTable extends Migration
             $table->string('theme_color')->nullable()->comment('主题颜色');
             $table->tinyInteger('custom_theme')->default(0)->comment('是否自定义主题颜色');
             $table->tinyInteger('theme_gradual')->default(0)->comment('主题色是否渐变');
-            $table->tinyInteger('subscribe_open')->default(1)->comment('是否打开订阅0不打开1打开默认打开');
+            $table->tinyInteger('subscribe_open')->default(1)->comment('是否打开付费订阅0不打开1打开默认打开');
             $table->tinyInteger('private_message_open')->default(1)->comment('私信功能是否打开0不打开1打开');
             $table->tinyInteger('message_on_attention')->default(1)->comment('必须关注才能发消息0不需要1需要');
             $table->tinyInteger('self_mall_open')->default(0)->comment('自营店铺，默认不打开,不打开的情况下我的订单也被隐藏起来');
