@@ -131,7 +131,8 @@ class ThirdPartController extends AbstractController
         $introduce = $request->param('introduce');
         $categoryId = $request->param('categoryId');
         $wechatId = $request->param('wechatId');
-        $result = $this->service->editOfficialAccount($wechatId,$categoryId,$wechatId,$name,$icon,$introduce);
+        $accountId = $request->param('accountId');
+        $result = $this->service->editOfficialAccount($accountId,$categoryId,$wechatId,$name,$icon,$introduce);
         return $this->success($result);
     }
 }
