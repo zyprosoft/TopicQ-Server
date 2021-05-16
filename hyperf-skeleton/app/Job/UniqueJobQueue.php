@@ -37,7 +37,6 @@ class UniqueJobQueue
 
     public function __construct(ContainerInterface $container)
     {
-        Log::info("init Unique Job Queue!");
         $this->driverFactory = $container->get(DriverFactory::class);
         $this->driver = $this->driverFactory->get('default');
     }
