@@ -6,13 +6,7 @@
     "repositories":[
         {
             "type":"git",
-            "url":"https://git.code.tencent.com/CodeFuture/hyperf-common.git",
-            "http-basic":{
-                "https://git.code.tencent.com/CodeFuture/hyperf-common.git":{
-                    "username":"zyprosoft",
-                    "password":"mike5262705"
-                }
-            }
+            "url":"git@git.code.tencent.com:CodeFuture/hyperf-common.git"
         }
     ],
     "authors": [
