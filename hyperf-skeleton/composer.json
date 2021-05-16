@@ -3,6 +3,18 @@
     "description": "zyprosoft hyperf-skeleton base project",
     "type": "project",
     "license": "MIT",
+    "repositories":[
+        {
+            "type":"git",
+            "url":"https://git.code.tencent.com/CodeFuture/jianghu-server.git",
+            "http-basic":{
+                "https://git.code.tencent.com/CodeFuture/jianghu-server.git":{
+                    "username":"zyprosoft",
+                    "password":"mike5262705"
+                }
+            }
+        }
+    ],
     "authors": [
         {
             "name": "zyvincent",
