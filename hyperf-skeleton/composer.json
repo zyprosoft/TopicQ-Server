@@ -6,9 +6,9 @@
     "repositories":[
         {
             "type":"git",
-            "url":"https://git.code.tencent.com/CodeFuture/jianghu-server.git",
+            "url":"https://git.code.tencent.com/CodeFuture/hyperf-common.git",
             "http-basic":{
-                "https://git.code.tencent.com/CodeFuture/jianghu-server.git":{
+                "https://git.code.tencent.com/CodeFuture/hyperf-common.git":{
                     "username":"zyprosoft",
                     "password":"mike5262705"
                 }
