@@ -81,6 +81,7 @@ class TopicService extends AbstractService
                 }
             })->offset($pageIndex * $pageSize)
             ->limit($pageSize)
+            ->latest()
             ->get();
         $total = Topic::query()->where(function (Builder $query) use ($keyword) {
             if (isset($keyword)) {
