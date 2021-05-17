@@ -11,8 +11,9 @@ class AlterAppSettingAddEnableUserVideo extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('app_setting', function (Blueprint $table) {
             //
+            $table->tinyInteger('enable_user_video')->default(0)->comment('是否开启普通用户可以发视频0不允许1允许');
         });
     }
 
@@ -21,8 +22,9 @@ class AlterAppSettingAddEnableUserVideo extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('app_setting', function (Blueprint $table) {
             //
+            $table->dropColumn('enable_user_video');
         });
     }
 }
