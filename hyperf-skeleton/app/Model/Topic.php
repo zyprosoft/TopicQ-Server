@@ -27,6 +27,9 @@ class Topic extends Model
      * @var string
      */
     protected $table = 'topic';
+
+    protected $primaryKey = 'topic_id';
+
     /**
      * The attributes that are mass assignable.
      *
