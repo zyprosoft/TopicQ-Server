@@ -17,5 +17,8 @@ class CreateSystemCategory extends Seeder
         Db::table('goods_category')->insertOrIgnore([
            [ 'name' => '订阅商品'],
         ]);
+        Db::table('topic_category')->insertOrIgnore([
+            ['name' => '公共'],
+        ]);
     }
 }
