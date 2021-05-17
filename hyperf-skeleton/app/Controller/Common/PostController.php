@@ -41,7 +41,8 @@ class PostController extends AbstractController
             'vote.items.*.content' => 'string|required_with:vote|min:1|max:32|sensitive',
             'programId' => 'integer|exists:mini_program,program_id',
             'accountId' => 'integer|exists:official_account,account_id',
-            'forumId' => 'integer|exists:forum,forum_id'
+            'forumId' => 'integer|exists:forum,forum_id',
+            'topicId' => 'integer|exists:topic,topic_id',
         ]);
         $params = $request->getParams();
         $result = $this->service->create($params);
@@ -68,7 +69,8 @@ class PostController extends AbstractController
             'link' => 'string|min:1|max:500|sensitive',
             'programId' => 'integer|exists:mini_program,program_id',
             'accountId' => 'integer|exists:official_account,account_id',
-            'forumId' => 'integer|exists:forum,forum_id'
+            'forumId' => 'integer|exists:forum,forum_id',
+            'topicId' => 'integer|exists:topic,topic_id',
         ]);
         $params = $request->getParams();
         $postId = $request->param('postId');

@@ -94,6 +94,7 @@ class PostService extends BaseService
             $programId = data_get($params,'programId');
             $accountId = data_get($params,'accountId');
             $forumId = data_get($params,'forumId');
+            $topicId = data_get($params,'topicId');
 
             $post = new Post();
             $post->owner_id = $this->userId();
@@ -114,6 +115,9 @@ class PostService extends BaseService
                 $post->forum_id = $forumId;
             }else{
                 $post->forum_id = Constants::FORUM_MAIN_FORUM_ID;
+            }
+            if (isset($topicId)) {
+                $post->topic_id = $topicId;
             }
             if (isset($imageList)) {
                 if (!empty($imageList)) {
@@ -221,6 +225,9 @@ class PostService extends BaseService
         }
         if(isset($params['forumId'])) {
             $post->forum_id = $params['forumId'];
+        }
+        if (isset($params['topicId'])) {
+            $post->topic_id = $params['topicId'];
         }
         if (isset($params['imageList'])) {
             $post->image_list = implode(';', $params['imageList']);
@@ -801,4 +808,70 @@ class PostService extends BaseService
             })->count();
         return ['total'=>$total,'list'=>$list];
     }
+
+    public function getPostListByTopicId(int $pageIndex, int $pageSize, int $topicId)
+    {
+        $selectRows = [
+            'post_id',
+            'title',
+            'summary',
+            'owner_id',
+            'image_list',
+            'link',
+            'vote_id',
+            'read_count',
+            'forward_count',
+            'comment_count',
+            'audit_status',
+            'is_hot',
+            'last_comment_time',
+            'sort_index',
+            'is_recommend',
+            'created_at',
+            'updated_at',
+            'join_user_count',
+            'avatar_list',
+            'recommend_weight'
+        ];
+
+        $list = Post::query()->select($selectRows)
+            ->with(['forum'])
+            ->where('topic_id',$topicId)
+            ->where('audit_status', Constants::STATUS_DONE)
+            ->orderByDesc('sort_index')
+            ->orderByDesc('recommend_weight')
+            ->latest()
+            ->offset($pageIndex * $pageSize)
+            ->limit($pageSize)
+            ->get();
+
+        //增加是否阅读的状态
+        $postIds = $list->pluck('post_id');
+        $userReadList = [];
+        if (Auth::isGuest() == false) {
+            $userReadList = UserRead::query()->whereIn('post_id', $postIds)
+                ->where('user_id', $this->userId())
+                ->get()
+                ->keyBy('post_id');
+        }
+
+        $list->map(function (Post $post) use ($userReadList) {
+            if (!empty($post->avatar_list)) {
+                $post->avatar_list = explode(';', $post->avatar_list);
+            }
+            if (!empty($post->image_list)) {
+                $post->image_list = explode(';', $post->image_list);
+            }
+            $post->is_read = isset($userReadList[$post->post_id]) ? 1 : 0;
+            return $post;
+        });
+
+        $total = Post::query()->select($selectRows)
+            ->where('topic_id',$topicId)
+            ->where('audit_status', Constants::STATUS_DONE)
+            ->count();
+
+        return ['total'=>$total, 'list'=>$list];
+    }
+
 }
