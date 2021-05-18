@@ -42,4 +42,13 @@ class Topic extends Model
      * @var array
      */
     protected $casts = ['topic_id' => 'integer', 'owner_id' => 'integer', 'category_id' => 'integer', 'read_count' => 'integer', 'join_count' => 'integer', 'post_count' => 'integer', 'comment_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+
+    protected $with = [
+        'author'
+    ];
+
+    public function author()
+    {
+        return $this->hasOne(User::class,'user_id','owner_id');
+    }
 }
