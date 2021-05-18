@@ -56,7 +56,8 @@ class PostService extends BaseService
         'updated_at',
         'join_user_count',
         'avatar_list',
-        'recommend_weight'
+        'recommend_weight',
+        'topic_id'
     ];
 
     //重载获取当前用户ID的方法
@@ -648,7 +649,8 @@ class PostService extends BaseService
             'updated_at',
             'join_user_count',
             'avatar_list',
-            'recommend_weight'
+            'recommend_weight',
+            'topic_id'
         ];
 
         $list = Post::query()->select($selectRows)
@@ -715,7 +717,8 @@ class PostService extends BaseService
             'avatar_list',
             'user_subscribe.forum_id',
             'user_id',
-            'recommend_weight'
+            'recommend_weight',
+            'topic_id'
         ];
 
         $list = Post::query()->select($selectRows)
@@ -831,7 +834,8 @@ class PostService extends BaseService
             'updated_at',
             'join_user_count',
             'avatar_list',
-            'recommend_weight'
+            'recommend_weight',
+            'topic_id'
         ];
 
         $list = Post::query()->select($selectRows)
