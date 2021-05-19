@@ -30,7 +30,7 @@ class AlterTopicAddSortIndex extends Migration
             $table->dropColumn('recommend_weight');
             $table->dropColumn('sort_index');
             $table->dropColumn('tag');
-            $table->dropColumn('audit_status');
+//            $table->dropColumn('audit_status');
         });
     }
 }
