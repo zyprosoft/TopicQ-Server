@@ -302,6 +302,20 @@ class PostController extends AbstractController
         return $this->success($result);
     }
 
+    public function getPostListByTopicId($request)
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30',
+            'topicId' => 'integer|required|exists:topic,topic_id',
+        ]);
+        $pageIndex = $request->param('pageIndex');
+        $pageSize = $request->param('pageSize');
+        $topicId = $request->param('topicId');
+        $result = $this->service->getPostListByTopicId($pageIndex, $pageSize, $topicId);
+        return $this->success($result);
+    }
+
     public function mySubscribeList(AuthedRequest $request)
     {
         $result = $this->forumService->mySubscribeList();
