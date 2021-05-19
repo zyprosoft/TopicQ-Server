@@ -11,8 +11,11 @@ class AlterTopicAddSortIndex extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('topic', function (Blueprint $table) {
             //
+            $table->bigInteger('recommend_weight')->default(0)->comment('推荐权重');
+            $table->tinyInteger('sort_index')->default(0)->comment('置顶');
+            $table->string('tag',4)->nullable()->comment('自定义标签');
         });
     }
 
@@ -21,8 +24,11 @@ class AlterTopicAddSortIndex extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('topic', function (Blueprint $table) {
             //
+            $table->dropColumn('recommend_weight');
+            $table->dropColumn('sort_index');
+            $table->dropColumn('tag');
         });
     }
 }
