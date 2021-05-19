@@ -21,6 +21,7 @@ namespace App\Model;
  * @property int $recommend_weight 推荐权重
  * @property int $sort_index 置顶
  * @property string $tag 自定义标签
+ * @property int $audit_status 0:待审核1通过-1不通过审核状态，话题必须要管理员审核通过
  * @property-read \App\Model\User $author 
  */
 class Topic extends Model
@@ -43,7 +44,7 @@ class Topic extends Model
      *
      * @var array
      */
-    protected $casts = ['topic_id' => 'integer', 'owner_id' => 'integer', 'category_id' => 'integer', 'read_count' => 'integer', 'join_count' => 'integer', 'post_count' => 'integer', 'comment_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'recommend_weight' => 'integer', 'sort_index' => 'integer'];
+    protected $casts = ['topic_id' => 'integer', 'owner_id' => 'integer', 'category_id' => 'integer', 'read_count' => 'integer', 'join_count' => 'integer', 'post_count' => 'integer', 'comment_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'recommend_weight' => 'integer', 'sort_index' => 'integer', 'audit_status' => 'integer'];
     protected $with = ['author'];
     public function author()
     {
