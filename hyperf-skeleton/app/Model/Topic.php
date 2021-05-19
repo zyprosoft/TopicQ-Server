@@ -18,6 +18,10 @@ namespace App\Model;
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
  * @property string $deleted_at 
+ * @property int $recommend_weight 推荐权重
+ * @property int $sort_index 置顶
+ * @property string $tag 自定义标签
+ * @property-read \App\Model\User $author 
  */
 class Topic extends Model
 {
@@ -27,9 +31,7 @@ class Topic extends Model
      * @var string
      */
     protected $table = 'topic';
-
     protected $primaryKey = 'topic_id';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -41,14 +43,10 @@ class Topic extends Model
      *
      * @var array
      */
-    protected $casts = ['topic_id' => 'integer', 'owner_id' => 'integer', 'category_id' => 'integer', 'read_count' => 'integer', 'join_count' => 'integer', 'post_count' => 'integer', 'comment_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
-
-    protected $with = [
-        'author'
-    ];
-
+    protected $casts = ['topic_id' => 'integer', 'owner_id' => 'integer', 'category_id' => 'integer', 'read_count' => 'integer', 'join_count' => 'integer', 'post_count' => 'integer', 'comment_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'recommend_weight' => 'integer', 'sort_index' => 'integer'];
+    protected $with = ['author'];
     public function author()
     {
-        return $this->hasOne(User::class,'user_id','owner_id');
+        return $this->hasOne(User::class, 'user_id', 'owner_id');
     }
 }
