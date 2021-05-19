@@ -71,4 +71,14 @@ class TopicController extends AbstractController
         $result = $this->service->getUserAttentionTopicList($pageIndex,$pageSize);
         return $this->success($result);
     }
+
+    public function getTopicAttentionStatus(AuthedRequest $request)
+    {
+        $this->validate([
+            'topicId'=>'integer|required|exists:topic,topic_id',
+        ]);
+        $topicId = $request->param('topicId');
+        $result = $this->service->getTopicAttentionStatus($topicId);
+        return $this->success($result);
+    }
 }
