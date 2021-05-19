@@ -30,4 +30,13 @@ class UserAttentionTopic extends Model
      * @var array
      */
     protected $casts = ['id' => 'int', 'user_id' => 'integer', 'topic_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+
+    protected $with = [
+        'topic'
+    ];
+
+    public function topic()
+    {
+        return $this->hasOne(Topic::class,'topic_id','topic_id');
+    }
 }

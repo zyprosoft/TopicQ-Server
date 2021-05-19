@@ -6,6 +6,7 @@ use App\Constants\Constants;
 use App\Job\AddNotificationJob;
 use App\Model\Topic;
 use App\Model\TopicCategory;
+use App\Model\UserAttentionTopic;
 use EasyWeChat\Factory;
 use Hyperf\Database\Model\Builder;
 use ZYProSoft\Constants\ErrorCode;
@@ -92,6 +93,40 @@ class TopicService extends AbstractService
                     ->orWhere('introduce','like',"%$keyword%");
             }
         })->count();
+        return ['total'=>$total,'list'=>$list];
+    }
+
+    public function attention(int $topicId,int $status)
+    {
+        $attention = UserAttentionTopic::query()->where('user_id', $this->userId())
+                                                ->where('topic_id', $topicId)
+                                                ->first();
+        if($status == Constants::STATUS_DONE && $attention instanceof UserAttentionTopic) {
+            throw new HyperfCommonException(\App\Constants\ErrorCode::DO_NOT_REPEAT_ACTION);
+        }
+        if($status == Constants::STATUS_NOT && !$attention instanceof UserAttentionTopic) {
+            throw new HyperfCommonException(\App\Constants\ErrorCode::DO_NOT_REPEAT_ACTION);
+        }
+        if ($status == Constants::STATUS_DONE) {
+            $attention = new UserAttentionTopic();
+            $attention->user_id = $this->userId();
+            $attention->topic_id = $topicId;
+            $attention->saveOrFail();
+        }
+        if ($status == Constants::STATUS_NOT) {
+            $attention->delete();
+        }
+        return $this->success();
+    }
+
+    public function getUserAttentionTopicList(int $pageIndex,int $pageSize)
+    {
+        $list = UserAttentionTopic::query()->where('user_id',$this->userId())
+                                           ->offset($pageIndex * $pageSize)
+                                           ->limit($pageSize)
+                                           ->latest()
+                                           ->get()->pluck('topic');
+        $total = UserAttentionTopic::query()->where('user_id',$this->userId())->count();
         return ['total'=>$total,'list'=>$list];
     }
 }
