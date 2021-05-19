@@ -13,7 +13,13 @@ class CreateUserAttentionTopicTable extends Migration
     {
         Schema::create('user_attention_topic', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('user_id')->comment('用户ID');
+            $table->bigInteger('topic_id')->comment('话题ID');
+            $table->unique(['user_id','topic_id']);
             $table->timestamps();
+            $table->engine = "InnoDB";
+            $table->charset = "utf8mb4";
+            $table->collation = "utf8mb4_unicode_ci";
         });
     }
 
