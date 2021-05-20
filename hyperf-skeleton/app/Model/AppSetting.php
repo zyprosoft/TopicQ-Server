@@ -27,6 +27,7 @@ namespace App\Model;
  * @property \Carbon\Carbon $updated_at 
  * @property string $deleted_at 
  * @property int $enable_user_video 是否开启普通用户可以发视频0不允许1允许
+ * @property int $enable_user_create_topic 是否允许普通用户创建主题
  */
 class AppSetting extends Model
 {
@@ -47,5 +48,5 @@ class AppSetting extends Model
      *
      * @var array
      */
-    protected $casts = ['id' => 'int', 'custom_no_more' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'custom_theme' => 'integer', 'theme_gradual' => 'integer', 'subscribe_open' => 'integer', 'private_message_open' => 'integer', 'message_on_attention' => 'integer', 'self_mall_open' => 'integer', 'red_bag_post' => 'integer', 'praise_cash_post' => 'integer', 'enable_user_video' => 'integer'];
+    protected $casts = ['id' => 'int', 'custom_no_more' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'custom_theme' => 'integer', 'theme_gradual' => 'integer', 'subscribe_open' => 'integer', 'private_message_open' => 'integer', 'message_on_attention' => 'integer', 'self_mall_open' => 'integer', 'red_bag_post' => 'integer', 'praise_cash_post' => 'integer', 'enable_user_video' => 'integer', 'enable_user_create_topic' => 'integer'];
 }
