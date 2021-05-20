@@ -30,4 +30,14 @@ class UserAttentionOther extends Model
      * @var array
      */
     protected $casts = ['id' => 'int', 'user_id' => 'integer', 'other_user_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+
+    public function owner()
+    {
+        return $this->hasOne(User::class,'user_id','user_id');
+    }
+
+    public function other()
+    {
+        return $this->hasOne(User::class,'user_id','other_user_id');
+    }
 }

@@ -13,6 +13,7 @@ use App\Model\PrivateMessage;
 use App\Model\TokenHistory;
 use App\Model\User;
 use App\Model\UserAddress;
+use App\Model\UserAttentionOther;
 use App\Model\UserCommentPraise;
 use App\Model\UserMiniProgramUse;
 use App\Model\UserSetting;
@@ -394,5 +395,64 @@ class UserService extends BaseService
         $address->owner_id = $this->userId();
         $address->save();
         return $this->success($address);
+    }
+
+    public function attention(int $otherUserId, int $status)
+    {
+        $attention = UserAttentionOther::query()->where('user_id', $this->userId())
+            ->where('other_user_id', $otherUserId)
+            ->first();
+        if($status == Constants::STATUS_DONE && $attention instanceof UserAttentionOther) {
+            throw new HyperfCommonException(ErrorCode::DO_NOT_REPEAT_ACTION);
+        }
+        if($status == Constants::STATUS_NOT && !$attention instanceof UserAttentionOther) {
+            throw new HyperfCommonException(ErrorCode::DO_NOT_REPEAT_ACTION);
+        }
+        if ($status == Constants::STATUS_DONE) {
+            $attention = new UserAttentionOther();
+            $attention->user_id = $this->userId();
+            $attention->other_user_id = $otherUserId;
+            $attention->saveOrFail();
+        }
+        if ($status == Constants::STATUS_NOT) {
+            $attention->delete();
+        }
+        return $this->success();
+    }
+
+    public function getUserAttentionList(int $pageIndex, int $pageSize)
+    {
+        $list = UserAttentionOther::query()->where('user_id',$this->userId())
+                                           ->with(['other'])
+                                           ->offset( $pageIndex * $pageSize)
+                                           ->limit( $pageSize )
+                                           ->get()
+                                           ->pluck('other');
+        $total = UserAttentionOther::query()->where('user_id',$this->userId())->count();
+        return ['total'=>$total,'list'=>$list];
+    }
+
+    public function getMyFansList(int $pageIndex, int $pageSize)
+    {
+        $list = UserAttentionOther::query()->where('other_user_id',$this->userId())
+            ->with(['owner'])
+            ->offset( $pageIndex * $pageSize)
+            ->limit( $pageSize )
+            ->get()
+            ->pluck('owner');
+        $total = UserAttentionOther::query()->where('other_user_id',$this->userId())->count();
+        return ['total'=>$total,'list'=>$list];
+    }
+
+    public function getOtherUserFansList(int $userId, int $pageIndex, int $pageSize)
+    {
+        $list = UserAttentionOther::query()->where('other_user_id',$userId)
+            ->with(['owner'])
+            ->offset( $pageIndex * $pageSize)
+            ->limit( $pageSize )
+            ->get()
+            ->pluck('owner');
+        $total = UserAttentionOther::query()->where('other_user_id',$userId)->count();
+        return ['total'=>$total,'list'=>$list];
     }
 }

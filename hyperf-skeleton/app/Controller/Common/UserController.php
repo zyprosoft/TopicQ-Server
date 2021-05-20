@@ -131,4 +131,52 @@ class UserController extends AbstractController
         $result = $this->userService->addAddress($request->getParams());
         return $this->success($result);
     }
+
+    public function attention(AuthedRequest $request)
+    {
+        $this->validate([
+            'otherUserId'=>'integer|required|exists:user,user_id',
+            'status'=>'integer|required|in:0,1'
+        ]);
+        $otherUserId = $request->param('otherUserId');
+        $status = $request->param('status');
+        $result = $this->userService->attention($otherUserId,$status);
+        return $this->success($result);
+    }
+
+    public function getUserAttentionList(AuthedRequest $request)
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30',
+        ]);
+        $pageIndex = $this->request->param('pageIndex');
+        $pageSize = $this->request->param('pageSize');
+        $result = $this->userService->getUserAttentionList($pageIndex,$pageSize);
+        return $this->success($result);
+    }
+
+    public function getMyFansList(AuthedRequest $request)
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30',
+        ]);
+        $pageIndex = $this->request->param('pageIndex');
+        $pageSize = $this->request->param('pageSize');
+        $result = $this->userService->getMyFansList($pageIndex,$pageSize);
+        return $this->success($result);
+    }
+
+    public function getOtherUserFansList(AuthedRequest $request)
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30',
+        ]);
+        $pageIndex = $this->request->param('pageIndex');
+        $pageSize = $this->request->param('pageSize');
+        $result = $this->userService->getOtherUserFansList($pageIndex,$pageSize);
+        return $this->success($result);
+    }
 }
