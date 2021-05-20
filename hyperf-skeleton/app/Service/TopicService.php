@@ -13,7 +13,6 @@ use ZYProSoft\Constants\ErrorCode;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Facade\Auth;
 use ZYProSoft\Service\AbstractService;
-use function Swoole\Coroutine\map;
 
 class TopicService extends AbstractService
 {
