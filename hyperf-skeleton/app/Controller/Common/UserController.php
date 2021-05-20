@@ -173,10 +173,12 @@ class UserController extends AbstractController
         $this->validate([
             'pageIndex' => 'integer|required|min:0',
             'pageSize' => 'integer|required|min:10|max:30',
+            'otherUserId' => 'integer|required|exists:user,user_id'
         ]);
         $pageIndex = $this->request->param('pageIndex');
         $pageSize = $this->request->param('pageSize');
-        $result = $this->userService->getOtherUserFansList($pageIndex,$pageSize);
+        $otherUserId = $request->param('otherUserId');
+        $result = $this->userService->getOtherUserFansList($otherUserId, $pageIndex, $pageSize);
         return $this->success($result);
     }
 }
