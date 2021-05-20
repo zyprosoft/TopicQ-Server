@@ -11,7 +11,9 @@ use EasyWeChat\Factory;
 use Hyperf\Database\Model\Builder;
 use ZYProSoft\Constants\ErrorCode;
 use ZYProSoft\Exception\HyperfCommonException;
+use ZYProSoft\Facade\Auth;
 use ZYProSoft\Service\AbstractService;
+use function Swoole\Coroutine\map;
 
 class TopicService extends AbstractService
 {
@@ -85,8 +87,31 @@ class TopicService extends AbstractService
                 }
             })->offset($pageIndex * $pageSize)
             ->limit($pageSize)
+            ->orderByDesc('sort_index')
+            ->orderByDesc('recommend_weight')
             ->latest()
             ->get();
+        //补充关注状态
+        if (Auth::isGuest() == false){
+            $topicIds = $list->pluck('topic_id');
+            $attentionList = UserAttentionTopic::query()->where('user_id',$this->userId())
+                                                        ->whereIn('topic_id', $topicIds)
+                                                        ->get()
+                                                        ->keyBy('topic_id');
+            $list->map(function (Topic $topic) use ($attentionList) {
+                if (!empty($attentionList->get($topic->topic_id))) {
+                    $topic->is_attention = 1;
+                }else{
+                    $topic->is_attention = 0;
+                }
+                return $topic;
+            });
+        }else{
+             $list->map(function (Topic $topic) {
+                $topic->is_attention = 0;
+                return $topic;
+            });
+        }
         $total = Topic::query()->where(function (Builder $query) use ($keyword) {
             if (isset($keyword)) {
                 $query->where('title','like',"%$keyword%")
