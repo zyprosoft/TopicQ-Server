@@ -150,6 +150,10 @@ class TopicService extends AbstractService
                                            ->limit($pageSize)
                                            ->latest()
                                            ->get()->pluck('topic');
+        $list->map(function (Topic $topic) {
+           $topic->is_attention = 1;
+           return $topic;
+        });
         $total = UserAttentionTopic::query()->where('user_id',$this->userId())->count();
         return ['total'=>$total,'list'=>$list];
     }
