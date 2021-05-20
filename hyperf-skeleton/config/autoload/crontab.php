@@ -4,6 +4,7 @@ use ZYProSoft\Task\ClearExpireCaptchaTask;
 use ZYProSoft\Task\ClearLogFileTask;
 use App\Task\PostRecommendCalculateTask;
 use App\Task\VoucherExpireTask;
+use App\Task\UpdateTopicTask;
 
 return [
     // 是否开启定时任务
@@ -13,10 +14,14 @@ return [
             ->setRule('*/10 * * * *')
             ->setCallback([ClearExpireCaptchaTask::class, 'execute'])
             ->setMemo('定时清除过期的验证码'),
+        (new Crontab())->setName('updateTopic')
+            ->setRule('*/10 * * * *')
+            ->setCallback([UpdateTopicTask::class, 'execute'])
+            ->setMemo('定时刷新主题'),
         (new Crontab())->setName('clearLog')
             ->setRule('5 0 * * *')
             ->setCallback([ClearLogFileTask::class, 'execute'])
-            ->setMemo('定时清除过期的验证码'),
+            ->setMemo('定时清除日志'),
         (new Crontab())->setName('calculateRecommendWeight')
             ->setRule('*/10 * * * *')
             ->setCallback([PostRecommendCalculateTask::class, 'execute'])
