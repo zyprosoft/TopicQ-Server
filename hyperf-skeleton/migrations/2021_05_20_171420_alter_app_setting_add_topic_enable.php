@@ -11,8 +11,9 @@ class AlterAppSettingAddTopicEnable extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('app_setting', function (Blueprint $table) {
             //
+            $table->tinyInteger('enable_user_create_topic')->default(0)->comment('是否允许普通用户创建主题');
         });
     }
 
@@ -21,8 +22,9 @@ class AlterAppSettingAddTopicEnable extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('app_setting', function (Blueprint $table) {
             //
+            $table->dropColumn('enable_user_create_topic');
         });
     }
 }
