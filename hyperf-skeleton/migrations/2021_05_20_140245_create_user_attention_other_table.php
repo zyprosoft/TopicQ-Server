@@ -13,7 +13,15 @@ class CreateUserAttentionOtherTable extends Migration
     {
         Schema::create('user_attention_other', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('user_id')->comment('用户ID');
+            $table->bigInteger('other_user_id')->comment('被关注用户ID');
+
+            $table->unique(['user_id','other_user_id']);
+
             $table->timestamps();
+            $table->engine = "InnoDB";
+            $table->charset = "utf8mb4";
+            $table->collation = "utf8mb4_unicode_ci";
         });
     }
 
