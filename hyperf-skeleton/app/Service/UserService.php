@@ -161,7 +161,18 @@ class UserService extends BaseService
     function getUserInfo(int $userId = null)
     {
         if (isset($userId)) {
-            return User::findOrFail($userId);
+            $user = User::findOrFail($userId);
+            $user->is_attention = 0;
+            //是否已经关注
+            if(Auth::isGuest() == false) {
+                $attention = UserAttentionOther::query()->where('user_id',$this->userId())
+                                                        ->where('other_user_id', $userId)
+                                                        ->first();
+                if ($attention instanceof UserAttentionOther) {
+                    $user->is_attention = 1;
+                }
+            }
+            return  $user;
         }
         $user = User::query()->where('user_id',$this->userId())
             ->with(['update_info'])
