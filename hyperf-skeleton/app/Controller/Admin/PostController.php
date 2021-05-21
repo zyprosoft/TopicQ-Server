@@ -153,9 +153,9 @@ class PostController extends AbstractController
             'postId' => 'integer|required|exists:post,post_id',
             'weight' => 'integer|required|min:0'
         ]);
-        $topicId = $request->param('topicId');
+        $postId = $request->param('postId');
         $weight = $request->param('weight');
-        $result = $this->service->updateRecommendWeight($topicId,$weight);
+        $result = $this->service->updateRecommendWeight($postId,$weight);
         return $this->success($result);
     }
 
