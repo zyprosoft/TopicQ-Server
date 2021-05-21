@@ -854,6 +854,8 @@ class PostService extends BaseService
                 ->where('audit_status', Constants::STATUS_DONE)
                 ->orderByDesc('sort_index')
                 ->orderByDesc('recommend_weight')
+                ->orderByDesc('comment_count')
+                ->orderByDesc('read_count')
                 ->latest()
                 ->offset($pageIndex * $pageSize)
                 ->limit($pageSize)
