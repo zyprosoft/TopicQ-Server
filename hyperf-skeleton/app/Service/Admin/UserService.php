@@ -77,7 +77,15 @@ class UserService extends \App\Service\BaseService
             $value = "%$mobile%";
         }
 
-        $list = User::query()->leftJoin('manager_avatar_user','user.user_id','=','manager_avatar_user.avatar_user_id')
+        $list = User::query()->select([
+                                'user_id',
+                                'avatar',
+                                'nickname',
+                                'mobile',
+                                'role_id',
+                                'user.created_at'
+                             ])
+                            ->leftJoin('manager_avatar_user','user.user_id','=','manager_avatar_user.avatar_user_id')
                             ->where(function (Builder $query) use ($column, $value) {
                                 if (isset($column) && isset($value)) {
                                     $query->where($column,'like',$value);
