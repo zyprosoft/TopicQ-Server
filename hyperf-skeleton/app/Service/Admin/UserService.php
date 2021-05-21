@@ -88,7 +88,7 @@ class UserService extends \App\Service\BaseService
                                      $query->where('user_id','<',$lastUserId);
                                  }
                              })
-                             ->whereNull('avatar_user_id')
+                             ->whereNull('manager_avatar_user.avatar_user_id')
                              ->offset($pageIndex * $pageSize)
                              ->limit($pageSize)
                              ->orderByDesc('user_id')
