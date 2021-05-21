@@ -163,7 +163,7 @@ class UserController extends AbstractController
         $this->validate(
             [
                 'userId' => 'integer|required|exists:user,user_id',
-                'roleId' => 'integer|required|exists:role,role_id'
+                'roleId' => 'integer|required'
             ]
         );
         $userId = $request->param('userId');
