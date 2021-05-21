@@ -308,11 +308,13 @@ class PostController extends AbstractController
             'pageIndex' => 'integer|required|min:0',
             'pageSize' => 'integer|required|min:10|max:30',
             'topicId' => 'integer|required|exists:topic,topic_id',
+            'type' => 'integer|in:0,1'
         ]);
         $pageIndex = $this->request->param('pageIndex');
         $pageSize = $this->request->param('pageSize');
         $topicId = $this->request->param('topicId');
-        $result = $this->service->getPostListByTopicId($pageIndex, $pageSize, $topicId);
+        $type = $this->request->param('type');
+        $result = $this->service->getPostListByTopicId($pageIndex, $pageSize, $topicId, $type);
         return $this->success($result);
     }
 

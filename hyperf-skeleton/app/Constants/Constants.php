@@ -159,4 +159,7 @@ class Constants
     const VIDEO_POST_LIST_TYPE_ADMIN = 1;
     const VIDEO_POST_LIST_TYPE_CUSTOMER = 2;
     const VIDEO_POST_LIST_TYPE_BOTH = 3;
+
+    const TOPIC_POST_LIST_SORT_BY_HOT = 0;
+    const TOPIC_POST_LIST_SORT_BY_LATEST = 1;
 }

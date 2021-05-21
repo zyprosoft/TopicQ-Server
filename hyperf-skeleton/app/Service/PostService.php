@@ -812,7 +812,7 @@ class PostService extends BaseService
         return ['total'=>$total,'list'=>$list];
     }
 
-    public function getPostListByTopicId(int $pageIndex, int $pageSize, int $topicId)
+    public function getPostListByTopicId(int $pageIndex, int $pageSize, int $topicId, int $type = Constants::TOPIC_POST_LIST_SORT_BY_HOT)
     {
         $selectRows = [
             'post_id',
@@ -838,16 +838,27 @@ class PostService extends BaseService
             'topic_id'
         ];
 
-        $list = Post::query()->select($selectRows)
-            ->with(['forum'])
-            ->where('topic_id',$topicId)
-            ->where('audit_status', Constants::STATUS_DONE)
-            ->orderByDesc('sort_index')
-            ->orderByDesc('recommend_weight')
-            ->latest()
-            ->offset($pageIndex * $pageSize)
-            ->limit($pageSize)
-            ->get();
+        if($type == Constants::TOPIC_POST_LIST_SORT_BY_LATEST) {
+            $list = Post::query()->select($selectRows)
+                ->with(['forum'])
+                ->where('topic_id',$topicId)
+                ->where('audit_status', Constants::STATUS_DONE)
+                ->latest()
+                ->offset($pageIndex * $pageSize)
+                ->limit($pageSize)
+                ->get();
+        }else{
+            $list = Post::query()->select($selectRows)
+                ->with(['forum'])
+                ->where('topic_id',$topicId)
+                ->where('audit_status', Constants::STATUS_DONE)
+                ->orderByDesc('sort_index')
+                ->orderByDesc('recommend_weight')
+                ->latest()
+                ->offset($pageIndex * $pageSize)
+                ->limit($pageSize)
+                ->get();
+        }
 
         //增加是否阅读的状态
         $postIds = $list->pluck('post_id');
