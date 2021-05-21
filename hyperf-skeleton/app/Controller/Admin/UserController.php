@@ -114,9 +114,55 @@ class UserController extends AbstractController
         return $this->success($result);
     }
 
-    public function statistic()
+    public function statistic(AppAdminRequest $request)
     {
         $result = $this->service->statistic();
+        return $this->success($result);
+    }
+
+    public function getUserList(AppAdminRequest $request)
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30',
+            'lastUserId' => 'integer|exists:user,user_id'
+        ]);
+        $pageIndex = $request->param('pageIndex');
+        $pageSize = $request->param('pageSize');
+        $lastUserId = $request->param('lastUserId');
+        $result = $this->service->getUserList($pageIndex,$pageSize,$lastUserId);
+        return $this->success($result);
+    }
+
+    public function searchUser(AppAdminRequest $request)
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30',
+            'lastUserId' => 'integer|exists:user,user_id',
+            'mobile' => 'string|min:1',
+            'nickname' => 'string|min:1',
+        ]);
+        $pageIndex = $request->param('pageIndex');
+        $pageSize = $request->param('pageSize');
+        $lastUserId = $request->param('lastUserId');
+        $nickname = $request->param('nickname');
+        $mobile = $request->param('mobile');
+        $result = $this->service->searchUser($pageIndex,$pageSize,$lastUserId,$nickname,$mobile);
+        return $this->success($result);
+    }
+
+    public function blockUser(AppAdminRequest $request)
+    {
+        $this->validate(
+            [
+                'userId' => 'integer|required|exists:user,user_id',
+                'status' => 'integer|required|in:0,1'
+            ]
+        );
+        $userId = $request->param('userId');
+        $status = $request->param('status');
+        $result = $this->service->updateUserStatus($userId,$status);
         return $this->success($result);
     }
 }

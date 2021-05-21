@@ -50,19 +50,37 @@ class UserService extends \App\Service\BaseService
         return ['token' => $user->token, 'token_expire' => $user->token_expire->timestamp, 'wx_token_expire' => $wxExpireTime];
     }
 
-    public function updateUserStatus(int $userId, int $status, string $note)
+    public function updateUserStatus(int $userId, int $status, string $note = null)
     {
         $user = User::findOrFail($userId);
         $user->status = $status;
-        $user->block_reason = $note;
+        if(isset($note)) {
+            $user->block_reason = $note;
+        }
         $user->saveOrFail();
         return $this->success($user);
     }
 
-    public function searchUser(string $mobile = null)
+    public function searchUser(int $pageIndex, int $pageSize, int $lastUserId = null, string $nickname = null, string $mobile = null)
     {
-        return User::query()->where('mobile','like',"%$mobile%")
+        $column = 'nickname';
+        $value = "%$nickname%";
+        if (isset($mobile)) {
+            $column = 'mobile';
+            $value = "%$mobile%";
+        }
+        $list = User::query()->where($column,'like', $value)
+                             ->where(function (Builder $query) use ($lastUserId){
+                                 if(isset($lastUserId)) {
+                                     $query->where('user_id','<',$lastUserId);
+                                 }
+                             })
+                             ->offset($pageIndex * $pageSize)
+                             ->limit($pageSize)
+                             ->orderByDesc('user_id')
                              ->get();
+        $total = User::query()->where('nickname','like', "%$nickname%")->count();
+        return  ['total'=>$total,'list'=>$list];
     }
 
     public function getUserList(int $pageIndex, int $pageSize, int $lastId = null)
