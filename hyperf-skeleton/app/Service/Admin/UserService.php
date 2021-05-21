@@ -85,7 +85,8 @@ class UserService extends \App\Service\BaseService
                                 'role_id',
                                 'user.created_at',
                                 'area',
-                                'country'
+                                'country',
+                                'status'
                              ])
                             ->leftJoin('manager_avatar_user','user.user_id','=','manager_avatar_user.avatar_user_id')
                             ->where(function (Builder $query) use ($column, $value) {
