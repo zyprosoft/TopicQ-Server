@@ -165,9 +165,9 @@ class PostController extends AbstractController
             'postId' => 'integer|required|exists:post,post_id',
             'readCount' => 'integer|required|min:0'
         ]);
-        $topicId = $request->param('topicId');
+        $postId = $request->param('postId');
         $readCount = $request->param('readCount');
-        $result = $this->service->updateReadCount($topicId,$readCount);
+        $result = $this->service->updateReadCount($postId,$readCount);
         return $this->success($result);
     }
 }
