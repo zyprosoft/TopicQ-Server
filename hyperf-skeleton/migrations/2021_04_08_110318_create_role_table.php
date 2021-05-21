@@ -15,6 +15,7 @@ class CreateRoleTable extends Migration
             $table->integerIncrements('role_id');
             $table->string("name",20)
                 ->comment("角色名");
+            $table->unique('name');
             $table->timestamps();
             $table->softDeletes();
             $table->engine = "InnoDB";
