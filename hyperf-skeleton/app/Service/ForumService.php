@@ -98,6 +98,9 @@ class ForumService extends BaseService
 
     public function subscribe(int $forumId, int $userId = null)
     {
+        //检查用户是不是被拉黑
+        UserService::checkUserStatusOrFail();
+
         if(!isset($userId)) {
             $userId = $this->userId();
         }
@@ -116,6 +119,9 @@ class ForumService extends BaseService
 
     public function unlockSubscribe(int $forumId, string $unlockSn, int $policyId)
     {
+        //检查用户是不是被拉黑
+        UserService::checkUserStatusOrFail();
+
         Db::transaction(function () use ($forumId,$unlockSn,$policyId) {
             //解锁
             $voucher = UserSubscribePassword::query()->where('policy_id',$policyId)
@@ -143,6 +149,9 @@ class ForumService extends BaseService
 
     public function buyAndSubscribe(int $forumId)
     {
+        //检查用户是不是被拉黑
+        UserService::checkUserStatusOrFail();
+
         $forum = Forum::findOrFail($forumId);
         if($forum->goods_id == Constants::GOODS_ID_INVALIDATE) {
             //无需付费，直接走常规订阅
@@ -203,6 +212,9 @@ class ForumService extends BaseService
 
     protected function generateUnlockSn(string $prefix)
     {
+        //检查用户是不是被拉黑
+        UserService::checkUserStatusOrFail();
+
         $datetime = date('YmdHis');
         $now = Carbon::now();
         $microsecond = $now->microsecond;
@@ -211,6 +223,9 @@ class ForumService extends BaseService
 
     public function getUnlockForumSn(int $forumId, int $policyId)
     {
+        //检查用户是不是被拉黑
+        UserService::checkUserStatusOrFail();
+
         $voucher = null;
         Db::transaction(function () use ($forumId, $policyId, &$voucher){
             //用户是不是已经领过券了

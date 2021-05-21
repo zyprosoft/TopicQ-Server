@@ -33,6 +33,9 @@ class VoucherService extends BaseService
      */
     public function createVoucher(int $policyId)
     {
+        //检查用户是不是被拉黑
+        UserService::checkUserStatusOrFail();
+
         Db::transaction(function () use ($policyId) {
 
             //批次检查

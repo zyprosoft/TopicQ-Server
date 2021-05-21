@@ -32,6 +32,9 @@ class TopicService extends AbstractService
 
     public function createTopic(array $params)
     {
+        //检查用户是不是被拉黑
+        UserService::checkUserStatusOrFail();
+
         $miniProgramConfig = config('weixin.miniProgram');
         $app = Factory::miniProgram($miniProgramConfig);
         $result = $app->content_security->checkText($params['title']);

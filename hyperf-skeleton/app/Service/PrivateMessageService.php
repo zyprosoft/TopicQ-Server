@@ -41,6 +41,9 @@ class PrivateMessageService extends BaseService
 
     public function create(int $toUserId, string $content = null, string $image = null)
     {
+        //检查用户是不是被拉黑
+        UserService::checkUserStatusOrFail();
+
         //从逻辑上阻止自己和自己对话
         if($toUserId == $this->userId()) {
             throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::PARAM_ERROR);

@@ -81,6 +81,9 @@ class PostService extends BaseService
 
     public function create(array $params)
     {
+        //检查用户是不是被拉黑
+        UserService::checkUserStatusOrFail();
+
         $post = null;
         $imageAuditCheck = [
             'need_audit' => false,

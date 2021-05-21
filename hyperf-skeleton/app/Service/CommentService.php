@@ -42,6 +42,9 @@ class CommentService extends BaseService
 
     public function create(int $postId, string $content = null, array $imageList = null, string $link = null)
     {
+        //检查用户是不是被拉黑
+        UserService::checkUserStatusOrFail();
+
         $post = Post::findOrFail($postId);
 
         $comment = new Comment();
@@ -183,6 +186,9 @@ class CommentService extends BaseService
 
     public function reply(int $commentId, string $content = null, array $imageList = null, string $link = null)
     {
+        //检查用户是不是被拉黑
+        UserService::checkUserStatusOrFail();
+
         $parentComment = Comment::findOrFail($commentId);
         $comment = new Comment();
         $comment->parent_comment_id = $commentId;
