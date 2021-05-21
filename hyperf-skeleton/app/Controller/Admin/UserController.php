@@ -120,20 +120,6 @@ class UserController extends AbstractController
         return $this->success($result);
     }
 
-    public function getUserList(AppAdminRequest $request)
-    {
-        $this->validate([
-            'pageIndex' => 'integer|required|min:0',
-            'pageSize' => 'integer|required|min:10|max:30',
-            'lastUserId' => 'integer|exists:user,user_id'
-        ]);
-        $pageIndex = $request->param('pageIndex');
-        $pageSize = $request->param('pageSize');
-        $lastUserId = $request->param('lastUserId');
-        $result = $this->service->getUserList($pageIndex,$pageSize,$lastUserId);
-        return $this->success($result);
-    }
-
     public function searchUser(AppAdminRequest $request)
     {
         $this->validate([

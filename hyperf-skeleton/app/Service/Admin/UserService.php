@@ -63,13 +63,24 @@ class UserService extends \App\Service\BaseService
 
     public function searchUser(int $pageIndex, int $pageSize, int $lastUserId = null, string $nickname = null, string $mobile = null)
     {
-        $column = 'nickname';
-        $value = "%$nickname%";
+        $column = null;
+        $value = null;
+
+        if(isset($nickname)) {
+            $column = 'nickname';
+            $value = "%$nickname%";
+        }
+
         if (isset($mobile)) {
             $column = 'mobile';
             $value = "%$mobile%";
         }
-        $list = User::query()->where($column,'like', $value)
+
+        $list = User::query()->where(function (Builder $query) use ($column, $value) {
+                                if (isset($column) && isset($value)) {
+                                    $query->where($column,'like',$value);
+                                }
+                             })
                              ->where(function (Builder $query) use ($lastUserId){
                                  if(isset($lastUserId)) {
                                      $query->where('user_id','<',$lastUserId);
