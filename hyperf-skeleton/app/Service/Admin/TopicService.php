@@ -21,8 +21,7 @@ class TopicService extends BaseService
 
     public function getMaxRecommendWeight()
     {
-        $weight = Topic::query()->max('recommend_weight');
-        return ['weight'=>$weight];
+        return Topic::query()->max('recommend_weight');
     }
 
     public function updateRecommendWeight(int $topicId, int $weight)
