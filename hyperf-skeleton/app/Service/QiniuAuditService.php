@@ -46,18 +46,15 @@ class QiniuAuditService extends BaseService
         $pulpSuggestion = data_get($result, 'result.scenes.pulp.suggestion');
         $terrorSuggestion = data_get($result, 'result.scenes.terror.suggestion');
         $politicianSuggestion = data_get($result, 'result.scenes.politician.suggestion');
-        $adsSuggestion = data_get($result, 'result.scenes.ads.suggestion');
         $isReview = false;
         if ($this->isSensitive($pulpSuggestion) ||
             $this->isSensitive($terrorSuggestion) ||
-            $this->isSensitive($politicianSuggestion) ||
-            $this->isSensitive($adsSuggestion)) {
+            $this->isSensitive($politicianSuggestion) ) {
             $isAuditPass = false;
         }
         if($this->isNeedReview($pulpSuggestion) ||
             $this->isNeedReview($terrorSuggestion) ||
-            $this->isNeedReview($politicianSuggestion ||
-            $this->isNeedReview($adsSuggestion))) {
+            $this->isNeedReview($politicianSuggestion )) {
             $isReview = true;
         }
         $statusLabel = $isAuditPass ? '通过' : '拒绝';
@@ -66,8 +63,7 @@ class QiniuAuditService extends BaseService
         $detailNote = [
             'pulp' => $pulpSuggestion,
             'terror' => $terrorSuggestion,
-            'politician' => $politicianSuggestion,
-            'ads' => $adsSuggestion,
+            'politician' => $politicianSuggestion
         ];
         $suggestionNote .= json_encode($detailNote);
         Log::info("图片($imageID)审核结果:" . $suggestionNote);
