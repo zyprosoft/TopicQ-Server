@@ -147,7 +147,7 @@ class PostController extends AbstractController
         return $this->success($result);
     }
 
-    public function updateTopicRecommendWeight(AppAdminRequest $request)
+    public function updatePostRecommendWeight(AppAdminRequest $request)
     {
         $this->validate([
             'postId' => 'integer|required|exists:post,post_id',
