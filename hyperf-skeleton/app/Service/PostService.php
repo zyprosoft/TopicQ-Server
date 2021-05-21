@@ -212,6 +212,9 @@ class PostService extends BaseService
 
     public function update(int $postId, array $params)
     {
+        //检查用户是不是被拉黑
+        UserService::checkUserStatusOrFail();
+
         $post = null;
         $post = $this->checkOwnOrFail($postId);
         $imageAuditCheck = [
@@ -543,6 +546,9 @@ class PostService extends BaseService
 
     public function favorite(int $postId)
     {
+        //检查用户是不是被拉黑
+        UserService::checkUserStatusOrFail();
+
         $userFavorite = UserFavorite::query()->where('user_id', $this->userId())
             ->where('post_id', $postId)
             ->first();
@@ -564,6 +570,9 @@ class PostService extends BaseService
 
     public function reportPost(int $postId, string $content)
     {
+        //检查用户是不是被拉黑
+        UserService::checkUserStatusOrFail();
+
         $report = new ReportPost();
         $report->post_id = $postId;
         $report->content = $content;
