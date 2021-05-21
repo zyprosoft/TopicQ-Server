@@ -11,6 +11,7 @@ use App\Model\Comment;
 use App\Model\ManagerAvatarUser;
 use App\Model\Post;
 use App\Model\PrivateMessage;
+use App\Model\Role;
 use App\Model\User;
 use Carbon\Carbon;
 use Hyperf\Database\Model\Builder;
@@ -349,5 +350,17 @@ class UserService extends \App\Service\BaseService
                 'star_today' => $totalRealMessageToday
             ],
         ];
+    }
+
+    public function getUserRoleList()
+    {
+        return Role::all();
+    }
+
+    public function setUserRole(int $userId, int $roleId)
+    {
+        $user = User::findOrFail($userId);
+        $user->role_id = $roleId;
+        $user->saveOrFail();
     }
 }

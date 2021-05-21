@@ -151,4 +151,24 @@ class UserController extends AbstractController
         $result = $this->service->updateUserStatus($userId,$status);
         return $this->success($result);
     }
+
+    public function getUserRoleList(AppAdminRequest $request)
+    {
+        $result = $this->service->getUserRoleList();
+        return $this->success($result);
+    }
+
+    public function setUserRole(AppAdminRequest $request)
+    {
+        $this->validate(
+            [
+                'userId' => 'integer|required|exists:user,user_id',
+                'roleId' => 'integer|required|exists:role,role_id'
+            ]
+        );
+        $userId = $request->param('userId');
+        $roleId = $request->param('roleId');
+        $result = $this->service->setUserRole($userId,$roleId);
+        return $this->success($result);
+    }
 }

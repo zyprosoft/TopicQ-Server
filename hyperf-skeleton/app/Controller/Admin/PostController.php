@@ -140,4 +140,34 @@ class PostController extends AbstractController
         $result = $this->service->sortUp($postId, $status);
         return $this->success($result);
     }
+
+    public function getMaxRecommendWeight(AppAdminRequest $request)
+    {
+        $result = $this->service->getMaxRecommendWeight();
+        return $this->success($result);
+    }
+
+    public function updateTopicRecommendWeight(AppAdminRequest $request)
+    {
+        $this->validate([
+            'postId' => 'integer|required|exists:post,post_id',
+            'weight' => 'integer|required|min:0'
+        ]);
+        $topicId = $request->param('topicId');
+        $weight = $request->param('weight');
+        $result = $this->service->updateRecommendWeight($topicId,$weight);
+        return $this->success($result);
+    }
+
+    public function updateReadCount(AppAdminRequest $request)
+    {
+        $this->validate([
+            'postId' => 'integer|required|exists:post,post_id',
+            'readCount' => 'integer|required|min:0'
+        ]);
+        $topicId = $request->param('topicId');
+        $readCount = $request->param('readCount');
+        $result = $this->service->updateReadCount($topicId,$readCount);
+        return $this->success($result);
+    }
 }

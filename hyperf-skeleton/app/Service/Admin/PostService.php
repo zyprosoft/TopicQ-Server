@@ -206,4 +206,23 @@ class PostService extends BaseService
     {
         $this->postUpdate($postId,'is_hot',$status);
     }
+
+    public function updateRecommendWeight(int $postId, int $weight)
+    {
+        $post = Post::findOrFail($postId);
+        $post->recommend_weight = $weight;
+        $post->saveOrFail();
+    }
+
+    public function updateReadCount(int $postId, int $readCount)
+    {
+        $post = Post::findOrFail($postId);
+        $post->read_count = $readCount;
+        $post->saveOrFail();
+    }
+
+    public function getMaxRecommendWeight()
+    {
+        return Post::query()->max('recommend_weight');
+    }
 }

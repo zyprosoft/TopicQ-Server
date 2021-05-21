@@ -24,8 +24,8 @@ class TopicController extends AbstractController
     public function createTopic(AuthedRequest $request)
     {
         $this->validate([
-            'title' => 'string|required|min:1|max:24',
-            'introduce' => 'string|required|min:1|max:128',
+            'title' => 'string|required|min:1|max:24|sensitive',
+            'introduce' => 'string|required|min:1|max:128|sensitive',
             'image' => 'string|required|min:1|max:500',
             'categoryId' => 'integer|exists:topic_category,category_id'
         ]);

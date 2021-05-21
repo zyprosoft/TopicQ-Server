@@ -12,11 +12,10 @@ class SettingService extends BaseService
         return AppSetting::firstOrFail();
     }
 
-    public function update(array $params)
+    public function update(string $column, int $status)
     {
         $appSetting = AppSetting::firstOrFail();
-        if (isset($params[''])) {
-
-        }
+        $appSetting->{$column} = $status;
+        $appSetting->saveOrFail();
     }
 }
