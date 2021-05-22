@@ -4,11 +4,15 @@
 namespace App\Service\Admin;
 use App\Constants\Constants;
 use App\Model\Post;
+use App\Model\User;
+use App\Model\Voucher;
 use App\Model\VoucherActivity;
 use App\Model\VoucherPolicy;
 use App\Model\VoucherPolicyBlackGood;
 use App\Model\VoucherPolicyGood;
 use App\Service\BaseService;
+use App\Service\UserService;
+use Carbon\Carbon;
 use Hyperf\DbConnection\Db;
 use Hyperf\Utils\Str;
 use ZYProSoft\Constants\ErrorCode;
@@ -156,5 +160,10 @@ class VoucherService extends BaseService
         $post->owner_id = $this->userId();//发券只能管理员发布
         $post->saveOrFail();
         return $this->success($post);
+    }
+
+    public function sendVoucherToUser(int $mobile, int $policyId)
+    {
+        return $this->voucherService->sendVoucherToUser($mobile,$policyId);
     }
 }

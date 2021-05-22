@@ -8,6 +8,7 @@ use App\Constants\Constants;
 use App\Constants\ErrorCode;
 use App\Model\Good;
 use App\Model\Order;
+use App\Model\User;
 use App\Model\Voucher;
 use App\Model\VoucherPolicy;
 use App\Model\VoucherUseHistory;
@@ -341,5 +342,63 @@ class VoucherService extends BaseService
         }else{
             $policy->black_display = null;
         }
+    }
+
+    /**
+     * 管理台发券，不限制同一批次一个用户只能领一次
+     * @param int $mobile
+     * @param int $policyId
+     * @return array|mixed
+     */
+    public function sendVoucherToUser(int $mobile,int $policyId)
+    {
+        $user = User::query()->where('mobile',$mobile)->firstOrFail();
+        Db::transaction(function () use ($policyId, $user) {
+
+            //批次检查
+            $policy = VoucherPolicy::query()->where('policy_id',$policyId)->lockForUpdate()->first();
+            if (!$policy instanceof VoucherPolicy) {
+                throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST);
+            }
+            if ($policy->left_count < 1) {
+                throw new HyperfCommonException(\App\Constants\ErrorCode::VOUCHER_CREATE_POLICY_COUNT_ERROR);
+            }
+
+            $voucher = new Voucher();
+            $voucher->policy_id = $policyId;
+            $voucher->owner_id = $user->user_id;
+            $voucher->left_amount = $policy->amount;
+            $voucher->voucher_sn = $this->generateVoucherSn($policy->sn_prefix);
+            //计算生效和过期时间
+            if (!empty($policy->time_span) && !empty($policy->time_unit)) {
+                $voucher->begin_time = Carbon::now()->toDateTimeString();
+                switch ($policy->time_unit) {
+                    case Constants::VOUCHER_TIME_UNIT_MINUTE:
+                        $endTime = Carbon::now()->addRealMinutes($policy->time_span);
+                        break;
+                    case Constants::VOUCHER_TIME_UNIT_HOUR:
+                        $endTime = Carbon::now()->addRealHours($policy->time_span);
+                        break;
+                    case Constants::VOUCHER_TIME_UNIT_DAY:
+                        $endTime = Carbon::now()->addRealDays($policy->time_span);
+                        break;
+                    case Constants::VOUCHER_TIME_UNIT_MONTH:
+                        $endTime = Carbon::now()->addRealMonths($policy->time_span);
+                        break;
+                    case Constants::VOUCHER_TIME_UNIT_YEAR:
+                        $endTime = Carbon::now()->addRealYears($policy->time_span);
+                        break;
+                    default:
+                        $endTime = Carbon::now()->addRealMinutes(1)->toDateString();
+                        break;
+                }
+                //结束都按照天来算,不足一天算一天
+                $voucher->end_time = $endTime->toDateString();
+            }
+            $voucher->saveOrFail();
+            //批次减少一张券
+            $policy->decrement('left_count');
+        });
+        return $this->success();
     }
 }

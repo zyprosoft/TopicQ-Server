@@ -100,4 +100,16 @@ class VoucherController extends AbstractController
         $result = $this->service->createPostForPolicy($policyId,$title,$content,$link,$imageList,$forumId);
         return $this->success($result);
     }
+
+    public function sendVoucherToUser(AppAdminRequest $request)
+    {
+        $this->validate([
+            'mobile' => 'string|required|exists:user,mobile',
+            'policyId' => 'integer|required|exists:voucher_policy,policy_id',
+        ]);
+        $mobile = $request->param('mobile');
+        $policyId = $request->param('policyId');
+        $result = $this->service->sendVoucherToUser($mobile,$policyId);
+        return $this->success($result);
+    }
 }
