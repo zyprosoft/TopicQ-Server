@@ -121,7 +121,7 @@ class ForumController extends AbstractController
         $mobile = $request->param('mobile');
         $forumId = $request->param('forumId');
         $policyId = $request->param('policyId');
-        $result = $this->service->sendForumVoucherToUser($userId,$forumId,$policyId);
+        $result = $this->service->sendForumVoucherToUser($mobile,$forumId,$policyId);
         return $this->success($result);
     }
 }
