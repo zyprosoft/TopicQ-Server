@@ -364,7 +364,7 @@ class PostService extends BaseService
             if($post->voucher_policy_id > 0) {
                 //如果有代金券，查看是不是已经领取过
                 $voucher = Voucher::query()->where('owner_id',$this->userId())
-                    ->where('policy_id',$post->policy_id)
+                    ->where('policy_id',$post->voucher_policy_id)
                     ->first();
                 if ($voucher instanceof Voucher) {
                     $post->finish_get_voucher = 1;

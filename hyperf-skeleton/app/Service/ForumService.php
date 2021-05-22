@@ -232,7 +232,7 @@ class ForumService extends BaseService
         Db::transaction(function () use ($forumId, $policyId, &$voucher, $userId){
             //用户是不是已经领过券了
             $voucher = UserSubscribePassword::query()->where('policy_id',$policyId)
-                                                     ->where('owner_id',$this->userId())
+                                                     ->where('owner_id',$userId)
                                                      ->first();
             if($voucher instanceof UserSubscribePassword) {
                 throw new HyperfCommonException(\App\Constants\ErrorCode::DO_NOT_REPEAT_ACTION,'您已经领过该券了');
