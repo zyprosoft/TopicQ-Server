@@ -98,11 +98,10 @@ class ForumService extends BaseService
 
     public function subscribe(int $forumId, int $userId = null)
     {
-        //检查用户是不是被拉黑
-        UserService::checkUserStatusOrFail();
-
         if(!isset($userId)) {
             $userId = $this->userId();
+            //检查用户是不是被拉黑
+            UserService::checkUserStatusOrFail();
         }
         $subscribe = UserSubscribe::query()->where('user_id', $userId)
             ->where('forum_id', $forumId)
