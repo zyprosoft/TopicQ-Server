@@ -114,11 +114,11 @@ class ForumController extends AbstractController
     public function sendForumVoucher(AppAdminRequest $request)
     {
         $this->validate([
-            'userId' => 'integer|required|exists:user,user_id',
+            'mobile' => 'integer|required|exists:user,mobile',
             'forumId' => 'integer|required|exists:forum,forum_id',
             'policyId' => 'integer|required|exists:subscribe_forum_password,policy_id',
         ]);
-        $userId = $request->param('userId');
+        $mobile = $request->param('mobile');
         $forumId = $request->param('forumId');
         $policyId = $request->param('policyId');
         $result = $this->service->sendForumVoucherToUser($userId,$forumId,$policyId);

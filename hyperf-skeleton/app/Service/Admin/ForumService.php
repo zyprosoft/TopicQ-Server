@@ -7,6 +7,7 @@ use App\Model\Forum;
 use App\Model\Good;
 use App\Model\Post;
 use App\Model\SubscribeForumPassword;
+use App\Model\User;
 use App\Service\BaseService;
 use Carbon\Carbon;
 use Hyperf\DbConnection\Db;
@@ -198,9 +199,10 @@ class ForumService extends BaseService
         return $policy;
     }
 
-    public function sendForumVoucherToUser(int $userId, int $forumId, int $policyId)
+    public function sendForumVoucherToUser(int $mobile, int $forumId, int $policyId)
     {
-        return $this->frontService->getUnlockForumSn($forumId, $policyId, $userId);
+        $user = User::query()->where('mobile',$mobile)->firstOrFail();
+        return $this->frontService->getUnlockForumSn($forumId, $policyId, $user->user_id);
     }
 
     public function getForumSubscribeVoucherList(int $pageIndex, int $pageSize)
