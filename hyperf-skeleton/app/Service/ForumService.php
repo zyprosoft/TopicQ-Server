@@ -221,13 +221,16 @@ class ForumService extends BaseService
         return $prefix.$datetime.$microsecond;
     }
 
-    public function getUnlockForumSn(int $forumId, int $policyId)
+    public function getUnlockForumSn(int $forumId, int $policyId, int $userId = null)
     {
-        //检查用户是不是被拉黑
-        UserService::checkUserStatusOrFail();
+        if(!isset($userId)) {
+            //检查用户是不是被拉黑
+            UserService::checkUserStatusOrFail();
+            $userId = $this->userId();
+        }
 
         $voucher = null;
-        Db::transaction(function () use ($forumId, $policyId, &$voucher){
+        Db::transaction(function () use ($forumId, $policyId, &$voucher, $userId){
             //用户是不是已经领过券了
             $voucher = UserSubscribePassword::query()->where('policy_id',$policyId)
                                                      ->where('owner_id',$this->userId())
@@ -254,7 +257,7 @@ class ForumService extends BaseService
             $voucher = new UserSubscribePassword();
             $voucher->unlock_sn = $sn;
             $voucher->policy_id = $policyId;
-            $voucher->owner_id = $this->userId();
+            $voucher->owner_id = $userId;
             $voucher->saveOrFail();
             $policy->decrement('left_count');
         });

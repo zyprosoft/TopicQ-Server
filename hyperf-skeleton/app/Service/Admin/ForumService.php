@@ -13,9 +13,17 @@ use Hyperf\DbConnection\Db;
 use Hyperf\Utils\Str;
 use ZYProSoft\Constants\ErrorCode;
 use ZYProSoft\Exception\HyperfCommonException;
+use App\Service\ForumService as FrontForumService;
+use Hyperf\Di\Annotation\Inject;
 
 class ForumService extends BaseService
 {
+    /**
+     * @Inject
+     * @var FrontForumService
+     */
+    protected FrontForumService $frontService;
+
     public function getForum(int $forumId)
     {
         return Forum::findOrFail($forumId);
@@ -173,6 +181,26 @@ class ForumService extends BaseService
             }
         });
         return $this->success();
+    }
+
+    public function createForumVoucher(int $forumId, int $count)
+    {
+        //创建对应授权批次
+        $policy = new SubscribeForumPassword();
+        $policy->total_count = $count;
+        $policy->left_count = $count;
+        $policy->forum_id = $forumId;
+        $policy->sn_prefix = Str::upper(Str::random(8));
+        if(isset($unlockPrice)) {
+            $policy->price = $unlockPrice;
+        }
+        $policy->saveOrFail();
+        return $policy;
+    }
+
+    public function sendForumVoucherToUser(int $userId, int $forumId, int $policyId)
+    {
+        return $this->frontService->getUnlockForumSn($forumId, $policyId, $userId);
     }
 
     public function getForumSubscribeVoucherList(int $pageIndex, int $pageSize)

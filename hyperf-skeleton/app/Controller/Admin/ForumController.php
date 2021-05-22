@@ -98,4 +98,30 @@ class ForumController extends AbstractController
         $result = $this->service->createPostForPolicy($policyId,$title,$content,$link,$imageList,$forumId);
         return $this->success($result);
     }
+
+    public function createForumVoucher(AppAdminRequest $request)
+    {
+        $this->validate([
+            'forumId' => 'integer|required|exists:forum,forum_id',
+            'count' => 'integer|required|min:1'
+        ]);
+        $forumId = $request->param('forumId');
+        $count = $request->param('count');
+        $result = $this->service->createForumVoucher($forumId,$count);
+        return $this->success($result);
+    }
+
+    public function sendForumVoucher(AppAdminRequest $request)
+    {
+        $this->validate([
+            'userId' => 'integer|required|exists:user,user_id',
+            'forumId' => 'integer|required|exists:forum,forum_id',
+            'policyId' => 'integer|required|exists:subscribe_forum_password,policy_id',
+        ]);
+        $userId = $request->param('userId');
+        $forumId = $request->param('forumId');
+        $policyId = $request->param('policyId');
+        $result = $this->service->sendForumVoucherToUser($userId,$forumId,$policyId);
+        return $this->success($result);
+    }
 }
