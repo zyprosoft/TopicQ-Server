@@ -3,8 +3,6 @@ return [
     'area' => env('REGISTER_AREA'),
     'country' => env('REGISTER_COUNTRY'),
     'avatar_list'=>[
-        'https://static.weshop.lulinggushi.com/1615030380059',
-        'https://static.lulingshuo.icodefuture.com/161922711067',
         'https://static.lulingshuo.icodefuture.com/1619227027844',
         'https://static.lulingshuo.icodefuture.com/1619226938229',
         'https://static.lulingshuo.icodefuture.com/1619210642943',
