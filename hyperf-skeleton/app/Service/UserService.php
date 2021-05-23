@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Constants\Constants;
 use App\Constants\ErrorCode;
+use App\Exception\BusinessException;
 use App\Job\UserUpdateMachineAuditJob;
 use App\Model\Advice;
 use App\Model\Notification;
@@ -164,17 +165,17 @@ class UserService extends BaseService
             $user = User::findOrFail($userId);
             $user->is_attention = 0;
             //是否已经关注
-            if(Auth::isGuest() == false) {
-                $attention = UserAttentionOther::query()->where('user_id',$this->userId())
-                                                        ->where('other_user_id', $userId)
-                                                        ->first();
+            if (Auth::isGuest() == false) {
+                $attention = UserAttentionOther::query()->where('user_id', $this->userId())
+                    ->where('other_user_id', $userId)
+                    ->first();
                 if ($attention instanceof UserAttentionOther) {
                     $user->is_attention = 1;
                 }
             }
-            return  $user;
+            return $user;
         }
-        $user = User::query()->where('user_id',$this->userId())
+        $user = User::query()->where('user_id', $this->userId())
             ->with(['update_info'])
             ->first();
         if (!$user instanceof User) {
@@ -183,7 +184,7 @@ class UserService extends BaseService
         //获取个人资料的时候，检测一下更新资料ID创建是否超过时间，如果超过2分钟仍然没有完成设置为空，主动设置一下
         if (isset($user->update_info)) {
             $minutePass = Carbon::now()->diffInRealMinutes($user->update_info->created_at);
-            if($minutePass > 2) {
+            if ($minutePass > 2) {
                 Log::info("用户($user->user_id)更新资料($user->user_update_id)存在时间已经超过2分钟，现在主动清理掉!");
                 $user->user_update_id = null;
                 $user->save();//不影响本次结果返回
@@ -191,12 +192,12 @@ class UserService extends BaseService
         }
         //获取个人资料的时候获取一下外显的常用小程序信息
         $alwaysUseMiniProgramList = UserMiniProgramUse::query()->where('user_id', $this->userId())
-                                                                ->where('is_outside', Constants::STATUS_DONE)
-                                                                ->get()
-                                                                ->pluck('mini_program');
+            ->where('is_outside', Constants::STATUS_DONE)
+            ->get()
+            ->pluck('mini_program');
         $user->mini_program_list = $alwaysUseMiniProgramList;
         //获取用户设置
-        $userSetting = UserSetting::query()->where('owner_id',$this->userId())->first();
+        $userSetting = UserSetting::query()->where('owner_id', $this->userId())->first();
         $user->user_setting = $userSetting;
 
         return $user;
@@ -213,7 +214,7 @@ class UserService extends BaseService
         ];
 
         //创建用户资料更新的ID
-        Db::transaction(function() use ($userInfo, &$userUpdate, &$needAddAudit, &$imageList, &$imageAuditCheck) {
+        Db::transaction(function () use ($userInfo, &$userUpdate, &$needAddAudit, &$imageList, &$imageAuditCheck) {
             $user = User::findOrFail($this->userId());
             $userUpdate = new UserUpdate();
             $userUpdate->user_id = $this->userId();
@@ -237,11 +238,11 @@ class UserService extends BaseService
             $user->first_edit_done = Constants::STATUS_DONE;
 
             //检查图片是否审核通过
-            if(!empty($imageList)) {
+            if (!empty($imageList)) {
                 $imageIds = $this->imageIdsFromUrlList($imageList);
-                $userUpdate->image_ids = implode(';',$imageIds);
+                $userUpdate->image_ids = implode(';', $imageIds);
                 $imageAuditCheck = $this->auditImageOrFail($imageList);
-                if($imageAuditCheck['need_review'] == false && $imageAuditCheck['need_audit'] == false) {
+                if ($imageAuditCheck['need_review'] == false && $imageAuditCheck['need_audit'] == false) {
                     Log::info("图片无需再审核，直接更新到用户信息上");
                     //图片都是审核通过的，那么直接更新到对应用户信息就行
                     if (isset($userInfo['avatar'])) {
@@ -252,16 +253,16 @@ class UserService extends BaseService
                     }
                 }
             }
-            if($imageAuditCheck['need_review']) {
+            if ($imageAuditCheck['need_review']) {
                 $userUpdate->machine_audit = Constants::STATUS_REVIEW;
             }
             $userUpdate->saveOrFail();
 
             //只有更新了对应的信息才需要这个更新资料的ID
-            if(isset($userUpdate->nickname) || $imageAuditCheck['need_audit']) {
+            if (isset($userUpdate->nickname) || $imageAuditCheck['need_audit']) {
                 $user->user_update_id = $userUpdate->update_id;
                 $needAddAudit = true;
-            }else{
+            } else {
                 $user->user_update_id = null;//设置为空
                 Log::info("本次无需设置信息更新ID给用户($user->user_id)");
             }
@@ -270,7 +271,7 @@ class UserService extends BaseService
         });
 
         //不需要审核，直接返回成功
-        if(!$needAddAudit) {
+        if (!$needAddAudit) {
             Log::info("本次无需异步审核，直接返回!");
             return $this->success();
         }
@@ -295,16 +296,16 @@ class UserService extends BaseService
         $result = $app->encryptor->decryptData($user->wx_token, $iv, $encryptData);
         $phoneNumber = $result['purePhoneNumber'];
         $user->mobile = $phoneNumber;
-        if($user->first_edit_done == Constants::STATUS_WAIT) {
+        if ($user->first_edit_done == Constants::STATUS_WAIT) {
             $registerUserInfo = config('register_user_info');
             $nicknameList = $registerUserInfo['nickname_list'];
-            $randNicknameIndex = rand(0,count($nicknameList)-1);
-            $user->nickname = $nicknameList[$randNicknameIndex].rand(0,9);
+            $randNicknameIndex = rand(0, count($nicknameList) - 1);
+            $user->nickname = $nicknameList[$randNicknameIndex] . rand(0, 9);
             $avatarList = $registerUserInfo['avatar_list'];
             $backgroundList = $registerUserInfo['background_list'];
-            $randAvatarIndex = rand(0,count($avatarList)-1);
+            $randAvatarIndex = rand(0, count($avatarList) - 1);
             $user->avatar = $avatarList[$randAvatarIndex];
-            $randBackIndex = rand(0,count($backgroundList)-1);
+            $randBackIndex = rand(0, count($backgroundList) - 1);
             $user->background = $backgroundList[$randBackIndex];
             $user->area = $registerUserInfo['area'];
             $user->country = $registerUserInfo['country'];
@@ -319,33 +320,33 @@ class UserService extends BaseService
         $userId = $this->userId();
 
         //如果是管理员，且在使用化身
-        $user = User::query()->where('user_id',$userId)
-                             ->first();
+        $user = User::query()->where('user_id', $userId)
+            ->first();
         if (!$user instanceof User) {
             throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST);
         }
-        if($user->role_id == Constants::USER_ROLE_ADMIN) {
+        if ($user->role_id == Constants::USER_ROLE_ADMIN) {
             if ($user->avatar_user_id > 0) {
                 $userId = $user->avatar_user_id;
             }
         }
 
-        $unreadList = Db::select("select comment_id from comment where (post_owner_id = ? or parent_comment_owner_id = ?) and comment_id not in (select comment_id from user_comment_read where user_id = ?)",[$userId,$userId,$userId]);
+        $unreadList = Db::select("select comment_id from comment where (post_owner_id = ? or parent_comment_owner_id = ?) and comment_id not in (select comment_id from user_comment_read where user_id = ?)", [$userId, $userId, $userId]);
 
         //统计私信未看的数量
         $unreadMessage = PrivateMessage::query()->where('receive_id', $userId)
-                                                ->where('read_status',Constants::STATUS_WAIT)
-                                                ->count();
+            ->where('read_status', Constants::STATUS_WAIT)
+            ->count();
 
         //统计未读提醒数量
         $notificationCount = Notification::query()->where('user_id', $userId)
-                                                  ->where('is_read',Constants::STATUS_WAIT)
-                                                  ->count();
+            ->where('is_read', Constants::STATUS_WAIT)
+            ->count();
 
         //统计未读点赞数量
         $praiseCount = UserCommentPraise::query()->where('comment_owner_id', $userId)
-                                                 ->where('owner_read_status', Constants::STATUS_WAIT)
-                                                 ->count();
+            ->where('owner_read_status', Constants::STATUS_WAIT)
+            ->count();
 
         return [
             'reply_count' => count($unreadList),
@@ -413,10 +414,10 @@ class UserService extends BaseService
         $attention = UserAttentionOther::query()->where('user_id', $this->userId())
             ->where('other_user_id', $otherUserId)
             ->first();
-        if($status == Constants::STATUS_DONE && $attention instanceof UserAttentionOther) {
+        if ($status == Constants::STATUS_DONE && $attention instanceof UserAttentionOther) {
             throw new HyperfCommonException(ErrorCode::DO_NOT_REPEAT_ACTION);
         }
-        if($status == Constants::STATUS_NOT && !$attention instanceof UserAttentionOther) {
+        if ($status == Constants::STATUS_NOT && !$attention instanceof UserAttentionOther) {
             throw new HyperfCommonException(ErrorCode::DO_NOT_REPEAT_ACTION);
         }
         if ($status == Constants::STATUS_DONE) {
@@ -433,37 +434,63 @@ class UserService extends BaseService
 
     public function getUserAttentionList(int $pageIndex, int $pageSize)
     {
-        $list = UserAttentionOther::query()->where('user_id',$this->userId())
-                                           ->with(['other'])
-                                           ->offset( $pageIndex * $pageSize)
-                                           ->limit( $pageSize )
-                                           ->get()
-                                           ->pluck('other');
-        $total = UserAttentionOther::query()->where('user_id',$this->userId())->count();
-        return ['total'=>$total,'list'=>$list];
+        $list = UserAttentionOther::query()->where('user_id', $this->userId())
+            ->with(['other'])
+            ->offset($pageIndex * $pageSize)
+            ->limit($pageSize)
+            ->get()
+            ->pluck('other');
+        $total = UserAttentionOther::query()->where('user_id', $this->userId())->count();
+        return ['total' => $total, 'list' => $list];
     }
 
     public function getMyFansList(int $pageIndex, int $pageSize)
     {
-        $list = UserAttentionOther::query()->where('other_user_id',$this->userId())
+        $list = UserAttentionOther::query()->where('other_user_id', $this->userId())
             ->with(['owner'])
-            ->offset( $pageIndex * $pageSize)
-            ->limit( $pageSize )
+            ->offset($pageIndex * $pageSize)
+            ->limit($pageSize)
             ->get()
             ->pluck('owner');
-        $total = UserAttentionOther::query()->where('other_user_id',$this->userId())->count();
-        return ['total'=>$total,'list'=>$list];
+        $total = UserAttentionOther::query()->where('other_user_id', $this->userId())->count();
+        return ['total' => $total, 'list' => $list];
     }
 
     public function getOtherUserFansList(int $userId, int $pageIndex, int $pageSize)
     {
-        $list = UserAttentionOther::query()->where('other_user_id',$userId)
+        $list = UserAttentionOther::query()->where('other_user_id', $userId)
             ->with(['owner'])
-            ->offset( $pageIndex * $pageSize)
-            ->limit( $pageSize )
+            ->offset($pageIndex * $pageSize)
+            ->limit($pageSize)
             ->get()
             ->pluck('owner');
-        $total = UserAttentionOther::query()->where('other_user_id',$userId)->count();
-        return ['total'=>$total,'list'=>$list];
+        $total = UserAttentionOther::query()->where('other_user_id', $userId)->count();
+        return ['total' => $total, 'list' => $list];
+    }
+
+    public function normalLogin(string $mobile, string $password)
+    {
+        $user = User::query()->where('mobile', $mobile)->firstOrFail();
+        if (!$user instanceof User) {
+            throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST);
+        }
+        $verify = password_verify($password, $user->password);
+        if (!$verify) {
+            throw new HyperfCommonException(ErrorCode::USER_ERROR_PASSWORD_WRONG, "密码验证错误");
+        }
+        return $user;
+    }
+
+    public function register(string $mobile, string $password)
+    {
+        $user = User::query()->where('mobile',$mobile)->first();
+        if ($user instanceof User) {
+            throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_DID_EXIST);
+        }
+        $user = new User();
+        $user->mobile = $mobile;
+        $user->password = password_hash($password,PASSWORD_DEFAULT);
+        $user->saveOrFail();
+        return $user;
     }
 }

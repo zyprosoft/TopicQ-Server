@@ -35,6 +35,30 @@ class UserController extends AbstractController
         return $this->success($result);
     }
 
+    public function normalLogin()
+    {
+        $this->validate([
+            'mobile' => 'string|min:11|max:11|required',
+            'password' => 'string|min:6|max:12|required'
+        ]);
+        $mobile = $this->request->param('mobile');
+        $password = $this->request->param('password');
+        $result = $this->userService->normalLogin($mobile,$password);
+        return $this->success($result);
+    }
+
+    public function register()
+    {
+        $this->validate([
+            'mobile' => 'string|min:11|max:11|required',
+            'password' => 'string|min:6|max:12|required'
+        ]);
+        $mobile = $this->request->param('mobile');
+        $password = $this->request->param('password');
+        $result = $this->userService->register($mobile,$password);
+        return $this->success($result);
+    }
+
     public function getUserInfo(AuthedRequest $request)
     {
         $result = $this->userService->getUserInfo();
