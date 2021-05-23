@@ -2,6 +2,7 @@
 
 declare (strict_types=1);
 namespace App\Model;
+use Hyperf\Scout\Searchable;
 
 /**
  * @property int $post_id 
@@ -56,6 +57,8 @@ namespace App\Model;
  */
 class Post extends Model
 {
+    use Searchable;
+
     /**
      * The table associated with the model.
      *

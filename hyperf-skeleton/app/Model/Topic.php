@@ -2,6 +2,7 @@
 
 declare (strict_types=1);
 namespace App\Model;
+use Hyperf\Scout\Searchable;
 
 /**
  * @property int $topic_id 
@@ -26,6 +27,8 @@ namespace App\Model;
  */
 class Topic extends Model
 {
+    use Searchable;
+
     /**
      * The table associated with the model.
      *

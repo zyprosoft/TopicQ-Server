@@ -11,10 +11,11 @@
  */
 declare (strict_types=1);
 namespace App\Model;
-
+use Hyperf\Scout\Searchable;
 use Hyperf\Database\Model\Events\Creating;
 use Qbhy\HyperfAuth\Authenticatable;
 use App\Constants\Constants;
+
 /**
  * @property int $user_id 
  * @property string $username 用户名
@@ -54,6 +55,8 @@ use App\Constants\Constants;
  */
 class User extends Model implements Authenticatable
 {
+    use Searchable;
+
     /**
      * The table associated with the model.
      *
