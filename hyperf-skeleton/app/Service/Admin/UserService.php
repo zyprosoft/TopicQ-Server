@@ -103,7 +103,8 @@ class UserService extends \App\Service\BaseService
                              ->offset($pageIndex * $pageSize)
                              ->limit($pageSize)
                              ->orderByDesc('user_id')
-                             ->get();
+                             ->get()
+                             ->makeVisible('mobile');
         $total = User::query()->where('nickname','like', "%$nickname%")->count();
         return  ['total'=>$total,'list'=>$list];
     }
@@ -117,13 +118,9 @@ class UserService extends \App\Service\BaseService
         })->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->latest()
-            ->get();
+            ->get()
+            ->makeVisible('mobile');
 
-        $list->map(function (User $user) {
-            $user->makeVisible('mobile');
-            return $user;
-        });
-        
         $total = User::count();
 
         return ['total' => $total, 'list' => $list];
