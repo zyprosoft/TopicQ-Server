@@ -177,7 +177,8 @@ class UserService extends BaseService
         }
         $user = User::query()->where('user_id', $this->userId())
             ->with(['update_info'])
-            ->first();
+            ->first()
+            ->makeVisible(['mobile']);
         if (!$user instanceof User) {
             throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST);
         }
@@ -310,6 +311,7 @@ class UserService extends BaseService
             $user->area = $registerUserInfo['area'];
             $user->country = $registerUserInfo['country'];
         }
+        $user->makeVisible('mobile');
         $user->saveOrFail();
         return $user;
     }
