@@ -470,15 +470,42 @@ class UserService extends BaseService
 
     public function normalLogin(string $mobile, string $password)
     {
-        $user = User::query()->where('mobile', $mobile)->firstOrFail();
+        //用户是不是已经存在
+        $user = User::query()->where('mobile', $mobile)
+            ->with(['update_info'])
+            ->first();
         if (!$user instanceof User) {
-            throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST);
+            throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST)
         }
-        $verify = password_verify($password, $user->password);
-        if (!$verify) {
-            throw new HyperfCommonException(ErrorCode::USER_ERROR_PASSWORD_WRONG, "密码验证错误");
+        //数据库token是否过期，没有过期的话直接返回Token给客户端使用，保持多端登陆一致性
+        $now = Carbon::now();
+        if (isset($user->token_expire) && isset($user->token)) {
+            if ($now->isAfter($user->token_expire) == false) {
+                Log::info("({$user->user_id})用户的Token还未失效，可以直接返回给客户端");
+                return ['token' => $user->token, 'token_expire' => $user->token_expire->timestamp];
+            } else {
+                //需要重新登陆，保存历史Token
+                $tokenHistory = new TokenHistory();
+                $tokenHistory->owner_id = $user->user_id;
+                $tokenHistory->token = $user->token;
+                $tokenHistory->token_expire = $user->token_expire->toDateTimeString();
+                $tokenHistory->saveOrFail();
+                Log::info("({$user->user_id})用户token已经过期,保存历史Token");
+            }
         }
-        return $user;
+
+        //不能使用之前的那个会导致时间变长
+        $expireTime = Carbon::now()->addRealSeconds(Auth::tokenTTL());
+        $user->token_expire = $expireTime;
+        $user->last_login = Carbon::now();
+        $user->saveOrFail();
+        //需要先获取UserId，然后才能用Token登陆
+        $token = $this->auth->login($user);
+        //然后再保存一次Token
+        $user->token = $token;
+        $user->saveOrFail();
+
+        return ['token' => $user->token, 'token_expire' => $user->token_expire->timestamp];
     }
 
     public function register(string $mobile, string $password)
