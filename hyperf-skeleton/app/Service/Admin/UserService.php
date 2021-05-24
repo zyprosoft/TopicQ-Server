@@ -117,9 +117,13 @@ class UserService extends \App\Service\BaseService
         })->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->latest()
-            ->get()
-            ->makeVisible('mobile');
+            ->get();
 
+        $list->map(function (User $user) {
+            $user->makeVisible('mobile');
+            return $user;
+        });
+        
         $total = User::count();
 
         return ['total' => $total, 'list' => $list];
