@@ -475,7 +475,11 @@ class UserService extends BaseService
             ->with(['update_info'])
             ->first();
         if (!$user instanceof User) {
-            throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST)
+            throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST);
+        }
+        $verify = password_verify($password,$user->password);
+        if (!$verify) {
+            throw new HyperfCommonException(ErrorCode::USER_ERROR_PASSWORD_WRONG);
         }
         //数据库token是否过期，没有过期的话直接返回Token给客户端使用，保持多端登陆一致性
         $now = Carbon::now();

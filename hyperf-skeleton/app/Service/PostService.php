@@ -477,6 +477,8 @@ class PostService extends BaseService
         $list->map(function (Post $post) use ($userReadList) {
             if (!empty($post->avatar_list)) {
                 $post->avatar_list = explode(';', $post->avatar_list);
+            }else{
+                $post->avatar_list = null;
             }
             if (!empty($post->image_list)) {
                 $post->image_list = explode(';', $post->image_list);
@@ -511,6 +513,8 @@ class PostService extends BaseService
         $list->map(function (Post $post) {
             if (!empty($post->avatar_list)) {
                 $post->avatar_list = explode(';', $post->avatar_list);
+            }else{
+                $post->avatar_list = null;
             }
             if (!empty($post->image_list)) {
                 $post->image_list = explode(';', $post->image_list);
@@ -598,6 +602,8 @@ class PostService extends BaseService
         $list->map(function (Post $post) {
             if (!empty($post->avatar_list)) {
                 $post->avatar_list = explode(';', $post->avatar_list);
+            }else{
+                $post->avatar_list = null;
             }
             if (!empty($post->image_list)) {
                 $post->image_list = explode(';', $post->image_list);
@@ -689,6 +695,8 @@ class PostService extends BaseService
         $list->map(function (Post $post) use ($userReadList) {
             if (!empty($post->avatar_list)) {
                 $post->avatar_list = explode(';', $post->avatar_list);
+            }else{
+                $post->avatar_list = null;
             }
             if (!empty($post->image_list)) {
                 $post->image_list = explode(';', $post->image_list);
@@ -759,6 +767,8 @@ class PostService extends BaseService
         $list->map(function (Post $post) use ($userReadList) {
             if (!empty($post->avatar_list)) {
                 $post->avatar_list = explode(';', $post->avatar_list);
+            }else{
+                $post->avatar_list = null;
             }
             if (!empty($post->image_list)) {
                 $post->image_list = explode(';', $post->image_list);
@@ -888,6 +898,8 @@ class PostService extends BaseService
         $list->map(function (Post $post) use ($userReadList) {
             if (!empty($post->avatar_list)) {
                 $post->avatar_list = explode(';', $post->avatar_list);
+            }else{
+                $post->avatar_list = null;
             }
             if (!empty($post->image_list)) {
                 $post->image_list = explode(';', $post->image_list);
