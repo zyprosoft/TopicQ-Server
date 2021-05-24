@@ -102,4 +102,11 @@ class User extends Model implements Authenticatable
     {
         return $this->hasOne(UserUpdate::class, 'update_id', 'user_update_id');
     }
+
+    public function toSearchableArray()
+    {
+        return [
+            'nickname'=>$this->nickname,
+        ];
+    }
 }

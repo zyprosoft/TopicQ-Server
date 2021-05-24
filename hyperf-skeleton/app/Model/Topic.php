@@ -53,4 +53,13 @@ class Topic extends Model
     {
         return $this->hasOne(User::class, 'user_id', 'owner_id');
     }
+
+    public function toSearchableArray()
+    {
+        return [
+            'title'=>$this->title,
+            'introduce'=>$this->introduce,
+            'author'=>$this->author->nickname
+        ];
+    }
 }

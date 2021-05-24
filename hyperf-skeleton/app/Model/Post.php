@@ -112,4 +112,13 @@ class Post extends Model
     {
         return $this->hasOne(Topic::class,'topic_id','topic_id');
     }
+
+    public function toSearchableArray()
+    {
+        return [
+            'title'=>$this->title,
+            'content'=>$this->content,
+            'author'=>$this->author->nickname
+        ];
+    }
 }
