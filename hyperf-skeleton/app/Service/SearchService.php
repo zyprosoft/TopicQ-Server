@@ -4,6 +4,8 @@
 namespace App\Service;
 
 
+use App\Constants\Constants;
+use App\Model\Forum;
 use App\Model\Post;
 use App\Model\Topic;
 use App\Model\User;
@@ -23,8 +25,11 @@ class SearchService extends BaseService
         }
         $topicIds = $post->pluck('topic_id')->where('topic_id', '>', 0);
         $topicList = Topic::findMany($topicIds)->keyBy('topic_id');
+        //补充版块信息
+        $forumIds = $post->pluck('forum_id')->where('forum_id','>', Constants::FORUM_MAIN_FORUM_ID);
+        $forumList = Forum::findMany($forumIds)->keyBy('forum_id');
         //补充话题
-        $post->map(function (Post $post) use ($topicList) {
+        $post->map(function (Post $post) use ($topicList,$forumList) {
             if (!empty($post->avatar_list)) {
                 $post->avatar_list = explode(';', $post->avatar_list);
             } else {
@@ -37,6 +42,11 @@ class SearchService extends BaseService
                 $post->topic = $topicList[$post->topic_id];
             } else {
                 $post->topic = null;
+            }
+            if ($post->forum_id > Constants::FORUM_MAIN_FORUM_ID) {
+                $post->forum = $forumList[$post->forum_id];
+            }else{
+                $post->forum = null;
             }
             $post->is_read = 0;
             return $post;

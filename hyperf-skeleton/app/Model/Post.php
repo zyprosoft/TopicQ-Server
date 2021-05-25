@@ -48,7 +48,7 @@ use Hyperf\Scout\Searchable;
  * @property int $voucher_policy_id 代金券批次ID
  * @property int $topic_id 话题ID
  * @property-read \App\Model\User $author 
- * @property-read \App\Model\Forum $forum 
+ * @property \App\Model\Forum $forum
  * @property-read \App\Model\SubscribeForumPassword $forum_voucher 
  * @property-read \App\Model\MiniProgram $mini_program 
  * @property-read \App\Model\OfficialAccount $official_account 
