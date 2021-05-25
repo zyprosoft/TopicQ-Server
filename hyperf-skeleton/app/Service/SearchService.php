@@ -52,6 +52,7 @@ class SearchService extends BaseService
             $post->is_read = 0;
             return $post;
         });
+        $post = $post->sortByDesc('recommend_weight')->sortByDesc('sort_index')->sortByDesc('comment_count')->values()->all();
 
         //搜索话题
         $topic = Topic::search($keyword)->get();
@@ -82,6 +83,7 @@ class SearchService extends BaseService
                 return $topic;
             });
         }
+        $topic->sortByDesc('recommend_weight')->values()->all();
 
         //搜索用户
         $user = User::search($keyword)->get();
