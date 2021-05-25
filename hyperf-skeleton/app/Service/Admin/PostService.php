@@ -7,32 +7,84 @@ use App\Job\AddNotificationJob;
 use App\Model\ManagerAvatarUser;
 use App\Model\Post;
 use App\Model\ReportPost;
+use App\Model\UserRead;
 use App\Service\BaseService;
 use Hyperf\Database\Model\Builder;
 use Hyperf\DbConnection\Db;
 use ZYProSoft\Constants\ErrorCode;
 use ZYProSoft\Exception\HyperfCommonException;
-use App\Service\PostService as FrontPostService;
-use Hyperf\Di\Annotation\Inject;
+use ZYProSoft\Facade\Auth;
 
 class PostService extends BaseService
 {
-    /**
-     * @Inject
-     * @var FrontPostService
-     */
-    private FrontPostService $postService;
-
     public function waitOperatePostList(int $pageIndex, int $pageSize)
     {
-        $result = $this->postService->getList(Constants::POST_SORT_TYPE_LATEST, $pageIndex, $pageSize);
-        $postList = $result['list'];
+        $selectRows = [
+            'post_id',
+            'title',
+            'summary',
+            'owner_id',
+            'image_list',
+            'link',
+            'vote_id',
+            'read_count',
+            'forward_count',
+            'comment_count',
+            'audit_status',
+            'is_hot',
+            'last_comment_time',
+            'sort_index',
+            'is_recommend',
+            'created_at',
+            'updated_at',
+            'join_user_count',
+            'avatar_list',
+            'recommend_weight',
+            'topic_id'
+        ];
+
+        $list = Post::query()->select($selectRows)
+            ->where('audit_status', Constants::STATUS_DONE)
+            ->orderByDesc('sort_index')
+            ->orderByDesc('recommend_weight')
+            ->latest()
+            ->offset($pageIndex * $pageSize)
+            ->limit($pageSize)
+            ->get();
+
+        //增加是否阅读的状态
+        $postIds = $list->pluck('post_id');
+        $userReadList = [];
+        if (Auth::isGuest() == false) {
+            $userReadList = UserRead::query()->whereIn('post_id', $postIds)
+                ->where('user_id', $this->userId())
+                ->get()
+                ->keyBy('post_id');
+        }
+
+        $list->map(function (Post $post) use ($userReadList) {
+            if (!empty($post->avatar_list)) {
+                $post->avatar_list = explode(';', $post->avatar_list);
+            }else{
+                $post->avatar_list = null;
+            }
+            if (!empty($post->image_list)) {
+                $post->image_list = explode(';', $post->image_list);
+            }
+            $post->is_read = isset($userReadList[$post->post_id]) ? 1 : 0;
+            return $post;
+        });
+
+        $total = Post::query()->select($selectRows)
+            ->where('audit_status', Constants::STATUS_DONE)
+            ->count();
+
         //补充星标用户信息
-        $ownerIdList = collect($result['list'])->pluck('owner_id')->unique();
+        $ownerIdList = collect($list)->pluck('owner_id')->unique();
         $userList = ManagerAvatarUser::query()->whereIn('avatar_user_id',$ownerIdList)
                                               ->get()
                                               ->keyBy('avatar_user_id');
-        $postList->map(function (Post $post) use ($userList) {
+        $list->map(function (Post $post) use ($userList) {
             if(isset($userList[$post->owner_id])) {
                 $post->is_star = 0;
             }else{
@@ -40,7 +92,8 @@ class PostService extends BaseService
             }
             return $post;
         });
-        return ['list'=>$postList,'total'=>$result['total']];
+        
+        return ['list'=>$list,'total'=>$total];
     }
 
     public function getWaitAuditPostList(int $pageIndex, int $pageSize, int $lastPostId = null)
