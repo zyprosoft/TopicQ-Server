@@ -38,6 +38,7 @@ class SearchService extends BaseService
             } else {
                 $post->topic = null;
             }
+            return $post;
         });
 
         //搜索话题
