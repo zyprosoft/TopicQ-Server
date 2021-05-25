@@ -117,8 +117,7 @@ class Post extends Model
     {
         return [
             'title'=>$this->title,
-            'content'=>$this->content,
-            'author'=>$this->author->nickname
+            'content'=>$this->content
         ];
     }
 }
