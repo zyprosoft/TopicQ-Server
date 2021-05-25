@@ -39,12 +39,12 @@ class SearchService extends BaseService
                 $post->image_list = explode(';', $post->image_list);
             }
             if ($post->topic_id > 0) {
-                $post->topic = $topicList[$post->topic_id];
+                $post->topic = $topicList->get($post->topic_id);
             } else {
                 $post->topic = null;
             }
             if ($post->forum_id > Constants::FORUM_MAIN_FORUM_ID) {
-                $post->forum = $forumList[$post->forum_id];
+                $post->forum = $forumList->get($post->forum_id);
             }else{
                 $post->forum = null;
             }
