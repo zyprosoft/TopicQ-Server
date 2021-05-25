@@ -92,7 +92,7 @@ class PostService extends BaseService
             }
             return $post;
         });
-        
+
         return ['list'=>$list,'total'=>$total];
     }
 
