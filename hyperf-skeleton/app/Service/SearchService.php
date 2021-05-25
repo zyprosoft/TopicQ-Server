@@ -38,6 +38,7 @@ class SearchService extends BaseService
             } else {
                 $post->topic = null;
             }
+            $post->is_read = 0;
             return $post;
         });
 
