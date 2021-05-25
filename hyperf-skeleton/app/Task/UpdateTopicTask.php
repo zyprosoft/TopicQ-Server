@@ -31,6 +31,9 @@ class UpdateTopicTask
                     ->limit($pageSize)
                     ->latest()
                     ->get();
+                if($list->isEmpty()) {
+                    return;
+                }
                 $list->map(function (Topic $topic) {
                     //统计帖子数
                     $count = Post::query()->where('topic_id',$topic->topic_id)->count();
