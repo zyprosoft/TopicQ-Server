@@ -155,6 +155,7 @@ class UserService extends BaseService
         $user->last_login = Carbon::now();
         $user->first_edit_done = Constants::STATUS_DONE;
         $user->saveOrFail();
+        $user->makeVisible('mobile');
         return $this->success($user);
     }
 
