@@ -943,6 +943,7 @@ class PostService extends BaseService
 
     public function updateOnlySelfVisible(int $postId, int $status)
     {
+        $this->checkOwnOrFail($postId);
         $post = Post::findOrFail($postId);
         if($post->only_self_visible == $status) {
             return $this->success();
