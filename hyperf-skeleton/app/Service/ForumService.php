@@ -65,6 +65,8 @@ class ForumService extends BaseService
             ->where('type',Constants::FORUM_TYPE_MAIN)
             ->get();
 
+        Log::info("free list:".json_encode($freeList,JSON_UNESCAPED_UNICODE));
+
         //合并数据
         return $payAndAuthList->union($freeList)->all();
     }
