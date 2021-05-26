@@ -57,10 +57,10 @@ class ForumService extends BaseService
                 $payAndAuthList->push($forum);
             }
         });
+        Log::info("pay forum list:".json_encode($payAndAuthList,JSON_UNESCAPED_UNICODE));
 
         //所有无需付费的板块
-        $freeList = Forum::query()->with(['child_forum_list'])
-            ->where('goods_id',0)
+        $freeList = Forum::query()->where('goods_id',0)
             ->Where('need_auth',Constants::STATUS_WAIT)
             ->where('forum_id','>',Constants::FORUM_MAIN_FORUM_ID)
             ->where('type',Constants::FORUM_TYPE_MAIN)
