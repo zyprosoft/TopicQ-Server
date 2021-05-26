@@ -9,18 +9,34 @@ use App\Model\Post;
 use App\Model\ReportPost;
 use App\Model\UserRead;
 use App\Service\BaseService;
+use App\Service\NotificationService;
 use Hyperf\Database\Model\Builder;
 use Hyperf\DbConnection\Db;
 use ZYProSoft\Constants\ErrorCode;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Facade\Auth;
+use Hyperf\Di\Annotation\Inject;
 
 class PostService extends BaseService
 {
+    /**
+     * @Inject
+     * @var NotificationService
+     */
+    protected NotificationService $notificationService;
+
     public function deletePost(int $postId)
     {
         $post = Post::findOrFail($postId);
         $post->delete();
+
+        //发送一条通知
+        $title = '帖子被删除';
+        $content = '您好，您的帖子被管理员认为不符合社区当前的文化氛围，已将您的帖子删除，敬请谅解，感谢您对社区文化构建的积极参与~';
+        $level = Constants::MESSAGE_LEVEL_WARN;
+        $levelLabel = '通知';
+        $this->notificationService->create($post->owner_id,$title,$content,false,$level,$levelLabel);
+        
         return $this->success();
     }
 
