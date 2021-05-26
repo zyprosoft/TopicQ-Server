@@ -11,6 +11,7 @@ use App\Model\Topic;
 use App\Model\User;
 use App\Model\UserAttentionTopic;
 use ZYProSoft\Facade\Auth;
+use ZYProSoft\Log\Log;
 
 class SearchService extends BaseService
 {
@@ -18,6 +19,7 @@ class SearchService extends BaseService
     {
         //搜索帖子
         $post = Post::search($keyword)->get();
+        Log::info("searched post info:".json_encode($post));
         $postTotal = $post->count();
         $hasPostMore = 0;
         if ($post->count() > 10) {
@@ -56,6 +58,7 @@ class SearchService extends BaseService
 
         //搜索话题
         $topic = Topic::search($keyword)->get();
+        Log::info("searched topic info:".json_encode($topic));
         $topicTotal = $topic->count();
         $hasTopicMore = 0;
         if ($topic->count() > 10) {
@@ -87,6 +90,7 @@ class SearchService extends BaseService
 
         //搜索用户
         $user = User::search($keyword)->get();
+        Log::info("searched user info:".json_encode($user));
         $userTotal = $user->count();
         $hasUserMore = 0;
         if ($user->count() > 10) {
