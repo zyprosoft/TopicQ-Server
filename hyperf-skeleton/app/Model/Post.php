@@ -49,11 +49,11 @@ use Hyperf\Scout\Searchable;
  * @property int $topic_id 话题ID
  * @property int $only_self_visible 仅自己可见
  * @property-read \App\Model\User $author 
- * @property-read \App\Model\Forum $forum 
+ * @property \App\Model\Forum $forum
  * @property-read \App\Model\SubscribeForumPassword $forum_voucher 
  * @property-read \App\Model\MiniProgram $mini_program 
  * @property-read \App\Model\OfficialAccount $official_account 
- * @property-read \App\Model\Topic $topic 
+ * @property \App\Model\Topic $topic
  * @property-read \App\Model\Vote $vote 
  * @property-read \App\Model\VoucherPolicy $voucher_policy 
  */

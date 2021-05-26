@@ -28,12 +28,12 @@ class SearchService extends BaseService
         }
         $topicIds = $post->pluck('topic_id')->where('topic_id', '>', 0);
         $topicList = Topic::findMany($topicIds)->keyBy('topic_id');
-        //补充版块信息
-        $forumIds = $post->pluck('forum_id')->where('forum_id','>', Constants::FORUM_MAIN_FORUM_ID);
-        $forumList = Forum::findMany($forumIds)->keyBy('forum_id');
-        Log::info("forum list:".json_encode($forumList));
+        //过滤仅自己可见的数据
+        $post->filter(function (Post $post) {
+            return $post->only_self_visible == 1;
+        });
         //补充话题
-        $post->map(function (Post $post) use ($topicList,$forumList) {
+        $post->map(function (Post $post) use ($topicList) {
             if (!empty($post->avatar_list)) {
                 $post->avatar_list = explode(';', $post->avatar_list);
             } else {
@@ -46,11 +46,6 @@ class SearchService extends BaseService
                 $post->topic = $topicList->get($post->topic_id);
             } else {
                 $post->topic = null;
-            }
-            if ($post->forum_id > Constants::FORUM_MAIN_FORUM_ID) {
-                $post->forum = $forumList->get($post->forum_id);
-            }else{
-                $post->forum = null;
             }
             $post->is_read = 0;
             return $post;
