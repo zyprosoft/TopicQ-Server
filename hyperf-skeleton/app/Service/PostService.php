@@ -503,7 +503,7 @@ class PostService extends BaseService
             $userId = $this->userId();
         }
         $list = Post::query()->select($this->listRows)
-            ->when(!$isOther,function (Builder $query) {
+            ->when($isOther,function (Builder $query) {
                 $query->where('audit_status', Constants::STATUS_DONE);
                 $query->where('only_self_visible',Constants::STATUS_NOT);
             })
@@ -527,7 +527,7 @@ class PostService extends BaseService
             return $post;
         });
         $total = Post::query()->where('owner_id', $userId)
-            ->when(!$isOther,function (Builder $query) {
+            ->when($isOther,function (Builder $query) {
                 $query->where('audit_status', Constants::STATUS_DONE);
                 $query->where('only_self_visible',Constants::STATUS_NOT);
             })
