@@ -50,11 +50,11 @@ class ForumService extends BaseService
                                                    ->pluck('forum')
                                                    ->keyBy('forum_id');
         //用户已经订阅过的付费板块
-        $payAndAuthList = collect();
-        $list->map(function (Forum $forum) use (&$payAndAuthList, $userSubscribeList) {
+        $payAndAuthList = $list->filter(function (Forum $forum) use ($userSubscribeList){
             if (!empty($userSubscribeList->get($forum->forum_id))) {
-                $payAndAuthList->push($forum);
+                return true;
             }
+            return false;
         });
         Log::info("pay forum list:".json_encode($payAndAuthList,JSON_UNESCAPED_UNICODE));
 
