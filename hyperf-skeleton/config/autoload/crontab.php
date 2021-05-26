@@ -26,7 +26,7 @@ return [
             ->setRule('*/10 * * * *')
             ->setCallback([PostRecommendCalculateTask::class, 'execute'])
             ->setMemo('定时统计帖子推荐权重'),
-        (new Crontab())->setName('calculateRecommendWeight')
+        (new Crontab())->setName('ExpireVoucher')
             ->setRule('10 0 * * *')
             ->setCallback([VoucherExpireTask::class, 'execute'])
             ->setMemo('每天定时过期代金券'),
