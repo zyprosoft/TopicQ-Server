@@ -445,6 +445,7 @@ class PostService extends BaseService
                 $list = Post::query()->select($this->listRows)
                     ->where('audit_status', Constants::STATUS_DONE)
                     ->where('forum_id',Constants::FORUM_MAIN_FORUM_ID)
+                    ->where('only_self_visible',Constants::STATUS_NOT)
                     ->orderByDesc('sort_index')
                     ->orderByDesc($order)
                     ->offset($pageIndex * $pageSize)
@@ -455,6 +456,7 @@ class PostService extends BaseService
                 $list = Post::query()->select($this->listRows)
                     ->where('audit_status', Constants::STATUS_DONE)
                     ->where('forum_id',Constants::FORUM_MAIN_FORUM_ID)
+                    ->where('only_self_visible',Constants::STATUS_NOT)
                     ->orderByDesc('sort_index')
                     ->orderByDesc('recommend_weight')
                     ->latest()
@@ -486,7 +488,10 @@ class PostService extends BaseService
             $post->is_read = isset($userReadList[$post->post_id]) ? 1 : 0;
             return $post;
         });
-        $total = Post::query()->where('audit_status', Constants::STATUS_DONE)->count();
+        $total = Post::query()
+                ->where('audit_status', Constants::STATUS_DONE)
+                ->where('only_self_visible',Constants::STATUS_NOT)
+                ->count();
         return ['total' => $total, 'list' => $list];
     }
 
@@ -497,10 +502,9 @@ class PostService extends BaseService
             $userId = $this->userId();
         }
         $list = Post::query()->select($this->listRows)
-            ->where(function (Builder $query) use ($isOther) {
-                if ($isOther) {
-                    $query->where('audit_status', Constants::STATUS_DONE);
-                }
+            ->when(!$isOther,function (Builder $query) {
+                $query->where('audit_status', Constants::STATUS_DONE);
+                $query->where('only_self_visible',Constants::STATUS_NOT);
             })
             ->where('owner_id', $userId)
             ->offset($pageIndex * $pageSize)
@@ -522,6 +526,10 @@ class PostService extends BaseService
             return $post;
         });
         $total = Post::query()->where('owner_id', $userId)
+            ->when(!$isOther,function (Builder $query) {
+                $query->where('audit_status', Constants::STATUS_DONE);
+                $query->where('only_self_visible',Constants::STATUS_NOT);
+            })
             ->count();
         return ['total' => $total, 'list' => $list];
     }
@@ -587,13 +595,18 @@ class PostService extends BaseService
 
     public function getUserFavoriteList(int $pageIndex, int $pageSize, int $userId = null)
     {
+        $hiddenNotVisible = true;
         if (!isset($userId)) {
             $userId = $this->userId();
+            $hiddenNotVisible = false;
         }
         $list = UserFavorite::query()
             ->join('post', 'user_favorite.post_id', '=', 'post.post_id')
             ->where('user_id', $userId)
             ->where('post.audit_status', Constants::STATUS_DONE)
+            ->when($hiddenNotVisible,function (Builder $query) {
+                $query->where('post.only_self_visible',Constants::STATUS_NOT);
+            })
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->orderByDesc('user_favorite.created_at')
@@ -613,6 +626,9 @@ class PostService extends BaseService
         $total = UserFavorite::query()->where('user_id', $userId)
             ->join('post', 'user_favorite.post_id', '=', 'post.post_id')
             ->where('post.audit_status', Constants::STATUS_DONE)
+            ->when($hiddenNotVisible,function (Builder $query){
+                $query->where('post.only_self_visible',Constants::STATUS_NOT);
+            })
             ->count();
         return ['total' => $total, 'list' => $list];
     }
@@ -675,6 +691,7 @@ class PostService extends BaseService
             ->with(['forum'])
             ->where('forum_id',$forumId)
             ->where('audit_status', Constants::STATUS_DONE)
+            ->where('only_self_visible', Constants::STATUS_NOT)
             ->orderByDesc('sort_index')
             ->orderByDesc('recommend_weight')
             ->latest()
@@ -708,6 +725,7 @@ class PostService extends BaseService
         $total = Post::query()->select($selectRows)
             ->where('forum_id',$forumId)
             ->where('audit_status', Constants::STATUS_DONE)
+            ->where('only_self_visible', Constants::STATUS_NOT)
             ->count();
 
         return ['total'=>$total, 'list'=>$list];
@@ -747,6 +765,7 @@ class PostService extends BaseService
             ->where('user_subscribe.forum_id','>',Constants::FORUM_MAIN_FORUM_ID)
             ->where('user_id',$this->userId())
             ->where('audit_status', Constants::STATUS_DONE)
+            ->where('only_self_visible', Constants::STATUS_NOT)
             ->orderByDesc('sort_index')
             ->orderByDesc('recommend_weight')
             ->latest()
@@ -782,6 +801,7 @@ class PostService extends BaseService
             ->where('user_id',$this->userId())
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('user_subscribe.forum_id','>',Constants::FORUM_MAIN_FORUM_ID)
+            ->where('only_self_visible', Constants::STATUS_NOT)
             ->count();
 
         return ['total'=>$total, 'list'=>$list];
@@ -797,6 +817,7 @@ class PostService extends BaseService
                                      $query->where('is_video_admin','<>', Constants::STATUS_OK);
                                  }
                              })
+                             ->where('only_self_visible', Constants::STATUS_NOT)
                              ->orderByDesc('recommend_weight')
                              ->offset($pageIndex * $pageSize)
                              ->limit($pageSize)
@@ -824,6 +845,7 @@ class PostService extends BaseService
         }
 
         $total = Post::query()->where('has_video',Constants::STATUS_OK)
+            ->where('only_self_visible', Constants::STATUS_NOT)
             ->where(function (Builder $query) use ($type){
                 if ($type == Constants::VIDEO_POST_LIST_TYPE_ADMIN) {
                     $query->where('is_video_admin',Constants::STATUS_OK);
@@ -865,6 +887,7 @@ class PostService extends BaseService
                 ->with(['forum'])
                 ->where('topic_id',$topicId)
                 ->where('audit_status', Constants::STATUS_DONE)
+                ->where('only_self_visible', Constants::STATUS_NOT)
                 ->latest()
                 ->offset($pageIndex * $pageSize)
                 ->limit($pageSize)
@@ -874,6 +897,7 @@ class PostService extends BaseService
                 ->with(['forum'])
                 ->where('topic_id',$topicId)
                 ->where('audit_status', Constants::STATUS_DONE)
+                ->where('only_self_visible', Constants::STATUS_NOT)
                 ->orderByDesc('sort_index')
                 ->orderByDesc('recommend_weight')
                 ->orderByDesc('comment_count')
@@ -911,6 +935,7 @@ class PostService extends BaseService
         $total = Post::query()->select($selectRows)
             ->where('topic_id',$topicId)
             ->where('audit_status', Constants::STATUS_DONE)
+            ->where('only_self_visible', Constants::STATUS_NOT)
             ->count();
 
         return ['total'=>$total, 'list'=>$list];
