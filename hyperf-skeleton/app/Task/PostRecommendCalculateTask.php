@@ -28,6 +28,7 @@ class PostRecommendCalculateTask
         $gravity = 1.5;
 
         do{
+
             $postList = Post::query()->select([
                 'favorite_count','comment_count','read_count','join_user_count','post_id','recommend_weight'
             ])
@@ -36,24 +37,29 @@ class PostRecommendCalculateTask
                 ->limit($pageSize)
                 ->get();
             $lastPostId = data_get($postList->last(),'post_id');
-            Db::transaction(function () use (&$postList,$baseWeight,$gravity){
-                $postList->map(function (Post $post) use ($baseWeight,$gravity) {
-                    //热度计算
-                    $createdAt = new Carbon($post->created_at);
-                    $createdAtTs = round($createdAt->diffInHours(Carbon::now()))+1;
-                    $createdAtTs = $createdAtTs > 24? 24:$createdAtTs;//超过一天，系数一样
-                    $postTotal = $post->read_count;//阅读系数放大
-                    $postTotal = $postTotal + $post->favorite_count * 100 * 2; //收藏系数放大
-                    $postTotal = $postTotal + $post->comment_count * 100 * 4; //评论系数放大
-                    $postTotal = $postTotal + $post->join_user_count * 100 * 3;//参加人数放大
-                    $hotWeight = ($postTotal+$baseWeight)/pow($createdAtTs,$gravity);
-                    $post->recommend_weight = round($hotWeight);
-                    $post->save();
+
+            Post::withoutSyncingToSearch(function () use (&$postList,$baseWeight,$gravity) {
+                Db::transaction(function () use (&$postList,$baseWeight,$gravity){
+                    $postList->map(function (Post $post) use ($baseWeight,$gravity) {
+                        //热度计算
+                        $createdAt = new Carbon($post->created_at);
+                        $createdAtTs = round($createdAt->diffInHours(Carbon::now()))+1;
+                        $createdAtTs = $createdAtTs > 24? 24:$createdAtTs;//超过一天，系数一样
+                        $postTotal = $post->read_count;//阅读系数放大
+                        $postTotal = $postTotal + $post->favorite_count * 100 * 2; //收藏系数放大
+                        $postTotal = $postTotal + $post->comment_count * 100 * 4; //评论系数放大
+                        $postTotal = $postTotal + $post->join_user_count * 100 * 3;//参加人数放大
+                        $hotWeight = ($postTotal+$baseWeight)/pow($createdAtTs,$gravity);
+                        $post->recommend_weight = round($hotWeight);
+                        $post->save();
+                    });
                 });
             });
+
             if ($postList->count() < $pageSize) {
                 break;
             }
+
         }while(true);
 
         Log::info("完成帖子推荐度统计");
