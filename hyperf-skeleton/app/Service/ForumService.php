@@ -68,7 +68,11 @@ class ForumService extends BaseService
         Log::info("free list:".json_encode($freeList,JSON_UNESCAPED_UNICODE));
 
         //合并数据
-        return $payAndAuthList->union($freeList)->all();
+        $freeList->map(function (Forum $forum) use (&$payAndAuthList){
+            $payAndAuthList->push($forum);
+        });
+
+        return $payAndAuthList;
     }
 
     public function getForumList()
