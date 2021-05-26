@@ -36,7 +36,7 @@ class PostService extends BaseService
         $level = Constants::MESSAGE_LEVEL_WARN;
         $levelLabel = '通知';
         $this->notificationService->create($post->owner_id,$title,$content,false,$level,$levelLabel);
-        
+
         return $this->success();
     }
 
