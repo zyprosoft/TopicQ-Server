@@ -32,6 +32,7 @@ class UpdateTopicTask
                     ->latest()
                     ->get();
                 if($list->isEmpty()) {
+                    $needBreak = true;
                     return;
                 }
                 $list->map(function (Topic $topic) {
