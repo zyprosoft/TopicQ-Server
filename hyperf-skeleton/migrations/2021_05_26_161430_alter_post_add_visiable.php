@@ -11,8 +11,9 @@ class AlterPostAddVisiable extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('post', function (Blueprint $table) {
             //
+            $table->tinyInteger('only_self_visible')->default(0)->comment('仅自己可见');
         });
     }
 
@@ -21,8 +22,9 @@ class AlterPostAddVisiable extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('post', function (Blueprint $table) {
             //
+            $table->dropColumn('only_self_visible');
         });
     }
 }
