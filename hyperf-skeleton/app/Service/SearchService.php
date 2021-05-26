@@ -31,6 +31,7 @@ class SearchService extends BaseService
         //补充版块信息
         $forumIds = $post->pluck('forum_id')->where('forum_id','>', Constants::FORUM_MAIN_FORUM_ID);
         $forumList = Forum::findMany($forumIds)->keyBy('forum_id');
+        Log::info("forum list:".json_encode($forumList));
         //补充话题
         $post->map(function (Post $post) use ($topicList,$forumList) {
             if (!empty($post->avatar_list)) {
