@@ -95,7 +95,7 @@ class OrderService extends BaseService
         $shop = ShopService::checkShopPublishOrFail($params['shopId']);
 
         //用户是不是买的虚拟订阅产品，并且已经订购过了
-        if (isset($params['hasSubscribe']) && $params['hasSubscribe'] == 1) {
+        if (isset($params['hasSubscribe']) && $params['hasSubscribe'] == Constants::STATUS_DONE) {
             $goodsList = collect($params['goodsList']);
             $goodsIds = $goodsList->pluck('goodsId');
             $existGoodsList = Good::findMany($goodsIds);
