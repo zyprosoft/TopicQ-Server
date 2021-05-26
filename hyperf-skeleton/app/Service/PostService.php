@@ -916,4 +916,14 @@ class PostService extends BaseService
         return ['total'=>$total, 'list'=>$list];
     }
 
+    public function updateOnlySelfVisible(int $postId, int $status)
+    {
+        $post = Post::findOrFail($postId);
+        if($post->only_self_visible == $status) {
+            return $this->success();
+        }
+        $post->only_self_visible = $status;
+        $post->saveOrFail();
+        return $this->success();
+    }
 }

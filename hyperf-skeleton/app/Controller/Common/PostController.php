@@ -371,4 +371,16 @@ class PostController extends AbstractController
         $result = $this->service->praise($postId);
         return $this->success($result);
     }
+
+    public function updateOnlySelfVisible(AuthedRequest $request)
+    {
+        $this->validate([
+            'postId' => 'integer|required|exists:post,post_id',
+            'status' => 'integer|required|in:0,1'
+        ]);
+        $postId = $request->param('postId');
+        $status = $request->param('status');
+        $result = $this->service->updateOnlySelfVisible($postId,$status);
+        return $this->success($result);
+    }
 }
