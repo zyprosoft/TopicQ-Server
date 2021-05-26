@@ -23,6 +23,16 @@ class PostController extends AbstractController
      */
     protected PostService $service;
 
+    public function deletePost(AppAdminRequest $request)
+    {
+        $this->validate([
+            'postId' => 'integer|required|exists:post,post_id'
+        ]);
+        $postId = $request->param('postId');
+        $result = $this->service->deletePost($postId);
+        return $this->success($result);
+    }
+
     public function waitOperatePostList(AppAdminRequest $request)
     {
         $this->validate([

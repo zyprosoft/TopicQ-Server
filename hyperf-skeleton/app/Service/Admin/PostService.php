@@ -17,6 +17,13 @@ use ZYProSoft\Facade\Auth;
 
 class PostService extends BaseService
 {
+    public function deletePost(int $postId)
+    {
+        $post = Post::findOrFail($postId);
+        $post->delete();
+        return $this->success();
+    }
+
     public function waitOperatePostList(int $pageIndex, int $pageSize)
     {
         $selectRows = [
