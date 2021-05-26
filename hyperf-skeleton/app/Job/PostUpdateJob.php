@@ -82,7 +82,9 @@ class PostUpdateJob extends Job
             $post->avatar_list = implode(';',$avatarList->toArray());
         }
 
-        $post->saveOrFail();
+        Post::withoutSyncingToSearch(function () use ($post){
+            $post->saveOrFail();
+        });
 
         Log::info("帖子($this->postId) 异步刷新信息完成!");
     }
