@@ -66,7 +66,7 @@ class ForumService extends BaseService
             ->get();
 
         //合并数据
-        return $freeList->union($payAndAuthList)->all()->sortByDesc('need_auth')->sortByDesc('goods_id')->values()->all();
+        return $payAndAuthList->union($freeList)->all();
     }
 
     public function getForumList()
