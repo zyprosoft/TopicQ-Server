@@ -29,7 +29,7 @@ class SearchService extends BaseService
         $topicIds = $post->pluck('topic_id')->where('topic_id', '>', 0);
         $topicList = Topic::findMany($topicIds)->keyBy('topic_id');
         //过滤仅自己可见的数据
-        $post->filter(function (Post $post) {
+        $post = $post->filter(function (Post $post) {
             return $post->only_self_visible == Constants::STATUS_NOT;
         });
         //补充话题
