@@ -51,9 +51,11 @@ function stop()
 case $type in
         'start')
                 start;
+                exit
                 ;;
         'stop')
                 stop;
+                exit
                 ;;
         'restart')
                 stop;
