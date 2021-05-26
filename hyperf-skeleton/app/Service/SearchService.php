@@ -30,7 +30,7 @@ class SearchService extends BaseService
         $topicList = Topic::findMany($topicIds)->keyBy('topic_id');
         //过滤仅自己可见的数据
         $post->filter(function (Post $post) {
-            return $post->only_self_visible == Constants::STATUS_OK;
+            return $post->only_self_visible == Constants::STATUS_NOT;
         });
         //补充话题
         $post->map(function (Post $post) use ($topicList) {
