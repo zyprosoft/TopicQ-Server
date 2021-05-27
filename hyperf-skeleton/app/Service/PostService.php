@@ -287,7 +287,9 @@ class PostService extends BaseService
         if (!$post instanceof Post) {
             throw new HyperfCommonException(ErrorCode::POST_NOT_EXIST);
         }
-
+        //用不到avatar_list
+        $post->avatar_list = null;
+        
         if(!empty($post->image_list)) {
             $post->image_list = explode(';', $post->image_list);
         }
