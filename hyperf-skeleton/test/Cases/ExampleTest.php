@@ -15,9 +15,11 @@ use App\Service\Admin\ForumService;
 use App\Service\Admin\ThirdPartService;
 use App\Service\PddService;
 use App\Task\PostRecommendCalculateTask;
+use EasyWeChat\Factory;
 use Hyperf\Utils\ApplicationContext;
 use HyperfTest\HttpTestCase;
 use Qbhy\HyperfTesting\Client;
+use ZYProSoft\Log\Log;
 
 /**
  * @internal
@@ -474,5 +476,13 @@ class ExampleTest extends HttpTestCase
 //        $service->generatePid();
 //        $service->generatePidAuthUrl();
         $service->queryPidAuthStatus();
+    }
+
+    public function testPushIndexPageToWeiXin()
+    {
+        $miniProgramConfig = config('weixin.miniProgram');
+        Log::info('min program config:' . json_encode($miniProgramConfig));
+        $app = Factory::miniProgram($miniProgramConfig);
+        $app->search->submitPage(['pages/index/index']);
     }
 }
