@@ -91,7 +91,7 @@ class CommentService extends BaseService
 
         //异步增加积分
         $scoreDesc = "评论帖子《{$post->title}》";
-        $this->push(new AddScoreJob($post->owner_id,Constants::SCORE_ACTION_POST_COMMENT, $scoreDesc));
+        $this->push(new AddScoreJob($comment->owner_id,Constants::SCORE_ACTION_POST_COMMENT, $scoreDesc));
 
         return $comment;
     }
@@ -251,7 +251,7 @@ class CommentService extends BaseService
         //异步增加积分
         $post = Post::find($comment->post_id);
         $scoreDesc = "回复帖子评论《{$post->title}》";
-        $this->push(new AddScoreJob($post->owner_id,Constants::SCORE_ACTION_POST_COMMENT, $scoreDesc));
+        $this->push(new AddScoreJob($comment->owner_id,Constants::SCORE_ACTION_POST_COMMENT, $scoreDesc));
 
         return $this->success($comment);
     }
