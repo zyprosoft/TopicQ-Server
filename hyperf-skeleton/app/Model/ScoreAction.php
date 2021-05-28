@@ -8,7 +8,6 @@ namespace App\Model;
  * @property string $bind_action 绑定的行为码
  * @property string $name 行为名称描述
  * @property int $score 积分值默认1
- * @property int $day_once 是否每天限制一次
  * @property int $is_system 是否系统设定的行为
  * @property int $creator 创建者ID,系统初始化的为0
  * @property int $day_max_times 每日加分次数最大限制0为不限制
