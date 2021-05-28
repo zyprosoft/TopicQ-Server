@@ -19,6 +19,7 @@ class CreateScoreActionTable extends Migration
             $table->tinyInteger('day_once')->default(0)->comment('是否每天限制一次');
             $table->tinyInteger('is_system')->default(0)->comment('是否系统设定的行为');
             $table->bigInteger('creator')->default(0)->comment('创建者ID,系统初始化的为0');
+            $table->integer('day_max_times')->default(0)->comment('每日加分次数最大限制0为不限制');
 
             $table->unique('bind_action');
             $table->unique('name');
