@@ -44,7 +44,7 @@ class ScoreService extends BaseService
                     return;
                 }
             }
-            $user = User::query()->select(['score'])->where('user_id',$userId)->lockForUpdate()->first();
+            $user = User::query()->select(['score','user_id'])->where('user_id',$userId)->lockForUpdate()->first();
             if (!$user instanceof User) {
                 throw new HyperfCommonException(ErrorCode::RECORD_NOT_EXIST);
             }
