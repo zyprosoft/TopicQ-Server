@@ -15,7 +15,8 @@ class CreateUserDaySignTable extends Migration
             $table->bigIncrements('id');
             $table->date('sign_date')->comment('签到日期');
             $table->bigInteger('user_id')->comment('签到用户');
-            
+
+            $table->unique(['sign_date','user_id']);
             $table->timestamps();
             $table->softDeletes();
             $table->engine = "InnoDB";
