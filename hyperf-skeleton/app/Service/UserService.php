@@ -15,6 +15,7 @@ use App\Model\User;
 use App\Model\UserAddress;
 use App\Model\UserAttentionOther;
 use App\Model\UserCommentPraise;
+use App\Model\UserDaySign;
 use App\Model\UserMiniProgramUse;
 use App\Model\UserSetting;
 use App\Model\UserUpdate;
@@ -208,6 +209,16 @@ class UserService extends BaseService
         //获取用户设置
         $userSetting = UserSetting::query()->where('owner_id', $this->userId())->first();
         $user->user_setting = $userSetting;
+        //今天是否签到
+        $today = Carbon::now()->toDateString();
+        $daySign = UserDaySign::query()->where('user_id',$userId)
+                                       ->where('sign_date',$today)
+                                       ->first();
+        if($daySign instanceof UserDaySign) {
+            $user->day_sign = 1;
+        }else{
+            $user->day_sign = 0;
+        }
 
         return $user;
     }
@@ -538,5 +549,21 @@ class UserService extends BaseService
     public function getScoreDetailList(int $pageIndex, int $pageSize)
     {
         return $this->scoreService->getScoreDetailList($pageIndex, $pageSize);
+    }
+
+    public function daySign()
+    {
+        $today = Carbon::now()->toDateString();
+        $sign = UserDaySign::query()->where('user_id',$this->userId())
+                                         ->whereDate('sign_date',$today)
+                                         ->first();
+        if ($sign instanceof UserDaySign) {
+            throw new HyperfCommonException(ErrorCode::DO_NOT_REPEAT_ACTION,"您今天已经签到完成了！");
+        }
+        $sign = new UserDaySign();
+        $sign->user_id = $this->userId();
+        $sign->sign_date = $today;
+        $sign->saveOrFail();
+        return $this->success();
     }
 }

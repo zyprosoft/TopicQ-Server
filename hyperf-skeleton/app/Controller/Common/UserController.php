@@ -217,4 +217,10 @@ class UserController extends AbstractController
         $result = $this->userService->getScoreDetailList($pageIndex,$pageSize);
         return $this->success($result);
     }
+
+    public function daySign(AuthedRequest $request)
+    {
+        $result = $this->userService->daySign();
+        return $this->success($result);
+    }
 }
