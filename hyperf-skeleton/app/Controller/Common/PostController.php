@@ -383,4 +383,14 @@ class PostController extends AbstractController
         $result = $this->service->updateOnlySelfVisible($postId,$status);
         return $this->success($result);
     }
+
+    public function successForward()
+    {
+        $this->validate([
+            'postId' => 'integer|required|exists:post,post_id',
+        ]);
+        $postId = $this->request->param('postId');
+        $result = $this->service->successForward($postId);
+        return $this->success($result);
+    }
 }

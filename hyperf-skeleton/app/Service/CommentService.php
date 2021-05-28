@@ -18,6 +18,7 @@ use Hyperf\DbConnection\Db;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Facade\Auth;
 use ZYProSoft\Log\Log;
+use App\Job\AddScoreJob;
 
 class CommentService extends BaseService
 {
@@ -87,6 +88,10 @@ class CommentService extends BaseService
 
         //更新热门评论列表
         $this->queueService->updateCommentHot($postId);
+
+        //异步增加积分
+        $scoreDesc = "评论帖子《{$post->title}》";
+        $this->push(new AddScoreJob($post->owner_id,Constants::SCORE_ACTION_POST_COMMENT, $scoreDesc));
 
         return $comment;
     }
@@ -242,6 +247,11 @@ class CommentService extends BaseService
 
         //更新热门评论列表
         $this->queueService->updateCommentHot($comment->post_id);
+
+        //异步增加积分
+        $post = Post::find($comment->post_id);
+        $scoreDesc = "回复帖子评论《{$post->title}》";
+        $this->push(new AddScoreJob($post->owner_id,Constants::SCORE_ACTION_POST_COMMENT, $scoreDesc));
 
         return $this->success($comment);
     }

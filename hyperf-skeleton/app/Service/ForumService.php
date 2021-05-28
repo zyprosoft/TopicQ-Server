@@ -5,6 +5,7 @@ namespace App\Service;
 
 
 use App\Constants\Constants;
+use App\Job\AddScoreJob;
 use App\Model\Forum;
 use App\Model\Good;
 use App\Model\SubscribeForumPassword;
@@ -118,6 +119,12 @@ class ForumService extends BaseService
         $subscribe->user_id = $userId;
         $subscribe->forum_id = $forumId;
         $subscribe->saveOrFail();
+
+        //异步增加积分
+        $forum = Forum::find($forumId);
+        $scoreDesc = "订阅《{$forum->name}》";
+        $this->push(new AddScoreJob($userId,Constants::SCORE_ACTION_SUBSCRIBE_FORUM,$scoreDesc));
+        
         return $this->success();
     }
 

@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Constants\Constants;
 use App\Constants\ErrorCode;
+use App\Job\AddScoreJob;
 use App\Job\PostIncreaseReadJob;
 use App\Job\PostMachineAuditJob;
 use App\Model\Forum;
@@ -172,6 +173,10 @@ class PostService extends BaseService
 
         //异步订阅板块
         $this->queueService->subscribeForum($post->forum_id,$post->owner_id);
+
+        //异步增加积分
+        $scoreDesc = "发表帖子《{$post->title}》";
+        $this->push(new AddScoreJob($post->owner_id,Constants::SCORE_ACTION_PUBLISH_POST, $scoreDesc));
 
         //机器审核结果是需要人工继续审核就不需要自动审核任务了
         if($post->machine_audit !== Constants::STATUS_REVIEW) {
@@ -580,6 +585,11 @@ class PostService extends BaseService
         //刷新帖子信息
         $this->queueService->updatePost($postId);
 
+        //异步增加积分
+        $post = Post::find($postId);
+        $scoreDesc = "收藏帖子《{$post->title}》";
+        $this->push(new AddScoreJob($post->owner_id,Constants::SCORE_ACTION_POST_FAVORITE, $scoreDesc));
+
         return $this->success();
     }
 
@@ -642,9 +652,27 @@ class PostService extends BaseService
         return $this->success();
     }
 
+    public function successForward(int $postId)
+    {
+        if (Auth::isGuest() == true) {
+            return $this->success();
+        }
+        //异步增加积分
+        $post = Post::find($postId);
+        $scoreDesc = "分享帖子《{$post->title}》";
+        $this->push(new AddScoreJob($post->owner_id,Constants::SCORE_ACTION_SHARE, $scoreDesc));
+        return $this->success();
+    }
+
     public function praise(int $postId)
     {
         Post::findOrFail($postId)->increment('praise_count');
+
+        //异步增加积分
+        $post = Post::find($postId);
+        $scoreDesc = "点赞帖子《{$post->title}》";
+        $this->push(new AddScoreJob($post->owner_id,Constants::SCORE_ACTION_POST_PRAISE, $scoreDesc));
+
         return $this->success();
     }
 

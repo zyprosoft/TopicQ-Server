@@ -6,7 +6,6 @@ namespace App\Service;
 
 use App\Constants\Constants;
 use App\Constants\ErrorCode;
-use App\Exception\BusinessException;
 use App\Job\UserUpdateMachineAuditJob;
 use App\Model\Advice;
 use App\Model\Notification;
@@ -25,9 +24,17 @@ use Hyperf\DbConnection\Db;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Facade\Auth;
 use ZYProSoft\Log\Log;
+use App\Service\ScoreService;
+use Hyperf\Di\Annotation\Inject;
 
 class UserService extends BaseService
 {
+    /**
+     * @Inject
+     * @var \App\Service\ScoreService
+     */
+    protected ScoreService $scoreService;
+
     public function wxLogin(string $code)
     {
         $miniProgramConfig = config('weixin.miniProgram');
@@ -526,5 +533,10 @@ class UserService extends BaseService
         $user->password = password_hash($password,PASSWORD_DEFAULT);
         $user->saveOrFail();
         return $user;
+    }
+
+    public function getScoreDetailList(int $pageIndex, int $pageSize)
+    {
+        return $this->scoreService->getScoreDetailList($pageIndex, $pageSize);
     }
 }

@@ -14,10 +14,13 @@ class AddScoreJob extends Job
 
     public int $userId;
 
-    public function __construct(int $userId, string $bindAction)
+    public string $desc;
+
+    public function __construct(int $userId, string $bindAction, string $desc)
     {
         $this->bindAction = $bindAction;
         $this->userId = $userId;
+        $this->desc = $desc;
     }
 
     /**
@@ -26,7 +29,7 @@ class AddScoreJob extends Job
     public function handle()
     {
         $scoreService = ApplicationContext::getContainer()->get(ScoreService::class);
-        $scoreService->addScore($this->userId,$this->bindAction);
-        Log::info("用户({$this->userId})行为($this->bindAction)加分完成!");
+        $scoreService->addScore($this->userId,$this->bindAction,$this->desc);
+        Log::info("用户({$this->userId})行为($this->desc)加分完成!");
     }
 }

@@ -4,6 +4,7 @@
 namespace App\Service\Admin;
 use App\Constants\Constants;
 use App\Job\AddNotificationJob;
+use App\Job\AddScoreJob;
 use App\Model\ManagerAvatarUser;
 use App\Model\Post;
 use App\Model\ReportPost;
@@ -262,6 +263,17 @@ class PostService extends BaseService
             $notification->levelLabel = "通知";
             $notification->keyInfo = json_encode(['post_id'=>$postId]);
             $this->push($notification);
+
+            //增加积分
+            if ($column == 'is_recommend' && $value == 1) {
+                $scoreDesc = "帖子被设为推荐《{$post->title}》";
+                $this->push(new AddScoreJob($post->owner_id,Constants::SCORE_ACTION_POST_RECOMMEND,$scoreDesc));
+            }
+
+            if($column == 'sort_index' && $value == 1) {
+                $scoreDesc = "帖子被设为置顶《{$post->title}》";
+                $this->push(new AddScoreJob($post->owner_id,Constants::SCORE_ACTION_POST_SORT_UP,$scoreDesc));
+            }
 
             return $this->success();
         });

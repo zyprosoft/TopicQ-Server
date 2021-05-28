@@ -5,6 +5,7 @@ namespace App\Job;
 
 use App\Constants\Constants;
 use App\Model\Comment;
+use App\Service\ScoreService;
 use Hyperf\AsyncQueue\Driver\DriverFactory;
 use Hyperf\AsyncQueue\Job;
 use Hyperf\Utils\ApplicationContext;
@@ -111,6 +112,10 @@ class CommentHotStatusCheckJob extends Job
                     $driverFactory = ApplicationContext::getContainer()->get(DriverFactory::class);
                     $driver = $driverFactory->get('default');
                     $driver->push($notification);
+                    //增加积分
+                    $scoreDesc = "评论成为热评 原帖子:《{$comment->post->title}》";
+                    $service = ApplicationContext::getContainer()->get(ScoreService::class);
+                    $service->addScore($comment->owner_id,Constants::SCORE_ACTION_COMMENT_HOT,$scoreDesc);
                 }
             });
             return;
