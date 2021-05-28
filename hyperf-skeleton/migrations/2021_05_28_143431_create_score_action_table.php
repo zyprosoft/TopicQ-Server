@@ -21,6 +21,7 @@ class CreateScoreActionTable extends Migration
             $table->bigInteger('creator')->default(0)->comment('创建者ID,系统初始化的为0');
 
             $table->unique('bind_action');
+            $table->unique('name');
             $table->index('is_system');
             $table->softDeletes();
             $table->timestamps();
