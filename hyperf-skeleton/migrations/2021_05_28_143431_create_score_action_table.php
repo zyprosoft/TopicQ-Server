@@ -14,7 +14,7 @@ class CreateScoreActionTable extends Migration
         Schema::create('score_action', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('bind_action',64)->comment('绑定的行为码');
-            $table->string('name',12)->comment('行为名称描述');   
+            $table->string('name',12)->comment('行为名称描述');
             $table->integer('score')->default(1)->comment('积分值默认1');
             $table->tinyInteger('day_once')->default(0)->comment('是否每天限制一次');
             $table->tinyInteger('is_system')->default(0)->comment('是否系统设定的行为');

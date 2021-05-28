@@ -36,6 +36,6 @@ class CreateCashOutTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cash_out');
+        Schema::dropIfExists('cash_out_apply');
     }
 }
