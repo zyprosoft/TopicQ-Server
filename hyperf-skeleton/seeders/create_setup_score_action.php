@@ -27,7 +27,7 @@ class CreateSetupScoreAction extends Seeder
                 'bind_action' => 'publish_post',
                 'name' => '发帖',
                 'score' => 1,
-                'day_once' => 1,
+                'day_once' => 0,
                 'is_system' => 1,
             ],
             [
