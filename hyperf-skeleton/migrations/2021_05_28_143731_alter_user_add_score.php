@@ -11,8 +11,10 @@ class AlterUserAddScore extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('user', function (Blueprint $table) {
             //
+            $table->bigInteger('score')->default(0)->comment('积分');
+            $table->bigInteger('group_id')->default(0)->comment('用户的分组');
         });
     }
 
@@ -21,8 +23,10 @@ class AlterUserAddScore extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('user', function (Blueprint $table) {
             //
+            $table->dropColumn('score');
+            $table->dropColumn('group_id');
         });
     }
 }

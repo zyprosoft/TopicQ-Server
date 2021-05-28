@@ -13,7 +13,14 @@ class CreateUserDaySignTable extends Migration
     {
         Schema::create('user_day_sign', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->date('sign_date')->comment('签到日期');
+            $table->bigInteger('user_id')->comment('签到用户');
+            
             $table->timestamps();
+            $table->softDeletes();
+            $table->engine = "InnoDB";
+            $table->charset = "utf8mb4";
+            $table->collation = "utf8mb4_unicode_ci";
         });
     }
 

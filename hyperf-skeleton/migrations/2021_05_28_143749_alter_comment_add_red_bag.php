@@ -11,8 +11,9 @@ class AlterCommentAddRedBag extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('comment', function (Blueprint $table) {
             //
+            $table->bigInteger('offer_id')->default(0)->comment('领取的具体红包的ID');
         });
     }
 
@@ -21,8 +22,9 @@ class AlterCommentAddRedBag extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('comment', function (Blueprint $table) {
             //
+            $table->dropColumn('offer_id');
         });
     }
 }

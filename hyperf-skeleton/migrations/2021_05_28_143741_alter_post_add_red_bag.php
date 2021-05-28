@@ -11,8 +11,9 @@ class AlterPostAddRedBag extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('post', function (Blueprint $table) {
             //
+            $table->bigInteger('red_bag_id')->default(0)->comment('红包ID');
         });
     }
 
@@ -21,8 +22,9 @@ class AlterPostAddRedBag extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('post', function (Blueprint $table) {
             //
+            $table->dropColumn('red_bag_id');
         });
     }
 }
