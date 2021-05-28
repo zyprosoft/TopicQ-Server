@@ -11,6 +11,7 @@ namespace App\Model;
  * @property int $day_once 是否每天限制一次
  * @property int $is_system 是否系统设定的行为
  * @property int $creator 创建者ID,系统初始化的为0
+ * @property int $day_max_times 每日加分次数最大限制0为不限制
  * @property string $deleted_at 
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
@@ -34,5 +35,5 @@ class ScoreAction extends Model
      *
      * @var array
      */
-    protected $casts = ['id' => 'int', 'score' => 'integer', 'day_once' => 'integer', 'is_system' => 'integer', 'creator' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected $casts = ['id' => 'int', 'score' => 'integer', 'day_once' => 'integer', 'is_system' => 'integer', 'creator' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'day_max_times' => 'integer'];
 }
