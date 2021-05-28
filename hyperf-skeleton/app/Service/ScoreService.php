@@ -27,6 +27,7 @@ class ScoreService extends BaseService
     public function addScore(int $userId, string $bindAction, string $desc)
     {
         Db::transaction(function () use ($userId, $bindAction, $desc){
+            Log::info("开始处理用户($userId)增加积分行为$bindAction");
             $action = ScoreAction::query()->where('bind_action',$bindAction)->first();
             if (!$action instanceof ScoreAction) {
                 throw new HyperfCommonException(ErrorCode::RECORD_NOT_EXIST);
