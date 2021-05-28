@@ -14,7 +14,6 @@ use ZYProSoft\Log\Log;
 
 class ScoreService extends BaseService
 {
-
     public function getScoreDetailList(int $pageIndex, int $pageSize)
     {
         $list = UserScoreDetail::query()->where('owner_id',$this->userId())
@@ -48,8 +47,7 @@ class ScoreService extends BaseService
             if (!$user instanceof User) {
                 throw new HyperfCommonException(ErrorCode::RECORD_NOT_EXIST);
             }
-            $user->score += $action->score;
-            $user->saveOrFail();
+            $user->increment('score',$action->score);
             $detail = new UserScoreDetail();
             $detail->bind_action = $bindAction;
             $detail->owner_id = $userId;
