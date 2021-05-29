@@ -343,6 +343,26 @@ class PostService extends BaseService
                     }
                 }
             }
+            //版块是否有分组访问权限
+            if(!empty($forum->can_access_user_group)) {
+                //用户是不是有这个版块的发帖权限
+                $canAccess = false;
+                if (!empty($forum->can_post_user_group)) {
+                    $groupList = collect(explode(';',$forum->can_post_user_group));
+                    if ($groupList->contains($user->group_id)) {
+                        $canAccess = true;
+                    }
+                }
+                if ($canAccess == false) {
+                    $groupList = collect(explode(';',$forum->can_access_user_group));
+                    if ($groupList->contains($user->group_id)) {
+                        $canAccess = true;
+                    }
+                }
+                if($canAccess == false) {
+                    throw new HyperfCommonException(ErrorCode::FORUM_POST_NEED_AUTH);
+                }
+            }
             //投票状态
             $userVote = UserVote::query()->where('user_id', $this->userId())
                 ->where('post_id', $postId)
