@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Constants\Constants;
 use App\Constants\ErrorCode;
+use App\Job\AddScoreJob;
 use App\Job\UserUpdateMachineAuditJob;
 use App\Model\Advice;
 use App\Model\Notification;
@@ -568,6 +569,10 @@ class UserService extends BaseService
         $sign->user_id = $this->userId();
         $sign->sign_date = $today;
         $sign->saveOrFail();
+        //加分
+        $today = Carbon::now()->toDateString();
+        $scoreDesc = "{$today}签到";
+        $this->push(new AddScoreJob($this->userId(),Constants::SCORE_ACTION_DAY_SIGN,$scoreDesc));
         return $this->success();
     }
 
