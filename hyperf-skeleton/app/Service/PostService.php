@@ -86,6 +86,18 @@ class PostService extends BaseService
         //检查用户是不是被拉黑
         UserService::checkUserStatusOrFail();
 
+        //检查普通用户是否有在这个版块发帖的权限
+        if ($params['forumId'] > 0 && $this->user()->role_id == 0) {
+            $forum = Forum::findOrFail($params['forumId']);
+            $user = $this->user();
+            if(!empty($forum->can_post_user_group)) {
+                $groupList = collect(explode(';',$forum->can_post_user_group));
+                if (! $groupList->contains($user->group_id)) {
+                    throw new HyperfCommonException(ErrorCode::USER_HAVE_NO_PERMISSION_POST_ON_THIS_FORUM);
+                }
+            }
+        }
+
         $post = null;
         $imageAuditCheck = [
             'need_audit' => false,

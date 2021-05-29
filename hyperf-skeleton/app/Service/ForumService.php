@@ -66,6 +66,17 @@ class ForumService extends BaseService
             ->where('type',Constants::FORUM_TYPE_MAIN)
             ->get();
 
+        //检查用户是否有在这个版块发帖的权限
+        $freeList = $freeList->filter(function (Forum $forum) use ($user){
+            if(!empty($forum->can_post_user_group)) {
+                $groupList = collect(explode(';',$forum->can_post_user_group));
+                if (! $groupList->contains($user->group_id)) {
+                    return true;
+                }
+            }
+            return  false;
+        });
+
         Log::info("free list:".json_encode($freeList,JSON_UNESCAPED_UNICODE));
 
         //合并数据

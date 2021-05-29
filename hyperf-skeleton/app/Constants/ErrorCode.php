@@ -173,4 +173,9 @@ class ErrorCode extends AbstractConstants
      * @Message("订单已经被代金券抵扣成功，无需再继续拉起支付!")
      */
     const ORDER_CREATE_SUCCESS_BY_VOUCHER_DEDUCT = 30028;
+
+    /**
+     * @Message("当前用户无权在此版块发帖")
+     */
+    const USER_HAVE_NO_PERMISSION_POST_ON_THIS_FORUM = 30029;
 }
