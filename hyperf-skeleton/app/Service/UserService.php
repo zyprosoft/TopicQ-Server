@@ -211,7 +211,7 @@ class UserService extends BaseService
         $user->user_setting = $userSetting;
         //今天是否签到
         $today = Carbon::now()->toDateString();
-        $daySign = UserDaySign::query()->where('user_id',$userId)
+        $daySign = UserDaySign::query()->where('user_id',$this->userId())
                                        ->whereDate('sign_date',$today)
                                        ->first();
         if($daySign instanceof UserDaySign) {
