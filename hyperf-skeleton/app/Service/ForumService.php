@@ -126,13 +126,41 @@ class ForumService extends BaseService
         if ($subscribe instanceof UserSubscribe) {
             throw new HyperfCommonException(ErrorCode::RECORD_DID_EXIST);
         }
+
+        //当前用户是否有权限订阅本版块，当有指定访问用户组的时候需要检测
+        $forum = Forum::find($forumId);
+        $user = $this->user();
+        //是不是有发帖权限，有的话就可以看
+        $canAccessForum = false;
+        if(!empty($forum->can_post_user_group)) {
+            $postUserGroup = collect(explode(';',$forum->can_post_user_group));
+            if($postUserGroup->contains($user->group_id)){
+                $canAccessForum = true;
+            }
+        }
+        //如果没有发帖权限，看下是不是有访问权限
+        if ($canAccessForum == false) {
+            if (!empty($forum->can_access_user_group)) {
+                $accessUserGroup = collect(explode(';',$forum->can_access_user_group));
+                if($accessUserGroup->contains($user->group_id)) {
+                    $canAccessForum = true;
+                }
+            }else{
+                //空的时候都有访问权限
+                $canAccessForum = true;
+                Log::info("版块({$forum->name})所有用户均可订阅!");
+            }
+        }
+        if($canAccessForum == false) {
+            throw new HyperfCommonException(\App\Constants\ErrorCode::FORUM_NOT_PAY_OR_AUTH,"当前所在用户组无权订阅此版块");
+        }
+
         $subscribe = new UserSubscribe();
         $subscribe->user_id = $userId;
         $subscribe->forum_id = $forumId;
         $subscribe->saveOrFail();
 
         //异步增加积分
-        $forum = Forum::find($forumId);
         $scoreDesc = "订阅《{$forum->name}》";
         $this->push(new AddScoreJob($userId,Constants::SCORE_ACTION_SUBSCRIBE_FORUM,$scoreDesc));
         

@@ -703,6 +703,31 @@ class PostService extends BaseService
                 if (!$userSubscribe instanceof UserSubscribe) {
                     throw new HyperfCommonException(ErrorCode::FORUM_NOT_PAY_OR_AUTH);
                 }
+            }else{
+                //是不是有发帖权限，有的话就可以看
+                $canAccessForum = false;
+                if(!empty($forum->can_post_user_group)) {
+                    $postUserGroup = collect(explode(';',$forum->can_post_user_group));
+                    if($postUserGroup->contains($user->group_id)){
+                        $canAccessForum = true;
+                    }
+                }
+                //如果没有发帖权限，看下是不是有访问权限
+                if ($canAccessForum == false) {
+                    if (!empty($forum->can_access_user_group)) {
+                        $accessUserGroup = collect(explode(';',$forum->can_access_user_group));
+                        if($accessUserGroup->contains($user->group_id)) {
+                            $canAccessForum = true;
+                        }
+                    }else{
+                        //空的时候都有访问权限
+                        $canAccessForum = true;
+                        Log::info("版块({$forum->name})所有用户均可访问!");
+                    }
+                }
+                if($canAccessForum == false) {
+                    throw new HyperfCommonException(ErrorCode::FORUM_NOT_PAY_OR_AUTH,"当前所在用户组无权访问此版块");
+                }
             }
         }
 
