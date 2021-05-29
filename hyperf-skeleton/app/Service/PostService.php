@@ -343,8 +343,8 @@ class PostService extends BaseService
                     }
                 }
             }
-            //版块是否有分组访问权限
-            if(!empty($forum->can_access_user_group)) {
+            //版块是否有分组访问权限,普通用户之上无限制
+            if(!empty($forum->can_access_user_group) && $user->role_id < Constants::USER_ROLE_ADMIN) {
                 //用户是不是有这个版块的发帖权限
                 $canAccess = false;
                 if (!empty($forum->can_post_user_group)) {
