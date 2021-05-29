@@ -46,6 +46,7 @@ class ForumService extends BaseService
             $maxMemberCount=data_get($params,'maxMemberCount');
             $unlockPrice=data_get($params,'unlockPrice');
             $pagePath = data_get($params,'pagePath');
+            $canPostUserGroup = data_get($params,'canPostUserGroup');
 
             $forum = Forum::query()->where('name',$name)
                 ->where('type',$type)
@@ -80,6 +81,9 @@ class ForumService extends BaseService
              }
             if (isset($pagePath)) {
                 $forum->page_path = $pagePath;
+            }
+            if (isset($canPostUserGroup) && !empty($canPostUserGroup)) {
+                $forum->can_post_user_group = implode(';',$canPostUserGroup);
             }
             $forum->saveOrFail();
             //绑定对应的板块ID到商品上
@@ -127,6 +131,7 @@ class ForumService extends BaseService
             $maxMemberCount=data_get($params,'maxMemberCount');
             $unlockPrice=data_get($params,'unlockPrice');
             $pagePath = data_get($params,'pagePath');
+            $canPostUserGroup = data_get($params,'canPostUserGroup');
 
             if (isset($name)) {
                 $forum->name = $name;
@@ -160,6 +165,9 @@ class ForumService extends BaseService
             }
             if (isset($pagePath)) {
                 $forum->page_path = $pagePath;
+            }
+            if (isset($canPostUserGroup) && !empty($canPostUserGroup)) {
+                $forum->can_post_user_group = implode(';',$canPostUserGroup);
             }
             $forum->saveOrFail();
             //绑定对应的板块ID到商品上
