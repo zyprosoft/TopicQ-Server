@@ -22,6 +22,9 @@ class PlatformCut extends Model
      * @var string
      */
     protected $table = 'platform_cut';
+
+    protected $primaryKey = 'cut_id';
+
     /**
      * The attributes that are mass assignable.
      *

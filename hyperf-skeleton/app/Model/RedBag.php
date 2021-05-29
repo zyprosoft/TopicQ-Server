@@ -29,6 +29,9 @@ class RedBag extends Model
      * @var string
      */
     protected $table = 'red_bag';
+
+    protected $primaryKey = 'red_bag_id';
+
     /**
      * The attributes that are mass assignable.
      *
