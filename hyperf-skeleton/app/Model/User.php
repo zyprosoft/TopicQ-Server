@@ -78,7 +78,7 @@ class User extends Model implements Authenticatable
      */
     protected $casts = ['user_id' => 'integer', 'role_id' => 'integer', 'status' => 'integer', 'sex' => 'integer', 'login_type' => 'integer', 'wx_gender' => 'integer', 'unread_comment_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'first_edit_done' => 'integer', 'wx_token_expire' => 'datetime', 'last_login' => 'datetime', 'token_expire' => 'datetime', 'user_update_id' => 'integer', 'avatar_user_id' => 'integer', 'score' => 'integer', 'group_id' => 'integer'];
     protected $hidden = ['mobile', 'password', 'wx_token', 'wx_openid', 'token', 'wx_token_expire', 'token_expire', 'avatar_user_id'];
-    protected $with = ['role'];
+    protected $with = ['role','group'];
     public function getId()
     {
         return $this->user_id;
@@ -106,5 +106,9 @@ class User extends Model implements Authenticatable
     public function toSearchableArray()
     {
         return ['nickname' => $this->nickname];
+    }
+    public function group()
+    {
+        return $this->hasOne(UserGroup::class,'group_id','group_id');
     }
 }

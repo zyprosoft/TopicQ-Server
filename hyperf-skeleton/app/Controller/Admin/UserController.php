@@ -3,10 +3,12 @@
 
 namespace App\Controller\Admin;
 use App\Http\AppAdminRequest;
+use App\Model\UserGroup;
 use ZYProSoft\Controller\AbstractController;
 use Hyperf\HttpServer\Annotation\AutoController;
 use Hyperf\Di\Annotation\Inject;
 use App\Service\Admin\UserService;
+use App\Service\Admin\GroupService;
 
 /**
  * @AutoController (prefix="/admin/user")
@@ -20,6 +22,12 @@ class UserController extends AbstractController
      * @var UserService
      */
     private UserService $service;
+
+    /**
+     * @Inject
+     * @var GroupService
+     */
+    protected GroupService $groupService;
 
     public function login()
     {
@@ -169,6 +177,27 @@ class UserController extends AbstractController
         $userId = $request->param('userId');
         $roleId = $request->param('roleId');
         $result = $this->service->setUserRole($userId,$roleId);
+        return $this->success($result);
+    }
+
+    public function getUserGroupList(AppAdminRequest $request)
+    {
+        $result = $this->groupService->list();
+        return $this->success($result);
+    }
+
+    public function createGroup(AppAdminRequest $request)
+    {
+        $this->validate([
+            'name' => 'string|required|min:1|max:24',
+            'openChoose' => 'integer|in:0,1',
+            'needRealName' => 'integer|in:0,1',
+            'labelColor' => 'string|min:1',
+            'groupId' => 'integer|exists:user_group,group_id'
+        ]);
+        $params = $request->getParams();
+        $groupId = $request->param('groupId');
+        $result = $this->groupService->createOrUpdate($params,$groupId);
         return $this->success($result);
     }
 }

@@ -89,7 +89,8 @@ class UserController extends AbstractController
                 'nickname' => 'string|min:1|max:20|sensitive',
                 'background' => 'string|min:1|max:500',
                 'area' => 'string|min:1|max:64',
-                'country' => 'string|min:1|max:64'
+                'country' => 'string|min:1|max:64',
+                'groupId' => 'integer|exists:user_group,group_id'
             ]
         );
         $params = $request->getParams();
@@ -221,6 +222,12 @@ class UserController extends AbstractController
     public function daySign(AuthedRequest $request)
     {
         $result = $this->userService->daySign();
+        return $this->success($result);
+    }
+
+    public function getUserGroupList(AuthedRequest $request)
+    {
+        $result = $this->userService->getUserGroupList();
         return $this->success($result);
     }
 }

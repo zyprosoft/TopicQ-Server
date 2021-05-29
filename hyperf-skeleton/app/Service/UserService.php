@@ -16,6 +16,7 @@ use App\Model\UserAddress;
 use App\Model\UserAttentionOther;
 use App\Model\UserCommentPraise;
 use App\Model\UserDaySign;
+use App\Model\UserGroup;
 use App\Model\UserMiniProgramUse;
 use App\Model\UserSetting;
 use App\Model\UserUpdate;
@@ -250,6 +251,9 @@ class UserService extends BaseService
             }
             if (isset($userInfo['country'])) {
                 $user->country = $userInfo['country'];
+            }
+            if (isset($userInfo['groupId'])) {
+                $user->group_id = $userInfo['groupId'];
             }
             if (isset($userInfo['background'])) {
                 $userUpdate->background = $userInfo['background'];
@@ -565,5 +569,10 @@ class UserService extends BaseService
         $sign->sign_date = $today;
         $sign->saveOrFail();
         return $this->success();
+    }
+
+    public function getUserGroupList()
+    {
+        return UserGroup::query()->where('open_choose',Constants::STATUS_OK)->get();
     }
 }
