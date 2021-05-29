@@ -5,6 +5,8 @@ namespace App\Service\Admin;
 use App\Model\User;
 use App\Model\UserGroup;
 use App\Service\BaseService;
+use ZYProSoft\Constants\ErrorCode;
+use ZYProSoft\Exception\HyperfCommonException;
 
 class GroupService extends BaseService
 {
@@ -25,6 +27,9 @@ class GroupService extends BaseService
         if (isset($params['needRealName'])) {
             $group->need_real_name = $params['needRealName'];
         }
+        if(!isset($groupId)) {
+            $group->creator = $this->userId();
+        }
         $group->saveOrFail();
         return $this->success();
     }
@@ -40,5 +45,16 @@ class GroupService extends BaseService
              return $group;
         });
         return $list;
+    }
+
+    public function setUserGroup(string $mobile, int $groupId)
+    {
+        $user = User::query()->where('mobile',$mobile)->first();
+        if(!$user instanceof User) {
+            throw new HyperfCommonException(ErrorCode::RECORD_NOT_EXIST);
+        }
+        $user->group_id = $groupId;
+        $user->saveOrFail();
+        return $this->success();
     }
 }

@@ -200,4 +200,16 @@ class UserController extends AbstractController
         $result = $this->groupService->createOrUpdate($params,$groupId);
         return $this->success($result);
     }
+
+    public function setUserGroup(AppAdminRequest $request)
+    {
+        $this->validate([
+            'mobile' => 'string|required|min:11|max:11',
+            'groupId' => 'integer|required|exists:user_group,group_id'
+        ]);
+        $mobile = $request->param('mobile');
+        $groupId = $request->param('groupId');
+        $result = $this->groupService->setUserGroup($mobile,$groupId);
+        return $this->success($result);
+    }
 }
