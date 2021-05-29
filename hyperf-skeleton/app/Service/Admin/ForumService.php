@@ -47,6 +47,7 @@ class ForumService extends BaseService
             $unlockPrice=data_get($params,'unlockPrice');
             $pagePath = data_get($params,'pagePath');
             $canPostUserGroup = data_get($params,'canPostUserGroup');
+            $canAccessUserGroup = data_get($params,'canAccessUserGroup');
 
             $forum = Forum::query()->where('name',$name)
                 ->where('type',$type)

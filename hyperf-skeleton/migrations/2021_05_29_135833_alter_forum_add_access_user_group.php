@@ -11,8 +11,9 @@ class AlterForumAddAccessUserGroup extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('forum', function (Blueprint $table) {
             //
+            $table->string('can_access_user_group')->nullable()->comment('可以访问版块的用户组');
         });
     }
 
@@ -21,8 +22,9 @@ class AlterForumAddAccessUserGroup extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('forum', function (Blueprint $table) {
             //
+            $table->dropColumn('can_access_user_group');
         });
     }
 }
