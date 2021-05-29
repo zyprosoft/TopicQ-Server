@@ -86,6 +86,9 @@ class ForumService extends BaseService
             if (isset($canPostUserGroup) && !empty($canPostUserGroup)) {
                 $forum->can_post_user_group = implode(';',$canPostUserGroup);
             }
+            if (isset($canAccessUserGroup) && !empty($canAccessUserGroup)) {
+                $forum->can_access_user_group = implode(';',$canAccessUserGroup);
+            }
             $forum->saveOrFail();
             //绑定对应的板块ID到商品上
             if (isset($goodsId)) {
@@ -133,6 +136,7 @@ class ForumService extends BaseService
             $unlockPrice=data_get($params,'unlockPrice');
             $pagePath = data_get($params,'pagePath');
             $canPostUserGroup = data_get($params,'canPostUserGroup');
+            $canAccessUserGroup = data_get($params,'canAccessUserGroup');
 
             if (isset($name)) {
                 $forum->name = $name;
@@ -169,6 +173,9 @@ class ForumService extends BaseService
             }
             if (isset($canPostUserGroup) && !empty($canPostUserGroup)) {
                 $forum->can_post_user_group = implode(';',$canPostUserGroup);
+            }
+            if (isset($canAccessUserGroup) && !empty($canAccessUserGroup)) {
+                $forum->can_access_user_group = implode(';',$canAccessUserGroup);
             }
             $forum->saveOrFail();
             //绑定对应的板块ID到商品上
