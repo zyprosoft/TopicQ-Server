@@ -24,6 +24,7 @@ namespace App\Model;
  * @property int $max_member_count 0不限制
  * @property string $page_path 小程序内部跳转链接
  * @property string $can_post_user_group 允许发帖的用户分组,为空的时候，所有用户均可发帖
+ * @property string $can_access_user_group 可以访问版块的用户组
  * @property-read \Hyperf\Database\Model\Collection|\App\Model\Forum[] $child_forum_list 
  * @property-read \App\Model\Good $goods 
  * @property-read \App\Model\Forum $parent_forum 
