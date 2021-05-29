@@ -87,7 +87,7 @@ class PostService extends BaseService
         UserService::checkUserStatusOrFail();
 
         //检查普通用户是否有在这个版块发帖的权限
-        if ($params['forumId'] > 0 && $this->user()->role_id == 0) {
+        if (isset($params['forumId']) && $params['forumId'] > 0 && $this->user()->role_id == 0) {
             $forum = Forum::findOrFail($params['forumId']);
             $user = $this->user();
             if(!empty($forum->can_post_user_group)) {
