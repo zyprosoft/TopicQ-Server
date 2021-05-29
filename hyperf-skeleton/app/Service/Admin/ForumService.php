@@ -8,6 +8,7 @@ use App\Model\Good;
 use App\Model\Post;
 use App\Model\SubscribeForumPassword;
 use App\Model\User;
+use App\Model\UserGroup;
 use App\Service\BaseService;
 use Carbon\Carbon;
 use Hyperf\DbConnection\Db;
@@ -27,7 +28,22 @@ class ForumService extends BaseService
 
     public function getForum(int $forumId)
     {
-        return Forum::findOrFail($forumId);
+        $forum = Forum::findOrFail($forumId);
+        //补充用户分组
+        if(empty($forum->can_post_user_group) && empty($forum->can_access_user_group)) {
+            return $forum;
+        }
+        if (!empty($forum->can_post_user_group)) {
+            $postGroupIds = explode(';',$forum->can_post_user_group);
+            $postGroupList = UserGroup::findMany($postGroupIds);
+            $forum->can_post_user_group = $postGroupList;
+        }
+        if (!empty($forum->can_access_user_group)) {
+            $accessGroupIds = explode(';',$forum->can_access_user_group);
+            $accessGroupList = UserGroup::findMany($accessGroupIds);
+            $forum->can_access_user_group = $accessGroupList;
+        }
+        return $forum;
     }
 
     public function createForum(array $params)
