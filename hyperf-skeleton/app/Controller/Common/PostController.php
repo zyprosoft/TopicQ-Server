@@ -393,4 +393,14 @@ class PostController extends AbstractController
         $result = $this->service->successForward($postId);
         return $this->success($result);
     }
+
+    public function getForumDetail()
+    {
+        $this->validate([
+            'forumId' => 'integer|required|exists:forum,forum_id'
+        ]);
+        $forumId = $this->request->param('forumId');
+        $result = $this->forumService->getForumDetail($forumId);
+        return $this->success($result);
+    }
 }

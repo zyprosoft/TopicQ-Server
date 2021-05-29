@@ -333,4 +333,9 @@ class ForumService extends BaseService
 
         return ['total'=>$total,'list'=>$list];
     }
+
+    public function getForumDetail(int $forumId)
+    {
+        return Forum::findOrFail($forumId);
+    }
 }
