@@ -89,7 +89,7 @@ class User extends Model implements Authenticatable
     }
     public function isAdmin()
     {
-        return $this->role_id == Constants::USER_ROLE_ADMIN;
+        return $this->role_id > 0;
     }
     public function role()
     {
