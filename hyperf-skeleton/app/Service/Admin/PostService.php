@@ -50,11 +50,27 @@ class PostService extends BaseService
             ->offset($pageIndex * $pageSize)
                              ->limit($pageSize)
                              ->get();
+
+        //补充星标用户信息
+        $ownerIdList = collect($list)->pluck('owner_id')->unique();
+        $userList = ManagerAvatarUser::query()->whereIn('avatar_user_id',$ownerIdList)
+            ->get()
+            ->keyBy('avatar_user_id');
+        $list->map(function (Post $post) use ($userList) {
+            if(isset($userList[$post->owner_id])) {
+                $post->is_star = 0;
+            }else{
+                $post->is_star = 1;
+            }
+            return $post;
+        });
+
         $total = Post::query()
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('title','like',"%$keyword%")
             ->orWhere('content','like',"%$keyword%")
             ->count();
+        
         return ['total'=>$total,'list'=>$list];
     }
 
