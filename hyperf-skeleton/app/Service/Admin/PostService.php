@@ -41,6 +41,23 @@ class PostService extends BaseService
         return $this->success();
     }
 
+    public function searchPost(string $keyword,int $pageIndex, int $pageSize)
+    {
+        $list = Post::query()
+            ->where('audit_status', Constants::STATUS_DONE)
+            ->where('title','like',"%$keyword%")
+            ->orWhere('content','like',"%$keyword%")
+            ->offset($pageIndex * $pageSize)
+                             ->limit($pageSize)
+                             ->get();
+        $total = Post::query()
+            ->where('audit_status', Constants::STATUS_DONE)
+            ->where('title','like',"%$keyword%")
+            ->orWhere('content','like',"%$keyword%")
+            ->count();
+        return ['total'=>$total,'list'=>$list];
+    }
+
     public function waitOperatePostList(int $pageIndex, int $pageSize)
     {
         $selectRows = [
@@ -69,8 +86,6 @@ class PostService extends BaseService
 
         $list = Post::query()->select($selectRows)
             ->where('audit_status', Constants::STATUS_DONE)
-            ->orderByDesc('sort_index')
-            ->orderByDesc('recommend_weight')
             ->latest()
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
