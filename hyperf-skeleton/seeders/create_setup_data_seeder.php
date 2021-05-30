@@ -15,13 +15,13 @@ class CreateSetupDataSeeder extends Seeder
     public function run()
     {
         Db::table('role')->insertOrIgnore([
+            'name' => '系统维护'
+        ]);
+        Db::table('role')->insertOrIgnore([
             'name' => '管理员'
         ]);
         Db::table('role')->insertOrIgnore([
-            'name' => '审核员'
-        ]);
-        Db::table('role')->insertOrIgnore([
-            'name' => '巡查员'
+            'name' => '编辑'
         ]);
 
         Db::table('forum')->insertOrIgnore([
@@ -31,17 +31,11 @@ class CreateSetupDataSeeder extends Seeder
 
         $nameList = [
             '推荐',
-            '政务',
-            '民生',
-            '医疗',
-            '教育',
             '美食',
             '娱乐',
             '阅读',
             '户外',
-            '购物',
-            '休闲',
-            '汽车',
+            '工具',
         ];
         foreach ($nameList as $name)
         {
