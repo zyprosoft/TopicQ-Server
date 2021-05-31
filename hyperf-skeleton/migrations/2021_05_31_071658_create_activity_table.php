@@ -17,8 +17,8 @@ class CreateActivityTable extends Migration
             $table->string('jump_path',64)->nullable()->comment('内部跳转链接,三种类型必须要有一种');
             $table->string('jump_url',256)->nullable()->comment('跳转H5页面');
             $table->string('title',64)->comment('标题');
-            $table->string('introduce',128)->comment('简介');
-            $table->string('image')->comment('活动图片');
+            $table->string('introduce',128)->nullable()->comment('简介');
+            $table->string('image',256)->comment('活动图片');
             $table->bigInteger('creator')->default(0)->comment('活动创建者');
             $table->tinyInteger('sort_index')->default(0)->comment('排序索引');
             $table->tinyInteger('status')->default(0)->comment('0正常-1停止');
