@@ -32,7 +32,8 @@ class ForumController extends AbstractController
             'unlockPrice' => 'integer|min:0',
             'buyTip' => 'string|required_with:goodsId|min:1|max:500',
             'goodsId' => 'integer|required_with:buyTip|exists:goods,goods_id',//创建付费订阅必选信息
-            'pagePath' => 'string|min:1|max:64',//小程序内部跳转的链接
+            'pagePath' => 'string|min:1|max:64',//小程序内部跳转的链接,
+            'announcement' => 'string|min:1|max:128',//公告
         ]);
         $result = $this->service->createForum($request->getParams());
         return $this->success($result);
@@ -50,6 +51,7 @@ class ForumController extends AbstractController
             'buyTip' => 'string|required_with:goodsId|min:1|max:500',
             'goodsId' => 'integer|required_with:buyTip|exists:goods,goods_id',//创建付费订阅必选信息
             'pagePath' => 'string|min:1|max:64',//小程序内部跳转的链接
+            'announcement' => 'string|min:1|max:128',//公告
         ]);
         $result = $this->service->editForum($request->getParams());
         return $this->success($result);
