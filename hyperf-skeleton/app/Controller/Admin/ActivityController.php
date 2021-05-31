@@ -69,4 +69,9 @@ class ActivityController extends AbstractController
         $result = $this->service->changeStatus($activityId,$status);
         return $this->success($result);
     }
+
+    public function getActivityList()
+    {
+        return $this->service->getActivityList();
+    }
 }

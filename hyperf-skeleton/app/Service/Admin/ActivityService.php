@@ -2,6 +2,7 @@
 
 
 namespace App\Service\Admin;
+use App\Constants\Constants;
 use App\Model\Activity;
 use App\Model\Post;
 use App\Service\BaseService;
@@ -10,6 +11,11 @@ use ZYProSoft\Exception\HyperfCommonException;
 
 class ActivityService extends BaseService
 {
+    public function getActivityList()
+    {
+        return Activity::all();
+    }
+
     public function createOrUpdate(array $params)
     {
         $title = data_get($params,'title');
