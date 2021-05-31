@@ -495,6 +495,6 @@ class ExampleTest extends HttpTestCase
         ];
         $client = new \GuzzleHttp\Client($config);
         $content = $client->get($config['path']);
-        echo $content->getBody();
+        Log::info($content->getBody());
     }
 }
