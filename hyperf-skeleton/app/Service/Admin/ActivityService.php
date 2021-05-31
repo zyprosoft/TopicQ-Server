@@ -27,7 +27,7 @@ class ActivityService extends BaseService
         $activityId = data_get($params,'activityId');
 
         if(isset($activityId)) {
-            $activity = Activity::firstOrFail($activityId);
+            $activity = Activity::findOrFail($activityId);
         }else{
             $activity = new Activity();
         }
@@ -64,7 +64,7 @@ class ActivityService extends BaseService
 
     public function sort(int $activityId, int $isUp)
     {
-        $activity = Activity::firstOrFail($activityId);
+        $activity = Activity::findOrFail($activityId);
         if ($isUp == 1) {
             $activity->increment('sort_index',1);
         }else{
@@ -74,7 +74,7 @@ class ActivityService extends BaseService
 
     public function changeStatus(int $activityId, int $status)
     {
-        $activity = Activity::firstOrFail($activityId);
+        $activity = Activity::findOrFail($activityId);
         $activity->status = $status;
         $activity->saveOrFail();
         return $this->success();
