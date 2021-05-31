@@ -75,13 +75,13 @@ class ForumService extends BaseService
                 $groupList = collect(explode(';',$forum->can_post_user_group));
                 if(!empty($groupList)) {
                     if (!$groupList->contains($user->group_id)) {
-                        return true;
+                        return false;
                     }
-                    return false;
+                    return true;
                 }
-                return false;
+                return true;
             }
-            return  false;
+            return  true;
         });
 
         Log::info("free list:".json_encode($freeList,JSON_UNESCAPED_UNICODE));
