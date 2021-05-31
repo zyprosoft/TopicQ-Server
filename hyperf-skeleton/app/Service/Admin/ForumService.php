@@ -64,6 +64,7 @@ class ForumService extends BaseService
             $pagePath = data_get($params,'pagePath');
             $canPostUserGroup = data_get($params,'canPostUserGroup');
             $canAccessUserGroup = data_get($params,'canAccessUserGroup');
+            $announcement = data_get($params,'announcement');
 
             $forum = Forum::query()->where('name',$name)
                 ->where('type',$type)
@@ -104,6 +105,9 @@ class ForumService extends BaseService
             }
             if (isset($canAccessUserGroup) && !empty($canAccessUserGroup)) {
                 $forum->can_access_user_group = implode(';',$canAccessUserGroup);
+            }
+            if(isset($announcement)) {
+                $forum->announcement = $announcement;
             }
             $forum->saveOrFail();
             //绑定对应的板块ID到商品上
@@ -153,6 +157,7 @@ class ForumService extends BaseService
             $pagePath = data_get($params,'pagePath');
             $canPostUserGroup = data_get($params,'canPostUserGroup');
             $canAccessUserGroup = data_get($params,'canAccessUserGroup');
+            $announcement = data_get($params,'announcement');
 
             if (isset($name)) {
                 $forum->name = $name;
@@ -192,6 +197,9 @@ class ForumService extends BaseService
             }
             if (isset($canAccessUserGroup) && !empty($canAccessUserGroup)) {
                 $forum->can_access_user_group = implode(';',$canAccessUserGroup);
+            }
+            if (isset($announcement)) {
+                $forum->announcement = $announcement;
             }
             $forum->saveOrFail();
             //绑定对应的板块ID到商品上
