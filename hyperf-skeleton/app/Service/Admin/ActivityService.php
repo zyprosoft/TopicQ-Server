@@ -55,6 +55,7 @@ class ActivityService extends BaseService
         }
         $activity->title = $post->title;
         $activity->introduce = $post->summary;
+        $activity->jump_path = '/pages/detail/detail?postId='.$postId;
         $activity->image = collect(explode(';',$post->image_list))->first();
         $activity->post_id = $postId;
         $activity->status = Constants::STATUS_INVALIDATE;//从帖子创建的默认不发布，图片比例可能还需要调整到合适
