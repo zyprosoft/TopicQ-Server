@@ -10,6 +10,7 @@ namespace App\Model;
  * @property string $type 文档类型
  * @property string $icon 文档图标
  * @property string $link 腾讯文档链接
+ * @property string $jump_path 跳转小程序链接
  * @property string $deleted_at 
  */
 class PostDocument extends Model
@@ -20,9 +21,7 @@ class PostDocument extends Model
      * @var string
      */
     protected $table = 'post_document';
-
     protected $primaryKey = 'document_id';
-
     /**
      * The attributes that are mass assignable.
      *
