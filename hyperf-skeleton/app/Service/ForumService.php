@@ -71,6 +71,7 @@ class ForumService extends BaseService
         //检查用户是否有在这个版块发帖的权限
         $freeList = $freeList->filter(function (Forum $forum) use ($user){
             if(!empty($forum->can_post_user_group)) {
+                Log::info("可发帖分组:{$forum->can_post_user_group}");
                 $groupList = collect(explode(';',$forum->can_post_user_group));
                 if(!empty($groupList)) {
                     if (!$groupList->contains($user->group_id)) {
