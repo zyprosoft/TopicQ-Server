@@ -11,6 +11,7 @@ use App\Job\PostIncreaseReadJob;
 use App\Job\PostMachineAuditJob;
 use App\Model\Forum;
 use App\Model\Post;
+use App\Model\PostDocument;
 use App\Model\ReportPost;
 use App\Model\User;
 use App\Model\UserFavorite;
@@ -36,6 +37,12 @@ class PostService extends BaseService
      * @var VoucherService
      */
     protected VoucherService $voucherService;
+
+    protected array $iconMap = [
+        'word' => 'https://cdn.icodefuture.com/word.png',
+        'pdf' => 'https://cdn.icodefuture.com/pdf.png',
+        'excel' => 'https://cdn.icodefuture.com/excel.png'
+    ];
 
     private array $listRows = [
         'post_id',
@@ -113,6 +120,7 @@ class PostService extends BaseService
             $accountId = data_get($params,'accountId');
             $forumId = data_get($params,'forumId');
             $topicId = data_get($params,'topicId');
+            $documents = data_get($params,'documents');
 
             $post = new Post();
             $post->owner_id = $this->userId();
@@ -171,6 +179,18 @@ class PostService extends BaseService
                 });
                 $post->vote_id = $vote->vote_id;
             }
+
+            if (isset($documents)) {
+                collect($documents)->map(function (array $item){
+                   $document = new PostDocument();
+                   $document->title = $item['title'];
+                   $document->link = $item['link'];
+                   $document->type = $item['type'];
+                   $document->icon = $this->iconMap[$document->type];
+                   $document->saveOrFail();
+                });
+            }
+
             //审核结果
             Log::info("图片审核结果:".json_encode($imageAuditCheck));
             if($imageAuditCheck['need_review']) {
@@ -276,6 +296,18 @@ class PostService extends BaseService
         }
         if (isset($params['content'])) {
             $post->content = $params['content'];
+        }
+        if (isset($params['documents'])) {
+            //先全部删掉
+            PostDocument::query()->where('post_id',$post->post_id)->delete();
+            collect($params['documents'])->map(function (array $item){
+                $document = new PostDocument();
+                $document->title = $item['title'];
+                $document->link = $item['link'];
+                $document->type = $item['type'];
+                $document->icon = $this->iconMap[$document->type];
+                $document->saveOrFail();
+            });
         }
         $post->audit_status = 0;//恢复待审核
         //审核结果

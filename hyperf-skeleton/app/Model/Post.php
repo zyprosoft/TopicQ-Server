@@ -117,4 +117,8 @@ class Post extends Model
     {
         return ['title' => $this->title, 'content' => $this->content];
     }
+    public function document_list()
+    {
+        return $this->hasMany(PostDocument::class,'post_id','post_id');
+    }
 }

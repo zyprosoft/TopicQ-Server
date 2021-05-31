@@ -20,6 +20,9 @@ class PostDocument extends Model
      * @var string
      */
     protected $table = 'post_document';
+
+    protected $primaryKey = 'document_id';
+
     /**
      * The attributes that are mass assignable.
      *
