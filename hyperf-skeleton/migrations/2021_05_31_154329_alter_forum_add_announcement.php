@@ -11,8 +11,9 @@ class AlterForumAddAnnouncement extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('forum', function (Blueprint $table) {
             //
+            $table->string('announcement',500)->nullable()->comment('公告');
         });
     }
 
@@ -21,8 +22,9 @@ class AlterForumAddAnnouncement extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('forum', function (Blueprint $table) {
             //
+            $table->dropColumn('announcement');
         });
     }
 }
