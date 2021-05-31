@@ -302,14 +302,14 @@ class PostService extends BaseService
         if (isset($params['documents'])) {
             //先全部删掉
             PostDocument::query()->where('post_id',$post->post_id)->delete();
-            collect($params['documents'])->map(function (array $item){
+            collect($params['documents'])->map(function (array $item) {
                 $document = new PostDocument();
                 $document->title = $item['title'];
                 $document->link = $item['link'];
                 $document->type = $item['type'];
                 $document->icon = $this->iconMap[$document->type];
-                $urlEncode = urlencode($document->link);
-                $document->jump_path = "pages/detail/detail?url=".$urlEncode;
+                $urlEncode = urlencode($item['link']);
+                $document->jump_path = json_encode("pages/detail/detail?url=".$urlEncode);
                 $document->saveOrFail();
             });
         }
