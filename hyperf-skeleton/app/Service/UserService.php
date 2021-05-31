@@ -235,6 +235,14 @@ class UserService extends BaseService
             'need_review' => false
         ];
 
+        if(isset($userInfo['groupId'])) {
+            $groupId = $userInfo['groupId'];
+            if($groupId > 0) {
+                //检查是否合法用户组
+                UserGroup::findOrFail($groupId);
+            }
+        }
+
         //创建用户资料更新的ID
         Db::transaction(function () use ($userInfo, &$userUpdate, &$needAddAudit, &$imageList, &$imageAuditCheck) {
             $user = User::findOrFail($this->userId());

@@ -90,7 +90,7 @@ class UserController extends AbstractController
                 'background' => 'string|min:1|max:500',
                 'area' => 'string|min:1|max:64',
                 'country' => 'string|min:1|max:64',
-                'groupId' => 'integer|exists:user_group,group_id'
+                'groupId' => 'integer|min:0'  //可以为0，用于清除自己的用户分组
             ]
         );
         $params = $request->getParams();
