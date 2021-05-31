@@ -18,6 +18,7 @@ class CreatePostDocumentTable extends Migration
             $table->string('type',24)->comment('文档类型');
             $table->string('icon')->nullable()->comment('文档图标');
             $table->string('link',128)->comment('腾讯文档链接');
+            $table->string('jump_path',500)->comment('跳转小程序链接');
 
             $table->index('post_id');
             $table->softDeletes();
