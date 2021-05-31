@@ -187,6 +187,8 @@ class PostService extends BaseService
                    $document->link = $item['link'];
                    $document->type = $item['type'];
                    $document->icon = $this->iconMap[$document->type];
+                   $urlEncode = urlencode($document->link);
+                   $document->jump_path = "pages/detail/detail?url=".$urlEncode;
                    $document->saveOrFail();
                 });
             }
@@ -306,6 +308,8 @@ class PostService extends BaseService
                 $document->link = $item['link'];
                 $document->type = $item['type'];
                 $document->icon = $this->iconMap[$document->type];
+                $urlEncode = urlencode($document->link);
+                $document->jump_path = "pages/detail/detail?url=".$urlEncode;
                 $document->saveOrFail();
             });
         }
