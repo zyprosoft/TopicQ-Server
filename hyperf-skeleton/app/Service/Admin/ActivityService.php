@@ -13,7 +13,7 @@ class ActivityService extends BaseService
 {
     public function getActivityList()
     {
-        return Activity::all();
+        return Activity::query()->orderByDesc('sort_index')->get();
     }
 
     public function createOrUpdate(array $params)
