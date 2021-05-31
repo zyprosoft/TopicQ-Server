@@ -19,6 +19,7 @@ class ScoreService extends BaseService
         $list = UserScoreDetail::query()->where('owner_id',$this->userId())
                                         ->offset($pageIndex * $pageSize)
                                         ->limit($pageSize)
+                                        ->latest()
                                         ->get();
         $total = UserScoreDetail::query()->where('owner_id',$this->userId())->count();
         return ['total'=>$total,'list'=>$list];
