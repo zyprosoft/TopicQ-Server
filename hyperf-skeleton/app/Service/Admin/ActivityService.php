@@ -64,4 +64,12 @@ class ActivityService extends BaseService
             $activity->decrement('sort_index',1);
         }
     }
+
+    public function changeStatus(int $activityId, int $status)
+    {
+        $activity = Activity::firstOrFail($activityId);
+        $activity->status = $status;
+        $activity->saveOrFail();
+        return $this->success();
+    }
 }

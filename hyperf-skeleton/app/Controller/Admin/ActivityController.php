@@ -57,4 +57,16 @@ class ActivityController extends AbstractController
         $result = $this->service->sort($activityId,$isUp);
         return $this->success($result);
     }
+
+    public function changeStatus(AppAdminRequest $request)
+    {
+        $this->validate([
+            'activityId' => 'integer|required|exists:activity,activity_id',
+            'status' => 'integer|required|in:0,-1'
+        ]);
+        $activityId = $request->param('activityId');
+        $status = $request->param('status');
+        $result = $this->service->changeStatus($activityId,$status);
+        return $this->success($result);
+    }
 }
