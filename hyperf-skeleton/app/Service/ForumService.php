@@ -77,7 +77,9 @@ class ForumService extends BaseService
                     if (!$groupList->contains($user->group_id)) {
                         return true;
                     }
+                    return false;
                 }
+                return false;
             }
             return  false;
         });
