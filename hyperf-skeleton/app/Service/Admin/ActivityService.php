@@ -49,7 +49,7 @@ class ActivityService extends BaseService
         if (!$activity instanceof Activity) {
             $activity = new Activity();
         }
-        $post = Post::firstOrFail($postId);
+        $post = Post::findOrFail($postId);
         if (empty($post->image_list)) {
             throw new HyperfCommonException(ErrorCode::PARAM_ERROR,"设置的帖子必须带有图片!");
         }
