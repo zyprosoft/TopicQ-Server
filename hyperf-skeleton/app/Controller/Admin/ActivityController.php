@@ -72,6 +72,7 @@ class ActivityController extends AbstractController
 
     public function getActivityList()
     {
-        return $this->service->getActivityList();
+        $result = $this->service->getActivityList();
+        return $this->success($result);
     }
 }

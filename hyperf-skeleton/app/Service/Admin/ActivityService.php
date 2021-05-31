@@ -37,6 +37,7 @@ class ActivityService extends BaseService
         $activity->post_id = $postId;
         $activity->jump_path = $jumpPath;
         $activity->jump_url = $jumpUrl;
+        $activity->creator = $this->userId();
         $activity->saveOrFail();
 
         return $this->success();
