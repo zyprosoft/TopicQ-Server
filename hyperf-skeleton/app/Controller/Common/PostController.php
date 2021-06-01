@@ -75,7 +75,7 @@ class PostController extends AbstractController
             'accountId' => 'integer|exists:official_account,account_id',
             'forumId' => 'integer|exists:forum,forum_id',
             'topicId' => 'integer|exists:topic,topic_id',
-            'documents' => 'array|min:1|max:9',
+            'documents' => 'array|min:0|max:9',
             'documents.*.title' => 'string|min:1|max:64',
             'documents.*.link' => 'string|min:1|max:128',
             'documents.*.type' => 'string|min:1|max:24',
