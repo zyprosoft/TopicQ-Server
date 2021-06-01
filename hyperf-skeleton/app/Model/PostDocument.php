@@ -10,6 +10,8 @@ namespace App\Model;
  * @property string $type 文档类型
  * @property string $icon 文档图标
  * @property string $link 腾讯文档链接
+ * @property \Carbon\Carbon $created_at 
+ * @property \Carbon\Carbon $updated_at 
  * @property string $deleted_at 
  */
 class PostDocument extends Model
@@ -32,5 +34,5 @@ class PostDocument extends Model
      *
      * @var array
      */
-    protected $casts = ['document_id' => 'integer', 'post_id' => 'integer'];
+    protected $casts = ['document_id' => 'integer', 'post_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
 }
