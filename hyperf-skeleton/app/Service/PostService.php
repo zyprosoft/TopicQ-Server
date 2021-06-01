@@ -970,8 +970,8 @@ class PostService extends BaseService
             'last_comment_time',
             'sort_index',
             'is_recommend',
-            'post.created_at',
-            'post.updated_at',
+            'created_at',
+            'updated_at',
             'join_user_count',
             'avatar_list',
             'recommend_weight',
@@ -989,7 +989,6 @@ class PostService extends BaseService
 
         $list = Post::query()->select($selectRows)
             ->with(['forum'])
-            ->where('user_id',$this->userId())
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
             ->whereIn('topic_id',$attentionTopicIds)
@@ -1025,7 +1024,6 @@ class PostService extends BaseService
         });
 
         $total = Post::query()->select($selectRows)
-            ->where('user_id',$this->userId())
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
             ->whereIn('topic_id',$attentionTopicIds)
