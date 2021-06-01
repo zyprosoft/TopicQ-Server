@@ -957,7 +957,7 @@ class PostService extends BaseService
         if(Auth::isGuest() == true) {
             return ['total'=>0,'list'=>[]];
         }
-        
+
         $selectRows = [
             'post_id',
             'title',

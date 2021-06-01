@@ -228,7 +228,7 @@ class PostController extends AbstractController
         return $this->success($result);
     }
 
-    public function getForumList(AuthedRequest $request)
+    public function getForumList()
     {
         $result = $this->forumService->getForumList();
         return $this->success($result);

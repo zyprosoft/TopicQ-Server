@@ -19,6 +19,7 @@ use ZYProSoft\Constants\ErrorCode;
 use ZYProSoft\Exception\HyperfCommonException;
 use App\Service\OrderService;
 use Hyperf\Di\Annotation\Inject;
+use ZYProSoft\Facade\Auth;
 use ZYProSoft\Log\Log;
 
 class ForumService extends BaseService
@@ -103,19 +104,26 @@ class ForumService extends BaseService
             ->orderByDesc('need_auth')
             ->get();
 
-        //增加订阅状态
-        $mySubscribeList = UserSubscribe::query()->where('user_id',$this->userId())
-                                                 ->get()
-                                                 ->keyBy('forum_id');
+        if(Auth::isGuest() == false) {
+            //增加订阅状态
+            $mySubscribeList = UserSubscribe::query()->where('user_id',$this->userId())
+                ->get()
+                ->keyBy('forum_id');
 
-        $list->map(function (Forum $forum) use ($mySubscribeList) {
-            if($mySubscribeList->get($forum->forum_id) !== null) {
-                $forum->is_subscribe = 1;
-            }else{
+            $list->map(function (Forum $forum) use ($mySubscribeList) {
+                if($mySubscribeList->get($forum->forum_id) !== null) {
+                    $forum->is_subscribe = 1;
+                }else{
+                    $forum->is_subscribe = 0;
+                }
+                return $forum;
+            });
+        }else{
+            $list->map(function (Forum $forum) {
                 $forum->is_subscribe = 0;
-            }
-            return $forum;
-        });
+                return $forum;
+            });
+        }
 
         return $list;
     }
