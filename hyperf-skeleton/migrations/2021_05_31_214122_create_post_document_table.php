@@ -20,6 +20,7 @@ class CreatePostDocumentTable extends Migration
             $table->string('link',128)->comment('腾讯文档链接');
 
             $table->index('post_id');
+            $table->timestamps();
             $table->softDeletes();
             $table->engine = "InnoDB";
             $table->charset = "utf8mb4";
