@@ -5,6 +5,7 @@ namespace App\Service;
 
 
 use App\Constants\Constants;
+use App\Job\AddScoreJob;
 use App\Model\Forum;
 use App\Model\Good;
 use App\Model\SubscribeForumPassword;
@@ -67,6 +68,24 @@ class ForumService extends BaseService
 
         Log::info("free list:".json_encode($freeList,JSON_UNESCAPED_UNICODE));
 
+        //检查用户是否有在这个版块发帖的权限
+        $freeList = $freeList->filter(function (Forum $forum) use ($user){
+            if(!empty($forum->can_post_user_group)) {
+                Log::info("可发帖分组:{$forum->can_post_user_group}");
+                $groupList = collect(explode(';',$forum->can_post_user_group));
+                if(!empty($groupList)) {
+                    if (!$groupList->contains($user->group_id)) {
+                        return false;
+                    }
+                    return true;
+                }
+                return true;
+            }
+            return  true;
+        });
+
+        Log::info("free list:".json_encode($freeList,JSON_UNESCAPED_UNICODE));
+
         //合并数据
         $freeList->map(function (Forum $forum) use (&$payAndAuthList){
             $payAndAuthList->push($forum);
@@ -114,10 +133,47 @@ class ForumService extends BaseService
         if ($subscribe instanceof UserSubscribe) {
             throw new HyperfCommonException(ErrorCode::RECORD_DID_EXIST);
         }
+
+        //当前用户是否有权限订阅本版块，当有指定访问用户组的时候需要检测
+        $forum = Forum::find($forumId);
+        $user = $this->user();
+        //非管理员要检测订阅权限
+        if($user->role_id < Constants::USER_ROLE_ADMIN) {
+            //是不是有发帖权限，有的话就可以看
+            $canAccessForum = false;
+            if(!empty($forum->can_post_user_group)) {
+                $postUserGroup = collect(explode(';',$forum->can_post_user_group));
+                if($postUserGroup->contains($user->group_id)){
+                    $canAccessForum = true;
+                }
+            }
+            //如果没有发帖权限，看下是不是有访问权限
+            if ($canAccessForum == false) {
+                if (!empty($forum->can_access_user_group)) {
+                    $accessUserGroup = collect(explode(';',$forum->can_access_user_group));
+                    if($accessUserGroup->contains($user->group_id)) {
+                        $canAccessForum = true;
+                    }
+                }else{
+                    //空的时候都有访问权限
+                    $canAccessForum = true;
+                    Log::info("版块({$forum->name})所有用户均可订阅!");
+                }
+            }
+            if($canAccessForum == false) {
+                throw new HyperfCommonException(\App\Constants\ErrorCode::FORUM_NOT_PAY_OR_AUTH,"当前所在用户组无权订阅此版块");
+            }
+        }
+
         $subscribe = new UserSubscribe();
         $subscribe->user_id = $userId;
         $subscribe->forum_id = $forumId;
         $subscribe->saveOrFail();
+
+        //异步增加积分
+        $scoreDesc = "订阅《{$forum->name}》";
+        $this->push(new AddScoreJob($userId,Constants::SCORE_ACTION_SUBSCRIBE_FORUM,$scoreDesc));
+        
         return $this->success();
     }
 
@@ -283,5 +339,10 @@ class ForumService extends BaseService
         $total = UserSubscribePassword::query()->where('owner_id', $this->userId())->count();
 
         return ['total'=>$total,'list'=>$list];
+    }
+
+    public function getForumDetail(int $forumId)
+    {
+        return Forum::findOrFail($forumId);
     }
 }

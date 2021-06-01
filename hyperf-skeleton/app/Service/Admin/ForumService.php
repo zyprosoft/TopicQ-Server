@@ -8,6 +8,7 @@ use App\Model\Good;
 use App\Model\Post;
 use App\Model\SubscribeForumPassword;
 use App\Model\User;
+use App\Model\UserGroup;
 use App\Service\BaseService;
 use Carbon\Carbon;
 use Hyperf\DbConnection\Db;
@@ -27,7 +28,22 @@ class ForumService extends BaseService
 
     public function getForum(int $forumId)
     {
-        return Forum::findOrFail($forumId);
+        $forum = Forum::findOrFail($forumId);
+        //补充用户分组
+        if(empty($forum->can_post_user_group) && empty($forum->can_access_user_group)) {
+            return $forum;
+        }
+        if (!empty($forum->can_post_user_group)) {
+            $postGroupIds = explode(';',$forum->can_post_user_group);
+            $postGroupList = UserGroup::findMany($postGroupIds);
+            $forum->can_post_user_group = $postGroupList;
+        }
+        if (!empty($forum->can_access_user_group)) {
+            $accessGroupIds = explode(';',$forum->can_access_user_group);
+            $accessGroupList = UserGroup::findMany($accessGroupIds);
+            $forum->can_access_user_group = $accessGroupList;
+        }
+        return $forum;
     }
 
     public function createForum(array $params)
@@ -46,6 +62,9 @@ class ForumService extends BaseService
             $maxMemberCount=data_get($params,'maxMemberCount');
             $unlockPrice=data_get($params,'unlockPrice');
             $pagePath = data_get($params,'pagePath');
+            $canPostUserGroup = data_get($params,'canPostUserGroup');
+            $canAccessUserGroup = data_get($params,'canAccessUserGroup');
+            $announcement = data_get($params,'announcement');
 
             $forum = Forum::query()->where('name',$name)
                 ->where('type',$type)
@@ -80,6 +99,15 @@ class ForumService extends BaseService
              }
             if (isset($pagePath)) {
                 $forum->page_path = $pagePath;
+            }
+            if (isset($canPostUserGroup) && !empty($canPostUserGroup)) {
+                $forum->can_post_user_group = implode(';',$canPostUserGroup);
+            }
+            if (isset($canAccessUserGroup) && !empty($canAccessUserGroup)) {
+                $forum->can_access_user_group = implode(';',$canAccessUserGroup);
+            }
+            if(isset($announcement)) {
+                $forum->announcement = $announcement;
             }
             $forum->saveOrFail();
             //绑定对应的板块ID到商品上
@@ -127,6 +155,9 @@ class ForumService extends BaseService
             $maxMemberCount=data_get($params,'maxMemberCount');
             $unlockPrice=data_get($params,'unlockPrice');
             $pagePath = data_get($params,'pagePath');
+            $canPostUserGroup = data_get($params,'canPostUserGroup');
+            $canAccessUserGroup = data_get($params,'canAccessUserGroup');
+            $announcement = data_get($params,'announcement');
 
             if (isset($name)) {
                 $forum->name = $name;
@@ -160,6 +191,15 @@ class ForumService extends BaseService
             }
             if (isset($pagePath)) {
                 $forum->page_path = $pagePath;
+            }
+            if (isset($canPostUserGroup) && !empty($canPostUserGroup)) {
+                $forum->can_post_user_group = implode(';',$canPostUserGroup);
+            }
+            if (isset($canAccessUserGroup) && !empty($canAccessUserGroup)) {
+                $forum->can_access_user_group = implode(';',$canAccessUserGroup);
+            }
+            if (isset($announcement)) {
+                $forum->announcement = $announcement;
             }
             $forum->saveOrFail();
             //绑定对应的板块ID到商品上

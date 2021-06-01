@@ -2,6 +2,7 @@
 
 
 namespace App\Job;
+use App\Model\UserSubscribe;
 use App\Service\ForumService;
 use Hyperf\AsyncQueue\Job;
 use Hyperf\Utils\ApplicationContext;
@@ -29,8 +30,10 @@ class AutoSubscribeForumJob extends Job
     public function handle()
     {
         Cache::delete($this->cacheKey);
-        $service = ApplicationContext::getContainer()->get(ForumService::class);
-        $service->subscribe($this->forumId,$this->userId);
+        $subscribe = new UserSubscribe();
+        $subscribe->user_id = $this->userId;
+        $subscribe->forum_id = $this->forumId;
+        $subscribe->saveOrFail();
         Log::info("异步帮助用户($this->userId)订阅板块($this->forumId)完成!");
     }
 }

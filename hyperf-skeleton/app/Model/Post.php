@@ -48,12 +48,13 @@ use Hyperf\Scout\Searchable;
  * @property int $voucher_policy_id 代金券批次ID
  * @property int $topic_id 话题ID
  * @property int $only_self_visible 仅自己可见
+ * @property int $red_bag_id 红包ID
  * @property-read \App\Model\User $author 
- * @property \App\Model\Forum $forum
+ * @property-read \App\Model\Forum $forum 
  * @property-read \App\Model\SubscribeForumPassword $forum_voucher 
  * @property-read \App\Model\MiniProgram $mini_program 
  * @property-read \App\Model\OfficialAccount $official_account 
- * @property \App\Model\Topic $topic
+ * @property-read \App\Model\Topic $topic 
  * @property-read \App\Model\Vote $vote 
  * @property-read \App\Model\VoucherPolicy $voucher_policy 
  */
@@ -78,7 +79,7 @@ class Post extends Model
      *
      * @var array
      */
-    protected $casts = ['post_id' => 'integer', 'owner_id' => 'integer', 'vote_id' => 'integer', 'read_count' => 'integer', 'favorite_count' => 'integer', 'forward_count' => 'integer', 'comment_count' => 'integer', 'audit_status' => 'integer', 'is_hot' => 'integer', 'sort_index' => 'integer', 'is_recommend' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'join_user_count' => 'integer', 'machine_audit' => 'integer', 'manager_audit' => 'integer', 'text_audit' => 'integer', 'content_audit' => 'integer', 'title_audit' => 'integer', 'program_id' => 'integer', 'account_id' => 'integer', 'forum_id' => 'integer', 'recommend_weight' => 'integer', 'mall_type' => 'integer', 'policy_id' => 'integer', 'has_video' => 'integer', 'is_video_admin' => 'integer', 'praise_count' => 'integer', 'voucher_policy_id' => 'integer', 'topic_id' => 'integer', 'only_self_visible' => 'integer'];
+    protected $casts = ['post_id' => 'integer', 'owner_id' => 'integer', 'vote_id' => 'integer', 'read_count' => 'integer', 'favorite_count' => 'integer', 'forward_count' => 'integer', 'comment_count' => 'integer', 'audit_status' => 'integer', 'is_hot' => 'integer', 'sort_index' => 'integer', 'is_recommend' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'join_user_count' => 'integer', 'machine_audit' => 'integer', 'manager_audit' => 'integer', 'text_audit' => 'integer', 'content_audit' => 'integer', 'title_audit' => 'integer', 'program_id' => 'integer', 'account_id' => 'integer', 'forum_id' => 'integer', 'recommend_weight' => 'integer', 'mall_type' => 'integer', 'policy_id' => 'integer', 'has_video' => 'integer', 'is_video_admin' => 'integer', 'praise_count' => 'integer', 'voucher_policy_id' => 'integer', 'topic_id' => 'integer', 'only_self_visible' => 'integer', 'red_bag_id' => 'integer'];
     protected $with = ['author', 'topic'];
     public function author()
     {
@@ -115,5 +116,9 @@ class Post extends Model
     public function toSearchableArray()
     {
         return ['title' => $this->title, 'content' => $this->content];
+    }
+    public function document_list()
+    {
+        return $this->hasMany(PostDocument::class,'post_id','post_id');
     }
 }

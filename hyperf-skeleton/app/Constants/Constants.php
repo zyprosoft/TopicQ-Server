@@ -63,6 +63,11 @@ class Constants
     const POST_SORT_TYPE_SUBSCRIBE = 4;
 
     /**
+     * 关注内容
+     */
+    const POST_SORT_TYPE_ATTENTION = 5;
+
+    /**
      * 帖子列表排序方式，最后回复
      */
     const POST_SORT_TYPE_LATEST_REPLY = 3;
@@ -162,4 +167,16 @@ class Constants
 
     const TOPIC_POST_LIST_SORT_BY_HOT = 0;
     const TOPIC_POST_LIST_SORT_BY_LATEST = 1;
+
+    //积分行为枚举
+    const SCORE_ACTION_DAY_SIGN = 'day_sign';
+    const SCORE_ACTION_PUBLISH_POST = 'publish_post';
+    const SCORE_ACTION_POST_SORT_UP = 'post_sort_up';
+    const SCORE_ACTION_POST_RECOMMEND = 'post_recommend';
+    const SCORE_ACTION_POST_COMMENT = 'post_comment';
+    const SCORE_ACTION_COMMENT_HOT = 'comment_hot';
+    const SCORE_ACTION_SHARE = 'share';
+    const SCORE_ACTION_POST_FAVORITE = 'post_favorite';
+    const SCORE_ACTION_POST_PRAISE = 'post_praise';
+    const SCORE_ACTION_SUBSCRIBE_FORUM = 'subscribe_forum';
 }

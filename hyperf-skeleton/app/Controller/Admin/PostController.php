@@ -33,6 +33,20 @@ class PostController extends AbstractController
         return $this->success($result);
     }
 
+    public function searchPost(AppAdminRequest $request)
+    {
+        $this->validate([
+            'keyword' => 'string|required|min:1|max:20',
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30'
+        ]);
+        $keyword = $request->param('keyword');
+        $pageIndex = $request->param('pageIndex');
+        $pageSize = $request->param('pageSize');
+        $result = $this->service->searchPost($keyword,$pageIndex,$pageSize);
+        return $this->success($result);
+    }
+
     public function waitOperatePostList(AppAdminRequest $request)
     {
         $this->validate([

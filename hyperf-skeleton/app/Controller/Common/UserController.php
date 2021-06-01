@@ -89,7 +89,8 @@ class UserController extends AbstractController
                 'nickname' => 'string|min:1|max:20|sensitive',
                 'background' => 'string|min:1|max:500',
                 'area' => 'string|min:1|max:64',
-                'country' => 'string|min:1|max:64'
+                'country' => 'string|min:1|max:64',
+                'groupId' => 'integer|min:0'  //可以为0，用于清除自己的用户分组
             ]
         );
         $params = $request->getParams();
@@ -203,6 +204,30 @@ class UserController extends AbstractController
         $pageSize = $this->request->param('pageSize');
         $otherUserId = $request->param('otherUserId');
         $result = $this->userService->getOtherUserFansList($otherUserId, $pageIndex, $pageSize);
+        return $this->success($result);
+    }
+
+    public function getUserScoreDetail(AuthedRequest $request)
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30'
+        ]);
+        $pageIndex = $request->param('pageIndex');
+        $pageSize = $request->param('pageSize');
+        $result = $this->userService->getScoreDetailList($pageIndex,$pageSize);
+        return $this->success($result);
+    }
+
+    public function daySign(AuthedRequest $request)
+    {
+        $result = $this->userService->daySign();
+        return $this->success($result);
+    }
+
+    public function getUserGroupList(AuthedRequest $request)
+    {
+        $result = $this->userService->getUserGroupList();
         return $this->success($result);
     }
 }

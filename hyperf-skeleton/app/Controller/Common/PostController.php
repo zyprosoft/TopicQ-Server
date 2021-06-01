@@ -43,6 +43,10 @@ class PostController extends AbstractController
             'accountId' => 'integer|exists:official_account,account_id',
             'forumId' => 'integer|exists:forum,forum_id',
             'topicId' => 'integer|exists:topic,topic_id',
+            'documents' => 'array|min:1|max:9',
+            'documents.*.title' => 'string|min:1|max:64',
+            'documents.*.link' => 'string|min:1|max:128',
+            'documents.*.type' => 'string|min:1|max:24',
         ]);
         $params = $request->getParams();
         $result = $this->service->create($params);
@@ -71,6 +75,10 @@ class PostController extends AbstractController
             'accountId' => 'integer|exists:official_account,account_id',
             'forumId' => 'integer|exists:forum,forum_id',
             'topicId' => 'integer|exists:topic,topic_id',
+            'documents' => 'array|min:0|max:9',
+            'documents.*.title' => 'string|min:1|max:64',
+            'documents.*.link' => 'string|min:1|max:128',
+            'documents.*.type' => 'string|min:1|max:24',
         ]);
         $params = $request->getParams();
         $postId = $request->param('postId');
@@ -117,7 +125,7 @@ class PostController extends AbstractController
         $this->validate([
             'pageIndex' => 'integer|required|min:0',
             'pageSize' => 'integer|required|min:10|max:30',
-            'type' => 'integer|required|in:1,2,3,4',
+            'type' => 'integer|required|in:1,2,3,4,5',
         ]);
         $pageIndex = $this->request->param('pageIndex');
         $pageSize = $this->request->param('pageSize');
@@ -381,6 +389,32 @@ class PostController extends AbstractController
         $postId = $request->param('postId');
         $status = $request->param('status');
         $result = $this->service->updateOnlySelfVisible($postId,$status);
+        return $this->success($result);
+    }
+
+    public function successForward()
+    {
+        $this->validate([
+            'postId' => 'integer|required|exists:post,post_id',
+        ]);
+        $postId = $this->request->param('postId');
+        $result = $this->service->successForward($postId);
+        return $this->success($result);
+    }
+
+    public function getForumDetail()
+    {
+        $this->validate([
+            'forumId' => 'integer|required|exists:forum,forum_id'
+        ]);
+        $forumId = $this->request->param('forumId');
+        $result = $this->forumService->getForumDetail($forumId);
+        return $this->success($result);
+    }
+
+    public function getUserAttentionStatus(AuthedRequest $request)
+    {
+        $result = $this->service->getUserAttentionStatus();
         return $this->success($result);
     }
 }

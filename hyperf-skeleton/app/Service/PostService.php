@@ -6,12 +6,16 @@ namespace App\Service;
 
 use App\Constants\Constants;
 use App\Constants\ErrorCode;
+use App\Job\AddScoreJob;
 use App\Job\PostIncreaseReadJob;
 use App\Job\PostMachineAuditJob;
 use App\Model\Forum;
 use App\Model\Post;
+use App\Model\PostDocument;
 use App\Model\ReportPost;
 use App\Model\User;
+use App\Model\UserAttentionOther;
+use App\Model\UserAttentionTopic;
 use App\Model\UserFavorite;
 use App\Model\UserRead;
 use App\Model\UserSubscribe;
@@ -35,6 +39,12 @@ class PostService extends BaseService
      * @var VoucherService
      */
     protected VoucherService $voucherService;
+
+    protected array $iconMap = [
+        'word' => 'https://cdn.icodefuture.com/word.png',
+        'pdf' => 'https://cdn.icodefuture.com/pdf.png',
+        'excel' => 'https://cdn.icodefuture.com/excel.png'
+    ];
 
     private array $listRows = [
         'post_id',
@@ -85,6 +95,18 @@ class PostService extends BaseService
         //检查用户是不是被拉黑
         UserService::checkUserStatusOrFail();
 
+        //检查普通用户是否有在这个版块发帖的权限
+        if (isset($params['forumId']) && $params['forumId'] > 0 && $this->user()->role_id == 0) {
+            $forum = Forum::findOrFail($params['forumId']);
+            $user = $this->user();
+            if(!empty($forum->can_post_user_group)) {
+                $groupList = collect(explode(';',$forum->can_post_user_group));
+                if (! $groupList->contains($user->group_id)) {
+                    throw new HyperfCommonException(ErrorCode::USER_HAVE_NO_PERMISSION_POST_ON_THIS_FORUM);
+                }
+            }
+        }
+
         $post = null;
         $imageAuditCheck = [
             'need_audit' => false,
@@ -100,6 +122,7 @@ class PostService extends BaseService
             $accountId = data_get($params,'accountId');
             $forumId = data_get($params,'forumId');
             $topicId = data_get($params,'topicId');
+            $documents = data_get($params,'documents');
 
             $post = new Post();
             $post->owner_id = $this->userId();
@@ -158,12 +181,26 @@ class PostService extends BaseService
                 });
                 $post->vote_id = $vote->vote_id;
             }
+
             //审核结果
             Log::info("图片审核结果:".json_encode($imageAuditCheck));
             if($imageAuditCheck['need_review']) {
                 $post->machine_audit = Constants::STATUS_REVIEW;
             }
             $post->saveOrFail();
+
+            if (isset($documents)) {
+                collect($documents)->map(function (array $item) use ($post){
+                    $document = new PostDocument();
+                    $document->title = $item['title'];
+                    $document->link = $item['link'];
+                    $document->type = $item['type'];
+                    $document->icon = $this->iconMap[$document->type];
+                    $document->post_id = $post->post_id;
+                   $document->saveOrFail();
+                });
+            }
+
         });
 
         if (!isset($post)) {
@@ -172,6 +209,10 @@ class PostService extends BaseService
 
         //异步订阅板块
         $this->queueService->subscribeForum($post->forum_id,$post->owner_id);
+
+        //异步增加积分
+        $scoreDesc = "发表帖子《{$post->title}》";
+        $this->push(new AddScoreJob($post->owner_id,Constants::SCORE_ACTION_PUBLISH_POST, $scoreDesc));
 
         //机器审核结果是需要人工继续审核就不需要自动审核任务了
         if($post->machine_audit !== Constants::STATUS_REVIEW) {
@@ -260,6 +301,19 @@ class PostService extends BaseService
         if (isset($params['content'])) {
             $post->content = $params['content'];
         }
+        if (isset($params['documents'])) {
+            //先全部删掉
+            PostDocument::query()->where('post_id',$post->post_id)->delete();
+            collect($params['documents'])->map(function (array $item) use ($post) {
+                $document = new PostDocument();
+                $document->title = $item['title'];
+                $document->link = $item['link'];
+                $document->type = $item['type'];
+                $document->icon = $this->iconMap[$document->type];
+                $document->post_id = $post->post_id;
+                $document->saveOrFail();
+            });
+        }
         $post->audit_status = 0;//恢复待审核
         //审核结果
         Log::info("图片审核结果:".json_encode($imageAuditCheck));
@@ -267,6 +321,7 @@ class PostService extends BaseService
             $post->machine_audit = Constants::STATUS_REVIEW;
         }
         $post->saveOrFail();
+
 
         //机器审核结果是需要人工继续审核就不需要自动审核任务了
         if($post->machine_audit !== Constants::STATUS_REVIEW) {
@@ -282,7 +337,7 @@ class PostService extends BaseService
     public function detail(int $postId)
     {
         $post = Post::query()->where('post_id', $postId)
-            ->with(['vote','mini_program','official_account','forum','forum_voucher','voucher_policy'])
+            ->with(['vote','mini_program','official_account','forum','forum_voucher','voucher_policy','document_list'])
             ->first();
         if (!$post instanceof Post) {
             throw new HyperfCommonException(ErrorCode::POST_NOT_EXIST);
@@ -324,6 +379,26 @@ class PostService extends BaseService
                     }elseif ($forum->need_auth) {
                         return $this->errorWithData(ErrorCode::FORUM_POST_NEED_AUTH,'该帖子属于授权板块',$limitPost);
                     }
+                }
+            }
+            //版块是否有分组访问权限,普通用户之上无限制
+            if(!empty($forum->can_access_user_group) && $user->role_id < Constants::USER_ROLE_ADMIN) {
+                //用户是不是有这个版块的发帖权限
+                $canAccess = false;
+                if (!empty($forum->can_post_user_group)) {
+                    $groupList = collect(explode(';',$forum->can_post_user_group));
+                    if ($groupList->contains($user->group_id)) {
+                        $canAccess = true;
+                    }
+                }
+                if ($canAccess == false) {
+                    $groupList = collect(explode(';',$forum->can_access_user_group));
+                    if ($groupList->contains($user->group_id)) {
+                        $canAccess = true;
+                    }
+                }
+                if($canAccess == false) {
+                    throw new HyperfCommonException(ErrorCode::FORUM_POST_NEED_AUTH);
                 }
             }
             //投票状态
@@ -375,6 +450,19 @@ class PostService extends BaseService
                     $post->finish_get_voucher = 0;
                 }
             }
+            //对作者的关注状态
+            if($this->userId() !== $post->owner_id) {
+                $attention = UserAttentionOther::query()->where('user_id',$this->userId())
+                    ->where('other_user_id',$post->owner_id)
+                    ->first();
+                if($attention instanceof UserAttentionOther) {
+                    $post->author_attention = 1;
+                }else{
+                    $post->author_attention = 0;
+                }
+            }else{
+                $post->author_attention = 0;
+            }
         } else {
             //需要检查订阅权限，并且不是管理员
             $forum = Forum::findOrFail($post->forum_id);
@@ -391,6 +479,7 @@ class PostService extends BaseService
             $post->is_favorite = 0;
             $post->finish_get_policy = 0;
             $post->finish_get_voucher = 0;
+            $post->author_attention = 0;
         }
 
         //解析代金券信息
@@ -435,6 +524,9 @@ class PostService extends BaseService
         //返回订阅内容
         if($sortType == Constants::POST_SORT_TYPE_SUBSCRIBE) {
             return $this->getPostListBySubscribe($pageIndex, $pageSize);
+        }
+        if($sortType == Constants::POST_SORT_TYPE_ATTENTION) {
+            return  $this->getPostListByAttention($pageIndex, $pageSize);
         }
         $map = [
             Constants::POST_SORT_TYPE_LATEST => 'created_at',
@@ -580,6 +672,11 @@ class PostService extends BaseService
         //刷新帖子信息
         $this->queueService->updatePost($postId);
 
+        //异步增加积分
+        $post = Post::find($postId);
+        $scoreDesc = "收藏帖子《{$post->title}》";
+        $this->push(new AddScoreJob($post->owner_id,Constants::SCORE_ACTION_POST_FAVORITE, $scoreDesc));
+
         return $this->success();
     }
 
@@ -642,9 +739,27 @@ class PostService extends BaseService
         return $this->success();
     }
 
+    public function successForward(int $postId)
+    {
+        if (Auth::isGuest() == true) {
+            return $this->success();
+        }
+        //异步增加积分
+        $post = Post::find($postId);
+        $scoreDesc = "分享帖子《{$post->title}》";
+        $this->push(new AddScoreJob($post->owner_id,Constants::SCORE_ACTION_SHARE, $scoreDesc));
+        return $this->success();
+    }
+
     public function praise(int $postId)
     {
         Post::findOrFail($postId)->increment('praise_count');
+
+        //异步增加积分
+        $post = Post::find($postId);
+        $scoreDesc = "点赞帖子《{$post->title}》";
+        $this->push(new AddScoreJob($post->owner_id,Constants::SCORE_ACTION_POST_PRAISE, $scoreDesc));
+
         return $this->success();
     }
 
@@ -662,6 +777,31 @@ class PostService extends BaseService
                     ->first();
                 if (!$userSubscribe instanceof UserSubscribe) {
                     throw new HyperfCommonException(ErrorCode::FORUM_NOT_PAY_OR_AUTH);
+                }
+            }else{
+                //是不是有发帖权限，有的话就可以看
+                $canAccessForum = false;
+                if(!empty($forum->can_post_user_group)) {
+                    $postUserGroup = collect(explode(';',$forum->can_post_user_group));
+                    if($postUserGroup->contains($user->group_id)){
+                        $canAccessForum = true;
+                    }
+                }
+                //如果没有发帖权限，看下是不是有访问权限
+                if ($canAccessForum == false) {
+                    if (!empty($forum->can_access_user_group)) {
+                        $accessUserGroup = collect(explode(';',$forum->can_access_user_group));
+                        if($accessUserGroup->contains($user->group_id)) {
+                            $canAccessForum = true;
+                        }
+                    }else{
+                        //空的时候都有访问权限
+                        $canAccessForum = true;
+                        Log::info("版块({$forum->name})所有用户均可访问!");
+                    }
+                }
+                if($canAccessForum == false) {
+                    throw new HyperfCommonException(ErrorCode::FORUM_NOT_PAY_OR_AUTH,"当前所在用户组无权访问此版块");
                 }
             }
         }
@@ -812,6 +952,87 @@ class PostService extends BaseService
         return ['total'=>$total, 'list'=>$list];
     }
 
+    public function getPostListByAttention(int $pageIndex, int $pageSize)
+    {
+        $selectRows = [
+            'post_id',
+            'title',
+            'summary',
+            'owner_id',
+            'image_list',
+            'link',
+            'vote_id',
+            'read_count',
+            'forward_count',
+            'comment_count',
+            'audit_status',
+            'is_hot',
+            'last_comment_time',
+            'sort_index',
+            'is_recommend',
+            'created_at',
+            'updated_at',
+            'join_user_count',
+            'avatar_list',
+            'recommend_weight',
+            'topic_id',
+            'only_self_visible'
+        ];
+
+        //关注的话题ID
+        $attentionTopicIds = UserAttentionTopic::query()->where('user_id',$this->userId())
+            ->get()
+            ->pluck('topic_id');
+        $userIds = UserAttentionOther::query()->where('user_id',$this->userId())
+            ->get()
+            ->pluck('other_user_id');
+
+        $list = Post::query()->select($selectRows)
+            ->with(['forum'])
+            ->where('audit_status', Constants::STATUS_DONE)
+            ->where('only_self_visible', Constants::STATUS_NOT)
+            ->orWhereIn('topic_id',$attentionTopicIds)
+            ->orWhereIn('owner_id',$userIds)
+            ->orderByDesc('sort_index')
+            ->orderByDesc('recommend_weight')
+            ->latest()
+            ->offset($pageIndex * $pageSize)
+            ->limit($pageSize)
+            ->get();
+
+        //增加是否阅读的状态
+        $postIds = $list->pluck('post_id');
+        $userReadList = [];
+        if (Auth::isGuest() == false) {
+            $userReadList = UserRead::query()->whereIn('post_id', $postIds)
+                ->where('user_id', $this->userId())
+                ->get()
+                ->keyBy('post_id');
+        }
+
+        $list->map(function (Post $post) use ($userReadList) {
+            if (!empty($post->avatar_list)) {
+                $post->avatar_list = explode(';', $post->avatar_list);
+            }else{
+                $post->avatar_list = null;
+            }
+            if (!empty($post->image_list)) {
+                $post->image_list = explode(';', $post->image_list);
+            }
+            $post->is_read = isset($userReadList[$post->post_id]) ? 1 : 0;
+            return $post;
+        });
+
+        $total = Post::query()->select($selectRows)
+            ->where('audit_status', Constants::STATUS_DONE)
+            ->where('only_self_visible', Constants::STATUS_NOT)
+            ->orWhereIn('topic_id',$attentionTopicIds)
+            ->orWhereIn('owner_id',$userIds)
+            ->count();
+
+        return ['total'=>$total, 'list'=>$list,'user_count'=>$userIds->count(),'topic_count'=>$attentionTopicIds->count()];
+    }
+
     public function getVideoPostList(int $pageIndex, int $pageSize, int $type = Constants::VIDEO_POST_LIST_TYPE_ADMIN)
     {
         $list = Post::query()->where('has_video',Constants::STATUS_OK)
@@ -957,5 +1178,23 @@ class PostService extends BaseService
         $post->only_self_visible = $status;
         $post->saveOrFail();
         return $this->success();
+    }
+
+    public function getUserAttentionStatus()
+    {
+        //关注的话题ID
+        $attentionTopicIds = UserAttentionTopic::query()->where('user_id',$this->userId())
+            ->get()
+            ->pluck('topic_id');
+        if($attentionTopicIds->count()> 0) {
+            return ['status' => 1];
+        }
+        $userIds = UserAttentionOther::query()->where('user_id',$this->userId())
+            ->get()
+            ->pluck('other_user_id');
+        if($userIds->count()> 0) {
+            return ['status' => 1];
+        }
+        return ['status' => 0];
     }
 }

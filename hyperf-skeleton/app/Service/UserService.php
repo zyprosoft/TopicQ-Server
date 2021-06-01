@@ -6,7 +6,7 @@ namespace App\Service;
 
 use App\Constants\Constants;
 use App\Constants\ErrorCode;
-use App\Exception\BusinessException;
+use App\Job\AddScoreJob;
 use App\Job\UserUpdateMachineAuditJob;
 use App\Model\Advice;
 use App\Model\Notification;
@@ -16,6 +16,8 @@ use App\Model\User;
 use App\Model\UserAddress;
 use App\Model\UserAttentionOther;
 use App\Model\UserCommentPraise;
+use App\Model\UserDaySign;
+use App\Model\UserGroup;
 use App\Model\UserMiniProgramUse;
 use App\Model\UserSetting;
 use App\Model\UserUpdate;
@@ -25,9 +27,17 @@ use Hyperf\DbConnection\Db;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Facade\Auth;
 use ZYProSoft\Log\Log;
+use App\Service\ScoreService;
+use Hyperf\Di\Annotation\Inject;
 
 class UserService extends BaseService
 {
+    /**
+     * @Inject
+     * @var \App\Service\ScoreService
+     */
+    protected ScoreService $scoreService;
+
     public function wxLogin(string $code)
     {
         $miniProgramConfig = config('weixin.miniProgram');
@@ -201,6 +211,16 @@ class UserService extends BaseService
         //获取用户设置
         $userSetting = UserSetting::query()->where('owner_id', $this->userId())->first();
         $user->user_setting = $userSetting;
+        //今天是否签到
+        $today = Carbon::now()->toDateString();
+        $daySign = UserDaySign::query()->where('user_id',$this->userId())
+                                       ->whereDate('sign_date',$today)
+                                       ->first();
+        if($daySign instanceof UserDaySign) {
+            $user->day_sign = 1;
+        }else{
+            $user->day_sign = 0;
+        }
 
         return $user;
     }
@@ -214,6 +234,14 @@ class UserService extends BaseService
             'need_audit' => false,
             'need_review' => false
         ];
+
+        if(isset($userInfo['groupId'])) {
+            $groupId = $userInfo['groupId'];
+            if($groupId > 0) {
+                //检查是否合法用户组
+                UserGroup::findOrFail($groupId);
+            }
+        }
 
         //创建用户资料更新的ID
         Db::transaction(function () use ($userInfo, &$userUpdate, &$needAddAudit, &$imageList, &$imageAuditCheck) {
@@ -232,6 +260,9 @@ class UserService extends BaseService
             }
             if (isset($userInfo['country'])) {
                 $user->country = $userInfo['country'];
+            }
+            if (isset($userInfo['groupId'])) {
+                $user->group_id = $userInfo['groupId'];
             }
             if (isset($userInfo['background'])) {
                 $userUpdate->background = $userInfo['background'];
@@ -526,5 +557,35 @@ class UserService extends BaseService
         $user->password = password_hash($password,PASSWORD_DEFAULT);
         $user->saveOrFail();
         return $user;
+    }
+
+    public function getScoreDetailList(int $pageIndex, int $pageSize)
+    {
+        return $this->scoreService->getScoreDetailList($pageIndex, $pageSize);
+    }
+
+    public function daySign()
+    {
+        $today = Carbon::now()->toDateString();
+        $sign = UserDaySign::query()->where('user_id',$this->userId())
+                                         ->whereDate('sign_date',$today)
+                                         ->first();
+        if ($sign instanceof UserDaySign) {
+            throw new HyperfCommonException(ErrorCode::DO_NOT_REPEAT_ACTION,"您今天已经签到完成了！");
+        }
+        $sign = new UserDaySign();
+        $sign->user_id = $this->userId();
+        $sign->sign_date = $today;
+        $sign->saveOrFail();
+        //加分
+        $today = Carbon::now()->toDateString();
+        $scoreDesc = "{$today}签到";
+        $this->push(new AddScoreJob($this->userId(),Constants::SCORE_ACTION_DAY_SIGN,$scoreDesc));
+        return $this->success();
+    }
+
+    public function getUserGroupList()
+    {
+        return UserGroup::query()->where('open_choose',Constants::STATUS_OK)->get();
     }
 }

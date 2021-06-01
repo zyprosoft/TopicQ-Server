@@ -485,4 +485,16 @@ class ExampleTest extends HttpTestCase
         $app = Factory::miniProgram($miniProgramConfig);
         $app->search->submitPage(['pages/index/index']);
     }
+
+    public function testParseDocUrl()
+    {
+        $config = [
+            'base_uri' => 'https://docs.qq.com',
+            'path' => '/doc/DYmFIWnZUdWx0c0N1',
+            'method' => 'get'
+        ];
+        $client = new \GuzzleHttp\Client($config);
+        $content = $client->get($config['path']);
+        Log::info($content->getBody());
+    }
 }

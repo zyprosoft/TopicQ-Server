@@ -4,6 +4,7 @@
 namespace App\Service\Admin;
 use App\Constants\Constants;
 use App\Job\AddNotificationJob;
+use App\Job\AddScoreJob;
 use App\Model\ManagerAvatarUser;
 use App\Model\Post;
 use App\Model\ReportPost;
@@ -40,6 +41,39 @@ class PostService extends BaseService
         return $this->success();
     }
 
+    public function searchPost(string $keyword,int $pageIndex, int $pageSize)
+    {
+        $list = Post::query()
+            ->where('audit_status', Constants::STATUS_DONE)
+            ->where('title','like',"%$keyword%")
+            ->orWhere('content','like',"%$keyword%")
+            ->offset($pageIndex * $pageSize)
+                             ->limit($pageSize)
+                             ->get();
+
+        //补充星标用户信息
+        $ownerIdList = collect($list)->pluck('owner_id')->unique();
+        $userList = ManagerAvatarUser::query()->whereIn('avatar_user_id',$ownerIdList)
+            ->get()
+            ->keyBy('avatar_user_id');
+        $list->map(function (Post $post) use ($userList) {
+            if(isset($userList[$post->owner_id])) {
+                $post->is_star = 0;
+            }else{
+                $post->is_star = 1;
+            }
+            return $post;
+        });
+
+        $total = Post::query()
+            ->where('audit_status', Constants::STATUS_DONE)
+            ->where('title','like',"%$keyword%")
+            ->orWhere('content','like',"%$keyword%")
+            ->count();
+        
+        return ['total'=>$total,'list'=>$list];
+    }
+
     public function waitOperatePostList(int $pageIndex, int $pageSize)
     {
         $selectRows = [
@@ -68,8 +102,6 @@ class PostService extends BaseService
 
         $list = Post::query()->select($selectRows)
             ->where('audit_status', Constants::STATUS_DONE)
-            ->orderByDesc('sort_index')
-            ->orderByDesc('recommend_weight')
             ->latest()
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
@@ -262,6 +294,17 @@ class PostService extends BaseService
             $notification->levelLabel = "通知";
             $notification->keyInfo = json_encode(['post_id'=>$postId]);
             $this->push($notification);
+
+            //增加积分
+            if ($column == 'is_recommend' && $value == 1) {
+                $scoreDesc = "帖子被设为推荐《{$post->title}》";
+                $this->push(new AddScoreJob($post->owner_id,Constants::SCORE_ACTION_POST_RECOMMEND,$scoreDesc));
+            }
+
+            if($column == 'sort_index' && $value == 1) {
+                $scoreDesc = "帖子被设为置顶《{$post->title}》";
+                $this->push(new AddScoreJob($post->owner_id,Constants::SCORE_ACTION_POST_SORT_UP,$scoreDesc));
+            }
 
             return $this->success();
         });

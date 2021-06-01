@@ -11,11 +11,11 @@
  */
 declare (strict_types=1);
 namespace App\Model;
+
 use Hyperf\Scout\Searchable;
 use Hyperf\Database\Model\Events\Creating;
 use Qbhy\HyperfAuth\Authenticatable;
 use App\Constants\Constants;
-
 /**
  * @property int $user_id 
  * @property string $username 用户名
@@ -50,13 +50,14 @@ use App\Constants\Constants;
  * @property int $first_edit_done 第一次编辑资料是否完成0:未完成1:已完成
  * @property int $user_update_id 用户更新资料的ID,临时资料ID,审核完成后置空
  * @property int $avatar_user_id 化身ID
+ * @property int $score 积分
+ * @property int $group_id 用户的分组
  * @property-read \App\Model\Role $role 
  * @property-read \App\Model\UserUpdate $update_info 
  */
 class User extends Model implements Authenticatable
 {
     use Searchable;
-
     /**
      * The table associated with the model.
      *
@@ -75,9 +76,9 @@ class User extends Model implements Authenticatable
      *
      * @var array
      */
-    protected $casts = ['user_id' => 'integer', 'role_id' => 'integer', 'status' => 'integer', 'sex' => 'integer', 'login_type' => 'integer', 'wx_gender' => 'integer', 'unread_comment_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'first_edit_done' => 'integer', 'wx_token_expire' => 'datetime', 'last_login' => 'datetime', 'token_expire' => 'datetime', 'user_update_id' => 'integer', 'avatar_user_id' => 'integer'];
-    protected $hidden = ['mobile','password', 'wx_token', 'wx_openid', 'token', 'wx_token_expire', 'token_expire', 'avatar_user_id'];
-    protected $with = ['role'];
+    protected $casts = ['user_id' => 'integer', 'role_id' => 'integer', 'status' => 'integer', 'sex' => 'integer', 'login_type' => 'integer', 'wx_gender' => 'integer', 'unread_comment_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'first_edit_done' => 'integer', 'wx_token_expire' => 'datetime', 'last_login' => 'datetime', 'token_expire' => 'datetime', 'user_update_id' => 'integer', 'avatar_user_id' => 'integer', 'score' => 'integer', 'group_id' => 'integer'];
+    protected $hidden = ['mobile', 'password', 'wx_token', 'wx_openid', 'token', 'wx_token_expire', 'token_expire', 'avatar_user_id'];
+    protected $with = ['role','group'];
     public function getId()
     {
         return $this->user_id;
@@ -88,7 +89,7 @@ class User extends Model implements Authenticatable
     }
     public function isAdmin()
     {
-        return $this->role_id == Constants::USER_ROLE_ADMIN;
+        return $this->role_id > 0;
     }
     public function role()
     {
@@ -102,11 +103,12 @@ class User extends Model implements Authenticatable
     {
         return $this->hasOne(UserUpdate::class, 'update_id', 'user_update_id');
     }
-
     public function toSearchableArray()
     {
-        return [
-            'nickname'=>$this->nickname,
-        ];
+        return ['nickname' => $this->nickname];
+    }
+    public function group()
+    {
+        return $this->hasOne(UserGroup::class,'group_id','group_id');
     }
 }

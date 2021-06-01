@@ -153,6 +153,7 @@ class UserService extends \App\Service\BaseService
         $user->background = data_get($params, 'background', $user->background);
         $user->area = data_get($params, 'area', $user->area);
         $user->country = data_get($params, 'country', $user->country);
+        $user->group_id = data_get($params,'groupId');
         $joinTime = data_get($params, 'joinTime');
         if (isset($joinTime)) {
             $user->created_at = $joinTime;
@@ -176,6 +177,7 @@ class UserService extends \App\Service\BaseService
             $user->background = data_get($params, 'background');
             $user->area = data_get($params, 'area');
             $user->country = data_get($params, 'country');
+            $user->group_id = data_get($params,'groupId');
             $user->token = Str::random(64);
             $user->wx_token = Str::random(64);
             $user->wx_openid = Str::random(64);

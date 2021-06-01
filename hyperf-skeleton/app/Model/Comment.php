@@ -26,6 +26,7 @@ namespace App\Model;
  * @property int $text_audit 0待审核1审核通过-1审核不通过
  * @property int $content_audit 0待审核1审核通过-1审核不通过
  * @property string $image_ids 图片列表获取出来图片ID
+ * @property int $offer_id 领取的具体红包的ID
  * @property-read \App\Model\User $author 
  * @property-read \App\Model\Comment $parent_comment 
  * @property-read \App\Model\Post $post 
@@ -50,7 +51,7 @@ class Comment extends Model
      *
      * @var array
      */
-    protected $casts = ['comment_id' => 'integer', 'post_id' => 'integer', 'parent_comment_id' => 'integer', 'parent_comment_owner_id' => 'integer', 'owner_id' => 'integer', 'praise_count' => 'integer', 'reply_count' => 'integer', 'audit_status' => 'integer', 'is_hot' => 'integer', 'post_owner_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'machine_audit' => 'integer', 'manager_audit' => 'integer', 'text_audit' => 'integer', 'content_audit' => 'integer'];
+    protected $casts = ['comment_id' => 'integer', 'post_id' => 'integer', 'parent_comment_id' => 'integer', 'parent_comment_owner_id' => 'integer', 'owner_id' => 'integer', 'praise_count' => 'integer', 'reply_count' => 'integer', 'audit_status' => 'integer', 'is_hot' => 'integer', 'post_owner_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'machine_audit' => 'integer', 'manager_audit' => 'integer', 'text_audit' => 'integer', 'content_audit' => 'integer', 'offer_id' => 'integer'];
     protected $with = ['author'];
     public function parent_comment()
     {
