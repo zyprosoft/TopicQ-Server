@@ -954,6 +954,10 @@ class PostService extends BaseService
 
     public function getPostListByAttention(int $pageIndex, int $pageSize)
     {
+        if(Auth::isGuest() == true) {
+            return ['total'=>0,'list'=>[]];
+        }
+        
         $selectRows = [
             'post_id',
             'title',
