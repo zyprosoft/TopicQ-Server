@@ -1030,7 +1030,7 @@ class PostService extends BaseService
             ->orWhereIn('owner_id',$userIds)
             ->count();
 
-        return ['total'=>$total, 'list'=>$list];
+        return ['total'=>$total, 'list'=>$list,'user_count'=>$userIds->count(),'topic_count'=>$attentionTopicIds->count()];
     }
 
     public function getVideoPostList(int $pageIndex, int $pageSize, int $type = Constants::VIDEO_POST_LIST_TYPE_ADMIN)
