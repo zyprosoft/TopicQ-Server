@@ -180,23 +180,25 @@ class PostService extends BaseService
                 $post->vote_id = $vote->vote_id;
             }
 
-            if (isset($documents)) {
-                collect($documents)->map(function (array $item){
-                   $document = new PostDocument();
-                   $document->title = $item['title'];
-                   $document->link = $item['link'];
-                   $document->type = $item['type'];
-                   $document->icon = $this->iconMap[$document->type];
-                   $document->saveOrFail();
-                });
-            }
-
             //审核结果
             Log::info("图片审核结果:".json_encode($imageAuditCheck));
             if($imageAuditCheck['need_review']) {
                 $post->machine_audit = Constants::STATUS_REVIEW;
             }
             $post->saveOrFail();
+
+            if (isset($documents)) {
+                collect($documents)->map(function (array $item) use ($post){
+                    $document = new PostDocument();
+                    $document->title = $item['title'];
+                    $document->link = $item['link'];
+                    $document->type = $item['type'];
+                    $document->icon = $this->iconMap[$document->type];
+                    $document->post_id = $post->post_id;
+                   $document->saveOrFail();
+                });
+            }
+
         });
 
         if (!isset($post)) {
@@ -300,12 +302,13 @@ class PostService extends BaseService
         if (isset($params['documents'])) {
             //先全部删掉
             PostDocument::query()->where('post_id',$post->post_id)->delete();
-            collect($params['documents'])->map(function (array $item) {
+            collect($params['documents'])->map(function (array $item) use ($post) {
                 $document = new PostDocument();
                 $document->title = $item['title'];
                 $document->link = $item['link'];
                 $document->type = $item['type'];
                 $document->icon = $this->iconMap[$document->type];
+                $document->post_id = $post->post_id;
                 $document->saveOrFail();
             });
         }
@@ -316,6 +319,7 @@ class PostService extends BaseService
             $post->machine_audit = Constants::STATUS_REVIEW;
         }
         $post->saveOrFail();
+
 
         //机器审核结果是需要人工继续审核就不需要自动审核任务了
         if($post->machine_audit !== Constants::STATUS_REVIEW) {
