@@ -453,7 +453,7 @@ class PostService extends BaseService
             if($this->userId() !== $post->owner_id) {
                 $attention = UserAttentionOther::query()->where('user_id',$this->userId())
                     ->where('other_user_id',$post->owner_id)
-                    ->get();
+                    ->first();
                 if($attention instanceof UserAttentionOther) {
                     $post->author_attention = 1;
                 }else{
