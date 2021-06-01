@@ -14,6 +14,7 @@ use App\Model\Post;
 use App\Model\PostDocument;
 use App\Model\ReportPost;
 use App\Model\User;
+use App\Model\UserAttentionOther;
 use App\Model\UserFavorite;
 use App\Model\UserRead;
 use App\Model\UserSubscribe;
@@ -448,6 +449,19 @@ class PostService extends BaseService
                     $post->finish_get_voucher = 0;
                 }
             }
+            //对作者的关注状态
+            if($this->userId() !== $post->owner_id) {
+                $attention = UserAttentionOther::query()->where('user_id',$this->userId())
+                    ->where('other_user_id',$post->owner_id)
+                    ->get();
+                if($attention instanceof UserAttentionOther) {
+                    $post->author_attention = 1;
+                }else{
+                    $post->author_attention = 0;
+                }
+            }else{
+                $post->author_attention = 0;
+            }
         } else {
             //需要检查订阅权限，并且不是管理员
             $forum = Forum::findOrFail($post->forum_id);
@@ -464,6 +478,7 @@ class PostService extends BaseService
             $post->is_favorite = 0;
             $post->finish_get_policy = 0;
             $post->finish_get_voucher = 0;
+            $post->author_attention = 0;
         }
 
         //解析代金券信息
