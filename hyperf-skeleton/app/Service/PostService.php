@@ -974,7 +974,6 @@ class PostService extends BaseService
             'post.updated_at',
             'join_user_count',
             'avatar_list',
-            'user_id',
             'recommend_weight',
             'topic_id',
             'only_self_visible'
