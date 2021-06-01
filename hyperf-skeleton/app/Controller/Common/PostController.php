@@ -411,4 +411,10 @@ class PostController extends AbstractController
         $result = $this->forumService->getForumDetail($forumId);
         return $this->success($result);
     }
+
+    public function getUserAttentionStatus(AuthedRequest $request)
+    {
+        $result = $this->service->getUserAttentionStatus();
+        return $this->success($result);
+    }
 }

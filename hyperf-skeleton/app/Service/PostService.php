@@ -991,7 +991,7 @@ class PostService extends BaseService
             ->with(['forum'])
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
-            ->whereIn('topic_id',$attentionTopicIds)
+            ->orWhereIn('topic_id',$attentionTopicIds)
             ->orWhereIn('owner_id',$userIds)
             ->orderByDesc('sort_index')
             ->orderByDesc('recommend_weight')
@@ -1026,7 +1026,7 @@ class PostService extends BaseService
         $total = Post::query()->select($selectRows)
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
-            ->whereIn('topic_id',$attentionTopicIds)
+            ->orWhereIn('topic_id',$attentionTopicIds)
             ->orWhereIn('owner_id',$userIds)
             ->count();
 
@@ -1178,5 +1178,23 @@ class PostService extends BaseService
         $post->only_self_visible = $status;
         $post->saveOrFail();
         return $this->success();
+    }
+
+    public function getUserAttentionStatus()
+    {
+        //关注的话题ID
+        $attentionTopicIds = UserAttentionTopic::query()->where('user_id',$this->userId())
+            ->get()
+            ->pluck('topic_id');
+        if($attentionTopicIds->count()> 0) {
+            return ['status' => 1];
+        }
+        $userIds = UserAttentionOther::query()->where('user_id',$this->userId())
+            ->get()
+            ->pluck('other_user_id');
+        if($userIds->count()> 0) {
+            return ['status' => 1];
+        }
+        return ['status' => 0];
     }
 }
