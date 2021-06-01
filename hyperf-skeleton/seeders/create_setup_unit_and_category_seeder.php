@@ -27,6 +27,8 @@ class CreateSetupUnitAndCategorySeeder extends Seeder
             ['name' => '箱'],
             ['name' => 'L'],
             ['name' => '两'],
+            ['name' => '年'],
+            ['name' => '月'],
         ]);
     }
 }
