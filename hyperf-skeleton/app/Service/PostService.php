@@ -15,6 +15,7 @@ use App\Model\PostDocument;
 use App\Model\ReportPost;
 use App\Model\User;
 use App\Model\UserAttentionOther;
+use App\Model\UserAttentionTopic;
 use App\Model\UserFavorite;
 use App\Model\UserRead;
 use App\Model\UserSubscribe;
@@ -524,6 +525,9 @@ class PostService extends BaseService
         if($sortType == Constants::POST_SORT_TYPE_SUBSCRIBE) {
             return $this->getPostListBySubscribe($pageIndex, $pageSize);
         }
+        if($sortType == Constants::POST_SORT_TYPE_ATTENTION) {
+            return  $this->getPostListByAttention($pageIndex, $pageSize);
+        }
         $map = [
             Constants::POST_SORT_TYPE_LATEST => 'created_at',
             Constants::POST_SORT_TYPE_LATEST_REPLY => 'last_comment_time',
@@ -943,6 +947,91 @@ class PostService extends BaseService
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('user_subscribe.forum_id','>',Constants::FORUM_MAIN_FORUM_ID)
             ->where('only_self_visible', Constants::STATUS_NOT)
+            ->count();
+
+        return ['total'=>$total, 'list'=>$list];
+    }
+
+    public function getPostListByAttention(int $pageIndex, int $pageSize)
+    {
+        $selectRows = [
+            'post_id',
+            'title',
+            'summary',
+            'owner_id',
+            'image_list',
+            'link',
+            'vote_id',
+            'read_count',
+            'forward_count',
+            'comment_count',
+            'audit_status',
+            'is_hot',
+            'last_comment_time',
+            'sort_index',
+            'is_recommend',
+            'post.created_at',
+            'post.updated_at',
+            'join_user_count',
+            'avatar_list',
+            'user_subscribe.forum_id',
+            'user_id',
+            'recommend_weight',
+            'topic_id',
+            'only_self_visible'
+        ];
+
+        //关注的话题ID
+        $attentionTopicIds = UserAttentionTopic::query()->where('user_id',$this->userId())
+            ->get()
+            ->pluck('topic_id');
+        $userIds = UserAttentionOther::query()->where('user_id',$this->userId())
+            ->get()
+            ->pluck('other_user_id');
+
+        $list = Post::query()->select($selectRows)
+            ->with(['forum'])
+            ->where('user_id',$this->userId())
+            ->where('audit_status', Constants::STATUS_DONE)
+            ->where('only_self_visible', Constants::STATUS_NOT)
+            ->whereIn('topic_id',$attentionTopicIds)
+            ->orWhereIn('owner_id',$userIds)
+            ->orderByDesc('sort_index')
+            ->orderByDesc('recommend_weight')
+            ->latest()
+            ->offset($pageIndex * $pageSize)
+            ->limit($pageSize)
+            ->get();
+
+        //增加是否阅读的状态
+        $postIds = $list->pluck('post_id');
+        $userReadList = [];
+        if (Auth::isGuest() == false) {
+            $userReadList = UserRead::query()->whereIn('post_id', $postIds)
+                ->where('user_id', $this->userId())
+                ->get()
+                ->keyBy('post_id');
+        }
+
+        $list->map(function (Post $post) use ($userReadList) {
+            if (!empty($post->avatar_list)) {
+                $post->avatar_list = explode(';', $post->avatar_list);
+            }else{
+                $post->avatar_list = null;
+            }
+            if (!empty($post->image_list)) {
+                $post->image_list = explode(';', $post->image_list);
+            }
+            $post->is_read = isset($userReadList[$post->post_id]) ? 1 : 0;
+            return $post;
+        });
+
+        $total = Post::query()->select($selectRows)
+            ->where('user_id',$this->userId())
+            ->where('audit_status', Constants::STATUS_DONE)
+            ->where('only_self_visible', Constants::STATUS_NOT)
+            ->whereIn('topic_id',$attentionTopicIds)
+            ->orWhereIn('owner_id',$userIds)
             ->count();
 
         return ['total'=>$total, 'list'=>$list];

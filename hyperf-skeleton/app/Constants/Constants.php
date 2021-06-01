@@ -63,6 +63,11 @@ class Constants
     const POST_SORT_TYPE_SUBSCRIBE = 4;
 
     /**
+     * 关注内容
+     */
+    const POST_SORT_TYPE_ATTENTION = 5;
+
+    /**
      * 帖子列表排序方式，最后回复
      */
     const POST_SORT_TYPE_LATEST_REPLY = 3;
