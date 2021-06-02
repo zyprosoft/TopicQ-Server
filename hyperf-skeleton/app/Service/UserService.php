@@ -712,8 +712,8 @@ class UserService extends BaseService
         $smsCode = "".rand(1,9).rand(1,9).rand(1,9).rand(1,9).rand(1,9);
         Cache::set($mobile,$smsCode,self::SMS_CODE_TTL);
         $customParam = [
-            'app' => $appName,
-            'code' => $smsCode
+            '${app}' => $appName,
+            '${code}' => $smsCode
         ];
         $result = $smsService->sendMessage($templateId,[$mobile],$customParam);
         Log::info("短信发送结果:".json_encode($result));
