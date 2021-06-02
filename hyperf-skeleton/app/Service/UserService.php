@@ -715,6 +715,7 @@ class UserService extends BaseService
             'code' => $smsCode
         ];
         $result = $smsService->sendMessage($templateId,[$mobile],$customParam);
+        Log::info("短信发送结果:".json_encode($result));
         if (isset($result['job_id'])) {
             return $this->success();
         }else{
