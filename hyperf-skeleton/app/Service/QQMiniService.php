@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Constants\Constants;
 use GuzzleHttp\Client;
 use Psr\Container\ContainerInterface;
+use ZYProSoft\Log\Log;
 
 class QQMiniService extends BaseService
 {
@@ -39,6 +40,7 @@ class QQMiniService extends BaseService
         ];
         $client = new Client($config);
         $response = $client->get('/sns/jscode2session', $option);
+        Log::info("qq request result:".$response->getBody());
         $status = $response->getStatusCode();
         if ($status !== 200) {
             return [
