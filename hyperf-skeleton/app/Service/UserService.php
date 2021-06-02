@@ -712,7 +712,7 @@ class UserService extends BaseService
         $smsCode = "".rand(1,9).rand(1,9).rand(1,9).rand(1,9).rand(1,9);
         Cache::set($mobile,$smsCode,self::SMS_CODE_TTL);
         $customParam = [
-            '${code}' => $smsCode
+            'code' => $smsCode
         ];
         [$result,$error] = $smsService->sendMessage($templateId,[$mobile],$customParam);
         if (isset($error)) {
