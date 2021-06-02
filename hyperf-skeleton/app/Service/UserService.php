@@ -706,6 +706,7 @@ class UserService extends BaseService
         $secretKey = config('qiniu.secretKey');
         $templateId = config('qiniu.loginTemplateId');
         $appName = config('qiniu.appName');
+        Log::info("access:$accessKey secret:$secretKey temp:$templateId app:$appName");
         $auth = new \Qiniu\Auth($accessKey, $secretKey);
         $smsService = new Sms($auth);
         $smsCode = "".rand(1,9).rand(1,9).rand(1,9).rand(1,9).rand(1,9);
