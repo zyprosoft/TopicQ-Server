@@ -38,18 +38,28 @@ class QQMiniService extends BaseService
             ]
         ];
         $client = new Client($config);
-        $response = $client->get('/sns/jscode2session',$option);
+        $response = $client->get('/sns/jscode2session', $option);
         $status = $response->getStatusCode();
-        if($status !== 200) {
+        if ($status !== 200) {
             return [
                 'code' => Constants::STATUS_INVALIDATE,
                 'msg' => '请求QQ服务器失败'
             ];
         }
-        return [
-            'code' => Constants::STATUS_NOT,
-            'msg' => 'ok',
-            'data' => json_decode($response->getBody())
-        ];
+        $businessData = json_decode($response->getBody());
+        if ($businessData['errcode'] == 0) {
+            return [
+                'code' => 0,
+                'msg' => 'ok',
+                'data' => $businessData
+            ];
+        } else {
+            return [
+                'code' => $businessData['errcode'],
+                'msg' => $businessData['errmsg'],
+                'data' => []
+            ];
+        }
+
     }
 }

@@ -178,4 +178,9 @@ class ErrorCode extends AbstractConstants
      * @Message("当前用户无权在此版块发帖")
      */
     const USER_HAVE_NO_PERMISSION_POST_ON_THIS_FORUM = 30029;
+
+    /**
+     * @Message("获取QQToken失败!")
+     */
+    const GET_QQ_TOKEN_FAIL = 30030;
 }
