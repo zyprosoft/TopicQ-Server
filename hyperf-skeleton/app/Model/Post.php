@@ -54,7 +54,7 @@ use Hyperf\Scout\Searchable;
  * @property-read \App\Model\SubscribeForumPassword $forum_voucher 
  * @property-read \App\Model\MiniProgram $mini_program 
  * @property-read \App\Model\OfficialAccount $official_account 
- * @property-read \App\Model\Topic $topic 
+ * @property \App\Model\Topic $topic
  * @property-read \App\Model\Vote $vote 
  * @property-read \App\Model\VoucherPolicy $voucher_policy 
  */
