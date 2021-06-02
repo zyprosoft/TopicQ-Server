@@ -2,6 +2,6 @@
 declare(strict_types=1);
 
 return [
-    'appid' => '1111821289',
-    'secret' => 'bdPv5az09fnKJvwS'
+    'appid' => env('QQ_APPID'),
+    'secret' => env('QQ_SECRET'),
 ];

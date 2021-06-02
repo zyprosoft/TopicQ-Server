@@ -24,14 +24,19 @@ use App\Model\UserUpdate;
 use Carbon\Carbon;
 use EasyWeChat\Factory;
 use Hyperf\DbConnection\Db;
+use Hyperf\Utils\Str;
+use Qiniu\Sms\Sms;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Facade\Auth;
+use ZYProSoft\Facade\Cache;
 use ZYProSoft\Log\Log;
 use App\Service\ScoreService;
 use Hyperf\Di\Annotation\Inject;
 
 class UserService extends BaseService
 {
+    const SMS_CODE_TTL = 5 * 60;
+
     /**
      * @Inject
      * @var \App\Service\ScoreService
@@ -694,5 +699,102 @@ class UserService extends BaseService
     public function getUserGroupList()
     {
         return UserGroup::query()->where('open_choose', Constants::STATUS_OK)->get();
+    }
+
+    public function sendLoginSms(string $mobile)
+    {
+        $accessKey = config('qiniu.accessKey');
+        $secretKey = config('qiniu.secretKey');
+        $templateId = config('qiniu.loginTemplateId');
+        $appName = config('qiniu.appName');
+        $auth = new \Qiniu\Auth($accessKey, $secretKey);
+        $smsService = new Sms($auth);
+        $smsCode = rand(1,9).rand(1,9).rand(1,9).rand(1,9).rand(1,9);
+        $result = Cache::set($mobile,$smsCode,self::SMS_CODE_TTL);
+        if ($result == false) {
+            throw new HyperfCommonException(ErrorCode::SERVER_ERROR);
+        }
+        $customParam = [
+            'app' => $appName,
+            'code' => $smsCode
+        ];
+        $result = $smsService->sendMessage($templateId,[$mobile],$customParam);
+        if (isset($result['job_id'])) {
+            return $this->success();
+        }else{
+            throw new HyperfCommonException(ErrorCode::SEND_SMS_CODE_FAIL);
+        }
+    }
+
+    public function smsLogin(string $mobile, string $code, string $type)
+    {
+        //检查验证码是否过期了
+        $existCode = Cache::get($mobile);
+        if (empty($existCode)) {
+            throw new HyperfCommonException(ErrorCode::SMS_CODE_DID_EXPIRED);
+        }
+        if($existCode !== $code) {
+            throw new HyperfCommonException(ErrorCode::SMS_CODE_NOT_VALIDATE);
+        }
+       return $this->miniLoginWithPhoneNumber($mobile, $type);
+    }
+
+    //非微信走短信登录的小程序
+    public function miniLoginWithPhoneNumber(string $mobile, string $type)
+    {
+        $user = null;
+        Db::transaction(function () use ($mobile,$type,&$user){
+            $user = User::query()->where('mobile',$mobile)->lockForUpdate()->first();
+            //已经登录了，合并用户资料到已经用手机登录的这个用户
+            if ($user instanceof User) {
+                $currentUser = User::findOrFail($this->userId());
+                if($currentUser->user_id == $user->user_id) {
+                    //同一个用户，无需处理
+                    return $currentUser;
+                }
+                //合并用户数据到有手机号的这个账号
+                if($type == 'qq') {
+                    $user->qq_token = $currentUser->qq_token;
+                    $user->qq_token_expire = $currentUser->qq_token_expire;
+                    $user->qq_openid = $currentUser->qq_openid;
+                    $currentUser->delete();
+                }
+                //有手机号的这个用户号登录态已过期
+                $now = Carbon::now();
+                if($now->isAfter($user->token_expire) == true ) {
+                    $token = $this->auth->login($user);
+                    $user->token = $token;
+                    //不能使用之前的那个会导致时间变长
+                    $expireTime = Carbon::now()->addRealSeconds(Auth::tokenTTL());
+                    $user->token_expire = $expireTime;
+                }
+                $user->makeVisible('mobile');
+                $user->saveOrFail();
+            }
+            //没有这个手机号登录
+            if ($user->first_edit_done == Constants::STATUS_WAIT) {
+                $registerUserInfo = config('register_user_info');
+                $nicknameList = $registerUserInfo['nickname_list'];
+                $randNicknameIndex = rand(0, count($nicknameList) - 1);
+                $user->nickname = $nicknameList[$randNicknameIndex] . rand(0, 9);
+                $avatarList = $registerUserInfo['avatar_list'];
+                $backgroundList = $registerUserInfo['background_list'];
+                $randAvatarIndex = rand(0, count($avatarList) - 1);
+                $user->avatar = $avatarList[$randAvatarIndex];
+                $randBackIndex = rand(0, count($backgroundList) - 1);
+                $user->background = $backgroundList[$randBackIndex];
+                $user->area = $registerUserInfo['area'];
+                $user->country = $registerUserInfo['country'];
+            }
+            $user->makeVisible('mobile');
+            $user->saveOrFail();
+            return $user;
+        });
+
+        if(!isset($user)) {
+            throw new HyperfCommonException(ErrorCode::LOGIN_MERGE_USER_FAIL);
+        }
+
+        return $user;
     }
 }

@@ -45,15 +45,36 @@ class UserController extends AbstractController
         return $this->success($result);
     }
 
-    public function smsLogin()
+    //只能在qq、百度、抖音里面请求
+    public function miniSendLoginSms(AuthedRequest $request)
     {
+        $this->validate([
+            'mobile' => 'string|min:11|max:11|required'
+        ]);
+        $mobile = $request->param('mobile');
+        $result = $this->userService->sendLoginSms($mobile);
+        return $this->success($result);
+    }
 
+    //只能在qq、百度、抖音里面请求
+    public function miniSmsLogin(AuthedRequest $request)
+    {
+        $this->validate([
+            'code' => 'numeric|required|min:5|max:5',
+            'mobile' => 'numeric|required|min:11|max:11',
+            'type' => 'string|in:qq,baidu,byte'
+        ]);
+        $code = $request->param('code');
+        $mobile = $request->param('mobile');
+        $type = $request->param('type');
+        $result = $this->userService->smsLogin($mobile,$code,$type);
+        return $this->success($result);
     }
 
     public function normalLogin()
     {
         $this->validate([
-            'mobile' => 'string|min:11|max:11|required|exists:user,mobile',
+            'mobile' => 'numeric|min:11|max:11|required|exists:user,mobile',
             'password' => 'string|min:6|max:12|required'
         ]);
         $mobile = $this->request->param('mobile');
@@ -92,7 +113,11 @@ class UserController extends AbstractController
 
     public function refreshToken()
     {
-        $result = $this->userService->refreshToken($this->request->getToken());
+        $this->validate([
+            'type' => 'string|in:weixin,qq,baidu,byte',
+        ]);
+        $type = $this->request->param('type');
+        $result = $this->userService->refreshToken($this->request->getToken(),$type);
         return $this->success($result);
     }
 

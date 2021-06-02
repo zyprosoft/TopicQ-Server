@@ -179,4 +179,5 @@ class Constants
     const SCORE_ACTION_POST_FAVORITE = 'post_favorite';
     const SCORE_ACTION_POST_PRAISE = 'post_praise';
     const SCORE_ACTION_SUBSCRIBE_FORUM = 'subscribe_forum';
+
 }
