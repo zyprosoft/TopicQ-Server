@@ -24,6 +24,7 @@ use App\Model\UserUpdate;
 use Carbon\Carbon;
 use EasyWeChat\Factory;
 use Hyperf\DbConnection\Db;
+use phpDocumentor\Reflection\Types\Self_;
 use Qiniu\Sms\Sms;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Facade\Auth;
@@ -710,7 +711,7 @@ class UserService extends BaseService
         $auth = new \Qiniu\Auth($accessKey, $secretKey);
         $smsService = new Sms($auth);
         $smsCode = "".rand(1,9).rand(1,9).rand(1,9).rand(1,9).rand(1,9);
-        Cache::set($mobile,$smsCode,self::SMS_CODE_TTL);
+        $this->cache->set($mobile,$smsCode,self::SMS_CODE_TTL);
         $customParam = [
             'code' => $smsCode
         ];
@@ -730,7 +731,7 @@ class UserService extends BaseService
     public function smsLogin(string $mobile, string $code, string $type)
     {
         //检查验证码是否过期了
-        $existCode = Cache::get($mobile);
+        $existCode = $this->cache->get($mobile);
         if (empty($existCode)) {
             throw new HyperfCommonException(ErrorCode::SMS_CODE_DID_EXPIRED);
         }
