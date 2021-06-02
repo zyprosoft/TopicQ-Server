@@ -999,6 +999,7 @@ class PostService extends BaseService
             ->with(['forum'])
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
+            ->where('owner_id','<>',$this->userId())
             ->orWhereIn('topic_id',$attentionTopicIds)
             ->orWhereIn('owner_id',$userIds)
             ->orderByDesc('sort_index')
@@ -1034,6 +1035,7 @@ class PostService extends BaseService
         $total = Post::query()->select($selectRows)
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
+            ->where('owner_id','<>',$this->userId())
             ->orWhereIn('topic_id',$attentionTopicIds)
             ->orWhereIn('owner_id',$userIds)
             ->count();
