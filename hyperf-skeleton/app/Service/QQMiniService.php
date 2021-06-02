@@ -46,7 +46,7 @@ class QQMiniService extends BaseService
                 'msg' => '请求QQ服务器失败'
             ];
         }
-        $businessData = json_decode($response->getBody());
+        $businessData = json_decode($response->getBody(),true);
         if ($businessData['errcode'] == 0) {
             return [
                 'code' => 0,
