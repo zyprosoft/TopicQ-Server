@@ -24,7 +24,6 @@ use App\Model\UserUpdate;
 use Carbon\Carbon;
 use EasyWeChat\Factory;
 use Hyperf\DbConnection\Db;
-use Hyperf\Utils\Str;
 use Qiniu\Sms\Sms;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Facade\Auth;
@@ -709,7 +708,7 @@ class UserService extends BaseService
         $appName = config('qiniu.appName');
         $auth = new \Qiniu\Auth($accessKey, $secretKey);
         $smsService = new Sms($auth);
-        $smsCode = rand(1,9).rand(1,9).rand(1,9).rand(1,9).rand(1,9);
+        $smsCode = "".rand(1,9).rand(1,9).rand(1,9).rand(1,9).rand(1,9);
         $result = Cache::set($mobile,$smsCode,self::SMS_CODE_TTL);
         if ($result == false) {
             throw new HyperfCommonException(ErrorCode::SERVER_ERROR);
