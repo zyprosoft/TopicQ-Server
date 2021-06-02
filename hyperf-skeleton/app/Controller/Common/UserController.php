@@ -35,7 +35,7 @@ class UserController extends AbstractController
         return $this->success($result);
     }
 
-    public function qqlogin()
+    public function qqLogin()
     {
         $this->validate([
             'code' => 'string|min:1|required'
