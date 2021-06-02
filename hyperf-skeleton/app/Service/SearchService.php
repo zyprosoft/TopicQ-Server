@@ -10,7 +10,6 @@ use App\Model\Post;
 use App\Model\Topic;
 use App\Model\User;
 use App\Model\UserAttentionTopic;
-use mysql_xdevapi\Exception;
 use ZYProSoft\Facade\Auth;
 use ZYProSoft\Log\Log;
 

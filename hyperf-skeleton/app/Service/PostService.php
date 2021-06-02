@@ -991,6 +991,10 @@ class PostService extends BaseService
             ->get()
             ->pluck('other_user_id');
 
+        if($attentionTopicIds->isEmpty() && $userIds->isEmpty()) {
+            return ['total'=>0,'list'=>[]];
+        }
+
         $list = Post::query()->select($selectRows)
             ->with(['forum'])
             ->where('audit_status', Constants::STATUS_DONE)
