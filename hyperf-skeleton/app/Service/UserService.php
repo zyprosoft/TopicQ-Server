@@ -711,6 +711,7 @@ class UserService extends BaseService
         $smsCode = "".rand(1,9).rand(1,9).rand(1,9).rand(1,9).rand(1,9);
         $result = Cache::set($mobile,$smsCode,self::SMS_CODE_TTL);
         if ($result == false) {
+            Log::error("保存验证码{$smsCode}到缓存失败!");
             throw new HyperfCommonException(ErrorCode::SERVER_ERROR);
         }
         $customParam = [
