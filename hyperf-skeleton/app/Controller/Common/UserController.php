@@ -35,6 +35,11 @@ class UserController extends AbstractController
         return $this->success($result);
     }
 
+    public function smsLogin()
+    {
+
+    }
+
     public function normalLogin()
     {
         $this->validate([
