@@ -60,8 +60,8 @@ class UserController extends AbstractController
     public function miniSmsLogin(AuthedRequest $request)
     {
         $this->validate([
-            'code' => 'numeric|required|min:5|max:5',
-            'mobile' => 'numeric|required|min:11|max:11',
+            'code' => 'string|required|min:5|max:5',
+            'mobile' => 'string|required|min:11|max:11',
             'type' => 'string|in:qq,baidu,byte'
         ]);
         $code = $request->param('code');
