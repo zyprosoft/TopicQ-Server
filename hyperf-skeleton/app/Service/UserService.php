@@ -738,7 +738,10 @@ class UserService extends BaseService
         if($existCode !== $code) {
             throw new HyperfCommonException(ErrorCode::SMS_CODE_NOT_VALIDATE);
         }
-       return $this->miniLoginWithPhoneNumber($mobile, $type);
+        $result = $this->miniLoginWithPhoneNumber($mobile, $type);
+        //清除验证码
+        $this->cache->delete($mobile);
+        return $result;
     }
 
     //非微信走短信登录的小程序
