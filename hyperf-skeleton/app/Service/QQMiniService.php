@@ -31,14 +31,15 @@ class QQMiniService extends BaseService
             'method' => 'GET'
         ];
         $option = [
-            'appid' => $this->appId,
-            'secret' => $this->secret,
-            'js_code' => $code,
-            'grant_type' => 'authorization_code'
+            'appid='.$this->appId,
+            'secret='.$this->secret,
+            'js_code='.$code,
+            'grant_type=authorization_code'
         ];
         $client = new Client($config);
         $paramString = implode('&',$option);
         $path = '/sns/jscode2session?'.$paramString;
+        Log::info($path);
         $response = $client->get($path);
         Log::info("qq request result:".$response->getBody());
         $status = $response->getStatusCode();
