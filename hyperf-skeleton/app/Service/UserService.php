@@ -801,6 +801,7 @@ class UserService extends BaseService
         }
 
         $visibleItems = [
+            'mobile',
             'token',
             'token_expire',
             'wx_token_expire',
