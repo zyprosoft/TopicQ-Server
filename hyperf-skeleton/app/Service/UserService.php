@@ -715,7 +715,11 @@ class UserService extends BaseService
             '${app}' => $appName,
             '${code}' => $smsCode
         ];
-        $result = $smsService->sendMessage($templateId,[$mobile],$customParam);
+        [$result,$error] = $smsService->sendMessage($templateId,[$mobile],$customParam);
+        if (isset($error)) {
+            Log::info("发送验证码错误:".json_encode($error));
+            throw new HyperfCommonException(ErrorCode::SEND_SMS_CODE_FAIL);
+        }
         Log::info("短信发送结果:".json_encode($result));
         if (isset($result['job_id'])) {
             return $this->success();
