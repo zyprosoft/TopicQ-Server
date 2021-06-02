@@ -797,6 +797,16 @@ class UserService extends BaseService
             throw new HyperfCommonException(ErrorCode::LOGIN_MERGE_USER_FAIL);
         }
 
+        $visibleItems = [
+            'token',
+            'token_expire',
+            'wx_token_expire',
+            'qq_token_expire',
+            'baidu_token_expire',
+            'byte_token_expire'
+        ];
+        $user->makeVisible($visibleItems);
+
         return $user;
     }
 }
