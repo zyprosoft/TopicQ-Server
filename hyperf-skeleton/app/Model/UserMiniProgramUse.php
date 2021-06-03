@@ -12,6 +12,8 @@ namespace App\Model;
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
  * @property string $deleted_at 
+ * @property string $type 小程序类型
+ * @property-read \App\Model\MiniProgram $mini_program 
  */
 class UserMiniProgramUse extends Model
 {
@@ -33,13 +35,9 @@ class UserMiniProgramUse extends Model
      * @var array
      */
     protected $casts = ['id' => 'int', 'user_id' => 'integer', 'program_id' => 'integer', 'count' => 'integer', 'is_outside' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
-
-    protected $with = [
-        'mini_program'
-    ];
-
+    protected $with = ['mini_program'];
     public function mini_program()
     {
-        return $this->hasOne(MiniProgram::class,'program_id','program_id');
+        return $this->hasOne(MiniProgram::class, 'program_id', 'program_id');
     }
 }
