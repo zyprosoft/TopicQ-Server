@@ -9,6 +9,7 @@ use App\Model\MiniProgram;
 use App\Model\MiniProgramCategory;
 use App\Model\OfficialAccount;
 use App\Model\OfficialAccountCategory;
+use App\Model\QqMiniProgram;
 use App\Model\UserMiniProgramUse;
 use App\Model\UserOfficialAccountUse;
 use App\Model\UserThirdPartUse;
@@ -21,6 +22,12 @@ class ThirdPartService extends BaseService
 
     public function getAllMiniProgram(bool $byCategory = false, string $type = 'weixin')
     {
+        if ($type == 'qq' ) {
+            if ($byCategory) {
+                return QqMiniProgram::all();
+            }
+            return  MiniProgramCategory::query()->with(['qq_mini_items'])->get();
+        }
         $list = MiniProgram::all();
         if ($byCategory == false) {
             return $list;
@@ -41,6 +48,7 @@ class ThirdPartService extends BaseService
     {
         $useRecord = UserMiniProgramUse::query()->where('program_id', $programId)
                                               ->where('user_id',$this->userId())
+                                              ->where('type',$type)
                                               ->first();
         if (!$useRecord instanceof UserMiniProgramUse) {
             $useRecord = new UserMiniProgramUse();
@@ -75,6 +83,7 @@ class ThirdPartService extends BaseService
     {
         $list = UserMiniProgramUse::query()->where('user_id',$this->userId())
                                           ->where('count','>=', self::MINI_PROGRAM_BASE_ALWAYS_USE_COUNT)
+                                          ->where('type',$type)
                                           ->offset($pageIndex * $pageSize)
                                           ->orderByDesc('is_outside')
                                           ->limit($pageSize)
@@ -89,6 +98,7 @@ class ThirdPartService extends BaseService
     public function getUserMiniProgramUseList(int $pageIndex, int $pageSize, string $type = 'weixin')
     {
         $list = UserMiniProgramUse::query()->where('user_id',$this->userId())
+            ->where('type',$type)
             ->offset($pageIndex * $pageSize)
             ->orderByDesc('is_outside')
             ->limit($pageSize)
@@ -103,6 +113,7 @@ class ThirdPartService extends BaseService
     {
         //是不是超过了三个
         $total = UserMiniProgramUse::query()->where('user_id', $this->userId())
+            ->where('type',$type)
             ->where('is_outside', Constants::STATUS_DONE)
             ->count();
         if ($total >= self::MINI_PROGRAM_BASE_ALWAYS_USE_COUNT) {
@@ -125,6 +136,7 @@ class ThirdPartService extends BaseService
     public function unbindMiniProgramOutside(int $programId, string $type = 'weixin')
     {
         $record = UserMiniProgramUse::query()->where('user_id', $this->userId())
+            ->where('type',$type)
             ->where('program_id', $programId)
             ->first();
         if (!$record instanceof UserMiniProgramUse) {
