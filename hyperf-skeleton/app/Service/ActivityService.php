@@ -10,8 +10,11 @@ use Hyperf\Database\Model\Builder;
 
 class ActivityService extends BaseService
 {
-    public function getActivityList(int $type = Constants::ACTIVITY_TYPE_INDEX, int $forumId = null)
+    public function getActivityList(int $type = null, int $forumId = null)
     {
+        if (!isset($type)) {
+            $type = Constants::ACTIVITY_TYPE_INDEX;
+        }
         return Activity::query()->where('status',Constants::STATUS_WAIT)
             ->where('show_type',$type)
             ->when(isset($forumId),function (Builder $query) use ($forumId) {
