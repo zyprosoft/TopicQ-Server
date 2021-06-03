@@ -763,8 +763,12 @@ class PostService extends BaseService
         return $this->success();
     }
 
-    public function getPostListBySubscribeByForumId(int $pageIndex, int $pageSize, int $forumId)
+    public function getPostListBySubscribeByForumId(int $pageIndex, int $pageSize, int $forumId, int $type = null)
     {
+        if (!isset($type)) {
+            $type = Constants::FORUM_POST_SORT_HOT;
+        }
+
         //用户是不是已经订阅了此板块,或者是管理员以上身份
         $user = User::findOrFail($this->userId());
         //非管理员身份需要校验订阅权限
@@ -837,8 +841,14 @@ class PostService extends BaseService
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
             ->orderByDesc('sort_index')
-            ->orderByDesc('recommend_weight')
-            ->latest()
+            ->where(function (Builder $query) use ($type) {
+                if($type == Constants::FORUM_POST_SORT_HOT) {
+                    $query->orderByDesc('recommend_weight');
+                }
+                if($type == Constants::FORUM_POST_SORT_LATEST) {
+                    $query->latest();
+                }
+            })
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->get();

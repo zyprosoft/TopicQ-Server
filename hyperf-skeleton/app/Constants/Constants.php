@@ -182,4 +182,7 @@ class Constants
 
     const ACTIVITY_TYPE_INDEX = 0;
     const ACTIVITY_TYPE_FORUM = 1;
+
+    const FORUM_POST_SORT_HOT = 0;
+    const FORUM_POST_SORT_LATEST = 1;
 }

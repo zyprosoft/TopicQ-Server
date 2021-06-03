@@ -302,6 +302,7 @@ class PostController extends AbstractController
             'pageIndex' => 'integer|required|min:0',
             'pageSize' => 'integer|required|min:10|max:30',
             'forumId' => 'integer|required|exists:forum,forum_id',
+            'type' => 'integer|in:0,1'
         ]);
         $pageIndex = $request->param('pageIndex');
         $pageSize = $request->param('pageSize');
