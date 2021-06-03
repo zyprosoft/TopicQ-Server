@@ -351,6 +351,20 @@ class ForumService extends BaseService
 
     public function getForumDetail(int $forumId)
     {
-        return Forum::findOrFail($forumId);
+        $forum = Forum::findOrFail($forumId);
+        if(Auth::isGuest()) {
+            $forum->is_subscribe = 0;
+        }else{
+            //订阅状态
+            $useSubscribe = UserSubscribe::query()->where('user_id',$this->userId())
+                                                  ->where('forum_id',$forumId)
+                                                  ->first();
+            if ($useSubscribe instanceof UserSubscribe) {
+                $forum->is_subscribe = 1;
+            }else{
+                $forum->is_subscribe = 0;
+            }
+        }
+        return $forum;
     }
 }
