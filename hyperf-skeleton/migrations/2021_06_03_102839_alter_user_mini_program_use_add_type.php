@@ -11,8 +11,10 @@ class AlterUserMiniProgramUseAddType extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('user_mini_program_use', function (Blueprint $table) {
             //
+            $table->string('type',12)->default('weixin')->comment('小程序类型');
+            $table->index('type');
         });
     }
 
@@ -21,8 +23,9 @@ class AlterUserMiniProgramUseAddType extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('user_mini_program_use', function (Blueprint $table) {
             //
+            $table->dropColumn('type');
         });
     }
 }

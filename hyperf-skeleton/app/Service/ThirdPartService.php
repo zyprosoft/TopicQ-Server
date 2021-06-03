@@ -19,7 +19,7 @@ class ThirdPartService extends BaseService
 {
     const MINI_PROGRAM_BASE_ALWAYS_USE_COUNT = 3;
 
-    public function getAllMiniProgram(bool $byCategory = false)
+    public function getAllMiniProgram(bool $byCategory = false, string $type = 'weixin')
     {
         $list = MiniProgram::all();
         if ($byCategory == false) {
@@ -37,7 +37,7 @@ class ThirdPartService extends BaseService
         return OfficialAccountCategory::query()->with(['items'])->get();
     }
 
-    public function markMiniProgramUsed(string $programId)
+    public function markMiniProgramUsed(string $programId, string $type = 'weixin')
     {
         $useRecord = UserMiniProgramUse::query()->where('program_id', $programId)
                                               ->where('user_id',$this->userId())
@@ -71,7 +71,7 @@ class ThirdPartService extends BaseService
         return  $this->success();
     }
 
-    public function getUserMiniProgramAlwaysUseList(int $pageIndex, int $pageSize)
+    public function getUserMiniProgramAlwaysUseList(int $pageIndex, int $pageSize, string $type = 'weixin')
     {
         $list = UserMiniProgramUse::query()->where('user_id',$this->userId())
                                           ->where('count','>=', self::MINI_PROGRAM_BASE_ALWAYS_USE_COUNT)
@@ -86,7 +86,7 @@ class ThirdPartService extends BaseService
         return ['total'=>$total,'list'=>$list];
     }
 
-    public function getUserMiniProgramUseList(int $pageIndex, int $pageSize)
+    public function getUserMiniProgramUseList(int $pageIndex, int $pageSize, string $type = 'weixin')
     {
         $list = UserMiniProgramUse::query()->where('user_id',$this->userId())
             ->offset($pageIndex * $pageSize)
@@ -99,7 +99,7 @@ class ThirdPartService extends BaseService
         return ['total'=>$total,'list'=>$list];
     }
 
-    public function markMiniProgramOutside(int $programId)
+    public function markMiniProgramOutside(int $programId, string $type = 'weixin')
     {
         //是不是超过了三个
         $total = UserMiniProgramUse::query()->where('user_id', $this->userId())
@@ -122,7 +122,7 @@ class ThirdPartService extends BaseService
        return $this->success();
     }
 
-    public function unbindMiniProgramOutside(int $programId)
+    public function unbindMiniProgramOutside(int $programId, string $type = 'weixin')
     {
         $record = UserMiniProgramUse::query()->where('user_id', $this->userId())
             ->where('program_id', $programId)
