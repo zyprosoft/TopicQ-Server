@@ -440,24 +440,7 @@ class UserService extends BaseService
         $app = Factory::miniProgram($miniProgramConfig);
         $result = $app->encryptor->decryptData($user->wx_token, $iv, $encryptData);
         $phoneNumber = $result['purePhoneNumber'];
-        $user->mobile = $phoneNumber;
-        if ($user->first_edit_done == Constants::STATUS_WAIT) {
-            $registerUserInfo = config('register_user_info');
-            $nicknameList = $registerUserInfo['nickname_list'];
-            $randNicknameIndex = rand(0, count($nicknameList) - 1);
-            $user->nickname = $nicknameList[$randNicknameIndex] . rand(0, 9);
-            $avatarList = $registerUserInfo['avatar_list'];
-            $backgroundList = $registerUserInfo['background_list'];
-            $randAvatarIndex = rand(0, count($avatarList) - 1);
-            $user->avatar = $avatarList[$randAvatarIndex];
-            $randBackIndex = rand(0, count($backgroundList) - 1);
-            $user->background = $backgroundList[$randBackIndex];
-            $user->area = $registerUserInfo['area'];
-            $user->country = $registerUserInfo['country'];
-        }
-        $user->makeVisible('mobile');
-        $user->saveOrFail();
-        return $user;
+        return $this->innerMergeUserByPhoneNumber($phoneNumber,'weixin');
     }
 
     public function unreadCountInfo()
@@ -744,8 +727,7 @@ class UserService extends BaseService
         return $result;
     }
 
-    //非微信走短信登录的小程序
-    public function miniLoginWithPhoneNumber(string $mobile, string $type)
+    public function innerMergeUserByPhoneNumber(string $mobile, string $type)
     {
         $user = null;
         Db::transaction(function () use ($mobile,$type,&$user){
@@ -764,6 +746,12 @@ class UserService extends BaseService
                     $user->qq_openid = $currentUser->qq_openid;
                     $currentUser->delete();
                 }
+                if($type == 'weixin') {
+                    $user->wx_token = $currentUser->wx_token;
+                    $user->wx_token_expire = $currentUser->wx_token_expire;
+                    $user->wx_openid = $currentUser->wx_openid;
+                    $currentUser->delete();
+                }
                 //有手机号的这个用户号登录态已过期
                 $now = Carbon::now();
                 if($now->isAfter($user->token_expire) == true ) {
@@ -776,6 +764,8 @@ class UserService extends BaseService
                 $user->makeVisible('mobile');
                 $user->saveOrFail();
             }
+            $user = User::findOrFail($this->userId());
+            $user->mobile = $mobile;
             //没有这个手机号登录
             if ($user->first_edit_done == Constants::STATUS_WAIT) {
                 $registerUserInfo = config('register_user_info');
@@ -812,5 +802,11 @@ class UserService extends BaseService
         $user->makeVisible($visibleItems);
 
         return $user;
+    }
+
+    //非微信走短信登录的小程序
+    public function miniLoginWithPhoneNumber(string $mobile, string $type)
+    {
+        return $this->innerMergeUserByPhoneNumber($mobile, $type);
     }
 }
