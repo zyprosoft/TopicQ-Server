@@ -134,6 +134,7 @@ class PddService extends AbstractService
         $request->setPId($this->pidList[0]);
         $request->setGoodsSignList([$goodsSign]);
         $request->setGenerateWeApp(true);
+        $request->setGenerateQqApp(true);
         if (isset($searchId)) {
             $request->setSearchId($searchId);
         }
