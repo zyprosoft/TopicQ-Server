@@ -29,7 +29,9 @@ class ActivityController extends AbstractController
             'image' => 'string|min:1|max:256',
             'postId' => 'integer|exists:post,post_id',
             'jumpPath' => 'string|min:1',
-            'jumpUrl' => 'string|min:1'
+            'jumpUrl' => 'string|min:1',
+            'type' => 'integer',
+            'forumId' => 'integer|exists:forum,forum_id'
         ]);
         $params = $request->getParams();
         $result = $this->service->createOrUpdate($params);

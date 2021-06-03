@@ -41,4 +41,10 @@ class Activity extends Model
      * @var array
      */
     protected $casts = ['activity_id' => 'integer', 'post_id' => 'integer', 'creator' => 'integer', 'sort_index' => 'integer', 'status' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'show_type' => 'integer', 'forum_id' => 'integer'];
+    protected $with = ['forum'];
+
+    public function forum()
+    {
+        return $this->hasOne(Forum::class,'forum_id','forum_id');
+    }
 }
