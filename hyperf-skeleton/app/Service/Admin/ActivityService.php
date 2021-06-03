@@ -25,6 +25,8 @@ class ActivityService extends BaseService
         $jumpPath = data_get($params,'jumpPath');
         $jumpUrl = data_get($params,'jumpUrl');
         $activityId = data_get($params,'activityId');
+        $showType = data_get($params,'type',0);
+        $forumId = data_get($params,'forumId',0);
 
         if(isset($activityId)) {
             $activity = Activity::findOrFail($activityId);
@@ -38,6 +40,8 @@ class ActivityService extends BaseService
         $activity->jump_path = $jumpPath;
         $activity->jump_url = $jumpUrl;
         $activity->creator = $this->userId();
+        $activity->show_type = $showType;
+        $activity->forum_id = $forumId;
         $activity->saveOrFail();
 
         return $this->success();
