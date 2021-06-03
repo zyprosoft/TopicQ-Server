@@ -763,27 +763,29 @@ class UserService extends BaseService
                 }
                 $user->makeVisible('mobile');
                 $user->saveOrFail();
+                return $user;
+            }else {
+                $user = User::findOrFail($this->userId());
+                $user->mobile = $mobile;
+                //没有这个手机号登录
+                if ($user->first_edit_done == Constants::STATUS_WAIT) {
+                    $registerUserInfo = config('register_user_info');
+                    $nicknameList = $registerUserInfo['nickname_list'];
+                    $randNicknameIndex = rand(0, count($nicknameList) - 1);
+                    $user->nickname = $nicknameList[$randNicknameIndex] . rand(0, 9);
+                    $avatarList = $registerUserInfo['avatar_list'];
+                    $backgroundList = $registerUserInfo['background_list'];
+                    $randAvatarIndex = rand(0, count($avatarList) - 1);
+                    $user->avatar = $avatarList[$randAvatarIndex];
+                    $randBackIndex = rand(0, count($backgroundList) - 1);
+                    $user->background = $backgroundList[$randBackIndex];
+                    $user->area = $registerUserInfo['area'];
+                    $user->country = $registerUserInfo['country'];
+                }
+                $user->makeVisible('mobile');
+                $user->saveOrFail();
+                return $user;
             }
-            $user = User::findOrFail($this->userId());
-            $user->mobile = $mobile;
-            //没有这个手机号登录
-            if ($user->first_edit_done == Constants::STATUS_WAIT) {
-                $registerUserInfo = config('register_user_info');
-                $nicknameList = $registerUserInfo['nickname_list'];
-                $randNicknameIndex = rand(0, count($nicknameList) - 1);
-                $user->nickname = $nicknameList[$randNicknameIndex] . rand(0, 9);
-                $avatarList = $registerUserInfo['avatar_list'];
-                $backgroundList = $registerUserInfo['background_list'];
-                $randAvatarIndex = rand(0, count($avatarList) - 1);
-                $user->avatar = $avatarList[$randAvatarIndex];
-                $randBackIndex = rand(0, count($backgroundList) - 1);
-                $user->background = $backgroundList[$randBackIndex];
-                $user->area = $registerUserInfo['area'];
-                $user->country = $registerUserInfo['country'];
-            }
-            $user->makeVisible('mobile');
-            $user->saveOrFail();
-            return $user;
         });
 
         if(!isset($user)) {
