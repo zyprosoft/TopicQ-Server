@@ -835,23 +835,32 @@ class PostService extends BaseService
             'only_self_visible'
         ];
 
-        $list = Post::query()->select($selectRows)
-            ->with(['forum'])
-            ->where('forum_id',$forumId)
-            ->where('audit_status', Constants::STATUS_DONE)
-            ->where('only_self_visible', Constants::STATUS_NOT)
-            ->orderByDesc('sort_index')
-            ->where(function (Builder $query) use ($type) {
-                if($type == Constants::FORUM_POST_SORT_HOT) {
-                    $query->orderByDesc('recommend_weight');
-                }
-                if($type == Constants::FORUM_POST_SORT_LATEST) {
-                    $query->latest();
-                }
-            })
-            ->offset($pageIndex * $pageSize)
-            ->limit($pageSize)
-            ->get();
+        if($type == Constants::FORUM_POST_SORT_LATEST) {
+            $list = Post::query()->select($selectRows)
+                ->with(['forum'])
+                ->where('forum_id',$forumId)
+                ->where('audit_status', Constants::STATUS_DONE)
+                ->where('only_self_visible', Constants::STATUS_NOT)
+                ->latest()
+                ->offset($pageIndex * $pageSize)
+                ->limit($pageSize)
+                ->get();
+        }else{
+            $list = Post::query()->select($selectRows)
+                ->with(['forum'])
+                ->where('forum_id',$forumId)
+                ->where('audit_status', Constants::STATUS_DONE)
+                ->where('only_self_visible', Constants::STATUS_NOT)
+                ->orderByDesc('sort_index')
+                ->orderByDesc('recommend_weight')
+                ->orderByDesc('comment_count')
+                ->orderByDesc('praise_count')
+                ->orderByDesc('read_count')
+                ->latest()
+                ->offset($pageIndex * $pageSize)
+                ->limit($pageSize)
+                ->get();
+        }
 
         //增加是否阅读的状态
         $postIds = $list->pluck('post_id');
