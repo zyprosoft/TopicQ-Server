@@ -178,4 +178,30 @@ class ErrorCode extends AbstractConstants
      * @Message("当前用户无权在此版块发帖")
      */
     const USER_HAVE_NO_PERMISSION_POST_ON_THIS_FORUM = 30029;
+
+    /**
+     * @Message("获取QQToken失败!")
+     */
+    const GET_QQ_TOKEN_FAIL = 30030;
+
+    /**
+     * @Message("短信验证码发送失败!")
+     */
+    const SEND_SMS_CODE_FAIL = 30031;
+
+    /**
+     * @Message("短信验证码已过期!")
+     */
+    const SMS_CODE_DID_EXPIRED = 30032;
+
+    /**
+     * @Message("短信验证码校验失败!")
+     */
+    const SMS_CODE_NOT_VALIDATE = 30033;
+
+
+    /**
+     * @Message("登录合并用户信息失败!")
+     */
+    const LOGIN_MERGE_USER_FAIL = 30034;
 }

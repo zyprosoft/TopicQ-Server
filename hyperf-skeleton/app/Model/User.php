@@ -52,6 +52,16 @@ use App\Constants\Constants;
  * @property int $avatar_user_id 化身ID
  * @property int $score 积分
  * @property int $group_id 用户的分组
+ * @property string $qq_token qq登录Token
+ * @property string $qq_openid qq登录openid
+ * @property string $qq_token_expire qq登录Token过期时间
+ * @property string $baidu_token 百度小程序Token
+ * @property string $baidu_openid 百度openid
+ * @property string $baidu_token_expire 百度token过期时间
+ * @property string $byte_token 字节登录Token
+ * @property string $byte_openid 字节openid
+ * @property string $byte_token_expire 字节Token过期时间
+ * @property-read \App\Model\UserGroup $group 
  * @property-read \App\Model\Role $role 
  * @property-read \App\Model\UserUpdate $update_info 
  */
@@ -77,8 +87,20 @@ class User extends Model implements Authenticatable
      * @var array
      */
     protected $casts = ['user_id' => 'integer', 'role_id' => 'integer', 'status' => 'integer', 'sex' => 'integer', 'login_type' => 'integer', 'wx_gender' => 'integer', 'unread_comment_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'first_edit_done' => 'integer', 'wx_token_expire' => 'datetime', 'last_login' => 'datetime', 'token_expire' => 'datetime', 'user_update_id' => 'integer', 'avatar_user_id' => 'integer', 'score' => 'integer', 'group_id' => 'integer'];
-    protected $hidden = ['mobile', 'password', 'wx_token', 'wx_openid', 'token', 'wx_token_expire', 'token_expire', 'avatar_user_id'];
-    protected $with = ['role','group'];
+    protected $hidden = ['mobile', 'password', 'wx_token', 'wx_openid', 'token', 'wx_token_expire',
+        'token_expire',
+        'avatar_user_id',
+        'qq_token',
+        'qq_openid',
+        'qq_token_expire',
+        'baidu_token',
+        'baidu_openid',
+        'baidu_token_expire',
+        'byte_token',
+        'byte_openid',
+        'byte_token_expire',
+    ];
+    protected $with = ['role', 'group'];
     public function getId()
     {
         return $this->user_id;
@@ -109,6 +131,6 @@ class User extends Model implements Authenticatable
     }
     public function group()
     {
-        return $this->hasOne(UserGroup::class,'group_id','group_id');
+        return $this->hasOne(UserGroup::class, 'group_id', 'group_id');
     }
 }

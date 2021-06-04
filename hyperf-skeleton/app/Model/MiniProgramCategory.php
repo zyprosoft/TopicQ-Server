@@ -42,4 +42,9 @@ class MiniProgramCategory extends Model
     {
         return $this->hasMany(MiniProgram::class,'category_id','category_id');
     }
+
+    public function qq_mini_items()
+    {
+        return $this->hasMany(QqMiniProgram::class,'category_id','category_id');
+    }
 }

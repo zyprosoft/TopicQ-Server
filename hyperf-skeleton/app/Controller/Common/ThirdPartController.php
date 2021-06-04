@@ -24,7 +24,11 @@ class ThirdPartController extends AbstractController
 
     public function getMiniProgramAll(AuthedRequest $request)
     {
-        $result = $this->service->getAllMiniProgram(true);
+        $this->validate([
+            'type' => 'string|in:weixin,qq',
+        ]);
+        $type = $request->param('type');
+        $result = $this->service->getAllMiniProgram(true,$type);
         return $this->success($result);
     }
 
@@ -37,10 +41,12 @@ class ThirdPartController extends AbstractController
     public function markMiniProgramUse(AuthedRequest $request)
     {
         $this->validate([
+            'type' => 'string|in:weixin,qq',
             'programId' => 'integer|required|exists:mini_program,program_id'
         ]);
+        $type = $request->param('type');
         $programId = $request->param('programId');
-        $result = $this->service->markMiniProgramUsed($programId);
+        $result = $this->service->markMiniProgramUsed($programId,$type);
         return $this->success($result);
     }
 
@@ -57,20 +63,24 @@ class ThirdPartController extends AbstractController
     public function markMiniProgramOutside(AuthedRequest $request)
     {
         $this->validate([
+            'type' => 'string|in:weixin,qq',
             'programId' => 'integer|required|exists:mini_program,program_id'
         ]);
+        $type = $request->param('type');
         $programId = $request->param('programId');
-        $result = $this->service->markMiniProgramOutside($programId);
+        $result = $this->service->markMiniProgramOutside($programId,$type);
         return $this->success($result);
     }
 
     public function unbindMiniProgramOutside(AuthedRequest $request)
     {
         $this->validate([
+            'type' => 'string|in:weixin,qq',
             'programId' => 'integer|required|exists:mini_program,program_id'
         ]);
+        $type = $request->param('type');
         $programId = $request->param('programId');
-        $result = $this->service->unbindMiniProgramOutside($programId);
+        $result = $this->service->unbindMiniProgramOutside($programId,$type);
         return $this->success($result);
     }
 
@@ -79,22 +89,26 @@ class ThirdPartController extends AbstractController
         $this->validate([
             'pageIndex' => 'integer|required|min:0',
             'pageSize' => 'integer|required|min:10|max:30',
+            'type' => 'string|in:weixin,qq',
         ]);
+        $type = $request->param('type');
         $pageIndex = $this->request->param('pageIndex');
         $pageSize = $this->request->param('pageSize');
-        $result = $this->service->getUserMiniProgramAlwaysUseList($pageIndex, $pageSize);
+        $result = $this->service->getUserMiniProgramAlwaysUseList($pageIndex, $pageSize, $type);
         return $this->success($result);
     }
 
     public function getUsedMiniProgramList(AuthedRequest $request)
     {
         $this->validate([
+            'type' => 'string|in:weixin,qq',
             'pageIndex' => 'integer|required|min:0',
             'pageSize' => 'integer|required|min:10|max:30',
         ]);
+        $type = $request->param('type');
         $pageIndex = $this->request->param('pageIndex');
         $pageSize = $this->request->param('pageSize');
-        $result = $this->service->getUserMiniProgramUseList($pageIndex, $pageSize);
+        $result = $this->service->getUserMiniProgramUseList($pageIndex, $pageSize, $type);
         return $this->success($result);
     }
 }

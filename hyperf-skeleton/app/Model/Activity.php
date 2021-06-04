@@ -17,6 +17,8 @@ namespace App\Model;
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
  * @property string $deleted_at 
+ * @property int $show_type 0首页运营活动1版块运营活动
+ * @property int $forum_id 当活动类型为版块活动的时候填充版块ID
  */
 class Activity extends Model
 {
@@ -26,9 +28,7 @@ class Activity extends Model
      * @var string
      */
     protected $table = 'activity';
-
     protected $primaryKey = 'activity_id';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -40,5 +40,11 @@ class Activity extends Model
      *
      * @var array
      */
-    protected $casts = ['activity_id' => 'integer', 'post_id' => 'integer', 'creator' => 'integer', 'sort_index' => 'integer', 'status' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected $casts = ['activity_id' => 'integer', 'post_id' => 'integer', 'creator' => 'integer', 'sort_index' => 'integer', 'status' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'show_type' => 'integer', 'forum_id' => 'integer'];
+    protected $with = ['forum'];
+
+    public function forum()
+    {
+        return $this->hasOne(Forum::class,'forum_id','forum_id');
+    }
 }

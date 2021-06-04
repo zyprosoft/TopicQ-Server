@@ -24,19 +24,89 @@ use App\Model\UserUpdate;
 use Carbon\Carbon;
 use EasyWeChat\Factory;
 use Hyperf\DbConnection\Db;
+use phpDocumentor\Reflection\Types\Self_;
+use Qiniu\Sms\Sms;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Facade\Auth;
+use ZYProSoft\Facade\Cache;
 use ZYProSoft\Log\Log;
 use App\Service\ScoreService;
 use Hyperf\Di\Annotation\Inject;
 
 class UserService extends BaseService
 {
+    const SMS_CODE_TTL = 5 * 60;
+
     /**
      * @Inject
      * @var \App\Service\ScoreService
      */
     protected ScoreService $scoreService;
+
+    /**
+     * @Inject
+     * @var QQMiniService
+     */
+    protected QQMiniService $qqService;
+
+    public function qqLogin(string $code)
+    {
+        $result = $this->qqService->code2Session($code);
+        if ($result['code'] !== 0) {
+            throw new HyperfCommonException(ErrorCode::GET_QQ_TOKEN_FAIL);
+        }
+        $openid = $result['data']['openid'];
+        $sessionKey = $result['data']['session_key'];
+
+        //用户是不是已经存在
+        $user = User::query()->where('qq_openid', $openid)
+            ->with(['update_info'])
+            ->first();
+        if (!$user instanceof User) {
+            $user = new User();
+            $user->qq_openid = $openid;
+            $user->qq_token = $sessionKey;
+        } else {
+            $user->qq_token = $sessionKey;
+        }
+        //数据库token是否过期，没有过期的话直接返回Token给客户端使用，保持多端登陆一致性
+        $now = Carbon::now();
+        if (isset($user->token_expire) && isset($user->token) && isset($user->qq_token) && isset($user->qq_token_expire)) {
+            if ($now->isAfter($user->qq_token) == false && $now->isAfter($user->qq_token_expire) == false) {
+                Log::info("({$user->user_id})用户的Token还未失效，可以直接返回给客户端");
+                //更新微信Token过期时间，返回普通Token给客户端
+                $qqExpireTime = Carbon::now()->addRealSeconds(Constants::WX_TOKEN_TTL);
+                $user->qq_token_expire = $qqExpireTime->toDateTimeString();
+                $user->last_login = Carbon::now();
+                $user->saveOrFail();
+                return ['token' => $user->token, 'token_expire' => $user->token_expire->timestamp, 'qq_token_expire' => Carbon::createFromTimeString($user->qq_token_expire)->timestamp];
+            } else {
+                //需要重新登陆，保存历史Token
+                $tokenHistory = new TokenHistory();
+                $tokenHistory->owner_id = $user->user_id;
+                $tokenHistory->token = $user->token;
+                $tokenHistory->token_expire = $user->token_expire->toDateTimeString();
+                $tokenHistory->saveOrFail();
+                Log::info("({$user->user_id})用户token已经过期,保存历史Token");
+            }
+        }
+
+        //Auth的token过期时间单位是秒
+        $qqExpireTime = Carbon::now()->addRealSeconds(Constants::WX_TOKEN_TTL);
+        $user->qq_token_expire = $qqExpireTime;
+        //不能使用之前的那个会导致时间变长
+        $expireTime = Carbon::now()->addRealSeconds(Auth::tokenTTL());
+        $user->token_expire = $expireTime;
+        $user->last_login = Carbon::now();
+        $user->saveOrFail();
+        //需要先获取UserId，然后才能用Token登陆
+        $token = $this->auth->login($user);
+        //然后再保存一次Token
+        $user->token = $token;
+        $user->saveOrFail();
+
+        return ['token' => $user->token, 'token_expire' => $user->token_expire->timestamp, 'qq_token_expire' => Carbon::createFromTimeString($user->qq_token_expire)->timestamp];
+    }
 
     public function wxLogin(string $code)
     {
@@ -99,7 +169,7 @@ class UserService extends BaseService
         return ['token' => $user->token, 'token_expire' => $user->token_expire->timestamp, 'wx_token_expire' => $user->wx_token_expire->timestamp];
     }
 
-    public function refreshToken(string $token)
+    public function refreshToken(string $token, string $type = 'weixin')
     {
         $user = User::query()->where('token', $token)->first();
         if (!$user instanceof User) {
@@ -111,16 +181,35 @@ class UserService extends BaseService
                 if (!$user instanceof User) {
                     throw new HyperfCommonException(ErrorCode::USER_REFRESH_TOKEN_INVALIDATE);
                 }
-                //用户登陆信息都还在并且有效
-                if (isset($user->token_expire) && isset($user->token) && isset($user->wx_token) && isset($user->wx_token_expire)) {
-                    if (Carbon::now()->isAfter($user->token_expire) == false && Carbon::now()->isAfter($user->wx_token_expire) == false) {
+                if (isset($user->token_expire) && isset($user->token)) {
+                    if (Carbon::now()->isAfter($user->token_expire) == false) {
                         Log::info("刷新Token时({$user->user_id})用户的Token还未失效，可以直接返回给客户端");
-                        //更新微信Token过期时间，返回普通Token给客户端
-                        $wxExpireTime = Carbon::now()->addRealSeconds(Constants::WX_TOKEN_TTL);
-                        $user->wx_token_expire = $wxExpireTime;
                         $user->last_login = Carbon::now();
                         $user->saveOrFail();
-                        return ['token' => $user->token, 'token_expire' => $user->token_expire->timestamp, 'wx_token_expire' => $user->wx_token_expire->timestamp];
+                        $result = ['token' => $user->token, 'token_expire' => $user->token_expire->timestamp];
+                        switch ($type) {
+                            case 'weixin':
+                                {
+                                    $result['wx_token_expire'] = $user->wx_token_expire->timestamp;
+                                }
+                                break;
+                            case 'qq':
+                                {
+                                    $result['qq_token_expire'] = Carbon::createFromTimeString($user->qq_token_expire)->timestamp;
+                                }
+                                break;
+                            case 'byte':
+                                {
+                                    $result['byte_token_expire'] = Carbon::createFromTimeString($user->baidu_token_expire)->timestamp;
+                                }
+                                break;
+                            case 'baidu':
+                                {
+                                    $result['baidu_token_expire'] = Carbon::createFromTimeString($user->byte_token_expire)->timestamp;
+                                }
+                                break;
+                        }
+                        return $result;
                     }
                 }
             } else {
@@ -144,12 +233,35 @@ class UserService extends BaseService
         $user->token_expire = $expireTime;
         $user->last_login = Carbon::now();
         $user->saveOrFail();
-        $wxExpireTime = null;
-        if (isset($user->wx_token_expire)) {
-            $wxExpireTime = $user->wx_token_expire->timestamp;
-        }
 
-        return ['token' => $user->token, 'token_expire' => $user->token_expire->timestamp, 'wx_token_expire' => $wxExpireTime];
+        $result = ['token' => $user->token, 'token_expire' => $user->token_expire->timestamp];
+
+        if($type == 'weixin') {
+            $wxExpireTime = null;
+            if (isset($user->wx_token_expire)) {
+                $wxExpireTime = $user->wx_token_expire->timestamp;
+            }
+            $result['wx_token_expire'] = $wxExpireTime;
+        }elseif ($type == 'qq') {
+            $qqExpireTime = null;
+            if (isset($user->qq_token_expire)) {
+                $qqExpireTime = Carbon::createFromTimeString($user->qq_token_expire)->timestamp;
+            }
+            $result['qq_token_expire'] = $qqExpireTime;
+        }elseif ($type == 'byte') {
+            $byteExpireTime = null;
+            if (isset($user->qq_token_expire)) {
+                $byteExpireTime = Carbon::createFromTimeString($user->byte_token_expire)->timestamp;
+            }
+            $result['byte_token_expire'] = $byteExpireTime;
+        }elseif ($type == 'baidu') {
+            $baiduExpireTime = null;
+            if (isset($user->qq_token_expire)) {
+                $baiduExpireTime = Carbon::createFromTimeString($user->baidu_token_expire)->timestamp;
+            }
+            $result['baidu_token_expire'] = $baiduExpireTime;
+        }
+        return $result;
     }
 
     public
@@ -213,12 +325,12 @@ class UserService extends BaseService
         $user->user_setting = $userSetting;
         //今天是否签到
         $today = Carbon::now()->toDateString();
-        $daySign = UserDaySign::query()->where('user_id',$this->userId())
-                                       ->whereDate('sign_date',$today)
-                                       ->first();
-        if($daySign instanceof UserDaySign) {
+        $daySign = UserDaySign::query()->where('user_id', $this->userId())
+            ->whereDate('sign_date', $today)
+            ->first();
+        if ($daySign instanceof UserDaySign) {
             $user->day_sign = 1;
-        }else{
+        } else {
             $user->day_sign = 0;
         }
 
@@ -235,9 +347,9 @@ class UserService extends BaseService
             'need_review' => false
         ];
 
-        if(isset($userInfo['groupId'])) {
+        if (isset($userInfo['groupId'])) {
             $groupId = $userInfo['groupId'];
-            if($groupId > 0) {
+            if ($groupId > 0) {
                 //检查是否合法用户组
                 UserGroup::findOrFail($groupId);
             }
@@ -328,24 +440,7 @@ class UserService extends BaseService
         $app = Factory::miniProgram($miniProgramConfig);
         $result = $app->encryptor->decryptData($user->wx_token, $iv, $encryptData);
         $phoneNumber = $result['purePhoneNumber'];
-        $user->mobile = $phoneNumber;
-        if ($user->first_edit_done == Constants::STATUS_WAIT) {
-            $registerUserInfo = config('register_user_info');
-            $nicknameList = $registerUserInfo['nickname_list'];
-            $randNicknameIndex = rand(0, count($nicknameList) - 1);
-            $user->nickname = $nicknameList[$randNicknameIndex] . rand(0, 9);
-            $avatarList = $registerUserInfo['avatar_list'];
-            $backgroundList = $registerUserInfo['background_list'];
-            $randAvatarIndex = rand(0, count($avatarList) - 1);
-            $user->avatar = $avatarList[$randAvatarIndex];
-            $randBackIndex = rand(0, count($backgroundList) - 1);
-            $user->background = $backgroundList[$randBackIndex];
-            $user->area = $registerUserInfo['area'];
-            $user->country = $registerUserInfo['country'];
-        }
-        $user->makeVisible('mobile');
-        $user->saveOrFail();
-        return $user;
+        return $this->innerMergeUserByPhoneNumber($phoneNumber,'weixin');
     }
 
     public function unreadCountInfo()
@@ -511,7 +606,7 @@ class UserService extends BaseService
         if (!$user instanceof User) {
             throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST);
         }
-        $verify = password_verify($password,$user->password);
+        $verify = password_verify($password, $user->password);
         if (!$verify) {
             throw new HyperfCommonException(ErrorCode::USER_ERROR_PASSWORD_WRONG);
         }
@@ -548,13 +643,13 @@ class UserService extends BaseService
 
     public function register(string $mobile, string $password)
     {
-        $user = User::query()->where('mobile',$mobile)->first();
+        $user = User::query()->where('mobile', $mobile)->first();
         if ($user instanceof User) {
             throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_DID_EXIST);
         }
         $user = new User();
         $user->mobile = $mobile;
-        $user->password = password_hash($password,PASSWORD_DEFAULT);
+        $user->password = password_hash($password, PASSWORD_DEFAULT);
         $user->saveOrFail();
         return $user;
     }
@@ -567,11 +662,11 @@ class UserService extends BaseService
     public function daySign()
     {
         $today = Carbon::now()->toDateString();
-        $sign = UserDaySign::query()->where('user_id',$this->userId())
-                                         ->whereDate('sign_date',$today)
-                                         ->first();
+        $sign = UserDaySign::query()->where('user_id', $this->userId())
+            ->whereDate('sign_date', $today)
+            ->first();
         if ($sign instanceof UserDaySign) {
-            throw new HyperfCommonException(ErrorCode::DO_NOT_REPEAT_ACTION,"您今天已经签到完成了！");
+            throw new HyperfCommonException(ErrorCode::DO_NOT_REPEAT_ACTION, "您今天已经签到完成了！");
         }
         $sign = new UserDaySign();
         $sign->user_id = $this->userId();
@@ -580,12 +675,140 @@ class UserService extends BaseService
         //加分
         $today = Carbon::now()->toDateString();
         $scoreDesc = "{$today}签到";
-        $this->push(new AddScoreJob($this->userId(),Constants::SCORE_ACTION_DAY_SIGN,$scoreDesc));
+        $this->push(new AddScoreJob($this->userId(), Constants::SCORE_ACTION_DAY_SIGN, $scoreDesc));
         return $this->success();
     }
 
     public function getUserGroupList()
     {
-        return UserGroup::query()->where('open_choose',Constants::STATUS_OK)->get();
+        return UserGroup::query()->where('open_choose', Constants::STATUS_OK)->get();
+    }
+
+    public function sendLoginSms(string $mobile)
+    {
+        $accessKey = config('qiniu.accessKey');
+        $secretKey = config('qiniu.secretKey');
+        $templateId = config('qiniu.loginTemplateId');
+        $appName = config('qiniu.appName');
+        Log::info("access:$accessKey secret:$secretKey temp:$templateId app:$appName");
+        $auth = new \Qiniu\Auth($accessKey, $secretKey);
+        $smsService = new Sms($auth);
+        $smsCode = "".rand(1,9).rand(1,9).rand(1,9).rand(1,9).rand(1,9);
+        $this->cache->set($mobile,$smsCode,self::SMS_CODE_TTL);
+        $customParam = [
+            'code' => $smsCode
+        ];
+        [$result,$error] = $smsService->sendMessage($templateId,[$mobile],$customParam);
+        if (isset($error)) {
+            Log::info("发送验证码错误:".json_encode($error));
+            throw new HyperfCommonException(ErrorCode::SEND_SMS_CODE_FAIL);
+        }
+        Log::info("短信发送结果:".json_encode($result));
+        if (isset($result['job_id'])) {
+            return $this->success();
+        }else{
+            throw new HyperfCommonException(ErrorCode::SEND_SMS_CODE_FAIL);
+        }
+    }
+
+    public function smsLogin(string $mobile, string $code, string $type)
+    {
+        //检查验证码是否过期了
+        $existCode = $this->cache->get($mobile);
+        if (empty($existCode)) {
+            throw new HyperfCommonException(ErrorCode::SMS_CODE_DID_EXPIRED);
+        }
+        if($existCode !== $code) {
+            throw new HyperfCommonException(ErrorCode::SMS_CODE_NOT_VALIDATE);
+        }
+        $result = $this->miniLoginWithPhoneNumber($mobile, $type);
+        //清除验证码
+        $this->cache->delete($mobile);
+        return $result;
+    }
+
+    public function innerMergeUserByPhoneNumber(string $mobile, string $type)
+    {
+        $user = null;
+        Db::transaction(function () use ($mobile,$type,&$user){
+            $user = User::query()->where('mobile',$mobile)->lockForUpdate()->first();
+            //已经登录了，合并用户资料到已经用手机登录的这个用户
+            if ($user instanceof User) {
+                $currentUser = User::findOrFail($this->userId());
+                if($currentUser->user_id == $user->user_id) {
+                    //同一个用户，无需处理
+                    return $currentUser;
+                }
+                //合并用户数据到有手机号的这个账号
+                if($type == 'qq') {
+                    $user->qq_token = $currentUser->qq_token;
+                    $user->qq_token_expire = $currentUser->qq_token_expire;
+                    $user->qq_openid = $currentUser->qq_openid;
+                    $currentUser->delete();
+                }
+                if($type == 'weixin') {
+                    $user->wx_token = $currentUser->wx_token;
+                    $user->wx_token_expire = $currentUser->wx_token_expire;
+                    $user->wx_openid = $currentUser->wx_openid;
+                    $currentUser->delete();
+                }
+                //有手机号的这个用户号登录态已过期
+                $now = Carbon::now();
+                if($now->isAfter($user->token_expire) == true ) {
+                    $token = $this->auth->login($user);
+                    $user->token = $token;
+                    //不能使用之前的那个会导致时间变长
+                    $expireTime = Carbon::now()->addRealSeconds(Auth::tokenTTL());
+                    $user->token_expire = $expireTime;
+                }
+                $user->makeVisible('mobile');
+                $user->saveOrFail();
+                return $user;
+            }else {
+                $user = User::findOrFail($this->userId());
+                $user->mobile = $mobile;
+                //没有这个手机号登录
+                if ($user->first_edit_done == Constants::STATUS_WAIT) {
+                    $registerUserInfo = config('register_user_info');
+                    $nicknameList = $registerUserInfo['nickname_list'];
+                    $randNicknameIndex = rand(0, count($nicknameList) - 1);
+                    $user->nickname = $nicknameList[$randNicknameIndex] . rand(0, 9);
+                    $avatarList = $registerUserInfo['avatar_list'];
+                    $backgroundList = $registerUserInfo['background_list'];
+                    $randAvatarIndex = rand(0, count($avatarList) - 1);
+                    $user->avatar = $avatarList[$randAvatarIndex];
+                    $randBackIndex = rand(0, count($backgroundList) - 1);
+                    $user->background = $backgroundList[$randBackIndex];
+                    $user->area = $registerUserInfo['area'];
+                    $user->country = $registerUserInfo['country'];
+                }
+                $user->makeVisible('mobile');
+                $user->saveOrFail();
+                return $user;
+            }
+        });
+
+        if(!isset($user)) {
+            throw new HyperfCommonException(ErrorCode::LOGIN_MERGE_USER_FAIL);
+        }
+
+        $visibleItems = [
+            'mobile',
+            'token',
+            'token_expire',
+            'wx_token_expire',
+            'qq_token_expire',
+            'baidu_token_expire',
+            'byte_token_expire'
+        ];
+        $user->makeVisible($visibleItems);
+
+        return $user;
+    }
+
+    //非微信走短信登录的小程序
+    public function miniLoginWithPhoneNumber(string $mobile, string $type)
+    {
+        return $this->innerMergeUserByPhoneNumber($mobile, $type);
     }
 }

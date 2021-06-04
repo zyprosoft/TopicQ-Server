@@ -38,7 +38,6 @@ class CreateUserTable extends Migration
             $table->integer('unread_comment_count')->default(0)->comment('未读评论数量');
 
             $table->index('status');
-            $table->unique('wx_openid');
             $table->unique('username');
             $table->softDeletes();
             $table->timestamps();

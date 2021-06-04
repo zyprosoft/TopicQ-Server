@@ -22,7 +22,13 @@ class ActivityController extends AbstractController
 
     public function getActivityList()
     {
-        $result = $this->service->getActivityList();
+        $this->validate([
+            'type' => 'integer',
+            'forumId' => 'integer|exists:forum,forum_id'
+        ]);
+        $type = $this->request->param('type');
+        $forumId = $this->request->param('forumId');
+        $result = $this->service->getActivityList($type,$forumId);
         return $this->success($result);
     }
 }
