@@ -20,8 +20,11 @@ class ThirdPartService extends BaseService
 {
     const MINI_PROGRAM_BASE_ALWAYS_USE_COUNT = 3;
 
-    public function getAllMiniProgram(bool $byCategory = false, string $type = 'weixin')
+    public function getAllMiniProgram(bool $byCategory = false, string $type = null)
     {
+        if (!isset($type)) {
+            $type = 'weixin';
+        }
         if ($type == 'qq' ) {
             if ($byCategory) {
                 return QqMiniProgram::all();
