@@ -9,7 +9,9 @@ use App\Constants\ErrorCode;
 use App\Job\AddScoreJob;
 use App\Job\UserUpdateMachineAuditJob;
 use App\Model\Advice;
+use App\Model\Comment;
 use App\Model\Notification;
+use App\Model\Post;
 use App\Model\PrivateMessage;
 use App\Model\TokenHistory;
 use App\Model\User;
@@ -461,6 +463,18 @@ class UserService extends BaseService
         }
 
         $unreadList = Db::select("select comment_id from comment where (post_owner_id = ? or parent_comment_owner_id = ?) and comment_id not in (select comment_id from user_comment_read where user_id = ?)", [$userId, $userId, $userId]);
+        $postList = Post::query()->select(['post_id','owner_id'])
+                                 ->where('owner_id',$userId)
+                                 ->get()
+                                 ->keyBy('post_id');
+        //过滤这种帖子是自己的，评论也是自己发的
+        $unreadList = collect($unreadList)->filter(function (Comment $comment) use ($postList) {
+            $post = $postList->get($comment->post_id);
+            if(!empty($post) && $comment->owner_id == $post->owner_id) {
+                return true;
+            }
+            return false;
+        });
 
         //统计私信未看的数量
         $unreadMessage = PrivateMessage::query()->where('receive_id', $userId)
