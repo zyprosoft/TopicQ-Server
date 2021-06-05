@@ -28,6 +28,7 @@ class AlterPostPraiseAddReadStatus extends Migration
         Schema::table('user_praise_post', function (Blueprint $table) {
             //
             $table->dropColumn('owner_read_status');
+            $table->dropColumn('post_owner_id');
         });
     }
 }
