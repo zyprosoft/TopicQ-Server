@@ -500,13 +500,16 @@ class UserService extends BaseService
 
         $total = $unreadList->count() + $unreadMessage + $notificationCount + $praiseCount + $postPraiseCount;
 
+        $praiseTotal = $praiseCount + $postPraiseCount;
+
         return [
             'total' => $total,
             'reply_count' => $unreadList->count(),
             'message_count' => $unreadMessage,
             'notification_count' => $notificationCount,
             'praise_count' => $praiseCount,
-            'post_praise_count' => $postPraiseCount
+            'post_praise_count' => $postPraiseCount,
+            'praise_total' => $praiseTotal
         ];
     }
 
