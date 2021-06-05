@@ -16,6 +16,7 @@ class CreateCommentAtUserTable extends Migration
             $table->bigInteger('comment_id')->comment('评论ID');
             $table->bigInteger('user_id')->comment('用户ID');
 
+            $table->index('comment_id');
             $table->timestamps();
             $table->engine = "InnoDB";
             $table->charset = "utf8mb4";

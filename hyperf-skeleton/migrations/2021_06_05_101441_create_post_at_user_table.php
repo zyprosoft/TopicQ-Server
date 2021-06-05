@@ -16,6 +16,7 @@ class CreatePostAtUserTable extends Migration
             $table->bigInteger('post_id')->comment('帖子ID');
             $table->bigInteger('user_id')->comment('用户ID');
 
+            $table->index('post_id');
             $table->timestamps();
             $table->engine = "InnoDB";
             $table->charset = "utf8mb4";
