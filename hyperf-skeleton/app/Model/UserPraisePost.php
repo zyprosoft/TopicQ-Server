@@ -9,6 +9,7 @@ namespace App\Model;
  * @property int $post_id 帖子ID
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
+ * @property int $owner_read_status 帖主已读状态
  */
 class UserPraisePost extends Model
 {
@@ -29,6 +30,7 @@ class UserPraisePost extends Model
      *
      * @var array
      */
+<<<<<<< HEAD
     protected $casts = ['id' => 'int', 'user_id' => 'integer', 'post_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
 
     public function author()
@@ -40,4 +42,7 @@ class UserPraisePost extends Model
     {
         return $this->hasOne(Post::class,'post_id','post_id')->select(['title','post_id']);
     }
+=======
+    protected $casts = ['id' => 'int', 'user_id' => 'integer', 'post_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'owner_read_status' => 'integer'];
+>>>>>>> f2f1c3951c9663d677b48c98d6bf85cae866285b
 }
