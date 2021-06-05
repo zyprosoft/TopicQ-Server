@@ -13,7 +13,13 @@ class CreateCommentAtUserTable extends Migration
     {
         Schema::create('comment_at_user', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('comment_id')->comment('评论ID');
+            $table->bigInteger('user_id')->comment('用户ID');
+
             $table->timestamps();
+            $table->engine = "InnoDB";
+            $table->charset = "utf8mb4";
+            $table->collation = "utf8mb4_unicode_ci";
         });
     }
 
