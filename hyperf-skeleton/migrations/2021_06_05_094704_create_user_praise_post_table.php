@@ -13,7 +13,14 @@ class CreateUserPraisePostTable extends Migration
     {
         Schema::create('user_praise_post', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('user_id')->comment('用户ID');
+            $table->bigInteger('post_id')->comment('帖子ID');
+
+            $table->unique(['user_id','post_id']);
             $table->timestamps();
+            $table->engine = "InnoDB";
+            $table->charset = "utf8mb4";
+            $table->collation = "utf8mb4_unicode_ci";
         });
     }
 
