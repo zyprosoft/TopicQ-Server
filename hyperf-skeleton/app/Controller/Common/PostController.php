@@ -431,4 +431,14 @@ class PostController extends AbstractController
         $result = $this->service->praiseList($pageIndex, $pageSize);
         return $this->success($result);
     }
+
+    public function markPraiseRead(AuthedRequest $request)
+    {
+        $this->validate([
+            'praiseIds' => 'array|required|min:1',
+        ]);
+        $praiseIds = $request->param('praiseIds');
+        $result = $this->service->markPraiseRead($praiseIds);
+        return $this->success($result);
+    }
 }

@@ -1267,4 +1267,12 @@ class PostService extends BaseService
         $total = UserPraisePost::query()->where('post_owner_id', $this->userId())->count();
         return ['total'=>$total,'list'=>$list,'id_list'=> $unreadIds];
     }
+
+    public function markPraiseRead(array $praiseIds)
+    {
+        UserPraisePost::query()->whereIn('id', $praiseIds)
+            ->where('post_owner_id', $this->userId())
+            ->update(['owner_read_status'=>1]);
+        return $this->success();
+    }
 }
