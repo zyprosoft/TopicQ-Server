@@ -30,4 +30,14 @@ class UserPraisePost extends Model
      * @var array
      */
     protected $casts = ['id' => 'int', 'user_id' => 'integer', 'post_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+
+    public function author()
+    {
+        return $this->hasOne(User::class,'user_id','user_id');
+    }
+
+    public function post()
+    {
+        return $this->hasOne(Post::class,'post_id','post_id')->select(['title','post_id']);
+    }
 }

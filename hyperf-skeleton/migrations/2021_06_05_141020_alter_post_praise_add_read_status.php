@@ -13,8 +13,10 @@ class AlterPostPraiseAddReadStatus extends Migration
     {
         Schema::table('user_praise_post', function (Blueprint $table) {
             //
+            $table->bigInteger('post_owner_id')->default(0)->comment('帖主');
             $table->tinyInteger('owner_read_status')->default(0)->comment('帖主已读状态');
             $table->index('owner_read_status');
+            $table->index('post_owner_id');
         });
     }
 
