@@ -772,11 +772,19 @@ class PostService extends BaseService
             $praise->delete();
             return $this->success();
         }
+        $post = Post::find($postId);
+
+        $praise = new UserPraisePost();
+        $praise->post_owner_id = $post->owner_id;
+        $praise->user_id = $this->userId();
+        $praise->post_id = $postId;
+        $praise->saveOrFail();
+
         //异步刷新帖子信息
         $this->queueService->updatePost($postId);
 
         //异步增加积分
-        $post = Post::find($postId);
+
         $scoreDesc = "点赞帖子《{$post->title}》";
         $this->push(new AddScoreJob($post->owner_id,Constants::SCORE_ACTION_POST_PRAISE, $scoreDesc));
 
@@ -1247,16 +1255,16 @@ class PostService extends BaseService
 
     public function praiseList(int $pageIndex,int $pageSize)
     {
-//        $list = UserPraisePost::query()->where('post_owner_id', $this->userId())
-//            ->with(['post','author'])
-//            ->offset($pageIndex * $pageSize)
-//            ->limit($pageSize)
-//            ->latest()
-//            ->get();
-//
-//        //找出未读Id列表
-//        $unreadIds = $list->where('owner_read_status',0)->pluck('id');
-//        $total = UserPraisePost::query()->where('post_owner_id', $this->userId())->count();
-//        return ['total'=>$total,'list'=>$list,'id_list'=> $unreadIds];
+        $list = UserPraisePost::query()->where('post_owner_id', $this->userId())
+            ->with(['post','author'])
+            ->offset($pageIndex * $pageSize)
+            ->limit($pageSize)
+            ->latest()
+            ->get();
+
+        //找出未读Id列表
+        $unreadIds = $list->where('owner_read_status',0)->pluck('id');
+        $total = UserPraisePost::query()->where('post_owner_id', $this->userId())->count();
+        return ['total'=>$total,'list'=>$list,'id_list'=> $unreadIds];
     }
 }

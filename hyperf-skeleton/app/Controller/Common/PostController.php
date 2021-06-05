@@ -419,4 +419,16 @@ class PostController extends AbstractController
         $result = $this->service->getUserAttentionStatus();
         return $this->success($result);
     }
+
+    public function praiseList(AuthedRequest $request)
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30',
+        ]);
+        $pageIndex = $request->param('pageIndex');
+        $pageSize = $request->param('pageSize');
+        $result = $this->service->praiseList($pageIndex, $pageSize);
+        return $this->success($result);
+    }
 }

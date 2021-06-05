@@ -21,6 +21,7 @@ use App\Model\UserCommentPraise;
 use App\Model\UserDaySign;
 use App\Model\UserGroup;
 use App\Model\UserMiniProgramUse;
+use App\Model\UserPraisePost;
 use App\Model\UserSetting;
 use App\Model\UserUpdate;
 use Carbon\Carbon;
@@ -492,14 +493,20 @@ class UserService extends BaseService
             ->where('owner_read_status', Constants::STATUS_WAIT)
             ->count();
 
-        $total = $unreadList->count() + $unreadMessage + $notificationCount + $praiseCount;
+        //统计帖子未读点赞数量
+        $postPraiseCount = UserPraisePost::query()->where('post_owner_id', $userId)
+            ->where('owner_read_status', Constants::STATUS_WAIT)
+            ->count();
+
+        $total = $unreadList->count() + $unreadMessage + $notificationCount + $praiseCount + $postPraiseCount;
 
         return [
             'total' => $total,
             'reply_count' => $unreadList->count(),
             'message_count' => $unreadMessage,
             'notification_count' => $notificationCount,
-            'praise_count' => $praiseCount
+            'praise_count' => $praiseCount,
+            'post_praise_count' => $postPraiseCount
         ];
     }
 
