@@ -472,9 +472,9 @@ class UserService extends BaseService
             $post = $postList->get($comment->post_id);
             Log::info("post:".json_encode($post));
             if(!empty($post) && $comment->owner_id == $post->owner_id) {
-                return true;
+                return false;
             }
-            return false;
+            return true;
         });
 
         //统计私信未看的数量
@@ -492,11 +492,11 @@ class UserService extends BaseService
             ->where('owner_read_status', Constants::STATUS_WAIT)
             ->count();
 
-        $total = count($unreadList) + $unreadMessage + $notificationCount + $praiseCount;
+        $total = $unreadList->count() + $unreadMessage + $notificationCount + $praiseCount;
 
         return [
             'total' => $total,
-            'reply_count' => count($unreadList),
+            'reply_count' => $unreadList->count(),
             'message_count' => $unreadMessage,
             'notification_count' => $notificationCount,
             'praise_count' => $praiseCount
