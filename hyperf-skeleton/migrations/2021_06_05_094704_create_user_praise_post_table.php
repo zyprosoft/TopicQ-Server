@@ -15,7 +15,11 @@ class CreateUserPraisePostTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->comment('用户ID');
             $table->bigInteger('post_id')->comment('帖子ID');
-
+            $table->tinyInteger('owner_read_status')->default(0)->comment('帖主已读状态');
+            $table->tinyInteger('post_owner_id')->default(0)->comment('帖主');
+            
+            $table->index('post_owner_id');
+            $table->index('owner_read_status');
             $table->unique(['user_id','post_id']);
             $table->timestamps();
             $table->engine = "InnoDB";
