@@ -1247,7 +1247,7 @@ class PostService extends BaseService
 
     public function praiseList(int $pageIndex,int $pageSize)
     {
-        $list = UserPraisePost::query()->where('comment_owner_id', $this->userId())
+        $list = UserPraisePost::query()->where('post_owner_id', $this->userId())
             ->with(['post','author'])
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
@@ -1256,7 +1256,7 @@ class PostService extends BaseService
 
         //找出未读Id列表
         $unreadIds = $list->where('owner_read_status',0)->pluck('id');
-        $total = UserPraisePost::query()->where('comment_owner_id', $this->userId())->count();
+        $total = UserPraisePost::query()->where('post_owner_id', $this->userId())->count();
         return ['total'=>$total,'list'=>$list,'id_list'=> $unreadIds];
     }
 }
