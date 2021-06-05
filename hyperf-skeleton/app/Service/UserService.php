@@ -462,7 +462,7 @@ class UserService extends BaseService
             }
         }
 
-        $unreadList = Db::select("select comment_id,post_id,owner_id from comment where (post_owner_id = ? or parent_comment_owner_id = ?) and comment_id not in (select comment_id from user_comment_read where user_id = ?)", [$userId, $userId, $userId]);
+        $unreadList = Db::select("select comment_id,post_id,owner_id from comment where (post_owner_id = ? or parent_comment_owner_id = ?) and owner_id <> ? and comment_id not in (select comment_id from user_comment_read where user_id = ?)", [$userId, $userId, $userId, $userId]);
         $postList = Post::query()->select(['post_id','owner_id'])
                                  ->where('owner_id',$userId)
                                  ->get()
