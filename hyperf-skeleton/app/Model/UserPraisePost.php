@@ -30,7 +30,6 @@ class UserPraisePost extends Model
      *
      * @var array
      */
-<<<<<<< HEAD
     protected $casts = ['id' => 'int', 'user_id' => 'integer', 'post_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
 
     public function author()
@@ -42,7 +41,4 @@ class UserPraisePost extends Model
     {
         return $this->hasOne(Post::class,'post_id','post_id')->select(['title','post_id']);
     }
-=======
-    protected $casts = ['id' => 'int', 'user_id' => 'integer', 'post_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'owner_read_status' => 'integer'];
->>>>>>> f2f1c3951c9663d677b48c98d6bf85cae866285b
 }
