@@ -462,14 +462,14 @@ class UserService extends BaseService
             }
         }
 
-        $unreadList = Db::select("select comment_id from comment where (post_owner_id = ? or parent_comment_owner_id = ?) and comment_id not in (select comment_id from user_comment_read where user_id = ?)", [$userId, $userId, $userId]);
+        $unreadList = Db::select("select comment_id,post_id,owner_id from comment where (post_owner_id = ? or parent_comment_owner_id = ?) and comment_id not in (select comment_id from user_comment_read where user_id = ?)", [$userId, $userId, $userId]);
         $postList = Post::query()->select(['post_id','owner_id'])
                                  ->where('owner_id',$userId)
                                  ->get()
                                  ->keyBy('post_id');
         //过滤这种帖子是自己的，评论也是自己发的
         Log::info("unreadList:".json_encode($unreadList));
-        $unreadList = collect($unreadList)->filter(function (Comment $comment) use ($postList) {
+        $unreadList = collect($unreadList)->filter(function ($comment) use ($postList) {
             $post = $postList->get($comment->post_id);
             if(!empty($post) && $comment->owner_id == $post->owner_id) {
                 return true;
