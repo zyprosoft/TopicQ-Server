@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Constants\Constants;
 use App\Constants\ErrorCode;
+use App\Job\CommentAtUserNotificationJob;
 use App\Job\CommentMachineAuditJob;
 use App\Model\Comment;
 use App\Model\Post;
@@ -41,42 +42,66 @@ class CommentService extends BaseService
         return $userId;
     }
 
-    public function create(int $postId, string $content = null, array $imageList = null, string $link = null)
+    public function create(int $postId,
+                           string $content = null,
+                           array $imageList = null,
+                           string $link = null,
+                           array $atUserList = null
+    )
     {
         //检查用户是不是被拉黑
         UserService::checkUserStatusOrFail();
 
         $post = Post::findOrFail($postId);
 
-        $comment = new Comment();
-        $comment->owner_id = $this->userId();
-        $comment->post_id = $postId;
-        $comment->post_owner_id = $post->owner_id;
-        if (isset($link)) {
-            $comment->link = $link;
-        }
-        if(isset($content)) {
-            $comment->content = $content;
-        }
-
-        $imageAuditCheck = [
-            'need_audit' => false,
-            'need_review' => false
-        ];
-        if (isset($imageList)) {
-            if(!empty($imageList)) {
-                $comment->image_list = implode(';', $imageList);
-                $imageIds = $this->imageIdsFromUrlList($imageList);
-                $comment->image_ids = implode(';',$imageIds);
-                //审核图片
-                $imageAuditCheck = $this->auditImageOrFail($imageList);
+        $comment = null;
+        Db::transaction(function () use ($postId,$post,&$comment,$content,$imageList,$link,$atUserList){
+            $comment = new Comment();
+            $comment->owner_id = $this->userId();
+            $comment->post_id = $postId;
+            $comment->post_owner_id = $post->owner_id;
+            if (isset($link)) {
+                $comment->link = $link;
             }
-        }
+            if(isset($content)) {
+                $comment->content = $content;
+            }
 
-        if($imageAuditCheck['need_review']) {
-            $comment->machine_audit = Constants::STATUS_REVIEW;
+            $imageAuditCheck = [
+                'need_audit' => false,
+                'need_review' => false
+            ];
+            if (isset($imageList)) {
+                if(!empty($imageList)) {
+                    $comment->image_list = implode(';', $imageList);
+                    $imageIds = $this->imageIdsFromUrlList($imageList);
+                    $comment->image_ids = implode(';',$imageIds);
+                    //审核图片
+                    $imageAuditCheck = $this->auditImageOrFail($imageList);
+                }
+            }
+
+            if($imageAuditCheck['need_review']) {
+                $comment->machine_audit = Constants::STATUS_REVIEW;
+            }
+            $comment->saveOrFail();
+
+            //at列表
+            if (isset($atUserList) && count($atUserList) > 0) {
+                $batchAtUser = [];
+                collect($atUserList)->map(function (int $atUserId) use (&$batchAtUser,$comment) {
+                    $batchAtUser[] = [
+                        'user_id' => $atUserId,
+                        'comment_id' => $comment->comment_id
+                    ];
+                });
+                Db::table('comment_at_user')->insertOrIgnore($batchAtUser);
+            }
+        });
+
+        if(! $comment instanceof Comment) {
+            throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST,"评论创建失败");
         }
-        $comment->saveOrFail();
 
         //更新帖子统计信息
         $this->queueService->updatePost($postId);
@@ -88,6 +113,11 @@ class CommentService extends BaseService
 
         //更新热门评论列表
         $this->queueService->updateCommentHot($postId);
+
+        //异步通知被@
+        if(count($atUserList) > 0) {
+            $this->push(new CommentAtUserNotificationJob($comment->comment_id,$atUserList));
+        }
 
         //异步增加积分
         $scoreDesc = "评论帖子《{$post->title}》";

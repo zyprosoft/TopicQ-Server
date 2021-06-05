@@ -111,7 +111,7 @@ class Post extends Model
     }
     public function topic()
     {
-        return $this->hasOne(Topic::class, 'topic_id', 'topic_id');
+        return $this->hasOne(Topic::class, 'topic_id', 'topic_id')->select(['topic_id','title']);
     }
     public function toSearchableArray()
     {
@@ -120,5 +120,10 @@ class Post extends Model
     public function document_list()
     {
         return $this->hasMany(PostDocument::class,'post_id','post_id');
+    }
+
+    public function at_user_list()
+    {
+        return $this->hasMany(User::class,'post_id','post_id')->select(['nickname','user_id']);
     }
 }

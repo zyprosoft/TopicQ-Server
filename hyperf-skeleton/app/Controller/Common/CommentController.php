@@ -27,13 +27,15 @@ class CommentController extends AbstractController
             'content' => 'string|required_without:imageList|min:1|max:500|sensitive',
             'postId' => 'integer|required_without:content|min:1|exists:post,post_id',
             'imageList' => 'array|min:1|max:4',
-            'link' => 'string|min:1|max:500'
+            'link' => 'string|min:1|max:500',
+            'atUserList' => 'array|min:1'
         ]);
         $postId = $request->param('postId');
         $imageList = $request->param('imageList');
         $content = $request->param('content');
         $link = $request->param('link');
-        $result = $this->service->create($postId, $content, $imageList, $link);
+        $atUserList = $request->param('atUserList');
+        $result = $this->service->create($postId, $content, $imageList, $link, $atUserList);
         return $this->success($result);
     }
 
