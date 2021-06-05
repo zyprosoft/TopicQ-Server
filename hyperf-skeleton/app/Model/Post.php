@@ -111,7 +111,7 @@ class Post extends Model
     }
     public function topic()
     {
-        return $this->hasOne(Topic::class, 'topic_id', 'topic_id')->select(['topic_id','title']);
+        return $this->hasOne(Topic::class, 'topic_id', 'topic_id');
     }
     public function toSearchableArray()
     {
