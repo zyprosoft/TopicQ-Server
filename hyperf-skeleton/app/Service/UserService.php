@@ -477,7 +477,10 @@ class UserService extends BaseService
             ->where('owner_read_status', Constants::STATUS_WAIT)
             ->count();
 
+        $total = count($unreadList) + $unreadMessage + $notificationCount + $praiseCount;
+
         return [
+            'total' => $total,
             'reply_count' => count($unreadList),
             'message_count' => $unreadMessage,
             'notification_count' => $notificationCount,
