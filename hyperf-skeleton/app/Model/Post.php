@@ -124,6 +124,6 @@ class Post extends Model
 
     public function at_user_list()
     {
-        return $this->hasMany(PostAtUser::class,'post_id','post_id')->pluck('user');
+        return $this->hasMany(PostAtUser::class,'post_id','post_id');
     }
 }
