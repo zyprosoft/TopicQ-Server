@@ -30,4 +30,11 @@ class PostAtUser extends Model
      * @var array
      */
     protected $casts = ['id' => 'int', 'post_id' => 'integer', 'user_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+
+    protected $with = ['user'];
+
+    public function user()
+    {
+        return $this->hasOne(User::class,'user_id','user_id')->select(['nickname','user_id']);
+    }
 }

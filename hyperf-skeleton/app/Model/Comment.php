@@ -67,6 +67,6 @@ class Comment extends Model
     }
     public function at_user_list()
     {
-        return $this->hasMany(User::class,'comment_id','comment_id')->select(['nickname']);
+        return $this->hasMany(CommentAtUser::class,'comment_id','comment_id')->pluck('user');
     }
 }
