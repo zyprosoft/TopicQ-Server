@@ -9,6 +9,7 @@ namespace App\Model;
  * @property int $post_id 帖子ID
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
+ * @property int $owner_read_status 帖主已读状态
  */
 class UserPraisePost extends Model
 {
@@ -29,5 +30,5 @@ class UserPraisePost extends Model
      *
      * @var array
      */
-    protected $casts = ['id' => 'int', 'user_id' => 'integer', 'post_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected $casts = ['id' => 'int', 'user_id' => 'integer', 'post_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'owner_read_status' => 'integer'];
 }
