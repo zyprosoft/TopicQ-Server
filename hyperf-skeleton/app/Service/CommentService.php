@@ -361,6 +361,10 @@ class CommentService extends BaseService
             $praise->user_id = $this->userId();
             $praise->comment_id = $commentId;
             $praise->comment_owner_id = $comment->owner_id;
+            //自己给自己点赞设置为已读
+            if($comment->owner_id == $this->userId()) {
+                $praise->owner_read_status = Constants::STATUS_OK;
+            }
             $praise->saveOrFail();
             Comment::findOrFail($commentId)->increment('praise_count');
         });

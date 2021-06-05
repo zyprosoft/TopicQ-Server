@@ -778,6 +778,12 @@ class PostService extends BaseService
         $praise->post_owner_id = $post->owner_id;
         $praise->user_id = $this->userId();
         $praise->post_id = $postId;
+
+        //自己给自己点赞不提醒
+        if($post->owner_id == $this->userId()) {
+            $praise->owner_read_status = Constants::STATUS_OK;
+        }
+
         $praise->saveOrFail();
 
         //异步刷新帖子信息
