@@ -1244,4 +1244,9 @@ class PostService extends BaseService
         }
         return ['status' => 0];
     }
+
+    public function praiseList(int $pageIndex,int $pageSize)
+    {
+
+    }
 }
