@@ -5,6 +5,7 @@ namespace App\Job;
 use App\Model\Comment;
 use App\Model\Post;
 use App\Model\UserFavorite;
+use App\Model\UserPraisePost;
 use Hyperf\AsyncQueue\Job;
 use Hyperf\DbConnection\Db;
 use ZYProSoft\Facade\Cache;
@@ -60,6 +61,11 @@ class PostUpdateJob extends Job
         $favoriteCount = UserFavorite::query()->where('post_id', $this->postId)
             ->count();
         $post->favorite_count = $favoriteCount;
+
+        //统计点赞数
+        $praiseCount = UserPraisePost::query()->where('post_id', $this->postId)
+                                              ->count();
+        $post->praise_count = $praiseCount;
 
         //最后一条回复
         $comment = Comment::query()->where('post_id', $this->postId)

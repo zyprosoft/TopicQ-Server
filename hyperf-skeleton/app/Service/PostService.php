@@ -17,6 +17,7 @@ use App\Model\User;
 use App\Model\UserAttentionOther;
 use App\Model\UserAttentionTopic;
 use App\Model\UserFavorite;
+use App\Model\UserPraisePost;
 use App\Model\UserRead;
 use App\Model\UserSubscribe;
 use App\Model\UserSubscribePassword;
@@ -463,6 +464,15 @@ class PostService extends BaseService
             }else{
                 $post->author_attention = 0;
             }
+            //是否点赞
+            $praise = UserPraisePost::query()->where('user_id',$this->userId())
+                                             ->where('post_id',$postId)
+                                             ->first();
+            if($praise instanceof UserPraisePost) {
+                $post->is_praise = 1;
+            }else{
+                $post->is_praise = 0;
+            }
         } else {
             //需要检查订阅权限，并且不是管理员
             $forum = Forum::findOrFail($post->forum_id);
@@ -474,6 +484,7 @@ class PostService extends BaseService
                     throw new HyperfCommonException(ErrorCode::FORUM_POST_NEED_AUTH);
                 }
             }
+            $post->is_praise = 0;
             $post->is_read = 0;
             $post->is_voted = 0;
             $post->is_favorite = 0;
@@ -753,7 +764,16 @@ class PostService extends BaseService
 
     public function praise(int $postId)
     {
-        Post::findOrFail($postId)->increment('praise_count');
+        $praise = UserPraisePost::query()->where('user_id',$this->userId())
+                                         ->where('post_id', $postId)
+                                         ->first();
+        if ($praise instanceof UserPraisePost) {
+            //取消
+            $praise->delete();
+            return $this->success();
+        }
+        //异步刷新帖子信息
+        $this->queueService->updatePost($postId);
 
         //异步增加积分
         $post = Post::find($postId);
