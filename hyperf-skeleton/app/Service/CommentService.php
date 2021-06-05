@@ -87,7 +87,7 @@ class CommentService extends BaseService
             $comment->saveOrFail();
 
             //at列表
-            if (isset($atUserList) && count($atUserList) > 0) {
+            if (!empty($atUserList)) {
                 $batchAtUser = [];
                 collect($atUserList)->map(function (int $atUserId) use (&$batchAtUser,$comment) {
                     $batchAtUser[] = [
@@ -115,7 +115,7 @@ class CommentService extends BaseService
         $this->queueService->updateCommentHot($postId);
 
         //异步通知被@
-        if(count($atUserList) > 0) {
+        if(!empty($atUserList)) {
             $this->push(new CommentAtUserNotificationJob($comment->comment_id,$atUserList));
         }
 
