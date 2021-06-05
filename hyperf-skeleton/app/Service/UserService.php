@@ -468,6 +468,7 @@ class UserService extends BaseService
                                  ->get()
                                  ->keyBy('post_id');
         //过滤这种帖子是自己的，评论也是自己发的
+        Log::info("unreadList:".json_encode($unreadList));
         $unreadList = collect($unreadList)->filter(function (Comment $comment) use ($postList) {
             $post = $postList->get($comment->post_id);
             if(!empty($post) && $comment->owner_id == $post->owner_id) {
