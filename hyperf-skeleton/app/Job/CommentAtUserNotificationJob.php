@@ -37,7 +37,7 @@ class CommentAtUserNotificationJob extends \Hyperf\AsyncQueue\Job
            //
             $title = $comment->author->nickname."在评论中@了你";
             $commentAtUserString = '';
-            collect($comment->at_user_list())->map(function (CommentAtUser $atUser) use(&$commentAtUserString) {
+            $comment->at_user_list->map(function (CommentAtUser $atUser) use(&$commentAtUserString) {
                 $commentAtUserString .= "@".$atUser->author->nickname."  ";
             });
             $content = "\"".$comment->content."\"".$commentAtUserString;
