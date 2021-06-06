@@ -6,6 +6,7 @@ namespace App\Job;
 
 use App\Constants\Constants;
 use App\Model\Comment;
+use App\Model\CommentAtUser;
 use App\Model\User;
 use App\Service\NotificationService;
 use Hyperf\Utils\ApplicationContext;
@@ -36,8 +37,8 @@ class CommentAtUserNotificationJob extends \Hyperf\AsyncQueue\Job
            //
             $title = $comment->author->nickname."在评论中@了你";
             $commentAtUserString = '';
-            collect($comment->at_user_list())->map(function (User $user) use(&$commentAtUserString) {
-                $commentAtUserString .= "@".$user->nickname."  ";
+            collect($comment->at_user_list())->map(function (CommentAtUser $atUser) use(&$commentAtUserString) {
+                $commentAtUserString .= "@".$atUser->author->nickname."  ";
             });
             $content = "\"".$comment->content."\"".$commentAtUserString;
             $level = Constants::MESSAGE_LEVEL_WARN;
