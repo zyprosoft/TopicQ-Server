@@ -421,7 +421,7 @@ class CommentService extends BaseService
     public function detail(int $commentId)
     {
         $comment = Comment::query()->where('comment_id', $commentId)
-                                   ->with(['parent_comment','at_user_list'])
+                                   ->with(['parent_comment'])
                                    ->first();
         if (!$comment instanceof Comment) {
             throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_DID_EXIST);
