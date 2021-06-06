@@ -49,12 +49,15 @@ use Hyperf\Scout\Searchable;
  * @property int $topic_id 话题ID
  * @property int $only_self_visible 仅自己可见
  * @property int $red_bag_id 红包ID
+ * @property string $last_active_time 上一次活跃时间，通过更新帖子，或者回复，可以刷新帖子的活跃时间
+ * @property-read \Hyperf\Database\Model\Collection|\App\Model\PostAtUser[] $at_user_list 
  * @property-read \App\Model\User $author 
+ * @property-read \Hyperf\Database\Model\Collection|\App\Model\PostDocument[] $document_list 
  * @property-read \App\Model\Forum $forum 
  * @property-read \App\Model\SubscribeForumPassword $forum_voucher 
  * @property-read \App\Model\MiniProgram $mini_program 
  * @property-read \App\Model\OfficialAccount $official_account 
- * @property \App\Model\Topic $topic
+ * @property-read \App\Model\Topic $topic 
  * @property-read \App\Model\Vote $vote 
  * @property-read \App\Model\VoucherPolicy $voucher_policy 
  */
@@ -119,11 +122,10 @@ class Post extends Model
     }
     public function document_list()
     {
-        return $this->hasMany(PostDocument::class,'post_id','post_id');
+        return $this->hasMany(PostDocument::class, 'post_id', 'post_id');
     }
-
     public function at_user_list()
     {
-        return $this->hasMany(PostAtUser::class,'post_id','post_id');
+        return $this->hasMany(PostAtUser::class, 'post_id', 'post_id');
     }
 }
