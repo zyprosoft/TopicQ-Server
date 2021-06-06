@@ -3,6 +3,7 @@
 
 namespace App\Task;
 
+use App\Constants\Constants;
 use App\Model\Post;
 use Carbon\Carbon;
 use Hyperf\DbConnection\Db;
@@ -33,6 +34,8 @@ class PostRecommendCalculateTask
                 'favorite_count','comment_count','read_count','join_user_count','post_id','recommend_weight'
             ])
                 ->where('post_id','>', $lastPostId)
+                //只计算没有调整过权重的帖子，管理员调整过的就不重新计算了
+                ->where('ignore_machine_recommend',Constants::STATUS_NOT)
                 ->offset($pageIndex)
                 ->limit($pageSize)
                 ->get();

@@ -330,6 +330,7 @@ class PostService extends BaseService
     {
         $post = Post::findOrFail($postId);
         $post->recommend_weight = $weight;
+        $post->ignore_machine_recommend = 1;//忽略机器计算权重
         $post->saveOrFail();
     }
 
