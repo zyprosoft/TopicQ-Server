@@ -11,8 +11,9 @@ class AlterPostAddIgnoreRecommend extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('post', function (Blueprint $table) {
             //
+            $table->tinyInteger('ignore_machine_recommend')->default(0)->comment('忽略系统推荐计算权重');
         });
     }
 
@@ -21,8 +22,9 @@ class AlterPostAddIgnoreRecommend extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('post', function (Blueprint $table) {
             //
+            $table->dropColumn('ignore_machine_recommend');
         });
     }
 }

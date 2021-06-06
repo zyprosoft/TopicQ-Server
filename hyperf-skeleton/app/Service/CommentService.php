@@ -14,6 +14,7 @@ use App\Model\ReportComment;
 use App\Model\User;
 use App\Model\UserCommentPraise;
 use App\Model\UserCommentRead;
+use Carbon\Carbon;
 use Hyperf\Database\Model\Collection;
 use Hyperf\DbConnection\Db;
 use ZYProSoft\Exception\HyperfCommonException;
@@ -97,6 +98,9 @@ class CommentService extends BaseService
                 });
                 Db::table('comment_at_user')->insertOrIgnore($batchAtUser);
             }
+            //帖子更新活跃时间
+            $post->last_active_time = Carbon::now()->toDateTimeString();
+            $post->saveOrFail();
         });
 
         if(! $comment instanceof Comment) {
@@ -255,6 +259,11 @@ class CommentService extends BaseService
         }
         $comment->saveOrFail();
 
+        //帖子更新活跃时间
+        $post = Post::find($comment->post_id);
+        $post->last_active_time = Carbon::now()->toDateTimeString();
+        $post->saveOrFail();
+
         //读取数据库完整的帖子信息
         $comment = Comment::query()->where('comment_id', $comment->comment_id)
                                    ->with(['parent_comment'])
@@ -279,7 +288,6 @@ class CommentService extends BaseService
         $this->queueService->updateCommentHot($comment->post_id);
 
         //异步增加积分
-        $post = Post::find($comment->post_id);
         $scoreDesc = "回复帖子评论《{$post->title}》";
         $this->push(new AddScoreJob($comment->owner_id,Constants::SCORE_ACTION_POST_COMMENT, $scoreDesc));
 

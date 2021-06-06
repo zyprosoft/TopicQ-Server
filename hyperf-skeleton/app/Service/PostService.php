@@ -25,6 +25,7 @@ use App\Model\UserVote;
 use App\Model\Vote;
 use App\Model\VoteItem;
 use App\Model\Voucher;
+use Carbon\Carbon;
 use Hyperf\Database\Model\Builder;
 use Hyperf\DbConnection\Db;
 use Hyperf\Utils\Str;
@@ -188,6 +189,8 @@ class PostService extends BaseService
             if($imageAuditCheck['need_review']) {
                 $post->machine_audit = Constants::STATUS_REVIEW;
             }
+            //活跃时间
+            $post->last_active_time = Carbon::now()->toDateTimeString();
             $post->saveOrFail();
 
             if (isset($documents)) {
@@ -321,6 +324,8 @@ class PostService extends BaseService
         if($imageAuditCheck['need_review']) {
             $post->machine_audit = Constants::STATUS_REVIEW;
         }
+        //活跃时间
+        $post->last_active_time = Carbon::now()->toDateTimeString();
         $post->saveOrFail();
 
 
@@ -540,7 +545,7 @@ class PostService extends BaseService
             return  $this->getPostListByAttention($pageIndex, $pageSize);
         }
         $map = [
-            Constants::POST_SORT_TYPE_LATEST => 'created_at',
+            Constants::POST_SORT_TYPE_LATEST => 'last_active_time',
             Constants::POST_SORT_TYPE_LATEST_REPLY => 'last_comment_time',
             Constants::POST_SORT_TYPE_REPLY_COUNT => 'comment_count'
         ];
@@ -875,7 +880,7 @@ class PostService extends BaseService
                 ->where('forum_id',$forumId)
                 ->where('audit_status', Constants::STATUS_DONE)
                 ->where('only_self_visible', Constants::STATUS_NOT)
-                ->latest()
+                ->orderByDesc('last_active_time')
                 ->offset($pageIndex * $pageSize)
                 ->limit($pageSize)
                 ->get();
@@ -887,10 +892,7 @@ class PostService extends BaseService
                 ->where('only_self_visible', Constants::STATUS_NOT)
                 ->orderByDesc('sort_index')
                 ->orderByDesc('recommend_weight')
-                ->orderByDesc('comment_count')
-                ->orderByDesc('praise_count')
-                ->orderByDesc('read_count')
-                ->latest()
+                ->orderByDesc('last_active_time')
                 ->offset($pageIndex * $pageSize)
                 ->limit($pageSize)
                 ->get();
@@ -966,7 +968,7 @@ class PostService extends BaseService
             ->where('only_self_visible', Constants::STATUS_NOT)
             ->orderByDesc('sort_index')
             ->orderByDesc('recommend_weight')
-            ->latest()
+            ->orderByDesc('last_active_time')
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->get();
@@ -1056,7 +1058,7 @@ class PostService extends BaseService
             ->orWhereIn('owner_id',$userIds)
             ->orderByDesc('sort_index')
             ->orderByDesc('recommend_weight')
-            ->latest()
+            ->orderByDesc('last_active_time')
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->get();
@@ -1176,7 +1178,7 @@ class PostService extends BaseService
                 ->where('topic_id',$topicId)
                 ->where('audit_status', Constants::STATUS_DONE)
                 ->where('only_self_visible', Constants::STATUS_NOT)
-                ->latest()
+                ->orderByDesc('last_active_time')
                 ->offset($pageIndex * $pageSize)
                 ->limit($pageSize)
                 ->get();
@@ -1188,10 +1190,7 @@ class PostService extends BaseService
                 ->where('only_self_visible', Constants::STATUS_NOT)
                 ->orderByDesc('sort_index')
                 ->orderByDesc('recommend_weight')
-                ->orderByDesc('comment_count')
-                ->orderByDesc('praise_count')
-                ->orderByDesc('read_count')
-                ->latest()
+                ->orderByDesc('last_active_time')
                 ->offset($pageIndex * $pageSize)
                 ->limit($pageSize)
                 ->get();
