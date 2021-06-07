@@ -194,15 +194,15 @@ class PostService extends BaseService
                     if($item['type'] == Constants::RICH_CONTENT_TYPE_BIG_IMAGE) {
                         unset($item['image']['local']);
                         unset($item['image']['is_uping']);
-                        $imageIds[] = $item['fileKey'];
-                        $imageList[] = $item['remote'];
+                        $imageIds[] = $item['image']['fileKey'];
+                        $imageList[] = $item['image']['remote'];
                     }
                     if($item['type'] == Constants::RICH_CONTENT_TYPE_SMALL_IMAGE) {
                         foreach ($item['image_list'] as $index => $imgItem) {
                             unset($imgItem['image_list'][$index]['local']);
                             unset($imgItem['image_list'][$index]['is_uping']);
-                            $imageIds[] = $item['fileKey'];
-                            $imageList[] = $item['remote'];
+                            $imageIds[] = $imgItem['fileKey'];
+                            $imageList[] = $imgItem['remote'];
                         }
                     }
                     if($item['type'] == Constants::RICH_CONTENT_TYPE_VIDEO) {
@@ -363,15 +363,15 @@ class PostService extends BaseService
                 if($item['type'] == Constants::RICH_CONTENT_TYPE_BIG_IMAGE) {
                     unset($item['image']['local']);
                     unset($item['image']['is_uping']);
-                    $imageIds[] = $item['fileKey'];
-                    $imageList[] = $item['remote'];
+                    $imageIds[] = $item['image']['fileKey'];
+                    $imageList[] = $item['image']['remote'];
                 }
                 if($item['type'] == Constants::RICH_CONTENT_TYPE_SMALL_IMAGE) {
                     foreach ($item['image_list'] as $index => $imgItem) {
                         unset($imgItem['image_list'][$index]['local']);
                         unset($imgItem['image_list'][$index]['is_uping']);
-                        $imageIds[] = $item['fileKey'];
-                        $imageList[] = $item['remote'];
+                        $imageIds[] = $imgItem['fileKey'];
+                        $imageList[] = $imgItem['remote'];
                     }
                 }
                 if($item['type'] == Constants::RICH_CONTENT_TYPE_VIDEO) {
