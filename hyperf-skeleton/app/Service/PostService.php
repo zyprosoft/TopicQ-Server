@@ -664,6 +664,18 @@ class PostService extends BaseService
             }
             if (!empty($post->image_list)) {
                 $post->image_list = explode(';', $post->image_list);
+            }else{
+                //如果是富文本编辑
+                $imageList = collect();
+                $cdnDomain = config('qiniu.cdnDomain');
+                collect($post->image_ids)->map(function (string $imageId) use(&$imageList,$cdnDomain){
+                    $imageUrl = $cdnDomain.$imageId;
+                    //只返回三张
+                    if($imageList->count()<3) {
+                        $imageList->push($imageUrl);
+                    }
+                });
+                $post->image_list = $imageList;
             }
             $post->is_read = isset($userReadList[$post->post_id]) ? 1 : 0;
             return $post;
