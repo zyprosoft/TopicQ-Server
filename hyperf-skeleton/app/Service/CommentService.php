@@ -265,6 +265,8 @@ class CommentService extends BaseService
                 $comment->machine_audit = Constants::STATUS_REVIEW;
             }
 
+            $comment->saveOrFail();
+
             //at列表
             if (!empty($atUserList)) {
                 $batchAtUser = [];
@@ -276,7 +278,7 @@ class CommentService extends BaseService
                 });
                 Db::table('comment_at_user')->insertOrIgnore($batchAtUser);
             }
-            $comment->saveOrFail();
+            
         });
 
         if (!$comment instanceof Comment) {
