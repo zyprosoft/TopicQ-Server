@@ -199,15 +199,15 @@ class PostService extends BaseService
                         }
                     }
                     if($item['type'] == Constants::RICH_CONTENT_TYPE_BIG_IMAGE) {
-                        unset($item['image']['local']);
-                        unset($item['image']['is_uping']);
+                        $item['image']['local'] = $item['image']['remote'];
+                        $item['image']['is_uping'] = 'false';
                         $imageIds[] = $item['image']['fileKey'];
                         $imageList[] = $item['image']['remote'];
                     }
                     if($item['type'] == Constants::RICH_CONTENT_TYPE_SMALL_IMAGE) {
                         foreach ($item['image_list'] as $index => $imgItem) {
-                            unset($imgItem['image_list'][$index]['local']);
-                            unset($imgItem['image_list'][$index]['is_uping']);
+                            $imgItem['image_list'][$index]['local'] = $imgItem['image_list'][$index]['remote'];
+                            $imgItem['image_list'][$index]['is_uping'] = 'false';
                             $imageIds[] = $imgItem['fileKey'];
                             $imageList[] = $imgItem['remote'];
                         }
@@ -374,15 +374,15 @@ class PostService extends BaseService
                     }
                 }
                 if($item['type'] == Constants::RICH_CONTENT_TYPE_BIG_IMAGE) {
-                    unset($item['image']['local']);
-                    unset($item['image']['is_uping']);
+                    $item['image']['local'] = $item['image']['remote'];
+                    $item['image']['is_uping'] = 'false';
                     $imageIds[] = $item['image']['fileKey'];
                     $imageList[] = $item['image']['remote'];
                 }
                 if($item['type'] == Constants::RICH_CONTENT_TYPE_SMALL_IMAGE) {
                     foreach ($item['image_list'] as $index => $imgItem) {
-                        unset($imgItem['image_list'][$index]['local']);
-                        unset($imgItem['image_list'][$index]['is_uping']);
+                        $imgItem['image_list'][$index]['local'] = $imgItem['image_list'][$index]['remote'];
+                        $imgItem['image_list'][$index]['is_uping'] = 'false';
                         $imageIds[] = $imgItem['fileKey'];
                         $imageList[] = $imgItem['remote'];
                     }
