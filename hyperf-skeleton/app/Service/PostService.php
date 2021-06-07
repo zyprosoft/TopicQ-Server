@@ -668,6 +668,7 @@ class PostService extends BaseService
                 //如果是富文本编辑
                 $imageList = collect();
                 $cdnDomain = config('qiniu.cdnDomain');
+                $post->image_ids = explode(';',$post->image_ids);
                 collect($post->image_ids)->map(function (string $imageId) use(&$imageList,$cdnDomain){
                     $imageUrl = $cdnDomain.$imageId;
                     //只返回三张
