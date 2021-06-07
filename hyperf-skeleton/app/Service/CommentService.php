@@ -231,11 +231,11 @@ class CommentService extends BaseService
     {
         //检查用户是不是被拉黑
         UserService::checkUserStatusOrFail();
+        $parentComment = Comment::findOrFail($commentId);
 
         $comment = null;
-        Db::transaction(function () use (&$comment, $commentId, $content, $imageList, $link, $atUserList){
+        Db::transaction(function () use (&$comment, $parentComment, $commentId, $content, $imageList, $link, $atUserList){
 
-            $parentComment = Comment::findOrFail($commentId);
             $comment = new Comment();
             $comment->parent_comment_id = $commentId;
             $comment->parent_comment_owner_id = $parentComment->owner_id;
@@ -278,7 +278,7 @@ class CommentService extends BaseService
                 });
                 Db::table('comment_at_user')->insertOrIgnore($batchAtUser);
             }
-            
+
         });
 
         if (!$comment instanceof Comment) {
