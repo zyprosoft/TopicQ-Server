@@ -11,8 +11,9 @@ class AlterPostAddRichContent extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('post', function (Blueprint $table) {
             //
+            $table->mediumText('rich_content')->nullable()->comment('富文本');
         });
     }
 
@@ -21,8 +22,9 @@ class AlterPostAddRichContent extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('post', function (Blueprint $table) {
             //
+            $table->dropColumn('rich_content');
         });
     }
 }
