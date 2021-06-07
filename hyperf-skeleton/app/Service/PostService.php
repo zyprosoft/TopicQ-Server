@@ -70,7 +70,8 @@ class PostService extends BaseService
         'avatar_list',
         'recommend_weight',
         'topic_id',
-        'only_self_visible'
+        'only_self_visible',
+        'image_ids'
     ];
 
     //重载获取当前用户ID的方法
