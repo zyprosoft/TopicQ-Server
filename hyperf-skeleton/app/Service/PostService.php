@@ -187,18 +187,22 @@ class PostService extends BaseService
 
             if(isset($richContent)) {
                 //处理一些没用的字段
+                $imageIds = [];
                 $imageList = [];
-                $filterRichContent = collect($richContent)->map(function (array $item) use (&$imageList){
+                Log::info("过滤前富文本内容:".json_encode($params['richContent']));
+                $filterRichContent = collect($params['richContent'])->map(function (array $item) use (&$imageIds,&$imageList){
                     if($item['type'] == Constants::RICH_CONTENT_TYPE_BIG_IMAGE) {
                         unset($item['image']['local']);
                         unset($item['image']['is_uping']);
+                        $imageIds[] = $item['fileKey'];
                         $imageList[] = $item['remote'];
                     }
                     if($item['type'] == Constants::RICH_CONTENT_TYPE_SMALL_IMAGE) {
                         foreach ($item['image_list'] as $index => $imgItem) {
                             unset($imgItem['image_list'][$index]['local']);
                             unset($imgItem['image_list'][$index]['is_uping']);
-                            $imageList[] = $imgItem['remote'];
+                            $imageIds[] = $item['fileKey'];
+                            $imageList[] = $item['remote'];
                         }
                     }
                     if($item['type'] == Constants::RICH_CONTENT_TYPE_VIDEO) {
@@ -206,10 +210,10 @@ class PostService extends BaseService
                     }
                     return $item;
                 });
+                Log::info("去除不必要信息的富文本内容:".json_encode($filterRichContent));
                 //json编码后存储
                 $post->rich_content = json_encode($filterRichContent);
                 //检测图片是否通过审核
-                $imageIds = $this->imageIdsFromUrlList($imageList);
                 $post->image_ids = implode(';',$imageIds);
                 //检测上传图片
                 $imageAuditCheck = $this->auditImageOrFail($imageList,true);
