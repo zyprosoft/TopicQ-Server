@@ -125,6 +125,7 @@ class PostService extends BaseService
             $forumId = data_get($params,'forumId');
             $topicId = data_get($params,'topicId');
             $documents = data_get($params,'documents');
+            $richContent = data_get($params,'richContent');
 
             $post = new Post();
             $post->owner_id = $this->userId();
@@ -182,6 +183,36 @@ class PostService extends BaseService
                     $voteItem->saveOrFail();
                 });
                 $post->vote_id = $vote->vote_id;
+            }
+
+            if(isset($richContent)) {
+                //处理一些没用的字段
+                $imageList = [];
+                $filterRichContent = collect($richContent)->map(function (array $item) use (&$imageList){
+                    if($item['type'] == Constants::RICH_CONTENT_TYPE_BIG_IMAGE) {
+                        unset($item['image']['local']);
+                        unset($item['image']['is_uping']);
+                        $imageList[] = $item['remote'];
+                    }
+                    if($item['type'] == Constants::RICH_CONTENT_TYPE_SMALL_IMAGE) {
+                        foreach ($item['image_list'] as $index => $imgItem) {
+                            unset($imgItem['image_list'][$index]['local']);
+                            unset($imgItem['image_list'][$index]['is_uping']);
+                            $imageList[] = $imgItem['remote'];
+                        }
+                    }
+                    if($item['type'] == Constants::RICH_CONTENT_TYPE_VIDEO) {
+                        unset($item['local']);
+                    }
+                    return $item;
+                });
+                //json编码后存储
+                $post->rich_content = json_encode($filterRichContent);
+                //检测图片是否通过审核
+                $imageIds = $this->imageIdsFromUrlList($imageList);
+                $post->image_ids = implode(';',$imageIds);
+                //检测上传图片
+                $imageAuditCheck = $this->auditImageOrFail($imageList,true);
             }
 
             //审核结果
@@ -317,6 +348,36 @@ class PostService extends BaseService
                 $document->post_id = $post->post_id;
                 $document->saveOrFail();
             });
+        }
+
+        if(isset($params['richContent'])) {
+            //处理一些没用的字段
+            $imageList = [];
+            $filterRichContent = collect($params['richContent'])->map(function (array $item) use (&$imageList){
+                if($item['type'] == Constants::RICH_CONTENT_TYPE_BIG_IMAGE) {
+                    unset($item['image']['local']);
+                    unset($item['image']['is_uping']);
+                    $imageList[] = $item['remote'];
+                }
+                if($item['type'] == Constants::RICH_CONTENT_TYPE_SMALL_IMAGE) {
+                    foreach ($item['image_list'] as $index => $imgItem) {
+                        unset($imgItem['image_list'][$index]['local']);
+                        unset($imgItem['image_list'][$index]['is_uping']);
+                        $imageList[] = $imgItem['remote'];
+                    }
+                }
+                if($item['type'] == Constants::RICH_CONTENT_TYPE_VIDEO) {
+                    unset($item['local']);
+                }
+                return $item;
+            });
+            //json编码后存储
+            $post->rich_content = json_encode($filterRichContent);
+            //检测图片是否通过审核
+            $imageIds = $this->imageIdsFromUrlList($imageList);
+            $post->image_ids = implode(';',$imageIds);
+            //检测上传图片
+            $imageAuditCheck = $this->auditImageOrFail($imageList,true);
         }
         $post->audit_status = 0;//恢复待审核
         //审核结果

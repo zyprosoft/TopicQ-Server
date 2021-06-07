@@ -185,4 +185,10 @@ class Constants
 
     const FORUM_POST_SORT_HOT = 0;
     const FORUM_POST_SORT_LATEST = 1;
+
+    const RICH_CONTENT_TYPE_TEXT = 'text';
+    const RICH_CONTENT_TYPE_BIG_IMAGE = 'big_image';
+    const RICH_CONTENT_TYPE_SMALL_IMAGE = 'small_image';
+    const RICH_CONTENT_TYPE_VIDEO = 'video';
+
 }
