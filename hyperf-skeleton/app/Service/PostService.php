@@ -190,8 +190,14 @@ class PostService extends BaseService
                 //处理一些没用的字段
                 $imageIds = [];
                 $imageList = [];
-                Log::info("过滤前富文本内容:".json_encode($params['richContent']));
-                $filterRichContent = collect($params['richContent'])->map(function (array $item) use (&$imageIds,&$imageList){
+                $summary = '';
+                $filterRichContent = collect($params['richContent'])->map(function (array $item) use (&$imageIds,&$imageList,&$summary){
+                    if($item['type'] == Constants::RICH_CONTENT_TYPE_TEXT && mb_strlen($summary) < 40) {
+                        $summary .= $item['content'];
+                        if (mb_strlen($summary) > 40) {
+                            $summary = substr($summary,0,40);
+                        }
+                    }
                     if($item['type'] == Constants::RICH_CONTENT_TYPE_BIG_IMAGE) {
                         unset($item['image']['local']);
                         unset($item['image']['is_uping']);
@@ -211,7 +217,7 @@ class PostService extends BaseService
                     }
                     return $item;
                 });
-                Log::info("去除不必要信息的富文本内容:".json_encode($filterRichContent));
+                $post->summary = $summary;
                 //json编码后存储
                 $post->rich_content = json_encode($filterRichContent);
                 //检测图片是否通过审核
@@ -359,8 +365,14 @@ class PostService extends BaseService
             //处理一些没用的字段
             $imageIds = [];
             $imageList = [];
-            Log::info("过滤前富文本内容:".json_encode($params['richContent']));
-            $filterRichContent = collect($params['richContent'])->map(function (array $item) use (&$imageIds,&$imageList){
+            $summary = '';
+            $filterRichContent = collect($params['richContent'])->map(function (array $item) use (&$imageIds,&$imageList,&$summary){
+                if($item['type'] == Constants::RICH_CONTENT_TYPE_TEXT && mb_strlen($summary) < 40) {
+                    $summary .= $item['content'];
+                    if (mb_strlen($summary) > 40) {
+                        $summary = substr($summary,0,40);
+                    }
+                }
                 if($item['type'] == Constants::RICH_CONTENT_TYPE_BIG_IMAGE) {
                     unset($item['image']['local']);
                     unset($item['image']['is_uping']);
@@ -380,7 +392,7 @@ class PostService extends BaseService
                 }
                 return $item;
             });
-            Log::info("去除不必要信息的富文本内容:".json_encode($filterRichContent));
+            $post->summary = $summary;
             //json编码后存储
             $post->rich_content = json_encode($filterRichContent);
             //检测图片是否通过审核
