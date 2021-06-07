@@ -55,13 +55,15 @@ class CommentController extends AbstractController
             'content' => 'string|required_without:imageList|min:1|max:500|sensitive',
             'commentId' => 'integer|required|exists:comment,comment_id',
             'imageList' => 'array|min:1|max:4',
-            'link' => 'string|min:1|max:500'
+            'link' => 'string|min:1|max:500',
+            'atUserList' => 'array|min:1'
         ]);
         $commentId = $request->param('commentId');
         $imageList = $request->param('imageList');
         $content = $request->param('content');
         $link = $request->param('link');
-        $result = $this->service->reply($commentId, $content, $imageList, $link);
+        $atUserList = $request->param('atUserList');
+        $result = $this->service->reply($commentId, $content, $imageList, $link, $atUserList);
         return $this->success($result);
     }
 
