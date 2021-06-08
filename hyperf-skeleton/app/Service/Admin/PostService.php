@@ -102,6 +102,7 @@ class PostService extends BaseService
 
         $list = Post::query()->select($selectRows)
             ->where('audit_status', Constants::STATUS_DONE)
+            ->with(['forum'])
             ->latest()
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
