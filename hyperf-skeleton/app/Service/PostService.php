@@ -1120,8 +1120,8 @@ class PostService extends BaseService
                 }
             })
             ->orderByDesc('sort_index')
-            ->orderByDesc('recommend_weight')
             ->orderByDesc('last_active_time')
+            ->orderByDesc('recommend_weight')
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->get();
