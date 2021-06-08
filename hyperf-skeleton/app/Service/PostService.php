@@ -137,7 +137,9 @@ class PostService extends BaseService
             } else {
                 $post->summary = mb_substr($content, 0, 40);
             }
-            $post->content = $content;
+            if(isset($content)) {
+                $post->content = $content;
+            }
             if(isset($programId)) {
                 $post->program_id = $programId;
             }
