@@ -230,7 +230,7 @@ class PostService extends BaseService
                 $levelLabel = '警告';
                 $level = Constants::MESSAGE_LEVEL_BLOCK;
             }
-            $title = '帖子审核不通过';
+            $title = '帖子审核结果';
             $statusLabel = $status==Constants::STATUS_DONE?'通过':'拒绝';
             $content = "您的帖子《{$post->title}》已被管理员审核".$statusLabel;
         }
