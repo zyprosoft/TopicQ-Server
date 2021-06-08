@@ -118,7 +118,7 @@ class PostService extends BaseService
         ];
         Db::transaction(function () use ($params, &$post, &$imageAuditCheck) {
             $title = $params['title'];
-            $content = $params['content'];
+            $content = data_get($params, 'content');
             $link = data_get($params, 'link');
             $imageList = data_get($params, 'imageList');
             $vote = data_get($params, 'vote');
