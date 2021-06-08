@@ -299,6 +299,10 @@ class UserService extends BaseService
                     $user->is_attention = 1;
                 }
             }
+            //用户的粉丝数量
+            $fansCount = UserAttentionOther::query()->where('other_user_id',$userId)
+                                                    ->count();
+            $user->fans_count = $fansCount;
             return $user;
         }
         $user = User::query()->where('user_id', $this->userId())
@@ -336,6 +340,10 @@ class UserService extends BaseService
         } else {
             $user->day_sign = 0;
         }
+        //用户的粉丝数量
+        $fansCount = UserAttentionOther::query()->where('other_user_id',$this->userId())
+            ->count();
+        $user->fans_count = $fansCount;
 
         return $user;
     }
