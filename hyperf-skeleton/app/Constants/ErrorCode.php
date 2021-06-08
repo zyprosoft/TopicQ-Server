@@ -204,4 +204,9 @@ class ErrorCode extends AbstractConstants
      * @Message("登录合并用户信息失败!")
      */
     const LOGIN_MERGE_USER_FAIL = 30034;
+
+    /**
+     * @Message("发送太频繁，请稍后再试!")
+     */
+    const SEND_LOGIN_SMS_TOO_QUICK = 30035;
 }

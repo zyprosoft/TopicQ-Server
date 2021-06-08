@@ -722,6 +722,11 @@ class UserService extends BaseService
 
     public function sendLoginSms(string $mobile)
     {
+        //是不是刚刚发送完
+        $existCode = $this->cache->get($mobile);
+        if (!empty($existCode)) {
+            throw new HyperfCommonException(ErrorCode::SEND_LOGIN_SMS_TOO_QUICK);
+        }
         $accessKey = config('qiniu.accessKey');
         $secretKey = config('qiniu.secretKey');
         $templateId = config('qiniu.loginTemplateId');
