@@ -198,7 +198,7 @@ class PostService extends BaseService
                     if($item['type'] == Constants::RICH_CONTENT_TYPE_TEXT && mb_strlen($summary) < 40) {
                         $summary .= $item['content'];
                         if (mb_strlen($summary) > 40) {
-                            $summary = substr($summary,0,40);
+                            $summary = mb_substr($summary,0,40);
                         }
                     }
                     if($item['type'] == Constants::RICH_CONTENT_TYPE_BIG_IMAGE) {
@@ -373,7 +373,7 @@ class PostService extends BaseService
                 if($item['type'] == Constants::RICH_CONTENT_TYPE_TEXT && mb_strlen($summary) < 40) {
                     $summary .= $item['content'];
                     if (mb_strlen($summary) > 40) {
-                        $summary = substr($summary,0,40);
+                        $summary = mb_substr($summary,0,40);
                     }
                 }
                 if($item['type'] == Constants::RICH_CONTENT_TYPE_BIG_IMAGE) {
