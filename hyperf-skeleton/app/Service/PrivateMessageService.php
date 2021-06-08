@@ -9,6 +9,7 @@ use App\Constants\ErrorCode;
 use App\Model\Conversation;
 use App\Model\PrivateMessage;
 use App\Model\User;
+use App\Model\UserAttentionOther;
 use Carbon\Carbon;
 use EasyWeChat\Factory;
 use Hyperf\DbConnection\Db;
@@ -133,6 +134,21 @@ class PrivateMessageService extends BaseService
                                      ->orderByDesc('last_message_time')
                                      ->limit($pageSize)
                                      ->get();
+        //返回用户对他人的的关注状态
+        $allToUserIds = $list->pluck('to_user_id');
+        $otherList = UserAttentionOther::query()->where('user_id',$this->userId())
+                                                ->whereIn('other_user_id',$allToUserIds)
+                                                ->get()
+                                                ->pluck('other')
+                                                ->keyBy('user_id');
+        $list->map(function (Conversation $conversation) use ($otherList) {
+            if (!empty($otherList->get($conversation->to_user_id))) {
+                $conversation->is_attention = 1;
+            }else{
+                $conversation->is_attention = 0;
+            }
+        });
+
         $total = Conversation::query()->where('owner_id', $this->userId())->count();
         return ['total'=>$total, 'list'=>$list];
     }
