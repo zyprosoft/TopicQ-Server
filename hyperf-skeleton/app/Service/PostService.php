@@ -28,6 +28,7 @@ use App\Model\Voucher;
 use Carbon\Carbon;
 use Hyperf\Database\Model\Builder;
 use Hyperf\DbConnection\Db;
+use Hyperf\Utils\Collection;
 use Hyperf\Utils\Str;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Facade\Auth;
@@ -617,6 +618,50 @@ class PostService extends BaseService
             ->firstOrFail();
     }
 
+    public function postListAddReadStatus(Collection &$list, bool $needReadStatus=true)
+    {
+        //增加是否阅读的状态
+        $postIds = $list->pluck('post_id');
+        $userReadList = [];
+        if($needReadStatus) {
+            $userReadList = [];
+            if (Auth::isGuest() == false) {
+                $userReadList = UserRead::query()->whereIn('post_id', $postIds)
+                    ->where('user_id', $this->userId())
+                    ->get()
+                    ->keyBy('post_id');
+            }
+        }
+
+        $list->map(function (Post $post) use ($userReadList) {
+            if (!empty($post->avatar_list)) {
+                $post->avatar_list = explode(';', $post->avatar_list);
+            }else{
+                $post->avatar_list = null;
+            }
+            if (!empty($post->image_list)) {
+                $post->image_list = explode(';', $post->image_list);
+            }else{
+                if (!empty($post->image_ids)) {
+                    //如果是富文本编辑
+                    $imageList = collect();
+                    $cdnDomain = config('qiniu.cdnDomain');
+                    $post->image_ids = explode(';',$post->image_ids);
+                    collect($post->image_ids)->map(function (string $imageId) use(&$imageList,$cdnDomain){
+                        $imageUrl = $cdnDomain.$imageId;
+                        //只返回三张
+                        if($imageList->count()<3) {
+                            $imageList->push($imageUrl);
+                        }
+                    });
+                    $post->image_list = $imageList;
+                }
+            }
+            $post->is_read = isset($userReadList[$post->post_id]) ? 1 : 0;
+            return $post;
+        });
+    }
+
     public function getList(int $sortType, int $pageIndex, int $pageSize)
     {
         //返回订阅内容
@@ -659,43 +704,8 @@ class PostService extends BaseService
                 break;
         }
 
-        //增加是否阅读的状态
-        $postIds = $list->pluck('post_id');
-        $userReadList = [];
-        if (Auth::isGuest() == false) {
-            $userReadList = UserRead::query()->whereIn('post_id', $postIds)
-                ->where('user_id', $this->userId())
-                ->get()
-                ->keyBy('post_id');
-        }
+        $this->postListAddReadStatus($list);
 
-        $list->map(function (Post $post) use ($userReadList) {
-            if (!empty($post->avatar_list)) {
-                $post->avatar_list = explode(';', $post->avatar_list);
-            }else{
-                $post->avatar_list = null;
-            }
-            if (!empty($post->image_list)) {
-                $post->image_list = explode(';', $post->image_list);
-            }else{
-                if (!empty($post->image_ids)) {
-                    //如果是富文本编辑
-                    $imageList = collect();
-                    $cdnDomain = config('qiniu.cdnDomain');
-                    $post->image_ids = explode(';',$post->image_ids);
-                    collect($post->image_ids)->map(function (string $imageId) use(&$imageList,$cdnDomain){
-                        $imageUrl = $cdnDomain.$imageId;
-                        //只返回三张
-                        if($imageList->count()<3) {
-                            $imageList->push($imageUrl);
-                        }
-                    });
-                    $post->image_list = $imageList;
-                }
-            }
-            $post->is_read = isset($userReadList[$post->post_id]) ? 1 : 0;
-            return $post;
-        });
         $total = Post::query()
                 ->where('audit_status', Constants::STATUS_DONE)
                 ->where('only_self_visible',Constants::STATUS_NOT)
@@ -722,17 +732,9 @@ class PostService extends BaseService
             ->orderByDesc('is_recommend')
             ->latest()
             ->get();
-        $list->map(function (Post $post) {
-            if (!empty($post->avatar_list)) {
-                $post->avatar_list = explode(';', $post->avatar_list);
-            }else{
-                $post->avatar_list = null;
-            }
-            if (!empty($post->image_list)) {
-                $post->image_list = explode(';', $post->image_list);
-            }
-            return $post;
-        });
+
+        $this->postListAddReadStatus($list,false);
+
         $total = Post::query()->where('owner_id', $userId)
             ->when($isOther,function (Builder $query) {
                 $query->where('audit_status', Constants::STATUS_DONE);
@@ -825,17 +827,7 @@ class PostService extends BaseService
             ->orderByDesc('user_favorite.created_at')
             ->get()
             ->pluck('post');
-        $list->map(function (Post $post) {
-            if (!empty($post->avatar_list)) {
-                $post->avatar_list = explode(';', $post->avatar_list);
-            }else{
-                $post->avatar_list = null;
-            }
-            if (!empty($post->image_list)) {
-                $post->image_list = explode(';', $post->image_list);
-            }
-            return $post;
-        });
+        $this->postListAddReadStatus($list,false);
         $total = UserFavorite::query()->where('user_id', $userId)
             ->join('post', 'user_favorite.post_id', '=', 'post.post_id')
             ->where('post.audit_status', Constants::STATUS_DONE)
@@ -968,7 +960,9 @@ class PostService extends BaseService
             'avatar_list',
             'recommend_weight',
             'topic_id',
-            'only_self_visible'
+            'only_self_visible',
+            'rich_content',
+            'image_ids'
         ];
 
         if($type == Constants::FORUM_POST_SORT_LATEST) {
@@ -995,28 +989,7 @@ class PostService extends BaseService
                 ->get();
         }
 
-        //增加是否阅读的状态
-        $postIds = $list->pluck('post_id');
-        $userReadList = [];
-        if (Auth::isGuest() == false) {
-            $userReadList = UserRead::query()->whereIn('post_id', $postIds)
-                ->where('user_id', $this->userId())
-                ->get()
-                ->keyBy('post_id');
-        }
-
-        $list->map(function (Post $post) use ($userReadList) {
-            if (!empty($post->avatar_list)) {
-                $post->avatar_list = explode(';', $post->avatar_list);
-            }else{
-                $post->avatar_list = null;
-            }
-            if (!empty($post->image_list)) {
-                $post->image_list = explode(';', $post->image_list);
-            }
-            $post->is_read = isset($userReadList[$post->post_id]) ? 1 : 0;
-            return $post;
-        });
+        $this->postListAddReadStatus($list);
 
         $total = Post::query()->select($selectRows)
             ->where('forum_id',$forumId)
@@ -1053,7 +1026,9 @@ class PostService extends BaseService
             'user_id',
             'recommend_weight',
             'topic_id',
-            'only_self_visible'
+            'only_self_visible',
+            'rich_content',
+            'image_ids'
         ];
 
         $list = Post::query()->select($selectRows)
@@ -1070,28 +1045,7 @@ class PostService extends BaseService
             ->limit($pageSize)
             ->get();
 
-        //增加是否阅读的状态
-        $postIds = $list->pluck('post_id');
-        $userReadList = [];
-        if (Auth::isGuest() == false) {
-            $userReadList = UserRead::query()->whereIn('post_id', $postIds)
-                ->where('user_id', $this->userId())
-                ->get()
-                ->keyBy('post_id');
-        }
-
-        $list->map(function (Post $post) use ($userReadList) {
-            if (!empty($post->avatar_list)) {
-                $post->avatar_list = explode(';', $post->avatar_list);
-            }else{
-                $post->avatar_list = null;
-            }
-            if (!empty($post->image_list)) {
-                $post->image_list = explode(';', $post->image_list);
-            }
-            $post->is_read = isset($userReadList[$post->post_id]) ? 1 : 0;
-            return $post;
-        });
+        $this->postListAddReadStatus($list);
 
         $total = Post::query()->select($selectRows)
             ->leftJoin('user_subscribe','post.forum_id','=','user_subscribe.forum_id')
@@ -1132,7 +1086,9 @@ class PostService extends BaseService
             'avatar_list',
             'recommend_weight',
             'topic_id',
-            'only_self_visible'
+            'only_self_visible',
+            'rich_content',
+            'image_ids'
         ];
 
         //关注的话题ID
@@ -1160,28 +1116,7 @@ class PostService extends BaseService
             ->limit($pageSize)
             ->get();
 
-        //增加是否阅读的状态
-        $postIds = $list->pluck('post_id');
-        $userReadList = [];
-        if (Auth::isGuest() == false) {
-            $userReadList = UserRead::query()->whereIn('post_id', $postIds)
-                ->where('user_id', $this->userId())
-                ->get()
-                ->keyBy('post_id');
-        }
-
-        $list->map(function (Post $post) use ($userReadList) {
-            if (!empty($post->avatar_list)) {
-                $post->avatar_list = explode(';', $post->avatar_list);
-            }else{
-                $post->avatar_list = null;
-            }
-            if (!empty($post->image_list)) {
-                $post->image_list = explode(';', $post->image_list);
-            }
-            $post->is_read = isset($userReadList[$post->post_id]) ? 1 : 0;
-            return $post;
-        });
+        $this->postListAddReadStatus($list);
 
         $total = Post::query()->select($selectRows)
             ->where('audit_status', Constants::STATUS_DONE)
@@ -1266,7 +1201,9 @@ class PostService extends BaseService
             'avatar_list',
             'recommend_weight',
             'topic_id',
-            'only_self_visible'
+            'only_self_visible',
+            'rich_content',
+            'image_ids'
         ];
 
         if($type == Constants::TOPIC_POST_LIST_SORT_BY_LATEST) {
@@ -1293,28 +1230,7 @@ class PostService extends BaseService
                 ->get();
         }
 
-        //增加是否阅读的状态
-        $postIds = $list->pluck('post_id');
-        $userReadList = [];
-        if (Auth::isGuest() == false) {
-            $userReadList = UserRead::query()->whereIn('post_id', $postIds)
-                ->where('user_id', $this->userId())
-                ->get()
-                ->keyBy('post_id');
-        }
-
-        $list->map(function (Post $post) use ($userReadList) {
-            if (!empty($post->avatar_list)) {
-                $post->avatar_list = explode(';', $post->avatar_list);
-            }else{
-                $post->avatar_list = null;
-            }
-            if (!empty($post->image_list)) {
-                $post->image_list = explode(';', $post->image_list);
-            }
-            $post->is_read = isset($userReadList[$post->post_id]) ? 1 : 0;
-            return $post;
-        });
+        $this->postListAddReadStatus($list);
 
         $total = Post::query()->select($selectRows)
             ->where('topic_id',$topicId)
