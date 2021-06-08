@@ -11,6 +11,7 @@ use App\Model\Unit;
 use App\Model\User;
 use App\Service\BaseService;
 use App\Service\UserService;
+use Carbon\Carbon;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Facade\Auth;
 use ZYProSoft\Log\Log;
@@ -123,6 +124,7 @@ class GoodsService extends BaseService
         }else{
             $post->forum_id = Constants::BUY_FORUM_ID;
         }
+        $post->last_active_time = Carbon::now()->toDateTimeString();
         $buyInfo = [];
         $post->mall_goods_buy_info = json_encode($buyInfo);
         $post->mall_type = Constants::MALL_TYPE_SELF;

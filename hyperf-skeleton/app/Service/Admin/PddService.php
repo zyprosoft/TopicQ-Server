@@ -7,6 +7,7 @@ use App\Constants\Constants;
 use App\Constants\ErrorCode;
 use App\Model\Post;
 use App\Model\User;
+use Carbon\Carbon;
 use Com\Pdd\Pop\Sdk\Api\Request\PddDdkGoodsPromotionUrlGenerateRequest;
 use Com\Pdd\Pop\Sdk\Api\Request\PddDdkGoodsRecommendGetRequest;
 use Com\Pdd\Pop\Sdk\Api\Request\PddDdkGoodsSearchRequest;
@@ -171,6 +172,7 @@ class PddService extends AbstractService
         }else{
             $post->forum_id = Constants::FORUM_MAIN_FORUM_ID;
         }
+        $post->last_active_time = Carbon::now()->toDateTimeString();
         //获取跳转信息
         $searchId = data_get($goodsInfo,'search_id');
         $goodsSign = data_get($goodsInfo,'goods_sign');
