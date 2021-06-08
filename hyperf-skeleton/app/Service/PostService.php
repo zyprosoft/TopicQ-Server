@@ -1109,8 +1109,16 @@ class PostService extends BaseService
             ->with(['forum'])
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
-            ->orWhereIn('topic_id',$attentionTopicIds)
-            ->orWhereIn('owner_id',$userIds)
+            ->when($attentionTopicIds->isNotEmpty(),function (Builder $query) use ($attentionTopicIds) {
+                $query->whereIn('topic_id',$attentionTopicIds);
+            })
+            ->when($userIds->isNotEmpty(),function (Builder $query) use ($userIds,$attentionTopicIds) {
+                if($attentionTopicIds->isEmpty()) {
+                    $query->whereIn('owner_id',$userIds);
+                }else{
+                    $query->orWhereIn('owner_id',$userIds);
+                }
+            })
             ->orderByDesc('sort_index')
             ->orderByDesc('recommend_weight')
             ->orderByDesc('last_active_time')
@@ -1123,8 +1131,16 @@ class PostService extends BaseService
         $total = Post::query()->select($selectRows)
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
-            ->orWhereIn('topic_id',$attentionTopicIds)
-            ->orWhereIn('owner_id',$userIds)
+            ->when($attentionTopicIds->isNotEmpty(),function (Builder $query) use ($attentionTopicIds) {
+                $query->whereIn('topic_id',$attentionTopicIds);
+            })
+            ->when($userIds->isNotEmpty(),function (Builder $query) use ($userIds,$attentionTopicIds) {
+                if($attentionTopicIds->isEmpty()) {
+                    $query->whereIn('owner_id',$userIds);
+                }else{
+                    $query->orWhereIn('owner_id',$userIds);
+                }
+            })
             ->count();
 
         return ['total'=>$total, 'list'=>$list,'user_count'=>$userIds->count(),'topic_count'=>$attentionTopicIds->count()];
