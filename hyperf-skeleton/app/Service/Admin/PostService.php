@@ -345,4 +345,11 @@ class PostService extends BaseService
     {
         return Post::query()->max('recommend_weight');
     }
+
+    public function updateForum(int $postId, int $forumId)
+    {
+        $post = Post::findOrFail($postId);
+        $post->forum_id = $forumId;
+        $post->saveOrFail();
+    }
 }

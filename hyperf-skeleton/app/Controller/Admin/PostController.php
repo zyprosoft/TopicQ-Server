@@ -194,4 +194,16 @@ class PostController extends AbstractController
         $result = $this->service->updateReadCount($postId,$readCount);
         return $this->success($result);
     }
+
+    public function updateForum(AppAdminRequest $request)
+    {
+        $this->validate([
+            'postId' => 'integer|required|exists:post,post_id',
+            'forumId' => 'integer|required|exists:forum,forum_id'
+        ]);
+        $postId = $request->param('postId');
+        $forumId = $request->param('forumId');
+        $result = $this->service->updateForum($postId,$forumId);
+        return $this->success($result);
+    }
 }
