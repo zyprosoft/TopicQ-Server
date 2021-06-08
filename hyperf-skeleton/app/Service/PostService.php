@@ -1041,8 +1041,8 @@ class PostService extends BaseService
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
             ->orderByDesc('sort_index')
-            ->orderByDesc('recommend_weight')
             ->orderByDesc('last_active_time')
+            ->orderByDesc('recommend_weight')
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->get();
