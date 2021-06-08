@@ -99,12 +99,20 @@ class UserService extends \App\Service\BaseService
                                      $query->where('user_id','<',$lastUserId);
                                  }
                              })
+                             ->whereNotNull('mobile')
                              ->whereNull('manager_avatar_user.avatar_user_id')
                              ->offset($pageIndex * $pageSize)
                              ->limit($pageSize)
                              ->orderByDesc('user_id')
                              ->get()
                              ->makeVisible('mobile');
+        //加密手机号码
+        $list->map(function (User $user) {
+            if (!empty($user->mobile)) {
+                $user->mobile = substr_replace($user->mobile, '****', 3, 4);
+            }
+        });
+
         $total = User::query()->where('nickname','like', "%$nickname%")->count();
         return  ['total'=>$total,'list'=>$list];
     }
