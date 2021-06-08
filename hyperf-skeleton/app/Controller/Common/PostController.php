@@ -47,7 +47,8 @@ class PostController extends AbstractController
             'documents.*.title' => 'string|min:1|max:64',
             'documents.*.link' => 'string|min:1|max:128',
             'documents.*.type' => 'string|min:1|max:24',
-            'richContent' => 'array|min:1|required_without:content'
+            'richContent' => 'array|min:1|required_without:content',
+            'richContent.*.content' => 'string|sensitive'
         ]);
         $params = $request->getParams();
         $result = $this->service->create($params);
@@ -80,7 +81,8 @@ class PostController extends AbstractController
             'documents.*.title' => 'string|min:1|max:64',
             'documents.*.link' => 'string|min:1|max:128',
             'documents.*.type' => 'string|min:1|max:24',
-            'richContent' => 'array|min:1|required_without:content'
+            'richContent' => 'array|min:1|required_without:content',
+            'richContent.*.content' => 'string|sensitive'
         ]);
         $params = $request->getParams();
         $postId = $request->param('postId');
