@@ -169,7 +169,7 @@ class PddService extends AbstractService
         if (isset($forumId)) {
             $post->forum_id = $forumId;
         }else{
-            $post->forum_id = Constants::BUY_FORUM_ID;
+            $post->forum_id = Constants::FORUM_MAIN_FORUM_ID;
         }
         //获取跳转信息
         $searchId = data_get($goodsInfo,'search_id');
