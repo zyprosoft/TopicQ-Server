@@ -111,6 +111,7 @@ class UserService extends \App\Service\BaseService
             if (!empty($user->mobile)) {
                 $user->mobile = substr_replace($user->mobile, '****', 3, 4);
             }
+            return $user;
         });
 
         $total = User::query()->where('nickname','like', "%$nickname%")->count();
