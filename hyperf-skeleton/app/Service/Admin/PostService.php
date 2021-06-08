@@ -97,7 +97,8 @@ class PostService extends BaseService
             'join_user_count',
             'avatar_list',
             'recommend_weight',
-            'topic_id'
+            'topic_id',
+            'forum_id'
         ];
 
         $list = Post::query()->select($selectRows)
