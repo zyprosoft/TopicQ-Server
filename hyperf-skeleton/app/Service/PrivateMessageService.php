@@ -147,6 +147,7 @@ class PrivateMessageService extends BaseService
             }else{
                 $conversation->is_attention = 0;
             }
+            return $conversation;
         });
 
         $total = Conversation::query()->where('owner_id', $this->userId())->count();
