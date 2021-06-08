@@ -499,7 +499,19 @@ class QiniuAuditService extends BaseService
         $post->title_audit = Constants::STATUS_DONE;
 
         //内容审核
-        $result = $app->content_security->checkText($post->content);
+        //获取富文本内容
+        $checkContent = $post->content;
+        if (!empty($post->rich_content)) {
+            $richContentList = json_decode($post->rich_content,true);
+            $checkContent = '';
+            collect($richContentList)->map(function (array $item) use (&$checkContent){
+                if($item['type_name'] == Constants::RICH_CONTENT_TYPE_TEXT) {
+                    $checkContent .= $item['content'];
+                }
+            });
+        }
+
+        $result = $app->content_security->checkText($checkContent);
         Log::info("微信帖子内容审核结果:".json_encode($result));
         //包含敏感信息
         if(data_get($result,'errcode') == self::WX_SECURITY_CHECK_FAIL) {
