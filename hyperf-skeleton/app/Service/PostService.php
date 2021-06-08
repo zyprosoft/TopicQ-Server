@@ -206,8 +206,8 @@ class PostService extends BaseService
                     }
                     if($item['type'] == Constants::RICH_CONTENT_TYPE_SMALL_IMAGE) {
                         foreach ($item['image_list'] as $index => $imgItem) {
-                            $imgItem['image_list'][$index]['local'] = $imgItem['image_list'][$index]['remote'];
-                            $imgItem['image_list'][$index]['is_uping'] = 'false';
+                            $item['image_list'][$index]['local'] = $item['image_list'][$index]['remote'];
+                            $item['image_list'][$index]['is_uping'] = 'false';
                             $imageIds[] = $imgItem['fileKey'];
                             $imageList[] = $imgItem['remote'];
                         }
@@ -381,8 +381,8 @@ class PostService extends BaseService
                 }
                 if($item['type'] == Constants::RICH_CONTENT_TYPE_SMALL_IMAGE) {
                     foreach ($item['image_list'] as $index => $imgItem) {
-                        $imgItem['image_list'][$index]['local'] = $imgItem['image_list'][$index]['remote'];
-                        $imgItem['image_list'][$index]['is_uping'] = 'false';
+                        $item['image_list'][$index]['local'] = $item['image_list'][$index]['remote'];
+                        $item['image_list'][$index]['is_uping'] = 'false';
                         $imageIds[] = $imgItem['fileKey'];
                         $imageList[] = $imgItem['remote'];
                     }
