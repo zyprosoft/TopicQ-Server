@@ -82,8 +82,11 @@ class ThirdPartService extends BaseService
         return  $this->success();
     }
 
-    public function getUserMiniProgramAlwaysUseList(int $pageIndex, int $pageSize, string $type = 'weixin')
+    public function getUserMiniProgramAlwaysUseList(int $pageIndex, int $pageSize, string $type = null)
     {
+        if(!isset($type)) {
+            $type = 'weixin';
+        }
         $list = UserMiniProgramUse::query()->where('user_id',$this->userId())
                                           ->where('count','>=', self::MINI_PROGRAM_BASE_ALWAYS_USE_COUNT)
                                           ->where('type',$type)
