@@ -207,7 +207,7 @@ class PostController extends AbstractController
         return $this->success($result);
     }
 
-    public function getPostReportDetail (AppAdminRequest $request)
+    public function getPostReportDetail(AppAdminRequest $request)
     {
         $this->validate([
             'reportId' => 'integer|required|exists:report_post,id',
