@@ -209,6 +209,8 @@ class CommentService extends BaseService
                $comment->reply_list = $replyList->take(3);
                Log::info("comment reply_list:".json_encode($comment->reply_list));
                $this->changeImageList($comment->reply_list,false);
+               //是否点赞
+               $this->addPraiseStatus($comment->reply_list);
                return $comment;
            }else{
                $comment->reply_list = [];
@@ -236,6 +238,8 @@ class CommentService extends BaseService
                     $comment->reply_list = $replyList->take(3);
                     Log::info("comment reply_list:".json_encode($comment->reply_list));
                     $this->changeImageList($comment->reply_list,false);
+                    //是否点赞
+                    $this->addPraiseStatus($comment->reply_list);
                     return $comment;
                 }else{
                     $comment->reply_list = [];
@@ -460,6 +464,8 @@ class CommentService extends BaseService
                 $comment->reply_list = $replyList->take(3);
                 Log::info("comment reply_list:".json_encode($comment->reply_list));
                 $this->changeImageList($comment->reply_list,false);
+                //是否点赞
+                $this->addPraiseStatus($comment->reply_list);
                 return $comment;
             }else{
                 $comment->reply_list = [];
