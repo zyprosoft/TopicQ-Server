@@ -214,4 +214,9 @@ class ErrorCode extends AbstractConstants
      * @Message("系统检测到违规上传行为，不可再上传!")
      */
     const PLATFORM_DISABLE_USER_UPLOAD = 30036;
+
+    /**
+     * @Message("微信登录凭证已失效")
+     */
+    const WX_TOKEN_DID_EXPIRED = 30037;
 }

@@ -449,7 +449,11 @@ class UserService extends BaseService
         $user = User::findOrFail($this->userId());
         $miniProgramConfig = config('weixin.miniProgram');
         $app = Factory::miniProgram($miniProgramConfig);
-        $result = $app->encryptor->decryptData($user->wx_token, $iv, $encryptData);
+        try {
+            $result = $app->encryptor->decryptData($user->wx_token, $iv, $encryptData);
+        } catch (\Throwable $exception) {
+            throw new HyperfCommonException(ErrorCode::WX_TOKEN_DID_EXPIRED);
+        }
         $phoneNumber = $result['purePhoneNumber'];
         return $this->innerMergeUserByPhoneNumber($phoneNumber,'weixin');
     }
