@@ -424,7 +424,7 @@ class CommentService extends BaseService
             if ($praise instanceof UserCommentPraise) {
                 $praise->delete();
                 Comment::findOrFail($commentId)->decrement('praise_count');
-                return  $this->success();
+                return  $this->success(['status'=>0]);
             }
             $comment = Comment::findOrFail($commentId);
             $praise = new UserCommentPraise();
@@ -438,7 +438,7 @@ class CommentService extends BaseService
             $praise->saveOrFail();
             Comment::findOrFail($commentId)->increment('praise_count');
         });
-        return $this->success();
+        return $this->success(['status'=>1]);
     }
 
     public function commentReplyList(int $commentId, int $pageIndex, int $pageSize)
