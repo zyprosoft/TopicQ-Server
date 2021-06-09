@@ -413,7 +413,7 @@ class CommentService extends BaseService
     public function commentReplyList(int $commentId, int $pageIndex, int $pageSize)
     {
         $list = Comment::query()->where('parent_comment_id', $commentId)
-            ->with(['post'])
+            ->with(['post','reply_list'])
             ->latest()
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
