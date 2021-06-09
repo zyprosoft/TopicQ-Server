@@ -196,7 +196,7 @@ class CommentService extends BaseService
         }
 
         //转换图片数组格式
-        $this->changeImageList($list);
+        $this->changeImageList($list,false);
         
         //是否点赞
         $this->addPraiseStatus($list);
