@@ -32,13 +32,13 @@ class AddUserUploadStatisticJob extends \Hyperf\AsyncQueue\Job
         if ($statistic instanceof UserUploadStatistic) {
             $statistic->increment('count');
             //用户是不是管理员
-//            $user = User::findOrFail($this->userId);
+            $user = User::findOrFail($this->userId);
             //非管理员每天上传的限制，暂时不限制
-//            if ($user->role_id == 0 && $statistic->count > Constants::USER_MAX_UPLOAD_TIMES_PER_DAY) {
-//                $statistic->disable = Constants::STATUS_OK;
-//                $statistic->saveOrFail();
-//                Log::info("用户($this->userId)昵称($user->nickname)已经达到当日上传次数限制，请注意!");
-//            }
+            if ($user->role_id == 0 && $statistic->count > Constants::USER_MAX_UPLOAD_TIMES_PER_DAY) {
+                $statistic->disable = Constants::STATUS_OK;
+                $statistic->saveOrFail();
+                Log::info("用户($this->userId)昵称($user->nickname)已经达到当日上传次数限制，请注意!");
+            }
             return;
         }
         $statistic = new UserUploadStatistic();
