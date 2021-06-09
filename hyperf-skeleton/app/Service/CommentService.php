@@ -203,10 +203,10 @@ class CommentService extends BaseService
 
         //处理回复里面的图片格式
         $list->map(function (Comment $comment) {
-            $replyList = collect($comment->all_reply_list);
+            $replyList = $comment->all_reply_list;
            if ($replyList->count()>0) {
                //每条评论只取3条回复
-               $comment->reply_list = collect($replyList->take(3));
+               $comment->reply_list = $replyList->take(3);
                Log::info("comment reply_list:".json_encode($comment->reply_list));
                $this->changeImageList($comment->reply_list,false);
                return $comment;
@@ -230,10 +230,10 @@ class CommentService extends BaseService
 
             //处理回复里面的图片格式
             $hotList->map(function (Comment $comment) {
-                $replyList = collect($comment->all_reply_list);
+                $replyList = $comment->all_reply_list;
                 if ($replyList->count()>0) {
                     //每条评论只取3条回复
-                    $comment->reply_list = collect($replyList->take(3));
+                    $comment->reply_list = $replyList->take(3);
                     Log::info("comment reply_list:".json_encode($comment->reply_list));
                     $this->changeImageList($comment->reply_list,false);
                     return $comment;
