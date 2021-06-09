@@ -191,4 +191,6 @@ class Constants
     const RICH_CONTENT_TYPE_SMALL_IMAGE = 'small_image';
     const RICH_CONTENT_TYPE_VIDEO = 'video';
 
+    //普通用户每天最多上传次数
+    const USER_MAX_UPLOAD_TIMES_PER_DAY = 60;
 }
