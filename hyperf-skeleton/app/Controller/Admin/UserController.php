@@ -214,4 +214,10 @@ class UserController extends AbstractController
         $result = $this->groupService->setUserGroup($mobile,$groupId);
         return $this->success($result);
     }
+
+    public function getUnreadCountInfo()
+    {
+        $result = $this->service->getUnreadCountInfo();
+        return $this->success($result);
+    }
 }

@@ -11,6 +11,8 @@ use App\Model\Comment;
 use App\Model\ManagerAvatarUser;
 use App\Model\Post;
 use App\Model\PrivateMessage;
+use App\Model\ReportComment;
+use App\Model\ReportPost;
 use App\Model\Role;
 use App\Model\User;
 use Carbon\Carbon;
@@ -388,5 +390,26 @@ class UserService extends \App\Service\BaseService
         $user = User::findOrFail($userId);
         $user->role_id = $roleId;
         $user->saveOrFail();
+    }
+
+    public function getUnreadCountInfo()
+    {
+        //统计未审核的帖子数量
+        $waitAuditCount = Post::query()->where('audit_status',Constants::STATUS_WAIT)
+            ->count();
+        //统计举报未处理的帖子数量
+        $reportPostCount = ReportPost::query()->where('audit_status',Constants::STATUS_WAIT)
+            ->count();
+        //统计评论举报的数量
+        $reportCommentCount = ReportComment::query()->where('audit_status',Constants::STATUS_WAIT)
+            ->count();
+        $total = $waitAuditCount + $reportPostCount + $reportCommentCount;
+
+        return [
+            'total' => $total,
+            'post_audit_count' => $waitAuditCount,
+            'post_report_count' => $reportPostCount,
+            'comment_report_count' => $reportCommentCount
+        ];
     }
 }
