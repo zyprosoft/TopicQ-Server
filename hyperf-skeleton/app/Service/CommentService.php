@@ -189,7 +189,7 @@ class CommentService extends BaseService
             $order = $map[$sortType];
             $list = Comment::query()->where('post_id', $postId)
                 ->orderByDesc($order)
-                ->with(['parent_comment'])
+                ->with(['parent_comment','reply_list'])
                 ->offset($pageIndex * $pageSize)
                 ->limit($pageSize)
                 ->get();
