@@ -65,6 +65,14 @@ class CommentService extends BaseService
                 $notification->levelLabel = "通知";
                 $notification->keyInfo = json_encode(['comment_id'=>$commentId]);
                 $this->push($notification);
+            }else{
+                //给举报者发一条信息
+                $title = "评论举报驳回";
+                $content = "您举报的评论内容《{$comment->content}》经管理员审核查阅，您的举报理由不符合事实，请知悉，如有更多疑问请资讯管理员，感谢您对社区内容净化的大力支持~";
+                $notification = new AddNotificationJob($reportComment->owner_id,$title,$content,false,Constants::MESSAGE_LEVEL_NORMAL);
+                $notification->levelLabel = "通知";
+                $notification->keyInfo = json_encode(['comment_id'=>$commentId]);
+                $this->push($notification);
             }
             return $this->success();
         });

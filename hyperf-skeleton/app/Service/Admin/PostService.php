@@ -263,8 +263,17 @@ class PostService extends BaseService
             if ($status == Constants::STATUS_INVALIDATE) {
                 $post = Post::find($postId);
                 //给举报者发一条信息
-                $title = "评论举报成功";
+                $title = "帖子举报成功";
                 $content = "您举报的帖子《{$post->title}》经管理员审核查阅，已被认定违反社区参与规范，现已将该帖子删除屏蔽，感谢您对社区内容净化的大力支持~";
+                $notification = new AddNotificationJob($report->owner_id,$title,$content,false,Constants::MESSAGE_LEVEL_NORMAL);
+                $notification->levelLabel = "通知";
+                $notification->keyInfo = json_encode(['post_id'=>$postId]);
+                $this->push($notification);
+            }else{
+                $post = Post::find($postId);
+                //给举报者发一条信息
+                $title = "帖子举报驳回";
+                $content = "您举报的帖子《{$post->title}》经管理员审核查阅，您的举报理由不符合事实，请知悉，如有更多疑问请联系管理员，感谢您对社区内容净化的大力支持~";
                 $notification = new AddNotificationJob($report->owner_id,$title,$content,false,Constants::MESSAGE_LEVEL_NORMAL);
                 $notification->levelLabel = "通知";
                 $notification->keyInfo = json_encode(['post_id'=>$postId]);
