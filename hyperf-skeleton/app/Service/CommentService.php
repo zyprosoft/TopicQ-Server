@@ -204,6 +204,8 @@ class CommentService extends BaseService
         //处理回复里面的图片格式
         $list->map(function (Comment $comment) {
            if (!empty($comment->reply_list)) {
+               //每条评论只取3条回复
+               $comment->reply_list = $comment->reply_list->take(3);
                $this->changeImageList($comment->reply_list,false);
                return $comment;
            }
@@ -432,6 +434,8 @@ class CommentService extends BaseService
         //处理回复里面的图片格式
         $list->map(function (Comment $comment) {
             if (!empty($comment->reply_list)) {
+                //每条评论只取3条回复
+                $comment->reply_list = $comment->reply_list->take(3);
                 $this->changeImageList($comment->reply_list,false);
                 return $comment;
             }

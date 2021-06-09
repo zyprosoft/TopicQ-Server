@@ -71,6 +71,6 @@ class Comment extends Model
     }
     public function reply_list()
     {
-        return $this->hasMany(Comment::class,'parent_comment_id','comment_id')->take(3);
+        return $this->hasMany(Comment::class,'parent_comment_id','comment_id');
     }
 }
