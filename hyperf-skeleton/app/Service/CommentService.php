@@ -203,7 +203,7 @@ class CommentService extends BaseService
 
         //处理回复里面的图片格式
         $list->map(function (Comment $comment) {
-            $replyList = collect($comment->reply_list());
+            $replyList = collect($comment->reply_list);
            if ($replyList->count()>0) {
                //每条评论只取3条回复
                $comment->reply_list = $replyList->take(3);
