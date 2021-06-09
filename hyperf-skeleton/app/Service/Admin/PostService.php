@@ -193,6 +193,7 @@ class PostService extends BaseService
         return $this->success();
     }
 
+    //必须在事务中执行
     protected function innerAuditPost(int $postId, int $status, string $note = null, bool $isReport = false)
     {
         $post = Post::query()->where('post_id', $postId)
@@ -245,13 +246,19 @@ class PostService extends BaseService
     public function auditReport(int $reportId,int $postId, int $status, string $note = null)
     {
         Db::transaction(function () use ($reportId, $postId, $status, $note){
-            $report = ReportPost::findOrFail($reportId);
+            $report = ReportPost::query()->where('id',$reportId)->lockForUpdate()->first();
+            if(!$report instanceof ReportPost) {
+                throw new HyperfCommonException(ErrorCode::RECORD_NOT_EXIST);
+            }
+            if($report->audit_status !== Constants::STATUS_WAIT) {
+                throw new HyperfCommonException(ErrorCode::PARAM_ERROR);
+            }
             $report->audit_status = $status;
             if (isset($note)) {
                 $report->audit_note = $note;
             }
-            $report->saveOrFail();
             $this->innerAuditPost($postId, $status, $note, true);
+            $report->saveOrFail();
 
             if ($status == Constants::STATUS_INVALIDATE) {
                 $post = Post::find($postId);
