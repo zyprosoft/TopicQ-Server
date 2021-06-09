@@ -101,8 +101,11 @@ class ThirdPartService extends BaseService
         return ['total'=>$total,'list'=>$list];
     }
 
-    public function getUserMiniProgramUseList(int $pageIndex, int $pageSize, string $type = 'weixin')
+    public function getUserMiniProgramUseList(int $pageIndex, int $pageSize, string $type = null)
     {
+        if(!isset($type)) {
+            $type = 'weixin';
+        }
         $list = UserMiniProgramUse::query()->where('user_id',$this->userId())
             ->where('type',$type)
             ->offset($pageIndex * $pageSize)
@@ -115,8 +118,11 @@ class ThirdPartService extends BaseService
         return ['total'=>$total,'list'=>$list];
     }
 
-    public function markMiniProgramOutside(int $programId, string $type = 'weixin')
+    public function markMiniProgramOutside(int $programId, string $type = null)
     {
+        if(!isset($type)) {
+            $type = 'weixin';
+        }
         //是不是超过了三个
         $total = UserMiniProgramUse::query()->where('user_id', $this->userId())
             ->where('type',$type)
@@ -139,8 +145,11 @@ class ThirdPartService extends BaseService
        return $this->success();
     }
 
-    public function unbindMiniProgramOutside(int $programId, string $type = 'weixin')
+    public function unbindMiniProgramOutside(int $programId, string $type = null)
     {
+        if(!isset($type)) {
+            $type = 'weixin';
+        }
         $record = UserMiniProgramUse::query()->where('user_id', $this->userId())
             ->where('type',$type)
             ->where('program_id', $programId)
