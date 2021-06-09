@@ -47,8 +47,11 @@ class ThirdPartService extends BaseService
         return OfficialAccountCategory::query()->with(['items'])->get();
     }
 
-    public function markMiniProgramUsed(string $programId, string $type = 'weixin')
+    public function markMiniProgramUsed(string $programId, string $type = null)
     {
+        if(!isset($type)) {
+            $type = 'weixin';
+        }
         $useRecord = UserMiniProgramUse::query()->where('program_id', $programId)
                                               ->where('user_id',$this->userId())
                                               ->where('type',$type)
