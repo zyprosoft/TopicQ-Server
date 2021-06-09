@@ -72,6 +72,6 @@ class Comment extends Model
     }
     public function all_reply_list()
     {
-        return $this->hasMany(Comment::class,'parent_comment_id','comment_id');
+        return $this->hasMany(Comment::class,'parent_comment_id','comment_id')->latest();
     }
 }
