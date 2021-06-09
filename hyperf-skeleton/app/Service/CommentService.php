@@ -209,13 +209,14 @@ class CommentService extends BaseService
         if($pageIndex == 0) {
             $hotList = Comment::query()->where('post_id', $postId)
                                        ->where('is_hot', Constants::STATUS_DONE)
-                                       ->where('parent_comment_id',0)
+                                        ->whereNull('parent_comment_id')
                                        ->with(['reply_list'])
                                        ->get();
             $this->addPraiseStatus($hotList);
         }
         
         $total = Comment::query()->where('post_id', $postId)
+            ->whereNull('parent_comment_id')
             ->count();
         $result = [
             'total' => $total,
