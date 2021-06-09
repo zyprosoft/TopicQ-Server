@@ -200,7 +200,15 @@ class CommentService extends BaseService
 
         //转换图片数组格式
         $this->changeImageList($list,false);
-        
+
+        //处理回复里面的图片格式
+        $list->map(function (Comment $comment) {
+           if (!empty($comment->reply_list)) {
+               $this->changeImageList($comment->reply_list,false);
+               return $comment;
+           }
+        });
+
         //是否点赞
         $this->addPraiseStatus($list);
 
@@ -420,6 +428,15 @@ class CommentService extends BaseService
             ->get();
         //转换图片数组格式
         $this->changeImageList($list,false);
+
+        //处理回复里面的图片格式
+        $list->map(function (Comment $comment) {
+            if (!empty($comment->reply_list)) {
+                $this->changeImageList($comment->reply_list,false);
+                return $comment;
+            }
+        });
+
         //是否点赞
         $this->addPraiseStatus($list);
         $total = Comment::query()->where('parent_comment_id', $commentId)->count();
