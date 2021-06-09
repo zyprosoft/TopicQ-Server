@@ -169,7 +169,7 @@ class CommentService extends BaseService
             $list = Comment::query()->where('post_id', $postId)
                 ->where('owner_id', $post->owner_id)
                 ->whereNull('parent_comment_id')
-                ->with(['reply_list'])
+                ->with(['all_reply_list'])
                 ->offset($pageIndex * $pageSize)
                 ->limit($pageSize)
                 ->get();
@@ -177,7 +177,7 @@ class CommentService extends BaseService
             //正常顺序，最早发表
             $list = Comment::query()->where('post_id', $postId)
                 ->whereNull('parent_comment_id')
-                ->with(['reply_list'])
+                ->with(['all_reply_list'])
                 ->offset($pageIndex * $pageSize)
                 ->limit($pageSize)
                 ->get();
@@ -192,7 +192,7 @@ class CommentService extends BaseService
             $list = Comment::query()->where('post_id', $postId)
                 ->whereNull('parent_comment_id')
                 ->orderByDesc($order)
-                ->with(['reply_list'])
+                ->with(['all_reply_list'])
                 ->offset($pageIndex * $pageSize)
                 ->limit($pageSize)
                 ->get();
@@ -203,13 +203,15 @@ class CommentService extends BaseService
 
         //处理回复里面的图片格式
         $list->map(function (Comment $comment) {
-            $replyList = collect($comment->reply_list);
+            $replyList = collect($comment->all_reply_list);
            if ($replyList->count()>0) {
                //每条评论只取3条回复
                $comment->reply_list = $replyList->take(3);
                Log::info("comment reply_list:".json_encode($comment->reply_list));
                $this->changeImageList($comment->reply_list,false);
                return $comment;
+           }else{
+               $comment->reply_list = [];
            }
            return $comment;
         });
@@ -222,18 +224,21 @@ class CommentService extends BaseService
         if($pageIndex == 0) {
             $hotList = Comment::query()->where('post_id', $postId)
                                        ->where('is_hot', Constants::STATUS_DONE)
-                                        ->whereNull('parent_comment_id')
-                                       ->with(['reply_list'])
+                                       ->whereNull('parent_comment_id')
+                                       ->with(['all_reply_list'])
                                        ->get();
 
             //处理回复里面的图片格式
             $hotList->map(function (Comment $comment) {
-                $replyList = collect($comment->reply_list());
+                $replyList = collect($comment->all_reply_list);
                 if ($replyList->count()>0) {
                     //每条评论只取3条回复
                     $comment->reply_list = $replyList->take(3);
+                    Log::info("comment reply_list:".json_encode($comment->reply_list));
                     $this->changeImageList($comment->reply_list,false);
                     return $comment;
+                }else{
+                    $comment->reply_list = [];
                 }
                 return $comment;
             });
