@@ -52,7 +52,7 @@ class Comment extends Model
      * @var array
      */
     protected $casts = ['comment_id' => 'integer', 'post_id' => 'integer', 'parent_comment_id' => 'integer', 'parent_comment_owner_id' => 'integer', 'owner_id' => 'integer', 'praise_count' => 'integer', 'reply_count' => 'integer', 'audit_status' => 'integer', 'is_hot' => 'integer', 'post_owner_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'machine_audit' => 'integer', 'manager_audit' => 'integer', 'text_audit' => 'integer', 'content_audit' => 'integer', 'offer_id' => 'integer'];
-    protected $with = ['author','at_user_list','total'];
+    protected $with = ['author','at_user_list'];
     public function parent_comment()
     {
         return $this->hasOne(Comment::class, 'comment_id', 'parent_comment_id');
