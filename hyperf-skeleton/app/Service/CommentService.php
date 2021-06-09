@@ -207,6 +207,7 @@ class CommentService extends BaseService
            if ($replyList->count()>0) {
                //每条评论只取3条回复
                $comment->reply_list = $replyList->take(3);
+               Log::info("comment reply_list:".json_encode($comment->reply_list));
                $this->changeImageList($comment->reply_list,false);
                return $comment;
            }
