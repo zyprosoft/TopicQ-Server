@@ -361,4 +361,9 @@ class PostService extends BaseService
         $post->forum_id = $forumId;
         $post->saveOrFail();
     }
+
+    public function getPostReportDetail(int $reportId)
+    {
+        return ReportPost::findOrFail($reportId);
+    }
 }
