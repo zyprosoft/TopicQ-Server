@@ -69,4 +69,8 @@ class Comment extends Model
     {
         return $this->hasMany(CommentAtUser::class,'comment_id','comment_id');
     }
+    public function reply_list()
+    {
+        return $this->hasMany(Comment::class,'parent_comment_id','comment_id')->latest()->limit(3);
+    }
 }
