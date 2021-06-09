@@ -203,12 +203,13 @@ class CommentService extends BaseService
 
         //处理回复里面的图片格式
         $list->map(function (Comment $comment) {
-           if (!empty($comment->reply_list)) {
+           if ($comment->reply_list->count()>0) {
                //每条评论只取3条回复
                $comment->reply_list = $comment->reply_list->take(3);
                $this->changeImageList($comment->reply_list,false);
                return $comment;
            }
+           return $comment;
         });
 
         //是否点赞
@@ -433,12 +434,13 @@ class CommentService extends BaseService
 
         //处理回复里面的图片格式
         $list->map(function (Comment $comment) {
-            if (!empty($comment->reply_list)) {
+            if ($comment->reply_list->count()>0) {
                 //每条评论只取3条回复
                 $comment->reply_list = $comment->reply_list->take(3);
                 $this->changeImageList($comment->reply_list,false);
                 return $comment;
             }
+            return $comment;
         });
 
         //是否点赞
