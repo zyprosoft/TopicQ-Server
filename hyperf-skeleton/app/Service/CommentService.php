@@ -168,6 +168,7 @@ class CommentService extends BaseService
             $post = Post::findOrFail($postId);
             $list = Comment::query()->where('post_id', $postId)
                 ->where('owner_id', $post->owner_id)
+                ->where('parent_comment_id',0)
                 ->with(['reply_list'])
                 ->offset($pageIndex * $pageSize)
                 ->limit($pageSize)
@@ -175,6 +176,7 @@ class CommentService extends BaseService
         }elseif ($sortType == Constants::COMMENT_SORT_TYPE_POST_EARLY) {
             //正常顺序，最早发表
             $list = Comment::query()->where('post_id', $postId)
+                ->where('parent_comment_id',0)
                 ->with(['reply_list'])
                 ->offset($pageIndex * $pageSize)
                 ->limit($pageSize)
@@ -188,6 +190,7 @@ class CommentService extends BaseService
             ];
             $order = $map[$sortType];
             $list = Comment::query()->where('post_id', $postId)
+                ->where('parent_comment_id',0)
                 ->orderByDesc($order)
                 ->with(['reply_list'])
                 ->offset($pageIndex * $pageSize)
