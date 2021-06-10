@@ -33,8 +33,12 @@ class SearchService extends BaseService
             $post = $post->filter(function (Post $post) {
                 return $post->only_self_visible == Constants::STATUS_NOT;
             });
+            //补充版块
+            $forumIds = $post->pluck('forum_id');
+            $forumList = Forum::findMany($forumIds)->keyBy('forum_id');
+
             //补充话题
-            $post->map(function (Post $post) use ($topicList) {
+            $post->map(function (Post $post) use ($topicList,$forumList) {
                 if (!empty($post->avatar_list)) {
                     $post->avatar_list = explode(';', $post->avatar_list);
                 } else {
@@ -48,6 +52,7 @@ class SearchService extends BaseService
                 } else {
                     $post->topic = null;
                 }
+                $post->forum = $forumList->get($post->forum_id);
                 $post->is_read = 0;
                 return $post;
             });
