@@ -372,7 +372,7 @@ class PostService extends BaseService
         $forum = Forum::findOrFail($forumId);
         //移动版块，给作者发条消息
         $title = '帖子更换版块';
-        $content = "经管理员审核查阅,您的帖子《{$post->title}》更符合其他版块，现已移动至《{$forum->name}版块，请知悉，感谢您对社区文化构建的大力支持~》";
+        $content = "经管理员审核查阅,您的帖子《{$post->title}》更符合其他版块，现已移动至《{$forum->name}》版块，请知悉，感谢您对社区文化构建的大力支持~";
         $notification = new AddNotificationJob($post->owner_id,$title,$content,false,Constants::MESSAGE_LEVEL_WARN);
         $notification->levelLabel = "通知";
         $notification->keyInfo = json_encode(['post_id'=>$postId]);
