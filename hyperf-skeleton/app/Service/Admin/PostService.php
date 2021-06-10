@@ -368,6 +368,9 @@ class PostService extends BaseService
     public function updateForum(int $postId, int $forumId)
     {
         $post = Post::findOrFail($postId);
+        if($post->forum_id == $forumId) {
+            return $this->success();
+        }
         $post->forum_id = $forumId;
         $forum = Forum::findOrFail($forumId);
         //移动版块，给作者发条消息
@@ -379,6 +382,7 @@ class PostService extends BaseService
         $this->push($notification);
 
         $post->saveOrFail();
+        return $this->success();
     }
 
     public function getPostReportDetail(int $reportId)
