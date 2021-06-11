@@ -31,7 +31,7 @@ class BaiDuMiniService extends BaseService
         ];
         $option = [
             'headers'=>['content-type'=>'application/x-www-form-urlencoded'],
-            'body' => [
+            'form_params' => [
                 'sk' => $this->secret,
                 'client_id' => $this->clientId,
                 'code' => $code
