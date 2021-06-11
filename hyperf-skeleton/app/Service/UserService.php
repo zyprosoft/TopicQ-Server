@@ -147,7 +147,7 @@ class UserService extends BaseService
                 $user->baidu_token_expire = $qqExpireTime->toDateTimeString();
                 $user->last_login = Carbon::now();
                 $user->saveOrFail();
-                return ['token' => $user->token, 'token_expire' => $user->token_expire->timestamp, 'baidu_token_expire' => Carbon::createFromTimeString($user->qq_token_expire)->timestamp];
+                return ['token' => $user->token, 'token_expire' => $user->token_expire->timestamp, 'baidu_token_expire' => Carbon::createFromTimeString($user->baidu_token_expire)->timestamp];
             } else {
                 //需要重新登陆，保存历史Token
                 $tokenHistory = new TokenHistory();
@@ -173,7 +173,7 @@ class UserService extends BaseService
         $user->token = $token;
         $user->saveOrFail();
 
-        return ['token' => $user->token, 'token_expire' => $user->token_expire->timestamp, 'baidu_token_expire' => Carbon::createFromTimeString($user->qq_token_expire)->timestamp];
+        return ['token' => $user->token, 'token_expire' => $user->token_expire->timestamp, 'baidu_token_expire' => Carbon::createFromTimeString($user->baidu_token_expire)->timestamp];
     }
 
     public function wxLogin(string $code)
