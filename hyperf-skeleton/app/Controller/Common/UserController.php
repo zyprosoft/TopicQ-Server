@@ -45,6 +45,16 @@ class UserController extends AbstractController
         return $this->success($result);
     }
 
+    public function baiduLogin()
+    {
+        $this->validate([
+            'code' => 'string|min:1|required'
+        ]);
+        $code = $this->request->param('code');
+        $result = $this->userService->baiduLogin($code);
+        return $this->success($result);
+    }
+
     //只能在qq、百度、抖音里面请求
     public function miniSendLoginSms(AuthedRequest $request)
     {
