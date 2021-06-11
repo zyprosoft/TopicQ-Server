@@ -30,6 +30,7 @@ class BaiDuMiniService extends BaseService
             'method' => 'POST'
         ];
         $option = [
+            'headers'=>['content-type'=>'application/x-www-form-urlencoded'],
             'body' => [
                 'sk' => $this->secret,
                 'client_id' => $this->clientId,
