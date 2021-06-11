@@ -40,6 +40,8 @@ class UserService extends BaseService
 {
     const SMS_CODE_TTL = 5 * 60;
 
+    const SMS_RESEND_TTL = 60;
+
     /**
      * @Inject
      * @var \App\Service\ScoreService
@@ -795,7 +797,7 @@ class UserService extends BaseService
     public function sendLoginSms(string $mobile)
     {
         //是不是刚刚发送完
-        $existCode = $this->cache->get($mobile);
+        $existCode = $this->cache->get($mobile.'r');
         if (!empty($existCode)) {
             throw new HyperfCommonException(ErrorCode::SEND_LOGIN_SMS_TOO_QUICK);
         }
@@ -808,6 +810,7 @@ class UserService extends BaseService
         $smsService = new Sms($auth);
         $smsCode = "".rand(1,9).rand(1,9).rand(1,9).rand(1,9).rand(1,9);
         $this->cache->set($mobile,$smsCode,self::SMS_CODE_TTL);
+        $this->cache->set($mobile.'r','1',self::SMS_RESEND_TTL);
         $customParam = [
             'code' => $smsCode
         ];
