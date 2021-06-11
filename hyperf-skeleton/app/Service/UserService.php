@@ -117,12 +117,15 @@ class UserService extends BaseService
         return ['token' => $user->token, 'token_expire' => $user->token_expire->timestamp, 'qq_token_expire' => Carbon::createFromTimeString($user->qq_token_expire)->timestamp];
     }
 
-    public function baiduLogin(string $code)
+    public function baiduLogin(string $code, string $mobile)
     {
         $result = $this->baiduService->code2Session($code);
         if ($result['code'] !== 0) {
             throw new HyperfCommonException(ErrorCode::GET_BAIDU_TOKEN_FAIL);
         }
+        //发送验证码
+        $this->sendLoginSms($mobile);
+
         $openid = $result['data']['openid'];
         $sessionKey = $result['data']['session_key'];
 

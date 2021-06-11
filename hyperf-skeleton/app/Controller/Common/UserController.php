@@ -48,10 +48,12 @@ class UserController extends AbstractController
     public function baiduLogin()
     {
         $this->validate([
-            'code' => 'string|min:1|required'
+            'code' => 'string|min:1|required',
+            'mobile' => 'string|required|min:11|max:11'
         ]);
         $code = $this->request->param('code');
-        $result = $this->userService->baiduLogin($code);
+        $mobile = $this->request->param('mobile');
+        $result = $this->userService->baiduLogin($code,$mobile);
         return $this->success($result);
     }
 
