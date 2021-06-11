@@ -199,7 +199,6 @@ class ErrorCode extends AbstractConstants
      */
     const SMS_CODE_NOT_VALIDATE = 30033;
 
-
     /**
      * @Message("登录合并用户信息失败!")
      */
@@ -219,4 +218,9 @@ class ErrorCode extends AbstractConstants
      * @Message("微信登录凭证已失效")
      */
     const WX_TOKEN_DID_EXPIRED = 30037;
+
+    /**
+     * @Message("获取BaiDuToken失败!")
+     */
+    const GET_BAIDU_TOKEN_FAIL = 30038;
 }

@@ -121,7 +121,7 @@ class UserService extends BaseService
     {
         $result = $this->baiduService->code2Session($code);
         if ($result['code'] !== 0) {
-            throw new HyperfCommonException(ErrorCode::GET_QQ_TOKEN_FAIL);
+            throw new HyperfCommonException(ErrorCode::GET_BAIDU_TOKEN_FAIL);
         }
         $openid = $result['data']['openid'];
         $sessionKey = $result['data']['session_key'];

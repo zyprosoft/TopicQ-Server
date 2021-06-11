@@ -30,7 +30,7 @@ class BaiDuMiniService extends BaseService
             'method' => 'POST'
         ];
         $option = [
-            'data' => [
+            'body' => [
                 'sk' => $this->secret,
                 'client_id' => $this->clientId,
                 'code' => $code
