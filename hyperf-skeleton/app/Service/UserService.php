@@ -52,6 +52,12 @@ class UserService extends BaseService
      */
     protected QQMiniService $qqService;
 
+    /**
+     * @Inject
+     * @var BaiDuMiniService
+     */
+    protected BaiDuMiniService $baiduService;
+
     public function qqLogin(string $code)
     {
         $result = $this->qqService->code2Session($code);
@@ -109,6 +115,65 @@ class UserService extends BaseService
         $user->saveOrFail();
 
         return ['token' => $user->token, 'token_expire' => $user->token_expire->timestamp, 'qq_token_expire' => Carbon::createFromTimeString($user->qq_token_expire)->timestamp];
+    }
+
+    public function baiduLogin(string $code)
+    {
+        $result = $this->baiduService->code2Session($code);
+        if ($result['code'] !== 0) {
+            throw new HyperfCommonException(ErrorCode::GET_QQ_TOKEN_FAIL);
+        }
+        $openid = $result['data']['openid'];
+        $sessionKey = $result['data']['session_key'];
+
+        //用户是不是已经存在
+        $user = User::query()->where('baidu_openid', $openid)
+            ->with(['update_info'])
+            ->first();
+        if (!$user instanceof User) {
+            $user = new User();
+            $user->baidu_openid = $openid;
+            $user->baidu_token = $sessionKey;
+        } else {
+            $user->baidu_token = $sessionKey;
+        }
+        //数据库token是否过期，没有过期的话直接返回Token给客户端使用，保持多端登陆一致性
+        $now = Carbon::now();
+        if (isset($user->token_expire) && isset($user->token) && isset($user->baidu_token) && isset($user->baidu_token_expire)) {
+            if ($now->isAfter($user->baidu_token) == false && $now->isAfter($user->baidu_token_expire) == false) {
+                Log::info("({$user->user_id})用户的Token还未失效，可以直接返回给客户端");
+                //更新微信Token过期时间，返回普通Token给客户端
+                $qqExpireTime = Carbon::now()->addRealSeconds(Constants::WX_TOKEN_TTL);
+                $user->baidu_token_expire = $qqExpireTime->toDateTimeString();
+                $user->last_login = Carbon::now();
+                $user->saveOrFail();
+                return ['token' => $user->token, 'token_expire' => $user->token_expire->timestamp, 'baidu_token_expire' => Carbon::createFromTimeString($user->qq_token_expire)->timestamp];
+            } else {
+                //需要重新登陆，保存历史Token
+                $tokenHistory = new TokenHistory();
+                $tokenHistory->owner_id = $user->user_id;
+                $tokenHistory->token = $user->token;
+                $tokenHistory->token_expire = $user->token_expire->toDateTimeString();
+                $tokenHistory->saveOrFail();
+                Log::info("({$user->user_id})用户token已经过期,保存历史Token");
+            }
+        }
+
+        //Auth的token过期时间单位是秒
+        $qqExpireTime = Carbon::now()->addRealSeconds(Constants::WX_TOKEN_TTL);
+        $user->baidu_token_expire = $qqExpireTime;
+        //不能使用之前的那个会导致时间变长
+        $expireTime = Carbon::now()->addRealSeconds(Auth::tokenTTL());
+        $user->token_expire = $expireTime;
+        $user->last_login = Carbon::now();
+        $user->saveOrFail();
+        //需要先获取UserId，然后才能用Token登陆
+        $token = $this->auth->login($user);
+        //然后再保存一次Token
+        $user->token = $token;
+        $user->saveOrFail();
+
+        return ['token' => $user->token, 'token_expire' => $user->token_expire->timestamp, 'baidu_token_expire' => Carbon::createFromTimeString($user->qq_token_expire)->timestamp];
     }
 
     public function wxLogin(string $code)
@@ -789,6 +854,12 @@ class UserService extends BaseService
                     $user->qq_token = $currentUser->qq_token;
                     $user->qq_token_expire = $currentUser->qq_token_expire;
                     $user->qq_openid = $currentUser->qq_openid;
+                    $currentUser->delete();
+                }
+                if($type == 'baidu') {
+                    $user->baidu_token = $currentUser->baidu_token;
+                    $user->baidu_token_expire = $currentUser->baidu_token_expire;
+                    $user->baidu_openid = $currentUser->baidu_openid;
                     $currentUser->delete();
                 }
                 if($type == 'weixin') {
