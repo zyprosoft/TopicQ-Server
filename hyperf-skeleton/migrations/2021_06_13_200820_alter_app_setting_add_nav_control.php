@@ -11,8 +11,9 @@ class AlterAppSettingAddNavControl extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('app_setting', function (Blueprint $table) {
             //
+            $table->tinyInteger('enable_nav_forum')->default(0)->comment('是否允许订阅版块提升到导航栏');
         });
     }
 
@@ -21,8 +22,9 @@ class AlterAppSettingAddNavControl extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('app_setting', function (Blueprint $table) {
             //
+            $table->dropColumn('enable_nav_forum');
         });
     }
 }
