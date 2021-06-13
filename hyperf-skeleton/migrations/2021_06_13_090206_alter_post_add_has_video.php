@@ -11,8 +11,9 @@ class AlterPostAddHasVideo extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('post', function (Blueprint $table) {
             //
+            $table->tinyInteger('has_video')->default(0)->comment('是否有视频');
         });
     }
 
@@ -21,8 +22,9 @@ class AlterPostAddHasVideo extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('post', function (Blueprint $table) {
             //
+            $table->dropColumn('has_video');
         });
     }
 }
