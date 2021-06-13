@@ -194,7 +194,8 @@ class PostService extends BaseService
                 $imageIds = [];
                 $imageList = [];
                 $summary = '';
-                $filterRichContent = collect($params['richContent'])->map(function (array $item) use (&$imageIds,&$imageList,&$summary){
+                $hasVideo = 0;
+                $filterRichContent = collect($params['richContent'])->map(function (array $item) use (&$imageIds,&$imageList,&$summary,&$hasVideo){
                     if($item['type'] == Constants::RICH_CONTENT_TYPE_TEXT && mb_strlen($summary) < 40) {
                         $summary .= $item['content'];
                         if (mb_strlen($summary) > 40) {
@@ -217,9 +218,11 @@ class PostService extends BaseService
                     }
                     if($item['type'] == Constants::RICH_CONTENT_TYPE_VIDEO) {
                         unset($item['local']);
+                        $hasVideo = 1;
                     }
                     return $item;
                 });
+                $post->has_video = $hasVideo;
                 $post->summary = $summary;
                 //json编码后存储
                 $post->rich_content = json_encode($filterRichContent);
@@ -369,7 +372,8 @@ class PostService extends BaseService
             $imageIds = [];
             $imageList = [];
             $summary = '';
-            $filterRichContent = collect($params['richContent'])->map(function (array $item) use (&$imageIds,&$imageList,&$summary){
+            $hasVideo = 0;
+            $filterRichContent = collect($params['richContent'])->map(function (array $item) use (&$imageIds,&$imageList,&$summary,&$hasVideo){
                 if($item['type'] == Constants::RICH_CONTENT_TYPE_TEXT && mb_strlen($summary) < 40) {
                     $summary .= $item['content'];
                     if (mb_strlen($summary) > 40) {
@@ -392,9 +396,11 @@ class PostService extends BaseService
                 }
                 if($item['type'] == Constants::RICH_CONTENT_TYPE_VIDEO) {
                     unset($item['local']);
+                    $hasVideo = 1;
                 }
                 return $item;
             });
+            $post->has_video = $hasVideo;
             $post->summary = $summary;
             //json编码后存储
             $post->rich_content = json_encode($filterRichContent);
