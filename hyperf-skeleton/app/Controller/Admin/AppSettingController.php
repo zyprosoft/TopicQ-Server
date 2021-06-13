@@ -40,4 +40,14 @@ class AppSettingController extends AbstractController
         $result = $this->service->update('enable_user_create_topic',$status);
         return $this->success($result);
     }
+
+    public function updateEnableNavForum(AppAdminRequest $request)
+    {
+        $this->validate([
+            'status' => 'integer|in:0,1'
+        ]);
+        $status = $request->param('status');
+        $result = $this->service->update('enable_nav_forum',$status);
+        return $this->success($result);
+    }
 }
