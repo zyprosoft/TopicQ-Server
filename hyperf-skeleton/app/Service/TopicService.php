@@ -161,15 +161,17 @@ class TopicService extends AbstractService
         return ['total'=>$total,'list'=>$list];
     }
 
-    public function getTopicAttentionStatus(int $topicId)
+    public function getTopicDetail(int $topicId)
     {
+        $topic = Topic::findOrFail($topicId);
         $attention = UserAttentionTopic::query()->where('user_id', $this->userId())
             ->where('topic_id', $topicId)
             ->first();
         if ($attention instanceof UserAttentionTopic) {
-            return ['status'=>1];
+            $topic->is_attention = 1;
         }else{
-            return ['status'=>0];
+            $topic->is_attention = 0;
         }
+        return $topic;
     }
 }
