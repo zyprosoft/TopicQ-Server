@@ -174,4 +174,16 @@ class TopicService extends AbstractService
         }
         return $topic;
     }
+
+    public function getTopicAttentionStatus(int $topicId)
+    {
+        $attention = UserAttentionTopic::query()->where('user_id', $this->userId())
+            ->where('topic_id', $topicId)
+            ->first();
+        if ($attention instanceof UserAttentionTopic) {
+            return  ['status' => 1];
+        }else{
+            return ['status' => 0];
+        }
+    }
 }
