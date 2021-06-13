@@ -72,7 +72,8 @@ class PostService extends BaseService
         'recommend_weight',
         'topic_id',
         'only_self_visible',
-        'image_ids'
+        'image_ids',
+        'has_video'
     ];
 
     //重载获取当前用户ID的方法
@@ -970,7 +971,8 @@ class PostService extends BaseService
             'topic_id',
             'only_self_visible',
             'rich_content',
-            'image_ids'
+            'image_ids',
+            'has_video'
         ];
 
         if($type == Constants::FORUM_POST_SORT_LATEST) {
@@ -1036,7 +1038,8 @@ class PostService extends BaseService
             'topic_id',
             'only_self_visible',
             'rich_content',
-            'image_ids'
+            'image_ids',
+            'has_video'
         ];
 
         $list = Post::query()->select($selectRows)
@@ -1096,7 +1099,8 @@ class PostService extends BaseService
             'topic_id',
             'only_self_visible',
             'rich_content',
-            'image_ids'
+            'image_ids',
+            'has_video'
         ];
 
         //关注的话题ID
@@ -1227,7 +1231,8 @@ class PostService extends BaseService
             'topic_id',
             'only_self_visible',
             'rich_content',
-            'image_ids'
+            'image_ids',
+            'has_video'
         ];
 
         if($type == Constants::TOPIC_POST_LIST_SORT_BY_LATEST) {
