@@ -95,6 +95,12 @@ class PostService extends BaseService
         return $userId;
     }
 
+    protected function trimString(string $content)
+    {
+        $chars = [" ","　","\t","\n","\r"];
+        return str_replace($chars,"",$content);
+    }
+
     public function create(array $params)
     {
         //检查用户是不是被拉黑
@@ -134,9 +140,9 @@ class PostService extends BaseService
             $post->owner_id = $this->userId();
             $post->title = $title;
             if (mb_strlen($content) < 40) {
-                $post->summary = $content;
+                $post->summary = $this->trimString($content);
             } else {
-                $post->summary = mb_substr($content, 0, 40);
+                $post->summary = $this->trimString(mb_substr($content, 0, 40));
             }
             if(isset($content)) {
                 $post->content = $content;
@@ -201,6 +207,7 @@ class PostService extends BaseService
                         $summary .= $item['content'];
                         if (mb_strlen($summary) > 40) {
                             $summary = mb_substr($summary,0,40);
+                            $summary = $this->trimString($summary);
                         }
                     }
                     if($item['type'] == Constants::RICH_CONTENT_TYPE_BIG_IMAGE) {
