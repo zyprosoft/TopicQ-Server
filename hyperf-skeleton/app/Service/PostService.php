@@ -95,7 +95,7 @@ class PostService extends BaseService
         return $userId;
     }
 
-    protected function trimString(string $content)
+    protected function trimString(string $content = null)
     {
         if(empty($content)) {
             return $content;
