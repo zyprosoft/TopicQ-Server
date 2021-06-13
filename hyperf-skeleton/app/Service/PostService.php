@@ -97,6 +97,9 @@ class PostService extends BaseService
 
     protected function trimString(string $content)
     {
+        if(empty($content)) {
+            return $content;
+        }
         $chars = [" ","　","\t","\n","\r"];
         return str_replace($chars,"",$content);
     }
