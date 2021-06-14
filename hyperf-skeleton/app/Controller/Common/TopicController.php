@@ -82,12 +82,12 @@ class TopicController extends AbstractController
         return $this->success($result);
     }
 
-    public function getTopicDetail(AuthedRequest $request)
+    public function getTopicDetail()
     {
         $this->validate([
             'topicId'=>'integer|required|exists:topic,topic_id',
         ]);
-        $topicId = $request->param('topicId');
+        $topicId = $this->request->param('topicId');
         $result = $this->service->getTopicDetail($topicId);
         return $this->success($result);
     }
