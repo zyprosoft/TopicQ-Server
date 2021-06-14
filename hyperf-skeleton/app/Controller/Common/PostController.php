@@ -300,7 +300,8 @@ class PostController extends AbstractController
         return $this->success($result);
     }
 
-    public function getPostListBySubScribedForumId(AuthedRequest $request)
+    //有可能是分享出去的，没有登录态
+    public function getPostListBySubScribedForumId()
     {
         $this->validate([
             'pageIndex' => 'integer|required|min:0',
@@ -308,10 +309,10 @@ class PostController extends AbstractController
             'forumId' => 'integer|required|exists:forum,forum_id',
             'type' => 'integer|in:0,1'
         ]);
-        $pageIndex = $request->param('pageIndex');
-        $pageSize = $request->param('pageSize');
-        $forumId = $request->param('forumId');
-        $type = $request->param('type');
+        $pageIndex = $this->request->param('pageIndex');
+        $pageSize = $this->request->param('pageSize');
+        $forumId = $this->request->param('forumId');
+        $type = $this->request->param('type');
         $result = $this->service->getPostListBySubscribeByForumId($pageIndex, $pageSize, $forumId,$type);
         return $this->success($result);
     }

@@ -917,45 +917,49 @@ class PostService extends BaseService
         }
 
         //用户是不是已经订阅了此板块,或者是管理员以上身份
-        $user = User::findOrFail($this->userId());
-        //非管理员身份需要校验订阅权限
-        if ($user->role_id < Constants::USER_ROLE_ADMIN) {
-            $forum = Forum::findOrFail($forumId);
-            //授权或者订阅类板块
-            if($forum->need_auth == 1 || $forum->goods_id > 0) {
-                $userSubscribe = UserSubscribe::query()->where('user_id',$user->user_id)
-                    ->where('forum_id',$forumId)
-                    ->first();
-                if (!$userSubscribe instanceof UserSubscribe) {
-                    throw new HyperfCommonException(ErrorCode::FORUM_NOT_PAY_OR_AUTH);
-                }
-            }else{
-                //是不是有发帖权限，有的话就可以看
-                $canAccessForum = false;
-                if(!empty($forum->can_post_user_group)) {
-                    $postUserGroup = collect(explode(';',$forum->can_post_user_group));
-                    if($postUserGroup->contains($user->group_id)){
-                        $canAccessForum = true;
+        //分享出去的时候没有登录态,允许访问内容
+        if(Auth::isGuest() == false) {
+            $user = User::findOrFail($this->userId());
+            //非管理员身份需要校验订阅权限
+            if ($user->role_id < Constants::USER_ROLE_ADMIN) {
+                $forum = Forum::findOrFail($forumId);
+                //授权或者订阅类板块
+                if($forum->need_auth == 1 || $forum->goods_id > 0) {
+                    $userSubscribe = UserSubscribe::query()->where('user_id',$user->user_id)
+                        ->where('forum_id',$forumId)
+                        ->first();
+                    if (!$userSubscribe instanceof UserSubscribe) {
+                        throw new HyperfCommonException(ErrorCode::FORUM_NOT_PAY_OR_AUTH);
                     }
-                }
-                //如果没有发帖权限，看下是不是有访问权限
-                if ($canAccessForum == false) {
-                    if (!empty($forum->can_access_user_group)) {
-                        $accessUserGroup = collect(explode(';',$forum->can_access_user_group));
-                        if($accessUserGroup->contains($user->group_id)) {
+                }else{
+                    //是不是有发帖权限，有的话就可以看
+                    $canAccessForum = false;
+                    if(!empty($forum->can_post_user_group)) {
+                        $postUserGroup = collect(explode(';',$forum->can_post_user_group));
+                        if($postUserGroup->contains($user->group_id)){
                             $canAccessForum = true;
                         }
-                    }else{
-                        //空的时候都有访问权限
-                        $canAccessForum = true;
-                        Log::info("版块({$forum->name})所有用户均可访问!");
                     }
-                }
-                if($canAccessForum == false) {
-                    throw new HyperfCommonException(ErrorCode::FORUM_NOT_PAY_OR_AUTH,"当前所在用户组无权访问此版块");
+                    //如果没有发帖权限，看下是不是有访问权限
+                    if ($canAccessForum == false) {
+                        if (!empty($forum->can_access_user_group)) {
+                            $accessUserGroup = collect(explode(';',$forum->can_access_user_group));
+                            if($accessUserGroup->contains($user->group_id)) {
+                                $canAccessForum = true;
+                            }
+                        }else{
+                            //空的时候都有访问权限
+                            $canAccessForum = true;
+                            Log::info("版块({$forum->name})所有用户均可访问!");
+                        }
+                    }
+                    if($canAccessForum == false) {
+                        throw new HyperfCommonException(ErrorCode::FORUM_NOT_PAY_OR_AUTH,"当前所在用户组无权访问此版块");
+                    }
                 }
             }
         }
+
 
         $selectRows = [
             'post_id',
