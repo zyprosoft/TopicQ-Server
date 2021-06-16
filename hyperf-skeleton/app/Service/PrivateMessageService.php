@@ -134,6 +134,8 @@ class PrivateMessageService extends BaseService
                                      ->orderByDesc('last_message_time')
                                      ->limit($pageSize)
                                      ->get();
+
+
         //返回用户对他人的的关注状态
         $allToUserIds = $list->pluck('to_user_id');
         $otherList = UserAttentionOther::query()->where('user_id',$this->userId())
@@ -141,11 +143,26 @@ class PrivateMessageService extends BaseService
                                                 ->get()
                                                 ->pluck('other')
                                                 ->keyBy('user_id');
-        $list->map(function (Conversation $conversation) use ($otherList) {
-            if (!empty($otherList->get($conversation->to_user_id))) {
+        //管理员使用化身情况下默认全部关注
+        $userId = Auth::userId();
+        $user = User::find($userId);
+        $isAdminAvatar = false;
+        if ($user->role_id == Constants::USER_ROLE_ADMIN) {
+            //检查是不是在使用化身
+            if ($user->avatar_user_id > 0) {
+                Log::info("使用化身($user->avatar_user_id)");
+                $isAdminAvatar = true;
+            }
+        }
+        $list->map(function (Conversation $conversation) use ($otherList,$isAdminAvatar) {
+            if($isAdminAvatar) {
                 $conversation->is_attention = 1;
             }else{
-                $conversation->is_attention = 0;
+                if (!empty($otherList->get($conversation->to_user_id))) {
+                    $conversation->is_attention = 1;
+                }else{
+                    $conversation->is_attention = 0;
+                }
             }
             return $conversation;
         });
