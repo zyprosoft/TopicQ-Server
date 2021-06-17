@@ -8,11 +8,19 @@ use App\Job\AddNotificationJob;
 use App\Model\Topic;
 use App\Model\UserAttentionTopic;
 use App\Service\BaseService;
+use App\Service\NotificationService;
 use Hyperf\Database\Model\Builder;
 use ZYProSoft\Exception\HyperfCommonException;
+use Hyperf\Di\Annotation\Inject;
 
 class TopicService extends BaseService
 {
+    /**
+     * @Inject
+     * @var NotificationService
+     */
+    protected NotificationService $notificationService;
+
     public function getWaitAuditTopicList(int $pageIndex, int $pageSize, int $lastTopicId = null)
     {
         $list = Topic::query()->where('audit_status',Constants::STATUS_WAIT)
@@ -69,7 +77,7 @@ class TopicService extends BaseService
                 $level = Constants::MESSAGE_LEVEL_BLOCK;
                 $content = "很遗憾，您发布的话题《{$topic->title}》未通过管理员审核，仍然感谢您对社区文化构建的积极参与~";
             }
-            $this->push(new AddNotificationJob($topic->owner_id,$title,$content,false,$level,$levelLabel));
+            $this->notificationService->create($topic->owner_id,$title,$content,false,$level,$levelLabel);
         }
         return $this->success();
     }
