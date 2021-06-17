@@ -138,6 +138,8 @@ class Constants
 
     const STATUS_NOT = 0;
 
+    const STATUS_HIDDEN = 2;
+
     const GOODS_ID_INVALIDATE = 0;
 
     const SUBSCRIBE_GOODS_CATEGORY_ID = 1;//虚拟产品默认分类1

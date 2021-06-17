@@ -47,11 +47,23 @@ class TopicController extends AbstractController
         return $this->success($result);
     }
 
+    public function hiddenTopic(AppAdminRequest $request)
+    {
+        $this->validate([
+            'topicId' => 'integer|required|exists:topic,topic_id',
+            'status' => 'integer|required|in:0,1'
+        ]);
+        $topicId = $request->param('topicId');
+        $status = $request->param('status');
+        $result = $this->service->hiddenTopic($status,$topicId);
+        return $this->success($result);
+    }
+
     public function auditTopic(AppAdminRequest $request)
     {
         $this->validate([
             'topicId' => 'integer|required|exists:topic,topic_id',
-            'status' => 'integer|required|in:-1,1'
+            'status' => 'integer|required|in:-1,1,2'
         ]);
         $topicId = $request->param('topicId');
         $status = $request->param('status');

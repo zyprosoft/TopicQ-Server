@@ -32,6 +32,14 @@ class TopicService extends BaseService
         return ['list'=>$list,'total'=>$total,'last_topic_id'=>$lastTopicId];
     }
 
+    public function hiddenTopic(int $isHidden, int $topicId)
+    {
+        $topic = Topic::findOrFail($topicId);
+        $topic->audit_status = $isHidden == 1? Constants::STATUS_HIDDEN:Constants::STATUS_OK;
+        $topic->saveOrFail();
+        return $this->success();
+    }
+
     public function auditTopic(int $status, int $topicId)
     {
         $topic = Topic::findOrFail($topicId);
