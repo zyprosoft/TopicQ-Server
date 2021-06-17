@@ -69,8 +69,7 @@ class TopicService extends BaseService
                 $level = Constants::MESSAGE_LEVEL_BLOCK;
                 $content = "很遗憾，您发布的话题《{$topic->title}》未通过管理员审核，仍然感谢您对社区文化构建的积极参与~";
             }
-            $notification = new AddNotificationJob($topic->owner_id,$title,$content,false,$level,$levelLabel);
-            $this->push($notification);
+            $this->push(new AddNotificationJob($topic->owner_id,$title,$content,false,$level,$levelLabel));
         }
         return $this->success();
     }
