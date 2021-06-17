@@ -408,13 +408,15 @@ class UserService extends \App\Service\BaseService
         $waitAuditTopicCount = Topic::query()->where('audit_status',Constants::STATUS_WAIT)
             ->count();
         $total = $waitAuditCount + $reportPostCount + $reportCommentCount + $waitAuditTopicCount;
+        $postTotal = $waitAuditCount + $reportPostCount + $reportCommentCount;
 
         return [
             'total' => $total,
             'post_audit_count' => $waitAuditCount,
             'post_report_count' => $reportPostCount,
             'comment_report_count' => $reportCommentCount,
-            'topic_audit_count' => $waitAuditTopicCount
+            'topic_audit_count' => $waitAuditTopicCount,
+            'post_total' => $postTotal
         ];
     }
 }
