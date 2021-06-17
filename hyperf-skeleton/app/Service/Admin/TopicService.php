@@ -49,7 +49,7 @@ class TopicService extends BaseService
         $topic->audit_status = $status;
         $topic->saveOrFail();
         if ($topic->author->role_id < Constants::USER_ROLE_ADMIN) {
-            $title = "发布话题审核结果";
+            $title = "创建话题审核结果";
             if($status == Constants::STATUS_OK) {
                 $level = Constants::MESSAGE_LEVEL_WARN;
                 $content = "您发布的话题《{$topic->title}》已通过管理员审核，感谢您对社区文化构建的大力支持~";
