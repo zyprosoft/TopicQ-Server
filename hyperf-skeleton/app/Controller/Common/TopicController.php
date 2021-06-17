@@ -27,7 +27,8 @@ class TopicController extends AbstractController
             'title' => 'string|required|min:1|max:24|sensitive',
             'introduce' => 'string|required|min:1|max:128|sensitive',
             'image' => 'string|required|min:1|max:500',
-            'categoryId' => 'integer|exists:topic_category,category_id'
+            'categoryId' => 'integer|exists:topic_category,category_id',
+            'topicId' => 'integer|exists:topic,topic_id'
         ]);
         $params = $request->getParams();
         $result = $this->service->createTopic($params);

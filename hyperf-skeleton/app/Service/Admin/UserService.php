@@ -14,6 +14,7 @@ use App\Model\PrivateMessage;
 use App\Model\ReportComment;
 use App\Model\ReportPost;
 use App\Model\Role;
+use App\Model\Topic;
 use App\Model\User;
 use Carbon\Carbon;
 use Hyperf\Database\Model\Builder;
@@ -403,13 +404,17 @@ class UserService extends \App\Service\BaseService
         //统计评论举报的数量
         $reportCommentCount = ReportComment::query()->where('audit_status',Constants::STATUS_WAIT)
             ->count();
-        $total = $waitAuditCount + $reportPostCount + $reportCommentCount;
+        //统计未审核话题的数量
+        $waitAuditTopicCount = Topic::query()->where('audit_status',Constants::STATUS_WAIT)
+            ->count();
+        $total = $waitAuditCount + $reportPostCount + $reportCommentCount + $waitAuditTopicCount;
 
         return [
             'total' => $total,
             'post_audit_count' => $waitAuditCount,
             'post_report_count' => $reportPostCount,
-            'comment_report_count' => $reportCommentCount
+            'comment_report_count' => $reportCommentCount,
+            'topic_audit_count' => $waitAuditTopicCount
         ];
     }
 }

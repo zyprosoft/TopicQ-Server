@@ -63,18 +63,27 @@ class TopicService extends AbstractService
             $this->push($notification);
         }
 
-        $topic = Topic::query()->where('title', $params['title'])
-                               ->first();
-        if ($topic instanceof Topic) {
-            throw new HyperfCommonException(ErrorCode::RECORD_DID_EXIST);
+        if (isset($params['topicId'])) {
+            $topic = Topic::findOrFail($params['topicId']);
+        }else{
+            $topic = Topic::query()->where('title', $params['title'])
+                ->first();
+            if ($topic instanceof Topic) {
+                throw new HyperfCommonException(ErrorCode::RECORD_DID_EXIST);
+            }
+            $topic = new Topic();
         }
-        $topic = new Topic();
         $topic->introduce = data_get($params,'introduce');
         $topic->image = data_get($params,'image');
         $topic->owner_id = $this->userId();
         $topic->title = data_get($params,'title');
         if (isset($params['categoryId'])) {
             $topic->category_id = data_get($params,'categoryId');
+        }
+        //当前用户是不是管理员
+        $user = $this->user();
+        if($user->role_id > 0) {
+            $topic->audit_status = Constants::STATUS_OK;
         }
         $topic->saveOrFail();
         return $topic;
@@ -87,7 +96,8 @@ class TopicService extends AbstractService
                     $query->where('title','like',"%$keyword%")
                         ->orWhere('introduce','like',"%$keyword%");
                 }
-            })->offset($pageIndex * $pageSize)
+            })->where('audit_status',Constants::STATUS_OK)
+            ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->orderByDesc('sort_index')
             ->orderByDesc('recommend_weight')
@@ -119,7 +129,7 @@ class TopicService extends AbstractService
                 $query->where('title','like',"%$keyword%")
                     ->orWhere('introduce','like',"%$keyword%");
             }
-        })->count();
+        })->where('audit_status',Constants::STATUS_OK)->count();
         return ['total'=>$total,'list'=>$list];
     }
 

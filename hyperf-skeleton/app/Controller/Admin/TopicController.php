@@ -33,6 +33,32 @@ class TopicController extends AbstractController
         return $this->success($result);
     }
 
+    public function getWaitAuditTopicList(AppAdminRequest $request)
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30',
+            'lastTopicId' => 'integer|exists:topic,topic_id'
+        ]);
+        $pageIndex = $request->param('pageIndex');
+        $pageSize = $request->param('pageSize');
+        $topicId = $request->param('topicId');
+        $result = $this->service->getWaitAuditTopicList($pageIndex,$pageSize,$topicId);
+        return $this->success($result);
+    }
+
+    public function auditTopic(AppAdminRequest $request)
+    {
+        $this->validate([
+            'topicId' => 'integer|required|exists:topic,topic_id',
+            'status' => 'integer|required|in:-1,1'
+        ]);
+        $topicId = $request->param('topicId');
+        $status = $request->param('status');
+        $result = $this->service->auditTopic($status,$topicId);
+        return $this->success($result);
+    }
+
     public function getMaxRecommendWeight(AppAdminRequest $request)
     {
         $result = $this->service->getMaxRecommendWeight();
