@@ -6,6 +6,7 @@ use App\Constants\Constants;
 use App\Constants\ErrorCode;
 use App\Job\AddNotificationJob;
 use App\Model\Topic;
+use App\Model\UserAttentionTopic;
 use App\Service\BaseService;
 use Hyperf\Database\Model\Builder;
 use ZYProSoft\Exception\HyperfCommonException;
@@ -43,6 +44,16 @@ class TopicService extends BaseService
             if($status == Constants::STATUS_OK) {
                 $level = Constants::MESSAGE_LEVEL_WARN;
                 $content = "您发布的话题《{$topic->title}》已通过管理员审核，感谢您对社区文化构建的大力支持~";
+                //用户有没有关注，没有帮助用户自动关注
+                $userAttentionTopic = UserAttentionTopic::query()->where('user_id',$topic->owner_id)
+                                                                 ->where('topic_id',$topic->topic_id)
+                                                                 ->first();
+                if (!$userAttentionTopic instanceof UserAttentionTopic) {
+                    $userAttentionTopic = new UserAttentionTopic();
+                    $userAttentionTopic->user_id = $topic->owner_id;
+                    $userAttentionTopic->topic_id = $topic->topic_id;
+                    $userAttentionTopic->saveOrFail();
+                }
             }else{
                 $level = Constants::MESSAGE_LEVEL_BLOCK;
                 $content = "很遗憾，您发布的话题《{$topic->title}》未通过管理员审核，仍然感谢您对社区文化构建的积极参与~";
