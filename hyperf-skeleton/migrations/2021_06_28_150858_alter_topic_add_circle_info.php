@@ -11,8 +11,9 @@ class AlterTopicAddCircleInfo extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('topic', function (Blueprint $table) {
             //
+            $table->bigInteger('circle_id')->default(0)->comment('归属于哪个圈子');
         });
     }
 
@@ -21,8 +22,9 @@ class AlterTopicAddCircleInfo extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('topic', function (Blueprint $table) {
             //
+            $table->dropColumn('circle_id');
         });
     }
 }
