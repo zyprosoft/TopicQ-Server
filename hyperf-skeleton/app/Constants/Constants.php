@@ -195,4 +195,6 @@ class Constants
 
     //普通用户每天最多上传次数
     const USER_MAX_UPLOAD_TIMES_PER_DAY = 100;
+
+    const WX_SECURITY_CHECK_FAIL = 87014;
 }

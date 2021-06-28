@@ -31,4 +31,9 @@ class CircleCategory extends Model
      * @var array
      */
     protected $casts = ['category_id' => 'integer', 'sort_index' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+
+    public function circles()
+    {
+        return $this->hasMany(Circle::class,'category_id','category_id');
+    }
 }
