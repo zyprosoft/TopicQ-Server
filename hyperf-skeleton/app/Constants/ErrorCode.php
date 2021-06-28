@@ -223,4 +223,14 @@ class ErrorCode extends AbstractConstants
      * @Message("获取BaiDuToken失败!")
      */
     const GET_BAIDU_TOKEN_FAIL = 30038;
+
+    /**
+     * @Message("圈子需要密码才能进入!")
+     */
+    const CIRCLE_JOIN_NEED_PASSWORD = 30039;
+
+    /**
+     * @Message("圈子密码输入错误!")
+     */
+    const CIRCLE_JOIN_PASSWORD_INVALIDATE = 30040;
 }

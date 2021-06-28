@@ -5,9 +5,13 @@ namespace App\Service;
 
 
 use App\Constants\Constants;
+use App\Constants\ErrorCode;
 use App\Job\AddNotificationJob;
 use App\Model\Circle;
+use App\Model\User;
+use App\Model\UserCircle;
 use EasyWeChat\Factory;
+use ZYProSoft\Exception\HyperfCommonException;
 
 class CircleService extends BaseService
 {
@@ -114,9 +118,41 @@ class CircleService extends BaseService
         return $this->success();
     }
 
-    public function joinCircle(int $circleId, string $password = null)
+    public function joinCircle(int $circleId, string $password = null, string $note = null)
     {
         $circle = Circle::findOrFail($circleId);
+        //用户是不是已经加入
+        $userCircle = UserCircle::query()->where('user_id',$this->userId())
+            ->where('circle_id',$circleId)
+            ->first();
+        if ($userCircle instanceof UserCircle) {
+            throw new HyperfCommonException(ErrorCode::DO_NOT_REPEAT_ACTION);
+        }
+        if ($circle->is_open == Constants::STATUS_OK) {
+            $userCircle = new UserCircle();
+            $userCircle->user_id = $this->userId();
+            $userCircle->circle_id = $circleId;
+            $userCircle->saveOrFail();
+            return $this->success();
+        }
+        //使用密码进入
+        if ($circle->use_password == Constants::STATUS_OK) {
+            if (!isset($password)) {
+                throw new HyperfCommonException(ErrorCode::CIRCLE_JOIN_NEED_PASSWORD);
+            }
+            //校验密码
+            $isVerify = password_verify($password,$circle->password);
+            if (!$isVerify) {
+                throw new HyperfCommonException(ErrorCode::CIRCLE_JOIN_PASSWORD_INVALIDATE);
+            }
+            $userCircle = new UserCircle();
+            $userCircle->user_id = $this->userId();
+            $userCircle->circle_id = $circleId;
+            $userCircle->saveOrFail();
+        }
+        //需要审核
+        if (!isset($note)) {
 
+        }
     }
 }

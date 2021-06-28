@@ -33,6 +33,7 @@ class CreateCircleTable extends Migration
             $table->string('tags',256)->nullable()->comment('标签');
             $table->tinyInteger('is_hot')->default(0)->comment('是否热门圈子');
             $table->tinyInteger('is_recommend')->default(0)->comment('是否被推荐的圈子');
+            $table->integer('open_score')->default(0)->comment('使用多少积分加入0的时候无限制');
 
             $table->unique('name');
             $table->index('owner_id');
