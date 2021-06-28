@@ -2,8 +2,8 @@
 
 declare (strict_types=1);
 namespace App\Model;
-use Hyperf\Scout\Searchable;
 
+use Hyperf\Scout\Searchable;
 /**
  * @property int $topic_id 
  * @property string $title 话题标题
@@ -23,12 +23,12 @@ use Hyperf\Scout\Searchable;
  * @property int $sort_index 置顶
  * @property string $tag 自定义标签
  * @property int $audit_status 0:待审核1通过-1不通过审核状态，话题必须要管理员审核通过
+ * @property int $circle_id 归属于哪个圈子
  * @property-read \App\Model\User $author 
  */
 class Topic extends Model
 {
     use Searchable;
-
     /**
      * The table associated with the model.
      *
@@ -47,19 +47,14 @@ class Topic extends Model
      *
      * @var array
      */
-    protected $casts = ['topic_id' => 'integer', 'owner_id' => 'integer', 'category_id' => 'integer', 'read_count' => 'integer', 'join_count' => 'integer', 'post_count' => 'integer', 'comment_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'recommend_weight' => 'integer', 'sort_index' => 'integer', 'audit_status' => 'integer'];
+    protected $casts = ['topic_id' => 'integer', 'owner_id' => 'integer', 'category_id' => 'integer', 'read_count' => 'integer', 'join_count' => 'integer', 'post_count' => 'integer', 'comment_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'recommend_weight' => 'integer', 'sort_index' => 'integer', 'audit_status' => 'integer', 'circle_id' => 'integer'];
     protected $with = ['author'];
     public function author()
     {
         return $this->hasOne(User::class, 'user_id', 'owner_id');
     }
-
     public function toSearchableArray()
     {
-        return [
-            'title'=>$this->title,
-            'introduce'=>$this->introduce,
-            'author'=>$this->author->nickname
-        ];
+        return ['title' => $this->title, 'introduce' => $this->introduce, 'author' => $this->author->nickname];
     }
 }

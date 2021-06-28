@@ -52,14 +52,15 @@ use Hyperf\Scout\Searchable;
  * @property string $last_active_time 上一次活跃时间，通过更新帖子，或者回复，可以刷新帖子的活跃时间
  * @property int $ignore_machine_recommend 忽略系统推荐计算权重
  * @property string $rich_content 富文本
+ * @property int $circle_id 圈子ID
  * @property-read \Hyperf\Database\Model\Collection|\App\Model\PostAtUser[] $at_user_list 
  * @property-read \App\Model\User $author 
  * @property-read \Hyperf\Database\Model\Collection|\App\Model\PostDocument[] $document_list 
- * @property \App\Model\Forum $forum
+ * @property-read \App\Model\Forum $forum 
  * @property-read \App\Model\SubscribeForumPassword $forum_voucher 
  * @property-read \App\Model\MiniProgram $mini_program 
  * @property-read \App\Model\OfficialAccount $official_account 
- * @property \App\Model\Topic $topic
+ * @property-read \App\Model\Topic $topic 
  * @property-read \App\Model\Vote $vote 
  * @property-read \App\Model\VoucherPolicy $voucher_policy 
  */
@@ -84,7 +85,7 @@ class Post extends Model
      *
      * @var array
      */
-    protected $casts = ['post_id' => 'integer', 'owner_id' => 'integer', 'vote_id' => 'integer', 'read_count' => 'integer', 'favorite_count' => 'integer', 'forward_count' => 'integer', 'comment_count' => 'integer', 'audit_status' => 'integer', 'is_hot' => 'integer', 'sort_index' => 'integer', 'is_recommend' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'join_user_count' => 'integer', 'machine_audit' => 'integer', 'manager_audit' => 'integer', 'text_audit' => 'integer', 'content_audit' => 'integer', 'title_audit' => 'integer', 'program_id' => 'integer', 'account_id' => 'integer', 'forum_id' => 'integer', 'recommend_weight' => 'integer', 'mall_type' => 'integer', 'policy_id' => 'integer', 'has_video' => 'integer', 'is_video_admin' => 'integer', 'praise_count' => 'integer', 'voucher_policy_id' => 'integer', 'topic_id' => 'integer', 'only_self_visible' => 'integer', 'red_bag_id' => 'integer', 'ignore_machine_recommend' => 'integer'];
+    protected $casts = ['post_id' => 'integer', 'owner_id' => 'integer', 'vote_id' => 'integer', 'read_count' => 'integer', 'favorite_count' => 'integer', 'forward_count' => 'integer', 'comment_count' => 'integer', 'audit_status' => 'integer', 'is_hot' => 'integer', 'sort_index' => 'integer', 'is_recommend' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'join_user_count' => 'integer', 'machine_audit' => 'integer', 'manager_audit' => 'integer', 'text_audit' => 'integer', 'content_audit' => 'integer', 'title_audit' => 'integer', 'program_id' => 'integer', 'account_id' => 'integer', 'forum_id' => 'integer', 'recommend_weight' => 'integer', 'mall_type' => 'integer', 'policy_id' => 'integer', 'has_video' => 'integer', 'is_video_admin' => 'integer', 'praise_count' => 'integer', 'voucher_policy_id' => 'integer', 'topic_id' => 'integer', 'only_self_visible' => 'integer', 'red_bag_id' => 'integer', 'ignore_machine_recommend' => 'integer', 'circle_id' => 'integer'];
     protected $with = ['author', 'topic'];
     protected $hidden = ['recommend_weight', 'ignore_machine_recommend', 'last_active_time'];
     public function author()
