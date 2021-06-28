@@ -181,6 +181,7 @@ class Constants
     const SCORE_ACTION_POST_FAVORITE = 'post_favorite';
     const SCORE_ACTION_POST_PRAISE = 'post_praise';
     const SCORE_ACTION_SUBSCRIBE_FORUM = 'subscribe_forum';
+    const SCORE_ACTION_JOIN_CIRCLE = 'join_circle';
 
     const ACTIVITY_TYPE_INDEX = 0;
     const ACTIVITY_TYPE_FORUM = 1;

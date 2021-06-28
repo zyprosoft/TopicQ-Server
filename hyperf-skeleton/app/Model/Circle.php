@@ -50,4 +50,11 @@ class Circle extends Model
      * @var array
      */
     protected $casts = ['circle_id' => 'integer', 'owner_id' => 'integer', 'member_count' => 'integer', 'post_count' => 'integer', 'is_open' => 'integer', 'use_password' => 'integer', 'category_id' => 'integer', 'audit_status' => 'integer', 'topic_count' => 'integer', 'recommend_weight' => 'integer', 'is_hot' => 'integer', 'is_recommend' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'open_score' => 'integer'];
+
+    protected $with = ['author'];
+
+    public function author()
+    {
+        return $this->hasOne(User::class,'user_id','owner_id');
+    }
 }

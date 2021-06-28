@@ -8,9 +8,12 @@ use App\Constants\Constants;
 use App\Constants\ErrorCode;
 use App\Job\AddNotificationJob;
 use App\Model\Circle;
+use App\Model\CircleCategory;
+use App\Model\JoinCircleApply;
 use App\Model\User;
 use App\Model\UserCircle;
 use EasyWeChat\Factory;
+use Hyperf\DbConnection\Db;
 use ZYProSoft\Exception\HyperfCommonException;
 
 class CircleService extends BaseService
@@ -25,6 +28,8 @@ class CircleService extends BaseService
         $categoryId = data_get($params,'categoryId');
         $password = data_get($params,'password');
         $isOpen = data_get($params,'isOpen');
+        $openScore = data_get($params,'openScore');
+        $tags = data_get($params,'tags');
 
         //审核文本内容
         $miniProgramConfig = config('weixin.miniProgram');
@@ -76,10 +81,17 @@ class CircleService extends BaseService
             if (isset($categoryId)) {
                 $circle->category_id = $categoryId;
             }
+            if (isset($tags)) {
+                $circle->tags = json_encode($tags);
+            }
             if (isset($password)) {
                 $circle->password = password_hash($password,PASSWORD_DEFAULT);
-                $circle->is_open = 0;
-                $circle->use_password = 1;
+                $circle->is_open = Constants::STATUS_NOT;
+                $circle->use_password = Constants::STATUS_OK;
+            }
+            if (isset($openScore)) {
+                $circle->open_score = $openScore;
+                $circle->is_open = Constants::STATUS_NOT;
             }
             if (isset($isOpen)) {
                 $circle->is_open = $isOpen;
@@ -94,10 +106,17 @@ class CircleService extends BaseService
             $circle->category_id = $categoryId;
             $circle->is_open = $isOpen;
             $circle->owner_id = $this->userId();
+            if (isset($tags)) {
+                $circle->tags = json_encode($tags);
+            }
             if (isset($password)) {
                 $circle->password = password_hash($password,PASSWORD_DEFAULT);
                 $circle->is_open = 0;
                 $circle->use_password = 1;
+            }
+            if (isset($openScore)) {
+                $circle->open_score = $openScore;
+                $circle->is_open = Constants::STATUS_NOT;
             }
         }
         $circle->saveOrFail();
@@ -128,6 +147,7 @@ class CircleService extends BaseService
         if ($userCircle instanceof UserCircle) {
             throw new HyperfCommonException(ErrorCode::DO_NOT_REPEAT_ACTION);
         }
+        //公开
         if ($circle->is_open == Constants::STATUS_OK) {
             $userCircle = new UserCircle();
             $userCircle->user_id = $this->userId();
@@ -150,9 +170,119 @@ class CircleService extends BaseService
             $userCircle->circle_id = $circleId;
             $userCircle->saveOrFail();
         }
+        //使用积分进入
+        if ($circle->open_score > 0) {
+            Db::transaction(function () use ($circle) {
+                $user = User::query()->where('user_id',$this->userId())->lockForUpdate()->first();
+                if (!$user instanceof User) {
+                    throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST);
+                }
+                if ($user->score < $circle->open_score) {
+                    throw new HyperfCommonException(ErrorCode::CIRCLE_JOIN_NOT_ENOUGH_SCORE);
+                }
+                $user->score -= $circle->open_score;
+                $user->saveOrFail();
+                //加入圈子
+                $userCircle = new UserCircle();
+                $userCircle->user_id = $this->userId();
+                $userCircle->circle_id = $circle->circle_id;
+                $userCircle->saveOrFail();
+            });
+            return $this->success();
+        }
+
         //需要审核
         if (!isset($note)) {
-
+            throw new HyperfCommonException(ErrorCode::CIRCLE_JOIN_NEED_REASON);
         }
+        //创建申请
+        $joinApply = new JoinCircleApply();
+        $joinApply->user_id = $this->userId();
+        $joinApply->note = $note;
+        $joinApply->circle_id = $circle->circle_id;
+        $joinApply->circle_owner_id = $circle->owner_id;
+        $joinApply->saveOrFail();
+        return $this->success();
+    }
+
+    public function cancelCircle(int $circleId)
+    {
+        $userCircle = UserCircle::query()->where('user_id',$this->userId())
+                                        ->where('circle_id',$circleId)
+                                        ->first();
+        if (!$userCircle instanceof UserCircle) {
+            return $this->success();
+        }
+        $userCircle->delete();
+        return $this->success();
+    }
+
+    public function getJoinApplyList(int $pageIndex, int $pageSize)
+    {
+        $applyList = JoinCircleApply::query()->where('circle_owner_id',$this->userId())
+                                             ->where('audit_status',Constants::STATUS_WAIT)
+                                             ->latest()
+                                             ->offset($pageIndex * $pageSize)
+                                             ->limit($pageSize)
+                                             ->get();
+        $total = JoinCircleApply::query()->where('circle_owner_id',$this->userId())
+            ->where('audit_status',Constants::STATUS_WAIT)
+            ->count();
+        return ['list'=>$applyList,'total'=>$total];
+    }
+
+    public function auditJoinApply(int $applyId, int $status)
+    {
+        Db::transaction(function () use ($applyId, $status){
+            $apply = JoinCircleApply::findOrFail($applyId);
+            //是不是圈主
+            if ($apply->circle_owner_id !== $this->userId()) {
+                throw new HyperfCommonException(ErrorCode::CIRCLE_NOT_OWN);
+            }
+            $apply->audit_status = $status;
+            //通过
+            if ($status == Constants::STATUS_OK) {
+                $userCircle = new UserCircle();
+                $userCircle->user_id = $apply->user_id;
+                $userCircle->circle_id = $apply->circle_id;
+                $userCircle->saveOrFail();
+            }
+            //审核不通过或者失败发送消息
+            if ($status == Constants::STATUS_OK) {
+                $title = "加入圈子成功!";
+                $content = "《{$apply->circle->name}》圈主已经同意您的申请!快去进入圈子与更多圈友互动吧";
+            }else{
+                $title = "加入圈子被拒绝!";
+                $content = "很遗憾，《{$apply->circle->name}》圈主不同意你的入圈申请!";
+            }
+            $levelLabel = '通知';
+            $level = Constants::MESSAGE_LEVEL_WARN;
+            $notification = new AddNotificationJob($apply->user_id,$title,$content,false,$level);
+            $notification->levelLabel = $levelLabel;
+            if ($status == Constants::STATUS_OK) {
+                $keyInfo = ['circle_id'=>$apply->circle_id];
+                $notification->keyInfo = json_encode($keyInfo);
+            }
+            $this->push($notification);
+        });
+        return $this->success();
+    }
+
+    public function getCircleByCategory(int $categoryId, int $pageIndex, int $pageSize)
+    {
+        $list = Circle::query()->where('category_id',$categoryId)
+                               ->where('audit_status',Constants::STATUS_OK)
+                               ->offset($pageIndex * $pageSize)
+                               ->limit($pageSize)
+                               ->get();
+        $total = Circle::query()->where('category_id',$categoryId)
+            ->where('audit_status',Constants::STATUS_OK)
+            ->count();
+        return ['list'=>$list,'total'=>$total];
+    }
+
+    public function getCircleCategoryList()
+    {
+        return CircleCategory::all();
     }
 }

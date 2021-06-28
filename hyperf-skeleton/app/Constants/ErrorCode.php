@@ -233,4 +233,19 @@ class ErrorCode extends AbstractConstants
      * @Message("圈子密码输入错误!")
      */
     const CIRCLE_JOIN_PASSWORD_INVALIDATE = 30040;
+
+    /**
+     * @Message("加入圈子的积分不够!")
+     */
+    const CIRCLE_JOIN_NOT_ENOUGH_SCORE = 30041;
+
+    /**
+     * @Message("请输入申请原因!")
+     */
+    const CIRCLE_JOIN_NEED_REASON = 30042;
+
+    /**
+     * @Message("不是圈主无权处理!")
+     */
+    const CIRCLE_NOT_OWN = 30043;
 }

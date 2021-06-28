@@ -32,7 +32,7 @@ class PostController extends AbstractController
     public function create(AuthedRequest $request)
     {
         $this->validate([
-            'title' => 'string|required|min:1|max:40|sensitive',
+            'title' => 'string|min:1|max:40|sensitive',
             'content' => 'string|min:1|max:5000|sensitive',
             'imageList' => 'array|min:1|max:4',
             'link' => 'string|min:1|max:500',
@@ -48,7 +48,8 @@ class PostController extends AbstractController
             'documents.*.link' => 'string|min:1|max:128',
             'documents.*.type' => 'string|min:1|max:24',
             'richContent' => 'array|min:1|required_without:content',
-            'richContent.*.content' => 'string|sensitive'
+            'richContent.*.content' => 'string|max:1000|sensitive',
+            'circleId' => 'integer|exists:circle,circle_id'
         ]);
         $params = $request->getParams();
         $result = $this->service->create($params);

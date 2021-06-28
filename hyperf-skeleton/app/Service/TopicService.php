@@ -77,6 +77,7 @@ class TopicService extends AbstractService
         $topic->image = data_get($params,'image');
         $topic->owner_id = $this->userId();
         $topic->title = data_get($params,'title');
+        $topic->circle_id = data_get($params,'circleId');
         if (isset($params['categoryId'])) {
             $topic->category_id = data_get($params,'categoryId');
         }

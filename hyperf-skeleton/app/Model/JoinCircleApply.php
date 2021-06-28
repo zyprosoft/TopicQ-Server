@@ -33,4 +33,13 @@ class JoinCircleApply extends Model
      * @var array
      */
     protected $casts = ['id' => 'int', 'user_id' => 'integer', 'circle_id' => 'integer', 'circle_owner_id' => 'integer', 'audit_status' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+
+    protected $with = [
+        'circle',
+    ];
+
+    public function circle()
+    {
+        return $this->hasOne(Circle::class,'circle_id','circle_id');
+    }
 }

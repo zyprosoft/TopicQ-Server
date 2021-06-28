@@ -138,6 +138,7 @@ class PostService extends BaseService
             $topicId = data_get($params,'topicId');
             $documents = data_get($params,'documents');
             $richContent = data_get($params,'richContent');
+            $circleId = data_get($params,'circleId');
 
             $post = new Post();
             $post->owner_id = $this->userId();
@@ -242,6 +243,10 @@ class PostService extends BaseService
                 //检测上传图片
                 $imageAuditCheck = $this->auditImageOrFail($imageList,true);
             }
+            //圈子
+            if (isset($circleId)) {
+                $post->circle_id = $circleId;
+            }
 
             //审核结果
             Log::info("图片审核结果:".json_encode($imageAuditCheck));
@@ -340,6 +345,9 @@ class PostService extends BaseService
         }
         if (isset($params['topicId'])) {
             $post->topic_id = $params['topicId'];
+        }
+        if (isset($params['circleId'])) {
+            $post->circle_id = $params['circleId'];
         }
         if (isset($params['imageList'])) {
             $post->image_list = implode(';', $params['imageList']);
