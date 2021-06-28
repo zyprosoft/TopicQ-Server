@@ -12,8 +12,15 @@ class CreateCircleCategoryTable extends Migration
     public function up(): void
     {
         Schema::create('circle_category', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('category_id');
+            $table->string('name',4)->comment('名字');
+            $table->integer('sort_index')->default(0)->comment('排序索引');
+
+            $table->softDeletes();
             $table->timestamps();
+            $table->engine = "InnoDB";
+            $table->charset = "utf8mb4";
+            $table->collation = "utf8mb4_unicode_ci";
         });
     }
 
