@@ -25,6 +25,7 @@ namespace App\Model;
  * @property string $tags 标签
  * @property int $is_hot 是否热门圈子
  * @property int $is_recommend 是否被推荐的圈子
+ * @property int $open_score 使用多少积分加入0的时候无限制
  * @property string $deleted_at 
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
@@ -48,5 +49,5 @@ class Circle extends Model
      *
      * @var array
      */
-    protected $casts = ['circle_id' => 'integer', 'owner_id' => 'integer', 'member_count' => 'integer', 'post_count' => 'integer', 'is_open' => 'integer', 'use_password' => 'integer', 'category_id' => 'integer', 'audit_status' => 'integer', 'topic_count' => 'integer', 'recommend_weight' => 'integer', 'is_hot' => 'integer', 'is_recommend' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected $casts = ['circle_id' => 'integer', 'owner_id' => 'integer', 'member_count' => 'integer', 'post_count' => 'integer', 'is_open' => 'integer', 'use_password' => 'integer', 'category_id' => 'integer', 'audit_status' => 'integer', 'topic_count' => 'integer', 'recommend_weight' => 'integer', 'is_hot' => 'integer', 'is_recommend' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'open_score' => 'integer'];
 }
