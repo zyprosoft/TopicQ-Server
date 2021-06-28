@@ -19,7 +19,8 @@ class CreateJoinCircleApplyTable extends Migration
             $table->string('note',64)->nullable()->comment('留言');
             $table->tinyInteger('audit_status')->default(0)->comment('0待审核1通过-1不通过');
 
-            $table->unique(['user_id','circle_id']);
+            $table->index('circle_id');
+            $table->index('user_id');
             $table->index('circle_owner_id');
             $table->timestamps();
             $table->engine = "InnoDB";
