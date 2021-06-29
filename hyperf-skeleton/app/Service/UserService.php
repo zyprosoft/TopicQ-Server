@@ -539,7 +539,7 @@ class UserService extends BaseService
         if (!$user instanceof User) {
             throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST);
         }
-        if ($user->role_id == Constants::USER_ROLE_ADMIN) {
+        if ($user->role_id <= Constants::USER_ROLE_SUB_ADMIN) {
             if ($user->avatar_user_id > 0) {
                 $userId = $user->avatar_user_id;
             }

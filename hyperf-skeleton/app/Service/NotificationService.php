@@ -22,7 +22,7 @@ class NotificationService extends BaseService
         }
         $userId = Auth::userId();
         $user = User::find($userId);
-        if ($user->role_id == Constants::USER_ROLE_ADMIN) {
+        if ($user->role_id <= Constants::USER_ROLE_SUB_ADMIN) {
             //检查是不是在使用化身
             if ($user->avatar_user_id > 0) {
                 Log::info("使用化身($user->avatar_user_id)");
