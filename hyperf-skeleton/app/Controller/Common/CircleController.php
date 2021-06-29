@@ -32,7 +32,8 @@ class CircleController extends AbstractController
             'openScore' => 'integer|min:1',
             'password' => 'string|min:1|max:8',
             'circleId' => 'integer|exists:circle,circle_id',
-            'tags' => 'array|min:1'
+            'tags' => 'array|min:1',
+            'categoryId' => 'integer|required|exists:circle_category,category_id'
         ]);
         $params = $request->getParams();
         $result = $this->service->createOrUpdate($params);
