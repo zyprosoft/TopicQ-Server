@@ -31,7 +31,8 @@ class CircleController extends AbstractController
             'isOpen' => 'integer|in:0,1',
             'openScore' => 'integer|min:1',
             'password' => 'string|min:1|max:8',
-            'circleId' => 'integer|exists:circle,circle_id'
+            'circleId' => 'integer|exists:circle,circle_id',
+            'tags' => 'array|min:1'
         ]);
         $params = $request->getParams();
         $result = $this->service->createOrUpdate($params);
@@ -49,6 +50,16 @@ class CircleController extends AbstractController
         $password = $request->param('password');
         $note = $request->param('note');
         $result = $this->service->joinCircle($circleId,$password,$note);
+        return $this->success($result);
+    }
+
+    public function cancelCircle(AuthedRequest $request)
+    {
+        $this->validate([
+            'circleId' => 'integer|required|exists:circle,circle_id',
+        ]);
+        $circleId = $request->param('circleId');
+        $result = $this->service->cancelCircle($circleId);
         return $this->success($result);
     }
 
