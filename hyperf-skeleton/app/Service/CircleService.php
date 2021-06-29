@@ -119,6 +119,7 @@ class CircleService extends BaseService
                 $circle->is_open = Constants::STATUS_NOT;
             }
         }
+        $circle->audit_status = Constants::STATUS_OK;
         $circle->saveOrFail();
         //发送建圈成功通知
         if(!isset($circleId)) {
