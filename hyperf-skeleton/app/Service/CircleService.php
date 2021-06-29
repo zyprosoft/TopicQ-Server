@@ -124,7 +124,7 @@ class CircleService extends BaseService
         if(!isset($circleId)) {
             //发送一条审核不通过通知
             $levelLabel = '通知';
-            $level = Constants::MESSAGE_LEVEL_BLOCK;
+            $level = Constants::MESSAGE_LEVEL_WARN;
             $title = '圈子审核通过';
             $content = "您的圈子《{$name}》已经创建成功并审批通过!";
             $userId = $this->userId();
