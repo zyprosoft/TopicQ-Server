@@ -107,4 +107,14 @@ class CircleController extends AbstractController
         $result = $this->service->getCircleCategoryList();
         return $this->success($result);
     }
+
+    public function getCircleInfoById()
+    {
+        $this->validate([
+            'circleId' => 'integer|required|exists:circle,circle_id',
+        ]);
+        $circleId = $this->request->param('circleId');
+        $result = $this->service->getCircleInfoById($circleId);
+        return $this->success($result);
+    }
 }

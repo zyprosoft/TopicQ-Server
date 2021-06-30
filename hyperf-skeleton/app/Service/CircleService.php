@@ -15,6 +15,7 @@ use App\Model\UserCircle;
 use EasyWeChat\Factory;
 use Hyperf\DbConnection\Db;
 use ZYProSoft\Exception\HyperfCommonException;
+use ZYProSoft\Facade\Auth;
 
 class CircleService extends BaseService
 {
@@ -286,5 +287,24 @@ class CircleService extends BaseService
     public function getCircleCategoryList()
     {
         return CircleCategory::all();
+    }
+
+    public function getCircleInfoById(int $circleId)
+    {
+        $circle = Circle::findOrFail($circleId);
+        if (Auth::isGuest() == false) {
+            //是否已经加入
+            $userCircle = UserCircle::query()->where('user_id',$this->userId())
+                                             ->where('circle_id',$circleId)
+                                             ->first();
+            if (!$userCircle instanceof UserCircle) {
+                $circle->is_joined = 0;
+            }else{
+                $circle->is_joined = 1;
+            }
+        }else{
+            $circle->is_joined = 0;
+        }
+        return $circle;
     }
 }
