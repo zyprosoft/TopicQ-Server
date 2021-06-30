@@ -38,6 +38,9 @@ class Circle extends Model
      * @var string
      */
     protected $table = 'circle';
+
+    protected $primaryKey = 'circle_id';
+
     /**
      * The attributes that are mass assignable.
      *

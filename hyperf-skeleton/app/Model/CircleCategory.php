@@ -19,6 +19,9 @@ class CircleCategory extends Model
      * @var string
      */
     protected $table = 'circle_category';
+
+    protected $primaryKey = 'category_id';
+
     /**
      * The attributes that are mass assignable.
      *
