@@ -132,4 +132,8 @@ class Post extends Model
     {
         return $this->hasMany(PostAtUser::class, 'post_id', 'post_id');
     }
+    public function circle()
+    {
+        return $this->hasOne(Circle::class,'circle_id','circle_id');
+    }
 }

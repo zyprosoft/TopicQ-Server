@@ -447,4 +447,20 @@ class PostController extends AbstractController
         $result = $this->service->markPraiseRead($praiseIds);
         return $this->success($result);
     }
+
+    public function getActivePostByCircleId()
+    {
+        $this->validate([
+            'circleId' => 'integer|required|exists:circle,circle_id',
+            'type' => 'integer|required|in:0,1',
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30'
+        ]);
+        $circleId = $this->request->param('circleId');
+        $type = $this->request->param('type');
+        $pageIndex = $this->request->param('pageIndex');
+        $pageSize = $this->request->param('pageSize');
+        $result = $this->service->getActivePostByCircleId($circleId,$type,$pageIndex,$pageSize);
+        return $this->success($result);
+    }
 }
