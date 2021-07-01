@@ -127,7 +127,11 @@ class PostService extends BaseService
             'need_review' => false
         ];
         Db::transaction(function () use ($params, &$post, &$imageAuditCheck) {
-            $title = $params['title'];
+            if (isset($params['title'])) {
+                $title = $params['title'];
+            }else{
+                $title = '';
+            }
             $content = data_get($params, 'content');
             $link = data_get($params, 'link');
             $imageList = data_get($params, 'imageList');
