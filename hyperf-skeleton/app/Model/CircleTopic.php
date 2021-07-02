@@ -20,7 +20,9 @@ class CircleTopic extends Model
      * @var string
      */
     protected $table = 'circle_topic';
+
     protected $primaryKey = 'topic_id';
+    
     /**
      * The attributes that are mass assignable.
      *

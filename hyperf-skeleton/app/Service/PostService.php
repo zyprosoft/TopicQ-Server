@@ -259,6 +259,7 @@ class PostService extends BaseService
                     $post->circle_topic_id = $circleTopicId;
                 }elseif (isset($circleTopic)) {
                     $circleTopic = CircleTopic::query()->where('title',$circleTopic)
+                        ->where('circle_id',$circleId)
                         ->first();
                     if ($circleTopic instanceof CircleTopic) {
                         $post->circle_topic_id = $circleTopic->topic_id;
