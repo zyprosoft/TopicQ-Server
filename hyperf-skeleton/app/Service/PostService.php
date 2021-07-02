@@ -265,6 +265,8 @@ class PostService extends BaseService
                     }
                     $circleTopic = new CircleTopic();
                     $circleTopic->title = $circleTopic;
+                    $circleTopic->circle_id = $circleId;
+                    $circleTopic->owner_id = $this->userId();
                     $circleTopic->saveOrFail();
                     $post->circle_topic_id = $circleTopic->topic_id;
                 }
