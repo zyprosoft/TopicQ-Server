@@ -258,18 +258,18 @@ class PostService extends BaseService
                 if(isset($circleTopicId)) {
                     $post->circle_topic_id = $circleTopicId;
                 }elseif (isset($circleTopic)) {
-                    $circleTopic = CircleTopic::query()->where('title',$circleTopic)
+                    $existCircleTopic = CircleTopic::query()->where('title',$circleTopic)
                         ->where('circle_id',$circleId)
                         ->first();
-                    if ($circleTopic instanceof CircleTopic) {
-                        $post->circle_topic_id = $circleTopic->topic_id;
+                    if ($existCircleTopic instanceof CircleTopic) {
+                        $post->circle_topic_id = $existCircleTopic->topic_id;
                     }else {
-                        $circleTopic = new CircleTopic();
-                        $circleTopic->title = $circleTopic;
-                        $circleTopic->circle_id = $circleId;
-                        $circleTopic->owner_id = $this->userId();
-                        $circleTopic->saveOrFail();
-                        $post->circle_topic_id = $circleTopic->topic_id;
+                        $existCircleTopic = new CircleTopic();
+                        $existCircleTopic->title = $circleTopic;
+                        $existCircleTopic->circle_id = $circleId;
+                        $existCircleTopic->owner_id = $this->userId();
+                        $existCircleTopic->saveOrFail();
+                        $post->circle_topic_id = $existCircleTopic->topic_id;
                     }
                 }
             }
