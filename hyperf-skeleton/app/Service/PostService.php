@@ -9,6 +9,8 @@ use App\Constants\ErrorCode;
 use App\Job\AddScoreJob;
 use App\Job\PostIncreaseReadJob;
 use App\Job\PostMachineAuditJob;
+use App\Model\Circle;
+use App\Model\CircleTopic;
 use App\Model\Forum;
 use App\Model\Post;
 use App\Model\PostDocument;
@@ -143,8 +145,8 @@ class PostService extends BaseService
             $documents = data_get($params,'documents');
             $richContent = data_get($params,'richContent');
             $circleId = data_get($params,'circleId');
-            $circleTopicId = data_get($params,'CircleTopicId');
-            $topic = data_get($params,'topic');
+            $circleTopicId = data_get($params,'circleTopicId');
+            $circleTopic = data_get($params,'circleTopic');
 
             $post = new Post();
             $post->owner_id = $this->userId();
@@ -252,10 +254,20 @@ class PostService extends BaseService
             //圈子
             if (isset($circleId)) {
                 $post->circle_id = $circleId;
-            }
-            //圈话题
-            if(isset($circleTopicId)) {
-
+                //圈话题
+                if(isset($circleTopicId)) {
+                    $post->circle_topic_id = $circleTopicId;
+                }elseif (isset($circleTopic)) {
+                    $circleTopic = CircleTopic::query()->where('title',$circleTopic)
+                        ->first();
+                    if ($circleTopic instanceof CircleTopic) {
+                        $post->circle_topic_id = $circleTopic->topic_id;
+                    }
+                    $circleTopic = new CircleTopic();
+                    $circleTopic->title = $circleTopic;
+                    $circleTopic->saveOrFail();
+                    $post->circle_topic_id = $circleTopic->topic_id;
+                }
             }
 
             //审核结果
