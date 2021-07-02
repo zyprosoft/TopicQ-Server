@@ -262,13 +262,14 @@ class PostService extends BaseService
                         ->first();
                     if ($circleTopic instanceof CircleTopic) {
                         $post->circle_topic_id = $circleTopic->topic_id;
+                    }else {
+                        $circleTopic = new CircleTopic();
+                        $circleTopic->title = $circleTopic;
+                        $circleTopic->circle_id = $circleId;
+                        $circleTopic->owner_id = $this->userId();
+                        $circleTopic->saveOrFail();
+                        $post->circle_topic_id = $circleTopic->topic_id;
                     }
-                    $circleTopic = new CircleTopic();
-                    $circleTopic->title = $circleTopic;
-                    $circleTopic->circle_id = $circleId;
-                    $circleTopic->owner_id = $this->userId();
-                    $circleTopic->saveOrFail();
-                    $post->circle_topic_id = $circleTopic->topic_id;
                 }
             }
 

@@ -13,7 +13,7 @@ class CreateCircleTopicTable extends Migration
     {
         Schema::create('circle_topic', function (Blueprint $table) {
             $table->bigIncrements('topic_id');
-            $table->string('title',12)->comment('话题名字');
+            $table->string('title',20)->comment('话题名字');
             $table->bigInteger('owner_id')->comment('创建者');
             $table->bigInteger('circle_id')->comment('圈子ID');
 

@@ -49,7 +49,9 @@ class PostController extends AbstractController
             'documents.*.type' => 'string|min:1|max:24',
             'richContent' => 'array|min:1|required_without:content',
             'richContent.*.content' => 'string|max:1000|sensitive',
-            'circleId' => 'integer|exists:circle,circle_id'
+            'circleId' => 'integer|exists:circle,circle_id',
+            'circleTopicId' => 'integer|exists:circle_topic,topic_id',
+            'circleTopic' => 'string|max:12'
         ]);
         $params = $request->getParams();
         $result = $this->service->create($params);
