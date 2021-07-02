@@ -143,6 +143,8 @@ class PostService extends BaseService
             $documents = data_get($params,'documents');
             $richContent = data_get($params,'richContent');
             $circleId = data_get($params,'circleId');
+            $circleTopicId = data_get($params,'CircleTopicId');
+            $topic = data_get($params,'topic');
 
             $post = new Post();
             $post->owner_id = $this->userId();
@@ -250,6 +252,10 @@ class PostService extends BaseService
             //圈子
             if (isset($circleId)) {
                 $post->circle_id = $circleId;
+            }
+            //圈话题
+            if(isset($circleTopicId)) {
+
             }
 
             //审核结果
