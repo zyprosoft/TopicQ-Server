@@ -15,9 +15,11 @@ class CreateCircleTopicTable extends Migration
             $table->bigIncrements('topic_id');
             $table->string('title',12)->comment('话题名字');
             $table->bigInteger('owner_id')->comment('创建者');
+            $table->bigInteger('circle_id')->comment('圈子ID');
 
+            $table->index('circle_id');
             $table->index('owner_id');
-            $table->unique('title');
+            $table->unique(['title','circle_id']);
             $table->timestamps();
             $table->softDeletes();
             $table->engine = "InnoDB";
