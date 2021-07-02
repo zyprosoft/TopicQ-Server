@@ -314,6 +314,7 @@ class CircleService extends BaseService
         $list = CircleTopic::query()->where('circle_id',$circleId)
                                     ->latest()
                                     ->offset($pageIndex*$pageSize)
+                                    ->limit($pageSize)
                                     ->get();
         $total = CircleTopic::query()->where('circle_id',$circleId)->count();
         return ['list'=>$list,'total'=>$total];
