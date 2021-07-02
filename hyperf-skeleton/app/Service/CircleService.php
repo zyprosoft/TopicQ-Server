@@ -9,6 +9,7 @@ use App\Constants\ErrorCode;
 use App\Job\AddNotificationJob;
 use App\Model\Circle;
 use App\Model\CircleCategory;
+use App\Model\CircleTopic;
 use App\Model\JoinCircleApply;
 use App\Model\User;
 use App\Model\UserCircle;
@@ -306,5 +307,15 @@ class CircleService extends BaseService
             $circle->is_joined = 0;
         }
         return $circle;
+    }
+
+    public function getTopicListByCircleId(int $circleId, int $pageIndex, int $pageSize)
+    {
+        $list = CircleTopic::query()->where('circle_id',$circleId)
+                                    ->latest()
+                                    ->offset($pageIndex*$pageSize)
+                                    ->get();
+        $total = CircleTopic::query()->where('circle_id',$circleId)->count();
+        return ['list'=>$list,'total'=>$total];
     }
 }
