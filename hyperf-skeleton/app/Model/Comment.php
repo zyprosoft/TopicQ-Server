@@ -27,6 +27,11 @@ namespace App\Model;
  * @property int $content_audit 0待审核1审核通过-1审核不通过
  * @property string $image_ids 图片列表获取出来图片ID
  * @property int $offer_id 领取的具体红包的ID
+ * @property string $audio_url 音频链接
+ * @property int $super_comment_id 最初的评论ID
+ * @property int $super_comment_owner_id 最初评论的作者
+ * @property-read \Hyperf\Database\Model\Collection|\App\Model\Comment[] $all_reply_list 
+ * @property-read \Hyperf\Database\Model\Collection|\App\Model\CommentAtUser[] $at_user_list 
  * @property-read \App\Model\User $author 
  * @property-read \App\Model\Comment $parent_comment 
  * @property-read \App\Model\Post $post 
@@ -51,8 +56,8 @@ class Comment extends Model
      *
      * @var array
      */
-    protected $casts = ['comment_id' => 'integer', 'post_id' => 'integer', 'parent_comment_id' => 'integer', 'parent_comment_owner_id' => 'integer', 'owner_id' => 'integer', 'praise_count' => 'integer', 'reply_count' => 'integer', 'audit_status' => 'integer', 'is_hot' => 'integer', 'post_owner_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'machine_audit' => 'integer', 'manager_audit' => 'integer', 'text_audit' => 'integer', 'content_audit' => 'integer', 'offer_id' => 'integer'];
-    protected $with = ['author','at_user_list'];
+    protected $casts = ['comment_id' => 'integer', 'post_id' => 'integer', 'parent_comment_id' => 'integer', 'parent_comment_owner_id' => 'integer', 'owner_id' => 'integer', 'praise_count' => 'integer', 'reply_count' => 'integer', 'audit_status' => 'integer', 'is_hot' => 'integer', 'post_owner_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'machine_audit' => 'integer', 'manager_audit' => 'integer', 'text_audit' => 'integer', 'content_audit' => 'integer', 'offer_id' => 'integer', 'super_comment_id' => 'integer', 'super_comment_owner_id' => 'integer'];
+    protected $with = ['author', 'at_user_list'];
     protected $hidden = ['all_reply_list'];
     public function parent_comment()
     {
@@ -68,10 +73,10 @@ class Comment extends Model
     }
     public function at_user_list()
     {
-        return $this->hasMany(CommentAtUser::class,'comment_id','comment_id');
+        return $this->hasMany(CommentAtUser::class, 'comment_id', 'comment_id');
     }
     public function all_reply_list()
     {
-        return $this->hasMany(Comment::class,'parent_comment_id','comment_id')->latest();
+        return $this->hasMany(Comment::class, 'parent_comment_id', 'comment_id')->latest();
     }
 }
