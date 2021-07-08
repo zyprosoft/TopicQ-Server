@@ -16,6 +16,8 @@ class AlterCommentAddSuper extends Migration
             $table->string('audio_url',128)->nullable()->comment('音频链接');
             $table->bigInteger('super_comment_id')->default(0)->comment('最初的评论ID');
             $table->bigInteger('super_comment_owner_id')->default(0)->comment('最初评论的作者');
+            $table->index('super_comment_id');
+            $table->index('super_comment_owner_id');
         });
     }
 
