@@ -28,14 +28,16 @@ class CommentController extends AbstractController
             'postId' => 'integer|required_without:content|min:1|exists:post,post_id',
             'imageList' => 'array|min:1|max:4',
             'link' => 'string|min:1|max:500',
-            'atUserList' => 'array|min:1'
+            'atUserList' => 'array|min:1',
+            'audioUrl' => 'string|min:1|max:128'
         ]);
         $postId = $request->param('postId');
         $imageList = $request->param('imageList');
         $content = $request->param('content');
         $link = $request->param('link');
         $atUserList = $request->param('atUserList');
-        $result = $this->service->create($postId, $content, $imageList, $link, $atUserList);
+        $audioUrl = $request->param('audioUrl');
+        $result = $this->service->create($postId, $content, $imageList, $link, $atUserList, $audioUrl);
         return $this->success($result);
     }
 
@@ -56,14 +58,16 @@ class CommentController extends AbstractController
             'commentId' => 'integer|required|exists:comment,comment_id',
             'imageList' => 'array|min:1|max:4',
             'link' => 'string|min:1|max:500',
-            'atUserList' => 'array|min:1'
+            'atUserList' => 'array|min:1',
+            'audioUrl' => 'string|min:1|max:128'
         ]);
         $commentId = $request->param('commentId');
         $imageList = $request->param('imageList');
         $content = $request->param('content');
         $link = $request->param('link');
         $atUserList = $request->param('atUserList');
-        $result = $this->service->reply($commentId, $content, $imageList, $link, $atUserList);
+        $audioUrl = $request->param('audioUrl');
+        $result = $this->service->reply($commentId, $content, $imageList, $link, $atUserList, $audioUrl);
         return $this->success($result);
     }
 

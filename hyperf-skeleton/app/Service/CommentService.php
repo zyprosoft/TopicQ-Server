@@ -68,6 +68,9 @@ class CommentService extends BaseService
             if(isset($content)) {
                 $comment->content = $content;
             }
+            if (isset($audioUrl)) {
+                $comment->audio_url = $audioUrl;
+            }
 
             $imageAuditCheck = [
                 'need_audit' => false,
@@ -282,17 +285,19 @@ class CommentService extends BaseService
             $comment = new Comment();
             $comment->parent_comment_id = $commentId;
             $comment->parent_comment_owner_id = $parentComment->owner_id;
-            $originComment = Comment::findOrFail($commentId);
             //最初的评论
-            if(!isset($originComment->parent_comment_id) || $originComment->parent_comment_id == 0) {
+            if(!isset($parentComment->parent_comment_id) || $parentComment->parent_comment_id == 0) {
                 $comment->super_comment_id = $commentId;
-                $comment->super_comment_owner_id = $originComment->owner_id;
-            }elseif (isset($originComment->super_comment_id)) {
-                $comment->super_comment_id = $originComment->super_comment_id;
-                $comment->super_comment_owner_id = $originComment->super_comment_owner_id;
+                $comment->super_comment_owner_id = $parentComment->owner_id;
+            }elseif (isset($parentComment->super_comment_id) && $parentComment->super_comment_id > 0) {
+                $comment->super_comment_id = $parentComment->super_comment_id;
+                $comment->super_comment_owner_id = $parentComment->super_comment_owner_id;
             }
             if(isset($content)) {
                 $comment->content = $content;
+            }
+            if (isset($audioUrl)) {
+                $comment->audio_url = $audioUrl;
             }
             $imageAuditCheck = [
                 'need_audit' => false,
