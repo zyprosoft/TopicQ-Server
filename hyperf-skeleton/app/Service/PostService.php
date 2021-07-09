@@ -1438,7 +1438,11 @@ class PostService extends BaseService
 
         $commentList = $this->activePostLatestComment($list);
         $list->map(function (Post $post) use ($commentList){
-            $post->comment_list = $commentList[$post->post_id];
+            if(isset($commentList[$post->post_id])){
+                $post->comment_list = $commentList[$post->post_id];
+            }else{
+                $post->comment_list = [];
+            }
             return $post;
         });
 
