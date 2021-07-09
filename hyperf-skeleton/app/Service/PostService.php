@@ -1458,7 +1458,7 @@ class PostService extends BaseService
     public function activePostLatestComment($postList)
     {
         $resultList = [];
-        Db::transaction(function () use ($postList, $resultList){
+        Db::transaction(function () use ($postList, &$resultList){
 
             $postIds = $postList->pluck('post_id');
 
