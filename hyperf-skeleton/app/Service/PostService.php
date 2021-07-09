@@ -11,6 +11,7 @@ use App\Job\PostIncreaseReadJob;
 use App\Job\PostMachineAuditJob;
 use App\Model\Circle;
 use App\Model\CircleTopic;
+use App\Model\Comment;
 use App\Model\Forum;
 use App\Model\Post;
 use App\Model\PostDocument;
@@ -1435,6 +1436,12 @@ class PostService extends BaseService
 
         $this->postListAddReadStatus($list);
 
+        $commentList = $this->activePostLatestComment($list);
+        $list->map(function (Post $post) use ($commentList){
+            $post->comment_list = $commentList[$post->post_id];
+            return $post;
+        });
+
         $total = Post::query()->select($selectRows)
             ->where('circle_id',$circleId)
             ->where('audit_status', Constants::STATUS_DONE)
@@ -1442,5 +1449,23 @@ class PostService extends BaseService
             ->count();
 
         return ['total'=>$total, 'list'=>$list];
+    }
+
+    public function activePostLatestComment($postList)
+    {
+        $resultList = [];
+        Db::transaction(function () use ($postList, $resultList){
+
+            $postIds = $postList->pluck('post_id');
+
+            $postIds->map(function ($postId) use ($postList){
+               $commentList = Comment::query()->where('post_id',$postId)
+                                          ->latest()
+                                          ->limit(3)
+                                          ->get();
+               $resultList[$postId] = $commentList;
+            });
+        });
+        return $resultList;
     }
 }
