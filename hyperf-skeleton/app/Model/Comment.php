@@ -30,6 +30,7 @@ namespace App\Model;
  * @property string $audio_url 音频链接
  * @property int $super_comment_id 最初的评论ID
  * @property int $super_comment_owner_id 最初评论的作者
+ * @property int $audio_duration 音频长度
  * @property-read \Hyperf\Database\Model\Collection|\App\Model\Comment[] $all_reply_list 
  * @property-read \Hyperf\Database\Model\Collection|\App\Model\CommentAtUser[] $at_user_list 
  * @property-read \App\Model\User $author 
@@ -56,7 +57,7 @@ class Comment extends Model
      *
      * @var array
      */
-    protected $casts = ['comment_id' => 'integer', 'post_id' => 'integer', 'parent_comment_id' => 'integer', 'parent_comment_owner_id' => 'integer', 'owner_id' => 'integer', 'praise_count' => 'integer', 'reply_count' => 'integer', 'audit_status' => 'integer', 'is_hot' => 'integer', 'post_owner_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'machine_audit' => 'integer', 'manager_audit' => 'integer', 'text_audit' => 'integer', 'content_audit' => 'integer', 'offer_id' => 'integer', 'super_comment_id' => 'integer', 'super_comment_owner_id' => 'integer'];
+    protected $casts = ['comment_id' => 'integer', 'post_id' => 'integer', 'parent_comment_id' => 'integer', 'parent_comment_owner_id' => 'integer', 'owner_id' => 'integer', 'praise_count' => 'integer', 'reply_count' => 'integer', 'audit_status' => 'integer', 'is_hot' => 'integer', 'post_owner_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'machine_audit' => 'integer', 'manager_audit' => 'integer', 'text_audit' => 'integer', 'content_audit' => 'integer', 'offer_id' => 'integer', 'super_comment_id' => 'integer', 'super_comment_owner_id' => 'integer', 'audio_duration' => 'integer'];
     protected $with = ['author', 'at_user_list'];
     protected $hidden = ['all_reply_list'];
     public function parent_comment()
