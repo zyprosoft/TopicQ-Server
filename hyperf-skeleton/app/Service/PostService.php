@@ -1468,6 +1468,12 @@ class PostService extends BaseService
                                           ->latest()
                                           ->limit(3)
                                           ->get();
+               $commentList->map(function (Comment $comment) {
+                   if (isset($comment->image_list) && is_string($comment->image_list)) {
+                       $comment->image_list = explode(';', $comment->image_list);
+                   }
+                   return $comment;
+               });
                $resultList[$postId] = $commentList;
             });
         });
