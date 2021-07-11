@@ -49,7 +49,7 @@ class CommentService extends BaseService
                            string $link = null,
                            array $atUserList = null,
                            string $audioUrl = null,
-                           int $audioDuration = 0
+                           int $audioDuration = null
     )
     {
         //检查用户是不是被拉黑
@@ -72,7 +72,7 @@ class CommentService extends BaseService
             if (isset($audioUrl)) {
                 $comment->audio_url = $audioUrl;
             }
-            if ($audioDuration > 0) {
+            if (isset($audioDuration)) {
                 $comment->audio_duration = $audioDuration;
             }
 
@@ -277,7 +277,7 @@ class CommentService extends BaseService
                           string $link = null,
                           array $atUserList = null,
                           string $audioUrl = null,
-                          int $audioDuration = 0
+                          int $audioDuration = null
     )
     {
         //检查用户是不是被拉黑
@@ -304,7 +304,7 @@ class CommentService extends BaseService
             if (isset($audioUrl)) {
                 $comment->audio_url = $audioUrl;
             }
-            if ($audioDuration > 0) {
+            if (isset($audioDuration)) {
                 $comment->audio_duration = $audioDuration;
             }
 
