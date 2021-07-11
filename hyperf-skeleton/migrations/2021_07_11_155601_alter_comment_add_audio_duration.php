@@ -11,8 +11,9 @@ class AlterCommentAddAudioDuration extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('comment', function (Blueprint $table) {
             //
+            $table->integer('audio_duration')->default(0)->comment('音频长度');
         });
     }
 
@@ -21,8 +22,9 @@ class AlterCommentAddAudioDuration extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('comment', function (Blueprint $table) {
             //
+            $table->dropColumn('audio_duration');
         });
     }
 }
