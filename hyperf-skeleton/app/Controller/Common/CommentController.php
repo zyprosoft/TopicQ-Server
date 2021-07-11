@@ -29,7 +29,8 @@ class CommentController extends AbstractController
             'imageList' => 'array|min:1|max:4',
             'link' => 'string|min:1|max:500',
             'atUserList' => 'array|min:1',
-            'audioUrl' => 'string|min:1|max:128'
+            'audioUrl' => 'string|min:1|max:128',
+            'audioDuration' => 'integer|min:1'
         ]);
         $postId = $request->param('postId');
         $imageList = $request->param('imageList');

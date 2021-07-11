@@ -48,7 +48,8 @@ class CommentService extends BaseService
                            array $imageList = null,
                            string $link = null,
                            array $atUserList = null,
-                           string $audioUrl = null
+                           string $audioUrl = null,
+                           int $audioDuration = 0
     )
     {
         //检查用户是不是被拉黑
@@ -57,7 +58,7 @@ class CommentService extends BaseService
         $post = Post::findOrFail($postId);
 
         $comment = null;
-        Db::transaction(function () use ($postId,$post,&$comment,$content,$imageList,$link,$atUserList){
+        Db::transaction(function () use ($postId,$post,&$comment,$content,$imageList,$link,$atUserList,$audioUrl,$audioDuration){
             $comment = new Comment();
             $comment->owner_id = $this->userId();
             $comment->post_id = $postId;
@@ -70,6 +71,9 @@ class CommentService extends BaseService
             }
             if (isset($audioUrl)) {
                 $comment->audio_url = $audioUrl;
+            }
+            if ($audioDuration > 0) {
+                $comment->audio_duration = $audioDuration;
             }
 
             $imageAuditCheck = [
@@ -272,7 +276,8 @@ class CommentService extends BaseService
                           array $imageList = null,
                           string $link = null,
                           array $atUserList = null,
-                          string $audioUrl = null
+                          string $audioUrl = null,
+                          int $audioDuration = 0
     )
     {
         //检查用户是不是被拉黑
@@ -280,7 +285,7 @@ class CommentService extends BaseService
         $parentComment = Comment::findOrFail($commentId);
 
         $comment = null;
-        Db::transaction(function () use (&$comment, $parentComment, $commentId, $content, $imageList, $link, $atUserList){
+        Db::transaction(function () use (&$comment, $parentComment, $commentId, $content, $imageList, $link, $atUserList,$audioUrl,$audioDuration){
 
             $comment = new Comment();
             $comment->parent_comment_id = $commentId;
@@ -299,6 +304,10 @@ class CommentService extends BaseService
             if (isset($audioUrl)) {
                 $comment->audio_url = $audioUrl;
             }
+            if ($audioDuration > 0) {
+                $comment->audio_duration = $audioDuration;
+            }
+            
             $imageAuditCheck = [
                 'need_audit' => false,
                 'need_review' => false
