@@ -307,7 +307,7 @@ class CommentService extends BaseService
             if ($audioDuration > 0) {
                 $comment->audio_duration = $audioDuration;
             }
-            
+
             $imageAuditCheck = [
                 'need_audit' => false,
                 'need_review' => false
