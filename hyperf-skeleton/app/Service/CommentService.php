@@ -648,6 +648,7 @@ class CommentService extends BaseService
     {
         return Comment::query()->where('post_id',$postId)
                                 ->where('comment_id','<', $lastCommentId)
+                                ->with(['parent_comment'])
                                 ->limit($num)
                                 ->latest()
                                 ->get();
