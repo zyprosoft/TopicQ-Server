@@ -111,6 +111,11 @@ class CommentService extends BaseService
             $post->saveOrFail();
         });
 
+        //读取数据库完整的帖子信息
+        $comment = Comment::query()->where('comment_id', $comment->comment_id)
+            ->with(['parent_comment'])
+            ->first();
+
         if(! $comment instanceof Comment) {
             throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST,"评论创建失败");
         }
