@@ -206,4 +206,18 @@ class CommentController extends AbstractController
         $result = $this->service->markPraiseRead($praiseIds);
         return $this->success($result);
     }
+
+    public function getActivePostCommentList()
+    {
+        $this->validate([
+            'postId' => 'integer|required|exists:post,post_id',
+            'lastCommentId' => 'integer|required|exists:comment,comment_id',
+            'num' => 'integer|required|min:1|max:30',
+        ]);
+        $postId = $this->request->param('postId');
+        $lastCommentId = $this->request->param('lastCommentId');
+        $num = $this->request->param('num');
+        $result = $this->service->getActivePostCommentList($postId,$lastCommentId,$num);
+        return $this->success($result);
+    }
 }

@@ -643,4 +643,13 @@ class CommentService extends BaseService
                                   ->update(['owner_read_status'=>1]);
         return $this->success();
     }
+
+    public function getActivePostCommentList(int $postId, int $lastCommentId,int $num)
+    {
+        return Comment::query()->where('post_id',$postId)
+                                ->where('comment_id','<', $lastCommentId)
+                                ->limit($num)
+                                ->latest()
+                                ->get();
+    }
 }
