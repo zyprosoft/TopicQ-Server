@@ -1437,14 +1437,21 @@ class PostService extends BaseService
         $this->postListAddReadStatus($list);
 
         $commentList = $this->activePostLatestComment($list);
-        $list->map(function (Post $post) use ($commentList){
+        $praiseList = $this->activePostLatestPraise($list);
+        $list->map(function (Post $post) use ($commentList,$praiseList){
             if(isset($commentList[$post->post_id])){
                 $post->comment_list = $commentList[$post->post_id];
             }else{
                 $post->comment_list = [];
             }
+            if(isset($praiseList[$post->post_id])) {
+                $post->praise_list = $praiseList[$post->post_id];
+            }else{
+                $post->praise_list = [];
+            }
             return $post;
         });
+
 
         $total = Post::query()->select($selectRows)
             ->where('circle_id',$circleId)
@@ -1453,6 +1460,24 @@ class PostService extends BaseService
             ->count();
 
         return ['total'=>$total, 'list'=>$list];
+    }
+
+    public function activePostLatestPraise($postList)
+    {
+        $resultList = [];
+        Db::transaction(function () use ($postList, &$resultList){
+            $postIds = $postList->pluck('post_id');
+            $postIds->map(function ($postId) use (&$resultList){
+                $praiseList = UserPraisePost::query()->where('post_id',$postId)
+                                                     ->with(['author'])
+                                                     ->latest()
+                                                     ->limit(6)
+                                                     ->get()
+                                                     ->pluck('author');
+                $resultList[$postId] = $praiseList;
+            });
+        });
+        return $resultList;
     }
 
     public function activePostLatestComment($postList)
