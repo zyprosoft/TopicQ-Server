@@ -248,4 +248,9 @@ class ErrorCode extends AbstractConstants
      * @Message("不是圈主无权处理!")
      */
     const CIRCLE_NOT_OWN = 30043;
+
+    /**
+     * @Message("积分不足以完成打赏!")
+     */
+    const SCORE_PAY_NOT_ENOUGH = 30044;
 }
