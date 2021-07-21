@@ -1438,7 +1438,12 @@ class PostService extends BaseService
 
         $commentList = $this->activePostLatestComment($list);
         $praiseList = $this->activePostLatestPraise($list);
-        $list->map(function (Post $post) use ($commentList,$praiseList){
+        if(Auth::isGuest() == false){
+            $praiseAndFavoriteStatusList = $this->activePostGetPraiseAndFavoriteStatus($list);
+        }else{
+            $praiseAndFavoriteStatusList = [];
+        }
+        $list->map(function (Post $post) use ($commentList,$praiseList,$praiseAndFavoriteStatusList){
             if(isset($commentList[$post->post_id])){
                 $post->comment_list = $commentList[$post->post_id];
             }else{
@@ -1448,6 +1453,23 @@ class PostService extends BaseService
                 $post->praise_list = $praiseList[$post->post_id];
             }else{
                 $post->praise_list = [];
+            }
+            if(!empty($praiseAndFavoriteStatusList)) {
+                $praiseStatusList = $praiseAndFavoriteStatusList['praise'];
+                $favoriteStatusList = $praiseAndFavoriteStatusList['favorite'];
+                if(isset($praiseStatusList[$post->post_id])) {
+                    $post->is_praise = 1;
+                }else{
+                    $post->is_praise = 0;
+                }
+                if(isset($favoriteStatusList[$post->post_id])) {
+                    $post->is_favorite = 1;
+                }else{
+                    $post->is_favorite = 0;
+                }
+            }else{
+                $post->is_praise = 0;
+                $post->is_favorite = 0;
             }
             return $post;
         });
@@ -1460,6 +1482,23 @@ class PostService extends BaseService
             ->count();
 
         return ['total'=>$total, 'list'=>$list];
+    }
+
+    public function activePostGetPraiseAndFavoriteStatus($postList)
+    {
+        $postIds = $postList->pluck('post_id');
+        $praiseList = UserPraisePost::query()->where('user_id',$this->userId())
+                                             ->whereIn('post_id',$postIds)
+                                             ->get()
+                                             ->keyBy('post_id');
+        $favoriteList = UserFavorite::query()->where('user_id',$this->userId())
+                                             ->whereIn('post_id',$postIds)
+                                             ->get()
+                                             ->keyBy('post_id');
+        return [
+            'praise' => $praiseList,
+            'favorite'=> $favoriteList
+        ];
     }
 
     public function activePostLatestPraise($postList)
