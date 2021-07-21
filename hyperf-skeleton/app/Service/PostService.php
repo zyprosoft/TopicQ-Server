@@ -1406,7 +1406,9 @@ class PostService extends BaseService
             'rich_content',
             'image_ids',
             'has_video',
-            'circle_topic_id'
+            'circle_topic_id',
+            'favorite_count',
+            'praise_count'
         ];
 
         if($type == Constants::FORUM_POST_SORT_LATEST) {
