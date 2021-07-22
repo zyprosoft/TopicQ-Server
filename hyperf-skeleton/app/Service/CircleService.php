@@ -173,6 +173,7 @@ class CircleService extends BaseService
             $userCircle->user_id = $this->userId();
             $userCircle->circle_id = $circleId;
             $userCircle->saveOrFail();
+            return  $this->success();
         }
         //使用积分进入
         if ($circle->open_score > 0) {
