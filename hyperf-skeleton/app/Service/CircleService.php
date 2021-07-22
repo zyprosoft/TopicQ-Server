@@ -17,6 +17,7 @@ use EasyWeChat\Factory;
 use Hyperf\DbConnection\Db;
 use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Facade\Auth;
+use ZYProSoft\Log\Log;
 
 class CircleService extends BaseService
 {
@@ -164,6 +165,7 @@ class CircleService extends BaseService
             if (!isset($password)) {
                 throw new HyperfCommonException(ErrorCode::CIRCLE_JOIN_NEED_PASSWORD);
             }
+            Log::info("input password:$password");
             //校验密码
             $isVerify = password_verify($password,$circle->password);
             if (!$isVerify) {
