@@ -149,7 +149,7 @@ class CircleService extends BaseService
             ->where('circle_id',$circleId)
             ->first();
         if ($userCircle instanceof UserCircle) {
-            throw new HyperfCommonException(ErrorCode::DO_NOT_REPEAT_ACTION);
+            return  $this->success();
         }
         //公开
         if ($circle->is_open == Constants::STATUS_OK) {
