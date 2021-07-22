@@ -1545,4 +1545,26 @@ class PostService extends BaseService
         });
         return $resultList;
     }
+
+    public function deleteActivePost(int $postId,int $circleId)
+    {
+        $user = User::query()->where('user_id',$this->userId())
+                             ->first();
+        if(!$user instanceof User) {
+            throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST);
+        }
+        if($user->role_id < Constants::USER_ROLE_ADMIN) {
+            //是不是圈主
+            $circle = Circle::findOrFail($circleId);
+            if($circle->owner_id != $this->userId()) {
+                //是不是自己的
+                $post = Post::findOrFail($postId);
+                if($post->owner_id !== $user->user_id) {
+                    throw new HyperfCommonException(ErrorCode::NO_PERMISSION_DELETE_POST);
+                }
+            }
+        }
+        Post::query()->where('post_id',$postId)->delete();
+        return $this->success();
+    }
 }

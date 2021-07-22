@@ -253,4 +253,9 @@ class ErrorCode extends AbstractConstants
      * @Message("积分不足以完成打赏!")
      */
     const SCORE_PAY_NOT_ENOUGH = 30044;
+
+    /**
+     * @Message("无权删除此动态!")
+     */
+    const NO_PERMISSION_DELETE_POST = 30045;
 }

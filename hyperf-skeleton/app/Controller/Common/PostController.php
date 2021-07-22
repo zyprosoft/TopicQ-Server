@@ -465,4 +465,16 @@ class PostController extends AbstractController
         $result = $this->service->getActivePostByCircleId($circleId,$type,$pageIndex,$pageSize);
         return $this->success($result);
     }
+
+    public function deleteActivePost(AuthedRequest $request)
+    {
+        $this->validate([
+            'circleId' => 'integer|required|exists:circle,circle_id',
+            'postId' => 'integer|required|exists:post,post_id',
+        ]);
+        $circleId = $request->param('circleId');
+        $postId = $request->param('postId');
+        $result = $this->service->deleteActivePost($postId,$circleId);
+        return $this->success($result);
+    }
 }
