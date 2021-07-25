@@ -43,6 +43,6 @@ class CircleTopic extends Model
 
     public function author()
     {
-        return $this->hasOne(User::class,'owner_id','user_id');
+        return $this->hasOne(User::class,'user_id','owner_id');
     }
 }
