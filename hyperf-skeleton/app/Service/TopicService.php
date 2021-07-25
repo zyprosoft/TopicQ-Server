@@ -4,6 +4,7 @@
 namespace App\Service;
 use App\Constants\Constants;
 use App\Job\AddNotificationJob;
+use App\Model\CircleTopic;
 use App\Model\Topic;
 use App\Model\TopicCategory;
 use App\Model\UserAttentionTopic;
@@ -201,5 +202,12 @@ class TopicService extends AbstractService
         }else{
             return ['status' => 0];
         }
+    }
+
+    public function getCircleTopicDetail(int $topicId)
+    {
+        return CircleTopic::query()->where('topic_id',$topicId)
+                                    ->with(['author','circle'])
+                                    ->firstOrFail();
     }
 }

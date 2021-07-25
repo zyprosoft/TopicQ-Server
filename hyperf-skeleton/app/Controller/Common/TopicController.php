@@ -93,4 +93,14 @@ class TopicController extends AbstractController
         $result = $this->service->getTopicDetail($topicId);
         return $this->success($result);
     }
+
+    public function getCircleTopicDetail()
+    {
+        $this->validate([
+            'topicId'=>'integer|required|exists:circle_topic,topic_id',
+        ]);
+        $topicId = $this->request->param('topicId');
+        $result = $this->service->getCircleTopicDetail($topicId);
+        return $this->success($result);
+    }
 }

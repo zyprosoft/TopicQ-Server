@@ -35,4 +35,14 @@ class CircleTopic extends Model
      * @var array
      */
     protected $casts = ['topic_id' => 'integer', 'owner_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'circle_id' => 'integer', 'post_count' => 'integer', 'member_count' => 'integer'];
+
+    public function circle()
+    {
+        return $this->hasOne(Circle::class,'circle_id','circle_id');
+    }
+
+    public function author()
+    {
+        return $this->hasOne(User::class,'owner_id','user_id');
+    }
 }

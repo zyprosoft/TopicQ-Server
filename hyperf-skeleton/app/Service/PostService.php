@@ -1567,4 +1567,15 @@ class PostService extends BaseService
         Post::query()->where('post_id',$postId)->delete();
         return $this->success();
     }
+
+    public function getActivePostByCircleTopicId(int $topicId, int $pageIndex, int $pageSize)
+    {
+        $list = Post::query()->where('circle_topic_id', $topicId)
+                             ->latest()
+                             ->offset($pageIndex * $pageSize)
+                             ->limit($pageSize)
+                             ->get();
+        $total = Post::query()->where('circle_topic_id', $topicId)->count();
+        return ['total'=>$total,'list'=>$list];
+    }
 }
