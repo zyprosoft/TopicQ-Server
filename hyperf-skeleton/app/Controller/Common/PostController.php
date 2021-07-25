@@ -483,12 +483,14 @@ class PostController extends AbstractController
         $this->validate([
             'topicId' => 'integer|required|exists:circle_topic,topic_id',
             'pageIndex' => 'integer|required|min:0',
-            'pageSize' => 'integer|required|min:10|max:30'
+            'pageSize' => 'integer|required|min:10|max:30',
+            'type' => 'integer|required|in:0,1',
         ]);
         $topicId = $this->request->param('topicId');
         $pageIndex = $this->request->param('pageIndex');
         $pageSize = $this->request->param('pageSize');
-        $result = $this->service->getActivePostByCircleTopicId($topicId,$pageIndex,$pageSize);
+        $type = $this->request->param('type');
+        $result = $this->service->getActivePostByCircleTopicId($topicId,$pageIndex,$pageSize,$type);
         return $this->success($result);
     }
 }

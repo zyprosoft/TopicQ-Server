@@ -1568,8 +1568,12 @@ class PostService extends BaseService
         return $this->success();
     }
 
-    public function getActivePostByCircleTopicId(int $topicId, int $pageIndex, int $pageSize)
+    public function getActivePostByCircleTopicId(int $topicId, int $pageIndex, int $pageSize, $type)
     {
+        if (!isset($type)) {
+            $type = Constants::CIRCLE_POST_SORT_LATEST;
+        }
+
         $selectRows = [
             'post_id',
             'title',
@@ -1601,15 +1605,30 @@ class PostService extends BaseService
             'praise_count'
         ];
 
-        $list = Post::query()->select($selectRows)
-            ->with(['circle'])
-            ->where('circle_topic_id',$topicId)
-            ->where('audit_status', Constants::STATUS_DONE)
-            ->orderByDesc('sort_index')
-            ->orderByDesc('last_active_time')
-            ->offset($pageIndex * $pageSize)
-            ->limit($pageSize)
-            ->get();
+        if($type == Constants::FORUM_POST_SORT_LATEST) {
+            $list = Post::query()->select($selectRows)
+                ->with(['circle'])
+                ->where('circle_topic_id',$topicId)
+                ->where('audit_status', Constants::STATUS_DONE)
+                ->where('only_self_visible', Constants::STATUS_NOT)
+                ->orderByDesc('sort_index')
+                ->orderByDesc('last_active_time')
+                ->offset($pageIndex * $pageSize)
+                ->limit($pageSize)
+                ->get();
+        }else{
+            $list = Post::query()->select($selectRows)
+                ->with(['circle'])
+                ->where('circle_topic_id',$topicId)
+                ->where('audit_status', Constants::STATUS_DONE)
+                ->where('only_self_visible', Constants::STATUS_NOT)
+                ->orderByDesc('sort_index')
+                ->orderByDesc('recommend_weight')
+                ->orderByDesc('last_active_time')
+                ->offset($pageIndex * $pageSize)
+                ->limit($pageSize)
+                ->get();
+        }
 
         $this->postListAddReadStatus($list);
 
@@ -1651,9 +1670,11 @@ class PostService extends BaseService
             return $post;
         });
 
+
         $total = Post::query()->select($selectRows)
             ->where('circle_topic_id',$topicId)
             ->where('audit_status', Constants::STATUS_DONE)
+            ->where('only_self_visible', Constants::STATUS_NOT)
             ->count();
 
         return ['total'=>$total, 'list'=>$list];
