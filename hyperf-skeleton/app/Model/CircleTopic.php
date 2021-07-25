@@ -11,6 +11,8 @@ namespace App\Model;
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
  * @property string $deleted_at 
+ * @property int $post_count 帖子数
+ * @property int $member_count 话题参与人数
  */
 class CircleTopic extends Model
 {
@@ -20,9 +22,7 @@ class CircleTopic extends Model
      * @var string
      */
     protected $table = 'circle_topic';
-
     protected $primaryKey = 'topic_id';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -34,5 +34,5 @@ class CircleTopic extends Model
      *
      * @var array
      */
-    protected $casts = ['topic_id' => 'integer', 'owner_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'circle_id' => 'integer'];
+    protected $casts = ['topic_id' => 'integer', 'owner_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'circle_id' => 'integer', 'post_count' => 'integer', 'member_count' => 'integer'];
 }
