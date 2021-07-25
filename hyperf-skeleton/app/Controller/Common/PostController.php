@@ -485,10 +485,10 @@ class PostController extends AbstractController
             'pageIndex' => 'integer|required|min:0',
             'pageSize' => 'integer|required|min:10|max:30'
         ]);
-        $circleId = $this->request->param('circleId');
+        $topicId = $this->request->param('topicId');
         $pageIndex = $this->request->param('pageIndex');
         $pageSize = $this->request->param('pageSize');
-        $result = $this->service->getActivePostByCircleTopicId($circleId,$pageIndex,$pageSize);
+        $result = $this->service->getActivePostByCircleTopicId($topicId,$pageIndex,$pageSize);
         return $this->success($result);
     }
 }
