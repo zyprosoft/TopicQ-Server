@@ -8,6 +8,7 @@ use App\Model\CircleTopic;
 use App\Model\Topic;
 use App\Model\TopicCategory;
 use App\Model\UserAttentionTopic;
+use App\Model\UserCircle;
 use EasyWeChat\Factory;
 use Hyperf\Database\Model\Builder;
 use ZYProSoft\Constants\ErrorCode;
@@ -206,8 +207,26 @@ class TopicService extends AbstractService
 
     public function getCircleTopicDetail(int $topicId)
     {
-        return CircleTopic::query()->where('topic_id',$topicId)
+        $topic = CircleTopic::query()->where('topic_id',$topicId)
                                     ->with(['author','circle'])
-                                    ->firstOrFail();
+                                    ->first();
+        if(!$topic instanceof CircleTopic) {
+            throw new HyperfCommonException(ErrorCode::RECORD_NOT_EXIST);
+        }
+        $circleId = $topic->circle_id;
+        if (Auth::isGuest() == false) {
+            //是否已经加入
+            $userCircle = UserCircle::query()->where('user_id',$this->userId())
+                ->where('circle_id',$circleId)
+                ->first();
+            if (!$userCircle instanceof UserCircle) {
+                $topic->circle->is_joined = 0;
+            }else{
+                $topic->circle->is_joined = 1;
+            }
+        }else{
+            $topic->circle->is_joined = 0;
+        }
+        return $topic;
     }
 }
