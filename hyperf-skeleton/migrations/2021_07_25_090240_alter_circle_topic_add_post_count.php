@@ -11,8 +11,10 @@ class AlterCircleTopicAddPostCount extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('circle_topic', function (Blueprint $table) {
             //
+            $table->bigInteger('post_count')->default(0)->comment('帖子数');
+            $table->bigInteger('member_count')->default(0)->comment('话题参与人数');
         });
     }
 
@@ -21,8 +23,10 @@ class AlterCircleTopicAddPostCount extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('circle_topic', function (Blueprint $table) {
             //
+            $table->dropColumn('post_count');
+            $table->dropColumn('member_count');
         });
     }
 }

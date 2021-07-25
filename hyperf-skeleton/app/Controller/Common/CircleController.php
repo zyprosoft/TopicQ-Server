@@ -131,4 +131,6 @@ class CircleController extends AbstractController
         $result = $this->service->getTopicListByCircleId($circleId,$pageIndex,$pageSize);
         return $this->success($result);
     }
+
+
 }
