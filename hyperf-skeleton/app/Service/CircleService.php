@@ -189,6 +189,9 @@ class CircleService extends BaseService
                 }
                 $user->score -= $circle->open_score;
                 $user->saveOrFail();
+                //圈主获得积分
+                $circleOwner = User::findOrFail($circle->owner_id);
+                $circleOwner->increment('score',$circle->open_score);
                 //加入圈子
                 $userCircle = new UserCircle();
                 $userCircle->user_id = $this->userId();
