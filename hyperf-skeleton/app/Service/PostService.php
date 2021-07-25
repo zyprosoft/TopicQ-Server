@@ -1570,12 +1570,92 @@ class PostService extends BaseService
 
     public function getActivePostByCircleTopicId(int $topicId, int $pageIndex, int $pageSize)
     {
-        $list = Post::query()->where('circle_topic_id', $topicId)
-                             ->latest()
-                             ->offset($pageIndex * $pageSize)
-                             ->limit($pageSize)
-                             ->get();
-        $total = Post::query()->where('circle_topic_id', $topicId)->count();
-        return ['total'=>$total,'list'=>$list];
+        $selectRows = [
+            'post_id',
+            'title',
+            'summary',
+            'owner_id',
+            'image_list',
+            'link',
+            'vote_id',
+            'read_count',
+            'forward_count',
+            'comment_count',
+            'audit_status',
+            'is_hot',
+            'last_comment_time',
+            'sort_index',
+            'is_recommend',
+            'created_at',
+            'updated_at',
+            'join_user_count',
+            'avatar_list',
+            'recommend_weight',
+            'topic_id',
+            'only_self_visible',
+            'rich_content',
+            'image_ids',
+            'has_video',
+            'circle_topic_id',
+            'favorite_count',
+            'praise_count'
+        ];
+
+        $list = Post::query()->select($selectRows)
+            ->with(['circle'])
+            ->where('circle_topic_id',$topicId)
+            ->where('audit_status', Constants::STATUS_DONE)
+            ->orderByDesc('sort_index')
+            ->orderByDesc('last_active_time')
+            ->offset($pageIndex * $pageSize)
+            ->limit($pageSize)
+            ->get();
+
+        $this->postListAddReadStatus($list);
+
+        $commentList = $this->activePostLatestComment($list);
+        $praiseList = $this->activePostLatestPraise($list);
+        if(Auth::isGuest() == false){
+            $praiseAndFavoriteStatusList = $this->activePostGetPraiseAndFavoriteStatus($list);
+        }else{
+            $praiseAndFavoriteStatusList = [];
+        }
+        $list->map(function (Post $post) use ($commentList,$praiseList,$praiseAndFavoriteStatusList){
+            if(isset($commentList[$post->post_id])){
+                $post->comment_list = $commentList[$post->post_id];
+            }else{
+                $post->comment_list = [];
+            }
+            if(isset($praiseList[$post->post_id])) {
+                $post->praise_list = $praiseList[$post->post_id];
+            }else{
+                $post->praise_list = [];
+            }
+            if(!empty($praiseAndFavoriteStatusList)) {
+                $praiseStatusList = $praiseAndFavoriteStatusList['praise'];
+                $favoriteStatusList = $praiseAndFavoriteStatusList['favorite'];
+                if(isset($praiseStatusList[$post->post_id])) {
+                    $post->is_praise = 1;
+                }else{
+                    $post->is_praise = 0;
+                }
+                if(isset($favoriteStatusList[$post->post_id])) {
+                    $post->is_favorite = 1;
+                }else{
+                    $post->is_favorite = 0;
+                }
+            }else{
+                $post->is_praise = 0;
+                $post->is_favorite = 0;
+            }
+            return $post;
+        });
+
+        $total = Post::query()->select($selectRows)
+            ->where('circle_topic_id',$topicId)
+            ->where('audit_status', Constants::STATUS_DONE)
+            ->count();
+
+        return ['total'=>$total, 'list'=>$list];
     }
 }
