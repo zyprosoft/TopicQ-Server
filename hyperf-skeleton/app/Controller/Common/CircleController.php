@@ -132,5 +132,17 @@ class CircleController extends AbstractController
         return $this->success($result);
     }
 
-
+    public function getCircleMemberListByCircleId()
+    {
+        $this->validate([
+            'circleId' => 'integer|required|exists:circle,circle_id',
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30'
+        ]);
+        $circleId = $this->request->param('circleId');
+        $pageIndex = $this->request->param('pageIndex');
+        $pageSize = $this->request->param('pageSize');
+        $result = $this->service->getCircleMemberList($circleId,$pageIndex,$pageSize);
+        return $this->success($result);
+    }
 }

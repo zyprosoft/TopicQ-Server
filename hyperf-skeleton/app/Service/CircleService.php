@@ -338,4 +338,15 @@ class CircleService extends BaseService
         $userCircle->last_active_time = Carbon::now()->toDateTimeString();
         $userCircle->saveOrFail();
     }
+
+    public function getCircleMemberList(int $circleId, int $pageIndex, int $pageSize)
+    {
+        $list = UserCircle::query()->where('circle_id',$circleId)
+                                   ->offset($pageIndex * $pageSize)
+                                   ->limit($pageSize)
+                                   ->orderByDesc('last_active_time')
+                                   ->get();
+        $total = UserCircle::query()->where('circle_id',$circleId)->count();
+        return ['list'=>$list,'total'=>$total];
+    }
 }
