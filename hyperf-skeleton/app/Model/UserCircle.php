@@ -9,6 +9,10 @@ namespace App\Model;
  * @property int $circle_id 圈子ID
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
+ * @property string $last_active_time 最后活跃时间
+ * @property int $post_count 发表的动态数量
+ * @property int $comment_count 发表的评论数量
+ * @property int $topic_count 发表的话题数量
  */
 class UserCircle extends Model
 {
@@ -29,5 +33,5 @@ class UserCircle extends Model
      *
      * @var array
      */
-    protected $casts = ['id' => 'int', 'user_id' => 'integer', 'circle_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected $casts = ['id' => 'int', 'user_id' => 'integer', 'circle_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'post_count' => 'integer', 'comment_count' => 'integer', 'topic_count' => 'integer'];
 }
