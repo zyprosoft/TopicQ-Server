@@ -34,4 +34,11 @@ class UserCircle extends Model
      * @var array
      */
     protected $casts = ['id' => 'int', 'user_id' => 'integer', 'circle_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'post_count' => 'integer', 'comment_count' => 'integer', 'topic_count' => 'integer'];
+
+    protected $with = ['author'];
+
+    public function author()
+    {
+        return $this->hasOne(User::class,'user_id','user_id');
+    }
 }
