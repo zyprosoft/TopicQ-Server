@@ -284,6 +284,11 @@ class PostService extends BaseService
             $post->last_active_time = Carbon::now()->toDateTimeString();
             $post->saveOrFail();
 
+            //成员圈内活跃时间更新
+            if(isset($circleId)) {
+                $this->queueService->refreshUserCircleInfo($this->userId(),$circleId);
+            }
+
             if (isset($documents)) {
                 collect($documents)->map(function (array $item) use ($post){
                     $document = new PostDocument();

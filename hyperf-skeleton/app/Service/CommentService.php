@@ -109,6 +109,10 @@ class CommentService extends BaseService
             //帖子更新活跃时间
             $post->last_active_time = Carbon::now()->toDateTimeString();
             $post->saveOrFail();
+            //圈内活跃时间更新
+            if(isset($post->circle_id) && $post->circle_id > 0) {
+                $this->queueService->refreshUserCircleInfo($this->userId(),$post->circle_id);
+            }
         });
 
         //读取数据库完整的帖子信息
@@ -360,6 +364,11 @@ class CommentService extends BaseService
         $post = Post::find($comment->post_id);
         $post->last_active_time = Carbon::now()->toDateTimeString();
         $post->saveOrFail();
+
+        //圈内活跃时间更新
+        if(isset($post->circle_id) && $post->circle_id > 0) {
+            $this->queueService->refreshUserCircleInfo($this->userId(),$post->circle_id);
+        }
 
         //读取数据库完整的帖子信息
         $comment = Comment::query()->where('comment_id', $comment->comment_id)

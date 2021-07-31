@@ -13,6 +13,7 @@ use App\Model\CircleTopic;
 use App\Model\JoinCircleApply;
 use App\Model\User;
 use App\Model\UserCircle;
+use Carbon\Carbon;
 use EasyWeChat\Factory;
 use Hyperf\DbConnection\Db;
 use ZYProSoft\Exception\HyperfCommonException;
@@ -324,5 +325,17 @@ class CircleService extends BaseService
                                     ->get();
         $total = CircleTopic::query()->where('circle_id',$circleId)->count();
         return ['list'=>$list,'total'=>$total];
+    }
+
+    public function updateUserCircleActiveTime(int $userId,int $circleId)
+    {
+        $userCircle = UserCircle::query()->where('user_id',$userId)
+                                         ->where('circle_id',$circleId)
+                                         ->first();
+        if(!$userCircle instanceof UserCircle) {
+            throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST);
+        }
+        $userCircle->last_active_time = Carbon::now()->toDateTimeString();
+        $userCircle->saveOrFail();
     }
 }
