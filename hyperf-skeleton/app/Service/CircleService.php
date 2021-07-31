@@ -345,8 +345,7 @@ class CircleService extends BaseService
                                    ->offset($pageIndex * $pageSize)
                                    ->limit($pageSize)
                                    ->orderByDesc('last_active_time')
-                                   ->get()
-                                   ->pluck('author');
+                                   ->get();
         $total = UserCircle::query()->where('circle_id',$circleId)->count();
         return ['list'=>$list,'total'=>$total];
     }
