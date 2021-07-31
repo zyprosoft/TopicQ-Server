@@ -743,6 +743,7 @@ class PostService extends BaseService
                     ->where('audit_status', Constants::STATUS_DONE)
 //                    ->where('forum_id',Constants::FORUM_MAIN_FORUM_ID)
                     ->where('only_self_visible',Constants::STATUS_NOT)
+                    ->where('circle_id', Constants::STATUS_NOT)
                     ->orderByDesc('sort_index')
                     ->orderByDesc($order)
                     ->offset($pageIndex * $pageSize)
@@ -754,6 +755,7 @@ class PostService extends BaseService
                     ->where('audit_status', Constants::STATUS_DONE)
 //                    ->where('forum_id',Constants::FORUM_MAIN_FORUM_ID)
                     ->where('only_self_visible',Constants::STATUS_NOT)
+                    ->where('circle_id', Constants::STATUS_NOT)
                     ->orderByDesc('sort_index')
                     ->orderByDesc('recommend_weight')
                     ->latest()
@@ -1104,6 +1106,7 @@ class PostService extends BaseService
             ->where('user_id',$this->userId())
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
+            ->where('circle_id', Constants::STATUS_NOT)
             ->orderByDesc('sort_index')
             ->orderByDesc('last_active_time')
             ->orderByDesc('recommend_weight')
@@ -1184,6 +1187,7 @@ class PostService extends BaseService
                     $query->orWhereIn('owner_id',$userIds);
                 }
             })
+            ->where('circle_id', Constants::STATUS_NOT)
             ->orderByDesc('sort_index')
             ->orderByDesc('last_active_time')
             ->orderByDesc('recommend_weight')
@@ -1296,6 +1300,7 @@ class PostService extends BaseService
                 ->where('topic_id',$topicId)
                 ->where('audit_status', Constants::STATUS_DONE)
                 ->where('only_self_visible', Constants::STATUS_NOT)
+                ->where('circle_id', Constants::STATUS_NOT)
                 ->orderByDesc('sort_index')
                 ->orderByDesc('last_active_time')
                 ->offset($pageIndex * $pageSize)
@@ -1307,6 +1312,7 @@ class PostService extends BaseService
                 ->where('topic_id',$topicId)
                 ->where('audit_status', Constants::STATUS_DONE)
                 ->where('only_self_visible', Constants::STATUS_NOT)
+                ->where('circle_id', Constants::STATUS_NOT)
                 ->orderByDesc('sort_index')
                 ->orderByDesc('recommend_weight')
                 ->orderByDesc('last_active_time')
@@ -1321,6 +1327,7 @@ class PostService extends BaseService
             ->where('topic_id',$topicId)
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
+            ->where('circle_id', Constants::STATUS_NOT)
             ->count();
 
         return ['total'=>$total, 'list'=>$list];
