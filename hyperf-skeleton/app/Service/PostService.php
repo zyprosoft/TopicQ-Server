@@ -785,6 +785,7 @@ class PostService extends BaseService
                 $query->where('audit_status', Constants::STATUS_DONE);
                 $query->where('only_self_visible',Constants::STATUS_NOT);
             })
+            ->where('circle_id',Constants::STATUS_NOT)
             ->where('owner_id', $userId)
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
@@ -801,6 +802,7 @@ class PostService extends BaseService
                 $query->where('audit_status', Constants::STATUS_DONE);
                 $query->where('only_self_visible',Constants::STATUS_NOT);
             })
+            ->where('circle_id',Constants::STATUS_NOT)
             ->count();
         return ['total' => $total, 'list' => $list];
     }
