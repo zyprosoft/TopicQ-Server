@@ -782,6 +782,7 @@ class PostService extends BaseService
             $userId = $this->userId();
         }
         $list = Post::query()->select($this->listRows)
+            ->with(['forum'])
             ->when($isOther,function (Builder $query) {
                 $query->where('audit_status', Constants::STATUS_DONE);
                 $query->where('only_self_visible',Constants::STATUS_NOT);
