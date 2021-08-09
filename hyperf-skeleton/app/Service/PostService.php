@@ -1706,7 +1706,9 @@ class PostService extends BaseService
 
     public function getActivePostDetail(int $postId)
     {
-        $post = Post::firstOrFail($postId);
+        $post = Post::query()->where('post_id',$postId)
+            ->with(['circle'])
+            ->firstOrFail();
         $list = [$post];
         $this->activePostAddRelationInfo($list);
         return $list;
