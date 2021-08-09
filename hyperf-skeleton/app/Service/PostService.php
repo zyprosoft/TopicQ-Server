@@ -80,6 +80,37 @@ class PostService extends BaseService
         'post.forum_id'
     ];
 
+    private array $activeListRows = [
+        'post_id',
+        'title',
+        'summary',
+        'owner_id',
+        'image_list',
+        'link',
+        'vote_id',
+        'read_count',
+        'forward_count',
+        'comment_count',
+        'audit_status',
+        'is_hot',
+        'last_comment_time',
+        'sort_index',
+        'is_recommend',
+        'created_at',
+        'updated_at',
+        'join_user_count',
+        'avatar_list',
+        'recommend_weight',
+        'topic_id',
+        'only_self_visible',
+        'rich_content',
+        'image_ids',
+        'has_video',
+        'circle_topic_id',
+        'favorite_count',
+        'praise_count'
+    ];
+
     //重载获取当前用户ID的方法
     protected function userId()
     {
@@ -949,7 +980,6 @@ class PostService extends BaseService
         $this->queueService->updatePost($postId);
 
         //异步增加积分
-
         $scoreDesc = "点赞帖子《{$post->title}》";
         $this->push(new AddScoreJob($post->owner_id,Constants::SCORE_ACTION_POST_PRAISE, $scoreDesc));
 
@@ -1400,39 +1430,8 @@ class PostService extends BaseService
             $type = Constants::CIRCLE_POST_SORT_LATEST;
         }
 
-        $selectRows = [
-            'post_id',
-            'title',
-            'summary',
-            'owner_id',
-            'image_list',
-            'link',
-            'vote_id',
-            'read_count',
-            'forward_count',
-            'comment_count',
-            'audit_status',
-            'is_hot',
-            'last_comment_time',
-            'sort_index',
-            'is_recommend',
-            'created_at',
-            'updated_at',
-            'join_user_count',
-            'avatar_list',
-            'recommend_weight',
-            'topic_id',
-            'only_self_visible',
-            'rich_content',
-            'image_ids',
-            'has_video',
-            'circle_topic_id',
-            'favorite_count',
-            'praise_count'
-        ];
-
         if($type == Constants::FORUM_POST_SORT_LATEST) {
-            $list = Post::query()->select($selectRows)
+            $list = Post::query()->select($this->activeListRows)
                 ->with(['circle'])
                 ->where('circle_id',$circleId)
                 ->where('audit_status', Constants::STATUS_DONE)
@@ -1443,7 +1442,7 @@ class PostService extends BaseService
                 ->limit($pageSize)
                 ->get();
         }else{
-            $list = Post::query()->select($selectRows)
+            $list = Post::query()->select($this->activeListRows)
                 ->with(['circle'])
                 ->where('circle_id',$circleId)
                 ->where('audit_status', Constants::STATUS_DONE)
@@ -1497,7 +1496,7 @@ class PostService extends BaseService
         });
 
 
-        $total = Post::query()->select($selectRows)
+        $total = Post::query()->select($this->activeListRows)
             ->where('circle_id',$circleId)
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
@@ -1594,39 +1593,8 @@ class PostService extends BaseService
             $type = Constants::CIRCLE_POST_SORT_LATEST;
         }
 
-        $selectRows = [
-            'post_id',
-            'title',
-            'summary',
-            'owner_id',
-            'image_list',
-            'link',
-            'vote_id',
-            'read_count',
-            'forward_count',
-            'comment_count',
-            'audit_status',
-            'is_hot',
-            'last_comment_time',
-            'sort_index',
-            'is_recommend',
-            'created_at',
-            'updated_at',
-            'join_user_count',
-            'avatar_list',
-            'recommend_weight',
-            'topic_id',
-            'only_self_visible',
-            'rich_content',
-            'image_ids',
-            'has_video',
-            'circle_topic_id',
-            'favorite_count',
-            'praise_count'
-        ];
-
         if ($type == Constants::FORUM_POST_SORT_LATEST) {
-            $list = Post::query()->select($selectRows)
+            $list = Post::query()->select($this->activeListRows)
                 ->with(['circle'])
                 ->where('circle_topic_id', $topicId)
                 ->where('audit_status', Constants::STATUS_DONE)
@@ -1637,7 +1605,7 @@ class PostService extends BaseService
                 ->limit($pageSize)
                 ->get();
         } else {
-            $list = Post::query()->select($selectRows)
+            $list = Post::query()->select($this->activeListRows)
                 ->with(['circle'])
                 ->where('circle_topic_id', $topicId)
                 ->where('audit_status', Constants::STATUS_DONE)
@@ -1652,7 +1620,7 @@ class PostService extends BaseService
 
         $this->activePostAddRelationInfo($list);
 
-        $total = Post::query()->select($selectRows)
+        $total = Post::query()->select($this->activeListRows)
             ->where('circle_topic_id', $topicId)
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
@@ -1711,5 +1679,35 @@ class PostService extends BaseService
             ->get();
         $this->activePostAddRelationInfo($list);
         return $list;
+    }
+
+    public function getActivePostByUserId(int $pageIndex, int $pageSize, int $userId = null)
+    {
+        if (!isset($userId)) {
+            $userId = $this->userId();
+        }
+
+        $list = Post::query()->select($this->activeListRows)
+            ->with(['circle'])
+            ->where('circle_id','>',Constants::STATUS_NOT)
+            ->where('owner_id', $userId)
+            ->where('audit_status', Constants::STATUS_DONE)
+            ->where('only_self_visible', Constants::STATUS_NOT)
+            ->orderByDesc('sort_index')
+            ->orderByDesc('last_active_time')
+            ->offset($pageIndex * $pageSize)
+            ->limit($pageSize)
+            ->get();
+
+        $this->activePostAddRelationInfo($list);
+
+        $total = Post::query()->select($this->activeListRows)
+            ->where('circle_id','>',Constants::STATUS_NOT)
+            ->where('owner_id', $userId)
+            ->where('audit_status', Constants::STATUS_DONE)
+            ->where('only_self_visible', Constants::STATUS_NOT)
+            ->count();
+
+        return ['total' => $total, 'list' => $list];
     }
 }

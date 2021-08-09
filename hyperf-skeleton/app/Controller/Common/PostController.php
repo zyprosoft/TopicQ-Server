@@ -503,4 +503,30 @@ class PostController extends AbstractController
         $result = $this->service->getActivePostDetail($postId);
         return $this->success($result);
     }
+
+    public function getActivePostListByUser()
+    {
+        $this->validate([
+            'userId' => 'integer|required|exists:user,user_id',
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30',
+        ]);
+        $userId = $this->request->param('userId');
+        $pageIndex = $this->request->param('pageIndex');
+        $pageSize = $this->request->param('pageSize');
+        $result = $this->service->getActivePostByUserId($pageIndex,$pageSize,$userId);
+        return $this->success($result);
+    }
+
+    public function getMyActivePostList(AuthedRequest $request)
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30',
+        ]);
+        $pageIndex = $this->request->param('pageIndex');
+        $pageSize = $this->request->param('pageSize');
+        $result = $this->service->getActivePostByUserId($pageIndex,$pageSize);
+        return $this->success($result);
+    }
 }
