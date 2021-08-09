@@ -1709,7 +1709,7 @@ class PostService extends BaseService
         $post = Post::query()->where('post_id',$postId)
             ->with(['circle'])
             ->firstOrFail();
-        $list = [$post];
+        $list = collect($post);
         $this->activePostAddRelationInfo($list);
         return $list;
     }
