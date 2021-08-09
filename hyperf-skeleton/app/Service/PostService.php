@@ -1625,10 +1625,10 @@ class PostService extends BaseService
             'praise_count'
         ];
 
-        if($type == Constants::FORUM_POST_SORT_LATEST) {
+        if ($type == Constants::FORUM_POST_SORT_LATEST) {
             $list = Post::query()->select($selectRows)
                 ->with(['circle'])
-                ->where('circle_topic_id',$topicId)
+                ->where('circle_topic_id', $topicId)
                 ->where('audit_status', Constants::STATUS_DONE)
                 ->where('only_self_visible', Constants::STATUS_NOT)
                 ->orderByDesc('sort_index')
@@ -1636,10 +1636,10 @@ class PostService extends BaseService
                 ->offset($pageIndex * $pageSize)
                 ->limit($pageSize)
                 ->get();
-        }else{
+        } else {
             $list = Post::query()->select($selectRows)
                 ->with(['circle'])
-                ->where('circle_topic_id',$topicId)
+                ->where('circle_topic_id', $topicId)
                 ->where('audit_status', Constants::STATUS_DONE)
                 ->where('only_self_visible', Constants::STATUS_NOT)
                 ->orderByDesc('sort_index')
@@ -1650,6 +1650,19 @@ class PostService extends BaseService
                 ->get();
         }
 
+        $this->activePostAddRelationInfo($list);
+
+        $total = Post::query()->select($selectRows)
+            ->where('circle_topic_id', $topicId)
+            ->where('audit_status', Constants::STATUS_DONE)
+            ->where('only_self_visible', Constants::STATUS_NOT)
+            ->count();
+
+        return ['total' => $total, 'list' => $list];
+    }
+
+    public function activePostAddRelationInfo(&$list)
+    {
         $this->postListAddReadStatus($list);
 
         $commentList = $this->activePostLatestComment($list);
@@ -1689,14 +1702,13 @@ class PostService extends BaseService
             }
             return $post;
         });
+    }
 
-
-        $total = Post::query()->select($selectRows)
-            ->where('circle_topic_id',$topicId)
-            ->where('audit_status', Constants::STATUS_DONE)
-            ->where('only_self_visible', Constants::STATUS_NOT)
-            ->count();
-
-        return ['total'=>$total, 'list'=>$list];
+    public function getActivePostDetail(int $postId)
+    {
+        $post = Post::firstOrFail($postId);
+        $list = [$post];
+        $this->activePostAddRelationInfo($list);
+        return $list;
     }
 }

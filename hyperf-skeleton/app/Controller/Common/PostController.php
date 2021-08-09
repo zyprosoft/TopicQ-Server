@@ -493,4 +493,14 @@ class PostController extends AbstractController
         $result = $this->service->getActivePostByCircleTopicId($topicId,$pageIndex,$pageSize,$type);
         return $this->success($result);
     }
+
+    public function getActivePostDetail()
+    {
+        $this->validate([
+            'postId' => 'integer|required|exists:post,post_id',
+        ]);
+        $postId = $this->request->param('postId');
+        $result = $this->service->getActivePostDetail($postId);
+        return $this->success($result);
+    }
 }
