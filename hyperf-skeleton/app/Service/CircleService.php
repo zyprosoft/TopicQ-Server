@@ -356,9 +356,8 @@ class CircleService extends BaseService
         $circle = Circle::query()->limit(3)
             ->orderByDesc('recommend_weight')
             ->get();
-        $circleUser = UserCircle::query()->limit(30)
+        $circleUser = UserCircle::query()->selectRaw('distinct user_id,last_active_time')->limit(30)
             ->orderByDesc('last_active_time')
-            ->groupBy(['user_id'])
             ->get()
             ->pluck('author');
         $topic = CircleTopic::query()
