@@ -1455,46 +1455,7 @@ class PostService extends BaseService
                 ->get();
         }
 
-        $this->postListAddReadStatus($list);
-
-        $commentList = $this->activePostLatestComment($list);
-        $praiseList = $this->activePostLatestPraise($list);
-        if(Auth::isGuest() == false){
-            $praiseAndFavoriteStatusList = $this->activePostGetPraiseAndFavoriteStatus($list);
-        }else{
-            $praiseAndFavoriteStatusList = [];
-        }
-        $list->map(function (Post $post) use ($commentList,$praiseList,$praiseAndFavoriteStatusList){
-            if(isset($commentList[$post->post_id])){
-                $post->comment_list = $commentList[$post->post_id];
-            }else{
-                $post->comment_list = [];
-            }
-            if(isset($praiseList[$post->post_id])) {
-                $post->praise_list = $praiseList[$post->post_id];
-            }else{
-                $post->praise_list = [];
-            }
-            if(!empty($praiseAndFavoriteStatusList)) {
-                $praiseStatusList = $praiseAndFavoriteStatusList['praise'];
-                $favoriteStatusList = $praiseAndFavoriteStatusList['favorite'];
-                if(isset($praiseStatusList[$post->post_id])) {
-                    $post->is_praise = 1;
-                }else{
-                    $post->is_praise = 0;
-                }
-                if(isset($favoriteStatusList[$post->post_id])) {
-                    $post->is_favorite = 1;
-                }else{
-                    $post->is_favorite = 0;
-                }
-            }else{
-                $post->is_praise = 0;
-                $post->is_favorite = 0;
-            }
-            return $post;
-        });
-
+        $this->activePostAddRelationInfo($list);
 
         $total = Post::query()->select($this->activeListRows)
             ->where('circle_id',$circleId)
