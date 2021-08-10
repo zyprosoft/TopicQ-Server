@@ -349,4 +349,18 @@ class CircleService extends BaseService
         $total = UserCircle::query()->where('circle_id',$circleId)->count();
         return ['list'=>$list,'total'=>$total];
     }
+
+    public function getCircleIndexRecommendList()
+    {
+        //获取
+        $circle = Circle::query()->limit(3)
+            ->orderByDesc('recommend_weight')
+            ->get();
+        $circleUser = UserCircle::query()->limit(30)
+            ->orderByDesc('last_active_time')
+            ->get()
+            ->pluck('author');
+        $topic = CircleTopic::query()->limit(4)->orderByDesc('post_count');
+
+    }
 }

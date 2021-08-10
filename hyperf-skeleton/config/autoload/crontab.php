@@ -5,6 +5,8 @@ use ZYProSoft\Task\ClearLogFileTask;
 use App\Task\PostRecommendCalculateTask;
 use App\Task\VoucherExpireTask;
 use App\Task\UpdateTopicTask;
+use App\Task\CircleRecommendCalculateTask;
+use App\Task\CircleTopicCalculateTask;
 
 return [
     // 是否开启定时任务
@@ -30,5 +32,13 @@ return [
             ->setRule('10 0 * * *')
             ->setCallback([VoucherExpireTask::class, 'execute'])
             ->setMemo('每天定时过期代金券'),
+        (new Crontab())->setName('CircleRecommend')
+            ->setRule('* */1 * * *')
+            ->setCallback([CircleRecommendCalculateTask::class, 'execute'])
+            ->setMemo('定时刷新圈子推荐权重'),
+        (new Crontab())->setName('CircleTopicRecommend')
+            ->setRule('* */1 * * *')
+            ->setCallback([CircleTopicCalculateTask::class, 'execute'])
+            ->setMemo('定时刷新话题当天的帖子发布数量'),
     ]
 ];

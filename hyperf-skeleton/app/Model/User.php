@@ -3,10 +3,10 @@
 /**
  * This file is part of ZYProSoft/Hyperf-Skeleton.
  *
- * @link     http://zyprosoft.lulinggushi.com
- * @document http://zyprosoft.lulinggushi.com
+ * @link     http://topicq.icodefuture.com
+ * @document http://topicq.icodefuture.com
  * @contact  1003081775@qq.com
- * @Company  码动未来信息技术有限公司(ZYProSoft)
+ * @Company  码动未来信息技术有限公司(CodeLeadsTheFuture)
  * @license  GPL
  */
 declare (strict_types=1);
