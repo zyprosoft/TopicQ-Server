@@ -14,6 +14,7 @@ namespace App\Model;
  * @property int $post_count 帖子数
  * @property int $member_count 话题参与人数
  * @property string $last_active_time 
+ * @property int $today_post_count 
  * @property-read \App\Model\User $author 
  * @property-read \App\Model\Circle $circle 
  */
@@ -37,7 +38,7 @@ class CircleTopic extends Model
      *
      * @var array
      */
-    protected $casts = ['topic_id' => 'integer', 'owner_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'circle_id' => 'integer', 'post_count' => 'integer', 'member_count' => 'integer'];
+    protected $casts = ['topic_id' => 'integer', 'owner_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'circle_id' => 'integer', 'post_count' => 'integer', 'member_count' => 'integer', 'today_post_count' => 'integer'];
     public function circle()
     {
         return $this->hasOne(Circle::class, 'circle_id', 'circle_id');
