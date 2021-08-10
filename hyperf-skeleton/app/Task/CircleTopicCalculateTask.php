@@ -38,7 +38,7 @@ class CircleTopicCalculateTask
                     $count = Post::query()->where('circle_topic_id',$circleTopic->topic_id)
                                          ->whereDate('created_at','=',$today)
                                          ->count();
-                    $circleTopic->post_count = $count;
+                    $circleTopic->today_post_count = $count;
                     $circleTopic->save();
                     return $circleTopic;
                 });

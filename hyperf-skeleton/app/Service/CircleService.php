@@ -360,7 +360,10 @@ class CircleService extends BaseService
             ->orderByDesc('last_active_time')
             ->get()
             ->pluck('author');
-        $topic = CircleTopic::query()->limit(4)->orderByDesc('post_count');
-
+        $topic = CircleTopic::query()
+            ->limit(4)
+            ->orderByDesc('today_post_count')
+            ->get();
+        return ['circle_list'=>$circle,'user_list'=>$circleUser,'topic_list'=>$topic];
     }
 }

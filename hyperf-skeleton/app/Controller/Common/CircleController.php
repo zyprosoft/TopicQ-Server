@@ -145,4 +145,10 @@ class CircleController extends AbstractController
         $result = $this->service->getCircleMemberList($circleId,$pageIndex,$pageSize);
         return $this->success($result);
     }
+
+    public function getIndexRecommendList()
+    {
+        $result = $this->service->getCircleIndexRecommendList();
+        return $this->success($result);
+    }
 }
