@@ -26,6 +26,7 @@ class AlterCircleTopicAddLastActive extends Migration
         Schema::table('circle_topic', function (Blueprint $table) {
             //
             $table->dropColumn('last_active_time');
+//            $table->dropColumn('today_post_count');
         });
     }
 }
