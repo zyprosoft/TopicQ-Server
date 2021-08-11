@@ -294,4 +294,10 @@ class UserController extends AbstractController
         $result = $this->userService->getUserListByScore($pageIndex,$pageSize);
         return $this->success($result);
     }
+
+    public function getHobbyLabels()
+    {
+        $result = $this->userService->getAllHobbyLabels();
+        return $this->success($result);
+    }
 }
