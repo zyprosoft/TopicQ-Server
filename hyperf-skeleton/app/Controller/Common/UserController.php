@@ -289,8 +289,8 @@ class UserController extends AbstractController
             'pageIndex' => 'integer|required|min:0',
             'pageSize' => 'integer|required|min:10|max:30'
         ]);
-        $pageIndex = $request->param('pageIndex');
-        $pageSize = $request->param('pageSize');
+        $pageIndex = $this->request->param('pageIndex');
+        $pageSize = $this->request->param('pageSize');
         $result = $this->userService->getUserListByScore($pageIndex,$pageSize);
         return $this->success($result);
     }
