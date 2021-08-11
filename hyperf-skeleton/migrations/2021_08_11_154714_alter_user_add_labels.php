@@ -11,8 +11,11 @@ class AlterUserAddLabels extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('user', function (Blueprint $table) {
             //
+            $table->text('hobby_label')->nullable()->comment('兴趣标签');
+            $table->integer('day_sign_count')->default(0)->comment('连续签到');
+            $table->integer('day_sign_total')->default(0)->comment('总签到数');
         });
     }
 
@@ -21,8 +24,11 @@ class AlterUserAddLabels extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('user', function (Blueprint $table) {
             //
+            $table->dropColumn('hobby_label');
+            $table->dropColumn('day_sign_count');
+            $table->dropColumn('day_sign_total');
         });
     }
 }
