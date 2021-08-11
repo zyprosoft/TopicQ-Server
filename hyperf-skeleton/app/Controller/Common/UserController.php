@@ -283,7 +283,7 @@ class UserController extends AbstractController
         return $this->success($result);
     }
 
-    public function getUserList(AuthedRequest $request)
+    public function getUserListByScore()
     {
         $this->validate([
             'pageIndex' => 'integer|required|min:0',
