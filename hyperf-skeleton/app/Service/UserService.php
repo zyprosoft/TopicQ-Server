@@ -933,4 +933,14 @@ class UserService extends BaseService
     {
         return $this->innerMergeUserByPhoneNumber($mobile, $type);
     }
+
+    public function getUserListByScore(int $pageIndex, int $pageSize)
+    {
+        $list = User::query()->orderByDesc('score')
+            ->offset($pageSize*$pageIndex)
+            ->limit($pageSize)
+            ->get();
+        $total = User::count();
+        return ['list'=>$list,'total'=>$total];
+    }
 }
