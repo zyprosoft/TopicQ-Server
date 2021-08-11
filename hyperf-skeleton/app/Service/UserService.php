@@ -461,6 +461,9 @@ class UserService extends BaseService
                 $userUpdate->background = $userInfo['background'];
                 $imageList[] = $userUpdate->background;
             }
+            if(isset($userInfo['hobbyLabels'])) {
+                $user->hobby_label = json_encode($userInfo['hobbyLabels']);
+            }
             $user->first_edit_done = Constants::STATUS_DONE;
 
             //检查图片是否审核通过
