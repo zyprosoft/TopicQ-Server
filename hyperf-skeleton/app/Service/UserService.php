@@ -464,6 +464,9 @@ class UserService extends BaseService
             if(isset($userInfo['hobbyLabels'])) {
                 $user->hobby_label = json_encode($userInfo['hobbyLabels']);
             }
+            if(isset($userInfo['sex'])) {
+                $user->sex = $userInfo['sex'];
+            }
             $user->first_edit_done = Constants::STATUS_DONE;
 
             //检查图片是否审核通过

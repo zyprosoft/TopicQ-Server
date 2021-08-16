@@ -31,7 +31,7 @@ use App\Constants\Constants;
  * @property string $block_reason 拉黑原因
  * @property \Carbon\Carbon $last_login 上次登陆时间
  * @property string $location 位置
- * @property int $sex 0:男1:女
+ * @property int $sex -1:未设置,0:女1:男
  * @property int $login_type 登陆类型;0:小程序1:web管理端
  * @property int $wx_gender 微信性别1:男
  * @property string $wx_province 微信省份

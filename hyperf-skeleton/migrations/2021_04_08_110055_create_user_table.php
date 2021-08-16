@@ -26,7 +26,7 @@ class CreateUserTable extends Migration
             $table->string('block_reason',128)->nullable()->comment('拉黑原因');
             $table->timestamp('last_login', 0)->nullable()->comment('上次登陆时间');
             $table->string('location',128)->nullable()->comment('位置');
-            $table->tinyInteger('sex')->default(0)->comment('0:男1:女');
+            $table->tinyInteger('sex')->default(-1)->comment('-1:未设置,0:女1:男');
             $table->tinyInteger('login_type')->default(0)->comment('登陆类型;0:小程序1:web管理端');
             $table->tinyInteger('wx_gender')->default(1)->comment('微信性别1:男');
             $table->string('wx_province',30)->nullable()->comment('微信省份');
