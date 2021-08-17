@@ -656,6 +656,9 @@ class UserService extends BaseService
 
     public function attention(int $otherUserId, int $status)
     {
+        if($otherUserId == $this->userId()) {
+            throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::PARAM_ERROR,'不可以自己关注自己!');
+        }
         $attention = UserAttentionOther::query()->where('user_id', $this->userId())
             ->where('other_user_id', $otherUserId)
             ->first();
