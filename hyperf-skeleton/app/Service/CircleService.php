@@ -24,47 +24,47 @@ class CircleService extends BaseService
 {
     public function createOrUpdate(array $params)
     {
-        $name = data_get($params,'name');
-        $avatar = data_get($params,'avatar');
-        $background = data_get($params,'background');
-        $introduce = data_get($params,'introduce');
-        $qq = data_get($params,'qq');
-        $categoryId = data_get($params,'categoryId');
-        $password = data_get($params,'password');
-        $isOpen = data_get($params,'isOpen');
-        $openScore = data_get($params,'openScore');
-        $tags = data_get($params,'tags');
+        $name = data_get($params, 'name');
+        $avatar = data_get($params, 'avatar');
+        $background = data_get($params, 'background');
+        $introduce = data_get($params, 'introduce');
+        $qq = data_get($params, 'qq');
+        $categoryId = data_get($params, 'categoryId');
+        $password = data_get($params, 'password');
+        $isOpen = data_get($params, 'isOpen');
+        $openScore = data_get($params, 'openScore');
+        $tags = data_get($params, 'tags');
 
         //审核文本内容
         $miniProgramConfig = config('weixin.miniProgram');
         $app = Factory::miniProgram($miniProgramConfig);
         $result = $app->content_security->checkText($name);
         $isTitleValidate = true;
-        if(data_get($result,'errcode') == Constants::WX_SECURITY_CHECK_FAIL) {
+        if (data_get($result, 'errcode') == Constants::WX_SECURITY_CHECK_FAIL) {
             $isTitleValidate = false;
         }
         $result = $app->content_security->checkText($introduce);
         $isIntroduceValidate = true;
-        if(data_get($result,'errcode') == Constants::WX_SECURITY_CHECK_FAIL) {
+        if (data_get($result, 'errcode') == Constants::WX_SECURITY_CHECK_FAIL) {
             $isIntroduceValidate = false;
         }
-        if($isTitleValidate == false || $isIntroduceValidate == false) {
+        if ($isTitleValidate == false || $isIntroduceValidate == false) {
             //发送一条审核不通过通知
             $levelLabel = '警告';
             $level = Constants::MESSAGE_LEVEL_BLOCK;
             $title = '圈子审核不通过';
             if ($isTitleValidate == false) {
                 $content = "您的圈子名字《{$name}》内容包含敏感信息，已被管理员审核拒绝";
-            }else{
+            } else {
                 $content = "您的圈子介绍《{$introduce}》内容包含敏感信息，已被管理员审核拒绝";
             }
             $userId = $this->userId();
-            $notification = new AddNotificationJob($userId,$title,$content,false,$level);
+            $notification = new AddNotificationJob($userId, $title, $content, false, $level);
             $notification->levelLabel = $levelLabel;
             $this->push($notification);
         }
 
-        $circleId = data_get($params,'circleId');
+        $circleId = data_get($params, 'circleId');
         if (isset($circleId)) {
             $circle = Circle::findOrFail($circleId);
             if (isset($name)) {
@@ -89,7 +89,7 @@ class CircleService extends BaseService
                 $circle->tags = json_encode($tags);
             }
             if (isset($password)) {
-                $circle->password = password_hash($password,PASSWORD_DEFAULT);
+                $circle->password = password_hash($password, PASSWORD_DEFAULT);
                 $circle->is_open = Constants::STATUS_NOT;
                 $circle->use_password = Constants::STATUS_OK;
             }
@@ -100,7 +100,7 @@ class CircleService extends BaseService
             if (isset($isOpen)) {
                 $circle->is_open = $isOpen;
             }
-        }else{
+        } else {
             $circle = new Circle();
             $circle->name = $name;
             $circle->avatar = $avatar;
@@ -114,7 +114,7 @@ class CircleService extends BaseService
                 $circle->tags = json_encode($tags);
             }
             if (isset($password)) {
-                $circle->password = password_hash($password,PASSWORD_DEFAULT);
+                $circle->password = password_hash($password, PASSWORD_DEFAULT);
                 $circle->is_open = 0;
                 $circle->use_password = 1;
             }
@@ -127,16 +127,16 @@ class CircleService extends BaseService
         $circle->audit_status = Constants::STATUS_OK;
         $circle->saveOrFail();
         //发送建圈成功通知
-        if(!isset($circleId)) {
+        if (!isset($circleId)) {
             //发送一条审核不通过通知
             $levelLabel = '通知';
             $level = Constants::MESSAGE_LEVEL_WARN;
             $title = '圈子审核通过';
             $content = "您的圈子《{$name}》已经创建成功并审批通过!";
             $userId = $this->userId();
-            $notification = new AddNotificationJob($userId,$title,$content,false,$level);
+            $notification = new AddNotificationJob($userId, $title, $content, false, $level);
             $notification->levelLabel = $levelLabel;
-            $keyInfo = ['circle_id'=>$circle->circle_id];
+            $keyInfo = ['circle_id' => $circle->circle_id];
             $notification->keyInfo = json_encode($keyInfo);
             $this->push($notification);
         }
@@ -147,11 +147,11 @@ class CircleService extends BaseService
     {
         $circle = Circle::findOrFail($circleId);
         //用户是不是已经加入
-        $userCircle = UserCircle::query()->where('user_id',$this->userId())
-            ->where('circle_id',$circleId)
+        $userCircle = UserCircle::query()->where('user_id', $this->userId())
+            ->where('circle_id', $circleId)
             ->first();
         if ($userCircle instanceof UserCircle) {
-            return  $this->success();
+            return $this->success();
         }
         //公开
         if ($circle->is_open == Constants::STATUS_OK) {
@@ -168,7 +168,7 @@ class CircleService extends BaseService
             }
             Log::info("input password:$password");
             //校验密码
-            $isVerify = password_verify($password,$circle->password);
+            $isVerify = password_verify($password, $circle->password);
             if (!$isVerify) {
                 throw new HyperfCommonException(ErrorCode::CIRCLE_JOIN_PASSWORD_INVALIDATE);
             }
@@ -176,12 +176,12 @@ class CircleService extends BaseService
             $userCircle->user_id = $this->userId();
             $userCircle->circle_id = $circleId;
             $userCircle->saveOrFail();
-            return  $this->success();
+            return $this->success();
         }
         //使用积分进入
         if ($circle->open_score > 0) {
             Db::transaction(function () use ($circle) {
-                $user = User::query()->where('user_id',$this->userId())->lockForUpdate()->first();
+                $user = User::query()->where('user_id', $this->userId())->lockForUpdate()->first();
                 if (!$user instanceof User) {
                     throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST);
                 }
@@ -192,7 +192,7 @@ class CircleService extends BaseService
                 $user->saveOrFail();
                 //圈主获得积分
                 $circleOwner = User::findOrFail($circle->owner_id);
-                $circleOwner->increment('score',$circle->open_score);
+                $circleOwner->increment('score', $circle->open_score);
                 //加入圈子
                 $userCircle = new UserCircle();
                 $userCircle->user_id = $this->userId();
@@ -218,9 +218,9 @@ class CircleService extends BaseService
 
     public function cancelCircle(int $circleId)
     {
-        $userCircle = UserCircle::query()->where('user_id',$this->userId())
-                                        ->where('circle_id',$circleId)
-                                        ->first();
+        $userCircle = UserCircle::query()->where('user_id', $this->userId())
+            ->where('circle_id', $circleId)
+            ->first();
         if (!$userCircle instanceof UserCircle) {
             return $this->success();
         }
@@ -230,21 +230,21 @@ class CircleService extends BaseService
 
     public function getJoinApplyList(int $pageIndex, int $pageSize)
     {
-        $applyList = JoinCircleApply::query()->where('circle_owner_id',$this->userId())
-                                             ->where('audit_status',Constants::STATUS_WAIT)
-                                             ->latest()
-                                             ->offset($pageIndex * $pageSize)
-                                             ->limit($pageSize)
-                                             ->get();
-        $total = JoinCircleApply::query()->where('circle_owner_id',$this->userId())
-            ->where('audit_status',Constants::STATUS_WAIT)
+        $applyList = JoinCircleApply::query()->where('circle_owner_id', $this->userId())
+            ->where('audit_status', Constants::STATUS_WAIT)
+            ->latest()
+            ->offset($pageIndex * $pageSize)
+            ->limit($pageSize)
+            ->get();
+        $total = JoinCircleApply::query()->where('circle_owner_id', $this->userId())
+            ->where('audit_status', Constants::STATUS_WAIT)
             ->count();
-        return ['list'=>$applyList,'total'=>$total];
+        return ['list' => $applyList, 'total' => $total];
     }
 
     public function auditJoinApply(int $applyId, int $status)
     {
-        Db::transaction(function () use ($applyId, $status){
+        Db::transaction(function () use ($applyId, $status) {
             $apply = JoinCircleApply::findOrFail($applyId);
             //是不是圈主
             if ($apply->circle_owner_id !== $this->userId()) {
@@ -262,16 +262,16 @@ class CircleService extends BaseService
             if ($status == Constants::STATUS_OK) {
                 $title = "加入圈子成功!";
                 $content = "《{$apply->circle->name}》圈主已经同意您的申请!快去进入圈子与更多圈友互动吧";
-            }else{
+            } else {
                 $title = "加入圈子被拒绝!";
                 $content = "很遗憾，《{$apply->circle->name}》圈主不同意你的入圈申请!";
             }
             $levelLabel = '通知';
             $level = Constants::MESSAGE_LEVEL_WARN;
-            $notification = new AddNotificationJob($apply->user_id,$title,$content,false,$level);
+            $notification = new AddNotificationJob($apply->user_id, $title, $content, false, $level);
             $notification->levelLabel = $levelLabel;
             if ($status == Constants::STATUS_OK) {
-                $keyInfo = ['circle_id'=>$apply->circle_id];
+                $keyInfo = ['circle_id' => $apply->circle_id];
                 $notification->keyInfo = json_encode($keyInfo);
             }
             $this->push($notification);
@@ -281,15 +281,15 @@ class CircleService extends BaseService
 
     public function getCircleByCategory(int $categoryId, int $pageIndex, int $pageSize)
     {
-        $list = Circle::query()->where('category_id',$categoryId)
-                               ->where('audit_status',Constants::STATUS_OK)
-                               ->offset($pageIndex * $pageSize)
-                               ->limit($pageSize)
-                               ->get();
-        $total = Circle::query()->where('category_id',$categoryId)
-            ->where('audit_status',Constants::STATUS_OK)
+        $list = Circle::query()->where('category_id', $categoryId)
+            ->where('audit_status', Constants::STATUS_OK)
+            ->offset($pageIndex * $pageSize)
+            ->limit($pageSize)
+            ->get();
+        $total = Circle::query()->where('category_id', $categoryId)
+            ->where('audit_status', Constants::STATUS_OK)
             ->count();
-        return ['list'=>$list,'total'=>$total];
+        return ['list' => $list, 'total' => $total];
     }
 
     public function getCircleCategoryList()
@@ -302,15 +302,15 @@ class CircleService extends BaseService
         $circle = Circle::findOrFail($circleId);
         if (Auth::isGuest() == false) {
             //是否已经加入
-            $userCircle = UserCircle::query()->where('user_id',$this->userId())
-                                             ->where('circle_id',$circleId)
-                                             ->first();
+            $userCircle = UserCircle::query()->where('user_id', $this->userId())
+                ->where('circle_id', $circleId)
+                ->first();
             if (!$userCircle instanceof UserCircle) {
                 $circle->is_joined = 0;
-            }else{
+            } else {
                 $circle->is_joined = 1;
             }
-        }else{
+        } else {
             $circle->is_joined = 0;
         }
         return $circle;
@@ -318,21 +318,21 @@ class CircleService extends BaseService
 
     public function getTopicListByCircleId(int $circleId, int $pageIndex, int $pageSize)
     {
-        $list = CircleTopic::query()->where('circle_id',$circleId)
-                                    ->latest()
-                                    ->offset($pageIndex*$pageSize)
-                                    ->limit($pageSize)
-                                    ->get();
-        $total = CircleTopic::query()->where('circle_id',$circleId)->count();
-        return ['list'=>$list,'total'=>$total];
+        $list = CircleTopic::query()->where('circle_id', $circleId)
+            ->latest()
+            ->offset($pageIndex * $pageSize)
+            ->limit($pageSize)
+            ->get();
+        $total = CircleTopic::query()->where('circle_id', $circleId)->count();
+        return ['list' => $list, 'total' => $total];
     }
 
-    public function updateUserCircleActiveTime(int $userId,int $circleId)
+    public function updateUserCircleActiveTime(int $userId, int $circleId)
     {
-        $userCircle = UserCircle::query()->where('user_id',$userId)
-                                         ->where('circle_id',$circleId)
-                                         ->first();
-        if(!$userCircle instanceof UserCircle) {
+        $userCircle = UserCircle::query()->where('user_id', $userId)
+            ->where('circle_id', $circleId)
+            ->first();
+        if (!$userCircle instanceof UserCircle) {
             throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST);
         }
         $userCircle->last_active_time = Carbon::now()->toDateTimeString();
@@ -341,13 +341,13 @@ class CircleService extends BaseService
 
     public function getCircleMemberList(int $circleId, int $pageIndex, int $pageSize)
     {
-        $list = UserCircle::query()->where('circle_id',$circleId)
-                                   ->offset($pageIndex * $pageSize)
-                                   ->limit($pageSize)
-                                   ->orderByDesc('last_active_time')
-                                   ->get();
-        $total = UserCircle::query()->where('circle_id',$circleId)->count();
-        return ['list'=>$list,'total'=>$total];
+        $list = UserCircle::query()->where('circle_id', $circleId)
+            ->offset($pageIndex * $pageSize)
+            ->limit($pageSize)
+            ->orderByDesc('last_active_time')
+            ->get();
+        $total = UserCircle::query()->where('circle_id', $circleId)->count();
+        return ['list' => $list, 'total' => $total];
     }
 
     public function getCircleIndexRecommendList()
@@ -364,23 +364,31 @@ class CircleService extends BaseService
             ->limit(4)
             ->orderByDesc('today_post_count')
             ->get();
-        return ['circle_list'=>$circle,'user_list'=>$circleUser,'topic_list'=>$topic];
+        return ['circle_list' => $circle, 'user_list' => $circleUser, 'topic_list' => $topic];
     }
 
     public function getCircleByUserId(int $pageIndex, int $pageSize, int $userId = null)
     {
-        if(!isset($userId)) {
+        if (!isset($userId)) {
             $userId = $this->userId();
         }
-        $list = Circle::query()->where('owner_id',$userId)
-                               ->where('audit_status',Constants::STATUS_OK)
-                               ->latest()
-                               ->offset($pageIndex*$pageSize)
-                               ->limit($pageSize)
-                               ->get();
-        $total = Circle::query()->where('owner_id',$userId)
-            ->where('audit_status',Constants::STATUS_OK)
+        $joinedList = UserCircle::query()->where('user_id', $userId)
+            ->latest()
+            ->offset($pageIndex * $pageSize)
+            ->limit($pageSize)
+            ->get();
+        $joinedCount = UserCircle::query()->where('user_id', $userId)->count();
+
+        $list = Circle::query()->where('owner_id', $userId)
+            ->where('audit_status', Constants::STATUS_OK)
+            ->latest()
+            ->get();
+        $total = Circle::query()->where('owner_id', $userId)
+            ->where('audit_status', Constants::STATUS_OK)
             ->count();
-        return ['list'=>$list,'total'=>$total];
+
+        $list = $list + $joinedList;
+        $total += $joinedCount;
+        return ['list' => $list, 'total' => $total];
     }
 }
