@@ -804,6 +804,7 @@ class PostService extends BaseService
         $total = Post::query()
                 ->where('audit_status', Constants::STATUS_DONE)
                 ->where('only_self_visible',Constants::STATUS_NOT)
+                ->where('circle_id',Constants::STATUS_NOT)
                 ->count();
         return ['total' => $total, 'list' => $list];
     }
@@ -917,6 +918,7 @@ class PostService extends BaseService
             ->join('post', 'user_favorite.post_id', '=', 'post.post_id')
             ->where('user_id', $userId)
             ->where('post.audit_status', Constants::STATUS_DONE)
+            ->where('circle_id',Constants::STATUS_NOT)
             ->when($hiddenNotVisible,function (Builder $query) {
                 $query->where('post.only_self_visible',Constants::STATUS_NOT);
             })
@@ -929,6 +931,7 @@ class PostService extends BaseService
         $total = UserFavorite::query()->where('user_id', $userId)
             ->join('post', 'user_favorite.post_id', '=', 'post.post_id')
             ->where('post.audit_status', Constants::STATUS_DONE)
+            ->where('circle_id',Constants::STATUS_NOT)
             ->when($hiddenNotVisible,function (Builder $query){
                 $query->where('post.only_self_visible',Constants::STATUS_NOT);
             })
@@ -1074,6 +1077,7 @@ class PostService extends BaseService
                 ->where('forum_id',$forumId)
                 ->where('audit_status', Constants::STATUS_DONE)
                 ->where('only_self_visible', Constants::STATUS_NOT)
+                ->where('circle_id',Constants::STATUS_NOT)
                 ->orderByDesc('sort_index')
                 ->orderByDesc('last_active_time')
                 ->offset($pageIndex * $pageSize)
@@ -1085,6 +1089,7 @@ class PostService extends BaseService
                 ->where('forum_id',$forumId)
                 ->where('audit_status', Constants::STATUS_DONE)
                 ->where('only_self_visible', Constants::STATUS_NOT)
+                ->where('circle_id',Constants::STATUS_NOT)
                 ->orderByDesc('sort_index')
                 ->orderByDesc('recommend_weight')
                 ->orderByDesc('last_active_time')
@@ -1099,6 +1104,7 @@ class PostService extends BaseService
             ->where('forum_id',$forumId)
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
+            ->where('circle_id',Constants::STATUS_NOT)
             ->count();
 
         return ['total'=>$total, 'list'=>$list];
@@ -1160,6 +1166,7 @@ class PostService extends BaseService
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('user_subscribe.forum_id','>',Constants::FORUM_MAIN_FORUM_ID)
             ->where('only_self_visible', Constants::STATUS_NOT)
+            ->where('circle_id',Constants::STATUS_NOT)
             ->count();
 
         return ['total'=>$total, 'list'=>$list];
@@ -1239,6 +1246,7 @@ class PostService extends BaseService
         $total = Post::query()->select($selectRows)
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
+            ->where('circle_id',Constants::STATUS_NOT)
             ->when($attentionTopicIds->isNotEmpty(),function (Builder $query) use ($attentionTopicIds) {
                 $query->whereIn('topic_id',$attentionTopicIds);
             })
@@ -1342,7 +1350,7 @@ class PostService extends BaseService
                 ->where('only_self_visible', Constants::STATUS_NOT)
                 ->where('circle_id', Constants::STATUS_NOT)
                 ->orderByDesc('sort_index')
-                ->orderByDesc('last_active_time')
+                ->latest()
                 ->offset($pageIndex * $pageSize)
                 ->limit($pageSize)
                 ->get();
@@ -1439,7 +1447,7 @@ class PostService extends BaseService
                 ->where('audit_status', Constants::STATUS_DONE)
                 ->where('only_self_visible', Constants::STATUS_NOT)
                 ->orderByDesc('sort_index')
-                ->orderByDesc('last_active_time')
+                ->latest()
                 ->offset($pageIndex * $pageSize)
                 ->limit($pageSize)
                 ->get();
@@ -1451,7 +1459,7 @@ class PostService extends BaseService
                 ->where('only_self_visible', Constants::STATUS_NOT)
                 ->orderByDesc('sort_index')
                 ->orderByDesc('recommend_weight')
-                ->orderByDesc('last_active_time')
+                ->latest()
                 ->offset($pageIndex * $pageSize)
                 ->limit($pageSize)
                 ->get();
@@ -1563,7 +1571,7 @@ class PostService extends BaseService
                 ->where('audit_status', Constants::STATUS_DONE)
                 ->where('only_self_visible', Constants::STATUS_NOT)
                 ->orderByDesc('sort_index')
-                ->orderByDesc('last_active_time')
+                ->latest()
                 ->offset($pageIndex * $pageSize)
                 ->limit($pageSize)
                 ->get();
@@ -1575,7 +1583,7 @@ class PostService extends BaseService
                 ->where('only_self_visible', Constants::STATUS_NOT)
                 ->orderByDesc('sort_index')
                 ->orderByDesc('recommend_weight')
-                ->orderByDesc('last_active_time')
+                ->latest()
                 ->offset($pageIndex * $pageSize)
                 ->limit($pageSize)
                 ->get();
@@ -1657,7 +1665,7 @@ class PostService extends BaseService
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
             ->orderByDesc('sort_index')
-            ->orderByDesc('last_active_time')
+            ->latest()
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->get();
@@ -1667,6 +1675,40 @@ class PostService extends BaseService
         $total = Post::query()->select($this->activeListRows)
             ->where('circle_id','>',Constants::STATUS_NOT)
             ->where('owner_id', $userId)
+            ->where('audit_status', Constants::STATUS_DONE)
+            ->where('only_self_visible', Constants::STATUS_NOT)
+            ->count();
+
+        return ['total' => $total, 'list' => $list];
+    }
+
+    public function getActivePostByAttention(int $pageIndex, int $pageSize)
+    {
+        $userIds = UserAttentionOther::query()->where('user_id',$this->userId())
+            ->get()
+            ->pluck('other_user_id');
+
+        if($userIds->isEmpty()) {
+            return ['total' => 0, 'list' => []];
+        }
+
+        $list = Post::query()->select($this->activeListRows)
+            ->with(['circle'])
+            ->whereIn('owner_id',$userIds)
+            ->where('circle_id','>',Constants::STATUS_NOT)
+            ->where('audit_status', Constants::STATUS_DONE)
+            ->where('only_self_visible', Constants::STATUS_NOT)
+            ->orderByDesc('sort_index')
+            ->latest()
+            ->offset($pageIndex * $pageSize)
+            ->limit($pageSize)
+            ->get();
+
+        $this->activePostAddRelationInfo($list);
+
+        $total = Post::query()->select($this->activeListRows)
+            ->whereIn('owner_id',$userIds)
+            ->where('circle_id','>',Constants::STATUS_NOT)
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
             ->count();
