@@ -366,4 +366,21 @@ class CircleService extends BaseService
             ->get();
         return ['circle_list'=>$circle,'user_list'=>$circleUser,'topic_list'=>$topic];
     }
+
+    public function getCircleByUserId(int $pageIndex, int $pageSize, int $userId = null)
+    {
+        if(!isset($userId)) {
+            $userId = $this->userId();
+        }
+        $list = Circle::query()->where('owner_id',$userId)
+                               ->where('audit_status',Constants::STATUS_OK)
+                               ->latest()
+                               ->offset($pageIndex*$pageSize)
+                               ->limit($pageSize)
+                               ->get();
+        $total = Circle::query()->where('owner_id',$userId)
+            ->where('audit_status',Constants::STATUS_OK)
+            ->count();
+        return ['list'=>$list,'total'=>$total];
+    }
 }

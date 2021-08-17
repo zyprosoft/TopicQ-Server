@@ -151,4 +151,30 @@ class CircleController extends AbstractController
         $result = $this->service->getCircleIndexRecommendList();
         return $this->success($result);
     }
+
+    public function getOtherUserCircleList()
+    {
+        $this->validate([
+            'userId' => 'integer|required|exists:user,user_id',
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30'
+        ]);
+        $userId = $this->request->param('userId');
+        $pageIndex = $this->request->param('pageIndex');
+        $pageSize = $this->request->param('pageSize');
+        $result = $this->service->getCircleByUserId($pageIndex,$pageSize,$userId);
+        return $this->success($result);
+    }
+
+    public function getMyCircleList(AuthedRequest $request)
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30'
+        ]);
+        $pageIndex = $request->param('pageIndex');
+        $pageSize = $request->param('pageSize');
+        $result = $this->service->getCircleByUserId($pageIndex,$pageSize);
+        return $this->success($result);
+    }
 }
