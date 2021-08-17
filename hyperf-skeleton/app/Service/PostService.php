@@ -1731,13 +1731,11 @@ class PostService extends BaseService
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
             ->orderByDesc('sort_index')
-            ->where(function (Builder $builder) use ($type) {
-                if($type == Constants::CIRCLE_POST_SORT_LATEST) {
-                    $builder->latest();
-                }
-                if($type == Constants::CIRCLE_POST_SORT_HOT) {
-                    $builder->orderByDesc('recommend_weight');
-                }
+            ->when($type==Constants::CIRCLE_POST_SORT_HOT,function (Builder $builder) {
+                $builder->orderByDesc('recommend_weight');
+            })
+            ->when($type==Constants::CIRCLE_POST_SORT_LATEST,function (Builder $builder) {
+                $builder->latest();
             })
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)

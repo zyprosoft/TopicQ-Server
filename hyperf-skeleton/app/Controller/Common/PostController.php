@@ -530,6 +530,18 @@ class PostController extends AbstractController
         return $this->success($result);
     }
 
+    public function getActivePostListByAttention(AuthedRequest $request)
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30',
+        ]);
+        $pageIndex = $this->request->param('pageIndex');
+        $pageSize = $this->request->param('pageSize');
+        $result = $this->service->getActivePostByAttention($pageIndex,$pageSize);
+        return $this->success($result);
+    }
+
     public function getActivePostListByType()
     {
         $this->validate([
