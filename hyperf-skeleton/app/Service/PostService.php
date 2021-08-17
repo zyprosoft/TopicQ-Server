@@ -1416,9 +1416,11 @@ class PostService extends BaseService
 
     public function praiseList(int $pageIndex,int $pageSize)
     {
-        $list = UserPraisePost::query()->where('post_owner_id', $this->userId())
+        $list = UserPraisePost::query()
+            ->where('post_owner_id', $this->userId())
+            ->leftJoin('post','post_id','=','post_id')
+            ->where('post.circle_id',Constants::STATUS_NOT)
             ->with(['post','author'])
-            ->where('circle_id',Constants::STATUS_NOT)
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->latest()
