@@ -1418,6 +1418,7 @@ class PostService extends BaseService
     {
         $list = UserPraisePost::query()->where('post_owner_id', $this->userId())
             ->with(['post','author'])
+            ->where('circle_id',Constants::STATUS_NOT)
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->latest()
