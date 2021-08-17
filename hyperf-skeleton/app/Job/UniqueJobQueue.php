@@ -37,6 +37,8 @@ class UniqueJobQueue
 
     private string $refreshUserCirclePrefix = 'as:uc:upf';
 
+    private string $refreshUserCountPrefix = 'as:up:ucf';
+
     public function __construct(ContainerInterface $container)
     {
         $this->driverFactory = $container->get(DriverFactory::class);
@@ -110,5 +112,11 @@ class UniqueJobQueue
     {
         $key = $this->refreshUserCirclePrefix.$userId.'-'.$circleId;
         $this->uniquePush($key, new UpdateUserCircleInfoJob($userId,$circleId,$key));
+    }
+
+    public function refreshUserCountInfo(int $userId)
+    {
+        $key = $this->refreshUserCountPrefix.$userId;
+        $this->uniquePush($key, new UpdateUserCountInfoJob($userId,$key));
     }
 }

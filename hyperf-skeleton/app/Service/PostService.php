@@ -356,6 +356,9 @@ class PostService extends BaseService
             Log::info("帖子($post->post_id)需要转人工审核");
         }
 
+        //刷新用户数据统计
+        $this->queueService->refreshUserCountInfo($post->owner_id);
+
         return $this->success($post);
     }
 

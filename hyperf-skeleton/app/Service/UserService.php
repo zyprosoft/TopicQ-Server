@@ -674,6 +674,11 @@ class UserService extends BaseService
         if ($status == Constants::STATUS_NOT) {
             $attention->delete();
         }
+
+        //刷新用户数据统计
+        $this->queueService->refreshUserCountInfo($this->userId());
+        $this->queueService->refreshUserCountInfo($otherUserId);
+
         return $this->success();
     }
 
