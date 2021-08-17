@@ -1722,4 +1722,35 @@ class PostService extends BaseService
 
         return ['total' => $total, 'list' => $list];
     }
+
+    public function getActivePostByType(int $pageIndex, int $pageSize, int $type)
+    {
+        $list = Post::query()->select($this->activeListRows)
+            ->with(['circle'])
+            ->where('circle_id','>',Constants::STATUS_NOT)
+            ->where('audit_status', Constants::STATUS_DONE)
+            ->where('only_self_visible', Constants::STATUS_NOT)
+            ->orderByDesc('sort_index')
+            ->where(function (Builder $builder) use ($type) {
+                if($type == Constants::CIRCLE_POST_SORT_LATEST) {
+                    $builder->latest();
+                }
+                if($type == Constants::CIRCLE_POST_SORT_HOT) {
+                    $builder->orderByDesc('recommend_weight');
+                }
+            })
+            ->offset($pageIndex * $pageSize)
+            ->limit($pageSize)
+            ->get();
+
+        $this->activePostAddRelationInfo($list);
+
+        $total = Post::query()->select($this->activeListRows)
+            ->where('circle_id','>',Constants::STATUS_NOT)
+            ->where('audit_status', Constants::STATUS_DONE)
+            ->where('only_self_visible', Constants::STATUS_NOT)
+            ->count();
+
+        return ['total' => $total, 'list' => $list];
+    }
 }
