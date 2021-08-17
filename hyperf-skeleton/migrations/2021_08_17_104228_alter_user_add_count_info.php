@@ -11,8 +11,12 @@ class AlterUserAddCountInfo extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('user', function (Blueprint $table) {
             //
+            $table->bigInteger('active_count')->default(0)->comment('动态数');
+            $table->bigInteger('post_count')->default(0)->comment('帖子数');
+            $table->bigInteger('fans_count')->default(0)->comment('粉丝数');
+            $table->bigInteger('attention_count')->default(0)->comment('关注数');
         });
     }
 
@@ -21,8 +25,12 @@ class AlterUserAddCountInfo extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('user', function (Blueprint $table) {
             //
+            $table->dropColumn('active_count');
+            $table->dropColumn('post_count');
+            $table->dropColumn('fans_count');
+            $table->dropColumn('attention_count');
         });
     }
 }
