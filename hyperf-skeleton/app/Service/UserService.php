@@ -368,6 +368,14 @@ class UserService extends BaseService
                 if ($attention instanceof UserAttentionOther) {
                     $user->is_attention = 1;
                 }
+                $attentionMe = UserAttentionOther::query()->where('other_user_id',$this->userId())
+                                                          ->where('user_id',$userId)
+                                                          ->first();
+                if($attentionMe instanceof UserAttentionOther) {
+                    if($user->is_attention == 1) {
+                        $user->is_attention = 2;//互相关注
+                    }
+                }
             }
             //用户的粉丝数量
             $fansCount = UserAttentionOther::query()->where('other_user_id',$userId)
