@@ -189,6 +189,11 @@ class QiniuAuditService extends BaseService
             return;
         }
 
+        //如果是动态，就不通知了
+        if($post->circle_id > Constants::STATUS_NOT) {
+            return;
+        }
+
         //帖子完全通过机器审核，发送审核完成的通知
         $level = Constants::MESSAGE_LEVEL_NORMAL;
         $levelLabel = '通知';
@@ -457,15 +462,21 @@ class QiniuAuditService extends BaseService
         }
     }
 
-    protected function addPostAuditFailNotification(int $postId, string $postTitle, int $userId, string $reason)
+    protected function addPostAuditFailNotification(int $postId, string $postTitle, int $userId, string $reason, int $circleId = null)
     {
+        $keyInfo = ['post_id'=>$postId];
         $levelLabel = '警告';
         $level = Constants::MESSAGE_LEVEL_BLOCK;
         $title = '帖子审核不通过';
         $content = "您的帖子《{$postTitle}》{$reason}，已被管理员审核拒绝";
+        if(isset($circleId)) {
+            $title = '动态审核不通过';
+            $content = "您发布的动态由于:{$reason}，已被管理员审核拒绝";
+            $keyInfo['circle_id'] = $circleId;
+        }
         $notification = new AddNotificationJob($userId,$title,$content,false,$level);
         $notification->levelLabel = $levelLabel;
-        $notification->keyInfo = json_encode(['post_id'=>$postId]);
+        $notification->keyInfo = json_encode($keyInfo);
         $this->push($notification);
     }
 
