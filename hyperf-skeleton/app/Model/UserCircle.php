@@ -41,4 +41,9 @@ class UserCircle extends Model
     {
         return $this->hasOne(User::class,'user_id','user_id');
     }
+
+    public function circle()
+    {
+        return $this->hasOne(Circle::class,'circle_id','circle_id');
+    }
 }

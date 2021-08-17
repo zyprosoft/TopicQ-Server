@@ -373,10 +373,12 @@ class CircleService extends BaseService
             $userId = $this->userId();
         }
         $joinedList = UserCircle::query()->where('user_id', $userId)
+            ->with(['circle'])
             ->latest()
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
-            ->get();
+            ->get()
+            ->pluck('circle');
         $joinedCount = UserCircle::query()->where('user_id', $userId)->count();
 
         $list = Circle::query()->where('owner_id', $userId)
