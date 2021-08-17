@@ -682,15 +682,18 @@ class UserService extends BaseService
         return $this->success();
     }
 
-    public function getUserAttentionList(int $pageIndex, int $pageSize)
+    public function getUserAttentionList(int $pageIndex, int $pageSize, int $userId = null)
     {
-        $list = UserAttentionOther::query()->where('user_id', $this->userId())
+        if(!isset($userId)) {
+            $userId = $this->userId();
+        }
+        $list = UserAttentionOther::query()->where('user_id', $userId)
             ->with(['other'])
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->get()
             ->pluck('other');
-        $total = UserAttentionOther::query()->where('user_id', $this->userId())->count();
+        $total = UserAttentionOther::query()->where('user_id', $userId)->count();
         return ['total' => $total, 'list' => $list];
     }
 
