@@ -234,6 +234,20 @@ class UserController extends AbstractController
         return $this->success($result);
     }
 
+    public function getOtherUserAttentionList()
+    {
+        $this->validate([
+            'otherUserId' => 'integer|required|exists:user,user_id',
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30',
+        ]);
+        $otherUserId = $this->request->param('otherUserId');
+        $pageIndex = $this->request->param('pageIndex');
+        $pageSize = $this->request->param('pageSize');
+        $result = $this->userService->getUserAttentionList($pageIndex,$pageSize,$otherUserId);
+        return $this->success($result);
+    }
+
     public function getMyFansList(AuthedRequest $request)
     {
         $this->validate([
