@@ -389,7 +389,7 @@ class CircleService extends BaseService
             ->where('audit_status', Constants::STATUS_OK)
             ->count();
 
-        $list = $list + $joinedList;
+        $list = $list->union($joinedList)->unique();
         $total += $joinedCount;
         return ['list' => $list, 'total' => $total];
     }
