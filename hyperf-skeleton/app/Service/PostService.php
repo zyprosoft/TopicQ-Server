@@ -362,6 +362,9 @@ class PostService extends BaseService
         //如果是动态刷新圈子数据
         if($post->circle_id>Constants::STATUS_NOT) {
             $this->queueService->refreshCircleCountInfo($post->circle_id);
+            if($post->circle_topic_id>Constants::STATUS_NOT) {
+                $this->queueService->refreshCircleTopicCountInfo($post->circle_topic_id);
+            }
         }
 
         return $this->success($post);
@@ -370,7 +373,16 @@ class PostService extends BaseService
     public function delete(int $postId)
     {
         $this->checkOwnOrFail($postId);
-        Post::findOrFail($postId)->delete();
+        $post = Post::findOrFail($postId);
+        $post->delete();
+        //如果是动态刷新圈子数据
+        if($post->circle_id>Constants::STATUS_NOT) {
+            $this->queueService->refreshCircleCountInfo($post->circle_id);
+            if($post->circle_topic_id>Constants::STATUS_NOT) {
+                $this->queueService->refreshCircleTopicCountInfo($post->circle_topic_id);
+            }
+        }
+
         return $this->success();
     }
 
