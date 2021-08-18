@@ -590,13 +590,26 @@ class UserService extends BaseService
             ->count();
 
         //统计帖子未读点赞数量
-        $postPraiseCount = UserPraisePost::query()->where('post_owner_id', $userId)
+        $postPraiseCount = UserPraisePost::query()
+            ->selectRaw('user_praise_post.*,post.post_id,post.circle_id')
+            ->where('post_owner_id', $userId)
+            ->leftJoin('post','user_praise_post.post_id','=','post.post_id')
             ->where('owner_read_status', Constants::STATUS_WAIT)
+            ->where('post.circle_id',Constants::STATUS_NOT)
+            ->count();
+
+        //统计动态未读点赞数量
+        $activePraiseCount = UserPraisePost::query()
+            ->selectRaw('user_praise_post.*,post.post_id,post.circle_id')
+            ->where('post_owner_id', $userId)
+            ->leftJoin('post','user_praise_post.post_id','=','post.post_id')
+            ->where('owner_read_status', Constants::STATUS_WAIT)
+            ->where('post.circle_id','>',Constants::STATUS_NOT)
             ->count();
 
         $total = $unreadList->count() + $unreadMessage + $notificationCount + $praiseCount + $postPraiseCount;
 
-        $praiseTotal = $praiseCount + $postPraiseCount;
+        $praiseTotal = $praiseCount + $postPraiseCount + $activePraiseCount;
 
         return [
             'total' => $total,
@@ -605,7 +618,8 @@ class UserService extends BaseService
             'notification_count' => $notificationCount,
             'praise_count' => $praiseCount,
             'post_praise_count' => $postPraiseCount,
-            'praise_total' => $praiseTotal
+            'praise_total' => $praiseTotal,
+            'active_praise_count' => $activePraiseCount
         ];
     }
 
