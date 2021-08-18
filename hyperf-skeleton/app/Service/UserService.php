@@ -591,20 +591,16 @@ class UserService extends BaseService
 
         //统计帖子未读点赞数量
         $postPraiseCount = UserPraisePost::query()
-            ->selectRaw('user_praise_post.*,post.post_id,post.circle_id')
             ->where('post_owner_id', $userId)
-            ->where('user_praise_post.user_id','<>',$userId)
-            ->leftJoin('post','user_praise_post.post_id','=','post.post_id')
+            ->where('user_id','<>','post_owner_id')
             ->where('owner_read_status', Constants::STATUS_WAIT)
             ->where('post.circle_id',Constants::STATUS_NOT)
             ->count();
 
         //统计动态未读点赞数量
         $activePraiseCount = UserPraisePost::query()
-            ->selectRaw('user_praise_post.*,post.post_id,post.circle_id')
             ->where('post_owner_id', $userId)
-            ->where('user_praise_post.user_id','<>',$userId)
-            ->leftJoin('post','user_praise_post.post_id','=','post.post_id')
+            ->where('user_id','<>','post_owner_id')
             ->where('owner_read_status', Constants::STATUS_WAIT)
             ->where('post.circle_id','>',Constants::STATUS_NOT)
             ->count();
