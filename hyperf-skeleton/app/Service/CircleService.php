@@ -358,7 +358,8 @@ class CircleService extends BaseService
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->orderByDesc('last_active_time')
-            ->get();
+            ->get()
+            ->pluck('author');
 
         $list = collect([$circle->author])->merge($list)->unique();
 
