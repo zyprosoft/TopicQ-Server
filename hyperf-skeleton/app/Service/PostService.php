@@ -359,6 +359,11 @@ class PostService extends BaseService
         //刷新用户数据统计
         $this->queueService->refreshUserCountInfo($post->owner_id);
 
+        //如果是动态刷新圈子数据
+        if($post->circle_id>Constants::STATUS_NOT) {
+            $this->queueService->refreshCircleCountInfo($post->circle_id);
+        }
+
         return $this->success($post);
     }
 

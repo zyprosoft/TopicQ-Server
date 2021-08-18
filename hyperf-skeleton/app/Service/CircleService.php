@@ -159,6 +159,8 @@ class CircleService extends BaseService
             $userCircle->user_id = $this->userId();
             $userCircle->circle_id = $circleId;
             $userCircle->saveOrFail();
+            //刷新圈子数据
+            $this->queueService->refreshCircleCountInfo($circleId);
             return $this->success();
         }
         //使用密码进入
@@ -176,6 +178,8 @@ class CircleService extends BaseService
             $userCircle->user_id = $this->userId();
             $userCircle->circle_id = $circleId;
             $userCircle->saveOrFail();
+            //刷新圈子数据
+            $this->queueService->refreshCircleCountInfo($circleId);
             return $this->success();
         }
         //使用积分进入
@@ -198,6 +202,8 @@ class CircleService extends BaseService
                 $userCircle->user_id = $this->userId();
                 $userCircle->circle_id = $circle->circle_id;
                 $userCircle->saveOrFail();
+                //刷新圈子数据
+                $this->queueService->refreshCircleCountInfo($circle->circle_id);
             });
             return $this->success();
         }
@@ -225,6 +231,8 @@ class CircleService extends BaseService
             return $this->success();
         }
         $userCircle->delete();
+        //刷新圈子数据
+        $this->queueService->refreshCircleCountInfo($circleId);
         return $this->success();
     }
 
@@ -257,6 +265,8 @@ class CircleService extends BaseService
                 $userCircle->user_id = $apply->user_id;
                 $userCircle->circle_id = $apply->circle_id;
                 $userCircle->saveOrFail();
+                //刷新圈子数据
+                $this->queueService->refreshCircleCountInfo($apply->circle_id);
             }
             //审核不通过或者失败发送消息
             if ($status == Constants::STATUS_OK) {
