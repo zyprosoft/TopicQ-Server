@@ -1450,6 +1450,25 @@ class PostService extends BaseService
         return ['total'=>$total,'list'=>$list,'id_list'=> $unreadIds];
     }
 
+    public function activePostPraiseList(int $pageIndex,int $pageSize)
+    {
+        $list = UserPraisePost::query()
+            ->selectRaw('user_praise_post.*,post.post_id,post.circle_id')
+            ->where('post_owner_id', $this->userId())
+            ->leftJoin('post','user_praise_post.post_id','=','post.post_id')
+            ->where('post.circle_id','>',Constants::STATUS_NOT)
+            ->with(['post','author'])
+            ->offset($pageIndex * $pageSize)
+            ->limit($pageSize)
+            ->latest()
+            ->get();
+
+        //找出未读Id列表
+        $unreadIds = $list->where('owner_read_status',0)->pluck('id');
+        $total = UserPraisePost::query()->where('post_owner_id', $this->userId())->count();
+        return ['total'=>$total,'list'=>$list,'id_list'=> $unreadIds];
+    }
+
     public function markPraiseRead(array $praiseIds)
     {
         UserPraisePost::query()->whereIn('id', $praiseIds)
