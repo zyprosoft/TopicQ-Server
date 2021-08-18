@@ -353,7 +353,7 @@ class CircleService extends BaseService
     {
         //圈主
         $circle = Circle::findOrFail($circleId);
-        
+
         $list = UserCircle::query()->where('circle_id', $circleId)
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
