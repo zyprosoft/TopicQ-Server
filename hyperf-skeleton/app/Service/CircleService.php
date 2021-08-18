@@ -372,6 +372,7 @@ class CircleService extends BaseService
         if (!isset($userId)) {
             $userId = $this->userId();
         }
+
         $joinedList = UserCircle::query()->where('user_id', $userId)
             ->with(['circle'])
             ->latest()
@@ -389,7 +390,7 @@ class CircleService extends BaseService
             ->where('audit_status', Constants::STATUS_OK)
             ->count();
 
-        $list = $list->union($joinedList)->unique();
+        $list = $list->merge($joinedList)->unique();
         $total += $joinedCount;
         return ['list' => $list, 'total' => $total];
     }
