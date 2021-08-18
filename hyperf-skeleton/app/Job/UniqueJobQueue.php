@@ -125,6 +125,6 @@ class UniqueJobQueue
     public function refreshCircleCountInfo(int $circleId)
     {
         $key = $this->refreshCircleCountPrefix.$circleId;
-        $this->uniquePush($key, new UpdateUserCountInfoJob($circleId,$key));
+        $this->uniquePush($key, new UpdateCircleCalculateInfoJob($circleId,$key));
     }
 }
