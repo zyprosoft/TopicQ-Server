@@ -351,11 +351,17 @@ class CircleService extends BaseService
 
     public function getCircleMemberList(int $circleId, int $pageIndex, int $pageSize)
     {
+        //圈主
+        $circle = Circle::findOrFail($circleId);
+        
         $list = UserCircle::query()->where('circle_id', $circleId)
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->orderByDesc('last_active_time')
             ->get();
+
+        $list = collect([$circle->author])->merge($list)->unique();
+
         $total = UserCircle::query()->where('circle_id', $circleId)->count();
         return ['list' => $list, 'total' => $total];
     }
