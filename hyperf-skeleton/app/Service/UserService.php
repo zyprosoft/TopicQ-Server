@@ -607,9 +607,9 @@ class UserService extends BaseService
             ->where('post.circle_id','>',Constants::STATUS_NOT)
             ->count();
 
-        $total = $unreadList->count() + $unreadMessage + $notificationCount + $praiseCount + $postPraiseCount;
-
         $praiseTotal = $praiseCount + $postPraiseCount + $activePraiseCount;
+
+        $total = $unreadList->count() + $unreadMessage + $notificationCount + $praiseTotal;
 
         return [
             'total' => $total,
