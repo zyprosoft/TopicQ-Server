@@ -385,6 +385,20 @@ class CircleService extends BaseService
         return ['circle_list' => $circle, 'user_list' => $circleUser, 'topic_list' => $topic];
     }
 
+    public function getIndexRecommendTopicList()
+    {
+        //随机获取
+        $total = CircleTopic::count();
+        $offset = rand(0,floor($total-5));
+        return CircleTopic::query()
+            ->offset($offset)
+            ->limit(4)
+            ->orderByDesc('today_post_count')
+            ->orderByDesc('post_count')
+            ->orderByDesc('member_count')
+            ->get();
+    }
+
     public function getCircleByUserId(int $pageIndex, int $pageSize, int $userId = null)
     {
         if (!isset($userId)) {

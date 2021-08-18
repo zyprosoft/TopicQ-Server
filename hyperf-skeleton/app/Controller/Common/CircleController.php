@@ -152,6 +152,12 @@ class CircleController extends AbstractController
         return $this->success($result);
     }
 
+    public function getIndexRecommendTopicList()
+    {
+        $result = $this->service->getIndexRecommendTopicList();
+        return $this->success($result);
+    }
+
     public function getOtherUserCircleList()
     {
         $this->validate([
