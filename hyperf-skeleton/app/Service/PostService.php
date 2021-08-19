@@ -833,7 +833,10 @@ class PostService extends BaseService
             ->where('only_self_visible', Constants::STATUS_NOT)
             ->where('circle_id', Constants::STATUS_NOT)
             ->count();
-        return ['total' => $total, 'list' => $list];
+
+        $recommend = $this->buildRandomRecommendList();
+
+        return ['total' => $total, 'list' => $list, 'recommend' => $recommend];
     }
 
     public function getUserPostList(int $pageIndex, int $pageSize, int $userId = null)
