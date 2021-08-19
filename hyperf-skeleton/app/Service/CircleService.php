@@ -22,6 +22,24 @@ use ZYProSoft\Log\Log;
 
 class CircleService extends BaseService
 {
+    protected function isAdminUsingAvatar()
+    {
+        //当前用户是不是管理员
+        if (Auth::isGuest()) {
+            return Constants::STATUS_NOT;
+        }
+        $userId = Auth::userId();
+        $user = User::find($userId);
+        if ($user->role_id <= Constants::USER_ROLE_SUB_ADMIN) {
+            //检查是不是在使用化身
+            if ($user->avatar_user_id > 0) {
+                Log::info("使用化身($user->avatar_user_id)");
+                return Constants::STATUS_OK;
+            }
+        }
+        return Constants::STATUS_NOT;
+    }
+
     //重载获取当前用户ID的方法
     protected function userId()
     {
@@ -342,6 +360,8 @@ class CircleService extends BaseService
         } else {
             $circle->is_joined = 0;
         }
+        //管理员使用化身状态
+        $circle->using_avatar = $this->isAdminUsingAvatar();
         return $circle;
     }
 
