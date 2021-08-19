@@ -16,6 +16,7 @@ use App\Model\Forum;
 use App\Model\Post;
 use App\Model\PostDocument;
 use App\Model\ReportPost;
+use App\Model\Topic;
 use App\Model\User;
 use App\Model\UserAttentionOther;
 use App\Model\UserAttentionTopic;
@@ -134,11 +135,11 @@ class PostService extends BaseService
 
     protected function trimString(string $content = null)
     {
-        if(empty($content)) {
+        if (empty($content)) {
             return $content;
         }
-        $chars = [" ","　","\t","\n","\r"];
-        return str_replace($chars,"",$content);
+        $chars = [" ", "　", "\t", "\n", "\r"];
+        return str_replace($chars, "", $content);
     }
 
     public function create(array $params)
@@ -150,9 +151,9 @@ class PostService extends BaseService
         if (isset($params['forumId']) && $params['forumId'] > 0 && $this->user()->role_id == 0) {
             $forum = Forum::findOrFail($params['forumId']);
             $user = $this->user();
-            if(!empty($forum->can_post_user_group)) {
-                $groupList = collect(explode(';',$forum->can_post_user_group));
-                if (! $groupList->contains($user->group_id)) {
+            if (!empty($forum->can_post_user_group)) {
+                $groupList = collect(explode(';', $forum->can_post_user_group));
+                if (!$groupList->contains($user->group_id)) {
                     throw new HyperfCommonException(ErrorCode::USER_HAVE_NO_PERMISSION_POST_ON_THIS_FORUM);
                 }
             }
@@ -166,22 +167,22 @@ class PostService extends BaseService
         Db::transaction(function () use ($params, &$post, &$imageAuditCheck) {
             if (isset($params['title'])) {
                 $title = $params['title'];
-            }else{
+            } else {
                 $title = '';
             }
             $content = data_get($params, 'content');
             $link = data_get($params, 'link');
             $imageList = data_get($params, 'imageList');
             $vote = data_get($params, 'vote');
-            $programId = data_get($params,'programId');
-            $accountId = data_get($params,'accountId');
-            $forumId = data_get($params,'forumId');
-            $topicId = data_get($params,'topicId');
-            $documents = data_get($params,'documents');
-            $richContent = data_get($params,'richContent');
-            $circleId = data_get($params,'circleId');
-            $circleTopicId = data_get($params,'circleTopicId');
-            $circleTopic = data_get($params,'circleTopic');
+            $programId = data_get($params, 'programId');
+            $accountId = data_get($params, 'accountId');
+            $forumId = data_get($params, 'forumId');
+            $topicId = data_get($params, 'topicId');
+            $documents = data_get($params, 'documents');
+            $richContent = data_get($params, 'richContent');
+            $circleId = data_get($params, 'circleId');
+            $circleTopicId = data_get($params, 'circleTopicId');
+            $circleTopic = data_get($params, 'circleTopic');
 
             $post = new Post();
             $post->owner_id = $this->userId();
@@ -191,18 +192,18 @@ class PostService extends BaseService
             } else {
                 $post->summary = $this->trimString(mb_substr($content, 0, 40));
             }
-            if(isset($content)) {
+            if (isset($content)) {
                 $post->content = $content;
             }
-            if(isset($programId)) {
+            if (isset($programId)) {
                 $post->program_id = $programId;
             }
-            if(isset($accountId)) {
+            if (isset($accountId)) {
                 $post->account_id = $accountId;
             }
-            if(isset($forumId)) {
+            if (isset($forumId)) {
                 $post->forum_id = $forumId;
-            }else{
+            } else {
                 $post->forum_id = Constants::FORUM_MAIN_FORUM_ID;
             }
             if (isset($topicId)) {
@@ -212,18 +213,18 @@ class PostService extends BaseService
                 if (!empty($imageList)) {
                     $post->image_list = implode(';', $imageList);
                     $imageIds = $this->imageIdsFromUrlList($imageList);
-                    $post->image_ids = implode(';',$imageIds);
+                    $post->image_ids = implode(';', $imageIds);
                     //检测上传图片
-                    $imageAuditCheck = $this->auditImageOrFail($imageList,true);
+                    $imageAuditCheck = $this->auditImageOrFail($imageList, true);
                 }
             }
             if (isset($link)) {
                 $post->link = $link;
-                if(Str::endsWith($link,'.mp4')) {
+                if (Str::endsWith($link, '.mp4')) {
                     $post->has_video = 1;
                 }
                 $user = $this->user();
-                if($user instanceof User && $user->isAdmin()) {
+                if ($user instanceof User && $user->isAdmin()) {
                     $post->is_video_admin = 1;
                 }
             }
@@ -243,27 +244,27 @@ class PostService extends BaseService
                 $post->vote_id = $vote->vote_id;
             }
 
-            if(isset($richContent)) {
+            if (isset($richContent)) {
                 //处理一些没用的字段
                 $imageIds = [];
                 $imageList = [];
                 $summary = '';
                 $hasVideo = 0;
-                $filterRichContent = collect($params['richContent'])->map(function (array $item) use (&$imageIds,&$imageList,&$summary,&$hasVideo){
-                    if($item['type'] == Constants::RICH_CONTENT_TYPE_TEXT && mb_strlen($summary) < 40) {
+                $filterRichContent = collect($params['richContent'])->map(function (array $item) use (&$imageIds, &$imageList, &$summary, &$hasVideo) {
+                    if ($item['type'] == Constants::RICH_CONTENT_TYPE_TEXT && mb_strlen($summary) < 40) {
                         $summary .= $item['content'];
                         if (mb_strlen($summary) > 40) {
-                            $summary = mb_substr($summary,0,40);
+                            $summary = mb_substr($summary, 0, 40);
                             $summary = $this->trimString($summary);
                         }
                     }
-                    if($item['type'] == Constants::RICH_CONTENT_TYPE_BIG_IMAGE) {
+                    if ($item['type'] == Constants::RICH_CONTENT_TYPE_BIG_IMAGE) {
                         $item['image']['local'] = $item['image']['remote'];
                         $item['image']['is_uping'] = 0;
                         $imageIds[] = $item['image']['fileKey'];
                         $imageList[] = $item['image']['remote'];
                     }
-                    if($item['type'] == Constants::RICH_CONTENT_TYPE_SMALL_IMAGE) {
+                    if ($item['type'] == Constants::RICH_CONTENT_TYPE_SMALL_IMAGE) {
                         foreach ($item['image_list'] as $index => $imgItem) {
                             $item['image_list'][$index]['local'] = $item['image_list'][$index]['remote'];
                             $item['image_list'][$index]['is_uping'] = 0;
@@ -271,7 +272,7 @@ class PostService extends BaseService
                             $imageList[] = $imgItem['remote'];
                         }
                     }
-                    if($item['type'] == Constants::RICH_CONTENT_TYPE_VIDEO) {
+                    if ($item['type'] == Constants::RICH_CONTENT_TYPE_VIDEO) {
                         unset($item['local']);
                         $hasVideo = 1;
                     }
@@ -282,23 +283,23 @@ class PostService extends BaseService
                 //json编码后存储
                 $post->rich_content = json_encode($filterRichContent);
                 //检测图片是否通过审核
-                $post->image_ids = implode(';',$imageIds);
+                $post->image_ids = implode(';', $imageIds);
                 //检测上传图片
-                $imageAuditCheck = $this->auditImageOrFail($imageList,true);
+                $imageAuditCheck = $this->auditImageOrFail($imageList, true);
             }
             //圈子
             if (isset($circleId)) {
                 $post->circle_id = $circleId;
                 //圈话题
-                if(isset($circleTopicId)) {
+                if (isset($circleTopicId)) {
                     $post->circle_topic_id = $circleTopicId;
-                }elseif (isset($circleTopic)) {
-                    $existCircleTopic = CircleTopic::query()->where('title',$circleTopic)
-                        ->where('circle_id',$circleId)
+                } elseif (isset($circleTopic)) {
+                    $existCircleTopic = CircleTopic::query()->where('title', $circleTopic)
+                        ->where('circle_id', $circleId)
                         ->first();
                     if ($existCircleTopic instanceof CircleTopic) {
                         $post->circle_topic_id = $existCircleTopic->topic_id;
-                    }else {
+                    } else {
                         $existCircleTopic = new CircleTopic();
                         $existCircleTopic->title = $circleTopic;
                         $existCircleTopic->circle_id = $circleId;
@@ -310,8 +311,8 @@ class PostService extends BaseService
             }
 
             //审核结果
-            Log::info("图片审核结果:".json_encode($imageAuditCheck));
-            if($imageAuditCheck['need_review']) {
+            Log::info("图片审核结果:" . json_encode($imageAuditCheck));
+            if ($imageAuditCheck['need_review']) {
                 $post->machine_audit = Constants::STATUS_REVIEW;
             }
             //活跃时间
@@ -319,19 +320,19 @@ class PostService extends BaseService
             $post->saveOrFail();
 
             //成员圈内活跃时间更新
-            if(isset($circleId)) {
-                $this->queueService->refreshUserCircleInfo($this->userId(),$circleId);
+            if (isset($circleId)) {
+                $this->queueService->refreshUserCircleInfo($this->userId(), $circleId);
             }
 
             if (isset($documents)) {
-                collect($documents)->map(function (array $item) use ($post){
+                collect($documents)->map(function (array $item) use ($post) {
                     $document = new PostDocument();
                     $document->title = $item['title'];
                     $document->link = $item['link'];
                     $document->type = $item['type'];
                     $document->icon = $this->iconMap[$document->type];
                     $document->post_id = $post->post_id;
-                   $document->saveOrFail();
+                    $document->saveOrFail();
                 });
             }
 
@@ -342,17 +343,17 @@ class PostService extends BaseService
         }
 
         //异步订阅板块
-        $this->queueService->subscribeForum($post->forum_id,$post->owner_id);
+        $this->queueService->subscribeForum($post->forum_id, $post->owner_id);
 
         //异步增加积分
         $scoreDesc = "发表帖子《{$post->title}》";
-        $this->push(new AddScoreJob($post->owner_id,Constants::SCORE_ACTION_PUBLISH_POST, $scoreDesc));
+        $this->push(new AddScoreJob($post->owner_id, Constants::SCORE_ACTION_PUBLISH_POST, $scoreDesc));
 
         //机器审核结果是需要人工继续审核就不需要自动审核任务了
-        if($post->machine_audit !== Constants::STATUS_REVIEW) {
+        if ($post->machine_audit !== Constants::STATUS_REVIEW) {
             Log::info("增加帖子($post->post_id)自动审核任务");
             $this->push(new PostMachineAuditJob($post->post_id));
-        }else{
+        } else {
             Log::info("帖子($post->post_id)需要转人工审核");
         }
 
@@ -360,9 +361,9 @@ class PostService extends BaseService
         $this->queueService->refreshUserCountInfo($post->owner_id);
 
         //如果是动态刷新圈子数据
-        if($post->circle_id>Constants::STATUS_NOT) {
+        if ($post->circle_id > Constants::STATUS_NOT) {
             $this->queueService->refreshCircleCountInfo($post->circle_id);
-            if($post->circle_topic_id>Constants::STATUS_NOT) {
+            if ($post->circle_topic_id > Constants::STATUS_NOT) {
                 $this->queueService->refreshCircleTopicCountInfo($post->circle_topic_id);
             }
         }
@@ -376,9 +377,9 @@ class PostService extends BaseService
         $post = Post::findOrFail($postId);
         $post->delete();
         //如果是动态刷新圈子数据
-        if($post->circle_id>Constants::STATUS_NOT) {
+        if ($post->circle_id > Constants::STATUS_NOT) {
             $this->queueService->refreshCircleCountInfo($post->circle_id);
-            if($post->circle_topic_id>Constants::STATUS_NOT) {
+            if ($post->circle_topic_id > Constants::STATUS_NOT) {
                 $this->queueService->refreshCircleTopicCountInfo($post->circle_topic_id);
             }
         }
@@ -420,13 +421,13 @@ class PostService extends BaseService
         if (isset($params['title'])) {
             $post->title = $params['title'];
         }
-        if(isset($params['programId'])) {
+        if (isset($params['programId'])) {
             $post->program_id = $params['programId'];
         }
-        if(isset($params['accountId'])) {
+        if (isset($params['accountId'])) {
             $post->account_id = $params['accountId'];
         }
-        if(isset($params['forumId'])) {
+        if (isset($params['forumId'])) {
             $post->forum_id = $params['forumId'];
         }
         if (isset($params['topicId'])) {
@@ -440,18 +441,18 @@ class PostService extends BaseService
             if (!empty($imageList)) {
                 $post->image_list = implode(';', $imageList);
                 $imageIds = $this->imageIdsFromUrlList($imageList);
-                $post->image_ids = implode(';',$imageIds);
+                $post->image_ids = implode(';', $imageIds);
                 //检测上传图片
                 $imageAuditCheck = $this->auditImageOrFail($imageList);
             }
         }
         if (isset($params['link'])) {
             $post->link = $params['link'];
-            if(Str::endsWith($post->link,'.mp4')) {
+            if (Str::endsWith($post->link, '.mp4')) {
                 $post->has_video = 1;
             }
             $user = $this->user();
-            if($user instanceof User && $user->isAdmin()) {
+            if ($user instanceof User && $user->isAdmin()) {
                 $post->is_video_admin = 1;
             }
         }
@@ -460,7 +461,7 @@ class PostService extends BaseService
         }
         if (isset($params['documents'])) {
             //先全部删掉
-            PostDocument::query()->where('post_id',$post->post_id)->delete();
+            PostDocument::query()->where('post_id', $post->post_id)->delete();
             collect($params['documents'])->map(function (array $item) use ($post) {
                 $document = new PostDocument();
                 $document->title = $item['title'];
@@ -472,26 +473,26 @@ class PostService extends BaseService
             });
         }
 
-        if(isset($params['richContent'])) {
+        if (isset($params['richContent'])) {
             //处理一些没用的字段
             $imageIds = [];
             $imageList = [];
             $summary = '';
             $hasVideo = 0;
-            $filterRichContent = collect($params['richContent'])->map(function (array $item) use (&$imageIds,&$imageList,&$summary,&$hasVideo){
-                if($item['type'] == Constants::RICH_CONTENT_TYPE_TEXT && mb_strlen($summary) < 40) {
+            $filterRichContent = collect($params['richContent'])->map(function (array $item) use (&$imageIds, &$imageList, &$summary, &$hasVideo) {
+                if ($item['type'] == Constants::RICH_CONTENT_TYPE_TEXT && mb_strlen($summary) < 40) {
                     $summary .= $item['content'];
                     if (mb_strlen($summary) > 40) {
-                        $summary = mb_substr($summary,0,40);
+                        $summary = mb_substr($summary, 0, 40);
                     }
                 }
-                if($item['type'] == Constants::RICH_CONTENT_TYPE_BIG_IMAGE) {
+                if ($item['type'] == Constants::RICH_CONTENT_TYPE_BIG_IMAGE) {
                     $item['image']['local'] = $item['image']['remote'];
                     $item['image']['is_uping'] = 0;
                     $imageIds[] = $item['image']['fileKey'];
                     $imageList[] = $item['image']['remote'];
                 }
-                if($item['type'] == Constants::RICH_CONTENT_TYPE_SMALL_IMAGE) {
+                if ($item['type'] == Constants::RICH_CONTENT_TYPE_SMALL_IMAGE) {
                     foreach ($item['image_list'] as $index => $imgItem) {
                         $item['image_list'][$index]['local'] = $item['image_list'][$index]['remote'];
                         $item['image_list'][$index]['is_uping'] = 0;
@@ -499,7 +500,7 @@ class PostService extends BaseService
                         $imageList[] = $imgItem['remote'];
                     }
                 }
-                if($item['type'] == Constants::RICH_CONTENT_TYPE_VIDEO) {
+                if ($item['type'] == Constants::RICH_CONTENT_TYPE_VIDEO) {
                     unset($item['local']);
                     $hasVideo = 1;
                 }
@@ -510,14 +511,14 @@ class PostService extends BaseService
             //json编码后存储
             $post->rich_content = json_encode($filterRichContent);
             //检测图片是否通过审核
-            $post->image_ids = implode(';',$imageIds);
+            $post->image_ids = implode(';', $imageIds);
             //检测上传图片
-            $imageAuditCheck = $this->auditImageOrFail($imageList,true);
+            $imageAuditCheck = $this->auditImageOrFail($imageList, true);
         }
         $post->audit_status = 0;//恢复待审核
         //审核结果
-        Log::info("图片审核结果:".json_encode($imageAuditCheck));
-        if($imageAuditCheck['need_review']) {
+        Log::info("图片审核结果:" . json_encode($imageAuditCheck));
+        if ($imageAuditCheck['need_review']) {
             $post->machine_audit = Constants::STATUS_REVIEW;
         }
         //活跃时间
@@ -526,10 +527,10 @@ class PostService extends BaseService
 
 
         //机器审核结果是需要人工继续审核就不需要自动审核任务了
-        if($post->machine_audit !== Constants::STATUS_REVIEW) {
+        if ($post->machine_audit !== Constants::STATUS_REVIEW) {
             Log::info("增加帖子($post->post_id)自动审核任务");
             $this->push(new PostMachineAuditJob($post->post_id));
-        }else{
+        } else {
             Log::info("帖子($post->post_id)需要转人工审核");
         }
 
@@ -539,15 +540,15 @@ class PostService extends BaseService
     public function detail(int $postId)
     {
         $post = Post::query()->where('post_id', $postId)
-            ->with(['vote','mini_program','official_account','forum','forum_voucher','voucher_policy','document_list'])
+            ->with(['vote', 'mini_program', 'official_account', 'forum', 'forum_voucher', 'voucher_policy', 'document_list'])
             ->first();
         if (!$post instanceof Post) {
             throw new HyperfCommonException(ErrorCode::POST_NOT_EXIST);
         }
         //用不到avatar_list
         $post->avatar_list = null;
-        
-        if(!empty($post->image_list)) {
+
+        if (!empty($post->image_list)) {
             $post->image_list = explode(';', $post->image_list);
         }
         //解码购物信息
@@ -566,40 +567,40 @@ class PostService extends BaseService
                 $isAdmin = $user->isAdmin();
             }
             //需要检查订阅权限，并且不是管理员
-            if($forum->needCheckSubscribe() && $isAdmin == false) {
-                $userSubscribe = UserSubscribe::query()->where('user_id',$this->userId())
-                                                               ->where('forum_id',$post->forum_id)
-                                                               ->first();
+            if ($forum->needCheckSubscribe() && $isAdmin == false) {
+                $userSubscribe = UserSubscribe::query()->where('user_id', $this->userId())
+                    ->where('forum_id', $post->forum_id)
+                    ->first();
                 if (!$userSubscribe instanceof UserSubscribe) {
                     //未支付，但是需要返回部分信息供后续购买或授权做引导作用
-                    $limitPost = Post::query()->select(['title','forum_id'])
-                                        ->where('post_id', $postId)
-                                        ->with(['forum'])
-                                        ->firstOrFail();
-                    if($forum->goods_id > 0) {
-                        return $this->errorWithData(ErrorCode::FORUM_POST_NEED_PAY,'该帖子属于付费板块',$limitPost);
-                    }elseif ($forum->need_auth) {
-                        return $this->errorWithData(ErrorCode::FORUM_POST_NEED_AUTH,'该帖子属于授权板块',$limitPost);
+                    $limitPost = Post::query()->select(['title', 'forum_id'])
+                        ->where('post_id', $postId)
+                        ->with(['forum'])
+                        ->firstOrFail();
+                    if ($forum->goods_id > 0) {
+                        return $this->errorWithData(ErrorCode::FORUM_POST_NEED_PAY, '该帖子属于付费板块', $limitPost);
+                    } elseif ($forum->need_auth) {
+                        return $this->errorWithData(ErrorCode::FORUM_POST_NEED_AUTH, '该帖子属于授权板块', $limitPost);
                     }
                 }
             }
             //版块是否有分组访问权限,普通用户之上无限制
-            if(!empty($forum->can_access_user_group) && $user->role_id < Constants::USER_ROLE_ADMIN) {
+            if (!empty($forum->can_access_user_group) && $user->role_id < Constants::USER_ROLE_ADMIN) {
                 //用户是不是有这个版块的发帖权限
                 $canAccess = false;
                 if (!empty($forum->can_post_user_group)) {
-                    $groupList = collect(explode(';',$forum->can_post_user_group));
+                    $groupList = collect(explode(';', $forum->can_post_user_group));
                     if ($groupList->contains($user->group_id)) {
                         $canAccess = true;
                     }
                 }
                 if ($canAccess == false) {
-                    $groupList = collect(explode(';',$forum->can_access_user_group));
+                    $groupList = collect(explode(';', $forum->can_access_user_group));
                     if ($groupList->contains($user->group_id)) {
                         $canAccess = true;
                     }
                 }
-                if($canAccess == false) {
+                if ($canAccess == false) {
                     throw new HyperfCommonException(ErrorCode::FORUM_POST_NEED_AUTH);
                 }
             }
@@ -631,57 +632,57 @@ class PostService extends BaseService
                 $post->is_favorite = 0;
             }
             //如果有订阅券，查看是不是已经领取过
-            if($post->policy_id > 0) {
-                $userSubscribeVoucher = UserSubscribePassword::query()->where('owner_id',$this->userId())
-                                                                    ->where('policy_id',$post->policy_id)
-                                                                    ->first();
+            if ($post->policy_id > 0) {
+                $userSubscribeVoucher = UserSubscribePassword::query()->where('owner_id', $this->userId())
+                    ->where('policy_id', $post->policy_id)
+                    ->first();
                 if ($userSubscribeVoucher instanceof UserSubscribePassword) {
                     $post->finish_get_policy = 1;
-                }else{
+                } else {
                     $post->finish_get_policy = 0;
                 }
             }
-            if($post->voucher_policy_id > 0) {
+            if ($post->voucher_policy_id > 0) {
                 //如果有代金券，查看是不是已经领取过
-                $voucher = Voucher::query()->where('owner_id',$this->userId())
-                    ->where('policy_id',$post->voucher_policy_id)
+                $voucher = Voucher::query()->where('owner_id', $this->userId())
+                    ->where('policy_id', $post->voucher_policy_id)
                     ->first();
                 if ($voucher instanceof Voucher) {
                     $post->finish_get_voucher = 1;
-                }else{
+                } else {
                     $post->finish_get_voucher = 0;
                 }
             }
             //对作者的关注状态
-            if($this->userId() !== $post->owner_id) {
-                $attention = UserAttentionOther::query()->where('user_id',$this->userId())
-                    ->where('other_user_id',$post->owner_id)
+            if ($this->userId() !== $post->owner_id) {
+                $attention = UserAttentionOther::query()->where('user_id', $this->userId())
+                    ->where('other_user_id', $post->owner_id)
                     ->first();
-                if($attention instanceof UserAttentionOther) {
+                if ($attention instanceof UserAttentionOther) {
                     $post->author_attention = 1;
-                }else{
+                } else {
                     $post->author_attention = 0;
                 }
-            }else{
+            } else {
                 $post->author_attention = 0;
             }
             //是否点赞
-            $praise = UserPraisePost::query()->where('user_id',$this->userId())
-                                             ->where('post_id',$postId)
-                                             ->first();
-            if($praise instanceof UserPraisePost) {
+            $praise = UserPraisePost::query()->where('user_id', $this->userId())
+                ->where('post_id', $postId)
+                ->first();
+            if ($praise instanceof UserPraisePost) {
                 $post->is_praise = 1;
-            }else{
+            } else {
                 $post->is_praise = 0;
             }
         } else {
             //需要检查订阅权限，并且不是管理员
             $forum = Forum::findOrFail($post->forum_id);
-            if($forum->needCheckSubscribe()) {
+            if ($forum->needCheckSubscribe()) {
                 //没有登陆，必然没有权限
-                if($forum->goods_id > 0) {
+                if ($forum->goods_id > 0) {
                     throw new HyperfCommonException(ErrorCode::FORUM_POST_NEED_PAY);
-                }elseif ($forum->need_auth) {
+                } elseif ($forum->need_auth) {
                     throw new HyperfCommonException(ErrorCode::FORUM_POST_NEED_AUTH);
                 }
             }
@@ -695,7 +696,7 @@ class PostService extends BaseService
         }
 
         //解析代金券信息
-        if(isset($post->voucher_policy)) {
+        if (isset($post->voucher_policy)) {
             $this->voucherService->decodeVoucherInfo($post->voucher_policy);
         }
 
@@ -731,12 +732,12 @@ class PostService extends BaseService
             ->firstOrFail();
     }
 
-    public function postListAddReadStatus(Collection &$list, bool $needReadStatus=true)
+    public function postListAddReadStatus(Collection &$list, bool $needReadStatus = true)
     {
         //增加是否阅读的状态
         $postIds = $list->pluck('post_id');
         $userReadList = [];
-        if($needReadStatus) {
+        if ($needReadStatus) {
             $userReadList = [];
             if (Auth::isGuest() == false) {
                 $userReadList = UserRead::query()->whereIn('post_id', $postIds)
@@ -749,21 +750,21 @@ class PostService extends BaseService
         $list->map(function (Post $post) use ($userReadList) {
             if (!empty($post->avatar_list)) {
                 $post->avatar_list = explode(';', $post->avatar_list);
-            }else{
+            } else {
                 $post->avatar_list = null;
             }
             if (!empty($post->image_list)) {
                 $post->image_list = explode(';', $post->image_list);
-            }else{
+            } else {
                 if (!empty($post->image_ids)) {
                     //如果是富文本编辑
                     $imageList = collect();
                     $cdnDomain = config('qiniu.cdnDomain');
-                    $post->image_ids = explode(';',$post->image_ids);
-                    collect($post->image_ids)->map(function (string $imageId) use(&$imageList,$cdnDomain){
-                        $imageUrl = $cdnDomain.$imageId;
+                    $post->image_ids = explode(';', $post->image_ids);
+                    collect($post->image_ids)->map(function (string $imageId) use (&$imageList, $cdnDomain) {
+                        $imageUrl = $cdnDomain . $imageId;
                         //只返回三张
-                        if($imageList->count()<3) {
+                        if ($imageList->count() < 3) {
                             $imageList->push($imageUrl);
                         }
                     });
@@ -778,11 +779,11 @@ class PostService extends BaseService
     public function getList(int $sortType, int $pageIndex, int $pageSize)
     {
         //返回订阅内容
-        if($sortType == Constants::POST_SORT_TYPE_SUBSCRIBE) {
+        if ($sortType == Constants::POST_SORT_TYPE_SUBSCRIBE) {
             return $this->getPostListBySubscribe($pageIndex, $pageSize);
         }
-        if($sortType == Constants::POST_SORT_TYPE_ATTENTION) {
-            return  $this->getPostListByAttention($pageIndex, $pageSize);
+        if ($sortType == Constants::POST_SORT_TYPE_ATTENTION) {
+            return $this->getPostListByAttention($pageIndex, $pageSize);
         }
         $map = [
             Constants::POST_SORT_TYPE_LATEST => 'last_active_time',
@@ -796,7 +797,7 @@ class PostService extends BaseService
                 $list = Post::query()->select($this->listRows)
                     ->with(['forum'])
                     ->where('audit_status', Constants::STATUS_DONE)
-                    ->where('only_self_visible',Constants::STATUS_NOT)
+                    ->where('only_self_visible', Constants::STATUS_NOT)
                     ->where('circle_id', Constants::STATUS_NOT)
                     ->orderByDesc('sort_index')
                     ->orderByDesc($order)
@@ -808,7 +809,7 @@ class PostService extends BaseService
                 $list = Post::query()->select($this->listRows)
                     ->with(['forum'])
                     ->where('audit_status', Constants::STATUS_DONE)
-                    ->where('only_self_visible',Constants::STATUS_NOT)
+                    ->where('only_self_visible', Constants::STATUS_NOT)
                     ->where('circle_id', Constants::STATUS_NOT)
                     ->orderByDesc('sort_index')
                     ->orderByDesc('recommend_weight')
@@ -822,10 +823,10 @@ class PostService extends BaseService
         $this->postListAddReadStatus($list);
 
         $total = Post::query()
-                ->where('audit_status', Constants::STATUS_DONE)
-                ->where('only_self_visible',Constants::STATUS_NOT)
-                ->where('circle_id',Constants::STATUS_NOT)
-                ->count();
+            ->where('audit_status', Constants::STATUS_DONE)
+            ->where('only_self_visible', Constants::STATUS_NOT)
+            ->where('circle_id', Constants::STATUS_NOT)
+            ->count();
         return ['total' => $total, 'list' => $list];
     }
 
@@ -837,11 +838,11 @@ class PostService extends BaseService
         }
         $list = Post::query()->select($this->listRows)
             ->with(['forum'])
-            ->when($isOther,function (Builder $query) {
+            ->when($isOther, function (Builder $query) {
                 $query->where('audit_status', Constants::STATUS_DONE);
-                $query->where('only_self_visible',Constants::STATUS_NOT);
+                $query->where('only_self_visible', Constants::STATUS_NOT);
             })
-            ->where('circle_id',Constants::STATUS_NOT)
+            ->where('circle_id', Constants::STATUS_NOT)
             ->where('owner_id', $userId)
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
@@ -851,14 +852,14 @@ class PostService extends BaseService
             ->latest()
             ->get();
 
-        $this->postListAddReadStatus($list,false);
+        $this->postListAddReadStatus($list, false);
 
         $total = Post::query()->where('owner_id', $userId)
-            ->when($isOther,function (Builder $query) {
+            ->when($isOther, function (Builder $query) {
                 $query->where('audit_status', Constants::STATUS_DONE);
-                $query->where('only_self_visible',Constants::STATUS_NOT);
+                $query->where('only_self_visible', Constants::STATUS_NOT);
             })
-            ->where('circle_id',Constants::STATUS_NOT)
+            ->where('circle_id', Constants::STATUS_NOT)
             ->count();
         return ['total' => $total, 'list' => $list];
     }
@@ -909,7 +910,7 @@ class PostService extends BaseService
         //异步增加积分
         $post = Post::find($postId);
         $scoreDesc = "收藏帖子《{$post->title}》";
-        $this->push(new AddScoreJob($post->owner_id,Constants::SCORE_ACTION_POST_FAVORITE, $scoreDesc));
+        $this->push(new AddScoreJob($post->owner_id, Constants::SCORE_ACTION_POST_FAVORITE, $scoreDesc));
 
         return $this->success();
     }
@@ -938,22 +939,22 @@ class PostService extends BaseService
             ->join('post', 'user_favorite.post_id', '=', 'post.post_id')
             ->where('user_id', $userId)
             ->where('post.audit_status', Constants::STATUS_DONE)
-            ->where('circle_id',Constants::STATUS_NOT)
-            ->when($hiddenNotVisible,function (Builder $query) {
-                $query->where('post.only_self_visible',Constants::STATUS_NOT);
+            ->where('circle_id', Constants::STATUS_NOT)
+            ->when($hiddenNotVisible, function (Builder $query) {
+                $query->where('post.only_self_visible', Constants::STATUS_NOT);
             })
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->orderByDesc('user_favorite.created_at')
             ->get()
             ->pluck('post');
-        $this->postListAddReadStatus($list,false);
+        $this->postListAddReadStatus($list, false);
         $total = UserFavorite::query()->where('user_id', $userId)
             ->join('post', 'user_favorite.post_id', '=', 'post.post_id')
             ->where('post.audit_status', Constants::STATUS_DONE)
-            ->where('circle_id',Constants::STATUS_NOT)
-            ->when($hiddenNotVisible,function (Builder $query){
-                $query->where('post.only_self_visible',Constants::STATUS_NOT);
+            ->where('circle_id', Constants::STATUS_NOT)
+            ->when($hiddenNotVisible, function (Builder $query) {
+                $query->where('post.only_self_visible', Constants::STATUS_NOT);
             })
             ->count();
         return ['total' => $total, 'list' => $list];
@@ -973,15 +974,15 @@ class PostService extends BaseService
         //异步增加积分
         $post = Post::find($postId);
         $scoreDesc = "分享帖子《{$post->title}》";
-        $this->push(new AddScoreJob($post->owner_id,Constants::SCORE_ACTION_SHARE, $scoreDesc));
+        $this->push(new AddScoreJob($post->owner_id, Constants::SCORE_ACTION_SHARE, $scoreDesc));
         return $this->success();
     }
 
     public function praise(int $postId)
     {
-        $praise = UserPraisePost::query()->where('user_id',$this->userId())
-                                         ->where('post_id', $postId)
-                                         ->first();
+        $praise = UserPraisePost::query()->where('user_id', $this->userId())
+            ->where('post_id', $postId)
+            ->first();
         if ($praise instanceof UserPraisePost) {
             //取消
             $praise->delete();
@@ -995,7 +996,7 @@ class PostService extends BaseService
         $praise->post_id = $postId;
 
         //自己给自己点赞不提醒
-        if($post->owner_id == $this->userId()) {
+        if ($post->owner_id == $this->userId()) {
             $praise->owner_read_status = Constants::STATUS_OK;
         }
 
@@ -1006,7 +1007,7 @@ class PostService extends BaseService
 
         //异步增加积分
         $scoreDesc = "点赞帖子《{$post->title}》";
-        $this->push(new AddScoreJob($post->owner_id,Constants::SCORE_ACTION_POST_PRAISE, $scoreDesc));
+        $this->push(new AddScoreJob($post->owner_id, Constants::SCORE_ACTION_POST_PRAISE, $scoreDesc));
 
         return $this->success();
     }
@@ -1019,43 +1020,43 @@ class PostService extends BaseService
 
         //用户是不是已经订阅了此板块,或者是管理员以上身份
         //分享出去的时候没有登录态,允许访问内容
-        if(Auth::isGuest() == false) {
+        if (Auth::isGuest() == false) {
             $user = User::findOrFail($this->userId());
             //非管理员身份需要校验订阅权限
             if ($user->role_id < Constants::USER_ROLE_ADMIN) {
                 $forum = Forum::findOrFail($forumId);
                 //授权或者订阅类板块
-                if($forum->need_auth == 1 || $forum->goods_id > 0) {
-                    $userSubscribe = UserSubscribe::query()->where('user_id',$user->user_id)
-                        ->where('forum_id',$forumId)
+                if ($forum->need_auth == 1 || $forum->goods_id > 0) {
+                    $userSubscribe = UserSubscribe::query()->where('user_id', $user->user_id)
+                        ->where('forum_id', $forumId)
                         ->first();
                     if (!$userSubscribe instanceof UserSubscribe) {
                         throw new HyperfCommonException(ErrorCode::FORUM_NOT_PAY_OR_AUTH);
                     }
-                }else{
+                } else {
                     //是不是有发帖权限，有的话就可以看
                     $canAccessForum = false;
-                    if(!empty($forum->can_post_user_group)) {
-                        $postUserGroup = collect(explode(';',$forum->can_post_user_group));
-                        if($postUserGroup->contains($user->group_id)){
+                    if (!empty($forum->can_post_user_group)) {
+                        $postUserGroup = collect(explode(';', $forum->can_post_user_group));
+                        if ($postUserGroup->contains($user->group_id)) {
                             $canAccessForum = true;
                         }
                     }
                     //如果没有发帖权限，看下是不是有访问权限
                     if ($canAccessForum == false) {
                         if (!empty($forum->can_access_user_group)) {
-                            $accessUserGroup = collect(explode(';',$forum->can_access_user_group));
-                            if($accessUserGroup->contains($user->group_id)) {
+                            $accessUserGroup = collect(explode(';', $forum->can_access_user_group));
+                            if ($accessUserGroup->contains($user->group_id)) {
                                 $canAccessForum = true;
                             }
-                        }else{
+                        } else {
                             //空的时候都有访问权限
                             $canAccessForum = true;
                             Log::info("版块({$forum->name})所有用户均可访问!");
                         }
                     }
-                    if($canAccessForum == false) {
-                        throw new HyperfCommonException(ErrorCode::FORUM_NOT_PAY_OR_AUTH,"当前所在用户组无权访问此版块");
+                    if ($canAccessForum == false) {
+                        throw new HyperfCommonException(ErrorCode::FORUM_NOT_PAY_OR_AUTH, "当前所在用户组无权访问此版块");
                     }
                 }
             }
@@ -1091,25 +1092,25 @@ class PostService extends BaseService
             'post.forum_id'
         ];
 
-        if($type == Constants::FORUM_POST_SORT_LATEST) {
+        if ($type == Constants::FORUM_POST_SORT_LATEST) {
             $list = Post::query()->select($selectRows)
                 ->with(['forum'])
-                ->where('forum_id',$forumId)
+                ->where('forum_id', $forumId)
                 ->where('audit_status', Constants::STATUS_DONE)
                 ->where('only_self_visible', Constants::STATUS_NOT)
-                ->where('circle_id',Constants::STATUS_NOT)
+                ->where('circle_id', Constants::STATUS_NOT)
                 ->orderByDesc('sort_index')
                 ->orderByDesc('last_active_time')
                 ->offset($pageIndex * $pageSize)
                 ->limit($pageSize)
                 ->get();
-        }else{
+        } else {
             $list = Post::query()->select($selectRows)
                 ->with(['forum'])
-                ->where('forum_id',$forumId)
+                ->where('forum_id', $forumId)
                 ->where('audit_status', Constants::STATUS_DONE)
                 ->where('only_self_visible', Constants::STATUS_NOT)
-                ->where('circle_id',Constants::STATUS_NOT)
+                ->where('circle_id', Constants::STATUS_NOT)
                 ->orderByDesc('sort_index')
                 ->orderByDesc('recommend_weight')
                 ->orderByDesc('last_active_time')
@@ -1121,13 +1122,13 @@ class PostService extends BaseService
         $this->postListAddReadStatus($list);
 
         $total = Post::query()->select($selectRows)
-            ->where('forum_id',$forumId)
+            ->where('forum_id', $forumId)
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
-            ->where('circle_id',Constants::STATUS_NOT)
+            ->where('circle_id', Constants::STATUS_NOT)
             ->count();
 
-        return ['total'=>$total, 'list'=>$list];
+        return ['total' => $total, 'list' => $list];
     }
 
     public function getPostListBySubscribe(int $pageIndex, int $pageSize)
@@ -1165,9 +1166,9 @@ class PostService extends BaseService
 
         $list = Post::query()->select($selectRows)
             ->with(['forum'])
-            ->leftJoin('user_subscribe','post.forum_id','=','user_subscribe.forum_id')
-            ->where('user_subscribe.forum_id','>',Constants::FORUM_MAIN_FORUM_ID)
-            ->where('user_id',$this->userId())
+            ->leftJoin('user_subscribe', 'post.forum_id', '=', 'user_subscribe.forum_id')
+            ->where('user_subscribe.forum_id', '>', Constants::FORUM_MAIN_FORUM_ID)
+            ->where('user_id', $this->userId())
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
             ->where('circle_id', Constants::STATUS_NOT)
@@ -1181,21 +1182,21 @@ class PostService extends BaseService
         $this->postListAddReadStatus($list);
 
         $total = Post::query()->select($selectRows)
-            ->leftJoin('user_subscribe','post.forum_id','=','user_subscribe.forum_id')
-            ->where('user_id',$this->userId())
+            ->leftJoin('user_subscribe', 'post.forum_id', '=', 'user_subscribe.forum_id')
+            ->where('user_id', $this->userId())
             ->where('audit_status', Constants::STATUS_DONE)
-            ->where('user_subscribe.forum_id','>',Constants::FORUM_MAIN_FORUM_ID)
+            ->where('user_subscribe.forum_id', '>', Constants::FORUM_MAIN_FORUM_ID)
             ->where('only_self_visible', Constants::STATUS_NOT)
-            ->where('circle_id',Constants::STATUS_NOT)
+            ->where('circle_id', Constants::STATUS_NOT)
             ->count();
 
-        return ['total'=>$total, 'list'=>$list];
+        return ['total' => $total, 'list' => $list];
     }
 
     public function getPostListByAttention(int $pageIndex, int $pageSize)
     {
-        if(Auth::isGuest() == true) {
-            return ['total'=>0,'list'=>[]];
+        if (Auth::isGuest() == true) {
+            return ['total' => 0, 'list' => []];
         }
 
         $selectRows = [
@@ -1228,29 +1229,29 @@ class PostService extends BaseService
         ];
 
         //关注的话题ID
-        $attentionTopicIds = UserAttentionTopic::query()->where('user_id',$this->userId())
+        $attentionTopicIds = UserAttentionTopic::query()->where('user_id', $this->userId())
             ->get()
             ->pluck('topic_id');
-        $userIds = UserAttentionOther::query()->where('user_id',$this->userId())
+        $userIds = UserAttentionOther::query()->where('user_id', $this->userId())
             ->get()
             ->pluck('other_user_id');
 
-        if($attentionTopicIds->isEmpty() && $userIds->isEmpty()) {
-            return ['total'=>0,'list'=>[]];
+        if ($attentionTopicIds->isEmpty() && $userIds->isEmpty()) {
+            return ['total' => 0, 'list' => []];
         }
 
         $list = Post::query()->select($selectRows)
             ->with(['forum'])
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
-            ->when($attentionTopicIds->isNotEmpty(),function (Builder $query) use ($attentionTopicIds) {
-                $query->whereIn('topic_id',$attentionTopicIds);
+            ->when($attentionTopicIds->isNotEmpty(), function (Builder $query) use ($attentionTopicIds) {
+                $query->whereIn('topic_id', $attentionTopicIds);
             })
-            ->when($userIds->isNotEmpty(),function (Builder $query) use ($userIds,$attentionTopicIds) {
-                if($attentionTopicIds->isEmpty()) {
-                    $query->whereIn('owner_id',$userIds);
-                }else{
-                    $query->orWhereIn('owner_id',$userIds);
+            ->when($userIds->isNotEmpty(), function (Builder $query) use ($userIds, $attentionTopicIds) {
+                if ($attentionTopicIds->isEmpty()) {
+                    $query->whereIn('owner_id', $userIds);
+                } else {
+                    $query->orWhereIn('owner_id', $userIds);
                 }
             })
             ->where('circle_id', Constants::STATUS_NOT)
@@ -1266,69 +1267,69 @@ class PostService extends BaseService
         $total = Post::query()->select($selectRows)
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
-            ->where('circle_id',Constants::STATUS_NOT)
-            ->when($attentionTopicIds->isNotEmpty(),function (Builder $query) use ($attentionTopicIds) {
-                $query->whereIn('topic_id',$attentionTopicIds);
+            ->where('circle_id', Constants::STATUS_NOT)
+            ->when($attentionTopicIds->isNotEmpty(), function (Builder $query) use ($attentionTopicIds) {
+                $query->whereIn('topic_id', $attentionTopicIds);
             })
-            ->when($userIds->isNotEmpty(),function (Builder $query) use ($userIds,$attentionTopicIds) {
-                if($attentionTopicIds->isEmpty()) {
-                    $query->whereIn('owner_id',$userIds);
-                }else{
-                    $query->orWhereIn('owner_id',$userIds);
+            ->when($userIds->isNotEmpty(), function (Builder $query) use ($userIds, $attentionTopicIds) {
+                if ($attentionTopicIds->isEmpty()) {
+                    $query->whereIn('owner_id', $userIds);
+                } else {
+                    $query->orWhereIn('owner_id', $userIds);
                 }
             })
             ->count();
 
-        return ['total'=>$total, 'list'=>$list,'user_count'=>$userIds->count(),'topic_count'=>$attentionTopicIds->count()];
+        return ['total' => $total, 'list' => $list, 'user_count' => $userIds->count(), 'topic_count' => $attentionTopicIds->count()];
     }
 
     public function getVideoPostList(int $pageIndex, int $pageSize, int $type = Constants::VIDEO_POST_LIST_TYPE_ADMIN)
     {
-        $list = Post::query()->where('has_video',Constants::STATUS_OK)
-                             ->where(function (Builder $query) use ($type){
-                                 if ($type == Constants::VIDEO_POST_LIST_TYPE_ADMIN) {
-                                     $query->where('is_video_admin',Constants::STATUS_OK);
-                                 }elseif ($type == Constants::VIDEO_POST_LIST_TYPE_CUSTOMER) {
-                                     $query->where('is_video_admin','<>', Constants::STATUS_OK);
-                                 }
-                             })
-                             ->where('only_self_visible', Constants::STATUS_NOT)
-                             ->orderByDesc('recommend_weight')
-                             ->offset($pageIndex * $pageSize)
-                             ->limit($pageSize)
-                             ->get();
+        $list = Post::query()->where('has_video', Constants::STATUS_OK)
+            ->where(function (Builder $query) use ($type) {
+                if ($type == Constants::VIDEO_POST_LIST_TYPE_ADMIN) {
+                    $query->where('is_video_admin', Constants::STATUS_OK);
+                } elseif ($type == Constants::VIDEO_POST_LIST_TYPE_CUSTOMER) {
+                    $query->where('is_video_admin', '<>', Constants::STATUS_OK);
+                }
+            })
+            ->where('only_self_visible', Constants::STATUS_NOT)
+            ->orderByDesc('recommend_weight')
+            ->offset($pageIndex * $pageSize)
+            ->limit($pageSize)
+            ->get();
         //检查用户收藏状态
-        if(Auth::isGuest() == false) {
+        if (Auth::isGuest() == false) {
             $postIds = $list->pluck('post_id');
-            $favoriteList = UserFavorite::query()->where('user_id',$this->userId())
-                ->whereIn('post_id',$postIds)
+            $favoriteList = UserFavorite::query()->where('user_id', $this->userId())
+                ->whereIn('post_id', $postIds)
                 ->get()
                 ->keyBy('post_id');
             $list->map(function (Post $post) use ($favoriteList) {
                 if (!empty($favoriteList->get($post->post_id))) {
                     $post->is_favorite = 1;
-                }else{
+                } else {
                     $post->is_favorite = 0;
                 }
                 return $post;
             });
-        }else{
+        } else {
             $list->map(function (Post $post) {
-               $post->is_favorite = 0;
-               return $post;
+                $post->is_favorite = 0;
+                return $post;
             });
         }
 
-        $total = Post::query()->where('has_video',Constants::STATUS_OK)
+        $total = Post::query()->where('has_video', Constants::STATUS_OK)
             ->where('only_self_visible', Constants::STATUS_NOT)
-            ->where(function (Builder $query) use ($type){
+            ->where(function (Builder $query) use ($type) {
                 if ($type == Constants::VIDEO_POST_LIST_TYPE_ADMIN) {
-                    $query->where('is_video_admin',Constants::STATUS_OK);
-                }elseif ($type == Constants::VIDEO_POST_LIST_TYPE_CUSTOMER) {
-                    $query->where('is_video_admin','<>', Constants::STATUS_OK);
+                    $query->where('is_video_admin', Constants::STATUS_OK);
+                } elseif ($type == Constants::VIDEO_POST_LIST_TYPE_CUSTOMER) {
+                    $query->where('is_video_admin', '<>', Constants::STATUS_OK);
                 }
             })->count();
-        return ['total'=>$total,'list'=>$list];
+        return ['total' => $total, 'list' => $list];
     }
 
     public function getPostListByTopicId(int $pageIndex, int $pageSize, int $topicId, int $type = Constants::TOPIC_POST_LIST_SORT_BY_HOT)
@@ -1362,10 +1363,10 @@ class PostService extends BaseService
             'post.forum_id'
         ];
 
-        if($type == Constants::TOPIC_POST_LIST_SORT_BY_LATEST) {
+        if ($type == Constants::TOPIC_POST_LIST_SORT_BY_LATEST) {
             $list = Post::query()->select($selectRows)
                 ->with(['forum'])
-                ->where('topic_id',$topicId)
+                ->where('topic_id', $topicId)
                 ->where('audit_status', Constants::STATUS_DONE)
                 ->where('only_self_visible', Constants::STATUS_NOT)
                 ->where('circle_id', Constants::STATUS_NOT)
@@ -1374,10 +1375,10 @@ class PostService extends BaseService
                 ->offset($pageIndex * $pageSize)
                 ->limit($pageSize)
                 ->get();
-        }else{
+        } else {
             $list = Post::query()->select($selectRows)
                 ->with(['forum'])
-                ->where('topic_id',$topicId)
+                ->where('topic_id', $topicId)
                 ->where('audit_status', Constants::STATUS_DONE)
                 ->where('only_self_visible', Constants::STATUS_NOT)
                 ->where('circle_id', Constants::STATUS_NOT)
@@ -1392,20 +1393,20 @@ class PostService extends BaseService
         $this->postListAddReadStatus($list);
 
         $total = Post::query()->select($selectRows)
-            ->where('topic_id',$topicId)
+            ->where('topic_id', $topicId)
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
             ->where('circle_id', Constants::STATUS_NOT)
             ->count();
 
-        return ['total'=>$total, 'list'=>$list];
+        return ['total' => $total, 'list' => $list];
     }
 
     public function updateOnlySelfVisible(int $postId, int $status)
     {
         $this->checkOwnOrFail($postId);
         $post = Post::findOrFail($postId);
-        if($post->only_self_visible == $status) {
+        if ($post->only_self_visible == $status) {
             return $this->success();
         }
         $post->only_self_visible = $status;
@@ -1416,66 +1417,66 @@ class PostService extends BaseService
     public function getUserAttentionStatus()
     {
         //关注的话题ID
-        $attentionTopicIds = UserAttentionTopic::query()->where('user_id',$this->userId())
+        $attentionTopicIds = UserAttentionTopic::query()->where('user_id', $this->userId())
             ->get()
             ->pluck('topic_id');
-        if($attentionTopicIds->count()> 0) {
+        if ($attentionTopicIds->count() > 0) {
             return ['status' => 1];
         }
-        $userIds = UserAttentionOther::query()->where('user_id',$this->userId())
+        $userIds = UserAttentionOther::query()->where('user_id', $this->userId())
             ->get()
             ->pluck('other_user_id');
-        if($userIds->count()> 0) {
+        if ($userIds->count() > 0) {
             return ['status' => 1];
         }
         return ['status' => 0];
     }
 
-    public function praiseList(int $pageIndex,int $pageSize)
+    public function praiseList(int $pageIndex, int $pageSize)
     {
         $list = UserPraisePost::query()
             ->selectRaw('user_praise_post.*,post.post_id,post.circle_id')
             ->where('post_owner_id', $this->userId())
-            ->where('user_id','<>',$this->userId())
-            ->leftJoin('post','user_praise_post.post_id','=','post.post_id')
-            ->where('post.circle_id',Constants::STATUS_NOT)
-            ->with(['post','author'])
+            ->where('user_id', '<>', $this->userId())
+            ->leftJoin('post', 'user_praise_post.post_id', '=', 'post.post_id')
+            ->where('post.circle_id', Constants::STATUS_NOT)
+            ->with(['post', 'author'])
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->latest()
             ->get();
 
         //找出未读Id列表
-        $unreadIds = $list->where('owner_read_status',0)->pluck('id');
+        $unreadIds = $list->where('owner_read_status', 0)->pluck('id');
         $total = UserPraisePost::query()->where('post_owner_id', $this->userId())->count();
-        return ['total'=>$total,'list'=>$list,'id_list'=> $unreadIds];
+        return ['total' => $total, 'list' => $list, 'id_list' => $unreadIds];
     }
 
-    public function activePostPraiseList(int $pageIndex,int $pageSize)
+    public function activePostPraiseList(int $pageIndex, int $pageSize)
     {
         $list = UserPraisePost::query()
             ->selectRaw('user_praise_post.*,post.post_id,post.circle_id')
             ->where('post_owner_id', $this->userId())
-            ->where('user_id','<>',$this->userId())
-            ->leftJoin('post','user_praise_post.post_id','=','post.post_id')
-            ->where('post.circle_id','>',Constants::STATUS_NOT)
-            ->with(['post','author'])
+            ->where('user_id', '<>', $this->userId())
+            ->leftJoin('post', 'user_praise_post.post_id', '=', 'post.post_id')
+            ->where('post.circle_id', '>', Constants::STATUS_NOT)
+            ->with(['post', 'author'])
             ->offset($pageIndex * $pageSize)
             ->limit($pageSize)
             ->latest()
             ->get();
 
         //找出未读Id列表
-        $unreadIds = $list->where('owner_read_status',0)->pluck('id');
+        $unreadIds = $list->where('owner_read_status', 0)->pluck('id');
         $total = UserPraisePost::query()->where('post_owner_id', $this->userId())->count();
-        return ['total'=>$total,'list'=>$list,'id_list'=> $unreadIds];
+        return ['total' => $total, 'list' => $list, 'id_list' => $unreadIds];
     }
 
     public function markPraiseRead(array $praiseIds)
     {
         UserPraisePost::query()->whereIn('id', $praiseIds)
             ->where('post_owner_id', $this->userId())
-            ->update(['owner_read_status'=>1]);
+            ->update(['owner_read_status' => 1]);
         return $this->success();
     }
 
@@ -1485,20 +1486,20 @@ class PostService extends BaseService
             $type = Constants::CIRCLE_POST_SORT_LATEST;
         }
 
-        if($type == Constants::FORUM_POST_SORT_LATEST) {
+        if ($type == Constants::FORUM_POST_SORT_LATEST) {
             $list = Post::query()->select($this->activeListRows)
                 ->with(['circle'])
-                ->where('circle_id',$circleId)
+                ->where('circle_id', $circleId)
                 ->where('audit_status', Constants::STATUS_DONE)
                 ->where('only_self_visible', Constants::STATUS_NOT)
                 ->latest()
                 ->offset($pageIndex * $pageSize)
                 ->limit($pageSize)
                 ->get();
-        }else{
+        } else {
             $list = Post::query()->select($this->activeListRows)
                 ->with(['circle'])
-                ->where('circle_id',$circleId)
+                ->where('circle_id', $circleId)
                 ->where('audit_status', Constants::STATUS_DONE)
                 ->where('only_self_visible', Constants::STATUS_NOT)
                 ->orderByDesc('recommend_weight')
@@ -1511,43 +1512,43 @@ class PostService extends BaseService
         $this->activePostAddRelationInfo($list);
 
         $total = Post::query()->select($this->activeListRows)
-            ->where('circle_id',$circleId)
+            ->where('circle_id', $circleId)
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
             ->count();
 
-        return ['total'=>$total, 'list'=>$list];
+        return ['total' => $total, 'list' => $list];
     }
 
     public function activePostGetPraiseAndFavoriteStatus($postList)
     {
         $postIds = $postList->pluck('post_id');
-        $praiseList = UserPraisePost::query()->where('user_id',$this->userId())
-                                             ->whereIn('post_id',$postIds)
-                                             ->get()
-                                             ->keyBy('post_id');
-        $favoriteList = UserFavorite::query()->where('user_id',$this->userId())
-                                             ->whereIn('post_id',$postIds)
-                                             ->get()
-                                             ->keyBy('post_id');
+        $praiseList = UserPraisePost::query()->where('user_id', $this->userId())
+            ->whereIn('post_id', $postIds)
+            ->get()
+            ->keyBy('post_id');
+        $favoriteList = UserFavorite::query()->where('user_id', $this->userId())
+            ->whereIn('post_id', $postIds)
+            ->get()
+            ->keyBy('post_id');
         return [
             'praise' => $praiseList,
-            'favorite'=> $favoriteList
+            'favorite' => $favoriteList
         ];
     }
 
     public function activePostLatestPraise($postList)
     {
         $resultList = [];
-        Db::transaction(function () use ($postList, &$resultList){
+        Db::transaction(function () use ($postList, &$resultList) {
             $postIds = $postList->pluck('post_id');
-            $postIds->map(function ($postId) use (&$resultList){
-                $praiseList = UserPraisePost::query()->where('post_id',$postId)
-                                                     ->with(['author'])
-                                                     ->latest()
-                                                     ->limit(6)
-                                                     ->get()
-                                                     ->pluck('author');
+            $postIds->map(function ($postId) use (&$resultList) {
+                $praiseList = UserPraisePost::query()->where('post_id', $postId)
+                    ->with(['author'])
+                    ->latest()
+                    ->limit(6)
+                    ->get()
+                    ->pluck('author');
                 $resultList[$postId] = $praiseList;
             });
         });
@@ -1557,47 +1558,47 @@ class PostService extends BaseService
     public function activePostLatestComment($postList)
     {
         $resultList = [];
-        Db::transaction(function () use ($postList, &$resultList){
+        Db::transaction(function () use ($postList, &$resultList) {
 
             $postIds = $postList->pluck('post_id');
 
-            $postIds->map(function ($postId) use (&$resultList){
-               $commentList = Comment::query()->where('post_id',$postId)
-                                          ->with(['parent_comment'])
-                                          ->latest()
-                                          ->limit(3)
-                                          ->get();
-               $commentList->map(function (Comment $comment) {
-                   if (isset($comment->image_list) && is_string($comment->image_list)) {
-                       $comment->image_list = explode(';', $comment->image_list);
-                   }
-                   return $comment;
-               });
-               $resultList[$postId] = $commentList;
+            $postIds->map(function ($postId) use (&$resultList) {
+                $commentList = Comment::query()->where('post_id', $postId)
+                    ->with(['parent_comment'])
+                    ->latest()
+                    ->limit(3)
+                    ->get();
+                $commentList->map(function (Comment $comment) {
+                    if (isset($comment->image_list) && is_string($comment->image_list)) {
+                        $comment->image_list = explode(';', $comment->image_list);
+                    }
+                    return $comment;
+                });
+                $resultList[$postId] = $commentList;
             });
         });
         return $resultList;
     }
 
-    public function deleteActivePost(int $postId,int $circleId)
+    public function deleteActivePost(int $postId, int $circleId)
     {
-        $user = User::query()->where('user_id',$this->userId())
-                             ->first();
-        if(!$user instanceof User) {
+        $user = User::query()->where('user_id', $this->userId())
+            ->first();
+        if (!$user instanceof User) {
             throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::RECORD_NOT_EXIST);
         }
-        if($user->role_id < Constants::USER_ROLE_ADMIN) {
+        if ($user->role_id < Constants::USER_ROLE_ADMIN) {
             //是不是圈主
             $circle = Circle::findOrFail($circleId);
-            if($circle->owner_id != $this->userId()) {
+            if ($circle->owner_id != $this->userId()) {
                 //是不是自己的
                 $post = Post::findOrFail($postId);
-                if($post->owner_id !== $user->user_id) {
+                if ($post->owner_id !== $user->user_id) {
                     throw new HyperfCommonException(ErrorCode::NO_PERMISSION_DELETE_POST);
                 }
             }
         }
-        Post::query()->where('post_id',$postId)->delete();
+        Post::query()->where('post_id', $postId)->delete();
         return $this->success();
     }
 
@@ -1647,36 +1648,36 @@ class PostService extends BaseService
 
         $commentList = $this->activePostLatestComment($list);
         $praiseList = $this->activePostLatestPraise($list);
-        if(Auth::isGuest() == false){
+        if (Auth::isGuest() == false) {
             $praiseAndFavoriteStatusList = $this->activePostGetPraiseAndFavoriteStatus($list);
-        }else{
+        } else {
             $praiseAndFavoriteStatusList = [];
         }
-        $list->map(function (Post $post) use ($commentList,$praiseList,$praiseAndFavoriteStatusList){
-            if(isset($commentList[$post->post_id])){
+        $list->map(function (Post $post) use ($commentList, $praiseList, $praiseAndFavoriteStatusList) {
+            if (isset($commentList[$post->post_id])) {
                 $post->comment_list = $commentList[$post->post_id];
-            }else{
+            } else {
                 $post->comment_list = [];
             }
-            if(isset($praiseList[$post->post_id])) {
+            if (isset($praiseList[$post->post_id])) {
                 $post->praise_list = $praiseList[$post->post_id];
-            }else{
+            } else {
                 $post->praise_list = [];
             }
-            if(!empty($praiseAndFavoriteStatusList)) {
+            if (!empty($praiseAndFavoriteStatusList)) {
                 $praiseStatusList = $praiseAndFavoriteStatusList['praise'];
                 $favoriteStatusList = $praiseAndFavoriteStatusList['favorite'];
-                if(isset($praiseStatusList[$post->post_id])) {
+                if (isset($praiseStatusList[$post->post_id])) {
                     $post->is_praise = 1;
-                }else{
+                } else {
                     $post->is_praise = 0;
                 }
-                if(isset($favoriteStatusList[$post->post_id])) {
+                if (isset($favoriteStatusList[$post->post_id])) {
                     $post->is_favorite = 1;
-                }else{
+                } else {
                     $post->is_favorite = 0;
                 }
-            }else{
+            } else {
                 $post->is_praise = 0;
                 $post->is_favorite = 0;
             }
@@ -1686,7 +1687,7 @@ class PostService extends BaseService
 
     public function getActivePostDetail(int $postId)
     {
-        $list = Post::query()->where('post_id',$postId)
+        $list = Post::query()->where('post_id', $postId)
             ->with(['circle'])
             ->get();
         $this->activePostAddRelationInfo($list);
@@ -1701,7 +1702,7 @@ class PostService extends BaseService
 
         $list = Post::query()->select($this->activeListRows)
             ->with(['circle'])
-            ->where('circle_id','>',Constants::STATUS_NOT)
+            ->where('circle_id', '>', Constants::STATUS_NOT)
             ->where('owner_id', $userId)
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
@@ -1713,7 +1714,7 @@ class PostService extends BaseService
         $this->activePostAddRelationInfo($list);
 
         $total = Post::query()->select($this->activeListRows)
-            ->where('circle_id','>',Constants::STATUS_NOT)
+            ->where('circle_id', '>', Constants::STATUS_NOT)
             ->where('owner_id', $userId)
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
@@ -1724,18 +1725,18 @@ class PostService extends BaseService
 
     public function getActivePostByAttention(int $pageIndex, int $pageSize)
     {
-        $userIds = UserAttentionOther::query()->where('user_id',$this->userId())
+        $userIds = UserAttentionOther::query()->where('user_id', $this->userId())
             ->get()
             ->pluck('other_user_id');
 
-        if($userIds->isEmpty()) {
+        if ($userIds->isEmpty()) {
             return ['total' => 0, 'list' => []];
         }
 
         $list = Post::query()->select($this->activeListRows)
             ->with(['circle'])
-            ->whereIn('owner_id',$userIds)
-            ->where('circle_id','>',Constants::STATUS_NOT)
+            ->whereIn('owner_id', $userIds)
+            ->where('circle_id', '>', Constants::STATUS_NOT)
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
             ->latest()
@@ -1746,8 +1747,8 @@ class PostService extends BaseService
         $this->activePostAddRelationInfo($list);
 
         $total = Post::query()->select($this->activeListRows)
-            ->whereIn('owner_id',$userIds)
-            ->where('circle_id','>',Constants::STATUS_NOT)
+            ->whereIn('owner_id', $userIds)
+            ->where('circle_id', '>', Constants::STATUS_NOT)
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
             ->count();
@@ -1759,13 +1760,13 @@ class PostService extends BaseService
     {
         $list = Post::query()->select($this->activeListRows)
             ->with(['circle'])
-            ->where('circle_id','>',Constants::STATUS_NOT)
+            ->where('circle_id', '>', Constants::STATUS_NOT)
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
-            ->when($type==Constants::CIRCLE_POST_SORT_HOT,function (Builder $builder) {
+            ->when($type == Constants::CIRCLE_POST_SORT_HOT, function (Builder $builder) {
                 $builder->orderByDesc('recommend_weight');
             })
-            ->when($type==Constants::CIRCLE_POST_SORT_LATEST,function (Builder $builder) {
+            ->when($type == Constants::CIRCLE_POST_SORT_LATEST, function (Builder $builder) {
                 $builder->latest();
             })
             ->offset($pageIndex * $pageSize)
@@ -1775,11 +1776,33 @@ class PostService extends BaseService
         $this->activePostAddRelationInfo($list);
 
         $total = Post::query()->select($this->activeListRows)
-            ->where('circle_id','>',Constants::STATUS_NOT)
+            ->where('circle_id', '>', Constants::STATUS_NOT)
             ->where('audit_status', Constants::STATUS_DONE)
             ->where('only_self_visible', Constants::STATUS_NOT)
             ->count();
 
         return ['total' => $total, 'list' => $list];
+    }
+
+    public function indexAttentionRecommendList()
+    {
+        //推荐用户,按照积分，动态，帖子，活跃时间往下排，随机抽选9个用户
+        $total = User::count();
+        $max = floor($total / 2);
+        $randomStart = rand(0, $max);
+        $userList = User::query()
+            ->whereNotNull('mobile')
+            ->offset($randomStart)
+            ->limit(9)
+            ->orderByDesc('score')
+            ->orderByDesc('active_count')
+            ->orderByDesc('fans_count')
+            ->orderByDesc('post_count')
+            ->orderByDesc('last_active_time')
+            ->get();
+        $topicList = Topic::query()->limit(3)
+                                   ->orderByDesc('recommend_weight')
+                                   ->get();
+        return ['user_list'=>$userList,'topic_list'=>$topicList];
     }
 }

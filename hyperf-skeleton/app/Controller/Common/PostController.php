@@ -567,4 +567,10 @@ class PostController extends AbstractController
         $result = $this->service->getActivePostByType($pageIndex,$pageSize,$type);
         return $this->success($result);
     }
+
+    public function indexAttentionRecommendList()
+    {
+        $result = $this->service->indexAttentionRecommendList();
+        return $this->success($result);
+    }
 }
