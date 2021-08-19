@@ -1792,7 +1792,7 @@ class PostService extends BaseService
         $randomStart = rand(0, $max);
         $userList = User::query()
             ->whereNotNull('mobile')
-            ->whereNotExists(function (Builder $query) {
+            ->whereNotExists(function ($query) {
                 $query->select(Db::raw(1))
                       ->from('user_attention_other')
                       ->where('user_id',$this->userId())
