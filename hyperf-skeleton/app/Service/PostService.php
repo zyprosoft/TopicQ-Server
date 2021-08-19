@@ -1806,6 +1806,10 @@ class PostService extends BaseService
             ->orderByDesc('post_count')
             ->orderByDesc('last_login')
             ->get();
+        $userList->map(function (User $user) {
+            $user->is_attention = 0;
+            return $user;
+        });
 
         $topicList = Topic::query()->limit(3)
                                    ->orderByDesc('recommend_weight')
