@@ -389,7 +389,7 @@ class CircleService extends BaseService
     {
         //随机获取
         $total = CircleTopic::count();
-        $offset = rand(0,floor($total-5));
+        $offset = rand(0, floor($total - 5));
         return CircleTopic::query()
             ->offset($offset)
             ->limit(4)
@@ -425,5 +425,22 @@ class CircleService extends BaseService
         $list = $list->merge($joinedList)->unique();
         $total += $joinedCount;
         return ['list' => $list, 'total' => $total];
+    }
+
+    public static function randomRecommendList(int $count = 6)
+    {
+        //随机推荐圈子,按照成员数，动态数，话题数排序，必须要有2个以上成员，2个以上动态才能被随机推荐
+        //一次推荐指定数量
+        $maxOffset = Circle::count() - $count;
+        $offset = rand(0, $maxOffset);
+        return Circle::query()
+            ->where('member_count', '>', Constants::RECOMMEND_BASE_COUNT)
+            ->where('post_count', '>', Constants::RECOMMEND_BASE_COUNT)
+            ->offset($offset)
+            ->limit($count)
+            ->orderByDesc('post_count')
+            ->orderByDesc('member_count')
+            ->orderByDesc('topic_count')
+            ->get();
     }
 }

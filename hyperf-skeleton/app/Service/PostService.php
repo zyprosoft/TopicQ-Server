@@ -703,6 +703,12 @@ class PostService extends BaseService
         //增加阅读数
         $this->push(new PostIncreaseReadJob($postId));
 
+        //推荐信息
+        $postRecommend = PostService::randomRecommendList();
+        $recommendList = $this->buildRandomRecommendList();
+        $recommendList['post_list'] = $postRecommend;
+        $post->recommend = $recommendList;
+
         return $post;
     }
 
@@ -1128,7 +1134,30 @@ class PostService extends BaseService
             ->where('circle_id', Constants::STATUS_NOT)
             ->count();
 
-        return ['total' => $total, 'list' => $list];
+        $recommend = $this->buildRandomRecommendList();
+
+        return ['total' => $total, 'list' => $list, 'recommend' => $recommend];
+    }
+
+    public function buildRandomRecommendList()
+    {
+        //推荐数据,随机决定是不是推荐
+        $rand = rand(1,30);
+        $userList = [];
+        $circleList = [];
+        $circleTopicList = [];
+        if($rand%2==0) {
+            //推荐用户
+            $userList = UserService::randomRecommendList();
+        }elseif ($rand%3==0) {
+            //推荐圈子
+            $circleList = CircleService::randomRecommendList();
+        }elseif($rand%5==0){
+            //推荐圈话题
+            $circleTopicList = TopicService::randomRecommendCircleTopicList();
+        }
+
+        return ['user_list'=>$userList,'circle_list'=>$circleList,'topic_list'=>$circleTopicList];
     }
 
     public function getPostListBySubscribe(int $pageIndex, int $pageSize)
@@ -1787,33 +1816,27 @@ class PostService extends BaseService
     public function indexAttentionRecommendList()
     {
         //推荐用户,按照积分，动态，帖子，活跃时间往下排，随机抽选9个用户
-        $total = User::count();
-        $max = floor($total / 2);
-        $randomStart = rand(0, $max);
-        $userList = User::query()
-            ->whereNotNull('mobile')
-            ->whereNotExists(function ($query) {
-                $query->select(Db::raw(1))
-                      ->from('user_attention_other')
-                      ->where('user_id',$this->userId())
-                      ->where('user_attention_other.other_user_id','=','user.user_id');
-            })
-            ->offset($randomStart)
-            ->limit(9)
-            ->orderByDesc('score')
-            ->orderByDesc('active_count')
-            ->orderByDesc('fans_count')
-            ->orderByDesc('post_count')
-            ->orderByDesc('last_login')
-            ->get();
-        $userList->map(function (User $user) {
-            $user->is_attention = 0;
-            return $user;
-        });
+        $userList = UserService::randomRecommendList(9);
 
         $topicList = Topic::query()->limit(3)
-                                   ->orderByDesc('recommend_weight')
-                                   ->get();
-        return ['user_list'=>$userList,'topic_list'=>$topicList];
+            ->orderByDesc('recommend_weight')
+            ->get();
+        return ['user_list' => $userList, 'topic_list' => $topicList];
+    }
+
+    public static function randomRecommendList(int $count = 6)
+    {
+        //按照帖子的推荐权重和时间排序，随机推荐指定数量的帖子,4/3的帖子落入被推荐区域
+        $total = Post::query()->where('circle_id', Constants::STATUS_NOT)
+            ->count();
+        $maxOffset = $total - $count;
+        $start = rand(0, $maxOffset);
+        return Post::query()->where('circle_id', Constants::STATUS_NOT)
+        ->orderByDesc('recommend_weight')
+        ->orderByDesc('last_active_time')
+        ->orderByDesc('created_at')
+        ->offset($start)
+        ->limit($count)
+        ->get();
     }
 }

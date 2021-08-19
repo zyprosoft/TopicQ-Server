@@ -203,4 +203,6 @@ class Constants
     const USER_MAX_UPLOAD_TIMES_PER_DAY = 100;
 
     const WX_SECURITY_CHECK_FAIL = 87014;
+
+    const RECOMMEND_BASE_COUNT = 2;
 }

@@ -229,4 +229,19 @@ class TopicService extends AbstractService
         }
         return $topic;
     }
+
+    public static function randomRecommendCircleTopicList(int $count = 6)
+    {
+        //随机获取
+        $total = CircleTopic::count();
+        $max = $total - $count;
+        $offset = rand(0,$max);
+        return CircleTopic::query()
+            ->offset($offset)
+            ->limit($count)
+            ->orderByDesc('today_post_count')
+            ->orderByDesc('post_count')
+            ->orderByDesc('member_count')
+            ->get();
+    }
 }

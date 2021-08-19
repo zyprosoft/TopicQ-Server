@@ -1166,4 +1166,33 @@ class UserService extends BaseService
             ]
         ];
     }
+
+    public static function randomRecommendList(int $count = 12)
+    {
+        //推荐用户,按照积分，动态，帖子，活跃时间往下排，随机抽选9个用户
+        $total = User::count();
+        $max = $total - $count;
+        $randomStart = rand(0, $max);
+        $userList = User::query()
+            ->whereNotNull('mobile')
+            ->whereNotExists(function ($query) {
+                $query->select(Db::raw(1))
+                    ->from('user_attention_other')
+                    ->where('user_id', $this->userId())
+                    ->where('user_attention_other.other_user_id', '=', 'user.user_id');
+            })
+            ->offset($randomStart)
+            ->limit(9)
+            ->orderByDesc('score')
+            ->orderByDesc('active_count')
+            ->orderByDesc('fans_count')
+            ->orderByDesc('post_count')
+            ->orderByDesc('last_login')
+            ->get();
+        $userList->map(function (User $user) {
+            $user->is_attention = 0;
+            return $user;
+        });
+        return $userList;
+    }
 }
