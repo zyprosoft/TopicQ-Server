@@ -1173,13 +1173,19 @@ class UserService extends BaseService
         $total = User::count();
         $max = $total - $count;
         $randomStart = rand(0, $max);
+        $userId = null;
+        if(Auth::isGuest()==false) {
+            $userId = Auth::userId();
+        }
         $userList = User::query()
             ->whereNotNull('mobile')
-            ->whereNotExists(function ($query) {
-                $query->select(Db::raw(1))
-                    ->from('user_attention_other')
-                    ->where('user_id', $this->userId())
-                    ->where('user_attention_other.other_user_id', '=', 'user.user_id');
+            ->whereNotExists(function ($query)  use ($userId) {
+                if(isset($userId)) {
+                    $query->select(Db::raw(1))
+                        ->from('user_attention_other')
+                        ->where('user_id', $userId)
+                        ->where('user_attention_other.other_user_id', '=', 'user.user_id');
+                }
             })
             ->offset($randomStart)
             ->limit(9)
