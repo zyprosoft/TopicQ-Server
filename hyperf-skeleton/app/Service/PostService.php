@@ -1798,7 +1798,7 @@ class PostService extends BaseService
             ->orderByDesc('active_count')
             ->orderByDesc('fans_count')
             ->orderByDesc('post_count')
-            ->orderByDesc('last_active_time')
+            ->orderByDesc('last_login')
             ->get();
         $topicList = Topic::query()->limit(3)
                                    ->orderByDesc('recommend_weight')
