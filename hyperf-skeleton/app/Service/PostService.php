@@ -1792,6 +1792,12 @@ class PostService extends BaseService
         $randomStart = rand(0, $max);
         $userList = User::query()
             ->whereNotNull('mobile')
+            ->whereNotExists(function (Builder $query) {
+                $query->select(Db::raw(1))
+                      ->from('user_attention_other')
+                      ->where('user_id',$this->userId())
+                      ->where('user_attention_other.other_user_id','=','user.user_id');
+            })
             ->offset($randomStart)
             ->limit(9)
             ->orderByDesc('score')
@@ -1800,6 +1806,7 @@ class PostService extends BaseService
             ->orderByDesc('post_count')
             ->orderByDesc('last_login')
             ->get();
+
         $topicList = Topic::query()->limit(3)
                                    ->orderByDesc('recommend_weight')
                                    ->get();
