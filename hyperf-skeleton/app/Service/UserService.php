@@ -1201,7 +1201,7 @@ class UserService extends BaseService
     public static function randomRecommendList(int $count = 12)
     {
         $userList = UserService::innerRandomGetUserList($count);
-        if($userList < $count) {
+        if($userList->count() < $count) {
             $userList = UserService::innerRandomGetUserList($count);
         }
 
