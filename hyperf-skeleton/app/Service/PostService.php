@@ -1145,7 +1145,7 @@ class PostService extends BaseService
     public function buildRandomRecommendList()
     {
         //推荐数据,随机决定是不是推荐
-        $rand = rand(2,5);
+        $rand = rand(2,6);
         $userList = [];
         $circleList = [];
         $circleTopicList = [];
