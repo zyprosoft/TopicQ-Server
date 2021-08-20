@@ -1145,19 +1145,22 @@ class PostService extends BaseService
     public function buildRandomRecommendList()
     {
         //推荐数据,随机决定是不是推荐
-        $rand = rand(2,6);
+        $rand = rand(2,7);
         $userList = [];
         $circleList = [];
         $circleTopicList = [];
-        if($rand%2==0) {
+        if($rand%3==0) {
             //推荐用户
             $userList = UserService::randomRecommendList();
-        }elseif ($rand%3==0) {
+        }elseif ($rand%5==0) {
             //推荐圈子
             $circleList = CircleService::randomRecommendList();
-        }elseif($rand%5==0){
+        }elseif($rand%7==0){
             //推荐圈话题
             $circleTopicList = TopicService::randomRecommendCircleTopicList();
+        }else{
+            //推荐圈子
+            $circleList = CircleService::randomRecommendList();
         }
 
         return ['user_list'=>$userList,'circle_list'=>$circleList,'topic_list'=>$circleTopicList];
