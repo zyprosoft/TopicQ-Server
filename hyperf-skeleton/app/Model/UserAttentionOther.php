@@ -9,6 +9,9 @@ namespace App\Model;
  * @property int $other_user_id 被关注用户ID
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
+ * @property int $is_read 被关注者是否已读
+ * @property-read \App\Model\User $other 
+ * @property-read \App\Model\User $owner 
  */
 class UserAttentionOther extends Model
 {
@@ -29,15 +32,13 @@ class UserAttentionOther extends Model
      *
      * @var array
      */
-    protected $casts = ['id' => 'int', 'user_id' => 'integer', 'other_user_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
-
+    protected $casts = ['id' => 'int', 'user_id' => 'integer', 'other_user_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'is_read' => 'integer'];
     public function owner()
     {
-        return $this->hasOne(User::class,'user_id','user_id');
+        return $this->hasOne(User::class, 'user_id', 'user_id');
     }
-
     public function other()
     {
-        return $this->hasOne(User::class,'user_id','other_user_id');
+        return $this->hasOne(User::class, 'user_id', 'other_user_id');
     }
 }
