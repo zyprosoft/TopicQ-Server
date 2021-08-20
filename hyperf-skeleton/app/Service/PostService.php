@@ -1149,18 +1149,18 @@ class PostService extends BaseService
         $userList = [];
         $circleList = [];
         $circleTopicList = [];
-        if($rand%3==0) {
+        if($rand%3==0||$rand%4==0) {
             //推荐用户
             $userList = UserService::randomRecommendList();
-        }elseif ($rand%5==0) {
+        }elseif ($rand%5==0||$rand%6==0) {
             //推荐圈子
             $circleList = CircleService::randomRecommendList();
         }elseif($rand%7==0){
             //推荐圈话题
             $circleTopicList = TopicService::randomRecommendCircleTopicList();
         }else{
-            //推荐圈子
-            $circleList = CircleService::randomRecommendList();
+            //推荐圈话题
+            $circleTopicList = TopicService::randomRecommendCircleTopicList();
         }
 
         return ['user_list'=>$userList,'circle_list'=>$circleList,'topic_list'=>$circleTopicList];
