@@ -1167,7 +1167,7 @@ class UserService extends BaseService
         ];
     }
 
-    public static function randomRecommendList(int $count = 12)
+    public static function innerRandomGetUserList(int $count = 12)
     {
         //推荐用户,按照积分，动态，帖子，活跃时间往下排，随机抽选9个用户
         $total = User::count();
@@ -1195,6 +1195,16 @@ class UserService extends BaseService
             ->orderByDesc('post_count')
             ->orderByDesc('last_login')
             ->get();
+        return $userList;
+    }
+
+    public static function randomRecommendList(int $count = 12)
+    {
+        $userList = UserService::innerRandomGetUserList($count);
+        if($userList < $count) {
+            $userList = UserService::innerRandomGetUserList($count);
+        }
+
         $userList->map(function (User $user) {
             $user->is_attention = 0;
             return $user;
