@@ -473,8 +473,6 @@ class CircleService extends BaseService
         $maxOffset = Circle::count() - $count;
         $offset = rand(0, $maxOffset);
         return Circle::query()
-            ->where('member_count', '>', Constants::RECOMMEND_BASE_COUNT)
-            ->where('post_count', '>', Constants::RECOMMEND_BASE_COUNT)
             ->offset($offset)
             ->limit($count)
             ->orderByDesc('post_count')
