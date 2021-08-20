@@ -11,8 +11,9 @@ class AlterUserAttentionOtherAddReadStatus extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('user_attention_other', function (Blueprint $table) {
             //
+            $table->tinyInteger('is_read')->default(0)->comment('被关注者是否已读');
         });
     }
 
@@ -21,8 +22,9 @@ class AlterUserAttentionOtherAddReadStatus extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('user_attention_other', function (Blueprint $table) {
             //
+            $table->dropColumn('is_read');
         });
     }
 }
