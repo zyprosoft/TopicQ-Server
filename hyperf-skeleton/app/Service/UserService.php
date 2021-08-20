@@ -609,9 +609,14 @@ class UserService extends BaseService
             ->where('post.circle_id','>',Constants::STATUS_NOT)
             ->count();
 
+        //统计新增粉丝消息
+        $newFansCount = UserAttentionOther::query()->where('other_user_id',$this->userId())
+            ->where('is_read',Constants::STATUS_NOT)
+            ->count();
+
         $praiseTotal = $praiseCount + $postPraiseCount + $activePraiseCount;
 
-        $total = $unreadList->count() + $unreadMessage + $notificationCount + $praiseTotal;
+        $total = $unreadList->count() + $unreadMessage + $notificationCount + $praiseTotal + $newFansCount;
 
         return [
             'total' => $total,
@@ -621,7 +626,8 @@ class UserService extends BaseService
             'praise_count' => $praiseCount,
             'post_praise_count' => $postPraiseCount,
             'praise_total' => $praiseTotal,
-            'active_praise_count' => $activePraiseCount
+            'active_praise_count' => $activePraiseCount,
+            'fans_count' => $newFansCount
         ];
     }
 
@@ -1210,5 +1216,29 @@ class UserService extends BaseService
             return $user;
         });
         return $userList;
+    }
+
+    public function getMyNewFansList(int $pageIndex,int $pageSize)
+    {
+        $list = UserAttentionOther::query()->where('other_user_id',$this->userId())
+                ->where('is_read',Constants::STATUS_NOT)
+                ->offset($pageIndex*$pageSize)
+                ->limit($pageSize)
+                ->latest()
+                ->get();
+        $idList = $list->pluck('id');
+        $userList = $list->pluck('owner');
+        $total = UserAttentionOther::query()->where('other_user_id',$this->userId())
+            ->where('is_read',Constants::STATUS_NOT)
+            ->count();
+        return ['total'=>$total,'list'=>$userList,'id_list'=>$idList];
+    }
+
+    public function markNewFansListRead(array $idList)
+    {
+        UserAttentionOther::query()->whereIn('id',$idList)->update([
+            'is_read'=>Constants::STATUS_OK
+        ]);
+        return $this->success();
     }
 }

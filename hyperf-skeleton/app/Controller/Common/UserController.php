@@ -315,4 +315,26 @@ class UserController extends AbstractController
         $result = $this->userService->getAllHobbyLabels();
         return $this->success($result);
     }
+
+    public function getNewFansList(AuthedRequest $request)
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30'
+        ]);
+        $pageIndex = $this->request->param('pageIndex');
+        $pageSize = $this->request->param('pageSize');
+        $result = $this->userService->getMyNewFansList($pageIndex,$pageSize);
+        return $this->success($result);
+    }
+
+    public function markNewFansListRead(AuthedRequest $request)
+    {
+        $this->validate([
+            'idList' => 'array|required|min:1',
+        ]);
+        $idList = $this->request->param('idList');
+        $result = $this->userService->markNewFansListRead($idList);
+        return $this->success($result);
+    }
 }
