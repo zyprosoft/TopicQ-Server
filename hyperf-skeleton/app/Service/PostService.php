@@ -704,9 +704,7 @@ class PostService extends BaseService
         $this->push(new PostIncreaseReadJob($postId));
 
         //推荐信息
-        $postRecommend = PostService::randomRecommendList();
         $recommendList = $this->buildRandomRecommendList();
-        $recommendList['post_list'] = $postRecommend;
         $post->recommend = $recommendList;
 
         return $post;
