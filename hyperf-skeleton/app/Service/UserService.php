@@ -1206,11 +1206,13 @@ class UserService extends BaseService
 
     public static function randomRecommendList(int $count = 12)
     {
+        $tryTimes = 0;
         do {
             $userList = UserService::innerRandomGetUserList($count);
-            if($userList->count()>=$count) {
+            if($userList->count() >= $count || $tryTimes >= 6) {
                 break;
             }
+            $tryTimes++;
         } while ($userList->count() < $count);
 
         $userList->map(function (User $user) {
