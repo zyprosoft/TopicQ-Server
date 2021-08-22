@@ -31,4 +31,10 @@ class ActivityController extends AbstractController
         $result = $this->service->getActivityList($type,$forumId);
         return $this->success($result);
     }
+
+    public function getIndexConfigData()
+    {
+        $result = $this->service->getIndexConfigData();
+        return $this->success($result);
+    }
 }

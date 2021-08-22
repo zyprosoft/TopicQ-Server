@@ -7,9 +7,16 @@ namespace App\Service;
 use App\Constants\Constants;
 use App\Model\Activity;
 use Hyperf\Database\Model\Builder;
+use Hyperf\Di\Annotation\Inject;
 
 class ActivityService extends BaseService
 {
+    /**
+     * @Inject
+     * @var ForumService
+     */
+    protected ForumService $forumService;
+
     public function getActivityList(int $type = null, int $forumId = null)
     {
         if (!isset($type)) {
@@ -21,5 +28,12 @@ class ActivityService extends BaseService
                 $query->where('forum_id',$forumId);
             })
             ->orderByDesc('sort_index')->get();
+    }
+
+    public function getIndexConfigData()
+    {
+        $activityList = $this->getActivityList();
+        $forumList = $this->forumService->getForumList();
+        return ['activity_list'=>$activityList,'forum_list'=>$forumList];
     }
 }
