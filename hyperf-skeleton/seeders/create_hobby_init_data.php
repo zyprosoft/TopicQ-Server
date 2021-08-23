@@ -199,7 +199,7 @@ class CreateHobbyInitData extends Seeder
             $category = $hobby->pluck('name');
             $insertCategory = [];
             $category->map(function (string $name) use (&$insertCategory){
-                $insertCategory['name'] = $name;
+                $insertCategory[] = ['name'=>$name];
             });
 
             \ZYProSoft\Log\Log::info('category will insert:'.json_encode($insertCategory));
