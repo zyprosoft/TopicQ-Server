@@ -1078,6 +1078,6 @@ class UserService extends BaseService
 
     public function allSignStatus()
     {
-        return SignStatus::all();
+        return SignStatus::all()->pluck('name');
     }
 }
