@@ -210,8 +210,7 @@ class CreateHobbyInitData extends Seeder
             \ZYProSoft\Log\Log::info('categoryList by name:'.json_encode($categoryList));
 
             $batchHobbyItems = [];
-            $hobby->map(function (array $item) use ($categoryList){
-                \ZYProSoft\Log\Log::info('item :'.json_encode($categoryList[$item['name']]));
+            $hobby->map(function (array $item) use ($categoryList,&$batchHobbyItems){
                $categoryId = $categoryList[$item['name']];
                $items = collect($item['items']);
                \ZYProSoft\Log\Log::info("Hobby items:".json_encode($items));
