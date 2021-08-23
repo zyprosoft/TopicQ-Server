@@ -10,6 +10,7 @@ use App\Job\AddScoreJob;
 use App\Job\UserUpdateMachineAuditJob;
 use App\Model\Advice;
 use App\Model\Comment;
+use App\Model\HobbyCategory;
 use App\Model\Notification;
 use App\Model\Post;
 use App\Model\PrivateMessage;
@@ -995,7 +996,7 @@ class UserService extends BaseService
 
     public function getAllHobbyLabels()
     {
-
+        return HobbyCategory::all();
     }
 
     public static function innerRandomGetUserList(int $count = 12)

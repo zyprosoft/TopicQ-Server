@@ -29,4 +29,11 @@ class HobbyCategory extends Model
      * @var array
      */
     protected $casts = ['category_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+
+    protected $with = ['hobbies'];
+
+    public function hobbies()
+    {
+        return $this->hasMany(HobbyLabel::class,'category_id','category_id');
+    }
 }
