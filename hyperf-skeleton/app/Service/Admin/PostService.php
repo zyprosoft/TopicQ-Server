@@ -12,6 +12,7 @@ use App\Model\ReportPost;
 use App\Model\UserRead;
 use App\Service\BaseService;
 use App\Service\NotificationService;
+use Carbon\Carbon;
 use Hyperf\Database\Model\Builder;
 use Hyperf\DbConnection\Db;
 use ZYProSoft\Constants\ErrorCode;
@@ -369,7 +370,8 @@ class PostService extends BaseService
 
     public function updatePostTime(int $postId, string $postTime)
     {
-        $this->postUpdate($postId,'created_at', $postTime);
+        $dateTime = Carbon::createFromTimeString($postTime);
+        $this->postUpdate($postId,'created_at', $dateTime);
     }
 
     public function getMaxRecommendWeight()
