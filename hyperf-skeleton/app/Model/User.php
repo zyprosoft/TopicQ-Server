@@ -68,6 +68,7 @@ use App\Constants\Constants;
  * @property int $post_count 帖子数
  * @property int $fans_count 粉丝数
  * @property int $attention_count 关注数
+ * @property string $sign_status 当前状态
  * @property-read \App\Model\UserGroup $group 
  * @property-read \App\Model\Role $role 
  * @property-read \App\Model\UserUpdate $update_info 
