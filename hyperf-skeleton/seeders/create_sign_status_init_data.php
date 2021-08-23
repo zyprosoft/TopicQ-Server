@@ -45,6 +45,18 @@ class CreateSignStatusInitData extends Seeder
             ],
             [
                 'name' => '找闺蜜'
+            ],
+            [
+                'name' => '空闲中'
+            ],
+            [
+                'name' => '忙碌中'
+            ],
+            [
+                'name' => '自习中'
+            ],
+            [
+                'name' => '游戏中'
             ]
         ]);
     }
