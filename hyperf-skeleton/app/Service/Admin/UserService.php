@@ -112,7 +112,7 @@ class UserService extends \App\Service\BaseService
         //加密手机号码
         $list->map(function (User $user) {
             if (!empty($user->mobile)) {
-                $user->mobile = substr_replace($user->mobile, '****', 3, 4);
+                $user->mobile = substr_replace($user->mobile, '****', 0, 7);
             }
             return $user;
         });
@@ -169,6 +169,7 @@ class UserService extends \App\Service\BaseService
         $joinTime = data_get($params, 'joinTime');
         $user->sex = data_get($params,'sex');
         $user->hobby_label = json_encode(data_get($params,'hobbyLabels'));
+        $user->sign_status = data_get($params,'signStatus');
         if (isset($joinTime)) {
             $user->created_at = $joinTime;
         }
@@ -197,6 +198,7 @@ class UserService extends \App\Service\BaseService
             $user->wx_openid = Str::random(64);
             $user->sex = data_get($params,'sex');
             $user->hobby_label = json_encode(data_get($params,'hobbyLabels'));
+            $user->sign_status = data_get($params,'signStatus');
             $user->saveOrFail();
 
             $managerAvatarUser = new ManagerAvatarUser();

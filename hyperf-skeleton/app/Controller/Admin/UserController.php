@@ -79,7 +79,8 @@ class UserController extends AbstractController
                 'isBind' => 'integer|required|in:0,1',
                 'groupId' => 'integer|exists:user_group,group_id',
                 'hobbyLabels' => 'array|min:1',
-                'sex' => 'integer|in:0,1'
+                'sex' => 'integer|in:0,1',
+                'signStatus' => 'string|min:1'
             ]
         );
         $params = $request->getParams();
@@ -101,7 +102,8 @@ class UserController extends AbstractController
                 'joinTime' => 'string|date',
                 'groupId' => 'integer|exists:user_group,group_id',
                 'hobbyLabels' => 'array|min:1',
-                'sex' => 'integer|in:0,1'
+                'sex' => 'integer|in:0,1',
+                'signStatus' => 'string|min:1'
             ]
         );
         $avatarUserId = $request->param('avatarUserId');

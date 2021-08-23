@@ -144,7 +144,8 @@ class UserController extends AbstractController
                 'country' => 'string|min:1|max:64',
                 'groupId' => 'integer|min:0',  //可以为0，用于清除自己的用户分组
                 'hobbyLabels' => 'array|min:1',
-                'sex' => 'integer|in:0,1'
+                'sex' => 'integer|in:0,1',
+                'signStatus' => 'string|min:1'
             ]
         );
         $params = $request->getParams();
@@ -336,6 +337,12 @@ class UserController extends AbstractController
         ]);
         $idList = $this->request->param('idList');
         $result = $this->userService->markNewFansListRead($idList);
+        return $this->success($result);
+    }
+
+    public function getAllSignStatus()
+    {
+        $result = $this->userService->allSignStatus();
         return $this->success($result);
     }
 }

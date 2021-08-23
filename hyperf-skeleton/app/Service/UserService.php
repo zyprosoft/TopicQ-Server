@@ -14,6 +14,7 @@ use App\Model\HobbyCategory;
 use App\Model\Notification;
 use App\Model\Post;
 use App\Model\PrivateMessage;
+use App\Model\SignStatus;
 use App\Model\TokenHistory;
 use App\Model\User;
 use App\Model\UserAddress;
@@ -475,6 +476,9 @@ class UserService extends BaseService
             }
             if(isset($userInfo['sex'])) {
                 $user->sex = $userInfo['sex'];
+            }
+            if(isset($userInfo['signStatus'])) {
+                $user->sign_status = $userInfo['signStatus'];
             }
             $user->first_edit_done = Constants::STATUS_DONE;
 
@@ -1070,5 +1074,10 @@ class UserService extends BaseService
             'is_read'=>Constants::STATUS_OK
         ]);
         return $this->success();
+    }
+
+    public function allSignStatus()
+    {
+        return SignStatus::all();
     }
 }
