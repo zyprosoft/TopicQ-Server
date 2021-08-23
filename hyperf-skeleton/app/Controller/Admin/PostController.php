@@ -181,7 +181,7 @@ class PostController extends AbstractController
     {
         $this->validate([
             'postId' => 'integer|required|exists:post,post_id',
-            'time' => 'string|required|datetime'
+            'time' => 'string|required'
         ]);
         $postId = $request->param('postId');
         $time = $request->param('time');
