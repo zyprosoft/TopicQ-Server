@@ -573,4 +573,10 @@ class PostController extends AbstractController
         $result = $this->service->indexAttentionRecommendList();
         return $this->success($result);
     }
+
+    public function getTopNewsList()
+    {
+        $result = $this->service->getTopNewsList();
+        return $this->success($result);
+    }
 }

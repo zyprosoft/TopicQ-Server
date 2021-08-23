@@ -345,6 +345,11 @@ class PostService extends BaseService
         $this->postUpdate($postId,'is_hot',$status);
     }
 
+    public function setTopNews(int $postId, int $status)
+    {
+        $this->postUpdate($postId,'is_top_news',$status);
+    }
+
     public function updateRecommendWeight(int $postId, int $weight)
     {
         $post = Post::findOrFail($postId);

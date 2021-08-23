@@ -1843,4 +1843,12 @@ class PostService extends BaseService
         ->limit($count)
         ->get();
     }
+
+    public function getTopNewsList()
+    {
+        return Post::query()->select(['title','post_id'])
+            ->where('is_top_news',Constants::STATUS_OK)
+            ->latest()
+            ->get();
+    }
 }

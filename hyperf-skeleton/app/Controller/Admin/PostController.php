@@ -165,6 +165,18 @@ class PostController extends AbstractController
         return $this->success($result);
     }
 
+    public function setTopNews(AppAdminRequest $request)
+    {
+        $this->validate([
+            'postId' => 'integer|required|exists:post,post_id',
+            'status' => 'integer|required|in:0,1'
+        ]);
+        $postId = $request->param('postId');
+        $status = $request->param('status');
+        $result = $this->service->setTopNews($postId, $status);
+        return $this->success($result);
+    }
+
     public function getMaxRecommendWeight(AppAdminRequest $request)
     {
         $result = $this->service->getMaxRecommendWeight();
