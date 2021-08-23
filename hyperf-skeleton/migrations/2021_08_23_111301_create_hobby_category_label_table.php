@@ -11,7 +11,7 @@ class CreateHobbyCategoryLabelTable extends Migration
      */
     public function up(): void
     {
-        Schema::create('hobby_category_label', function (Blueprint $table) {
+        Schema::create('hobby_category', function (Blueprint $table) {
             $table->bigIncrements('category_id');
             $table->string('name',24)->comment('分类名称');
 
@@ -28,6 +28,6 @@ class CreateHobbyCategoryLabelTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('hobby_category_label');
+        Schema::dropIfExists('hobby_category');
     }
 }
