@@ -11,8 +11,19 @@ class AlterUserAddStatus extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('user', function (Blueprint $table) {
             //
+            $table->string('sign_status',24)->nullable()->comment('当前状态');
+        });
+        Schema::create('sign_status',function (Blueprint $table) {
+            $table->integerIncrements('id');
+            $table->string('name',24);
+
+            $table->unique('name');
+            $table->timestamps();
+            $table->engine = "InnoDB";
+            $table->charset = "utf8mb4";
+            $table->collation = "utf8mb4_unicode_ci";
         });
     }
 
@@ -21,8 +32,10 @@ class AlterUserAddStatus extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('user', function (Blueprint $table) {
             //
+            $table->dropColumn('sign_status');
         });
+        Schema::drop('sign_status');
     }
 }
