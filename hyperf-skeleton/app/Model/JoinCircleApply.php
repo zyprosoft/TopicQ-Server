@@ -12,6 +12,7 @@ namespace App\Model;
  * @property int $audit_status 0待审核1通过-1不通过
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
+ * @property-read \App\Model\Circle $circle 
  */
 class JoinCircleApply extends Model
 {
@@ -33,13 +34,9 @@ class JoinCircleApply extends Model
      * @var array
      */
     protected $casts = ['id' => 'int', 'user_id' => 'integer', 'circle_id' => 'integer', 'circle_owner_id' => 'integer', 'audit_status' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
-
-    protected $with = [
-        'circle',
-    ];
-
+    protected $with = ['circle'];
     public function circle()
     {
-        return $this->hasOne(Circle::class,'circle_id','circle_id');
+        return $this->hasOne(Circle::class, 'circle_id', 'circle_id');
     }
 }

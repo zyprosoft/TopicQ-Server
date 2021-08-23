@@ -5,10 +5,11 @@ namespace App\Model;
 
 /**
  * @property int $id 
- * @property int $user_id 
- * @property int $post_id 
+ * @property int $user_id 用户ID
+ * @property int $post_id 帖子ID
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
+ * @property-read \App\Model\Post $post 
  */
 class UserFavorite extends Model
 {
@@ -30,13 +31,9 @@ class UserFavorite extends Model
      * @var array
      */
     protected $casts = ['id' => 'integer', 'user_id' => 'integer', 'post_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
-
-    protected $with = [
-        'post'
-    ];
-
+    protected $with = ['post'];
     public function post()
     {
-        return $this->hasOne(Post::class,'post_id','post_id');
+        return $this->hasOne(Post::class, 'post_id', 'post_id');
     }
 }

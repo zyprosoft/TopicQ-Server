@@ -22,9 +22,7 @@ class OfferRedBag extends Model
      * @var string
      */
     protected $table = 'offer_red_bag';
-
     protected $primaryKey = 'offer_id';
-
     /**
      * The attributes that are mass assignable.
      *

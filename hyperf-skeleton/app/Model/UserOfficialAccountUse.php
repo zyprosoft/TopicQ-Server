@@ -11,6 +11,7 @@ namespace App\Model;
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
  * @property string $deleted_at 
+ * @property-read \App\Model\OfficialAccount $official_account 
  */
 class UserOfficialAccountUse extends Model
 {
@@ -32,13 +33,9 @@ class UserOfficialAccountUse extends Model
      * @var array
      */
     protected $casts = ['id' => 'int', 'user_id' => 'integer', 'account_id' => 'integer', 'count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
-
-    protected $with = [
-        'official_account'
-    ];
-
+    protected $with = ['official_account'];
     public function official_account()
     {
-        return $this->hasOne(OfficialAccount::class,'account_id','account_id');
+        return $this->hasOne(OfficialAccount::class, 'account_id', 'account_id');
     }
 }

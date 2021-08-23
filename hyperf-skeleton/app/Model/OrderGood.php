@@ -24,7 +24,6 @@ class OrderGood extends Model
      * @var string
      */
     protected $table = 'order_goods';
-
     /**
      * The attributes that are mass assignable.
      *

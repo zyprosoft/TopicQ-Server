@@ -10,6 +10,7 @@ namespace App\Model;
  * @property string $deleted_at 
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
+ * @property-read \App\Model\User $author 
  */
 class Advice extends Model
 {
@@ -31,13 +32,9 @@ class Advice extends Model
      * @var array
      */
     protected $casts = ['id' => 'int', 'owner_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
-
-    protected $with = [
-        'author'
-    ];
-
+    protected $with = ['author'];
     public function author()
     {
-        return $this->hasOne(User::class,'user_id','owner_id');
+        return $this->hasOne(User::class, 'user_id', 'owner_id');
     }
 }

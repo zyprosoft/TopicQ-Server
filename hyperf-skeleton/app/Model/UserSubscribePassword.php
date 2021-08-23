@@ -12,6 +12,7 @@ namespace App\Model;
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
  * @property string $deleted_at 
+ * @property-read \App\Model\SubscribeForumPassword $policy 
  */
 class UserSubscribePassword extends Model
 {
@@ -33,13 +34,9 @@ class UserSubscribePassword extends Model
      * @var array
      */
     protected $casts = ['id' => 'int', 'owner_id' => 'integer', 'status' => 'integer', 'policy_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
-
-    protected $with = [
-        'policy'
-    ];
-
+    protected $with = ['policy'];
     public function policy()
     {
-        return $this->hasOne(SubscribeForumPassword::class,'policy_id','policy_id');
+        return $this->hasOne(SubscribeForumPassword::class, 'policy_id', 'policy_id');
     }
 }

@@ -10,6 +10,7 @@ namespace App\Model;
  * @property string $deleted_at 
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
+ * @property-read \App\Model\User $avatar_user 
  */
 class ManagerAvatarUser extends Model
 {
@@ -31,13 +32,9 @@ class ManagerAvatarUser extends Model
      * @var array
      */
     protected $casts = ['id' => 'int', 'owner_id' => 'integer', 'avatar_user_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
-
-    protected $with = [
-        'avatar_user'
-    ];
-
+    protected $with = ['avatar_user'];
     public function avatar_user()
     {
-        return $this->hasOne(User::class,'user_id','avatar_user_id');
+        return $this->hasOne(User::class, 'user_id', 'avatar_user_id');
     }
 }

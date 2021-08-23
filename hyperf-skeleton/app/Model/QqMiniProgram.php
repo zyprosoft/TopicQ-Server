@@ -31,9 +31,7 @@ class QqMiniProgram extends Model
      * @var string
      */
     protected $table = 'qq_mini_program';
-
     protected $primaryKey = 'program_id';
-    
     /**
      * The attributes that are mass assignable.
      *

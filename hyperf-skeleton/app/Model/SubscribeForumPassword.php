@@ -15,6 +15,7 @@ namespace App\Model;
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
  * @property string $deleted_at 
+ * @property-read \App\Model\Forum $forum 
  */
 class SubscribeForumPassword extends Model
 {
@@ -24,9 +25,7 @@ class SubscribeForumPassword extends Model
      * @var string
      */
     protected $table = 'subscribe_forum_password';
-
     protected $primaryKey = 'policy_id';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -39,13 +38,9 @@ class SubscribeForumPassword extends Model
      * @var array
      */
     protected $casts = ['id' => 'int', 'forum_id' => 'integer', 'status' => 'integer', 'owner_id' => 'integer', 'price' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'policy_id' => 'integer', 'total_count' => 'integer', 'left_count' => 'integer'];
-
-    protected $with = [
-        'forum'
-    ];
-
+    protected $with = ['forum'];
     public function forum()
     {
-        return $this->hasOne(Forum::class,'forum_id','forum_id');
+        return $this->hasOne(Forum::class, 'forum_id', 'forum_id');
     }
 }

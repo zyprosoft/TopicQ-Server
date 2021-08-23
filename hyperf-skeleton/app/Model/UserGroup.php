@@ -21,9 +21,7 @@ class UserGroup extends Model
      * @var string
      */
     protected $table = 'user_group';
-
     protected $primaryKey = 'group_id';
-
     /**
      * The attributes that are mass assignable.
      *

@@ -19,6 +19,7 @@ namespace App\Model;
  * @property string $deleted_at 
  * @property int $show_type 0首页运营活动1版块运营活动
  * @property int $forum_id 当活动类型为版块活动的时候填充版块ID
+ * @property-read \App\Model\Forum $forum 
  */
 class Activity extends Model
 {
@@ -42,9 +43,8 @@ class Activity extends Model
      */
     protected $casts = ['activity_id' => 'integer', 'post_id' => 'integer', 'creator' => 'integer', 'sort_index' => 'integer', 'status' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'show_type' => 'integer', 'forum_id' => 'integer'];
     protected $with = ['forum'];
-
     public function forum()
     {
-        return $this->hasOne(Forum::class,'forum_id','forum_id');
+        return $this->hasOne(Forum::class, 'forum_id', 'forum_id');
     }
 }

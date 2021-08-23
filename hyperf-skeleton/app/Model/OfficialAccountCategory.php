@@ -13,6 +13,7 @@ namespace App\Model;
  * @property string $deleted_at 
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
+ * @property-read \Hyperf\Database\Model\Collection|\App\Model\OfficialAccount[] $items 
  */
 class OfficialAccountCategory extends Model
 {
@@ -22,9 +23,7 @@ class OfficialAccountCategory extends Model
      * @var string
      */
     protected $table = 'official_account_category';
-
     protected $primaryKey = 'category_id';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -37,9 +36,8 @@ class OfficialAccountCategory extends Model
      * @var array
      */
     protected $casts = ['category_id' => 'integer', 'total' => 'integer', 'create_user_id' => 'integer', 'update_user_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
-
     public function items()
     {
-        return $this->hasMany(OfficialAccount::class,'category_id','category_id');
+        return $this->hasMany(OfficialAccount::class, 'category_id', 'category_id');
     }
 }

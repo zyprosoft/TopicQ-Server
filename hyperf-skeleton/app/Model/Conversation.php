@@ -13,6 +13,8 @@ namespace App\Model;
  * @property string $deleted_at 
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
+ * @property-read \App\Model\User $owner 
+ * @property-read \App\Model\User $receiver 
  */
 class Conversation extends Model
 {
@@ -35,19 +37,13 @@ class Conversation extends Model
      * @var array
      */
     protected $casts = ['conversation_id' => 'integer', 'owner_id' => 'integer', 'to_user_id' => 'integer', 'unread_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
-
-    protected $with = [
-        'owner',
-        'receiver'
-    ];
-
+    protected $with = ['owner', 'receiver'];
     public function owner()
     {
-        return $this->hasOne(User::class,'user_id','owner_id');
+        return $this->hasOne(User::class, 'user_id', 'owner_id');
     }
-
     public function receiver()
     {
-        return $this->hasOne(User::class,'user_id','to_user_id');
+        return $this->hasOne(User::class, 'user_id', 'to_user_id');
     }
 }

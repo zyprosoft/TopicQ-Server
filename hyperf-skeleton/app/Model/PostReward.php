@@ -22,9 +22,7 @@ class PostReward extends Model
      * @var string
      */
     protected $table = 'post_reward';
-
     protected $primaryKey = 'reward_id';
-
     /**
      * The attributes that are mass assignable.
      *

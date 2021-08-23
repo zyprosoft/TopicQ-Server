@@ -5,7 +5,7 @@ namespace App\Model;
 
 /**
  * @property int $role_id 
- * @property string $name 
+ * @property string $name 角色名
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
  * @property string $deleted_at 
@@ -18,9 +18,7 @@ class Role extends Model
      * @var string
      */
     protected $table = 'role';
-
     protected $primaryKey = 'role_id';
-
     /**
      * The attributes that are mass assignable.
      *

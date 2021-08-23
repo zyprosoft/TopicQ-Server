@@ -9,6 +9,7 @@ namespace App\Model;
  * @property int $user_id 用户ID
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
+ * @property-read \App\Model\User $author 
  */
 class CommentAtUser extends Model
 {
@@ -30,11 +31,9 @@ class CommentAtUser extends Model
      * @var array
      */
     protected $casts = ['id' => 'int', 'comment_id' => 'integer', 'user_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
-
     protected $with = ['author'];
-
     public function author()
     {
-        return $this->hasOne(User::class,'user_id','user_id')->select(['nickname','user_id']);
+        return $this->hasOne(User::class, 'user_id', 'user_id')->select(['nickname', 'user_id']);
     }
 }

@@ -5,8 +5,8 @@ namespace App\Model;
 
 /**
  * @property int $id 
- * @property int $user_id 
- * @property int $post_id 
+ * @property int $user_id 用户ID
+ * @property int $post_id 帖子ID
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
  */

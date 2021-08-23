@@ -13,6 +13,8 @@ namespace App\Model;
  * @property string $deleted_at 
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
+ * @property-read \App\Model\User $receiver 
+ * @property-read \App\Model\User $sender 
  */
 class PrivateMessage extends Model
 {
@@ -35,19 +37,13 @@ class PrivateMessage extends Model
      * @var array
      */
     protected $casts = ['message_id' => 'integer', 'from_id' => 'integer', 'receive_id' => 'integer', 'read_status' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
-
-    protected $with = [
-        'sender',
-        'receiver'
-    ];
-
+    protected $with = ['sender', 'receiver'];
     public function sender()
     {
-        return $this->hasOne(User::class,'user_id','from_id');
+        return $this->hasOne(User::class, 'user_id', 'from_id');
     }
-
     public function receiver()
     {
-        return $this->hasOne(User::class,'user_id','receive_id');
+        return $this->hasOne(User::class, 'user_id', 'receive_id');
     }
 }

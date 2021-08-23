@@ -32,7 +32,6 @@ class VoucherPolicyGood extends Model
      * @var array
      */
     protected $casts = ['policy_goods_id' => 'integer', 'activity_id' => 'integer', 'policy_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
-
     public function category_items()
     {
         if (empty($this->category_list)) {

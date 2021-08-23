@@ -5,9 +5,9 @@ namespace App\Model;
 
 /**
  * @property int $vote_item_id 
- * @property int $vote_id 
- * @property string $content 
- * @property int $user_count 
+ * @property int $vote_id 投票ID
+ * @property string $content 选项内容
+ * @property int $user_count 此选项的用户数量
  * @property string $deleted_at 
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
@@ -20,9 +20,7 @@ class VoteItem extends Model
      * @var string
      */
     protected $table = 'vote_item';
-
     protected $primaryKey = 'vote_item_id';
-
     /**
      * The attributes that are mass assignable.
      *

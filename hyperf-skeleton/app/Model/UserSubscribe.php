@@ -9,6 +9,7 @@ namespace App\Model;
  * @property int $forum_id 板块ID
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
+ * @property-read \App\Model\Forum $forum 
  */
 class UserSubscribe extends Model
 {
@@ -18,9 +19,7 @@ class UserSubscribe extends Model
      * @var string
      */
     protected $table = 'user_subscribe';
-
     protected $primaryKey = 'subscribe_id';
-    
     /**
      * The attributes that are mass assignable.
      *
@@ -33,9 +32,8 @@ class UserSubscribe extends Model
      * @var array
      */
     protected $casts = ['subscribe_id' => 'integer', 'user_id' => 'integer', 'forum_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
-
     public function forum()
     {
-        return $this->hasOne(Forum::class,'forum_id','forum_id');
+        return $this->hasOne(Forum::class, 'forum_id', 'forum_id');
     }
 }

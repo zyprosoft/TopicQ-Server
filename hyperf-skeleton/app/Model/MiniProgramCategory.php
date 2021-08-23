@@ -13,6 +13,8 @@ namespace App\Model;
  * @property string $deleted_at 
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
+ * @property-read \Hyperf\Database\Model\Collection|\App\Model\MiniProgram[] $items 
+ * @property-read \Hyperf\Database\Model\Collection|\App\Model\QqMiniProgram[] $qq_mini_items 
  */
 class MiniProgramCategory extends Model
 {
@@ -22,9 +24,7 @@ class MiniProgramCategory extends Model
      * @var string
      */
     protected $table = 'mini_program_category';
-
     protected $primaryKey = 'category_id';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -37,14 +37,12 @@ class MiniProgramCategory extends Model
      * @var array
      */
     protected $casts = ['category_id' => 'integer', 'total' => 'integer', 'create_user_id' => 'integer', 'update_user_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
-
     public function items()
     {
-        return $this->hasMany(MiniProgram::class,'category_id','category_id');
+        return $this->hasMany(MiniProgram::class, 'category_id', 'category_id');
     }
-
     public function qq_mini_items()
     {
-        return $this->hasMany(QqMiniProgram::class,'category_id','category_id');
+        return $this->hasMany(QqMiniProgram::class, 'category_id', 'category_id');
     }
 }

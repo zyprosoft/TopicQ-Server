@@ -4,7 +4,6 @@ declare (strict_types=1);
 namespace App\Model;
 
 use Carbon\Carbon;
-
 /**
  * @property int $voucher_id 
  * @property int $policy_id 批次ID
@@ -17,7 +16,7 @@ use Carbon\Carbon;
  * @property string $used_time 使用时间，多次使用为最后一次使用时间
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
- * @property string $deleted_at
+ * @property string $deleted_at 
  * @property-read \App\Model\VoucherPolicy $policy 
  */
 class Voucher extends Model
@@ -42,7 +41,6 @@ class Voucher extends Model
      */
     protected $casts = ['voucher_id' => 'integer', 'activity_id' => 'integer', 'policy_id' => 'integer', 'policy_goods_id' => 'integer', 'policy_black_id' => 'integer', 'status' => 'integer', 'owner_id' => 'integer', 'left_amount' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
     protected $with = ['policy'];
-
     public function policy()
     {
         return $this->hasOne(VoucherPolicy::class, 'policy_id', 'policy_id');
