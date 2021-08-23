@@ -11,8 +11,9 @@ class PostAddIsTopNew extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('post', function (Blueprint $table) {
             //
+            $table->tinyInteger('is_top_news')->default(0)->comment('是不是头条新闻');
         });
     }
 
@@ -21,8 +22,9 @@ class PostAddIsTopNew extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('post', function (Blueprint $table) {
             //
+            $table->dropColumn('is_top_news');
         });
     }
 }
