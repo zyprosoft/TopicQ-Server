@@ -197,9 +197,13 @@ class CreateHobbyInitData extends Seeder
             $hobby = collect($hobby);
 
             $category = $hobby->pluck('name');
+            $insertCategory = [];
+            $category->map(function (string $name) use (&$insertCategory){
+                $insertCategory['name'] = $name;
+            });
 
-            \ZYProSoft\Log\Log::info('category will insert:'.json_encode($category));
-            Db::table('hobby_category')->insertOrIgnore($category->toArray());
+            \ZYProSoft\Log\Log::info('category will insert:'.json_encode($insertCategory));
+            Db::table('hobby_category')->insertOrIgnore($insertCategory);
 
             $categoryList = Db::table('hobby_category')->select(['name','category_id'])->get()
             ->keyBy('name');
