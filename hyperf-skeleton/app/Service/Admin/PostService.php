@@ -104,6 +104,7 @@ class PostService extends BaseService
 
         $list = Post::query()->select($selectRows)
             ->where('audit_status', Constants::STATUS_DONE)
+            ->where('circle_id',Constants::STATUS_NOT)
             ->with(['forum'])
             ->latest()
             ->offset($pageIndex * $pageSize)
@@ -135,6 +136,7 @@ class PostService extends BaseService
 
         $total = Post::query()->select($selectRows)
             ->where('audit_status', Constants::STATUS_DONE)
+            ->where('circle_id',Constants::STATUS_NOT)
             ->count();
 
         //补充星标用户信息
