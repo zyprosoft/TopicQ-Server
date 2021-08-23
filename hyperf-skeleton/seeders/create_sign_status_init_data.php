@@ -57,6 +57,9 @@ class CreateSignStatusInitData extends Seeder
             ],
             [
                 'name' => '游戏中'
+            ],
+            [
+                'name' => '发呆中'
             ]
         ]);
     }
