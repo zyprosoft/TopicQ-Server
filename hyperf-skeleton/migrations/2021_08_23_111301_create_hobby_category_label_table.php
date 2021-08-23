@@ -12,8 +12,14 @@ class CreateHobbyCategoryLabelTable extends Migration
     public function up(): void
     {
         Schema::create('hobby_category_label', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('category_id');
+            $table->string('name',24)->comment('分类名称');
+
+            $table->unique('name');
             $table->timestamps();
+            $table->engine = "InnoDB";
+            $table->charset = "utf8mb4";
+            $table->collation = "utf8mb4_unicode_ci";
         });
     }
 

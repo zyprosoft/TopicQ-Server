@@ -984,7 +984,7 @@ class UserService extends BaseService
     public function getUserListByScore(int $pageIndex, int $pageSize)
     {
         $list = User::query()
-            ->whereNotNull('mobile')
+            ->whereNotNull('nickname')
             ->orderByDesc('score')
             ->offset($pageSize*$pageIndex)
             ->limit($pageSize)
