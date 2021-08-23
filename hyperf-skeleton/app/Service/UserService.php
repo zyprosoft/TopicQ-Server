@@ -1184,7 +1184,7 @@ class UserService extends BaseService
             $userId = Auth::userId();
         }
         $userList = User::query()
-            ->whereNotNull('mobile')
+            ->whereNotNull('nickname')
             ->whereNotExists(function ($query)  use ($userId) {
                 if(isset($userId)) {
                     $query->select(Db::raw(1))
