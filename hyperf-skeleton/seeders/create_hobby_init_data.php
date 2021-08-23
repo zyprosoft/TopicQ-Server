@@ -205,8 +205,7 @@ class CreateHobbyInitData extends Seeder
             \ZYProSoft\Log\Log::info('category will insert:'.json_encode($insertCategory));
             Db::table('hobby_category')->insertOrIgnore($insertCategory);
 
-            $categoryList = Db::table('hobby_category')->select(['name','category_id'])->get()
-            ->keyBy('name');
+            $categoryList = \App\Model\HobbyCategory::all()->keyBy('name');
 
             \ZYProSoft\Log\Log::info('categoryList by name:'.json_encode($categoryList));
 
