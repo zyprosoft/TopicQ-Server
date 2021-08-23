@@ -16,6 +16,7 @@ class CreateCircleCategoryTable extends Migration
             $table->string('name',4)->comment('名字');
             $table->integer('sort_index')->default(0)->comment('排序索引');
 
+            $table->unique('name');
             $table->softDeletes();
             $table->timestamps();
             $table->engine = "InnoDB";

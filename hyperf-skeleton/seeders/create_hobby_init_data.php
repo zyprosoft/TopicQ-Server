@@ -198,10 +198,14 @@ class CreateHobbyInitData extends Seeder
 
             $category = $hobby->pluck('name');
 
+            \ZYProSoft\Log\Log::info('category will insert:'.json_encode($category));
             Db::table('hobby_category')->insertOrIgnore($category->toArray());
 
             $categoryList = Db::table('hobby_category')->select(['name','category_id'])->get()
             ->keyBy('name');
+
+            \ZYProSoft\Log\Log::info('categoryList by name:'.json_encode($categoryList));
+
             $batchHobbyItems = [];
             $hobby->map(function (array $item) use ($categoryList){
                $categoryId = $categoryList[$item['name']];
@@ -212,6 +216,8 @@ class CreateHobbyInitData extends Seeder
                   $batchHobbyItems[] = $hobbyItem;
                });
             });
+
+            \ZYProSoft\Log\Log::info('hobbyItems:'.json_encode($batchHobbyItems));
             Db::table('hobby_label')->insertOrIgnore($batchHobbyItems);
         });
     }
