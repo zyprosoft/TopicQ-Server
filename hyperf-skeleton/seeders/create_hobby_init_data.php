@@ -211,7 +211,7 @@ class CreateHobbyInitData extends Seeder
 
             $batchHobbyItems = [];
             $hobby->map(function (array $item) use ($categoryList){
-               $categoryId = $categoryList[$item['name']];
+               $categoryId = $categoryList[$item['name']]->category_id;
                $items = collect($item['items']);
                $items->map(function (string $subItem) use ($categoryId){
                   $hobbyItem['category_id'] = $categoryId;
