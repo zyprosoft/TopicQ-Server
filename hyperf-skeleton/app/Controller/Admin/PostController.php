@@ -177,6 +177,18 @@ class PostController extends AbstractController
         return $this->success($result);
     }
 
+    public function updatePostTime(AppAdminRequest $request)
+    {
+        $this->validate([
+            'postId' => 'integer|required|exists:post,post_id',
+            'time' => 'string|required|datetime'
+        ]);
+        $postId = $request->param('postId');
+        $time = $request->param('time');
+        $result = $this->service->updatePostTime($postId,$time);
+        return $this->success($result);
+    }
+
     public function getMaxRecommendWeight(AppAdminRequest $request)
     {
         $result = $this->service->getMaxRecommendWeight();

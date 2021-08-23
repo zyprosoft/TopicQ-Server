@@ -365,6 +365,11 @@ class PostService extends BaseService
         $post->saveOrFail();
     }
 
+    public function updatePostTime(int $postId, string $postTime)
+    {
+        $this->postUpdate($postId,'created_at', $postTime);
+    }
+
     public function getMaxRecommendWeight()
     {
         return Post::query()->max('recommend_weight');
