@@ -370,8 +370,16 @@ class PostService extends BaseService
 
     public function updatePostTime(int $postId, string $postTime)
     {
-        $dateTime = Carbon::createFromTimeString($postTime);
-        $this->postUpdate($postId,'created_at', $dateTime);
+        Db::transaction(function () use ($postId,$postTime){
+            $post = Post::query()->where('post_id', $postId)
+                ->lockForUpdate()
+                ->first();
+            if (!$post instanceof Post) {
+                throw new HyperfCommonException(ErrorCode::RECORD_NOT_EXIST);
+            }
+            $post->created_at = $postTime;
+            $post->saveOrFail();
+        });
     }
 
     public function getMaxRecommendWeight()
