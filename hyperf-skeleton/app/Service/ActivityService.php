@@ -17,6 +17,12 @@ class ActivityService extends BaseService
      */
     protected ForumService $forumService;
 
+    /**
+     * @Inject
+     * @var PostService
+     */
+    protected PostService $postService;
+
     public function getActivityList(int $type = null, int $forumId = null)
     {
         if (!isset($type)) {
@@ -34,6 +40,8 @@ class ActivityService extends BaseService
     {
         $activityList = $this->getActivityList();
         $forumList = $this->forumService->getForumList();
-        return ['activity_list'=>$activityList,'forum_list'=>$forumList];
+        $postList = $this->postService->getTopNewsList();
+
+        return ['activity_list'=>$activityList,'forum_list'=>$forumList,'post_list'=>$postList];
     }
 }
