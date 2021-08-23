@@ -205,4 +205,6 @@ class Constants
     const WX_SECURITY_CHECK_FAIL = 87014;
 
     const RECOMMEND_BASE_COUNT = 2;
+
+    const CREATE_CIRCLE_COST_SCORE = 20;
 }

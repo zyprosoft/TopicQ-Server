@@ -62,15 +62,16 @@ class CircleService extends BaseService
     public function createOrUpdate(array $params)
     {
         $name = data_get($params, 'name');
-        $avatar = data_get($params, 'avatar');
-        $background = data_get($params, 'background');
         $introduce = data_get($params, 'introduce');
-        $qq = data_get($params, 'qq');
-        $categoryId = data_get($params, 'categoryId');
-        $password = data_get($params, 'password');
-        $isOpen = data_get($params, 'isOpen');
-        $openScore = data_get($params, 'openScore');
-        $tags = data_get($params, 'tags');
+
+        //如果是创建圈子
+        $user = User::findOrFail($this->userId());
+        if(!isset($params['circleId'])) {
+            //检查积分是否足够
+            if ($user->score < Constants::CREATE_CIRCLE_COST_SCORE) {
+                throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::PARAM_ERROR,'您的积分不足，无法创建圈子!');
+            }
+        }
 
         //审核文本内容
         $miniProgramConfig = config('weixin.miniProgram');
@@ -101,82 +102,100 @@ class CircleService extends BaseService
             $this->push($notification);
         }
 
-        $circleId = data_get($params, 'circleId');
-        if (isset($circleId)) {
-            $circle = Circle::findOrFail($circleId);
-            if (isset($name)) {
+        Db::transaction(function() use ($params,$user,$name,$introduce){
+
+            $qq = data_get($params, 'qq');
+            $categoryId = data_get($params, 'categoryId');
+            $password = data_get($params, 'password');
+            $isOpen = data_get($params, 'isOpen');
+            $openScore = data_get($params, 'openScore');
+            $tags = data_get($params, 'tags');
+            $avatar = data_get($params, 'avatar');
+            $background = data_get($params, 'background');
+
+            $circleId = data_get($params, 'circleId');
+            if (isset($circleId)) {
+                $circle = Circle::findOrFail($circleId);
+                if (isset($name)) {
+                    $circle->name = $name;
+                }
+                if (isset($avatar)) {
+                    $circle->avatar = $avatar;
+                }
+                if (isset($background)) {
+                    $circle->background = $background;
+                }
+                if (isset($introduce)) {
+                    $circle->introduce = $introduce;
+                }
+                if (isset($qq)) {
+                    $circle->qq = $qq;
+                }
+                if (isset($categoryId)) {
+                    $circle->category_id = $categoryId;
+                }
+                if (isset($tags)) {
+                    $circle->tags = json_encode($tags);
+                }
+                if (isset($password)) {
+                    $circle->password = password_hash($password, PASSWORD_DEFAULT);
+                    $circle->is_open = Constants::STATUS_NOT;
+                    $circle->use_password = Constants::STATUS_OK;
+                }
+                if (isset($openScore)) {
+                    $circle->open_score = $openScore;
+                    $circle->is_open = Constants::STATUS_NOT;
+                }
+                if (isset($isOpen)) {
+                    $circle->is_open = $isOpen;
+                }
+            } else {
+                $circle = new Circle();
                 $circle->name = $name;
-            }
-            if (isset($avatar)) {
                 $circle->avatar = $avatar;
-            }
-            if (isset($background)) {
                 $circle->background = $background;
-            }
-            if (isset($introduce)) {
                 $circle->introduce = $introduce;
-            }
-            if (isset($qq)) {
                 $circle->qq = $qq;
-            }
-            if (isset($categoryId)) {
                 $circle->category_id = $categoryId;
-            }
-            if (isset($tags)) {
-                $circle->tags = json_encode($tags);
-            }
-            if (isset($password)) {
-                $circle->password = password_hash($password, PASSWORD_DEFAULT);
-                $circle->is_open = Constants::STATUS_NOT;
-                $circle->use_password = Constants::STATUS_OK;
-            }
-            if (isset($openScore)) {
-                $circle->open_score = $openScore;
-                $circle->is_open = Constants::STATUS_NOT;
-            }
-            if (isset($isOpen)) {
                 $circle->is_open = $isOpen;
+                $circle->owner_id = $this->userId();
+                if (isset($tags)) {
+                    $circle->tags = json_encode($tags);
+                }
+                if (isset($password)) {
+                    $circle->password = password_hash($password, PASSWORD_DEFAULT);
+                    $circle->is_open = 0;
+                    $circle->use_password = 1;
+                }
+                if (isset($openScore)) {
+                    $circle->open_score = $openScore;
+                    $circle->is_open = Constants::STATUS_NOT;
+                }
             }
-        } else {
-            $circle = new Circle();
-            $circle->name = $name;
-            $circle->avatar = $avatar;
-            $circle->background = $background;
-            $circle->introduce = $introduce;
-            $circle->qq = $qq;
-            $circle->category_id = $categoryId;
-            $circle->is_open = $isOpen;
-            $circle->owner_id = $this->userId();
-            if (isset($tags)) {
-                $circle->tags = json_encode($tags);
+            //目前先自动审核通过
+            $circle->audit_status = Constants::STATUS_OK;
+            $circle->saveOrFail();
+            //发送建圈成功通知
+            if (!isset($circleId)) {
+                //发送一条审核通过通知
+                $levelLabel = '通知';
+                $level = Constants::MESSAGE_LEVEL_WARN;
+                $title = '圈子审核通过';
+                $content = "您的圈子《{$name}》已经创建成功并审批通过!";
+                $userId = $this->userId();
+                $notification = new AddNotificationJob($userId, $title, $content, false, $level);
+                $notification->levelLabel = $levelLabel;
+                $keyInfo = ['circle_id' => $circle->circle_id];
+                $notification->keyInfo = json_encode($keyInfo);
+                $this->push($notification);
             }
-            if (isset($password)) {
-                $circle->password = password_hash($password, PASSWORD_DEFAULT);
-                $circle->is_open = 0;
-                $circle->use_password = 1;
+            //消耗积分
+            if(!isset($params['circleId'])) {
+                $user->score -= Constants::CREATE_CIRCLE_COST_SCORE;
+                $user->saveOrFail();
             }
-            if (isset($openScore)) {
-                $circle->open_score = $openScore;
-                $circle->is_open = Constants::STATUS_NOT;
-            }
-        }
-        //目前先自动审核通过
-        $circle->audit_status = Constants::STATUS_OK;
-        $circle->saveOrFail();
-        //发送建圈成功通知
-        if (!isset($circleId)) {
-            //发送一条审核不通过通知
-            $levelLabel = '通知';
-            $level = Constants::MESSAGE_LEVEL_WARN;
-            $title = '圈子审核通过';
-            $content = "您的圈子《{$name}》已经创建成功并审批通过!";
-            $userId = $this->userId();
-            $notification = new AddNotificationJob($userId, $title, $content, false, $level);
-            $notification->levelLabel = $levelLabel;
-            $keyInfo = ['circle_id' => $circle->circle_id];
-            $notification->keyInfo = json_encode($keyInfo);
-            $this->push($notification);
-        }
+        });
+
         return $this->success();
     }
 
