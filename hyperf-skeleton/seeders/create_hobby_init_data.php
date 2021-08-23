@@ -211,7 +211,8 @@ class CreateHobbyInitData extends Seeder
 
             $batchHobbyItems = [];
             $hobby->map(function (array $item) use ($categoryList){
-               $categoryId = $categoryList[$item['name']]->category_id;
+                \ZYProSoft\Log\Log::info('item :'.json_encode($categoryList[$item['name']]));
+               $categoryId = $categoryList[$item['name']];
                $items = collect($item['items']);
                $items->map(function (string $subItem) use ($categoryId){
                   $hobbyItem['category_id'] = $categoryId;
