@@ -167,6 +167,8 @@ class UserService extends \App\Service\BaseService
         $user->country = data_get($params, 'country', $user->country);
         $user->group_id = data_get($params,'groupId');
         $joinTime = data_get($params, 'joinTime');
+        $user->sex = data_get($params,'sex');
+        $user->hobby_label = json_encode(data_get($params,'hobbyLabels'));
         if (isset($joinTime)) {
             $user->created_at = $joinTime;
         }
@@ -193,6 +195,8 @@ class UserService extends \App\Service\BaseService
             $user->token = Str::random(64);
             $user->wx_token = Str::random(64);
             $user->wx_openid = Str::random(64);
+            $user->sex = data_get($params,'sex');
+            $user->hobby_label = json_encode(data_get($params,'hobbyLabels'));
             $user->saveOrFail();
 
             $managerAvatarUser = new ManagerAvatarUser();

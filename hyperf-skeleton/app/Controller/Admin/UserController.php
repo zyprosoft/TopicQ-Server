@@ -77,7 +77,9 @@ class UserController extends AbstractController
                 'area' => 'string|required|min:1|max:64',
                 'country' => 'string|required|min:1|max:64',
                 'isBind' => 'integer|required|in:0,1',
-                'groupId' => 'integer|exists:user_group,group_id'
+                'groupId' => 'integer|exists:user_group,group_id',
+                'hobbyLabels' => 'array|min:1',
+                'sex' => 'integer|in:0,1'
             ]
         );
         $params = $request->getParams();
@@ -97,7 +99,9 @@ class UserController extends AbstractController
                 'area' => 'string|min:1|max:64',
                 'country' => 'string|min:1|max:64',
                 'joinTime' => 'string|date',
-                'groupId' => 'integer|exists:user_group,group_id'
+                'groupId' => 'integer|exists:user_group,group_id',
+                'hobbyLabels' => 'array|min:1',
+                'sex' => 'integer|in:0,1'
             ]
         );
         $avatarUserId = $request->param('avatarUserId');
