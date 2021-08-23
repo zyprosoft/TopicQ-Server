@@ -183,4 +183,16 @@ class CircleController extends AbstractController
         $result = $this->service->getCircleByUserId($pageIndex,$pageSize);
         return $this->success($result);
     }
+
+    public function getAllCircleBySort()
+    {
+        $this->validate([
+            'pageIndex' => 'integer|required|min:0',
+            'pageSize' => 'integer|required|min:10|max:30'
+        ]);
+        $pageIndex = $this->request->param('pageIndex');
+        $pageSize = $this->request->param('pageSize');
+        $result = $this->service->getAllCircleBySort($pageIndex,$pageSize);
+        return $this->success($result);
+    }
 }

@@ -499,4 +499,18 @@ class CircleService extends BaseService
             ->orderByDesc('topic_count')
             ->get();
     }
+
+    public function getAllCircleBySort(int $pageIndex, int $pageSize)
+    {
+        $list = Circle::query()->where('audit_status',Constants::STATUS_OK)
+                               ->offset($pageIndex * $pageSize)
+                               ->limit($pageSize)
+                               ->orderByDesc('member_count')
+                               ->orderByDesc('post_count')
+                               ->orderByDesc('topic_count')
+                               ->get();
+        $total = Circle::count();
+
+        return ['list'=>$list,'total'=>$total];
+    }
 }
