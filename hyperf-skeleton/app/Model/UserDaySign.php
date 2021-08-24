@@ -10,6 +10,7 @@ namespace App\Model;
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
  * @property string $deleted_at 
+ * @property int $reward_score 当日签到抽奖积分
  */
 class UserDaySign extends Model
 {
@@ -30,5 +31,5 @@ class UserDaySign extends Model
      *
      * @var array
      */
-    protected $casts = ['id' => 'int', 'user_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected $casts = ['id' => 'int', 'user_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'reward_score' => 'integer'];
 }
