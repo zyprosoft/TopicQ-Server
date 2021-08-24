@@ -61,11 +61,11 @@ use Hyperf\Scout\Searchable;
  * @property-read \App\Model\Circle $circle 
  * @property-read \App\Model\CircleTopic $circle_topic 
  * @property-read \Hyperf\Database\Model\Collection|\App\Model\PostDocument[] $document_list 
- * @property-read \App\Model\Forum $forum 
+ * @property \App\Model\Forum $forum
  * @property-read \App\Model\SubscribeForumPassword $forum_voucher 
  * @property-read \App\Model\MiniProgram $mini_program 
  * @property-read \App\Model\OfficialAccount $official_account 
- * @property-read \App\Model\Topic $topic 
+ * @property \App\Model\Topic $topic
  * @property-read \App\Model\Vote $vote 
  * @property-read \App\Model\VoucherPolicy $voucher_policy 
  */
