@@ -990,6 +990,7 @@ class UserService extends BaseService
     {
         $list = User::query()
             ->whereNotNull('nickname')
+            ->where('score','>',0)
             ->orderByDesc('score')
             ->offset($pageSize*$pageIndex)
             ->limit($pageSize)
