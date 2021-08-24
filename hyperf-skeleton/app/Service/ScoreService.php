@@ -89,8 +89,14 @@ class ScoreService extends BaseService
     {
         Db::transaction(function () use ($postId,$score){
 
-            $post = Post::findOrFail($postId);
-            $user = User::findOrFail($this->userId());
+            $post = Post::query()->where('post_id',$postId)->lockForUpdate()->first();
+            if(!$post instanceof Post) {
+                throw new HyperfCommonException(ErrorCode::PARAM_ERROR);
+            }
+            $user = User::query()->where('user_id',$this->userId())->lockForUpdate()->first();
+            if(!$user instanceof User) {
+                throw new HyperfCommonException(ErrorCode::PARAM_ERROR);
+            }
             if($user->score < $score) {
                 throw new HyperfCommonException(\App\Constants\ErrorCode::SCORE_PAY_NOT_ENOUGH);
             }
@@ -98,6 +104,7 @@ class ScoreService extends BaseService
             //用户是否已经打赏过
             $rewardRecord = PostScoreReward::query()->where('post_id',$postId)
                 ->where('user_id',$user->user_id)
+                ->lockForUpdate()
                 ->first();
             if(!$rewardRecord instanceof PostScoreReward) {
                 $rewardRecord = new PostScoreReward();
@@ -105,16 +112,34 @@ class ScoreService extends BaseService
                 $rewardRecord->post_owner_id = $post->post_id;
                 $rewardRecord->user_id = $user->user_id;
             }
+            $postOwner = User::query()->where('user_id',$post->owner_id)
+                ->lockForUpdate()
+                ->first();
+            if (!$postOwner instanceof User) {
+                throw new HyperfCommonException(ErrorCode::PARAM_ERROR);
+            }
+            $post->reward_score += $score;
             $rewardRecord->amount += $score;
+            $postOwner->score += $score;
             $user->score -= $score;
+            $postOwner->saveOrFail();
             $rewardRecord->saveOrFail();
             $user->saveOrFail();
+            $post->saveOrFail();
         });
         return $this->success();
     }
 
     public function getPostRewardUser(int $postId)
     {
-
+        $list = PostScoreReward::query()
+            ->with(['author'])
+            ->where('post_id',$postId)
+            ->limit(30)
+            ->get()
+            ->pluck('author');
+        $total = PostScoreReward::query()->where('post_id',$postId)
+            ->count();
+        return ['list'=>$list,'total'=>$total];
     }
 }

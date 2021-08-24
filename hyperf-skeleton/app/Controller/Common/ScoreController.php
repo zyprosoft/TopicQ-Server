@@ -24,12 +24,12 @@ class ScoreController extends AbstractController
     public function reward(AuthedRequest $request)
     {
         $this->validate([
-            'userId' => 'integer|required|exists:user,user_id',
+            'postId' => 'integer|required|exists:post,post_id',
             'score' => 'integer|required|min:1|max:200'
         ]);
-        $userId = $request->param('userId');
+        $postId = $request->param('postId');
         $score = $request->param('score');
-        $result = $this->service->reward($userId,$score);
+        $result = $this->service->rewardPost($postId,$score);
         return $this->success($result);
     }
 }

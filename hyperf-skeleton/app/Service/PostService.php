@@ -15,6 +15,7 @@ use App\Model\Comment;
 use App\Model\Forum;
 use App\Model\Post;
 use App\Model\PostDocument;
+use App\Model\PostScoreReward;
 use App\Model\ReportPost;
 use App\Model\Topic;
 use App\Model\User;
@@ -702,6 +703,18 @@ class PostService extends BaseService
 
         //增加阅读数
         $this->push(new PostIncreaseReadJob($postId));
+
+        //打赏信息
+        $list = PostScoreReward::query()
+            ->with(['author'])
+            ->where('post_id',$postId)
+            ->limit(30)
+            ->get()
+            ->pluck('author');
+        $total = PostScoreReward::query()->where('post_id',$postId)
+            ->count();
+        $post->reward_user_count = $total;
+        $post->reward_user_list = $list;
 
         //推荐信息
         $recommendList = $this->buildRandomRecommendList();
