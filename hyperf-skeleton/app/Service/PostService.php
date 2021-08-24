@@ -1614,7 +1614,6 @@ class PostService extends BaseService
             $postIds->map(function ($postId) use (&$resultList) {
                 $commentList = Comment::query()->where('post_id', $postId)
                     ->with(['parent_comment'])
-                    ->latest()
                     ->limit(3)
                     ->get();
                 $commentList->map(function (Comment $comment) {

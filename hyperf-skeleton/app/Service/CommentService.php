@@ -667,7 +667,6 @@ class CommentService extends BaseService
                                 ->where('comment_id','<', $lastCommentId)
                                 ->with(['parent_comment'])
                                 ->limit($num)
-                                ->latest()
                                 ->get();
     }
 }
