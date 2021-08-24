@@ -35,6 +35,6 @@ class PostScoreReward extends Model
 
     public function author()
     {
-        return $this->hasOne(User::class,'user_id','user_id')->select(['avatar','nickname','sex']);
+        return $this->hasOne(User::class,'user_id','user_id');
     }
 }
