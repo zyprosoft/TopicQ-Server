@@ -805,7 +805,7 @@ class PostService extends BaseService
             return $this->getPostListByAttention($pageIndex, $pageSize);
         }
         $map = [
-            Constants::POST_SORT_TYPE_LATEST => 'last_active_time',
+            Constants::POST_SORT_TYPE_LATEST => 'created_at',
             Constants::POST_SORT_TYPE_LATEST_REPLY => 'last_comment_time',
             Constants::POST_SORT_TYPE_REPLY_COUNT => 'comment_count'
         ];
