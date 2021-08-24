@@ -80,7 +80,8 @@ class PostService extends BaseService
         'image_ids',
         'has_video',
         'post.forum_id',
-        'circle_id'
+        'circle_id',
+        'reward_score'
     ];
 
     private array $activeListRows = [
@@ -112,7 +113,8 @@ class PostService extends BaseService
         'circle_topic_id',
         'favorite_count',
         'praise_count',
-        'circle_id'
+        'circle_id',
+        'reward_score'
     ];
 
     //重载获取当前用户ID的方法
