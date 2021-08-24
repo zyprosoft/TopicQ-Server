@@ -3,6 +3,8 @@
 
 namespace App\Service;
 
+use App\Model\Post;
+use App\Model\PostScoreReward;
 use App\Model\ScoreAction;
 use App\Model\User;
 use App\Model\UserScoreDetail;
@@ -81,5 +83,38 @@ class ScoreService extends BaseService
             $other->increment('score',$score);
         });
         return $this->success();
+    }
+
+    public function rewardPost(int $postId, int $score)
+    {
+        Db::transaction(function () use ($postId,$score){
+
+            $post = Post::findOrFail($postId);
+            $user = User::findOrFail($this->userId());
+            if($user->score < $score) {
+                throw new HyperfCommonException(\App\Constants\ErrorCode::SCORE_PAY_NOT_ENOUGH);
+            }
+
+            //用户是否已经打赏过
+            $rewardRecord = PostScoreReward::query()->where('post_id',$postId)
+                ->where('user_id',$user->user_id)
+                ->first();
+            if(!$rewardRecord instanceof PostScoreReward) {
+                $rewardRecord = new PostScoreReward();
+                $rewardRecord->post_id = $postId;
+                $rewardRecord->post_owner_id = $post->post_id;
+                $rewardRecord->user_id = $user->user_id;
+            }
+            $rewardRecord->amount += $score;
+            $user->score -= $score;
+            $rewardRecord->saveOrFail();
+            $user->saveOrFail();
+        });
+        return $this->success();
+    }
+
+    public function getPostRewardUser(int $postId)
+    {
+
     }
 }

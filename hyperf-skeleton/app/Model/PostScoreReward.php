@@ -32,4 +32,9 @@ class PostScoreReward extends Model
      * @var array
      */
     protected $casts = ['id' => 'int', 'user_id' => 'integer', 'post_owner_id' => 'integer', 'post_id' => 'integer', 'amount' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+
+    public function author()
+    {
+        return $this->hasOne(User::class,'user_id','user_id');
+    }
 }
