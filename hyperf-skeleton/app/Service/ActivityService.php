@@ -60,7 +60,8 @@ class ActivityService extends BaseService
             'post_count' => $postCount
         ];
 
-        return ['activity_list'=>$activityList,
+        return [
+            'activity_list'=>$activityList,
             'forum_list'=>$forumList,
             'post_list'=>$postList,
             'total'=>$total

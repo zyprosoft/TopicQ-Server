@@ -711,6 +711,7 @@ class PostService extends BaseService
             ->with(['author'])
             ->where('post_id',$postId)
             ->limit(30)
+            ->latest()
             ->get()
             ->pluck('author');
         $total = PostScoreReward::query()->where('post_id',$postId)
