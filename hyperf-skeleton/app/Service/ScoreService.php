@@ -7,6 +7,7 @@ use App\Model\Post;
 use App\Model\PostScoreReward;
 use App\Model\ScoreAction;
 use App\Model\User;
+use App\Model\UserDaySign;
 use App\Model\UserScoreDetail;
 use Carbon\Carbon;
 use Hyperf\DbConnection\Db;
@@ -141,5 +142,46 @@ class ScoreService extends BaseService
         $total = PostScoreReward::query()->where('post_id',$postId)
             ->count();
         return ['list'=>$list,'total'=>$total];
+    }
+
+    public function daySignReward()
+    {
+        $resultIndex = null;
+        $resultScore = null;
+        Db::transaction(function () use (&$resultIndex,&$resultScore){
+            //有没有抽奖过
+            $today = Carbon::now()->toDateString();
+            $daySign = UserDaySign::query()->whereDate('sign_date',$today)
+                ->where('user_id',$this->userId())
+                ->first();
+            if (!$daySign instanceof UserDaySign) {
+                throw new HyperfCommonException(ErrorCode::PARAM_ERROR,'今日还没完成签到!');
+            }
+            if($daySign->reward_score>0) {
+                throw new HyperfCommonException(ErrorCode::PARAM_ERROR,'今日抽奖次数已用完!');
+            }
+            //开始抽奖
+            $scoreList = [
+                1,3, 5, 7, 9, 12, 15, 20
+            ];
+            $randIndex = rand(0,count($scoreList)-1);
+           $user = User::query()->where('user_id',$this->userId())
+           ->lockForUpdate()
+           ->first();
+           if (!$user instanceof User) {
+               throw new HyperfCommonException(ErrorCode::PARAM_ERROR,'用户不存在');
+           }
+           $score = $scoreList[$randIndex];
+           $user->score += $score;
+           $daySign->reward_score = $score;
+           $user->saveOrFail();
+           $daySign->saveOrFail();
+           $resultIndex = $randIndex;
+           $resultScore = $score;
+        });
+        if(!isset($resultIndex)) {
+            throw new HyperfCommonException(ErrorCode::DB_ERROR,'抽奖失败!');
+        }
+        return $this->success(['index'=>$resultIndex,'score'=>$resultScore]);
     }
 }

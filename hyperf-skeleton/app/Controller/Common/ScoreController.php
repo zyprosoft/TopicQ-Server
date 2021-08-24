@@ -32,4 +32,10 @@ class ScoreController extends AbstractController
         $result = $this->service->rewardPost($postId,$score);
         return $this->success($result);
     }
+
+    public function daySignReward(AuthedRequest $request)
+    {
+        $result = $this->service->daySignReward();
+        return $this->success($result);
+    }
 }
