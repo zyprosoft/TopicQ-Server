@@ -11,6 +11,7 @@ declare(strict_types=1);
  */
 namespace HyperfTest\Cases;
 
+use App\Job\UniqueJobQueue;
 use App\Model\User;
 use App\Service\Admin\ForumService;
 use App\Service\Admin\ThirdPartService;
@@ -551,13 +552,13 @@ class ExampleTest extends HttpTestCase
     {
         $pageIndex = 0;
         $pageSize = 30;
-        $userService = ApplicationContext::getContainer()->get(UserService::class);
+        $queueService = ApplicationContext::getContainer()->get(UniqueJobQueue::class);
         do {
             $list = User::query()->offset($pageIndex*$pageSize)
                 ->limit($pageSize)
                 ->get();
-            $list->map(function (User $user) use ($userService) {
-                $userService->queueService->refreshUserCountInfo($user->user_id);
+            $list->map(function (User $user) use ($queueService) {
+                $queueService->refreshUserCountInfo($user->user_id);
             });
             if($list->count() < $pageSize) {
                 break;
