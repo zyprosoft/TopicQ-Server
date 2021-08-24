@@ -557,7 +557,6 @@ class ExampleTest extends HttpTestCase
         $pageIndex = 0;
         $pageSize = 30;
         do {
-
             $list = User::query()->offset($pageIndex*$pageSize)
                 ->limit($pageSize)
                 ->get();
@@ -586,6 +585,7 @@ class ExampleTest extends HttpTestCase
             if($list->count() < $pageSize) {
                 break;
             }
+            $pageIndex++;
         } while (true);
     }
 }
