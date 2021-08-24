@@ -6,6 +6,10 @@ namespace App\Service;
 
 use App\Constants\Constants;
 use App\Model\Activity;
+use App\Model\Circle;
+use App\Model\Post;
+use App\Model\User;
+use Carbon\Carbon;
 use Hyperf\Database\Model\Builder;
 use Hyperf\Di\Annotation\Inject;
 
@@ -41,7 +45,25 @@ class ActivityService extends BaseService
         $activityList = $this->getActivityList();
         $forumList = $this->forumService->getForumList();
         $postList = $this->postService->getTopNewsList();
+        $today = Carbon::now()->toDateString();
+        $todayPostCount = Post::query()->whereDate('created_at',$today)
+            ->count();
+        $circleCount = Circle::query()->where('audit_status',Constants::STATUS_OK)
+            ->count();
+        $memberCount = User::count();
+        $postCount = Post::count();
 
-        return ['activity_list'=>$activityList,'forum_list'=>$forumList,'post_list'=>$postList];
+        $total = [
+            'today' => $todayPostCount,
+            'circle_count' => $circleCount,
+            'member_count' => $memberCount,
+            'post_count' => $postCount
+        ];
+
+        return ['activity_list'=>$activityList,
+            'forum_list'=>$forumList,
+            'post_list'=>$postList,
+            'total'=>$total
+        ];
     }
 }
