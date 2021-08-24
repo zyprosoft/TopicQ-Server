@@ -664,7 +664,7 @@ class CommentService extends BaseService
     public function getActivePostCommentList(int $postId, int $lastCommentId,int $num)
     {
         return Comment::query()->where('post_id',$postId)
-                                ->where('comment_id','<', $lastCommentId)
+                                ->where('comment_id','>', $lastCommentId)
                                 ->with(['parent_comment'])
                                 ->limit($num)
                                 ->get();
