@@ -11,9 +11,11 @@ declare(strict_types=1);
  */
 namespace HyperfTest\Cases;
 
+use App\Model\User;
 use App\Service\Admin\ForumService;
 use App\Service\Admin\ThirdPartService;
 use App\Service\PddService;
+use App\Service\UserService;
 use App\Task\PostRecommendCalculateTask;
 use EasyWeChat\Factory;
 use Hyperf\Utils\ApplicationContext;
@@ -543,5 +545,23 @@ class ExampleTest extends HttpTestCase
         $client = new \GuzzleHttp\Client($config);
         $content = $client->get($config['path']);
         Log::info($content->getBody());
+    }
+
+    public function testRebuildUserInfo()
+    {
+        $pageIndex = 0;
+        $pageSize = 30;
+        $userService = ApplicationContext::getContainer()->get(UserService::class);
+        do {
+            $list = User::query()->offset($pageIndex*$pageSize)
+                ->limit($pageSize)
+                ->get();
+            $list->map(function (User $user) use ($userService) {
+                $userService->queueService->refreshUserCountInfo($user->user_id);
+            });
+            if($list->count() < $pageSize) {
+                break;
+            }
+        } while (true);
     }
 }

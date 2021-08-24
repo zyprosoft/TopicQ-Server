@@ -27,7 +27,7 @@ class BaseService extends AbstractService
      * @Inject
      * @var UniqueJobQueue
      */
-    protected UniqueJobQueue $queueService;
+    public UniqueJobQueue $queueService;
 
     public function imageIdsFromUrlList(array $imageList)
     {
