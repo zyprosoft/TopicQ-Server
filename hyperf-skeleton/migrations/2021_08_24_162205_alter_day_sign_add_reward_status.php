@@ -11,8 +11,9 @@ class AlterDaySignAddRewardStatus extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('user_day_sign', function (Blueprint $table) {
             //
+            $table->integer('reward_score')->default(0)->comment('当日签到抽奖积分');
         });
     }
 
@@ -21,8 +22,9 @@ class AlterDaySignAddRewardStatus extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('user_day_sign', function (Blueprint $table) {
             //
+            $table->dropColumn('reward_score');
         });
     }
 }
