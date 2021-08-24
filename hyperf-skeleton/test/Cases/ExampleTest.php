@@ -11,14 +11,18 @@ declare(strict_types=1);
  */
 namespace HyperfTest\Cases;
 
+use App\Constants\Constants;
 use App\Job\UniqueJobQueue;
+use App\Model\Post;
 use App\Model\User;
+use App\Model\UserAttentionOther;
 use App\Service\Admin\ForumService;
 use App\Service\Admin\ThirdPartService;
 use App\Service\PddService;
 use App\Service\UserService;
 use App\Task\PostRecommendCalculateTask;
 use EasyWeChat\Factory;
+use Hyperf\DbConnection\Db;
 use Hyperf\Utils\ApplicationContext;
 use HyperfTest\HttpTestCase;
 use Qbhy\HyperfTesting\Client;
@@ -552,13 +556,32 @@ class ExampleTest extends HttpTestCase
     {
         $pageIndex = 0;
         $pageSize = 30;
-        $queueService = ApplicationContext::getContainer()->get(UniqueJobQueue::class);
         do {
+
             $list = User::query()->offset($pageIndex*$pageSize)
                 ->limit($pageSize)
                 ->get();
-            $list->map(function (User $user) use ($queueService) {
-                $queueService->refreshUserCountInfo($user->user_id);
+            $list->map(function (User $user) use (&$pageIndex,$pageSize) {
+                Db::transaction(function () use (&$pageIndex,$pageSize,$user){
+                    $user = User::findOrFail($user->user_id);
+                    //统计用户的帖子数
+                    $activeCount = Post::query()->where('owner_id',$user->user_id)
+                        ->where('circle_id','>', Constants::STATUS_NOT)
+                        ->count();
+                    $postCount = Post::query()->where('owner_id',$user->user_id)
+                        ->where('circle_id',Constants::STATUS_NOT)
+                        ->count();
+                    $fansCount = UserAttentionOther::query()->where('other_user_id',$user->user_id)
+                        ->count();
+
+                    $attentionCount = UserAttentionOther::query()->where('user_id',$user->user_id)
+                        ->count();
+                    $user->active_count = $activeCount;
+                    $user->post_count = $postCount;
+                    $user->fans_count = $fansCount;
+                    $user->attention_count = $attentionCount;
+                    $user->saveOrFail();
+                });
             });
             if($list->count() < $pageSize) {
                 break;
