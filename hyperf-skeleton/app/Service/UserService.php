@@ -988,12 +988,12 @@ class UserService extends BaseService
 
     public function getUserListByScore(int $pageIndex, int $pageSize)
     {
+        $maxCount = 50;
         $list = User::query()
             ->whereNotNull('nickname')
             ->where('score','>',0)
             ->orderByDesc('score')
-            ->offset($pageSize*$pageIndex)
-            ->limit($pageSize)
+            ->limit($maxCount)
             ->get();
         $total = User::count();
         return ['list'=>$list,'total'=>$total];
