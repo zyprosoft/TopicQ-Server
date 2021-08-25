@@ -46,7 +46,7 @@ class ActivityService extends BaseService
         $activityList = $this->getActivityList();
         $forumList = $this->forumService->getForumList();
         $postList = $this->postService->getTopNewsList();
-        $total = $this->getIndexTotalInfo();
+        $total = $this->innerGetIndexTotalInfo();
 
         return [
             'activity_list'=>$activityList,
@@ -56,7 +56,7 @@ class ActivityService extends BaseService
         ];
     }
 
-    public function getIndexTotalInfo()
+    public function innerGetIndexTotalInfo()
     {
         $today = Carbon::now()->toDateString();
         $todayPostCount = Post::query()->whereDate('created_at',$today)
@@ -75,5 +75,12 @@ class ActivityService extends BaseService
             'post_count' => $postCount,
             'sign_count' => $daySignCount
         ];
+    }
+
+    public function getIndexTotalInfo()
+    {
+        $total = $this->innerGetIndexTotalInfo();
+        $topNews = $this->postService->getTopNewsList();
+        return ['total'=>$total,'post_list'=>$topNews];
     }
 }
