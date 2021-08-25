@@ -1881,6 +1881,14 @@ class PostService extends BaseService
             ->get()
             ->pluck('post');
         $this->activePostAddRelationInfo($list);
+        //增加圈子信息
+        $circleIdList = $list->pluck('post.circle_id');
+        $circleList = Circle::findMany($circleIdList)->keyBy('circle_id');
+        $list->map(function (Post $post) use ($circleList) {
+            $post->circle = $circleList[$post->circle_id];
+            return $post;
+        });
+
         $total = UserFavorite::query()->where('user_id', $userId)
             ->join('post', 'user_favorite.post_id', '=', 'post.post_id')
             ->where('post.audit_status', Constants::STATUS_DONE)

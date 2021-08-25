@@ -58,7 +58,7 @@ use Hyperf\Scout\Searchable;
  * @property int $reward_score 收到打赏数量
  * @property-read \Hyperf\Database\Model\Collection|\App\Model\PostAtUser[] $at_user_list 
  * @property-read \App\Model\User $author 
- * @property-read \App\Model\Circle $circle 
+ * @property \App\Model\Circle $circle
  * @property-read \App\Model\CircleTopic $circle_topic 
  * @property-read \Hyperf\Database\Model\Collection|\App\Model\PostDocument[] $document_list 
  * @property \App\Model\Forum $forum
