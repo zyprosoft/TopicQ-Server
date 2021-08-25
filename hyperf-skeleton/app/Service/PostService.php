@@ -1882,7 +1882,7 @@ class PostService extends BaseService
             ->pluck('post');
         $this->activePostAddRelationInfo($list);
         //增加圈子信息
-        $circleIdList = $list->pluck('post.circle_id');
+        $circleIdList = $list->pluck('circle_id');
         $circleList = Circle::findMany($circleIdList)->keyBy('circle_id');
         $list->map(function (Post $post) use ($circleList) {
             $post->circle = $circleList[$post->circle_id];
