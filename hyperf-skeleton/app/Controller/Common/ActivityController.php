@@ -37,4 +37,10 @@ class ActivityController extends AbstractController
         $result = $this->service->getIndexConfigData();
         return $this->success($result);
     }
+
+    public function getIndexTotalInfo()
+    {
+        $result = $this->service->getIndexTotalInfo();
+        return $this->success($result);
+    }
 }
