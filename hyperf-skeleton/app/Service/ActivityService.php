@@ -9,6 +9,7 @@ use App\Model\Activity;
 use App\Model\Circle;
 use App\Model\Post;
 use App\Model\User;
+use App\Model\UserDaySign;
 use Carbon\Carbon;
 use Hyperf\Database\Model\Builder;
 use Hyperf\Di\Annotation\Inject;
@@ -52,12 +53,15 @@ class ActivityService extends BaseService
             ->count();
         $memberCount = User::count();
         $postCount = Post::count();
+        $today = Carbon::now()->toDateString();
+        $daySignCount = UserDaySign::query()->whereDate('sign_date',$today)->count();
 
         $total = [
             'today' => $todayPostCount,
             'circle_count' => $circleCount,
             'member_count' => $memberCount,
-            'post_count' => $postCount
+            'post_count' => $postCount,
+            'sign_count' => $daySignCount
         ];
 
         return [
