@@ -1866,4 +1866,26 @@ class PostService extends BaseService
             ->latest()
             ->get();
     }
+
+    public function getMyFavoriteActivePostList(int $pageIndex,int $pageSize)
+    {
+        $userId = $this->userId();
+        $list = UserFavorite::query()
+            ->join('post', 'user_favorite.post_id', '=', 'post.post_id')
+            ->where('user_id', $userId)
+            ->where('post.audit_status', Constants::STATUS_DONE)
+            ->where('circle_id', '>', Constants::STATUS_NOT)
+            ->offset($pageIndex * $pageSize)
+            ->limit($pageSize)
+            ->orderByDesc('user_favorite.created_at')
+            ->get()
+            ->pluck('post');
+        $this->postListAddReadStatus($list, false);
+        $total = UserFavorite::query()->where('user_id', $userId)
+            ->join('post', 'user_favorite.post_id', '=', 'post.post_id')
+            ->where('post.audit_status', Constants::STATUS_DONE)
+            ->where('circle_id','>',Constants::STATUS_NOT)
+            ->count();
+        return ['total' => $total, 'list' => $list];
+    }
 }
