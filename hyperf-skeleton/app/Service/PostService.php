@@ -1880,7 +1880,7 @@ class PostService extends BaseService
             ->orderByDesc('user_favorite.created_at')
             ->get()
             ->pluck('post');
-        $this->postListAddReadStatus($list, false);
+        $this->activePostAddRelationInfo($list);
         $total = UserFavorite::query()->where('user_id', $userId)
             ->join('post', 'user_favorite.post_id', '=', 'post.post_id')
             ->where('post.audit_status', Constants::STATUS_DONE)
