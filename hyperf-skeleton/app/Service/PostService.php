@@ -1594,7 +1594,6 @@ class PostService extends BaseService
             $postIds->map(function ($postId) use (&$resultList) {
                 $praiseList = UserPraisePost::query()->where('post_id', $postId)
                     ->with(['author'])
-                    ->latest()
                     ->limit(6)
                     ->get()
                     ->pluck('author');
