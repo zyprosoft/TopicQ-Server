@@ -307,7 +307,9 @@ class PostService extends BaseService
                 'is_hot_1' => '设为热帖',
                 'is_hot_0' => '取消热帖',
                 'sort_index_0' => '取消置顶',
-                'sort_index_1' => '设置置顶'
+                'sort_index_1' => '设置置顶',
+                'is_top_news_1' => '设置头条',
+                'is_top_news_0' => '取消头条'
             ];
             $key = $column.'_'.$value;
             $title = '帖子被'.$map[$key];
