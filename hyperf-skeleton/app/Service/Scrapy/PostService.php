@@ -3,6 +3,7 @@
 
 namespace App\Service\Scrapy;
 
+use App\Model\DelayPostTask;
 use App\Model\Scrapy\Comment;
 use App\Model\Scrapy\Post;
 use App\Model\Scrapy\Thread;
@@ -37,8 +38,13 @@ class PostService extends BaseService
         return ['list'=>$list,'total'=>$total];
     }
 
-    public function addDelayPost(int $postId, int $forumId = null, int $circleId = null)
+    public function addDelayPost(string $postId, int $forumId = null, int $circleId = null)
     {
-
+        $task = new DelayPostTask();
+        $task->post_id = $postId;
+        $task->forum_id = $forumId;
+        $task->circle_id = $circleId;
+        $task->saveOrFail();
+        return $this->success();
     }
 }

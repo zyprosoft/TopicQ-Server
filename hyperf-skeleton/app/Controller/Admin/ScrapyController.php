@@ -38,7 +38,7 @@ class ScrapyController extends AbstractController
     public function getCommentList(AppAdminRequest $request)
     {
         $this->validate([
-            'postId' => 'integer|required|exists:thread,thread_id',
+            'postId' => 'string|required|exists:thread,thread_id',
             'pageIndex' => 'integer|required|min:0',
             'pageSize' => 'integer|required|min:10|max:30'
         ]);
@@ -46,6 +46,20 @@ class ScrapyController extends AbstractController
         $pageIndex = $request->param('pageIndex');
         $pageSize = $request->param('pageSize');
         $result = $this->service->getCommentList($postId,$pageIndex,$pageSize);
+        return $this->success($result);
+    }
+
+    public function addDelayPostTask(AppAdminRequest $request)
+    {
+        $this->validate([
+            'postId' => 'string|required|exists:thread,thread_id',
+            'forumId' => 'integer|required_without:circleId|exists:forum,forum_id',
+            'circleId' => 'integer|required_without:forumId|exists:circle,circle_id'
+        ]);
+        $postId = $request->param('postId');
+        $forumId = $request->param('forumId');
+        $circleId = $request->param('circleId');
+        $result = $this->service->addDelayPost($postId,$forumId,$circleId);
         return $this->success($result);
     }
 }

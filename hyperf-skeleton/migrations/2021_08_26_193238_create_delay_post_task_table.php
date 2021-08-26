@@ -17,7 +17,7 @@ class CreateDelayPostTaskTable extends Migration
             $table->bigInteger('forum_id')->default(0)->comment('需要发布的版块ID');
             $table->bigInteger('circle_id')->default(0)->comment('需要发布的圈子ID');
             $table->tinyInteger('is_active')->default(0)->comment('是不是动态');
-            
+            $table->tinyInteger('status')->default(0)->comment('0等待发布,1已经发布');
             $table->timestamps();
         });
     }
