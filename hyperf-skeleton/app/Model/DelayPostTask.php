@@ -9,6 +9,7 @@ namespace App\Model;
  * @property int $forum_id 需要发布的版块ID
  * @property int $circle_id 需要发布的圈子ID
  * @property int $is_active 是不是动态
+ * @property int $status 0等待发布,1已经发布
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
  */
@@ -31,5 +32,5 @@ class DelayPostTask extends Model
      *
      * @var array
      */
-    protected $casts = ['id' => 'int', 'forum_id' => 'integer', 'circle_id' => 'integer', 'is_active' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected $casts = ['id' => 'int', 'forum_id' => 'integer', 'circle_id' => 'integer', 'is_active' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'status' => 'integer'];
 }
