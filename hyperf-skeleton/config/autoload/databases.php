@@ -112,7 +112,7 @@ return [
         ],
         'commands' => [
             'gen:model' => [
-                'path' => 'app/Scrapy/Model',
+                'path' => 'app/Model/Scrapy',
                 'force_casts' => false,
                 'inheritance' => 'Model',
                 'with_comments' => true,
