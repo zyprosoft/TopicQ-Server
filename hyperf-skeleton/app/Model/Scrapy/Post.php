@@ -43,6 +43,6 @@ class Post extends Model
 
     public function reply_list()
     {
-        return $this->hasMany(Comment::class,'id','post_id');
+        return $this->hasMany(Comment::class,'post_id','id');
     }
 }
