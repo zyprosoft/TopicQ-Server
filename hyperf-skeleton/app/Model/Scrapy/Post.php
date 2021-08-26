@@ -38,4 +38,11 @@ class Post extends Model
      * @var array
      */
     protected $casts = ['id' => 'int', 'floor' => 'integer', 'comment_num' => 'integer', 'thread_id' => 'integer'];
+
+    protected $with = ['reply_list'];
+
+    public function reply_list()
+    {
+        return $this->hasMany(Comment::class,'id','post_id');
+    }
 }
