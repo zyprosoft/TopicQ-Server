@@ -36,4 +36,11 @@ class Thread extends Model
      * @var array
      */
     protected $casts = ['id' => 'int', 'reply_num' => 'integer', 'good' => 'integer'];
+
+    protected $with = ['floor'];
+
+    public function floor()
+    {
+        return $this->hasMany(Post::class,'thread_id','id')->where('floor',1);
+    }
 }
