@@ -48,7 +48,7 @@ return [
         ],
     ],
     'online' => [
-        'driver' => env('DB_DRIVER_ONLINE', 'mysql'),
+        'driver' => env('DB_DRIVER', 'mysql'),
         'host' => env('DB_HOST_ONLINE', 'localhost'),
         'port' => env('DB_PORT_ONLINE', 3306),
         'database' => env('DB_DATABASE_ONLINE', 'hyperf'),
@@ -85,7 +85,7 @@ return [
         ],
     ],
     'scrapy' => [
-        'driver' => env('DB_DRIVER_SCRAPY', 'mysql'),
+        'driver' => env('DB_DRIVER', 'mysql'),
         'host' => env('DB_HOST_SCRAPY', 'localhost'),
         'port' => env('DB_PORT_SCRAPY', 3306),
         'database' => env('DB_DATABASE_SCRAPY', 'hyperf'),
