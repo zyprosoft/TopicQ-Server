@@ -13,7 +13,7 @@ class PostService extends BaseService
 {
     public function getPostList(int $pageIndex, int $pageSize,string $keyword = null)
     {
-        return Thread::query()
+        $list = Thread::query()
                             ->where(function (Builder $query) use ($keyword) {
                                 if (isset($keyword)) {
                                     $query->where('title','like',"%$keyword%");
@@ -23,13 +23,17 @@ class PostService extends BaseService
                              ->limit($pageSize)
                              ->orderByDesc('id')
                              ->get();
+        $total = Thread::count();
+        return ['list'=>$list,'total'=>$total];
     }
 
     public function getCommentList(int $postId, int $pageIndex, int $pageSize)
     {
-        return Post::query()->where('thread_id', $postId)
+        $list = Post::query()->where('thread_id', $postId)
                                ->offset($pageIndex * $pageSize)
                                ->limit($pageSize)
                                ->get();
+        $total = Post::query()->where('thread_id', $postId)->count();
+        return ['list'=>$list,'total'=>$total];
     }
 }
