@@ -36,4 +36,9 @@ class PostService extends BaseService
         $total = Post::query()->where('thread_id', $postId)->count();
         return ['list'=>$list,'total'=>$total];
     }
+
+    public function addDelayPost(int $postId, int $forumId = null, int $circleId = null)
+    {
+
+    }
 }
