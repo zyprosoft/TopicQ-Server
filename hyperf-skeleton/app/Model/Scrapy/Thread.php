@@ -41,6 +41,6 @@ class Thread extends Model
 
     public function floor()
     {
-        return $this->hasMany(Post::class,'thread_id','id')->where('floor',1)->first();
+        return $this->hasMany(Post::class,'thread_id','id')->where('floor',1);
     }
 }
