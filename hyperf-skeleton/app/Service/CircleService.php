@@ -513,4 +513,9 @@ class CircleService extends BaseService
 
         return ['list'=>$list,'total'=>$total];
     }
+
+    public function getAllCircleList()
+    {
+        return Circle::all();
+    }
 }

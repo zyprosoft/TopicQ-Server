@@ -195,4 +195,10 @@ class CircleController extends AbstractController
         $result = $this->service->getAllCircleBySort($pageIndex,$pageSize);
         return $this->success($result);
     }
+
+    public function getAllCircleList()
+    {
+        $result = $this->service->getAllCircleList();
+        return $this->success($result);
+    }
 }
