@@ -53,6 +53,7 @@ class AutoDelayPostTask
             $insertPost = new \App\Model\Post();
             $insertPost->title = $post->title;
             $insertPost->owner_id = $this->getRandomUser()->avatar_user_id;
+            $insertPost->audit_status = Constants::STATUS_OK;
             if(!empty($post->floor())) {
                 $contentFloor = $post->floor()->first();
 
