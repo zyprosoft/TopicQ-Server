@@ -52,7 +52,7 @@ class ScrapyController extends AbstractController
     public function addDelayPostTask(AppAdminRequest $request)
     {
         $this->validate([
-            'postId' => 'string|required|exists:thread,thread_id',
+            'postId' => 'string|required',
             'forumId' => 'integer|required_without:circleId|exists:forum,forum_id',
             'circleId' => 'integer|required_without:forumId|exists:circle,circle_id',
             'needComment' => 'integer|in:0,1'
