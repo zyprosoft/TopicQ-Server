@@ -42,8 +42,8 @@ class PostService extends BaseService
     {
         $task = new DelayPostTask();
         $task->post_id = $postId;
-        $task->forum_id = $forumId;
-        $task->circle_id = $circleId;
+        $task->forum_id = isset($forumId)?$forumId:0;
+        $task->circle_id = isset($circleId)?$circleId:0;
         $task->need_comment = $needComment;
         $task->is_active = $circleId>0? 1:0;
         $task->saveOrFail();
