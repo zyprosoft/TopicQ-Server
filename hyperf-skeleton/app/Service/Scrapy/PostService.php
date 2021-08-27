@@ -45,6 +45,7 @@ class PostService extends BaseService
         $task->forum_id = $forumId;
         $task->circle_id = $circleId;
         $task->need_comment = $needComment;
+        $task->is_active = $circleId>0? 1:0;
         $task->saveOrFail();
         return $this->success();
     }
