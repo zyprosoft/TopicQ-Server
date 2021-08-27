@@ -54,45 +54,45 @@ class AutoDelayPostTask
             $insertPost->title = $post->title;
             $insertPost->owner_id = $this->getRandomUser()->avatar_user_id;
             $insertPost->audit_status = Constants::STATUS_OK;
+            $insertPost->summary = "如题";
+            //内容
+            $insertPost->rich_content = json_encode([[
+                'type' => 'text',
+                'type_name' => '文本',
+                'content' => "如题",
+                'is_bold' => 0,
+                'font_size' => 14,
+                'display_font_size' => 32,
+                'font_size_name' => 'lg',
+                'text_color' => 'black'
+            ]]);
             if(!empty($post->floor())) {
                 $contentFloor = $post->floor()->first();
+                if(isset($contentFloor->content)) {
+                    //概要
+                    $postContent = $contentFloor->content;
+                    if ($contentFloor->content == $post->title) {
+                        $insertPost->summary = "如题";
+                        $postContent = "如题";
+                    }
 
-                //概要
-                $postContent = $contentFloor->content;
-                if ($contentFloor->content == $post->title) {
-                    $insertPost->summary = "如题";
-                    $postContent = "如题";
+                    if (mb_strlen($contentFloor->content) > 40) {
+                        $summary = mb_substr($contentFloor->content, 0, 40);
+                        $summary = $this->trimString($summary);
+                        $insertPost->summary = $summary;
+                    }
+                    //内容
+                    $insertPost->rich_content = json_encode([[
+                        'type' => 'text',
+                        'type_name' => '文本',
+                        'content' => $postContent,
+                        'is_bold' => 0,
+                        'font_size' => 14,
+                        'display_font_size' => 32,
+                        'font_size_name' => 'lg',
+                        'text_color' => 'black'
+                    ]]);
                 }
-
-                if (mb_strlen($contentFloor->content) > 40) {
-                    $summary = mb_substr($contentFloor->content, 0, 40);
-                    $summary = $this->trimString($summary);
-                    $insertPost->summary = $summary;
-                }
-                //内容
-                $insertPost->rich_content = json_encode([[
-                    'type' => 'text',
-                    'type_name' => '文本',
-                    'content' => $postContent,
-                    'is_bold' => 0,
-                    'font_size' => 14,
-                    'display_font_size' => 32,
-                    'font_size_name' => 'lg',
-                    'text_color' => 'black'
-                ]]);
-            }else{
-                $insertPost->summary = "如题";
-                //内容
-                $insertPost->rich_content = json_encode([[
-                    'type' => 'text',
-                    'type_name' => '文本',
-                    'content' => "如题",
-                    'is_bold' => 0,
-                    'font_size' => 14,
-                    'display_font_size' => 32,
-                    'font_size_name' => 'lg',
-                    'text_color' => 'black'
-                ]]);
             }
             //转帖子
             if($task->is_active == Constants::STATUS_NOT) {
