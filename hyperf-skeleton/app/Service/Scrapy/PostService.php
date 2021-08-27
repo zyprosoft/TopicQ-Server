@@ -38,12 +38,13 @@ class PostService extends BaseService
         return ['list'=>$list,'total'=>$total];
     }
 
-    public function addDelayPost(string $postId, int $forumId = null, int $circleId = null)
+    public function addDelayPost(string $postId, $needComment = 0, int $forumId = null, int $circleId = null)
     {
         $task = new DelayPostTask();
         $task->post_id = $postId;
         $task->forum_id = $forumId;
         $task->circle_id = $circleId;
+        $task->need_comment = $needComment;
         $task->saveOrFail();
         return $this->success();
     }

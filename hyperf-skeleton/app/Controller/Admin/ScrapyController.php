@@ -54,12 +54,14 @@ class ScrapyController extends AbstractController
         $this->validate([
             'postId' => 'string|required|exists:thread,thread_id',
             'forumId' => 'integer|required_without:circleId|exists:forum,forum_id',
-            'circleId' => 'integer|required_without:forumId|exists:circle,circle_id'
+            'circleId' => 'integer|required_without:forumId|exists:circle,circle_id',
+            'needComment' => 'integer|in:0,1'
         ]);
         $postId = $request->param('postId');
         $forumId = $request->param('forumId');
         $circleId = $request->param('circleId');
-        $result = $this->service->addDelayPost($postId,$forumId,$circleId);
+        $needComment = $request->param('needComment');
+        $result = $this->service->addDelayPost($postId,$needComment,$forumId,$circleId);
         return $this->success($result);
     }
 }

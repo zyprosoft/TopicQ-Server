@@ -7,6 +7,7 @@ use App\Task\VoucherExpireTask;
 use App\Task\UpdateTopicTask;
 use App\Task\CircleRecommendCalculateTask;
 use App\Task\CircleTopicCalculateTask;
+use App\Task\AutoDelayPostTask;
 
 return [
     // 是否开启定时任务
@@ -40,5 +41,9 @@ return [
             ->setRule('* */1 * * *')
             ->setCallback([CircleTopicCalculateTask::class, 'execute'])
             ->setMemo('定时刷新话题当天的帖子发布数量'),
+        (new Crontab())->setName('CircleTopicRecommend')
+            ->setRule('* */10 * * *')
+            ->setCallback([AutoDelayPostTask::class, 'execute'])
+            ->setMemo('定时发布抓取的帖子'),
     ]
 ];
