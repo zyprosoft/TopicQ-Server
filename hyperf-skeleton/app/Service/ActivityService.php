@@ -54,7 +54,7 @@ class ActivityService extends BaseService
         $postList = $this->postService->getTopNewsList();
         $total = $this->innerGetIndexTotalInfo();
         $shop = $this->shopService->info(Constants::DEFAULT_SHOP_ID);
-        $hasShop = $shop->status == Constants::STATUS_OK && $shop->audit_status == Constants::STATUS_OK ? 1:0;
+        $hasShop = $shop->status == Constants::STATUS_OK ? 1:0;
 
         return [
             'activity_list'=>$activityList,
