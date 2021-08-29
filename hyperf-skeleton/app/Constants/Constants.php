@@ -207,4 +207,6 @@ class Constants
     const RECOMMEND_BASE_COUNT = 2;
 
     const CREATE_CIRCLE_COST_SCORE = 20;
+
+    const DEFAULT_SHOP_ID = 1;
 }

@@ -28,6 +28,12 @@ class ActivityService extends BaseService
      */
     protected PostService $postService;
 
+    /**
+     * @Inject
+     * @var ShopService
+     */
+    protected ShopService $shopService;
+
     public function getActivityList(int $type = null, int $forumId = null)
     {
         if (!isset($type)) {
@@ -47,12 +53,15 @@ class ActivityService extends BaseService
         $forumList = $this->forumService->getForumList();
         $postList = $this->postService->getTopNewsList();
         $total = $this->innerGetIndexTotalInfo();
+        $shop = $this->shopService->info(Constants::DEFAULT_SHOP_ID);
+        $hasShop = $shop->status == Constants::STATUS_OK && $shop->audit_status == Constants::STATUS_OK ? 1:0;
 
         return [
             'activity_list'=>$activityList,
             'forum_list'=>$forumList,
             'post_list'=>$postList,
-            'total'=>$total
+            'total'=>$total,
+            'hasShop'=>$hasShop
         ];
     }
 
