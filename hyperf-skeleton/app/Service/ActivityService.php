@@ -61,7 +61,7 @@ class ActivityService extends BaseService
             'forum_list'=>$forumList,
             'post_list'=>$postList,
             'total'=>$total,
-            'hasShop'=>$hasShop
+            'has_shop'=>$hasShop
         ];
     }
 
