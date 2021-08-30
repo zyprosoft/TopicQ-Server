@@ -516,7 +516,7 @@ class QiniuAuditService extends BaseService
             $richContentList = json_decode($post->rich_content,true);
             $checkContent = '';
             collect($richContentList)->map(function (array $item) use (&$checkContent){
-                if($item['type_name'] == Constants::RICH_CONTENT_TYPE_TEXT) {
+                if($item['type'] == Constants::RICH_CONTENT_TYPE_TEXT) {
                     $checkContent .= $item['content'];
                 }
             });
