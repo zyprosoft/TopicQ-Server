@@ -279,7 +279,7 @@ class PostService extends BaseService
                         $imageIdList = $this->imageIdsFromUrlList($item['url_list']);
                         $imageIds = array_merge($imageIdList,$imageIds);
                         foreach ($item['url_list'] as $index => $imgItem) {
-                            $imageList[] = $imgItem['remote'];
+                            $imageList[] = $imgItem;
                         }
                     }
                     if ($item['type'] == Constants::RICH_CONTENT_TYPE_VIDEO) {
