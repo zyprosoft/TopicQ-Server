@@ -198,6 +198,7 @@ class Constants
     const RICH_CONTENT_TYPE_BIG_IMAGE = 'big_image';
     const RICH_CONTENT_TYPE_SMALL_IMAGE = 'small_image';
     const RICH_CONTENT_TYPE_VIDEO = 'video';
+    const RICH_CONTENT_TYPE_GRID_IMAGE = 'grid_image';
 
     //普通用户每天最多上传次数
     const USER_MAX_UPLOAD_TIMES_PER_DAY = 100;
@@ -207,4 +208,6 @@ class Constants
     const RECOMMEND_BASE_COUNT = 2;
 
     const CREATE_CIRCLE_COST_SCORE = 20;
+
+    const DEFAULT_SHOP_ID = 1;
 }

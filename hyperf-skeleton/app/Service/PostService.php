@@ -275,6 +275,13 @@ class PostService extends BaseService
                             $imageList[] = $imgItem['remote'];
                         }
                     }
+                    if ($item['type'] == Constants::RICH_CONTENT_TYPE_GRID_IMAGE) {
+                        $imageIdList = $this->imageIdsFromUrlList($item['url_list']);
+                        $imageIds = array_merge($imageIdList,$imageIds);
+                        foreach ($item['url_list'] as $index => $imgItem) {
+                            $imageList[] = $imgItem;
+                        }
+                    }
                     if ($item['type'] == Constants::RICH_CONTENT_TYPE_VIDEO) {
                         unset($item['local']);
                         $hasVideo = 1;
