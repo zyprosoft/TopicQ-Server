@@ -53,6 +53,10 @@ class OfficialAccountService extends AbstractService
         $this->officialAccount->server->push(function ($message) {
             Log::info("message in reply:".json_encode($message));
             $content = $message["Content"];
+            switch ($message['MsgType']) {
+                case 'event':
+                    break;
+            }
             return "你好，欢迎关注庐陵说!";
         });
     }

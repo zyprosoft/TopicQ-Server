@@ -20,6 +20,7 @@ class AlterUserAddUnionId extends Migration
             $table->string('wx_fa_subscribe_scene')->nullable()->comment('订阅场景');
             $table->unique('wx_union_id');
         });
+        
     }
 
     /**
