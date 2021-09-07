@@ -3,6 +3,7 @@
 
 namespace App\Service;
 use App\Model\User;
+use phpDocumentor\Reflection\Types\Self_;
 use Psr\Container\ContainerInterface;
 use ZYProSoft\Facade\Auth;
 use ZYProSoft\Log\Log;
@@ -16,6 +17,10 @@ use GuzzleHttp\Client;
 
 class OfficialAccountService extends AbstractService
 {
+    const WX_SUBSCRIBE_EVENT = 'subscribe';
+
+    const WX_UNSUBSCRIBE_EVENT = 'unsubscribe';
+
     private $allConfig;
 
     /**
@@ -55,11 +60,24 @@ class OfficialAccountService extends AbstractService
             Log::info("微信消息:".json_encode($message));
             switch ($message['MsgType']) {
                 case 'event':
-                    
+                    {
+                        $fromUserId = $message['FromUserName'];
+                        $event = $message['event'];
+                        if($event == self::WX_SUBSCRIBE_EVENT) {
+
+                        }elseif ($event == self::WX_UNSUBSCRIBE_EVENT) {
+
+                        }
+                    }
                     break;
             }
             return "你好，欢迎关注庐陵说!";
         });
+    }
+
+    public function dealSubscribeEvent(string $openId, int $isSubscribe)
+    {
+
     }
 
     public function queryUserInfo($openId)

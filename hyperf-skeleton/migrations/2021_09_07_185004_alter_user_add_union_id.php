@@ -19,6 +19,7 @@ class AlterUserAddUnionId extends Migration
             $table->timestamp('wx_fa_subscribe_time')->nullable()->comment('订阅时间');
             $table->string('wx_fa_subscribe_scene')->nullable()->comment('订阅场景');
             $table->unique('wx_union_id');
+            $table->unique('wx_fa_open_id');
         });
         
     }
