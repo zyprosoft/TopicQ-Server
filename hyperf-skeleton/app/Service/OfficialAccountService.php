@@ -81,10 +81,11 @@ class OfficialAccountService extends BaseService
             if (!$user instanceof User) {
                 return;
             }
-            $user->wx_fa_is_subscribe = $isSubscribe;
-            $user->save();
             if(isset($user->wx_fa_subscribe_time)) {
-               return;
+                return;
+            }else{
+                $user->wx_fa_is_subscribe = $isSubscribe;
+                $user->save();
             }
         }
         $user = User::query()->where('wx_fa_open_id',$openId)->first();
