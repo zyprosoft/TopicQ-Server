@@ -78,6 +78,7 @@ class OfficialAccountService extends AbstractService
 
     public function receiveMessage(Request $request)
     {
+        $this->officialAccount->rebind("request", $request);
         return $this->officialAccount->server->serve();
     }
 }
