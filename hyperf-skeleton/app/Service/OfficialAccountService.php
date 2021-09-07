@@ -67,6 +67,8 @@ class OfficialAccountService extends AbstractService
 
     public function queryUserInfo($openId)
     {
+        $result = $this->officialAccount->access_token->getToken();
+        Log::info("get token result:".json_encode($result));
         $result = $this->officialAccount->user->get($openId);
         Log::info("get user info:".json_encode($result));
     }
