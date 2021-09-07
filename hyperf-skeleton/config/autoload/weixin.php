@@ -6,10 +6,10 @@ return [
         /**
          * 账号基本信息，请从微信公众平台/开放平台获取
          */
-        'app_id'  => 'wx2697b06ea55f649e',         // AppID
-        'secret'  => '6aafbc1d2498ed600571a2f38aeeec6a',     // AppSecret
-        'token'   => 'hutao5262705',          // Token
-        'aes_key' => 'RwcLmeOpEP9siusBL6daja6OsCAul9ERhQPMU6xIDR5',                    // EncodingAESKey，兼容与安全模式下请一定要填写！！！
+        'app_id'  => env('WX_FA_APPID'),         // AppID
+        'secret'  => env('WX_FA_SECRET'),     // AppSecret
+        'token'   => env('WX_FA_TOKEN'),          // Token
+        'aes_key' => env('WX_FA_AES_EY'),                    // EncodingAESKey，兼容与安全模式下请一定要填写！！！
 
         /**
          * 指定 API 调用返回结果的类型：array(default)/collection/object/raw/自定义类名
