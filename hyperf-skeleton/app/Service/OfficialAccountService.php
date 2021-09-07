@@ -61,7 +61,7 @@ class OfficialAccountService extends BaseService
                 case 'event':
                     {
                         $fromUserId = $message['FromUserName'];
-                        $event = $message['event'];
+                        $event = $message['Event'];
                         if($event == self::WX_SUBSCRIBE_EVENT) {
                             $this->dealSubscribeEvent($fromUserId,Constants::STATUS_OK);
                         }elseif ($event == self::WX_UNSUBSCRIBE_EVENT) {
