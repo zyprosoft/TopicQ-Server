@@ -2,12 +2,11 @@
 
 
 namespace App\Service;
+use App\Constants\Constants;
+use App\Job\QueryOfficialAccountUserInfoJob;
 use App\Model\User;
-use phpDocumentor\Reflection\Types\Self_;
 use Psr\Container\ContainerInterface;
-use ZYProSoft\Facade\Auth;
 use ZYProSoft\Log\Log;
-use ZYProSoft\Service\AbstractService;
 use EasyWeChat\Factory;
 use EasyWeChat\OfficialAccount\Application as OfficialAccountApplication;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +14,7 @@ use Hyperf\Guzzle\CoroutineHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Client;
 
-class OfficialAccountService extends AbstractService
+class OfficialAccountService extends BaseService
 {
     const WX_SUBSCRIBE_EVENT = 'subscribe';
 
@@ -64,9 +63,9 @@ class OfficialAccountService extends AbstractService
                         $fromUserId = $message['FromUserName'];
                         $event = $message['event'];
                         if($event == self::WX_SUBSCRIBE_EVENT) {
-
+                            $this->dealSubscribeEvent($fromUserId,Constants::STATUS_OK);
                         }elseif ($event == self::WX_UNSUBSCRIBE_EVENT) {
-
+                            $this->dealSubscribeEvent($fromUserId,Constants::STATUS_NOT);
                         }
                     }
                     break;
@@ -77,7 +76,25 @@ class OfficialAccountService extends AbstractService
 
     public function dealSubscribeEvent(string $openId, int $isSubscribe)
     {
-
+        if($isSubscribe == Constants::STATUS_NOT) {
+            $user = User::query()->where('wx_fa_open_id',$openId)->first();
+            if (!$user instanceof User) {
+                return;
+            }
+            $user->wx_fa_is_subscribe = $isSubscribe;
+            $user->save();
+            return;
+        }
+        $user = User::query()->where('wx_fa_open_id',$openId)->first();
+        if (!$user instanceof User) {
+            $user = new User();
+        }
+        $user->wx_fa_open_id = $openId;
+        $user->wx_fa_is_subscribe = $isSubscribe;
+        $user->save();
+        if(!isset($user->wx_union_id)) {
+            $this->push(new QueryOfficialAccountUserInfoJob($openId));
+        }
     }
 
     public function queryUserInfo($openId)
@@ -87,6 +104,14 @@ class OfficialAccountService extends AbstractService
         $result = $this->officialAccount->user->get($openId);
         Log::info("get user info:".json_encode($result));
         //存储信息
+        $user = User::query()->where('wx_fa_open_id',$openId)->first();
+        if (!$user instanceof User) {
+            return;
+        }
+        $user->wx_union_id = $result['unionid'];
+        $user->wx_fa_subscribe_time = $result['subscribe_time'];
+        $user->wx_fa_subscribe_scene = $result['subscribe_scene'];
+        $user->save();
     }
 
     public function checkResponse(string $echostr)
