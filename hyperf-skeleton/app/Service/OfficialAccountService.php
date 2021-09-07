@@ -70,7 +70,7 @@ class OfficialAccountService extends BaseService
                     }
                     break;
             }
-            return "你好，欢迎关注庐陵说!";
+            return "";
         });
     }
 
