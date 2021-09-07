@@ -20,8 +20,20 @@ class OfficialAccountController extends AbstractController
      */
     protected OfficialAccountService $service;
 
-    public function notify()
+    public function checkResponse()
     {
-        $this->service->notify();
+        $echostr = $this->originRequest->getQueryParams()["echostr"];
+        return $this->service->checkResponse($echostr);
+    }
+
+    public function receiveMessage()
+    {
+        $response = $this->service->receiveMessage($this->request->easyWeChatRequest());
+        return $this->weChatSuccess($response->getContent());
+    }
+
+    public function authCallback()
+    {
+        Log::info("jump to auth callback");
     }
 }
