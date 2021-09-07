@@ -193,6 +193,7 @@ class UserService extends BaseService
         Log::info("tmp code:$code wx session info:" . json_encode($session));
         $openid = $session['openid'];
         $sessionKey = $session['session_key'];
+        $unionID = $session['unionid'];
 
         //用户是不是已经存在
         $user = User::query()->where('wx_openid', $openid)
@@ -200,11 +201,10 @@ class UserService extends BaseService
             ->first();
         if (!$user instanceof User) {
             $user = new User();
-            $user->wx_openid = $openid;
-            $user->wx_token = $sessionKey;
-        } else {
-            $user->wx_token = $sessionKey;
         }
+        $user->wx_openid = $openid;
+        $user->wx_token = $sessionKey;
+        $user->wx_union_id = $unionID;
         //数据库token是否过期，没有过期的话直接返回Token给客户端使用，保持多端登陆一致性
         $now = Carbon::now();
         if (isset($user->token_expire) && isset($user->token) && isset($user->wx_token) && isset($user->wx_token_expire)) {

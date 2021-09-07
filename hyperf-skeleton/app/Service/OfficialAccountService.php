@@ -78,6 +78,8 @@ class OfficialAccountService extends AbstractService
         Log::info("get token result:".json_encode($result));
         $result = $this->officialAccount->user->get($openId);
         Log::info("get user info:".json_encode($result));
+        //存储信息
+
     }
 
     public function checkResponse(string $echostr)
