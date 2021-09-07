@@ -61,17 +61,6 @@ class OfficialAccountService extends AbstractService
         });
     }
 
-    public function checkUserAttentionOfficialAccount()
-    {
-        if(Auth::isGuest()==false) {
-            $user = $this->user();
-            if (!$user instanceof User) {
-                return;
-            }
-            $this->queryUserInfo($user->wx_openid);
-        }
-    }
-
     public function queryUserInfo($openId)
     {
         $result = $this->officialAccount->access_token->getToken();
@@ -79,7 +68,6 @@ class OfficialAccountService extends AbstractService
         $result = $this->officialAccount->user->get($openId);
         Log::info("get user info:".json_encode($result));
         //存储信息
-
     }
 
     public function checkResponse(string $echostr)
