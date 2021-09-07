@@ -20,7 +20,7 @@ class OfficialAccountController extends AbstractController
      */
     protected OfficialAccountService $service;
 
-    public function checkResponse()
+    public function notify()
     {
         $echostr = $this->request->getQueryParams()["echostr"];
         return $this->service->checkResponse($echostr);
