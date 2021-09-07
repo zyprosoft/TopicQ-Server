@@ -51,7 +51,7 @@ class OfficialAccountService extends AbstractService
         ]);
 
         $this->officialAccount->server->push(function ($message) {
-            Log::info("message in reply:".json_encode($message));
+            Log::info("微信消息::".json_encode($message));
             $content = $message["Content"];
             switch ($message['MsgType']) {
                 case 'event':
@@ -59,6 +59,7 @@ class OfficialAccountService extends AbstractService
             }
             return "你好，欢迎关注庐陵说!";
         });
+        $this->officialAccount->server->serve();
     }
 
     public function queryUserInfo($openId)
@@ -77,6 +78,6 @@ class OfficialAccountService extends AbstractService
 
     public function receiveMessage(Request $request)
     {
-        Log::info("微信消息:".$request->getContent());
+        return $this->officialAccount->server->serve();
     }
 }
