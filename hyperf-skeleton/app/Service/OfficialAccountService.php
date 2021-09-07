@@ -53,10 +53,9 @@ class OfficialAccountService extends AbstractService
         //处理微信消息
         $this->officialAccount->server->push(function ($message) {
             Log::info("微信消息:".json_encode($message));
-            return "你好，欢迎关注庐陵说!";
-            $content = $message["Content"];
             switch ($message['MsgType']) {
                 case 'event':
+                    
                     break;
             }
             return "你好，欢迎关注庐陵说!";
@@ -80,8 +79,6 @@ class OfficialAccountService extends AbstractService
     public function receiveMessage(Request $request)
     {
         $this->officialAccount->rebind("request", $request);
-        $response = $this->officialAccount->server->serve();
-        Log::info('主动响应微信:'.json_encode($response));
-        return $response;
+        return $this->officialAccount->server->serve();
     }
 }

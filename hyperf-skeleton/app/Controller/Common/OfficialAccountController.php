@@ -26,7 +26,8 @@ class OfficialAccountController extends AbstractController
         if(isset($echostr)) {
            return $this->service->checkResponse($echostr);
         }
-        return $this->service->receiveMessage($this->request->easyWeChatRequest());
+        $response = $this->service->receiveMessage($this->request->easyWeChatRequest());
+        return $this->weChatSuccess($response->getContent());
     }
 
     public function authCallback()
