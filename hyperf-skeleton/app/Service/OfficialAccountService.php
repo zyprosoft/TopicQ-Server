@@ -59,7 +59,6 @@ class OfficialAccountService extends AbstractService
             }
             return "你好，欢迎关注庐陵说!";
         });
-        $this->officialAccount->server->serve();
     }
 
     public function queryUserInfo($openId)

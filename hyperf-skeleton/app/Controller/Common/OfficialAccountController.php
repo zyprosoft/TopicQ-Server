@@ -31,6 +31,6 @@ class OfficialAccountController extends AbstractController
 
     public function authCallback()
     {
-        Log::info("jump to auth callback");
+
     }
 }
