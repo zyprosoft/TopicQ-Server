@@ -2,6 +2,7 @@
 
 
 namespace App\Service;
+use App\Model\User;
 use Psr\Container\ContainerInterface;
 use ZYProSoft\Log\Log;
 use ZYProSoft\Service\AbstractService;
@@ -55,10 +56,17 @@ class OfficialAccountService extends AbstractService
         });
     }
 
+    public function checkUserAttentionOfficialAccount()
+    {
+        $user = $this->user();
+        if (!$user instanceof User) {
+            return;
+        }
+        $this->queryUserInfo($user->wx_openid);
+    }
+
     public function queryUserInfo($openId)
     {
-        $result = $this->officialAccount->access_token->getToken();
-        Log::info("get token result:".json_encode($result));
         $result = $this->officialAccount->user->get($openId);
         Log::info("get user info:".json_encode($result));
     }

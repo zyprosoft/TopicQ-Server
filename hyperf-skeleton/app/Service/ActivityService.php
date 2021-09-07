@@ -34,6 +34,12 @@ class ActivityService extends BaseService
      */
     protected ShopService $shopService;
 
+    /**
+     * @Inject
+     * @var OfficialAccountService
+     */
+    protected OfficialAccountService $officialAccountService;
+
     public function getActivityList(int $type = null, int $forumId = null)
     {
         if (!isset($type)) {
@@ -76,6 +82,9 @@ class ActivityService extends BaseService
         $postCount = Post::count();
         $today = Carbon::now()->toDateString();
         $daySignCount = UserDaySign::query()->whereDate('sign_date',$today)->count();
+
+        //检查用户是否关注了公众号
+        $this->officialAccountService->checkUserAttentionOfficialAccount();
 
         return [
             'today' => $todayPostCount,
