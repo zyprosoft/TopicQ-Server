@@ -4,6 +4,7 @@
 namespace App\Service;
 use App\Model\User;
 use Psr\Container\ContainerInterface;
+use ZYProSoft\Facade\Auth;
 use ZYProSoft\Log\Log;
 use ZYProSoft\Service\AbstractService;
 use EasyWeChat\Factory;
@@ -58,11 +59,13 @@ class OfficialAccountService extends AbstractService
 
     public function checkUserAttentionOfficialAccount()
     {
-        $user = $this->user();
-        if (!$user instanceof User) {
-            return;
+        if(Auth::isGuest()==false) {
+            $user = $this->user();
+            if (!$user instanceof User) {
+                return;
+            }
+            $this->queryUserInfo($user->wx_openid);
         }
-        $this->queryUserInfo($user->wx_openid);
     }
 
     public function queryUserInfo($openId)
