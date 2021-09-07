@@ -23,13 +23,10 @@ class OfficialAccountController extends AbstractController
     public function notify()
     {
         $echostr = $this->request->getQueryParams()["echostr"];
-        return $this->service->checkResponse($echostr);
-    }
-
-    public function receiveMessage()
-    {
-        $response = $this->service->receiveMessage($this->request->easyWeChatRequest());
-        return $this->weChatSuccess($response->getContent());
+        if(isset($echostr)) {
+           return $this->service->checkResponse($echostr);
+        }
+        $this->service->receiveMessage($this->request->easyWeChatRequest());
     }
 
     public function authCallback()

@@ -16,6 +16,7 @@ use App\Service\OfficialAccountService;
 use Hyperf\Event\Contract\ListenerInterface;
 use Hyperf\Metric\Listener\OnWorkerStart;
 use Hyperf\Utils\ApplicationContext;
+use ZYProSoft\Log\Log;
 
 class OfficialAccountServiceListener implements ListenerInterface
 {
@@ -32,6 +33,7 @@ class OfficialAccountServiceListener implements ListenerInterface
      */
     public function process(object $event)
     {
+        Log::info("工作进程启动完毕，启动微信公众号服务!");
         ApplicationContext::getContainer()->get(OfficialAccountService::class);
     }
 }
