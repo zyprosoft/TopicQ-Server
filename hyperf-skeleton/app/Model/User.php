@@ -95,7 +95,7 @@ class User extends Model implements Authenticatable
      * @var array
      */
     protected $casts = ['user_id' => 'integer', 'role_id' => 'integer', 'status' => 'integer', 'sex' => 'integer', 'login_type' => 'integer', 'wx_gender' => 'integer', 'unread_comment_count' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'first_edit_done' => 'integer', 'wx_token_expire' => 'datetime', 'last_login' => 'datetime', 'token_expire' => 'datetime', 'user_update_id' => 'integer', 'avatar_user_id' => 'integer', 'score' => 'integer', 'group_id' => 'integer', 'day_sign_count' => 'integer', 'day_sign_total' => 'integer', 'active_count' => 'integer', 'post_count' => 'integer', 'fans_count' => 'integer', 'attention_count' => 'integer'];
-    protected $hidden = ['mobile', 'password', 'wx_token', 'wx_openid', 'token', 'wx_token_expire', 'token_expire', 'avatar_user_id', 'qq_token', 'qq_openid', 'qq_token_expire', 'baidu_token', 'baidu_openid', 'baidu_token_expire', 'byte_token', 'byte_openid', 'byte_token_expire'];
+    protected $hidden = ['mobile', 'password','wx_union_id', 'wx_token', 'wx_openid', 'token', 'wx_token_expire', 'token_expire', 'avatar_user_id', 'qq_token', 'qq_openid', 'qq_token_expire', 'baidu_token', 'baidu_openid', 'baidu_token_expire', 'byte_token', 'byte_openid', 'byte_token_expire'];
     protected $with = ['role', 'group'];
     public function getId()
     {
