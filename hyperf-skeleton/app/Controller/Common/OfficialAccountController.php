@@ -22,7 +22,7 @@ class OfficialAccountController extends AbstractController
 
     public function notify()
     {
-        $echostr = $this->request->getQueryParams()["echostr"];
+        $echostr = $this->request->param('echostr');
         if(isset($echostr)) {
            return $this->service->checkResponse($echostr);
         }
