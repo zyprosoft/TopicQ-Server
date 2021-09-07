@@ -77,6 +77,6 @@ class OfficialAccountService extends AbstractService
 
     public function receiveMessage(Request $request)
     {
-
+        Log::info("微信消息:".$request->getContent());
     }
 }
