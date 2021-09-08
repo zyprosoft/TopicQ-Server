@@ -24,12 +24,12 @@ class ScrapyController extends AbstractController
     public function searchPost(AppAdminRequest $request)
     {
         $this->validate([
-            'sessionhash' => 'string|required|min:1',
+            'sessionHash' => 'string|required|min:1',
             'pageIndex' => 'integer|required|min:0'
         ]);
-        $sessionhash = $request->param('sessionhash');
+        $sessionHash = $request->param('sessionHash');
         $pageIndex = $request->param('pageIndex');
-        $result = $this->service->getPostList($pageIndex,$sessionhash);
+        $result = $this->service->getPostList($pageIndex,$sessionHash);
         return $this->success($result);
     }
 
