@@ -47,7 +47,7 @@ class PostService extends BaseService
     {
         $url = $this->url.'&page='.$pageIndex.'&sessionhash='.$sessionHash;
         $result = $this->client->get($url);
-        $result = json_decode($result->getBody());
+        $result = json_decode($result->getBody(),true);
         if($result['code'] == 1 && $result['message'] == 'SUCCESS') {
             return ['list'=>$result['data'],'total'=>1000];
         }
