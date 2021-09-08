@@ -588,4 +588,14 @@ class ExampleTest extends HttpTestCase
             $pageIndex++;
         } while (true);
     }
+
+    public function testScrapyPostList()
+    {
+        $token = $this->testLogin();
+        $params = [
+            'pageIndex' => 0,
+            'sessionhash' => '0340ffbe67e90656ec68f52b14266444',
+        ];
+        $this->safeRequest('admin.spost.searchPost',$params,$token);
+    }
 }

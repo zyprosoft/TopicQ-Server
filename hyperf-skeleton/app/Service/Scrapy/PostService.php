@@ -8,24 +8,46 @@ use App\Model\Scrapy\Comment;
 use App\Model\Scrapy\Post;
 use App\Model\Scrapy\Thread;
 use App\Service\BaseService;
+use GuzzleHttp\Client;
+use GuzzleHttp\HandlerStack;
 use Hyperf\Database\Model\Builder;
+use Hyperf\Guzzle\CoroutineHandler;
+use Hyperf\Utils\ApplicationContext;
+use Psr\Container\ContainerInterface;
+use Swoole\Coroutine;
+use ZYProSoft\Log\Log;
 
 class PostService extends BaseService
 {
-    public function getPostList(int $pageIndex, int $pageSize,string $keyword = null)
+    protected $url = 'https://weixin.libaclub.com/weChatService/interface.php?act=getTopicListDel';
+
+    /**
+     * 初始化client的配置
+     * @var array
+     */
+    protected $options = [];
+
+    /**
+     * @var Client
+     */
+    protected $client;
+
+    public function __construct(ContainerInterface $container)
     {
-        $list = Thread::query()
-                            ->where(function (Builder $query) use ($keyword) {
-                                if (isset($keyword)) {
-                                    $query->where('title','like',"%$keyword%");
-                                }
-                            })
-                            ->offset($pageIndex * $pageSize)
-                             ->limit($pageSize)
-                             ->orderByDesc('id')
-                             ->get();
-        $total = Thread::count();
-        return ['list'=>$list,'total'=>$total];
+        parent::__construct($container);
+        $stack = null;
+        if (Coroutine::getCid() > 0) {
+            $stack = HandlerStack::create(new CoroutineHandler());
+        }
+        $config = array_replace(['handler' => $stack], $this->options);
+        $this->client = ApplicationContext::getContainer()->make(Client::class, ['config' => $config]);
+    }
+
+    public function getPostList(int $pageIndex,string $sessionHash)
+    {
+        $url = $this->url.'&page='.$pageIndex.'&sessionhash='.$sessionHash;
+        $result = $this->client->get($url);
+        Log::info('获取主题列表:'.$result->getBody());
     }
 
     public function getCommentList(int $postId, int $pageIndex, int $pageSize)
