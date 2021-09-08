@@ -83,6 +83,7 @@ class ScrapyImportTopicJob extends Job
             $post->owner_id = $this->getRandomUser()->avatar_user_id;
             $post->title = $result['title'];
             $post->read_count = $result['click_times'];
+            $post->forum_id = $this->forumId;
             foreach ($content as $key => $item) {
                 if($key == 'text') {
                     $publishContent[] = [
@@ -111,7 +112,7 @@ class ScrapyImportTopicJob extends Job
                     } else {
                         //转存成功
                         $fileKey = $ret['key'];
-                        $remoteUrl = env('QINIU_CDN_DOMAIN').'/'.$fileKey;
+                        $remoteUrl = env('QINIU_CDN_DOMAIN').$fileKey;
                         //存储数据
                         $publishContent[] = [
                             'type' => 'big_image',
