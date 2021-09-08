@@ -25,7 +25,12 @@ class PostService extends BaseService
      * 初始化client的配置
      * @var array
      */
-    protected $options = [];
+    protected $options = [
+        'headers'=>[
+            'Referer' => 'https://servicewechat.com/wx82e832ab625f9e82/47/page-frame.html',
+            'User-Agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E217 MicroMessenger/6.8.0(0x16080000) NetType/WIFI Language/en Branch/Br_trunk MiniProgramEnv/Mac'
+        ]
+    ];
 
     /**
      * @var Client
