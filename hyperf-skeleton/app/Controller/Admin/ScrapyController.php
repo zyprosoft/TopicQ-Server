@@ -53,13 +53,13 @@ class ScrapyController extends AbstractController
             'postId' => 'string|required',
             'forumId' => 'integer|required_without:circleId|exists:forum,forum_id',
             'circleId' => 'integer|required_without:forumId|exists:circle,circle_id',
-            'needComment' => 'integer|in:0,1'
+            'sessionHash' => 'string|required|min:1',
         ]);
         $postId = $request->param('postId');
         $forumId = $request->param('forumId');
         $circleId = $request->param('circleId');
-        $needComment = $request->param('needComment');
-        $result = $this->service->addDelayPost($postId,$needComment,$forumId,$circleId);
+        $sessionHash= $request->param('sessionHash');
+        $result = $this->service->addDelayPost($postId,$sessionHash,$forumId,$circleId);
         return $this->success($result);
     }
 }

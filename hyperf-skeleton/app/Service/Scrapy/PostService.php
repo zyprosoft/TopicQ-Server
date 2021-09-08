@@ -3,6 +3,7 @@
 
 namespace App\Service\Scrapy;
 
+use App\Job\ScrapyImportTopicJob;
 use App\Model\DelayPostTask;
 use App\Model\Scrapy\Comment;
 use App\Model\Scrapy\Post;
@@ -69,15 +70,9 @@ class PostService extends BaseService
         return ['list'=>$list,'total'=>$total];
     }
 
-    public function addDelayPost(string $postId, $needComment = 0, int $forumId = null, int $circleId = null)
+    public function addDelayPost(string $postId, string $sessionHash, int $forumId = null, int $circleId = null)
     {
-        $task = new DelayPostTask();
-        $task->post_id = $postId;
-        $task->forum_id = isset($forumId)?$forumId:0;
-        $task->circle_id = isset($circleId)?$circleId:0;
-        $task->need_comment = $needComment;
-        $task->is_active = $circleId>0? 1:0;
-        $task->saveOrFail();
+        $this->push(new ScrapyImportTopicJob($postId,$sessionHash,$forumId,$circleId));
         return $this->success();
     }
 }

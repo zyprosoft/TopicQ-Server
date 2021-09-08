@@ -27,7 +27,9 @@ class ScrapyImportTopicJob extends Job
 
     protected string $sessionHash;
 
-    protected int $forumId;
+    protected $forumId;
+
+    protected $circleId;
 
     /**
      * 初始化client的配置
@@ -40,11 +42,12 @@ class ScrapyImportTopicJob extends Job
      */
     protected $client;
 
-    public function __construct(string $topicId, string $sessionHash, int $forumId)
+    public function __construct(string $topicId, string $sessionHash, int $forumId = null, int $circleId = null)
     {
         $this->topicId = $topicId;
         $this->sessionHash = $sessionHash;
         $this->forumId = $forumId;
+        $this->circleId = $circleId;
         $stack = null;
         if (Coroutine::getCid() > 0) {
             $stack = HandlerStack::create(new CoroutineHandler());
@@ -83,7 +86,12 @@ class ScrapyImportTopicJob extends Job
             $post->owner_id = $this->getRandomUser()->avatar_user_id;
             $post->title = $result['title'];
             $post->read_count = $result['click_times'];
-            $post->forum_id = $this->forumId;
+            if(isset($this->forumId)) {
+                $post->forum_id = $this->forumId;
+            }
+            if(isset($this->circleId)) {
+                $post->circle_id = $this->circleId;
+            }
             foreach ($content as $key => $item) {
                 if($key == 'text') {
                     $publishContent[] = [
