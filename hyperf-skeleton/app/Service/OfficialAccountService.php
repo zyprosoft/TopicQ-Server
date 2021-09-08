@@ -107,10 +107,20 @@ class OfficialAccountService extends BaseService
             //创建公众号用户
             if (!$officialUser instanceof OfficialAccountUser) {
                 $officialUser = new OfficialAccountUser();
+            }else{
+                if (isset($officialUser->union_id)){
+                    $user = User::query()->where('wx_union_id',$officialUser->union_id)->first();
+                }
             }
             $officialUser->open_id = $openId;
             $officialUser->is_subscribe = $isSubscribe;
             $officialUser->save();
+            //保存公众号信息到用户
+            if ($user instanceof User) {
+                $user->wx_fa_open_id = $openId;
+                $user->wx_fa_is_subscribe = $isSubscribe;
+                $user->save();
+            }
             if(!isset($officialUser->union_id)) {
                 $this->push(new QueryOfficialAccountUserInfoJob($openId));
             }
