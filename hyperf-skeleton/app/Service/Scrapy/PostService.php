@@ -47,7 +47,11 @@ class PostService extends BaseService
     {
         $url = $this->url.'&page='.$pageIndex.'&sessionhash='.$sessionHash;
         $result = $this->client->get($url);
-        Log::info('获取主题列表:'.$result->getBody());
+        $result = json_decode($result->getBody());
+        if($result['code'] == 1 && $result['message'] == 'SUCCESS') {
+            return ['list'=>$result['data'],'total'=>1000];
+        }
+        return ['list'=>[],'total'=>0];
     }
 
     public function getCommentList(int $postId, int $pageIndex, int $pageSize)
