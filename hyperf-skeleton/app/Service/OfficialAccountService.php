@@ -72,6 +72,8 @@ class OfficialAccountService extends BaseService
             }
             return "";
         });
+        //获取token
+        $this->officialAccount->access_token->getToken();
     }
 
     public function dealSubscribeEvent(string $openId, int $isSubscribe)
@@ -102,8 +104,6 @@ class OfficialAccountService extends BaseService
 
     public function queryUserInfo($openId)
     {
-        $result = $this->officialAccount->access_token->getToken();
-        Log::info("get token result:".json_encode($result));
         $result = $this->officialAccount->user->get($openId);
         Log::info("get user info:".json_encode($result));
         //存储信息
