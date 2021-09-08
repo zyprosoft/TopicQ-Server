@@ -102,6 +102,7 @@ class OfficialAccountService extends BaseService
 
     public function queryUserInfo($openId)
     {
+        $this->officialAccount->user->getAccessToken();
         $result = $this->officialAccount->user->get($openId);
         Log::info("get user info:".json_encode($result));
         //存储信息
