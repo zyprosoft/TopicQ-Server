@@ -29,6 +29,8 @@ namespace App\Model;
  * @property int $enable_user_video 是否开启普通用户可以发视频0不允许1允许
  * @property int $enable_user_create_topic 是否允许普通用户创建主题
  * @property int $enable_nav_forum 是否允许订阅版块提升到导航栏
+ * @property string $attention_fa_url 关注公众号的引导链接
+ * @property int $enable_attention_fa 是否开启引导关注公众号
  */
 class AppSetting extends Model
 {
@@ -49,5 +51,5 @@ class AppSetting extends Model
      *
      * @var array
      */
-    protected $casts = ['id' => 'int', 'custom_no_more' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'custom_theme' => 'integer', 'theme_gradual' => 'integer', 'subscribe_open' => 'integer', 'private_message_open' => 'integer', 'message_on_attention' => 'integer', 'self_mall_open' => 'integer', 'red_bag_post' => 'integer', 'praise_cash_post' => 'integer', 'enable_user_video' => 'integer', 'enable_user_create_topic' => 'integer', 'enable_nav_forum' => 'integer'];
+    protected $casts = ['id' => 'int', 'custom_no_more' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'custom_theme' => 'integer', 'theme_gradual' => 'integer', 'subscribe_open' => 'integer', 'private_message_open' => 'integer', 'message_on_attention' => 'integer', 'self_mall_open' => 'integer', 'red_bag_post' => 'integer', 'praise_cash_post' => 'integer', 'enable_user_video' => 'integer', 'enable_user_create_topic' => 'integer', 'enable_nav_forum' => 'integer', 'enable_attention_fa' => 'integer'];
 }
