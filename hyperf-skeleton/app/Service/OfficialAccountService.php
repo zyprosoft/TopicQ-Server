@@ -3,6 +3,7 @@
 
 namespace App\Service;
 use App\Constants\Constants;
+use App\Job\AddScoreJob;
 use App\Job\QueryOfficialAccountUserInfoJob;
 use App\Model\OfficialAccountUser;
 use App\Model\User;
@@ -120,6 +121,8 @@ class OfficialAccountService extends BaseService
                 $user->wx_fa_open_id = $openId;
                 $user->wx_fa_is_subscribe = $isSubscribe;
                 $user->save();
+                //第一次关注，奖励积分
+                $this->push(new AddScoreJob($user->user_id,Constants::SCORE_ACTION_SUBSCRIBE_OFFICIAL_ACCOUNT,'关注公众号激励'));
             }
             if(!isset($officialUser->union_id)) {
                 $this->push(new QueryOfficialAccountUserInfoJob($openId));
