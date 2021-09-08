@@ -88,21 +88,20 @@ class OfficialAccountService extends BaseService
                 return;
             }
             if($user instanceof User) {
-                if(isset($user->wx_fa_subscribe_time)) {
-                    return;
-                }else{
-                    $user->wx_fa_is_subscribe = $isSubscribe;
-                    $user->save();
+                $user->wx_fa_is_subscribe = $isSubscribe;
+                $user->save();
+                if(!isset($user->wx_union_id)) {
+                    $this->push(new QueryOfficialAccountUserInfoJob($openId));
                 }
             }
             if($officialUser instanceof OfficialAccountUser) {
-                if(isset($officialUser->attention_time)) {
-                    return;
-                }else{
-                    $officialUser->is_subscribe = $isSubscribe;
-                    $officialUser->save();
+                $officialUser->is_subscribe = $isSubscribe;
+                $officialUser->save();
+                if(!isset($officialUser->union_id)) {
+                    $this->push(new QueryOfficialAccountUserInfoJob($openId));
                 }
             }
+            return;
         }
         if (!$user instanceof User) {
             //创建公众号用户
