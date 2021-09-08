@@ -17,10 +17,10 @@ class CreateCircleCategorySetupDataSeeder extends Seeder
         //
         Db::table('circle_category')->insertOrIgnore([
             [
-                'name' => '班级',
+                'name' => '社区',
             ],
             [
-                'name' => '校友',
+                'name' => '投资',
             ],
             [
                 'name' => '电影',
@@ -47,13 +47,13 @@ class CreateCircleCategorySetupDataSeeder extends Seeder
                 'name' => '阅读',
             ],
             [
-                'name' => '动漫',
+                'name' => '汽车',
             ],
             [
                 'name' => '情感',
             ],
             [
-                'name' => '考研',
+                'name' => '亲子',
             ],
             [
                 'name' => '娱乐',
