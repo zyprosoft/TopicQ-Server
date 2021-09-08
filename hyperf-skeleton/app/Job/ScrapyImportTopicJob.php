@@ -48,12 +48,6 @@ class ScrapyImportTopicJob extends Job
         $this->sessionHash = $sessionHash;
         $this->forumId = $forumId;
         $this->circleId = $circleId;
-        $stack = null;
-        if (Coroutine::getCid() > 0) {
-            $stack = HandlerStack::create(new CoroutineHandler());
-        }
-        $config = array_replace(['handler' => $stack], $this->options);
-        $this->client = ApplicationContext::getContainer()->make(Client::class, ['config' => $config]);
     }
 
     protected function getRandomUser()
@@ -71,6 +65,12 @@ class ScrapyImportTopicJob extends Job
      */
     public function handle()
     {
+        $stack = null;
+        if (Coroutine::getCid() > 0) {
+            $stack = HandlerStack::create(new CoroutineHandler());
+        }
+        $config = array_replace(['handler' => $stack], $this->options);
+        $this->client = ApplicationContext::getContainer()->make(Client::class, ['config' => $config]);
         $url = $this->baseUrl.'&topic_id='.$this->topicId.'&sessionhash='.$this->sessionHash;
         $result = $this->client->get($url);
         Log::info('抓取帖子详情结果:'.$result->getBody());
