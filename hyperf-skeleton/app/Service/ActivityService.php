@@ -84,14 +84,15 @@ class ActivityService extends BaseService
         $daySignCount = UserDaySign::query()->whereDate('sign_date',$today)->count();
 
         //检查用户是否关注了公众号
-        $this->officialAccountService->checkUserAttentionOfficialAccount();
+        $isSubscribe = $this->officialAccountService->getUserAttentionOfficialAccountStatus();
 
         return [
             'today' => $todayPostCount,
             'circle_count' => $circleCount,
             'member_count' => $memberCount,
             'post_count' => $postCount,
-            'sign_count' => $daySignCount
+            'sign_count' => $daySignCount,
+            'fa_subscribe' => $isSubscribe
         ];
     }
 

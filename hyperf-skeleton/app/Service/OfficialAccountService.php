@@ -5,7 +5,9 @@ namespace App\Service;
 use App\Constants\Constants;
 use App\Job\QueryOfficialAccountUserInfoJob;
 use App\Model\User;
+use Hyperf\DbConnection\Db;
 use Psr\Container\ContainerInterface;
+use ZYProSoft\Facade\Auth;
 use ZYProSoft\Log\Log;
 use EasyWeChat\Factory;
 use EasyWeChat\OfficialAccount\Application as OfficialAccountApplication;
@@ -102,19 +104,37 @@ class OfficialAccountService extends BaseService
         }
     }
 
+    public function getUserAttentionOfficialAccountStatus()
+    {
+        if(Auth::isGuest() == false) {
+            $user = $this->user();
+            if(!$user instanceof User) {
+                return Constants::STATUS_NOT;
+            }
+            if(!isset($user->wx_union_id)) {
+                Log::info('查询用户没有微信UnionID,无需检查状态');
+                return Constants::STATUS_NOT;
+            }
+            return $user->wx_fa_is_subscribe;
+        }
+        return Constants::STATUS_NOT;
+    }
+
     public function queryUserInfo($openId)
     {
         $result = $this->officialAccount->user->get($openId);
         Log::info("get user info:".json_encode($result));
-        //存储信息
-        $user = User::query()->where('wx_fa_open_id',$openId)->first();
-        if (!$user instanceof User) {
-            return;
-        }
-        $user->wx_union_id = $result['unionid'];
-        $user->wx_fa_subscribe_time = $result['subscribe_time'];
-        $user->wx_fa_subscribe_scene = $result['subscribe_scene'];
-        $user->save();
+        Db::transaction(function () use ($result,$openId) {
+            //存储信息
+            $user = User::query()->where('wx_fa_open_id',$openId)->lockForUpdate()->first();
+            if (!$user instanceof User) {
+                return;
+            }
+            $user->wx_union_id = $result['unionid'];
+            $user->wx_fa_subscribe_time = $result['subscribe_time'];
+            $user->wx_fa_subscribe_scene = $result['subscribe_scene'];
+            $user->save();
+        });
     }
 
     public function checkResponse(string $echostr)
