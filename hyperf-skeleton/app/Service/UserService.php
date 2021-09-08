@@ -236,7 +236,7 @@ class UserService extends BaseService
 
         //公众号用户存不存在
         if(isset($user->wx_union_id) && !isset($user->wx_fa_open_id)) {
-            $officialUser = OfficialAccountUser::query()->where('wx_union_id',$user->wx_union_id)
+            $officialUser = OfficialAccountUser::query()->where('union_id',$user->wx_union_id)
                 ->first();
             //如果能查到，把信息合并到用户表
             if ($officialUser instanceof OfficialAccountUser) {
