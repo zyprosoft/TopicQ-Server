@@ -12,6 +12,7 @@ use App\Model\Advice;
 use App\Model\Comment;
 use App\Model\HobbyCategory;
 use App\Model\Notification;
+use App\Model\OfficialAccountUser;
 use App\Model\Post;
 use App\Model\PrivateMessage;
 use App\Model\SignStatus;
@@ -230,6 +231,19 @@ class UserService extends BaseService
                 $tokenHistory->token_expire = $user->token_expire->toDateTimeString();
                 $tokenHistory->saveOrFail();
                 Log::info("({$user->user_id})用户token已经过期,保存历史Token");
+            }
+        }
+
+        //公众号用户存不存在
+        if(isset($user->wx_union_id) && !isset($user->wx_fa_open_id)) {
+            $officialUser = OfficialAccountUser::query()->where('wx_union_id',$user->wx_union_id)
+                ->first();
+            //如果能查到，把信息合并到用户表
+            if ($officialUser instanceof OfficialAccountUser) {
+                $user->wx_fa_open_id = $officialUser->open_id;
+                $user->wx_fa_is_subscribe = $officialUser->is_subscribe;
+                $user->wx_fa_subscribe_time = $officialUser->attention_time;
+                $user->wx_fa_subscribe_scene = $officialUser->attention_scene;
             }
         }
 

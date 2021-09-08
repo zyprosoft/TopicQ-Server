@@ -4,6 +4,7 @@
 namespace App\Service;
 use App\Constants\Constants;
 use App\Job\QueryOfficialAccountUserInfoJob;
+use App\Model\OfficialAccountUser;
 use App\Model\User;
 use Hyperf\DbConnection\Db;
 use Psr\Container\ContainerInterface;
@@ -80,27 +81,47 @@ class OfficialAccountService extends BaseService
 
     public function dealSubscribeEvent(string $openId, int $isSubscribe)
     {
-        if($isSubscribe == Constants::STATUS_NOT) {
-            $user = User::query()->where('wx_fa_open_id',$openId)->first();
-            if (!$user instanceof User) {
-                return;
-            }
-            if(isset($user->wx_fa_subscribe_time)) {
-                return;
-            }else{
-                $user->wx_fa_is_subscribe = $isSubscribe;
-                $user->save();
-            }
-        }
         $user = User::query()->where('wx_fa_open_id',$openId)->first();
-        if (!$user instanceof User) {
-            $user = new User();
+        $officialUser = OfficialAccountUser::query()->where('open_id',$openId)->first();
+        if($isSubscribe == Constants::STATUS_NOT) {
+            if (!$user instanceof User && !$officialUser instanceof OfficialAccountUser) {
+                return;
+            }
+            if($user instanceof User) {
+                if(isset($user->wx_fa_subscribe_time)) {
+                    return;
+                }else{
+                    $user->wx_fa_is_subscribe = $isSubscribe;
+                    $user->save();
+                }
+            }
+            if($officialUser instanceof OfficialAccountUser) {
+                if(isset($officialUser->attention_time)) {
+                    return;
+                }else{
+                    $officialUser->is_subscribe = $isSubscribe;
+                    $officialUser->save();
+                }
+            }
         }
-        $user->wx_fa_open_id = $openId;
-        $user->wx_fa_is_subscribe = $isSubscribe;
-        $user->save();
-        if(!isset($user->wx_union_id)) {
-            $this->push(new QueryOfficialAccountUserInfoJob($openId));
+        if (!$user instanceof User) {
+            //创建公众号用户
+            if (!$officialUser instanceof OfficialAccountUser) {
+                $officialUser = new OfficialAccountUser();
+            }
+            $officialUser->open_id = $openId;
+            $officialUser->is_subscribe = $isSubscribe;
+            $officialUser->save();
+            if(!isset($officialUser->union_id)) {
+                $this->push(new QueryOfficialAccountUserInfoJob($openId));
+            }
+        }else{
+            $user->wx_fa_open_id = $openId;
+            $user->wx_fa_is_subscribe = $isSubscribe;
+            $user->save();
+            if(!isset($user->wx_union_id)) {
+                $this->push(new QueryOfficialAccountUserInfoJob($openId));
+            }
         }
     }
 
@@ -127,13 +148,23 @@ class OfficialAccountService extends BaseService
         Db::transaction(function () use ($result,$openId) {
             //存储信息
             $user = User::query()->where('wx_fa_open_id',$openId)->lockForUpdate()->first();
-            if (!$user instanceof User) {
+            $officialUser = OfficialAccountUser::query()->where('open_id',$openId)->lockForUpdate()->first();
+            if (!$user instanceof User && !$officialUser instanceof OfficialAccountUser) {
+                Log::info("没有用户和公众号用户信息($openId)");
                 return;
             }
-            $user->wx_union_id = $result['unionid'];
-            $user->wx_fa_subscribe_time = $result['subscribe_time'];
-            $user->wx_fa_subscribe_scene = $result['subscribe_scene'];
-            $user->save();
+            if(isset($user)) {
+                $user->wx_union_id = $result['unionid'];
+                $user->wx_fa_subscribe_time = $result['subscribe_time'];
+                $user->wx_fa_subscribe_scene = $result['subscribe_scene'];
+                $user->save();
+            }
+            if (isset($officialUser)) {
+                $officialUser->union_id = $result['unionid'];
+                $officialUser->attention_time = $result['subscribe_time'];
+                $officialUser->attention_scene = $result['subscribe_scene'];
+                $officialUser->save();
+            }
         });
     }
 
