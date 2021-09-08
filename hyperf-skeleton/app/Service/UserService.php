@@ -200,7 +200,13 @@ class UserService extends BaseService
             ->with(['update_info'])
             ->first();
         if (!$user instanceof User) {
-            $user = new User();
+            //通过unionID能不能查到用户
+            $user = User::query()->where('wx_union_id',$unionID)
+                ->with(['update_info'])
+                ->first();
+            if (!$user instanceof User) {
+                $user = new User();
+            }
         }
         $user->wx_openid = $openid;
         $user->wx_token = $sessionKey;
