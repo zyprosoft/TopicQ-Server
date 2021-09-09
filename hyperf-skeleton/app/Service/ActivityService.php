@@ -79,22 +79,22 @@ class ActivityService extends BaseService
             ->count();
         $circleCount = Circle::query()->where('audit_status',Constants::STATUS_OK)
             ->count();
-        $memberCount = User::count();
         $memberCountCache = Cache::get('MEMBER_COUNT_KEY');
         if(!isset($memberCountCache)) {
-            $memberCount = $memberCount + rand(0,5);
+            $memberCount = User::count();
+            $memberCountCache = $memberCount + rand(0,5);
         }else{
-            $memberCount = $memberCountCache + rand(0,5);
+            $memberCountCache = $memberCountCache + rand(0,5);
         }
-        Cache::set('MEMBER_COUNT_KEY',$memberCount);
-        $postCount = Post::count();
+        Cache::set('MEMBER_COUNT_KEY',$memberCountCache);
         $postCountCache = Cache::get('POST_COUNT_KEY');
         if(!isset($postCountCache)) {
-            $postCount = $postCount + rand(0,5);
+            $postCount = Post::count();
+            $postCountCache = $postCount + rand(0,5);
         }else{
-            $postCount = $postCountCache + rand(0,5);
+            $postCountCache = $postCountCache + rand(0,5);
         }
-        Cache::set('POST_COUNT_KEY',$postCount);
+        Cache::set('POST_COUNT_KEY',$postCountCache);
         $today = Carbon::now()->toDateString();
         $daySignCount = UserDaySign::query()->whereDate('sign_date',$today)->count();
 
