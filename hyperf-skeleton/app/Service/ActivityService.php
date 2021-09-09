@@ -88,7 +88,7 @@ class ActivityService extends BaseService
         }else{
             $memberCountCache = $memberCountCache + rand(0,5);
         }
-        $result = Cache::set('MEMBER_COUNT_KEY',$memberCountCache,PHP_INT_MAX);
+        $result = Cache::set('MEMBER_COUNT_KEY',$memberCountCache,999999999999);
         $state = $result?'成功':'失败';
         Log::info("保存成员数!".$state);
         $postCountCache = Cache::get('POST_COUNT_KEY');
@@ -99,7 +99,7 @@ class ActivityService extends BaseService
         }else{
             $postCountCache = $postCountCache + rand(0,5);
         }
-        $result = Cache::set('POST_COUNT_KEY',$postCountCache,PHP_INT_MAX);
+        $result = Cache::set('POST_COUNT_KEY',$postCountCache,999999999999);
         $state = $result?'成功':'失败';
         Log::info("保存帖子总数!".$state);
         $today = Carbon::now()->toDateString();
