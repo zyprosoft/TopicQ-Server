@@ -95,9 +95,9 @@ class ActivityService extends BaseService
         Log::info('缓存帖子数:'.$postCountCache);
         if(!isset($postCountCache)||!is_numeric($postCountCache)) {
             $postCount = Post::count();
-            $postCountCache = $postCount + rand(0,5);
+            $postCountCache = $postCount + rand(0,2);
         }else{
-            $postCountCache = $postCountCache + rand(0,5);
+            $postCountCache = $postCountCache + rand(0,2);
         }
         $result = $this->cache->set('POST_COUNT_KEY',$postCountCache);
         $state = $result?'成功':'失败';
