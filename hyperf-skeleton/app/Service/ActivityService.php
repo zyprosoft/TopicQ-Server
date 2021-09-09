@@ -111,6 +111,7 @@ class ActivityService extends BaseService
         $cacheToday = $this->cache->get('DAY_SIGN_DATE');
         if (!isset($cacheToday)) {
             $this->cache->set('DAY_SIGN_DATE',$today);
+            $this->cache->set('DAY_SIGN_COUNT_KEY',$daySignCountCache);
         }else{
             if($today !== $cacheToday) {
                 $this->cache->set('DAY_SIGN_COUNT_KEY',5);
