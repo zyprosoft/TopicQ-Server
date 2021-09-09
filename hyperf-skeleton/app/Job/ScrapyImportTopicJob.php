@@ -200,7 +200,7 @@ class ScrapyImportTopicJob extends Job
                     $comment->post_id = $post->post_id;
                     $comment->post_owner_id = $post->owner_id;
                     $user = $this->getRandomUser();
-                    $comment->owner_id = $user->user_id;
+                    $comment->owner_id = $user->avatar_user_id;
                     $imageList = [];
                     $imageIds = [];
                     $contentList = $item['data']['content'];
