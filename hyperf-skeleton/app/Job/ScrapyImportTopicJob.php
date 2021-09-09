@@ -164,18 +164,19 @@ class ScrapyImportTopicJob extends Job
                         ];
                     }
                 }
-                if(isset($this->circleId)) {
-                    //存储数据
-                    $publishContent[] = [
-                        'type' => 'grid_image',
-                        'type_name' => '大图',
-                        'url_list' => $imageList,
-                    ];
-                }
-                $post->rich_content = json_encode($publishContent);
-                $post->audit_status = Constants::STATUS_OK;
-                $post->saveOrFail();
             }
+            if(isset($this->circleId)) {
+                //存储数据
+                $publishContent[] = [
+                    'type' => 'grid_image',
+                    'type_name' => '宫格',
+                    'url_list' => $imageList,
+                ];
+            }
+            $post->rich_content = json_encode($publishContent);
+            $post->audit_status = Constants::STATUS_OK;
+            $post->saveOrFail();
+            Log::info("完成帖子转存!({$this->topicId}),开始评论转存...");
 
             //评论
             Db::transaction(function () use ($replyList,$post,$bucketManager,$bucket){
