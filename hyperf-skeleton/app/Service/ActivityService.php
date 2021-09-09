@@ -107,7 +107,18 @@ class ActivityService extends BaseService
         }
         //不能超过总用户数的一半
         $daySignCountCache = min($daySignCountCache,floor($memberCountCache*0.5));
-        $this->cache->set('DAY_SIGN_COUNT_KEY',$daySignCountCache);
+        $today = Carbon::now()->toDateString();
+        $cacheToday = $this->cache->get('DAY_SIGN_DATE');
+        if (!isset($cacheToday)) {
+            $this->cache->set('DAY_SIGN_DATE',$today);
+        }else{
+            if($today !== $cacheToday) {
+                $this->cache->set('DAY_SIGN_COUNT_KEY',5);
+                $this->cache->set('DAY_SIGN_DATE',$today);
+            }else{
+                $this->cache->set('DAY_SIGN_COUNT_KEY',$daySignCountCache);
+            }
+        }
 
         //检查用户是否关注了公众号
         $isSubscribe = $this->officialAccountService->getUserAttentionOfficialAccountStatus();
