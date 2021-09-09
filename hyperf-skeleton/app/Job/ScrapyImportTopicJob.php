@@ -111,12 +111,13 @@ class ScrapyImportTopicJob extends Job
             $imageList = [];
             if(isset($this->circleId)) {
                 $post->circle_id = $this->circleId;
-                foreach ($content as $key => $item) {
-                    if ($key == 'image') {
+                foreach ($content as $item) {
+                    if (isset($item['image'])) {
+                        $imageUrl = $item['image'];
                         Log::info("帖子包含图片，开始远端转存!{$this->topicId}");
                         $key = time() . '.png';
-                        list($ret, $err) = $bucketManager->fetch($item, $bucket, $key);
-                        Log::info("=====> fetch $item to bucket: $bucket  key: $key\n");
+                        list($ret, $err) = $bucketManager->fetch($imageUrl, $bucket, $key);
+                        Log::info("=====> fetch $imageUrl to bucket: $bucket  key: $key\n");
                         if ($err !== null) {
                             Log::info("转存图片失败:".json_encode($err));
                         } else {
@@ -129,12 +130,12 @@ class ScrapyImportTopicJob extends Job
                 }
             }
 
-            foreach ($content as $key => $item) {
-                if($key == 'text') {
+            foreach ($content as $item) {
+                if(isset($item['text'])) {
                     $publishContent[] = [
                         'type' => 'text',
                         'type_name' => '文本',
-                        'content' => $item,
+                        'content' => $item['text'],
                         'is_bold' => 0,
                         'font_size' => 14,
                         'display_font_size' => 32,
@@ -142,11 +143,13 @@ class ScrapyImportTopicJob extends Job
                         'text_color' => 'black'
                     ];
                 }
-                if($key == 'image' && !isset($this->circleId)) {
+                if(isset($item['image']) && !isset($this->circleId)) {
+                    $imageUrl = $item['image'];
+                    Log::info('原图片:'.$item);
                     Log::info("帖子包含图片，开始远端转存!{$this->topicId}");
                     $key = time() . '.png';
-                    list($ret, $err) = $bucketManager->fetch($item, $bucket, $key);
-                    Log::info("=====> fetch $item to bucket: $bucket  key: $key\n");
+                    list($ret, $err) = $bucketManager->fetch($imageUrl, $bucket, $key);
+                    Log::info("=====> fetch $imageUrl to bucket: $bucket  key: $key\n");
                     if ($err !== null) {
                         Log::info("转存图片失败:".json_encode($err));
                     } else {
@@ -182,15 +185,16 @@ class ScrapyImportTopicJob extends Job
                     $comment->post_id = $post->post_id;
                     $imageList = [];
                     $contentList = $item['data']['content'];
-                    foreach ($contentList as $key => $subItem) {
-                        if($key == 'text') {
-                            $comment->content = $subItem;
+                    foreach ($contentList as $subItem) {
+                        if(isset($subItem['text'])) {
+                            $comment->content = $subItem['text'];
                         }
-                        if($key == 'image' ) {
+                        if(isset($subItem['image']) ) {
+                            $imageUrl = $subItem['image'];
                             Log::info("评论包含图片，开始远端转存!{$this->topicId}");
                             $key = time() . '.png';
-                            list($ret, $err) = $bucketManager->fetch($subItem, $bucket, $key);
-                            Log::info("=====> fetch $subItem to bucket: $bucket  key: $key\n");
+                            list($ret, $err) = $bucketManager->fetch($imageUrl, $bucket, $key);
+                            Log::info("=====> fetch $imageUrl to bucket: $bucket  key: $key\n");
                             if ($err !== null) {
                                 Log::info("转存图片失败:".json_encode($err));
                             } else {
