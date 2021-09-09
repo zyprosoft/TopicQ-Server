@@ -18,6 +18,7 @@ class CreateAdminUserSeeder extends Seeder
         Db::table('user')->insertOrIgnore([
             [
                 'username' => 'admin',
+                'role_id' => 1,
                 'password' => password_hash('admin123',PASSWORD_DEFAULT)
             ]
         ]);
