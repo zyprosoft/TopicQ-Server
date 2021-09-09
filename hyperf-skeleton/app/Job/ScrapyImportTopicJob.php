@@ -226,8 +226,10 @@ class ScrapyImportTopicJob extends Job
                             }
                         }
                     }
-                    $comment->image_ids = implode(';',$imageIds);
-                    $comment->image_list = implode(';',$imageList);
+                    if (!empty($imageIds) && !empty($imageList)) {
+                        $comment->image_ids = implode(';',$imageIds);
+                        $comment->image_list = implode(';',$imageList);
+                    }
                     $rand = rand(0,10);
                     $subMinute = $index*10 - $rand;
                     $comment->created_at = $startTime->subRealMinutes($subMinute);
