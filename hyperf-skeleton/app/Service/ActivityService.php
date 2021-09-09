@@ -82,7 +82,7 @@ class ActivityService extends BaseService
             ->count();
         $memberCountCache = Cache::get('MEMBER_COUNT_KEY');
         Log::info('缓存成员数:'.$memberCountCache);
-        if(!isset($memberCountCache)) {
+        if(!isset($memberCountCache)||!is_numeric($memberCountCache)) {
             $memberCount = User::count();
             $memberCountCache = $memberCount + rand(0,5);
         }else{
@@ -93,7 +93,7 @@ class ActivityService extends BaseService
         Log::info("保存成员数!".$state);
         $postCountCache = Cache::get('POST_COUNT_KEY');
         Log::info('缓存帖子数:'.$postCountCache);
-        if(!isset($postCountCache)) {
+        if(!isset($postCountCache)||!is_numeric($postCountCache)) {
             $postCount = Post::count();
             $postCountCache = $postCount + rand(0,5);
         }else{
