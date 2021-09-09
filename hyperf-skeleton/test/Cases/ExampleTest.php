@@ -598,4 +598,11 @@ class ExampleTest extends HttpTestCase
         ];
         $this->safeRequest('admin.spost.searchPost',$params,$token);
     }
+
+    public function testGetIndexTotalInfo()
+    {
+        $params = [
+        ];
+        $this->safeRequest('common.activity.getIndexTotalInfo',$params);
+    }
 }

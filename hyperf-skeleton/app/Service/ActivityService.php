@@ -88,7 +88,9 @@ class ActivityService extends BaseService
         }else{
             $memberCountCache = $memberCountCache + rand(0,5);
         }
-        Cache::set('MEMBER_COUNT_KEY',$memberCountCache,PHP_INT_MAX);
+        $result = Cache::set('MEMBER_COUNT_KEY',$memberCountCache,PHP_INT_MAX);
+        $state = $result?'成功':'失败';
+        Log::info("保存成员数!".$state);
         $postCountCache = Cache::get('POST_COUNT_KEY');
         Log::info('缓存帖子数:'.$postCountCache);
         if(!isset($postCountCache)) {
@@ -97,7 +99,9 @@ class ActivityService extends BaseService
         }else{
             $postCountCache = $postCountCache + rand(0,5);
         }
-        Cache::set('POST_COUNT_KEY',$postCountCache,PHP_INT_MAX);
+        $result = Cache::set('POST_COUNT_KEY',$postCountCache,PHP_INT_MAX);
+        $state = $result?'成功':'失败';
+        Log::info("保存帖子总数!".$state);
         $today = Carbon::now()->toDateString();
         $daySignCount = UserDaySign::query()->whereDate('sign_date',$today)->count();
 
