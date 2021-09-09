@@ -109,6 +109,7 @@ class ScrapyImportTopicJob extends Job
 
             //提取全部图片
             $imageList = [];
+            $imageIds = [];
             if(isset($this->circleId)) {
                 $post->circle_id = $this->circleId;
                 foreach ($content as $item) {
@@ -125,6 +126,7 @@ class ScrapyImportTopicJob extends Job
                             $fileKey = $ret['key'];
                             $remoteUrl = env('QINIU_CDN_DOMAIN').$fileKey;
                             $imageList[] = $remoteUrl;
+                            $imageIds[] = $key;
                         }
                     }
                 }
@@ -160,8 +162,11 @@ class ScrapyImportTopicJob extends Job
                         $publishContent[] = [
                             'type' => 'big_image',
                             'type_name' => '大图',
-                            'remote' => $remoteUrl,
+                            'image' => [
+                                'remote' => $remoteUrl
+                            ],
                         ];
+                        $imageIds[] = $key;
                     }
                 }
             }
@@ -173,6 +178,7 @@ class ScrapyImportTopicJob extends Job
                     'url_list' => $imageList,
                 ];
             }
+            $post->image_ids = implode(';',$imageIds);
             $post->rich_content = json_encode($publishContent);
             $post->audit_status = Constants::STATUS_OK;
             $post->saveOrFail();
@@ -187,7 +193,11 @@ class ScrapyImportTopicJob extends Job
                 $replyList->map(function (array $item) use ($post,$bucketManager,$bucket,$startTime,&$index) {
                     $comment = new Comment();
                     $comment->post_id = $post->post_id;
+                    $comment->post_owner_id = $post->owner_id;
+                    $user = $this->getRandomUser();
+                    $comment->owner_id = $user->user_id;
                     $imageList = [];
+                    $imageIds = [];
                     $contentList = $item['data']['content'];
                     foreach ($contentList as $subItem) {
                         if(isset($subItem['text'])) {
@@ -206,12 +216,12 @@ class ScrapyImportTopicJob extends Job
                                 $fileKey = $ret['key'];
                                 $remoteUrl = env('QINIU_CDN_DOMAIN').$fileKey;
                                 $imageList[] = $remoteUrl;
+                                $imageIds[] = $key;
                             }
                         }
                     }
+                    $comment->image_ids = implode(';',$imageIds);
                     $comment->image_list = implode(';',$imageList);
-                    $user = $this->getRandomUser();
-                    $comment->owner_id = $user->user_id;
                     $rand = rand(0,10);
                     $subMinute = $index*10 - $rand;
                     $comment->created_at = $startTime->subRealMinutes($subMinute);
