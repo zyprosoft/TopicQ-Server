@@ -6,6 +6,7 @@ use App\Constants\Constants;
 use App\Model\Comment;
 use App\Model\ManagerAvatarUser;
 use App\Model\Post;
+use App\Service\UserService;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
@@ -95,7 +96,6 @@ class ScrapyImportTopicJob extends Job
             $post->owner_id = $this->getRandomUser()->avatar_user_id;
             $post->title = $result['data']['title'];
             $post->read_count = rand(0,999);
-            $post->comment_count = $replyList->count()-1;
             if(isset($this->forumId)) {
                 $post->forum_id = $this->forumId;
             }
@@ -191,11 +191,16 @@ class ScrapyImportTopicJob extends Job
 
             $startTime = Carbon::now();
 
+            //统计个人信息
+            $service = ApplicationContext::getContainer()->get(UserService::class);
+            $service->queueService->refreshUserCountInfo($post->owner_id);
+
             //评论
             Db::transaction(function () use ($replyList,$post,$bucketManager,$bucket,$startTime){
                 $replyList = $replyList->slice(1,$replyList->count()-2);
                 $index = 0;
-                $replyList->map(function (array $item) use ($post,$bucketManager,$bucket,$startTime,&$index) {
+                $commentCount = 0;
+                $replyList->map(function (array $item) use (&$commentCount,$post,$bucketManager,$bucket,$startTime,&$index) {
                     if(isset($item['data']['content'])) {
                         $comment = new Comment();
                         $comment->post_id = $post->post_id;
@@ -237,8 +242,11 @@ class ScrapyImportTopicJob extends Job
                         Log::info("将要存储评论:" . json_encode($comment));
                         $comment->save();
                         $index++;
+                        $commentCount++;
                     }
                 });
+                $post->comment_count = $commentCount;
+                $post->save();
             });
 
         }
