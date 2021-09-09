@@ -13,6 +13,7 @@ use App\Model\UserDaySign;
 use Carbon\Carbon;
 use Hyperf\Database\Model\Builder;
 use Hyperf\Di\Annotation\Inject;
+use ZYProSoft\Facade\Cache;
 
 class ActivityService extends BaseService
 {
@@ -79,7 +80,21 @@ class ActivityService extends BaseService
         $circleCount = Circle::query()->where('audit_status',Constants::STATUS_OK)
             ->count();
         $memberCount = User::count();
+        $memberCountCache = Cache::get('MEMBER_COUNT_KEY');
+        if(!isset($memberCountCache)) {
+            $memberCount = $memberCount + rand(0,5);
+        }else{
+            $memberCount = $memberCountCache + rand(0,5);
+        }
+        Cache::set('MEMBER_COUNT_KEY',$memberCount);
         $postCount = Post::count();
+        $postCountCache = Cache::get('POST_COUNT_KEY');
+        if(!isset($postCountCache)) {
+            $postCount = $postCount + rand(0,5);
+        }else{
+            $postCount = $postCountCache + rand(0,5);
+        }
+        Cache::set('POST_COUNT_KEY',$postCount);
         $today = Carbon::now()->toDateString();
         $daySignCount = UserDaySign::query()->whereDate('sign_date',$today)->count();
 
