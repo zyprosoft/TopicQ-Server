@@ -196,46 +196,48 @@ class ScrapyImportTopicJob extends Job
                 $replyList = $replyList->slice(1,$replyList->count()-2);
                 $index = 0;
                 $replyList->map(function (array $item) use ($post,$bucketManager,$bucket,$startTime,&$index) {
-                    $comment = new Comment();
-                    $comment->post_id = $post->post_id;
-                    $comment->post_owner_id = $post->owner_id;
-                    $user = $this->getRandomUser();
-                    $comment->owner_id = $user->avatar_user_id;
-                    $imageList = [];
-                    $imageIds = [];
-                    $contentList = $item['data']['content'];
-                    foreach ($contentList as $subItem) {
-                        if(isset($subItem['text'])) {
-                            Log::info("评论内容:".$subItem['text']);
-                            $comment->content = $subItem['text'];
-                        }
-                        if(isset($subItem['image']) ) {
-                            $imageUrl = $subItem['image'];
-                            Log::info("评论包含图片，开始远端转存!{$this->topicId}");
-                            $key = time();
-                            list($ret, $err) = $bucketManager->fetch($imageUrl, $bucket, $key);
-                            Log::info("=====> fetch $imageUrl to bucket: $bucket  key: $key\n");
-                            if ($err !== null) {
-                                Log::info("转存图片失败:".json_encode($err));
-                            } else {
-                                //转存成功
-                                $fileKey = $ret['key'];
-                                $remoteUrl = env('QINIU_CDN_DOMAIN').$fileKey;
-                                $imageList[] = $remoteUrl;
-                                $imageIds[] = $key;
+                    if(isset($item['data']['content'])) {
+                        $comment = new Comment();
+                        $comment->post_id = $post->post_id;
+                        $comment->post_owner_id = $post->owner_id;
+                        $user = $this->getRandomUser();
+                        $comment->owner_id = $user->avatar_user_id;
+                        $imageList = [];
+                        $imageIds = [];
+                        $contentList = $item['data']['content'];
+                        foreach ($contentList as $subItem) {
+                            if (isset($subItem['text'])) {
+                                Log::info("评论内容:" . $subItem['text']);
+                                $comment->content = $subItem['text'];
+                            }
+                            if (isset($subItem['image'])) {
+                                $imageUrl = $subItem['image'];
+                                Log::info("评论包含图片，开始远端转存!{$this->topicId}");
+                                $key = time();
+                                list($ret, $err) = $bucketManager->fetch($imageUrl, $bucket, $key);
+                                Log::info("=====> fetch $imageUrl to bucket: $bucket  key: $key\n");
+                                if ($err !== null) {
+                                    Log::info("转存图片失败:" . json_encode($err));
+                                } else {
+                                    //转存成功
+                                    $fileKey = $ret['key'];
+                                    $remoteUrl = env('QINIU_CDN_DOMAIN') . $fileKey;
+                                    $imageList[] = $remoteUrl;
+                                    $imageIds[] = $key;
+                                }
                             }
                         }
+                        if (!empty($imageIds) && !empty($imageList)) {
+                            $comment->image_ids = implode(';', $imageIds);
+                            $comment->image_list = implode(';', $imageList);
+                        }
+                        $rand = rand(0, 10);
+                        $subMinute = $index * 10 - $rand;
+                        $comment->created_at = $startTime->subRealMinutes($subMinute);
+                        Log::info("将要存储评论:" . json_encode($comment));
+                        $comment->save();
+                        $index++;
                     }
-                    if (!empty($imageIds) && !empty($imageList)) {
-                        $comment->image_ids = implode(';',$imageIds);
-                        $comment->image_list = implode(';',$imageList);
-                    }
-                    $rand = rand(0,10);
-                    $subMinute = $index*10 - $rand;
-                    $comment->created_at = $startTime->subRealMinutes($subMinute);
-                    Log::info("将要存储评论:".json_encode($comment));
-                    $comment->save();
-                    $index++;
                 });
             });
 
