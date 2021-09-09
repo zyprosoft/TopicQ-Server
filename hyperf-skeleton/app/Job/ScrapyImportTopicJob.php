@@ -178,10 +178,13 @@ class ScrapyImportTopicJob extends Job
             $post->saveOrFail();
             Log::info("完成帖子转存!({$this->topicId}),开始评论转存...");
 
+            $startTime = Carbon::now();
+
             //评论
-            Db::transaction(function () use ($replyList,$post,$bucketManager,$bucket){
+            Db::transaction(function () use ($replyList,$post,$bucketManager,$bucket,$startTime){
                 $replyList = $replyList->slice(1,$replyList->count()-2);
-                $replyList->map(function (array $item) use ($post,$bucketManager,$bucket) {
+                $index = 0;
+                $replyList->map(function (array $item) use ($post,$bucketManager,$bucket,$startTime,&$index) {
                     $comment = new Comment();
                     $comment->post_id = $post->post_id;
                     $imageList = [];
@@ -209,7 +212,11 @@ class ScrapyImportTopicJob extends Job
                     $comment->image_list = implode(';',$imageList);
                     $user = $this->getRandomUser();
                     $comment->owner_id = $user->user_id;
+                    $rand = rand(0,10);
+                    $subMinute = $index*10 - $rand;
+                    $comment->created_at = $startTime->subRealMinutes($subMinute);
                     $comment->save();
+                    $index++;
                 });
             });
 
