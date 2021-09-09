@@ -6,12 +6,14 @@ use App\Constants\Constants;
 use App\Model\Comment;
 use App\Model\ManagerAvatarUser;
 use App\Model\Post;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use Hyperf\AsyncQueue\Job;
 use Hyperf\DbConnection\Db;
 use Hyperf\Guzzle\CoroutineHandler;
 use Hyperf\Utils\ApplicationContext;
+use Hyperf\Utils\Str;
 use Qiniu\Auth;
 use Swoole\Coroutine;
 use ZYProSoft\Constants\ErrorCode;
@@ -89,17 +91,44 @@ class ScrapyImportTopicJob extends Job
             $content = $posterFloor['data']['content'];
             $publishContent = [];
             $post = new Post();
-            $post->only_self_visible = 1;
+//            $post->only_self_visible = 1;
             $post->owner_id = $this->getRandomUser()->avatar_user_id;
-            $post->title = $result['title'];
-            $post->read_count = $result['click_times'];
+            $post->title = $result['data']['title'];
+            $post->read_count = rand(0,999);
             $post->comment_count = $replyList->count()-1;
             if(isset($this->forumId)) {
                 $post->forum_id = $this->forumId;
             }
+
+            //直接远程转存
+            $accessKey = config('file.storage.qiniu.accessKey');
+            $secretKey = config('file.storage.qiniu.secretKey');
+            $bucket = config('file.storage.qiniu.bucket');
+            $auth = new Auth($accessKey, $secretKey);
+            $bucketManager = new BucketManager($auth);
+
+            //提取全部图片
+            $imageList = [];
             if(isset($this->circleId)) {
                 $post->circle_id = $this->circleId;
+                foreach ($content as $key => $item) {
+                    if ($key == 'image') {
+                        Log::info("帖子包含图片，开始远端转存!{$this->topicId}");
+                        $key = time() . '.png';
+                        list($ret, $err) = $bucketManager->fetch($item, $bucket, $key);
+                        Log::info("=====> fetch $item to bucket: $bucket  key: $key\n");
+                        if ($err !== null) {
+                            Log::info("转存图片失败:".json_encode($err));
+                        } else {
+                            //转存成功
+                            $fileKey = $ret['key'];
+                            $remoteUrl = env('QINIU_CDN_DOMAIN').$fileKey;
+                            $imageList[] = $remoteUrl;
+                        }
+                    }
+                }
             }
+
             foreach ($content as $key => $item) {
                 if($key == 'text') {
                     $publishContent[] = [
@@ -113,17 +142,11 @@ class ScrapyImportTopicJob extends Job
                         'text_color' => 'black'
                     ];
                 }
-                if($key == 'image') {
+                if($key == 'image' && !isset($this->circleId)) {
                     Log::info("帖子包含图片，开始远端转存!{$this->topicId}");
-                    //直接远程转存
-                    $accessKey = config('file.storage.qiniu.accessKey');
-                    $secretKey = config('file.storage.qiniu.secretKey');
-                    $bucket = config('file.storage.qiniu.bucket');
-                    $auth = new Auth($accessKey, $secretKey);
-                    $bucketManager = new BucketManager($auth);
                     $key = time() . '.png';
-                    list($ret, $err) = $bucketManager->fetch($url, $bucket, $key);
-                    Log::info("=====> fetch $url to bucket: $bucket  key: $key\n");
+                    list($ret, $err) = $bucketManager->fetch($item, $bucket, $key);
+                    Log::info("=====> fetch $item to bucket: $bucket  key: $key\n");
                     if ($err !== null) {
                         Log::info("转存图片失败:".json_encode($err));
                     } else {
@@ -138,18 +161,50 @@ class ScrapyImportTopicJob extends Job
                         ];
                     }
                 }
+                if(isset($this->circleId)) {
+                    //存储数据
+                    $publishContent[] = [
+                        'type' => 'grid_image',
+                        'type_name' => '大图',
+                        'url_list' => $imageList,
+                    ];
+                }
                 $post->rich_content = json_encode($publishContent);
                 $post->audit_status = Constants::STATUS_OK;
                 $post->saveOrFail();
             }
 
             //评论
-            Db::transaction(function () use ($replyList,$post){
+            Db::transaction(function () use ($replyList,$post,$bucketManager,$bucket){
                 $replyList = $replyList->slice(1,$replyList->count()-2);
-                $replyList->map(function (array $item) use ($post) {
+                $replyList->map(function (array $item) use ($post,$bucketManager,$bucket) {
                     $comment = new Comment();
                     $comment->post_id = $post->post_id;
-
+                    $imageList = [];
+                    $contentList = $item['data']['content'];
+                    foreach ($contentList as $key => $subItem) {
+                        if($key == 'text') {
+                            $comment->content = $subItem;
+                        }
+                        if($key == 'image' ) {
+                            Log::info("评论包含图片，开始远端转存!{$this->topicId}");
+                            $key = time() . '.png';
+                            list($ret, $err) = $bucketManager->fetch($subItem, $bucket, $key);
+                            Log::info("=====> fetch $subItem to bucket: $bucket  key: $key\n");
+                            if ($err !== null) {
+                                Log::info("转存图片失败:".json_encode($err));
+                            } else {
+                                //转存成功
+                                $fileKey = $ret['key'];
+                                $remoteUrl = env('QINIU_CDN_DOMAIN').$fileKey;
+                                $imageList[] = $remoteUrl;
+                            }
+                        }
+                    }
+                    $comment->image_list = implode(';',$imageList);
+                    $user = $this->getRandomUser();
+                    $comment->owner_id = $user->user_id;
+                    $comment->save();
                 });
             });
 
