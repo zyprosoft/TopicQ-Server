@@ -200,7 +200,8 @@ class ScrapyImportTopicJob extends Job
                 $replyList = $replyList->slice(1,$replyList->count()-2);
                 $index = 0;
                 $commentCount = 0;
-                $replyList->map(function (array $item) use (&$commentCount,$post,$bucketManager,$bucket,$startTime,&$index) {
+                $postTime = null;
+                $replyList->map(function (array $item) use (&$postTime,&$commentCount,$post,$bucketManager,$bucket,$startTime,&$index) {
                     if(isset($item['data']['content'])) {
                         $comment = new Comment();
                         $comment->post_id = $post->post_id;
@@ -237,8 +238,9 @@ class ScrapyImportTopicJob extends Job
                             $comment->image_list = implode(';', $imageList);
                         }
                         $rand = rand(0, 10);
-                        $subMinute = $index * 10 - $rand;
+                        $subMinute = $index * 2 - $rand;
                         $comment->created_at = $startTime->subRealMinutes($subMinute);
+                        $postTime = $comment->created_at;
                         Log::info("将要存储评论:" . json_encode($comment));
                         $comment->save();
                         $index++;
@@ -246,6 +248,9 @@ class ScrapyImportTopicJob extends Job
                     }
                 });
                 $post->comment_count = $commentCount;
+                if(isset($postTime)) {
+                    $post->created_at = $postTime;
+                }
                 $post->save();
             });
 
