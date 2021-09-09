@@ -115,7 +115,7 @@ class ScrapyImportTopicJob extends Job
                     if (isset($item['image'])) {
                         $imageUrl = $item['image'];
                         Log::info("帖子包含图片，开始远端转存!{$this->topicId}");
-                        $key = time() . '.png';
+                        $key = time();
                         list($ret, $err) = $bucketManager->fetch($imageUrl, $bucket, $key);
                         Log::info("=====> fetch $imageUrl to bucket: $bucket  key: $key\n");
                         if ($err !== null) {
@@ -147,7 +147,7 @@ class ScrapyImportTopicJob extends Job
                     $imageUrl = $item['image'];
                     Log::info('原图片:'.$imageUrl);
                     Log::info("帖子包含图片，开始远端转存!{$this->topicId}");
-                    $key = time() . '.png';
+                    $key = time();
                     list($ret, $err) = $bucketManager->fetch($imageUrl, $bucket, $key);
                     Log::info("=====> fetch $imageUrl to bucket: $bucket  key: $key\n");
                     if ($err !== null) {
@@ -196,7 +196,7 @@ class ScrapyImportTopicJob extends Job
                         if(isset($subItem['image']) ) {
                             $imageUrl = $subItem['image'];
                             Log::info("评论包含图片，开始远端转存!{$this->topicId}");
-                            $key = time() . '.png';
+                            $key = time();
                             list($ret, $err) = $bucketManager->fetch($imageUrl, $bucket, $key);
                             Log::info("=====> fetch $imageUrl to bucket: $bucket  key: $key\n");
                             if ($err !== null) {
