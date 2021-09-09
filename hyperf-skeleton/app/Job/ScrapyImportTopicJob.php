@@ -196,18 +196,23 @@ class ScrapyImportTopicJob extends Job
             $service->queueService->refreshUserCountInfo($post->owner_id);
 
             //评论
-            Db::transaction(function () use ($replyList,$post,$bucketManager,$bucket,$startTime){
+            Db::transaction(function () use ($posterFloor,$replyList,$post,$bucketManager,$bucket,$startTime){
                 $replyList = $replyList->slice(1,$replyList->count()-2);
                 $index = 0;
                 $commentCount = 0;
                 $postTime = null;
-                $replyList->map(function (array $item) use (&$postTime,&$commentCount,$post,$bucketManager,$bucket,$startTime,&$index) {
+                $replyList->map(function (array $item) use ($posterFloor,&$postTime,&$commentCount,$post,$bucketManager,$bucket,$startTime,&$index) {
                     if(isset($item['data']['content'])) {
                         $comment = new Comment();
                         $comment->post_id = $post->post_id;
                         $comment->post_owner_id = $post->owner_id;
                         $user = $this->getRandomUser();
-                        $comment->owner_id = $user->avatar_user_id;
+                        //遵循和帖子一致，如果是楼主的，就填楼主
+                        if($posterFloor['poster_id'] == $item['poster_id']) {
+                            $comment->owner_id = $post->owner_id;
+                        }else{
+                            $comment->owner_id = $user->avatar_user_id;
+                        }
                         $imageList = [];
                         $imageIds = [];
                         $contentList = $item['data']['content'];
