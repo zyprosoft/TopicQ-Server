@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Hyperf\Database\Model\Builder;
 use Hyperf\Di\Annotation\Inject;
 use ZYProSoft\Facade\Cache;
+use ZYProSoft\Log\Log;
 
 class ActivityService extends BaseService
 {
@@ -80,6 +81,7 @@ class ActivityService extends BaseService
         $circleCount = Circle::query()->where('audit_status',Constants::STATUS_OK)
             ->count();
         $memberCountCache = Cache::get('MEMBER_COUNT_KEY');
+        Log::info('缓存成员数:'.$memberCountCache);
         if(!isset($memberCountCache)) {
             $memberCount = User::count();
             $memberCountCache = $memberCount + rand(0,5);
@@ -88,6 +90,7 @@ class ActivityService extends BaseService
         }
         Cache::set('MEMBER_COUNT_KEY',$memberCountCache,PHP_INT_MAX);
         $postCountCache = Cache::get('POST_COUNT_KEY');
+        Log::info('缓存帖子数:'.$postCountCache);
         if(!isset($postCountCache)) {
             $postCount = Post::count();
             $postCountCache = $postCount + rand(0,5);
