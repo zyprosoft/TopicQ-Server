@@ -206,6 +206,7 @@ class ScrapyImportTopicJob extends Job
                     $contentList = $item['data']['content'];
                     foreach ($contentList as $subItem) {
                         if(isset($subItem['text'])) {
+                            Log::info("评论内容:".$subItem['text']);
                             $comment->content = $subItem['text'];
                         }
                         if(isset($subItem['image']) ) {
@@ -230,6 +231,7 @@ class ScrapyImportTopicJob extends Job
                     $rand = rand(0,10);
                     $subMinute = $index*10 - $rand;
                     $comment->created_at = $startTime->subRealMinutes($subMinute);
+                    Log::info("将要存储评论:".json_encode($comment));
                     $comment->save();
                     $index++;
                 });
