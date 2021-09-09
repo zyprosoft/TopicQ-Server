@@ -144,7 +144,7 @@ class ScrapyImportTopicJob extends Job
                         'font_size_name' => 'lg',
                         'text_color' => 'black'
                     ];
-                    if (mb_strlen($content) < 40) {
+                    if (mb_strlen($item['text']) < 40) {
                         $post->summary = $item['text'];
                     } else {
                         $post->summary = mb_substr($item['text'], 0, 40);
