@@ -104,8 +104,8 @@ class ActivityService extends BaseService
         return [
             'today' => $todayPostCount,
             'circle_count' => $circleCount,
-            'member_count' => $memberCount,
-            'post_count' => $postCount,
+            'member_count' => $memberCountCache,
+            'post_count' => $postCountCache,
             'sign_count' => $daySignCount,
             'fa_subscribe' => $isSubscribe
         ];
