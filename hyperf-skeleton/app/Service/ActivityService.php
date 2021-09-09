@@ -86,7 +86,7 @@ class ActivityService extends BaseService
         }else{
             $memberCountCache = $memberCountCache + rand(0,5);
         }
-        Cache::set('MEMBER_COUNT_KEY',$memberCountCache);
+        Cache::set('MEMBER_COUNT_KEY',$memberCountCache,PHP_INT_MAX);
         $postCountCache = Cache::get('POST_COUNT_KEY');
         if(!isset($postCountCache)) {
             $postCount = Post::count();
@@ -94,7 +94,7 @@ class ActivityService extends BaseService
         }else{
             $postCountCache = $postCountCache + rand(0,5);
         }
-        Cache::set('POST_COUNT_KEY',$postCountCache);
+        Cache::set('POST_COUNT_KEY',$postCountCache,PHP_INT_MAX);
         $today = Carbon::now()->toDateString();
         $daySignCount = UserDaySign::query()->whereDate('sign_date',$today)->count();
 
