@@ -80,7 +80,7 @@ class ActivityService extends BaseService
             ->count();
         $circleCount = Circle::query()->where('audit_status',Constants::STATUS_OK)
             ->count();
-        $memberCountCache = Cache::get('MEMBER_COUNT_KEY');
+        $memberCountCache = $this->cache->get('MEMBER_COUNT_KEY');
         Log::info('缓存成员数:'.$memberCountCache);
         if(!isset($memberCountCache)||!is_numeric($memberCountCache)) {
             $memberCount = User::count();
@@ -88,10 +88,10 @@ class ActivityService extends BaseService
         }else{
             $memberCountCache = $memberCountCache + rand(0,5);
         }
-        $result = Cache::set('MEMBER_COUNT_KEY',$memberCountCache,999999999999);
+        $result = $this->cache->set('MEMBER_COUNT_KEY',$memberCountCache);
         $state = $result?'成功':'失败';
         Log::info("保存成员数!".$state);
-        $postCountCache = Cache::get('POST_COUNT_KEY');
+        $postCountCache = $this->cache->get('POST_COUNT_KEY');
         Log::info('缓存帖子数:'.$postCountCache);
         if(!isset($postCountCache)||!is_numeric($postCountCache)) {
             $postCount = Post::count();
@@ -99,7 +99,7 @@ class ActivityService extends BaseService
         }else{
             $postCountCache = $postCountCache + rand(0,5);
         }
-        $result = Cache::set('POST_COUNT_KEY',$postCountCache,999999999999);
+        $result = $this->cache->set('POST_COUNT_KEY',$postCountCache);
         $state = $result?'成功':'失败';
         Log::info("保存帖子总数!".$state);
         $today = Carbon::now()->toDateString();
