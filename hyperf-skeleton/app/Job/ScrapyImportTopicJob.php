@@ -35,7 +35,12 @@ class ScrapyImportTopicJob extends Job
      * 初始化client的配置
      * @var array
      */
-    protected $options = [];
+    protected $options = [
+        'headers'=>[
+            'Referer' => 'https://servicewechat.com/wx82e832ab625f9e82/47/page-frame.html',
+            'User-Agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E217 MicroMessenger/6.8.0(0x16080000) NetType/WIFI Language/en Branch/Br_trunk MiniProgramEnv/Mac'
+        ]
+    ];
 
     /**
      * @var Client
@@ -86,6 +91,7 @@ class ScrapyImportTopicJob extends Job
             $post->owner_id = $this->getRandomUser()->avatar_user_id;
             $post->title = $result['title'];
             $post->read_count = $result['click_times'];
+            $post->comment_count = $replyList->count()-1;
             if(isset($this->forumId)) {
                 $post->forum_id = $this->forumId;
             }
@@ -106,6 +112,7 @@ class ScrapyImportTopicJob extends Job
                     ];
                 }
                 if($key == 'image') {
+                    Log::info("帖子包含图片，开始远端转存!{$this->topicId}");
                     //直接远程转存
                     $accessKey = config('file.storage.qiniu.accessKey');
                     $secretKey = config('file.storage.qiniu.secretKey');
