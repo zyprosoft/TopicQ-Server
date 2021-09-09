@@ -106,7 +106,7 @@ class ActivityService extends BaseService
             $daySignCountCache = $daySignCountCache + rand(0,5);
         }
         //不能超过总用户数的一半
-        $daySignCountCache = min($memberCountCache,floor($memberCountCache*0.5));
+        $daySignCountCache = min($daySignCountCache,floor($memberCountCache*0.5));
         $this->cache->set('DAY_SIGN_COUNT_KEY',$daySignCountCache);
 
         //检查用户是否关注了公众号
