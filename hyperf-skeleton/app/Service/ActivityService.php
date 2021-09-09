@@ -88,20 +88,15 @@ class ActivityService extends BaseService
         }else{
             $memberCountCache = $memberCountCache + rand(0,5);
         }
-        $result = $this->cache->set('MEMBER_COUNT_KEY',$memberCountCache);
-        $state = $result?'成功':'失败';
-        Log::info("保存成员数!".$state);
+        $this->cache->set('MEMBER_COUNT_KEY',$memberCountCache);
         $postCountCache = $this->cache->get('POST_COUNT_KEY');
-        Log::info('缓存帖子数:'.$postCountCache);
         if(!isset($postCountCache)||!is_numeric($postCountCache)) {
             $postCount = Post::count();
-            $postCountCache = $postCount + rand(0,5);
+            $postCountCache = $postCount + rand(0,2);
         }else{
-            $postCountCache = $postCountCache + rand(0,5);
+            $postCountCache = $postCountCache + rand(0,2);
         }
-        $result = $this->cache->set('POST_COUNT_KEY',$postCountCache);
-        $state = $result?'成功':'失败';
-        Log::info("保存帖子总数!".$state);
+        $this->cache->set('POST_COUNT_KEY',$postCountCache);
         $today = Carbon::now()->toDateString();
         $daySignCount = UserDaySign::query()->whereDate('sign_date',$today)->count();
 
