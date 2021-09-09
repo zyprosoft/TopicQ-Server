@@ -83,7 +83,7 @@ class ScrapyImportTopicJob extends Job
         if($result['code'] == 1 && $result['message'] == 'SUCCESS') {
             $replyList = collect($result['data']['replies']);
             Log::info("replyList:".json_encode($replyList));
-            $posterFloor = $replyList->first;
+            $posterFloor = $replyList->first();
             Log::info("获取帖子信息:".json_encode($posterFloor));
             //添加帖子
             $content = $posterFloor['data']['content'];
