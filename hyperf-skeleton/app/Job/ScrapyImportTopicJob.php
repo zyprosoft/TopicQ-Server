@@ -145,7 +145,7 @@ class ScrapyImportTopicJob extends Job
                 }
                 if(isset($item['image']) && !isset($this->circleId)) {
                     $imageUrl = $item['image'];
-                    Log::info('原图片:'.$item);
+                    Log::info('原图片:'.$imageUrl);
                     Log::info("帖子包含图片，开始远端转存!{$this->topicId}");
                     $key = time() . '.png';
                     list($ret, $err) = $bucketManager->fetch($imageUrl, $bucket, $key);
