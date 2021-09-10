@@ -14,6 +14,7 @@ class AlterPostAddRefId extends Migration
         Schema::table('post', function (Blueprint $table) {
             //
             $table->string('ref_id',32)->nullable()->comment('引用编号');
+            $table->unique('ref_id');
         });
     }
 
