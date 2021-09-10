@@ -36,13 +36,7 @@ class AutoDelayPostTask
 
     public function isNeedFilter(string $content)
     {
-        $search = [
-            '上海',
-            '浦东',
-            '黄埔',
-            '外滩',
-            '篱笆'
-        ];
+        $search = explode(',',env('REF_FILTER_WORDS'));
         if (Str::contains($content,$search)) {
             return true;
         }

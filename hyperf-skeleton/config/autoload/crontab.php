@@ -42,8 +42,8 @@ return [
             ->setCallback([CircleTopicCalculateTask::class, 'execute'])
             ->setMemo('定时刷新话题当天的帖子发布数量'),
         (new Crontab())->setName('CircleTopicRecommend')
-            ->setRule('*/1 * * * *')
+            ->setRule('*/5 * * * *')
             ->setCallback([AutoDelayPostTask::class, 'execute'])
-            ->setMemo('定时发布抓取的帖子'),
+            ->setMemo('定时发布帖子'),
     ]
 ];
