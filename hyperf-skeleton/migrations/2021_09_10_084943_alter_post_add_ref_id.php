@@ -11,8 +11,9 @@ class AlterPostAddRefId extends Migration
      */
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('post', function (Blueprint $table) {
             //
+            $table->string('ref_id',32)->nullable()->comment('引用编号');
         });
     }
 
@@ -21,8 +22,9 @@ class AlterPostAddRefId extends Migration
      */
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
+        Schema::table('post', function (Blueprint $table) {
             //
+            $table->dropColumn('ref_id');
         });
     }
 }
