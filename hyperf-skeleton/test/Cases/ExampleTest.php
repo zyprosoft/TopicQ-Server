@@ -20,6 +20,7 @@ use App\Service\Admin\ForumService;
 use App\Service\Admin\ThirdPartService;
 use App\Service\PddService;
 use App\Service\UserService;
+use App\Task\AutoDelayPostTask;
 use App\Task\PostRecommendCalculateTask;
 use EasyWeChat\Factory;
 use Hyperf\DbConnection\Db;
@@ -604,5 +605,11 @@ class ExampleTest extends HttpTestCase
         $params = [
         ];
         $this->safeRequest('common.activity.getIndexTotalInfo',$params);
+    }
+
+    public function testDelayPostTask()
+    {
+       $task = ApplicationContext::getContainer()->get(AutoDelayPostTask::class);
+       $task->execute();
     }
 }

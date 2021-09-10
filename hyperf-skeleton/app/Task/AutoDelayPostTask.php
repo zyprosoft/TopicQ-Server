@@ -3,14 +3,15 @@
 
 namespace App\Task;
 
-
-use App\Constants\Constants;
-use App\Model\DelayPostTask;
+use App\Job\ScrapyImportTopicJob;
+use App\Model\Forum;
 use App\Model\ManagerAvatarUser;
-use App\Model\Scrapy\Post;
-use App\Model\Scrapy\Thread;
-use App\Model\User;
-use Hyperf\DbConnection\Db;
+use App\Model\Post;
+use App\Service\Scrapy\PostService;
+use Hyperf\AsyncQueue\Driver\DriverFactory;
+use Hyperf\Utils\ApplicationContext;
+use Hyperf\Utils\Str;
+use ZYProSoft\Log\Log;
 
 class AutoDelayPostTask
 {
@@ -33,76 +34,56 @@ class AutoDelayPostTask
             ->firstOrFail();
     }
 
+    public function isNeedFilter(string $content)
+    {
+        $search = [
+            '上海',
+            '浦东',
+            '黄埔',
+            '外滩',
+            '篱笆'
+        ];
+        if (Str::contains($content,$search)) {
+            return true;
+        }
+        return false;
+    }
+
     public function execute()
     {
-        Db::transaction(function (){
-            //拉取任务进行执行
-            $task = DelayPostTask::query()->where('status',Constants::STATUS_NOT)
-                ->limit(1)
-                ->firstOrFail();
-            if (!$task instanceof DelayPostTask) {
-                return;
+        $sessionHash = env('REF_SESSION_HASH');
+        $forumId = Forum::all()->pluck('forum_id')->random();
+        $postService = ApplicationContext::getContainer()->get(PostService::class);
+        $topicList = $postService->getPostList(0,$sessionHash);
+        $list = collect($topicList['list']);
+        $postIdList = $list->pluck('topic_id');
+        $existPostList = Post::query()->select(['ref_id','title'])->whereIn('ref_id',$postIdList)
+            ->get()
+            ->keyBy('ref_id');
+        for ($index = 0;$index < count($list);$index++) {
+            $item = $list[$index];
+            $isNeedFilter = $this->isNeedFilter($item['title']);
+            if($isNeedFilter) {
+                Log::info('敏感标题，不引用:'.$item['title']);
+                continue;
             }
-            $post = Thread::query()->where('id',$task->post_id)
-                ->with(['floor'])
-                ->firstOrFail();
-            if(!$post instanceof Thread) {
-                return;
+            $topicId = $item['topic_id'];
+            if (isset($existPostList[$topicId])) {
+                Log::info('已经存在此引用'.$topicId);
+                continue;
             }
-
-            $insertPost = new \App\Model\Post();
-            $insertPost->title = $post->title;
-            $insertPost->owner_id = $this->getRandomUser()->avatar_user_id;
-            $insertPost->audit_status = Constants::STATUS_OK;
-            $insertPost->summary = "如题";
-            //内容
-            $insertPost->rich_content = json_encode([[
-                'type' => 'text',
-                'type_name' => '文本',
-                'content' => "如题",
-                'is_bold' => 0,
-                'font_size' => 14,
-                'display_font_size' => 32,
-                'font_size_name' => 'lg',
-                'text_color' => 'black'
-            ]]);
-            if(!empty($post->floor())) {
-                $contentFloor = $post->floor()->first();
-                if(isset($contentFloor->content)) {
-                    //概要
-                    $postContent = $contentFloor->content;
-                    if ($contentFloor->content == $post->title) {
-                        $insertPost->summary = "如题";
-                        $postContent = "如题";
-                    }
-
-                    if (mb_strlen($contentFloor->content) > 40) {
-                        $summary = mb_substr($contentFloor->content, 0, 40);
-                        $summary = $this->trimString($summary);
-                        $insertPost->summary = $summary;
-                    }
-                    //内容
-                    $insertPost->rich_content = json_encode([[
-                        'type' => 'text',
-                        'type_name' => '文本',
-                        'content' => $postContent,
-                        'is_bold' => 0,
-                        'font_size' => 14,
-                        'display_font_size' => 32,
-                        'font_size_name' => 'lg',
-                        'text_color' => 'black'
-                    ]]);
-                }
+            $post = Post::query()->where('title',$item['title'])->first();
+            if($post instanceof Post) {
+                $post->ref_id = $topicId;
+                $post->save();
+                continue;
             }
-            //转帖子
-            if($task->is_active == Constants::STATUS_NOT) {
-                $insertPost->forum_id = $task->forum_id;
-            }else{
-                $insertPost->circle_id = $task->circle_id;
-            }
-            $task->status = Constants::STATUS_OK;
-            $task->saveOrFail();
-            $insertPost->saveOrFail();
-        });
+            //选择一篇转载
+            $driverFactory = ApplicationContext::getContainer()->get(DriverFactory::class);
+            $driver = $driverFactory->get('default');
+            $driver->push(new ScrapyImportTopicJob($topicId,$sessionHash,$forumId));
+            Log::info('完成转载选择');
+            break;
+        }
     }
 }

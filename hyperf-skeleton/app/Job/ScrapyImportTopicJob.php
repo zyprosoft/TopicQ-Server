@@ -68,6 +68,39 @@ class ScrapyImportTopicJob extends Job
             ->firstOrFail();
     }
 
+    protected function parseStringToTimestamp($time)
+    {
+        $isSecondAgo = Str::contains($time,'秒前');
+        if($isSecondAgo) {
+            $second = Str::before($time,'秒前');
+            return Carbon::now()->subRealSeconds($second);
+        }
+        $isMinuteAgo = Str::contains($time,'分钟前');
+        if($isMinuteAgo) {
+            $minute = Str::before($time,'分钟前');
+            return Carbon::now()->subRealMinutes($minute);
+        }
+        $isHourAgo = Str::contains($time,'小时前');
+        if($isHourAgo) {
+            $hour = Str::before($time,'小时前');
+            return Carbon::now()->subRealHours($hour);
+        }
+        $isDayAgo = Str::contains($time,'昨天');
+        if($isDayAgo) {
+            return Carbon::now()->subRealDays(1);
+        }
+        $isDayAgo = Str::contains($time,'前天');
+        if($isDayAgo) {
+            return Carbon::now()->subRealDays(2);
+        }
+        $isThisYear = Str::is('\d{1,2}-\d{1,2}',$time);
+        if($isThisYear) {
+            $year = substr(Carbon::now()->toDateString(),0,4);
+            return Carbon::createFromFormat('Y-m-d',$year.'-'.$time);
+        }
+        return Carbon::createFromFormat('Y-m-d',$time);
+    }
+
     /**
      * @inheritDoc
      */
@@ -96,6 +129,8 @@ class ScrapyImportTopicJob extends Job
             $post->owner_id = $this->getRandomUser()->avatar_user_id;
             $post->title = $result['data']['title'];
             $post->read_count = rand(0,999);
+            $post->ref_id = $this->topicId;
+            $post->created_at = $this->parseStringToTimestamp($posterFloor['post_time']);
             if(isset($this->forumId)) {
                 $post->forum_id = $this->forumId;
             }
@@ -200,7 +235,6 @@ class ScrapyImportTopicJob extends Job
                 $replyList = $replyList->slice(1,$replyList->count()-2);
                 $index = 0;
                 $commentCount = 0;
-                $postTime = null;
                 $replyList->map(function (array $item) use ($posterFloor,&$postTime,&$commentCount,$post,$bucketManager,$bucket,$startTime,&$index) {
                     if(isset($item['data']['content'])) {
                         $comment = new Comment();
@@ -242,10 +276,7 @@ class ScrapyImportTopicJob extends Job
                             $comment->image_ids = implode(';', $imageIds);
                             $comment->image_list = implode(';', $imageList);
                         }
-                        $rand = rand(0, 10);
-                        $subMinute = $index * 2 - $rand;
-                        $comment->created_at = $startTime->subRealMinutes($subMinute);
-                        $postTime = $comment->created_at;
+                        $comment->created_at = $this->parseStringToTimestamp($item['post_time']);
                         Log::info("将要存储评论:" . json_encode($comment));
                         $comment->save();
                         $index++;
@@ -253,9 +284,6 @@ class ScrapyImportTopicJob extends Job
                     }
                 });
                 $post->comment_count = $commentCount;
-                if(isset($postTime)) {
-                    $post->created_at = $postTime;
-                }
                 $post->save();
             });
 

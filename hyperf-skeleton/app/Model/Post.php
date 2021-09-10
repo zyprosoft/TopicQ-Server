@@ -93,7 +93,7 @@ class Post extends Model
      */
     protected $casts = ['post_id' => 'integer', 'owner_id' => 'integer', 'vote_id' => 'integer', 'read_count' => 'integer', 'favorite_count' => 'integer', 'forward_count' => 'integer', 'comment_count' => 'integer', 'audit_status' => 'integer', 'is_hot' => 'integer', 'sort_index' => 'integer', 'is_recommend' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'join_user_count' => 'integer', 'machine_audit' => 'integer', 'manager_audit' => 'integer', 'text_audit' => 'integer', 'content_audit' => 'integer', 'title_audit' => 'integer', 'program_id' => 'integer', 'account_id' => 'integer', 'forum_id' => 'integer', 'recommend_weight' => 'integer', 'mall_type' => 'integer', 'policy_id' => 'integer', 'has_video' => 'integer', 'is_video_admin' => 'integer', 'praise_count' => 'integer', 'voucher_policy_id' => 'integer', 'topic_id' => 'integer', 'only_self_visible' => 'integer', 'red_bag_id' => 'integer', 'ignore_machine_recommend' => 'integer', 'circle_id' => 'integer', 'circle_topic_id' => 'integer', 'is_top_news' => 'integer', 'reward_score' => 'integer'];
     protected $with = ['author', 'topic', 'circle_topic'];
-    protected $hidden = ['recommend_weight', 'ignore_machine_recommend', 'last_active_time'];
+    protected $hidden = ['ref_id','recommend_weight', 'ignore_machine_recommend', 'last_active_time'];
     public function author()
     {
         return $this->hasOne(User::class, 'user_id', 'owner_id');
