@@ -4,17 +4,12 @@
 namespace App\Service\Scrapy;
 
 use App\Job\ScrapyImportTopicJob;
-use App\Model\DelayPostTask;
 use App\Model\FilterTopic;
 use App\Model\Forum;
-use App\Model\Scrapy\Comment;
-use App\Model\Scrapy\Post;
-use App\Model\Scrapy\Thread;
+use App\Model\Post;
 use App\Service\BaseService;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
-use Hyperf\AsyncQueue\Driver\DriverFactory;
-use Hyperf\Database\Model\Builder;
 use Hyperf\Guzzle\CoroutineHandler;
 use Hyperf\Utils\ApplicationContext;
 use Hyperf\Utils\Str;
@@ -97,7 +92,7 @@ class PostService extends BaseService
         $topicList = $postService->getPostList(0,$sessionHash);
         $list = collect($topicList['list']);
         $postIdList = $list->pluck('topic_id');
-        $existPostList = \App\Model\Post::query()->select(['ref_id','title'])->whereIn('ref_id',$postIdList)
+        $existPostList = Post::query()->select(['ref_id','title'])->whereIn('ref_id',$postIdList)
             ->get()
             ->keyBy('ref_id');
         for ($index = 0;$index < count($list);$index++) {
