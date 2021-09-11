@@ -5,15 +5,19 @@ namespace App\Service\Scrapy;
 
 use App\Job\ScrapyImportTopicJob;
 use App\Model\DelayPostTask;
+use App\Model\FilterTopic;
+use App\Model\Forum;
 use App\Model\Scrapy\Comment;
 use App\Model\Scrapy\Post;
 use App\Model\Scrapy\Thread;
 use App\Service\BaseService;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
+use Hyperf\AsyncQueue\Driver\DriverFactory;
 use Hyperf\Database\Model\Builder;
 use Hyperf\Guzzle\CoroutineHandler;
 use Hyperf\Utils\ApplicationContext;
+use Hyperf\Utils\Str;
 use Psr\Container\ContainerInterface;
 use Swoole\Coroutine;
 use ZYProSoft\Log\Log;
@@ -74,5 +78,55 @@ class PostService extends BaseService
     {
         $this->push(new ScrapyImportTopicJob($postId,$sessionHash,$forumId,$circleId));
         return $this->success();
+    }
+
+    public function isNeedFilter(string $content)
+    {
+        $search = explode(',',env('REF_FILTER_WORDS'));
+        if (Str::contains($content,$search)) {
+            return true;
+        }
+        return false;
+    }
+
+    public function importTopic()
+    {
+        $sessionHash = env('REF_SESSION_HASH');
+        $forumId = Forum::all()->pluck('forum_id')->random();
+        $postService = ApplicationContext::getContainer()->get(PostService::class);
+        $topicList = $postService->getPostList(0,$sessionHash);
+        $list = collect($topicList['list']);
+        $postIdList = $list->pluck('topic_id');
+        $existPostList = \App\Model\Post::query()->select(['ref_id','title'])->whereIn('ref_id',$postIdList)
+            ->get()
+            ->keyBy('ref_id');
+        for ($index = 0;$index < count($list);$index++) {
+            $item = $list[$index];
+            $isNeedFilter = $this->isNeedFilter($item['title']);
+            if($isNeedFilter) {
+                Log::info('敏感标题，不引用:'.$item['title']);
+                continue;
+            }
+            $topicId = $item['topic_id'];
+            $filterTopic = FilterTopic::query()->where('ref_id',$topicId)->first();
+            if ($filterTopic instanceof FilterTopic) {
+                Log::info("需要过滤的敏感帖子:".$topicId);
+                continue;
+            }
+            if (isset($existPostList[$topicId])) {
+                Log::info('已经存在此引用'.$topicId);
+                continue;
+            }
+            $post = Post::query()->where('title',$item['title'])->first();
+            if($post instanceof Post) {
+                $post->ref_id = $topicId;
+                $post->save();
+                continue;
+            }
+            //选择一篇转载
+            $this->push(new ScrapyImportTopicJob($topicId,$sessionHash,$forumId));
+            Log::info('完成转载选择');
+            break;
+        }
     }
 }

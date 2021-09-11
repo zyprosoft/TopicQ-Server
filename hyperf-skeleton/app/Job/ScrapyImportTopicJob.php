@@ -4,8 +4,10 @@
 namespace App\Job;
 use App\Constants\Constants;
 use App\Model\Comment;
+use App\Model\FilterTopic;
 use App\Model\ManagerAvatarUser;
 use App\Model\Post;
+use App\Service\Scrapy\PostService;
 use App\Service\UserService;
 use App\Task\AutoDelayPostTask;
 use Carbon\Carbon;
@@ -135,7 +137,13 @@ class ScrapyImportTopicJob extends Job
             $content = $posterFloor['data']['content'];
             //如果帖子包含敏感内容，过滤掉，重新执行任务
             if($this->isNeedFilter($content)) {
-                $task = ApplicationContext::getContainer()->get(AutoDelayPostTask::class);
+                //保存不可引用
+                $filterTopic = new FilterTopic();
+                $filterTopic->ref_id = $this->topicId;
+                $filterTopic->save();
+                //下一个
+                $importService = ApplicationContext::getContainer()->get(PostService::class);
+                $importService->importTopic();
                 return;
             }
 
@@ -269,7 +277,7 @@ class ScrapyImportTopicJob extends Job
                         foreach ($contentList as $subItem) {
                             if (isset($subItem['text'])) {
                                 Log::info("评论内容:" . $subItem['text']);
-                                $comment->content = $subItem['text'];
+                                $comment->content = str_replace('篱笆','庐陵说',$subItem['text']);
                             }
                             if (isset($subItem['image'])) {
                                 $imageUrl = $subItem['image'];
