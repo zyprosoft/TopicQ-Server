@@ -11,9 +11,11 @@ class CreateFitlerTopicTable extends Migration
      */
     public function up(): void
     {
-        Schema::create('fitler_topic', function (Blueprint $table) {
+        Schema::create('filter_topic', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('ref_id',32)->comment('引用ID');
             $table->timestamps();
+            $table->unique('ref_id');
         });
     }
 
@@ -22,6 +24,6 @@ class CreateFitlerTopicTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('fitler_topic');
+        Schema::dropIfExists('filter_topic');
     }
 }

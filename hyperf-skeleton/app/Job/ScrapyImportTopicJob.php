@@ -7,6 +7,7 @@ use App\Model\Comment;
 use App\Model\ManagerAvatarUser;
 use App\Model\Post;
 use App\Service\UserService;
+use App\Task\AutoDelayPostTask;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
@@ -101,6 +102,15 @@ class ScrapyImportTopicJob extends Job
         return Carbon::createFromFormat('Y-m-d',$time);
     }
 
+    public function isNeedFilter(string $content)
+    {
+        $search = explode(',',env('REF_FILTER_WORDS'));
+        if (Str::contains($content,$search)) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * @inheritDoc
      */
@@ -123,6 +133,12 @@ class ScrapyImportTopicJob extends Job
             Log::info("获取帖子信息:".json_encode($posterFloor));
             //添加帖子
             $content = $posterFloor['data']['content'];
+            //如果帖子包含敏感内容，过滤掉，重新执行任务
+            if($this->isNeedFilter($content)) {
+                $task = ApplicationContext::getContainer()->get(AutoDelayPostTask::class);
+                return;
+            }
+
             $publishContent = [];
             $post = new Post();
 //            $post->only_self_visible = 1;
