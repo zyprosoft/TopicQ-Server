@@ -623,6 +623,6 @@ class ExampleTest extends HttpTestCase
     public function testScrapyComment()
     {
         $service = ApplicationContext::getContainer()->get(ImportPostService::class);
-        $service->getTopicDetail('7531942604');
+        $service->getTopicDetail('7533899917');
     }
 }
