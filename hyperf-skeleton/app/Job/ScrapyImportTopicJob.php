@@ -136,7 +136,14 @@ class ScrapyImportTopicJob extends Job
             //添加帖子
             $content = $posterFloor['data']['content'];
             //如果帖子包含敏感内容，过滤掉，重新执行任务
-            if($this->isNeedFilter($content)) {
+            $textContent = null;
+            foreach ($content as $contentItem) {
+                if (isset($contentItem['text'])) {
+                    $textContent = $contentItem['text'];
+                    break;
+                }
+            }
+            if(isset($textContent) && $this->isNeedFilter($textContent) ) {
                 //保存不可引用
                 $filterTopic = new FilterTopic();
                 $filterTopic->ref_id = $this->topicId;
