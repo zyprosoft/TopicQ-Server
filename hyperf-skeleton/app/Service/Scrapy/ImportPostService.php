@@ -11,11 +11,15 @@ use App\Model\ManagerAvatarUser;
 use App\Model\Post;
 use App\Service\UserService;
 use GuzzleHttp\Client;
+use GuzzleHttp\HandlerStack;
 use Hyperf\DbConnection\Db;
+use Hyperf\Guzzle\CoroutineHandler;
 use Hyperf\Utils\ApplicationContext;
 use Hyperf\Utils\Str;
+use Psr\Container\ContainerInterface;
 use Qiniu\Auth;
 use Qiniu\Storage\BucketManager;
+use Swoole\Coroutine;
 use ZYProSoft\Log\Log;
 use App\Service\BaseService;
 
@@ -40,6 +44,17 @@ class ImportPostService extends BaseService
     protected $client;
 
     protected int $pageIndex = 0;
+
+    public function __construct(ContainerInterface $container)
+    {
+        parent::__construct($container);
+        $stack = null;
+        if (Coroutine::getCid() > 0) {
+            $stack = HandlerStack::create(new CoroutineHandler());
+        }
+        $config = array_replace(['handler' => $stack], $this->options);
+        $this->client = ApplicationContext::getContainer()->make(Client::class, ['config' => $config]);
+    }
 
     public function isNeedFilter(string $content)
     {
