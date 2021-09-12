@@ -271,7 +271,7 @@ class ImportPostService extends BaseService
             return;
         }
         $commentList = $result['data']['post_list'];
-        if(count($commentList) < 1) {
+        if(count($commentList) < 2) {
             Log::info("帖子($topicId)没有评论...");
             return;
         }
@@ -338,6 +338,8 @@ class ImportPostService extends BaseService
                 $index++;
                 $commentCount++;
             }
+            $post->comment_count = $commentCount;
+            $post->save();
         });
     }
 }
