@@ -220,7 +220,7 @@ class ImportPostService extends BaseService
             }
             if($type == 3) {
                 //图片，进行转存
-                $imageUrl = $item['big_pic'];
+                $imageUrl = $item['small_pic'];
                 $key = 't'.time();
                 list($ret, $err) = $bucketManager->fetch($imageUrl, $bucket, $key);
                 Log::info("=====> fetch $imageUrl to bucket: $bucket  key: $key\n");
@@ -304,7 +304,7 @@ class ImportPostService extends BaseService
                     }
                     if($subItem['type'] == 3) {
                         //图片，进行转存
-                        $imageUrl = $subItem['big_pic'];
+                        $imageUrl = $subItem['small_pic'];
                         $key = 't'.time();
                         list($ret, $err) = $bucketManager->fetch($imageUrl, $bucket, $key);
                         Log::info("=====> fetch $imageUrl to bucket: $bucket  key: $key\n");
