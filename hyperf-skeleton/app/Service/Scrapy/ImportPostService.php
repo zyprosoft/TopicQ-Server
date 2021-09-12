@@ -174,9 +174,6 @@ class ImportPostService extends BaseService
         $post->ref_id = $postId;
         $post->created_at = $postFloor['time'];
         $post->forum_id = 1;
-        if(isset($this->forumId)) {
-            $post->forum_id = $this->forumId;
-        }
 
         //提取全部图片
         $imageList = [];
