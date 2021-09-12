@@ -88,8 +88,7 @@ class PostService extends BaseService
     {
         $sessionHash = env('REF_SESSION_HASH');
         $forumId = Forum::all()->pluck('forum_id')->random();
-        $postService = ApplicationContext::getContainer()->get(PostService::class);
-        $topicList = $postService->getPostList(0,$sessionHash);
+        $topicList = $this->getPostList(0,$sessionHash);
         $list = collect($topicList['list']);
         $postIdList = $list->pluck('topic_id');
         $existPostList = Post::query()->select(['ref_id','title'])->whereIn('ref_id',$postIdList)
