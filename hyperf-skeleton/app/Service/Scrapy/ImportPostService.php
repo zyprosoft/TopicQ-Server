@@ -329,16 +329,20 @@ class ImportPostService extends BaseService
                     }
                 }
                 $textContent = str_replace(['<br>','<br/>'],'\n',$textContent);
-                $comment->content = $textContent;
-                $comment->audit_status = Constants::STATUS_OK;
-                if (!empty($imageIds) && !empty($imageList)) {
-                    $comment->image_ids = implode(';', $imageIds);
-                    $comment->image_list = implode(';', $imageList);
+                $needFilter = $this->isNeedFilter($textContent);
+                //内容符合要求
+                if ($needFilter == false) {
+                    $comment->content = $textContent;
+                    $comment->audit_status = Constants::STATUS_OK;
+                    if (!empty($imageIds) && !empty($imageList)) {
+                        $comment->image_ids = implode(';', $imageIds);
+                        $comment->image_list = implode(';', $imageList);
+                    }
+                    Log::info("将要存储评论:" . json_encode($comment));
+                    $comment->save();
+                    $index++;
+                    $commentCount++;
                 }
-                Log::info("将要存储评论:" . json_encode($comment));
-                $comment->save();
-                $index++;
-                $commentCount++;
             }
             $post->comment_count = $commentCount;
             $post->save();
