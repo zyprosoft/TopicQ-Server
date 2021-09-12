@@ -156,7 +156,6 @@ class ScrapyImportTopicJob extends Job
 
             $publishContent = [];
             $post = new Post();
-//            $post->only_self_visible = 1;
             $post->owner_id = $this->getRandomUser()->avatar_user_id;
             $post->title = $result['data']['title'];
             $post->read_count = rand(0,999);
