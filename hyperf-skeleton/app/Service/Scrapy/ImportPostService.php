@@ -291,6 +291,7 @@ class ImportPostService extends BaseService
                 }else{
                     $comment->owner_id = $this->getRandomUser()->avatar_user_id;
                 }
+                $comment->post_id = $post->post_id;
                 $comment->created_at = $item['time'];
                 //内容
                 $content = $item['content'];
