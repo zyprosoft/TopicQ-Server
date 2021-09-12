@@ -247,6 +247,11 @@ class ImportPostService extends BaseService
         }
 
         $post->image_ids = implode(';',$imageIds);
+        if (empty($publishContent)) {
+            Log::info("($topicId)帖子没内容，跳过找下一个!");
+            $this->getOneTopic();
+            return;
+        }
         $post->rich_content = json_encode($publishContent);
         $post->audit_status = Constants::STATUS_OK;
         $post->last_active_time = $post->created_at;
