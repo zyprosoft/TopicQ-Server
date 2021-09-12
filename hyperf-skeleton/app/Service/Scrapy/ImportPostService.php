@@ -93,7 +93,7 @@ class ImportPostService extends BaseService
                 }
                 //是否已经引用过
                 $post = Post::query()->where('ref_id',$item['tid'])->first();
-                if($post instanceof FilterTopic) {
+                if($post instanceof Post) {
                     Log::info('已经引用过的帖子');
                     continue;
                 }
