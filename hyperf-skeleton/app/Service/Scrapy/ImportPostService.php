@@ -138,7 +138,6 @@ class ImportPostService extends BaseService
         }
         $postList = $result['data']['post_list'];
         $postFloor = $postList[0];
-        $postId = $postFloor['pid'];
         $title = $postFloor['title'];
         $content = $postFloor['content'];
 
@@ -161,7 +160,7 @@ class ImportPostService extends BaseService
                 $isFilter = $this->isNeedFilter($textContent);
                 if($isFilter) {
                     $filterPost = new FilterTopic();
-                    $filterPost->ref_id = $postId;
+                    $filterPost->ref_id = $topicId;
                     $filterPost->save();
                     //获取下一个
                     $this->getOneTopic();
@@ -175,7 +174,7 @@ class ImportPostService extends BaseService
                     }
                 }else{
                     $filterPost = new FilterTopic();
-                    $filterPost->ref_id = $postId;
+                    $filterPost->ref_id = $topicId;
                     $filterPost->save();
                     //获取下一个
                     $this->getOneTopic();
@@ -200,7 +199,7 @@ class ImportPostService extends BaseService
                 $isFilter = $this->isNeedFilter($textContent);
                 if($isFilter) {
                     $filterPost = new FilterTopic();
-                    $filterPost->ref_id = $postId;
+                    $filterPost->ref_id = $topicId;
                     $filterPost->save();
                     //获取下一个
                     $this->getOneTopic();
