@@ -173,6 +173,7 @@ class ImportPostService extends BaseService
         $post->read_count = rand(0,999);
         $post->ref_id = $postId;
         $post->created_at = $postFloor['time'];
+        $post->forum_id = 1;
         if(isset($this->forumId)) {
             $post->forum_id = $this->forumId;
         }
