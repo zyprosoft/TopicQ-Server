@@ -286,7 +286,8 @@ class ImportPostService extends BaseService
         Db::transaction(function () use ($topicId,$post,$commentList,$originPost,$bucket,$bucketManager) {
             $index = 0;
             $commentCount = 0;
-            foreach ($commentList as $item) {
+            for ($startIndex=1;$startIndex<count($commentList);$startIndex++) {
+                $item = $commentList[$startIndex];
                 Log::info('开始处理评论:'.json_encode($item));
                 $comment = new Comment();
                 if($originPost['author']['id'] == $item['author']['id']) {
