@@ -206,6 +206,7 @@ class ImportPostService extends BaseService
                     $this->getOneTopic();
                     return;
                 }
+                $textContent = str_replace(['<br>','</br>'],'\n',$textContent);
                 $publishContent[] = [
                     'type' => 'text',
                     'type_name' => '文本',
