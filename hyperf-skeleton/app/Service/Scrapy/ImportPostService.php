@@ -17,8 +17,9 @@ use Hyperf\Utils\Str;
 use Qiniu\Auth;
 use Qiniu\Storage\BucketManager;
 use ZYProSoft\Log\Log;
+use App\Service\BaseService;
 
-class ImportPostService extends \App\Service\BaseService
+class ImportPostService extends BaseService
 {
     protected $url = 'https://tieba.baidu.com/mo/q/frs/page/m?kw=%E5%A4%A7%E5%AD%A6&sort_type=1&res_num=20&default_pro=1&obj_source=&open_source=&fr=smallapp&timestamp=1631421694489&tbs=e3bccceeae9614a61631420473&itb_tbs=e3bccceeae9614a61631420473&source_platform=weixin&randomid=ixgpaarnq6c1631420472148&call_from=weixin&sign=4bd3ac3c465cdb6c9e40fb6df87e3918';
 
