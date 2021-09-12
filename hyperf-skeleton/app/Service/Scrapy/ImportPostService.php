@@ -322,6 +322,7 @@ class ImportPostService extends BaseService
                 }
                 $textContent = str_replace(['<br>','</br>'],'\n',$textContent);
                 $comment->content = $textContent;
+                $comment->audit_status = Constants::STATUS_OK;
                 if (!empty($imageIds) && !empty($imageList)) {
                     $comment->image_ids = implode(';', $imageIds);
                     $comment->image_list = implode(';', $imageList);
