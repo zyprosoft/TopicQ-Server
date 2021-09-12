@@ -249,6 +249,7 @@ class ImportPostService extends BaseService
         $post->image_ids = implode(';',$imageIds);
         $post->rich_content = json_encode($publishContent);
         $post->audit_status = Constants::STATUS_OK;
+        $post->last_active_time = $post->created_at;
         $post->saveOrFail();
 
         //统计个人信息
