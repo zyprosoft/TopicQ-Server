@@ -158,6 +158,7 @@ class ImportPostService extends BaseService
                 //文本，过滤
                 $textContent = $item['text'];
                 $textContent = str_replace('贴吧','翠湖畔',$textContent);
+                $textContent = str_replace('吧友','畔友',$textContent);
                 $isFilter = $this->isNeedFilter($textContent);
                 if($isFilter) {
                     $filterPost = new FilterTopic();
@@ -198,6 +199,7 @@ class ImportPostService extends BaseService
                 //文本，过滤
                 $textContent = $item['text'];
                 $textContent = str_replace('贴吧','翠湖畔',$textContent);
+                $textContent = str_replace('吧友','畔友',$textContent);
                 $isFilter = $this->isNeedFilter($textContent);
                 if($isFilter) {
                     $filterPost = new FilterTopic();
@@ -304,6 +306,7 @@ class ImportPostService extends BaseService
                     if ($subItem['type'] == 0) {
                         $textContent .= $subItem['text'];
                         $textContent = str_replace('贴吧','翠湖畔',$textContent);
+                        $textContent = str_replace('吧友','畔友',$textContent);
                     }
                     if($subItem['type'] == 3) {
                         //图片，进行转存
