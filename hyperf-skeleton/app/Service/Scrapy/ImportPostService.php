@@ -279,6 +279,7 @@ class ImportPostService extends BaseService
             $index = 0;
             $commentCount = 0;
             foreach ($commentList as $item) {
+                Log::info('开始处理评论:'.json_encode($item));
                 $comment = new Comment();
                 if($originPost['author']['id'] == $item['author']['id']) {
                     $comment->owner_id = $post->owner_id;
