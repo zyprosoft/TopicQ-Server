@@ -205,7 +205,7 @@ class ImportPostService extends BaseService
                     $this->getOneTopic();
                     return;
                 }
-                $textContent = str_replace(['<br>','</br>'],'\n',$textContent);
+                $textContent = str_replace(['<br>','<br/>'],'\n',$textContent);
                 $publishContent[] = [
                     'type' => 'text',
                     'type_name' => '文本',
@@ -320,7 +320,7 @@ class ImportPostService extends BaseService
                         }
                     }
                 }
-                $textContent = str_replace(['<br>','</br>'],'\n',$textContent);
+                $textContent = str_replace(['<br>','<br/>'],'\n',$textContent);
                 $comment->content = $textContent;
                 $comment->audit_status = Constants::STATUS_OK;
                 if (!empty($imageIds) && !empty($imageList)) {
