@@ -85,7 +85,7 @@ class ImportPostService extends BaseService
                     Log::info("标题不符合，需要过滤");
                     continue;
                 }
-                $summary = $title['abstract'];
+                $summary = $item['abstract'];
                 $isFilter = $this->isNeedFilter($summary);
                 if($isFilter) {
                     Log::info('概要不符合，需要过滤');
