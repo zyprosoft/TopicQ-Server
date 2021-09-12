@@ -267,6 +267,10 @@ class ImportPostService extends BaseService
             return;
         }
         $commentList = $result['data']['post_list'];
+        if(count($commentList) < 1) {
+            Log::info("帖子($topicId)没有评论...");
+            return;
+        }
 
         //直接远程转存
         $accessKey = config('file.storage.qiniu.accessKey');
