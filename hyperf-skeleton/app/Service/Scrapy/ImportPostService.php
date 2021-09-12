@@ -71,7 +71,7 @@ class ImportPostService extends BaseService
         $result = $this->client->get($url);
         Log::info('帖子列表:'.$result->getBody());
         $result = json_decode($result->getBody(),true);
-        $threadList = $result['data']['thread_list'];
+        $threadList = $result['data']['frs_data']['thread_list'];
 
         $findOne = false;
 
