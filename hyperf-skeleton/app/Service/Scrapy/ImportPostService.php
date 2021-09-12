@@ -167,12 +167,19 @@ class ImportPostService extends BaseService
                     $this->getOneTopic();
                     return;
                 }
-                if(!isset($post->summary)) {
+                if(isset($post->summary)) {
                     if(mb_strlen($textContent) < 14) {
                         $post->summary = $textContent;
                     }else{
                         $post->summary = mb_substr($textContent,0,14);
                     }
+                }else{
+                    $filterPost = new FilterTopic();
+                    $filterPost->ref_id = $postId;
+                    $filterPost->save();
+                    //获取下一个
+                    $this->getOneTopic();
+                    return;
                 }
             }
         }
