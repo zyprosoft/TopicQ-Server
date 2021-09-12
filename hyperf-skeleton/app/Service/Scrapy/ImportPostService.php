@@ -91,6 +91,12 @@ class ImportPostService extends BaseService
                     Log::info('概要不符合，需要过滤');
                     continue;
                 }
+                //是否已经引用过
+                $post = Post::query()->where('ref_id',$item['tid'])->first();
+                if($post instanceof FilterTopic) {
+                    Log::info('已经引用过的帖子');
+                    continue;
+                }
                 //是否已经过滤的
                 $post = FilterTopic::query()->where('ref_id',$item['tid'])->first();
                 if($post instanceof FilterTopic) {
