@@ -632,4 +632,11 @@ class ExampleTest extends HttpTestCase
         $service = ApplicationContext::getContainer()->get(ShopService::class);
         $service->getQrCode(1);
     }
+
+    public function testTableQrCode()
+    {
+        $service = ApplicationContext::getContainer()->get(ShopService::class);
+        $mpUrl = $service->generateTableQrCode('A12',1);
+        $service->test($mpUrl);
+    }
 }
