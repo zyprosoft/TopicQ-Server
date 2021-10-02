@@ -637,6 +637,6 @@ class ExampleTest extends HttpTestCase
     {
         $service = ApplicationContext::getContainer()->get(ShopService::class);
         $mpUrl = $service->generateTableQrCode('A12',1);
-        $service->test($mpUrl);
+        $service->test($mpUrl,'A12');
     }
 }
