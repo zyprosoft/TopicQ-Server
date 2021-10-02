@@ -298,7 +298,7 @@ class ShopService extends BaseService
                 array(
                     'text'=>$tableSn,
                     'left'=>50,
-                    'top'=>700,
+                    'top'=>300,
                     'fontPath'=>'/www/wwwroot/wryh.ttf', //字体文件
                     'fontSize'=>64, //字号
                     'fontColor'=>'0,206,100', //字体颜色
@@ -310,12 +310,12 @@ class ShopService extends BaseService
             'image'=>array(
                 array(
                     'url'=>$mpUrl,
-                    'left'=>530,
-                    'top'=>870,
-                    'right'=>0,
+                    'left'=>0,
+                    'top'=>160,
+                    'right'=>100,
                     'bottom'=>0,
-                    'width'=>220,
-                    'height'=>220,
+                    'width'=>160,
+                    'height'=>160,
                     'stream'=>0, //图片资源是否是字符串图像流
                     'opacity'=>100 //不透明度
                 ),
