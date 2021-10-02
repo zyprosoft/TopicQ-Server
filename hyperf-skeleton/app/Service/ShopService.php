@@ -136,6 +136,7 @@ class ShopService extends BaseService
             $result = $filesystem->writeStream($saveFilePath, $stream);
 
             fclose($stream);
+            Log::info("保存文件到七牛云:".$result);
             if (!$result) {
                 throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::SYSTEM_ERROR_UPLOAD_MOVE_FILE_FAIL, "upload move file to qiniu fail!");
             }
