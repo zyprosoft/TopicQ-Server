@@ -310,12 +310,12 @@ class ShopService extends BaseService
             'image'=>array(
                 array(
                     'url'=>$mpUrl,
-                    'left'=>600,
-                    'top'=>160,
+                    'left'=>500,
+                    'top'=>140,
                     'right'=>0,
                     'bottom'=>0,
-                    'width'=>160,
-                    'height'=>160,
+                    'width'=>200,
+                    'height'=>200,
                     'stream'=>0, //图片资源是否是字符串图像流
                     'opacity'=>100 //不透明度
                 ),
