@@ -320,7 +320,7 @@ class ShopService extends BaseService
                     'opacity'=>100 //不透明度
                 ),
             ),
-            'background'=>'https://www.icodefuture.com/pay_background.png',
+            'background'=>'https://cdn.icodefuture.com/pay_background.png',
         );
 
         $filename = '/uploads/'.time().'.jpg';
