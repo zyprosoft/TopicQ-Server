@@ -322,7 +322,7 @@ class ShopService extends BaseService
             'background'=>'https://cdn.icodefuture.com/pay_background.png',
         );
 
-        $filename = '/uploads/'.time().'.jpg';
+        $filename = BASE_PATH.'/public/table_qrcode/'.time().'.jpg';
         $this->imgTextMerge($config,$filename);
     }
 }
