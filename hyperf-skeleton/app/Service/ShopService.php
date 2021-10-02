@@ -6,6 +6,12 @@ namespace App\Service;
 
 use App\Model\Order;
 use App\Model\Shop;
+use EasyWeChat\Factory;
+use EasyWeChat\Kernel\Http\StreamResponse;
+use Hyperf\Filesystem\FilesystemFactory;
+use Hyperf\Utils\ApplicationContext;
+use Overtrue\Flysystem\Qiniu\QiniuAdapter;
+use ZYProSoft\Exception\HyperfCommonException;
 use ZYProSoft\Log\Log;
 
 class ShopService extends BaseService
@@ -37,5 +43,54 @@ class ShopService extends BaseService
         }
 
         return $shop;
+    }
+
+    public function getQrCode(int $shopId)
+    {
+        //创建店铺的小程序码图片
+        $shop = Shop::findOrFail($shopId);
+        if(!empty($shop->qr_code)) {
+            Log::info("shop($shopId) has qr_code exist!");
+            return;
+        }
+        $miniProgramConfig = config('weixin.miniProgram');
+        Log::info('min program config:'.json_encode($miniProgramConfig));
+        $app = Factory::miniProgram($miniProgramConfig);
+
+        //获取图片
+        $response = $app->app_code->getUnlimit('shopId='.$shopId, [
+            'page'  => 'pages/shop/shop',
+            'width' => 600,
+        ]);
+        // $response 成功时为 EasyWeChat\Kernel\Http\StreamResponse 实例，失败为数组或你指定的 API 返回类型
+
+        // 保存小程序码到文件
+        if ($response instanceof StreamResponse) {
+
+            $subDir = '/shop/qrcode';
+            $saveDir = config('file.storage.local.root').$subDir;
+            $filename = $response->save($saveDir);
+
+            //获取七牛存储，上传到七牛
+            $stream = fopen($saveDir.'/'.$filename, 'r+');
+            $filesystem = ApplicationContext::getContainer()->get(FilesystemFactory::class)->get('qiniu');
+            $saveFilePath = $subDir.'/'.$filename;
+            $result = $filesystem->writeStream($saveFilePath, $stream);
+
+            fclose($stream);
+            if (!$result) {
+                throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::SYSTEM_ERROR_UPLOAD_MOVE_FILE_FAIL, "upload move file to qiniu fail!");
+            }
+            if ($filesystem instanceof QiniuAdapter) {
+                $url =  $filesystem->getUrl($saveFilePath);
+                $shop->qr_code = $url;
+                $shop->saveOrFail();
+                Log::info("店铺({$shopId})小程序二维码保存成功");
+            }
+        }else{
+            //获取店铺小程序码失败
+            Log::error("获取店铺($shopId)小程序码失败!");
+            Log::error('错误详情:'.json_encode($response));
+        }
     }
 }

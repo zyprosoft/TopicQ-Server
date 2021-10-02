@@ -20,6 +20,7 @@ use App\Service\Admin\ForumService;
 use App\Service\Admin\ThirdPartService;
 use App\Service\PddService;
 use App\Service\Scrapy\ImportPostService;
+use App\Service\ShopService;
 use App\Service\UserService;
 use App\Task\AutoDelayPostTask;
 use App\Task\PostRecommendCalculateTask;
@@ -624,5 +625,11 @@ class ExampleTest extends HttpTestCase
     {
         $service = ApplicationContext::getContainer()->get(ImportPostService::class);
         $service->getTopicDetail('7533899917');
+    }
+
+    public function testQrCode()
+    {
+        $service = ApplicationContext::getContainer()->get(ShopService::class);
+        $service->getQrCode(1);
     }
 }
