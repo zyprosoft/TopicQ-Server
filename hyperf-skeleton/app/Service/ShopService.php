@@ -145,7 +145,7 @@ class ShopService extends BaseService
             }
             if ($filesystem->getAdapter() instanceof QiniuAdapter) {
                 $url =  $filesystem->getAdapter()->getUrl($saveFilePath);
-                Log::info("店铺({$shopId})桌号{$tableSn}二维码保存成功");
+                Log::info("店铺({$shopId})桌号{$tableSn}二维码保存成功:".$url);
                 return $url;
             }
             Log::info("非七牛云系统!");
@@ -291,11 +291,12 @@ class ShopService extends BaseService
         return $content;
     }
 
-    public function test(string $mpUrl){
+    public function test(string $mpUrl,string $tableSn){
+        Log::info("准备合成，小程序码图片:".$mpUrl."桌号:".$tableSn);
         $config = array(
             'text'=>array(
                 array(
-                    'text'=>'A12',
+                    'text'=>$tableSn,
                     'left'=>50,
                     'top'=>700,
                     'fontPath'=>'/www/wwwroot/wryh.ttf', //字体文件
