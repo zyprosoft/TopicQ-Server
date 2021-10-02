@@ -323,6 +323,7 @@ class ShopService extends BaseService
         );
 
         $filename = BASE_PATH.'/public/table_qrcode/'.time().'.jpg';
+        Log::info("保存路径:".$filename);
         $this->imgTextMerge($config,$filename);
     }
 }
