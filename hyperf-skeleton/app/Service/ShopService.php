@@ -58,8 +58,8 @@ class ShopService extends BaseService
         $app = Factory::miniProgram($miniProgramConfig);
 
         //获取图片
-        $response = $app->app_code->getUnlimit('shopId='.$shopId, [
-            'page'  => 'pages/shop/shop',
+        $response = $app->app_code->getUnlimit('postId='.$shopId, [
+            'page'  => 'pages/detail/detail',
             'width' => 600,
         ]);
         // $response 成功时为 EasyWeChat\Kernel\Http\StreamResponse 实例，失败为数组或你指定的 API 返回类型
