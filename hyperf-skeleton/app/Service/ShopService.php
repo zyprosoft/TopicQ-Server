@@ -298,7 +298,7 @@ class ShopService extends BaseService
                 array(
                     'text'=>$tableSn,
                     'left'=>50,
-                    'top'=>300,
+                    'top'=>360,
                     'fontPath'=>'/www/wwwroot/wryh.ttf', //字体文件
                     'fontSize'=>64, //字号
                     'fontColor'=>'0,206,100', //字体颜色
