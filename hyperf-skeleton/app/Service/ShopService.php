@@ -92,8 +92,8 @@ class ShopService extends BaseService
             Log::info("上传七牛云结果:".json_encode($result));
             Log::info("文件系统:".json_encode($filesystem));
             Log::info("文件系统类名".get_class($filesystem));
-            if ($filesystem instanceof QiniuAdapter) {
-                $url =  $filesystem->getUrl($saveFilePath);
+            if ($filesystem->getAdapter() instanceof QiniuAdapter) {
+                $url =  $filesystem->getAdapter()->getUrl($saveFilePath);
                 $shop->qr_code = $url;
                 $shop->saveOrFail();
                 Log::info("店铺({$shopId})小程序二维码保存成功");
@@ -144,8 +144,8 @@ class ShopService extends BaseService
             if (!$result) {
                 throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::SYSTEM_ERROR_UPLOAD_MOVE_FILE_FAIL, "upload move file to qiniu fail!");
             }
-            if ($filesystem instanceof QiniuAdapter) {
-                $url =  $filesystem->getUrl($saveFilePath);
+            if ($filesystem->getAdapter() instanceof QiniuAdapter) {
+                $url =  $filesystem->getAdapter()->getUrl($saveFilePath);
                 Log::info("店铺({$shopId})桌号{$tableSn}二维码保存成功");
                 return $url;
             }
