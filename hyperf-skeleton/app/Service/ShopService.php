@@ -311,11 +311,11 @@ class ShopService extends BaseService
                 array(
                     'url'=>$mpUrl,
                     'left'=>500,
-                    'top'=>140,
+                    'top'=>110,
                     'right'=>0,
                     'bottom'=>0,
-                    'width'=>200,
-                    'height'=>200,
+                    'width'=>220,
+                    'height'=>220,
                     'stream'=>0, //图片资源是否是字符串图像流
                     'opacity'=>100 //不透明度
                 ),
