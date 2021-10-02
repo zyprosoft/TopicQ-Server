@@ -300,7 +300,7 @@ class ShopService extends BaseService
                     'left'=>50,
                     'top'=>400,
                     'fontPath'=>'/www/wwwroot/wryh.ttf', //字体文件
-                    'fontSize'=>66, //字号
+                    'fontSize'=>72, //字号
                     'fontColor'=>'0,206,100', //字体颜色
                     'angle'=>0,
                     'width'=>300,//文字超出宽度换行或隐藏，0不限制
