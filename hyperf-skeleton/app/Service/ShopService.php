@@ -127,7 +127,7 @@ class ShopService extends BaseService
             $subDir = '/shop/table/qrcode';
             $saveDir = config('file.storage.local.root').$subDir;
             $filename = Carbon::now()->timestamp.'';
-            $filename = $response->save($saveDir);
+            $filename = $response->save($saveDir,$filename);
 
             //获取七牛存储，上传到七牛
             $stream = fopen($saveDir.'/'.$filename, 'r+');
