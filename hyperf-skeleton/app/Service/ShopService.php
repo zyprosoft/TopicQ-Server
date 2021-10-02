@@ -114,7 +114,7 @@ class ShopService extends BaseService
         $app = Factory::miniProgram($miniProgramConfig);
 
         //获取图片 eg.tableSn=A13&outside=1&inShop=1&
-        $scene = 'shopId='.$shopId.'&outside=1&inShop=1&tableSn='.$tableSn;
+        $scene = 'shopId='.$shopId.'&inShop=1&tableSn='.$tableSn;
         $response = $app->app_code->getUnlimit($scene, [
             'page'  => 'pages/detail/detail',
             'width' => 600,
