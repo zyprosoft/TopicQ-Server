@@ -126,6 +126,7 @@ class ShopService extends BaseService
 
             $subDir = '/shop/table/qrcode';
             $saveDir = config('file.storage.local.root').$subDir;
+            $filename = Carbon::now()->timestamp.'';
             $filename = $response->save($saveDir);
 
             //获取七牛存储，上传到七牛
@@ -140,7 +141,6 @@ class ShopService extends BaseService
             }
             if ($filesystem instanceof QiniuAdapter) {
                 $url =  $filesystem->getUrl($saveFilePath);
-
                 Log::info("店铺({$shopId})桌号{$tableSn}二维码保存成功");
                 return $url;
             }
