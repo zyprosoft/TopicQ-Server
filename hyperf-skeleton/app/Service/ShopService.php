@@ -145,6 +145,7 @@ class ShopService extends BaseService
                 Log::info("店铺({$shopId})桌号{$tableSn}二维码保存成功");
                 return $url;
             }
+            Log::info("非七牛云系统!");
         }else{
             //获取店铺小程序码失败
             Log::error("获取店铺($shopId)桌号小程序码失败!");
