@@ -86,6 +86,8 @@ class ShopService extends BaseService
             if (!$result) {
                 throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::SYSTEM_ERROR_UPLOAD_MOVE_FILE_FAIL, "upload move file to qiniu fail!");
             }
+
+            Log::info("上传七牛云结果:".json_encode($result));
             if ($filesystem instanceof QiniuAdapter) {
                 $url =  $filesystem->getUrl($saveFilePath);
                 $shop->qr_code = $url;
