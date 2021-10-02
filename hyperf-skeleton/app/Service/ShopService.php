@@ -133,7 +133,6 @@ class ShopService extends BaseService
             //获取七牛存储，上传到七牛
             $stream = fopen($saveDir.'/'.$filename, 'r+');
             $filesystem = ApplicationContext::getContainer()->get(FilesystemFactory::class)->get('qiniu');
-            var_dump($filesystem);
             $saveFilePath = $subDir.'/'.$filename;
             Log::info("保存七牛云路径:".$saveFilePath);
             $result = $filesystem->writeStream($saveFilePath, $stream);
