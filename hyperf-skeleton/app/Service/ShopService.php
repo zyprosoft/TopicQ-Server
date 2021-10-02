@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Model\Order;
 use App\Model\Shop;
+use Carbon\Carbon;
 use EasyWeChat\Factory;
 use EasyWeChat\Kernel\Http\StreamResponse;
 use Hyperf\Filesystem\FilesystemFactory;
@@ -67,9 +68,12 @@ class ShopService extends BaseService
         // 保存小程序码到文件
         if ($response instanceof StreamResponse) {
 
+            Log::info("小程序码微信获取结果:".$response->toJson());
+
             $subDir = '/shop/qrcode';
             $saveDir = config('file.storage.local.root').$subDir;
-            $filename = $response->save($saveDir);
+            $filename = Carbon::now()->timestamp.'';
+            $filename = $response->save($saveDir,$filename);
 
             //获取七牛存储，上传到七牛
             $stream = fopen($saveDir.'/'.$filename, 'r+');
@@ -78,6 +82,7 @@ class ShopService extends BaseService
             $result = $filesystem->writeStream($saveFilePath, $stream);
 
             fclose($stream);
+
             if (!$result) {
                 throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::SYSTEM_ERROR_UPLOAD_MOVE_FILE_FAIL, "upload move file to qiniu fail!");
             }
