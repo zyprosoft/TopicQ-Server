@@ -91,6 +91,8 @@ class ShopService extends BaseService
                 $shop->qr_code = $url;
                 $shop->saveOrFail();
                 Log::info("店铺({$shopId})小程序二维码保存成功");
+            }else{
+                Log::info("店铺({$shopId})小程序二维码保存到七牛云失败!");
             }
         }else{
             //获取店铺小程序码失败
