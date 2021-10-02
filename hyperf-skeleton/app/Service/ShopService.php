@@ -113,7 +113,7 @@ class ShopService extends BaseService
         Log::info('min program config:'.json_encode($miniProgramConfig));
         $app = Factory::miniProgram($miniProgramConfig);
 
-        //获取图片 eg.tableSn=A13&outside=1&inShop=1&
+        //获取图片 eg.tableSn=A13&inShop=1
         $scene = 'shopId='.$shopId.'&inShop=1&tableSn='.$tableSn;
         $response = $app->app_code->getUnlimit($scene, [
             'page'  => 'pages/detail/detail',
@@ -132,11 +132,13 @@ class ShopService extends BaseService
             //获取七牛存储，上传到七牛
             $stream = fopen($saveDir.'/'.$filename, 'r+');
             $filesystem = ApplicationContext::getContainer()->get(FilesystemFactory::class)->get('qiniu');
+            var_dump($filesystem);
             $saveFilePath = $subDir.'/'.$filename;
+            Log::info("保存七牛云路径:".$saveFilePath);
             $result = $filesystem->writeStream($saveFilePath, $stream);
 
             fclose($stream);
-            Log::info("保存文件到七牛云:".$result);
+            Log::info("保存文件到七牛云:".json_encode($result));
             if (!$result) {
                 throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::SYSTEM_ERROR_UPLOAD_MOVE_FILE_FAIL, "upload move file to qiniu fail!");
             }
