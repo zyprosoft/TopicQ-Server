@@ -7,7 +7,6 @@ namespace App\Service;
 use App\Constants\ErrorCode;
 use App\Model\Order;
 use App\Model\Shop;
-use App\Model\ShopExtendCode;
 use Carbon\Carbon;
 use EasyWeChat\Factory;
 use EasyWeChat\Kernel\Http\StreamResponse;
@@ -91,6 +90,7 @@ class ShopService extends BaseService
             }
 
             Log::info("上传七牛云结果:".json_encode($result));
+            Log::info("文件系统:".json_encode($filesystem));
             if ($filesystem instanceof QiniuAdapter) {
                 $url =  $filesystem->getUrl($saveFilePath);
                 $shop->qr_code = $url;
@@ -139,6 +139,7 @@ class ShopService extends BaseService
 
             fclose($stream);
             Log::info("保存文件到七牛云:".json_encode($result));
+            Log::info("文件系统:".json_encode($filesystem));
             if (!$result) {
                 throw new HyperfCommonException(\ZYProSoft\Constants\ErrorCode::SYSTEM_ERROR_UPLOAD_MOVE_FILE_FAIL, "upload move file to qiniu fail!");
             }
