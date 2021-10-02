@@ -79,6 +79,7 @@ class ShopService extends BaseService
             $stream = fopen($saveDir.'/'.$filename, 'r+');
             $filesystem = ApplicationContext::getContainer()->get(FilesystemFactory::class)->get('qiniu');
             $saveFilePath = $subDir.'/'.$filename;
+            Log::info("保存七牛云路径:".$saveFilePath);
             $result = $filesystem->writeStream($saveFilePath, $stream);
 
             fclose($stream);
