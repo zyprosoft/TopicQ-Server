@@ -310,9 +310,9 @@ class ShopService extends BaseService
             'image'=>array(
                 array(
                     'url'=>$mpUrl,
-                    'left'=>0,
+                    'left'=>600,
                     'top'=>160,
-                    'right'=>100,
+                    'right'=>0,
                     'bottom'=>0,
                     'width'=>160,
                     'height'=>160,
