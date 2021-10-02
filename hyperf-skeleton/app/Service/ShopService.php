@@ -91,6 +91,7 @@ class ShopService extends BaseService
 
             Log::info("上传七牛云结果:".json_encode($result));
             Log::info("文件系统:".json_encode($filesystem));
+            Log::info("文件系统类名".get_class($filesystem));
             if ($filesystem instanceof QiniuAdapter) {
                 $url =  $filesystem->getUrl($saveFilePath);
                 $shop->qr_code = $url;
