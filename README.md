@@ -211,3 +211,7 @@ server {
         }
 }	
 ```
+### 服务管理
+进入 hyperf-skeleton 文件夹
+1. 启动: php bin/hyperf.php server start
+2. 停止: php bin/hyperf.php server stop
