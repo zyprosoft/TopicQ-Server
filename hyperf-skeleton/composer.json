@@ -6,7 +6,7 @@
     "repositories":[
         {
             "type":"git",
-            "url":"git@git.code.tencent.com:CodeFuture/hyperf-common.git"
+            "url":"https://github.com/zyprosoft/hyperf-common.git"
         }
     ],
     "authors": [
