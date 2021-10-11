@@ -211,10 +211,16 @@ server {
         }
 }	
 ```
+
 ### 服务管理
 进入 hyperf-skeleton 文件夹
 1. 启动: php bin/hyperf.php server start
 2. 停止: php bin/hyperf.php server stop
+
+### 想用这个后台服务框架
+
+1. 如果想基于同样的框架，构建自己的服务，可以参考https://github.com/zyprosoft/hyperf-skeleton
+2. 使用脚手架可以快速搭建出同样的项目服务模板
 
 ### 问题咨询
 QQ: 1003081775
