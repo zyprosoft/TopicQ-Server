@@ -214,9 +214,9 @@ server {
 
 ### 服务管理
 进入 hyperf-skeleton 文件夹
-数据库初始化: php bin/hyperf.php migrate --seed
-1. 启动: php bin/hyperf.php server start
-2. 停止: php bin/hyperf.php server stop
+1. 数据库初始化: php bin/hyperf.php migrate --seed
+2. 启动: php bin/hyperf.php server start
+3. 停止: php bin/hyperf.php server stop
 
 ### 想用这个后台服务框架
 
