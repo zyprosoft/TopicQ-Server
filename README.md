@@ -12,6 +12,10 @@
 6. Redis PHP 扩展 （如需要使用到 Redis 客户端）
 7. Protobuf PHP 扩展 （如需要使用到 gRPC 服务端或客户端）
 
+8. 数据库Mysql >= 5.7 
+
+9. Redis 建议最新版本
+
 ### 项目安装
 
 1. 克隆或下载master分支
