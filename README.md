@@ -12,6 +12,10 @@
 6. Redis PHP 扩展 （如需要使用到 Redis 客户端）
 7. Protobuf PHP 扩展 （如需要使用到 gRPC 服务端或客户端）
 
+8. 数据库Mysql >= 5.7 
+
+9. Redis 建议最新版本
+
 ### 项目安装
 
 1. 克隆或下载master分支
@@ -21,75 +25,82 @@
 ### 项目配置 
 
 ```.env
-//服务基本配置
+#服务基本配置
 APP_NAME=dev_jianghu
 APP_ENV=dev
-HTTP_SERVER_PORT=9111 //服务端口
-PROMETHEUS_SCRAPE_PORT=9112 //监控数据端口
+#服务端口
+HTTP_SERVER_PORT=9111 
+#监控数据端口
+PROMETHEUS_SCRAPE_PORT=9112 
 
-//需打通公众号是否关注的可配置下面公众号信息
+#需打通公众号是否关注的可配置下面公众号信息
 WX_FA_APPID=
 WX_FA_SECRET=
 WX_FA_TOKEN=
 WX_FA_AES_EY=
 
-//百度小程序配置
+#百度小程序配置
 BAIDU_CLIENT_ID=
 BAIDU_SECRET=
 
-//QQ小程序配置
+#QQ小程序配置
 QQ_APPID=
 QQ_SECRET=
 
-//ES配置，可链接本地服务
+#ES配置，可链接本地服务
 SCOUT_PREFIX=
 ELASTICSEARCH_HOST=
 
-//用户默认地址信息
+#用户默认地址信息
 REGISTER_AREA=
 REGISTER_COUNTRY=
 
-//多多客配置
+#多多客配置
 PDD_CLIENT_ID=
 PDD_CLIENT_SECRET=
 PDD_AUTH_CODE=1
 
-//飞鹅打印机配置
+#飞鹅打印机配置
 PRINTER_USER=
 PRINTER_KEY=
 
-//微信支付信息
+#微信支付信息
 WX_PAY_MCH_ID=商户号
 WX_PAY_SECRET=密钥
 WX_PAY_NOTIFY_URL=//回调地址
 
-//微信小程序配置
+#微信小程序配置
 WX_MINI_ENV=trial\release
 WX_MINI_APPID=
 WX_MINI_SECRET=
 
-//鉴权
+#鉴权
 SIMPLE_JWT_SECRET=//
 SIMPLE_JWT_TTL=//token 有效时间 单位 秒
 
-//ZGW协议
-ZGW_FORCE_AUTH=//请求包是否强制校验签名true\false
-ZGW_SECRET_LIST=//签名密钥对  key&secret 例. devtopic&topic
-ZGW_SIGN_TTL=//签名有效时间，单位秒
+#ZGW协议
+#请求包是否强制校验签名true\false
+ZGW_FORCE_AUTH=
+#签名密钥对  key&secret 例. devtopic&topic
+ZGW_SECRET_LIST=
+#签名有效时间，单位秒
+ZGW_SIGN_TTL=
 
-//允许跨域域名列表，多个分号分割
+#允许跨域域名列表，多个分号分割
 CORS_ORIGIN_LIST=
 
 
-//七牛配置，用于存储和短信验证码发送
-QINIU_CDN_DOMAIN=//cdn域名
+#七牛配置，用于存储和短信验证码发送
+#cdn域名
+QINIU_CDN_DOMAIN=
 QINIU_SMS_APP_NAME=TopicQ
-QINIU_LOGIN_SMS_TEMP_ID=//验证码短信模版
+#验证码短信模版
+QINIU_LOGIN_SMS_TEMP_ID=
 QINIU_ACCESS_KEY=
 QINIU_SECRET_KEY=
 QINIU_BUCKET=
 
-//数据库配置
+#数据库配置
 DB_DRIVER=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
@@ -99,7 +110,7 @@ DB_PASSWORD=
 DB_CHARSET=utf8mb4
 DB_COLLATION=utf8mb4_unicode_ci
 
-//redis配置
+#redis配置
 REDIS_HOST=localhost
 REDIS_AUTH=
 REDIS_PORT=6379
@@ -211,7 +222,19 @@ server {
         }
 }	
 ```
+
 ### 服务管理
 进入 hyperf-skeleton 文件夹
-1. 启动: php bin/hyperf.php server start
-2. 停止: php bin/hyperf.php server stop
+1. cp .env.example .env  填写配置文件
+2. 数据库初始化: php bin/hyperf.php migrate --seed
+3. 启动: php bin/hyperf.php server start
+4. 停止: php bin/hyperf.php server stop
+
+### 想用这个后台服务框架
+
+1. 如果想基于同样的框架，构建自己的服务，可以参考https://github.com/zyprosoft/hyperf-skeleton
+2. 使用脚手架可以快速搭建出同样的项目服务模板
+
+### 问题咨询
+QQ: 1003081775
+微信: zyprosoft
