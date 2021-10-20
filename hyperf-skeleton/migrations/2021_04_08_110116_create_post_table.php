@@ -15,7 +15,7 @@ class CreatePostTable extends Migration
             $table->bigIncrements('post_id');
             $table->string('title',48)->comment('标题');
             $table->string('summary',32)->comment('概要');
-            $table->text('content')->comment('内容');
+            $table->text('content')->comment('内容')->nullable();//新的不需要这个字段必须存在了
             $table->text('image_list')->nullable()->comment('图片列表');
             $table->bigInteger('owner_id')->comment('作者');
             $table->string('link',500)->nullable()->comment('超链接');
